@@ -4,28 +4,27 @@
  *
  */
 class LoginButton extends eui.Component{
-    public icon_group:egret.gui.Group;
-    public right_ui:egret.gui.UIAsset;
-    public name_txt:egret.gui.Label;
+    public icon_group:eui.Group;
+    public right_ui:eui.Image;
+    public name_txt:eui.Label;
 
     private type:string;
     private url:string;
 
     public constructor(type:string, url:string) {
           super();
-      
-          this.skinName = = "resource/custom_skins/loginButtonSkin.exml";
 
           this.type = type;
           this.url = url;
+      
+          this.addEventListener(eui.UIEvent.COMPLETE,this.uiCompHandler,this);
+          this.skinName = "resource/custom_skins/loginButtonSkin.exml";
     }
 	
-	  public childrenCreated(){
-        super.childrenCreated();
-
-        var ui:egret.gui.UIAsset = new egret.gui.UIAsset();
+	private uiCompHandler(): void {   
+        var ui:eui.Image = new eui.Image();
         ui.source = this.type + "_png";
-        this.icon_group.addElementAt(ui, 0);
+        this.icon_group.addChildAt(ui, 0);
 
         if (this.url && this.url != "") {
             this.right_ui.visible = true;
@@ -46,16 +45,13 @@ class LoginButton extends eui.Component{
             con.addChild(bitmap);
             bitmap.mask = shape;
 
-            var icon:egret.gui.UIAsset = new egret.gui.UIAsset();
-            icon.source = con;
-            this.icon_group.addElementAt(icon, 0);
+            this.icon_group.addChildAt(con, 0);
         } else {
-
             this.right_ui.visible = false;
         }
 
         this.name_txt.text = this.getLabelName(this.type, this.url && this.url != "");
-	  }
+	}
 
     private getLabelName(type:string, hasUrl:boolean):string {
         var str:string = "";
