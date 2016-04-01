@@ -4,7 +4,7 @@
  *
  */
 class LoginTypeUI extends eui.Component {
-    public btnGroup:egret.gui.Group;
+    public btnGroup:eui.Group;
 
     private loginType:nest.easeuser.ILoginTypes;
 
@@ -12,12 +12,12 @@ class LoginTypeUI extends eui.Component {
         super();
 
         this.loginType = loginType;
+        
+        this.addEventListener( eui.UIEvent.COMPLETE, this.uiCompHandler, this );
         this.skinName = = "resource/custom_skins/loginTypeUISkin.exml";
     }
 
-    public childrenCreated() {
-        super.childrenCreated();
-
+    private uiCompHandler():void {
         var self = this;
 
         for (var i:number = 0; i < this.loginType.loginTypes.length; i++) {
