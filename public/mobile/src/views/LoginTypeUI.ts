@@ -14,7 +14,7 @@ class LoginTypeUI extends eui.Component {
         this.loginType = loginType;
         
         this.addEventListener( eui.UIEvent.COMPLETE, this.uiCompHandler, this );
-        this.skinName = = "resource/custom_skins/loginTypeUISkin.exml";
+        this.skinName = "resource/custom_skins/loginTypeUISkin.exml";
     }
 
     private uiCompHandler():void {
