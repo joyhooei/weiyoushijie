@@ -1,9 +1,5 @@
 <?xml version='1.0' encoding='utf-8'?>
 <e:Skin class="loginTypeUISkin" width="480" xmlns:e="http://ns.egret.com/eui" xmlns:w="http://ns.egret-labs.org/wing" height="800">
-	<e:states>
-		<e:State name="normal"/>
-		<e:State name="disabled"/>
-	</e:states>
 	<e:Group id="btnGroup" width="339" height="63" x="74" y="269">
 		<e:layout>
 			<e:HorizontalLayout horizontalAlign="center" gap="20"/>
