@@ -23,7 +23,7 @@
 		},
 		{
 			"name": "nest",
-			"path": "../../egret/modules/nest"
+			"path": "../../egret/modules/nest/libsrc"
 		}		
 	]
 }
