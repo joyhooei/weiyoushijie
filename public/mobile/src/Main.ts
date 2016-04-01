@@ -103,14 +103,19 @@ class Main extends eui.UILayer {
                 if( this._loadingUI.parent ){
                     this._loadingUI.parent.removeChild( this._loadingUI );
                 }
-
+            
                 Toast.init( this, RES.getRes( "toast-bg_png" ) ); 
     
                 this._loadingBg = new egret.Bitmap(RES.getRes("loading_bg"));
                 this.addChild( this._loadingBg );
                 
                 this._trueLoadingUI = new TrueLoadingUI();
-                this.loadPage( "home" );
+                this.loadPage("login");
+                break;
+            
+          case "login":
+                this._loginUI = new LoginUI(this);
+                this.addChild(this._loginUI);
                 break;
             
             case "home":
@@ -196,7 +201,7 @@ class Main extends eui.UILayer {
         this.addChild( this._homeUI );
     }
     
-    loadPage( pageName:string ):void{
+    public loadPage( pageName:string ):void{
         this.addChild( this._trueLoadingUI );
         this._idLoading = pageName;
       

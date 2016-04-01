@@ -7,7 +7,6 @@ class LoginUI extends eui.Component implements nest.easeuser.ILoginCallbacks{
     public info_txt: egret.gui.Label;
     
     public login_button: egret.gui.Button;
-    public quickTest_btn: egret.gui.Button;
   
     public constructor() {
         super();
@@ -19,11 +18,6 @@ class LoginUI extends eui.Component implements nest.easeuser.ILoginCallbacks{
         super.createChildren();  
       
         this.login_button.addEventListener(egret.TouchEvent.TOUCH_TAP,this.onTouchTapHandler,this);   
-        this.quickTest_btn.addEventListener(egret.TouchEvent.TOUCH_TAP,this.onQuickTestHandler,this);   
-	  }
-	
-	  private onQuickTestHandler(e:egret.TouchEvent):void {
-        utils.changeView(new QuickTestView());
 	  }
 	
 	  private onTouchTapHandler(e:egret.TouchEvent):void{
@@ -36,7 +30,7 @@ class LoginUI extends eui.Component implements nest.easeuser.ILoginCallbacks{
 	  }
 
     public onCreate = (data: nest.easeuser.ILoginTypes):void =>  {
-        utils.changeView(new LoginTypeView(data));
+        router.changePage(new LoginTypeView(data));
     };
 
     public onSuccess = (data: nest.user.LoginCallbackInfo):void => {

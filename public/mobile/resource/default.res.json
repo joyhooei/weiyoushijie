@@ -9,6 +9,10 @@
 			"name":"loading"
 		},
 		{
+			"keys":"",
+			"name":"login"
+		},
+		{
 			"keys":"btnEquip_png,btnReturn_png,btnStrengthen_png,profileContent_png,profileTitle_png,skillBg_png,skillIcon01_png,skillIcon02_png,skillIcon03_png,skillIcon04_png,skillIcon05_png,skillIcon06_png,skillIcon07_png,skillItemFrame_png",
 			"name":"profile"
 		},
