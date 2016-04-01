@@ -32,30 +32,46 @@ class Main extends eui.UILayer {
      * 加载进度界面
      * loading process interface
      */
-    private loadingView: LoadingUI;
+    private _loadingUI: LoadingUI;
+
+    private _isThemeLoadEnd: boolean = false;
+
+    private _isResourceLoadEnd: boolean = false;
+
+    private _idLoading: string;
+    
+    private _trueLoadingUI: TrueLoadingUI;
+
+    private _homeUI: HomeUI;
+
+    private _loadingBg: egret.Bitmap;
+
     protected createChildren(): void {
         super.createChildren();
         
         //inject the custom material parser
         //注入自定义的素材解析器
-        var assetAdapter = new AssetAdapter();
-        this.stage.registerImplementation("eui.IAssetAdapter",assetAdapter);
+        this.stage.registerImplementation("eui.IAssetAdapter",new AssetAdapter());
         this.stage.registerImplementation("eui.IThemeAdapter",new ThemeAdapter());
+      
         //Config loading process interface
         //设置加载进度界面
-        this.loadingView = new LoadingUI();
-        this.stage.addChild(this.loadingView);
+        this._loadingUI = new LoadingUI();
+        this.stage.addChild(this._loadingUI);
+      
         // initialize the Resource loading library
         //初始化Resource资源加载库
         RES.addEventListener(RES.ResourceEvent.CONFIG_COMPLETE, this.onConfigComplete, this);
         RES.loadConfig("resource/default.res.json", "resource/");
     }
+
     /**
      * 配置文件加载完成,开始预加载皮肤主题资源和preload资源组。
      * Loading of configuration file is complete, start to pre-load the theme configuration file and the preload resource group
      */
     private onConfigComplete(event:RES.ResourceEvent):void {
         RES.removeEventListener(RES.ResourceEvent.CONFIG_COMPLETE, this.onConfigComplete, this);
+      
         // load skin theme configuration file, you can manually modify the file. And replace the default skin.
         //加载皮肤主题配置文件,可以手动修改这个文件。替换默认皮肤。
         var theme = new eui.Theme("resource/default.thm.json", this.stage);
@@ -67,17 +83,16 @@ class Main extends eui.UILayer {
         RES.addEventListener(RES.ResourceEvent.ITEM_LOAD_ERROR, this.onItemLoadError, this);
         RES.loadGroup("loading");
     }
-    private isThemeLoadEnd: boolean = false;
+
     /**
      * 主题文件加载完成,开始预加载
      * Loading of theme configuration file is complete, start to pre-load the 
      */
     private onThemeLoadComplete(): void {
-        console.log( "theme load ok:", egret.getTimer() );
-        this.isThemeLoadEnd = true;
+        this._isThemeLoadEnd = true;
         this.createScene();
     }
-    private isResourceLoadEnd: boolean = false;
+
     /**
      * preload资源组加载完成
      * preload resource group is loaded
@@ -85,9 +100,8 @@ class Main extends eui.UILayer {
     private onResourceLoadComplete(event:RES.ResourceEvent):void {
         switch (event.groupName ) {
             case "loading":
-                console.log( "loading ok:", egret.getTimer() );
-                if( this.loadingView.parent ){
-                    this.loadingView.parent.removeChild( this.loadingView );
+                if( this._loadingUI.parent ){
+                    this._loadingUI.parent.removeChild( this._loadingUI );
                 }
 
                 Toast.init( this, RES.getRes( "toast-bg_png" ) ); 
@@ -98,12 +112,12 @@ class Main extends eui.UILayer {
                 this._trueLoadingUI = new TrueLoadingUI();
                 this.loadPage( "home" );
                 break;
+            
             case "home":
-                console.log( "home ok:", egret.getTimer() );
-                /// clearRESEvents
-                this.isResourceLoadEnd = true;
+                this._isResourceLoadEnd = true;
                 this.createScene();
                 break;
+            
             //case "profile": 
             default :
                 console.log( "\tpage["+event.groupName+"]ok:", egret.getTimer() );
@@ -120,11 +134,11 @@ class Main extends eui.UILayer {
     }
     
     private createScene(){
-        console.log( "createScene:", this.isThemeLoadEnd, this.isResourceLoadEnd );
-        if(this.isThemeLoadEnd && this.isResourceLoadEnd){
+        if(this._isThemeLoadEnd && this._isResourceLoadEnd){
             this.startCreateScene();
         }
     }
+
     /**
      * 资源组加载出错
      *  The resource group loading failed
@@ -132,6 +146,7 @@ class Main extends eui.UILayer {
     private onItemLoadError(event:RES.ResourceEvent):void {
         console.warn("Url:" + event.resItem.url + " has failed to load");
     }
+
     /**
      * 资源组加载出错
      * Resource group loading failed
@@ -143,6 +158,7 @@ class Main extends eui.UILayer {
         //ignore loading failed projects
         this.onResourceLoadComplete(event);
     }
+
     /**
      * preload资源组加载进度
      * loading process of preload resource
@@ -150,7 +166,7 @@ class Main extends eui.UILayer {
     private onResourceProgress(event:RES.ResourceEvent):void {
         switch (event.groupName) {
             case "loading":
-                this.loadingView.setProgress(event.itemsLoaded, event.itemsTotal);
+                this._loadingView.setProgress(event.itemsLoaded, event.itemsTotal);
                 break;
             
             //case "home":
@@ -160,13 +176,12 @@ class Main extends eui.UILayer {
                 break;
         }
     }
+
     /**
      * 创建场景界面
      * Create scene interface
      */
     protected startCreateScene(): void {
-        console.log( "this._trueLoadingUI.parent:", Boolean(this._trueLoadingUI.parent) );
-        
         /// 主页特殊，其他页都需要传参数
         this.pageLoadedHandler( "home" );
 
@@ -176,7 +191,6 @@ class Main extends eui.UILayer {
         
         this._homeUI = new HomeUI();
         this._homeUI.addEventListener( GameEvents.EVT_LOAD_PAGE, ( evt:egret.Event )=>{
-            console.log( "EVT_LOAD_PAGE:", evt.data );
             this.loadPage( evt.data );
         }, this );
         this.addChild( this._homeUI );
@@ -184,30 +198,27 @@ class Main extends eui.UILayer {
     
     loadPage( pageName:string ):void{
         this.addChild( this._trueLoadingUI );
-        this.idLoading = pageName;
+        this._idLoading = pageName;
+      
         switch ( pageName ){
             case "heros":
             case "goods":
                 RES.loadGroup( "heros_goods" );
                 break;
+            
             default :
                 RES.loadGroup( pageName );
                 break;
         }
     }
-    private idLoading:string;
     
     pageLoadedHandler( name:string ):void{
         if( name != "home" ){
-            this._homeUI.pageReadyHandler( this.idLoading );
+            this._homeUI.pageReadyHandler( this._idLoading );
         }
+      
         if( this._trueLoadingUI.parent ){
             this._trueLoadingUI.parent.removeChild( this._trueLoadingUI );
         }
     }
-    
-    private _trueLoadingUI:TrueLoadingUI;
-    private _homeUI:HomeUI;
-
-    private _loadingBg: egret.Bitmap;
 }
