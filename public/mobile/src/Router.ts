@@ -5,8 +5,8 @@ module router {
         app = main;
     }
 
-    export function changePage(page:egret.Component){
-        app.removeAllChildren();
+    export function changePage(page:eui.Component){
+        app.removeChildren();
         app.addChild(page);
     }
 }
