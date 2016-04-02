@@ -158,4 +158,3 @@ var HomeUI = (function (_super) {
     return HomeUI;
 })(eui.Component);
 egret.registerClass(HomeUI,'HomeUI');
-//# sourceMappingURL=HomeUI.js.map

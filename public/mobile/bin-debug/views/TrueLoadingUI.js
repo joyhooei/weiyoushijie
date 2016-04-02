@@ -48,4 +48,3 @@ var TrueLoadingUI = (function (_super) {
     return TrueLoadingUI;
 })(eui.Group);
 egret.registerClass(TrueLoadingUI,'TrueLoadingUI');
-//# sourceMappingURL=TrueLoadingUI.js.map

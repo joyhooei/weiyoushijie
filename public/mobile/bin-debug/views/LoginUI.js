@@ -38,4 +38,3 @@ var LoginUI = (function (_super) {
     return LoginUI;
 })(eui.Component);
 egret.registerClass(LoginUI,'LoginUI',["nest.easeuser.ILoginCallbacks"]);
-//# sourceMappingURL=LoginUI.js.map

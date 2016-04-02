@@ -36,4 +36,3 @@ var ProfileUI = (function (_super) {
     return ProfileUI;
 })(eui.Component);
 egret.registerClass(ProfileUI,'ProfileUI');
-//# sourceMappingURL=ProfileUI.js.map

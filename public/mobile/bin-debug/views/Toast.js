@@ -53,4 +53,3 @@ var Toast = (function (_super) {
     return Toast;
 })(egret.DisplayObjectContainer);
 egret.registerClass(Toast,'Toast');
-//# sourceMappingURL=Toast.js.map

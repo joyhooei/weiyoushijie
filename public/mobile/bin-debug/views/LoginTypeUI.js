@@ -33,4 +33,3 @@ var LoginTypeUI = (function (_super) {
     return LoginTypeUI;
 })(eui.Component);
 egret.registerClass(LoginTypeUI,'LoginTypeUI');
-//# sourceMappingURL=LoginTypeUI.js.map

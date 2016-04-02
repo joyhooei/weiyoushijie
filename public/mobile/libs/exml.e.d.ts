@@ -15,7 +15,6 @@ declare class loginButtonSkin extends eui.Skin{
 declare class loginTypeUISkin extends eui.Skin{
 }
 declare module eui{
-
 }
 declare class profileSkillListIRSkin extends eui.Skin{
 }

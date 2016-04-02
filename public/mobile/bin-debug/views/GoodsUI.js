@@ -51,4 +51,3 @@ var GoodsListIRSkin = (function (_super) {
     return GoodsListIRSkin;
 })(eui.ItemRenderer);
 egret.registerClass(GoodsListIRSkin,'GoodsListIRSkin');
-//# sourceMappingURL=GoodsUI.js.map

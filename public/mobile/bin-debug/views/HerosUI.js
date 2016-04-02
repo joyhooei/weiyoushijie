@@ -71,4 +71,3 @@ var HerosListIRSkin = (function (_super) {
     return HerosListIRSkin;
 })(eui.ItemRenderer);
 egret.registerClass(HerosListIRSkin,'HerosListIRSkin');
-//# sourceMappingURL=HerosUI.js.map

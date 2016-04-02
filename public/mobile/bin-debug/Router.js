@@ -10,4 +10,3 @@ var router;
     }
     router.changePage = changePage;
 })(router || (router = {}));
-//# sourceMappingURL=Router.js.map

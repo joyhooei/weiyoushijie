@@ -36,4 +36,3 @@ var Login = (function (_super) {
     return Login;
 })(egret.EventDispatcher);
 egret.registerClass(Login,'Login');
-//# sourceMappingURL=Login.js.map
