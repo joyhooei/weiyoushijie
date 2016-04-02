@@ -4,9 +4,9 @@
  *
  */
 class LoginUI extends eui.Component implements nest.easeuser.ILoginCallbacks{
-    public info_txt: egret.gui.Label;
+    public info_txt: eui.Label;
     
-    public login_button: egret.gui.Button;
+    public login_button: eui.Button;
   
     public constructor() {
         super();

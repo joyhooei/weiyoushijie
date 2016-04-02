@@ -45,6 +45,8 @@ class Main extends eui.UILayer {
     private _homeUI: HomeUI;
 
     private _loadingBg: egret.Bitmap;
+    
+    private _loginUI: LoginUI;
 
     protected createChildren(): void {
         super.createChildren();
@@ -116,7 +118,7 @@ class Main extends eui.UILayer {
                 break;
             
           case "login":
-                this._loginUI = new LoginUI(this);
+                this._loginUI = new LoginUI();
                 this.addChild(this._loginUI);
                 break;
             
@@ -173,7 +175,7 @@ class Main extends eui.UILayer {
     private onResourceProgress(event:RES.ResourceEvent):void {
         switch (event.groupName) {
             case "loading":
-                this._loadingView.setProgress(event.itemsLoaded, event.itemsTotal);
+                this._loadingUI.setProgress(event.itemsLoaded, event.itemsTotal);
                 break;
             
             //case "home":

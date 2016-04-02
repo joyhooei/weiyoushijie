@@ -30,21 +30,20 @@ var Main = (function (_super) {
     __extends(Main, _super);
     function Main() {
         _super.apply(this, arguments);
-        this.isThemeLoadEnd = false;
-        this.isResourceLoadEnd = false;
+        this._isThemeLoadEnd = false;
+        this._isResourceLoadEnd = false;
     }
     var d = __define,c=Main,p=c.prototype;
     p.createChildren = function () {
         _super.prototype.createChildren.call(this);
         //inject the custom material parser
         //注入自定义的素材解析器
-        var assetAdapter = new AssetAdapter();
-        this.stage.registerImplementation("eui.IAssetAdapter", assetAdapter);
+        this.stage.registerImplementation("eui.IAssetAdapter", new AssetAdapter());
         this.stage.registerImplementation("eui.IThemeAdapter", new ThemeAdapter());
         //Config loading process interface
         //设置加载进度界面
-        this.loadingView = new LoadingUI();
-        this.stage.addChild(this.loadingView);
+        this._loadingUI = new LoadingUI();
+        this.stage.addChild(this._loadingUI);
         // initialize the Resource loading library
         //初始化Resource资源加载库
         RES.addEventListener(RES.ResourceEvent.CONFIG_COMPLETE, this.onConfigComplete, this);
@@ -56,6 +55,7 @@ var Main = (function (_super) {
      */
     p.onConfigComplete = function (event) {
         RES.removeEventListener(RES.ResourceEvent.CONFIG_COMPLETE, this.onConfigComplete, this);
+        router.init(this);
         // load skin theme configuration file, you can manually modify the file. And replace the default skin.
         //加载皮肤主题配置文件,可以手动修改这个文件。替换默认皮肤。
         var theme = new eui.Theme("resource/default.thm.json", this.stage);
@@ -71,8 +71,7 @@ var Main = (function (_super) {
      * Loading of theme configuration file is complete, start to pre-load the
      */
     p.onThemeLoadComplete = function () {
-        console.log("theme load ok:", egret.getTimer());
-        this.isThemeLoadEnd = true;
+        this._isThemeLoadEnd = true;
         this.createScene();
     };
     /**
@@ -82,20 +81,21 @@ var Main = (function (_super) {
     p.onResourceLoadComplete = function (event) {
         switch (event.groupName) {
             case "loading":
-                console.log("loading ok:", egret.getTimer());
-                if (this.loadingView.parent) {
-                    this.loadingView.parent.removeChild(this.loadingView);
+                if (this._loadingUI.parent) {
+                    this._loadingUI.parent.removeChild(this._loadingUI);
                 }
                 Toast.init(this, RES.getRes("toast-bg_png"));
                 this._loadingBg = new egret.Bitmap(RES.getRes("loading_bg"));
                 this.addChild(this._loadingBg);
                 this._trueLoadingUI = new TrueLoadingUI();
-                this.loadPage("home");
+                this.loadPage("login");
+                break;
+            case "login":
+                this._loginUI = new LoginUI();
+                this.addChild(this._loginUI);
                 break;
             case "home":
-                console.log("home ok:", egret.getTimer());
-                /// clearRESEvents
-                this.isResourceLoadEnd = true;
+                this._isResourceLoadEnd = true;
                 this.createScene();
                 break;
             //case "profile": 
@@ -112,8 +112,7 @@ var Main = (function (_super) {
         //RES.removeEventListener(RES.ResourceEvent.ITEM_LOAD_ERROR,this.onItemLoadError,this);
     };
     p.createScene = function () {
-        console.log("createScene:", this.isThemeLoadEnd, this.isResourceLoadEnd);
-        if (this.isThemeLoadEnd && this.isResourceLoadEnd) {
+        if (this._isThemeLoadEnd && this._isResourceLoadEnd) {
             this.startCreateScene();
         }
     };
@@ -142,7 +141,7 @@ var Main = (function (_super) {
     p.onResourceProgress = function (event) {
         switch (event.groupName) {
             case "loading":
-                this.loadingView.setProgress(event.itemsLoaded, event.itemsTotal);
+                this._loadingUI.setProgress(event.itemsLoaded, event.itemsTotal);
                 break;
             //case "home":
             //case "profile":
@@ -157,7 +156,6 @@ var Main = (function (_super) {
      */
     p.startCreateScene = function () {
         var _this = this;
-        console.log("this._trueLoadingUI.parent:", Boolean(this._trueLoadingUI.parent));
         /// 主页特殊，其他页都需要传参数
         this.pageLoadedHandler("home");
         if (this._loadingBg.parent) {
@@ -165,14 +163,13 @@ var Main = (function (_super) {
         }
         this._homeUI = new HomeUI();
         this._homeUI.addEventListener(GameEvents.EVT_LOAD_PAGE, function (evt) {
-            console.log("EVT_LOAD_PAGE:", evt.data);
             _this.loadPage(evt.data);
         }, this);
         this.addChild(this._homeUI);
     };
     p.loadPage = function (pageName) {
         this.addChild(this._trueLoadingUI);
-        this.idLoading = pageName;
+        this._idLoading = pageName;
         switch (pageName) {
             case "heros":
             case "goods":
@@ -185,7 +182,7 @@ var Main = (function (_super) {
     };
     p.pageLoadedHandler = function (name) {
         if (name != "home") {
-            this._homeUI.pageReadyHandler(this.idLoading);
+            this._homeUI.pageReadyHandler(this._idLoading);
         }
         if (this._trueLoadingUI.parent) {
             this._trueLoadingUI.parent.removeChild(this._trueLoadingUI);
@@ -194,3 +191,4 @@ var Main = (function (_super) {
     return Main;
 })(eui.UILayer);
 egret.registerClass(Main,'Main');
+//# sourceMappingURL=Main.js.map

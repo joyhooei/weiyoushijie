@@ -29,7 +29,7 @@ class LoginTypeUI extends eui.Component {
             }
             var btn:LoginButton = new LoginButton(logT.loginType, url);
             btn.name = logT.loginType;
-            this.btnGroup.addElement(btn);
+            this.btnGroup.addChild(btn);
             btn.scaleX = btn.scaleY = 0.5;
 
             btn.touchEnabled = true;
