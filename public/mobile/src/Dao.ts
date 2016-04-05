@@ -22,7 +22,7 @@ class Dao {
 		request.responseType = egret.HttpResponseType.JSON;
 		
 		//设置为 POST 请求
-		request.open(this._baseUrl, egret.HttpMethod.POST);
+		request.open(this._baseUrl + method, egret.HttpMethod.POST);
 		request.setRequestHeader("Content-Type", "application/json");
 
 		request.addEventListener(egret.Event.COMPLETE,this.onPostComplete,this);
