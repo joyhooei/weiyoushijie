@@ -1,12 +1,12 @@
-module router {
-    export var app: Main;
+class Router {
+    private _main: Main;
 
-    export function init(main:Main){
-        app = main;
+    constructor(main: Main) {
+        this._main = main;
     }
-
-    export function changePage(page:eui.Component){
-        app.removeChildren();
-        app.addChild(page);
+    
+    public changePage(page:eui.Component){
+        this._main.removeChildren();
+        this._main.addChild(page);
     }
 }
