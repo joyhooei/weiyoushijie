@@ -10,7 +10,6 @@ class Login extends egret.EventDispatcher{
     login(data?:string|nest.user.LoginCallbackInfo):void {
         if (data == null || typeof data == "string") {
             var loginInfo: nest.user.LoginInfo = data ? {"loginType":<string>data} : {};
-            egret.log("login start");
             egret.log(JSON.stringify(loginInfo));
             nest.user.login(loginInfo, this.onLoginCallback.bind(this));
         } else {
@@ -20,7 +19,6 @@ class Login extends egret.EventDispatcher{
 
     private onLoginCallback(data:nest.user.LoginCallbackInfo):void{
         egret.log(JSON.stringify(data));
-        egret.log("login end");
         if (data.result == 0){
             //为了保证安全性，这段代码请务必放在服务器端实现
             this.getUserInfo(data, this.onGetUserInfoCallback);
@@ -32,9 +30,5 @@ class Login extends egret.EventDispatcher{
 
     private getUserInfo(data:nest.user.LoginCallbackInfo,onGetUserInfoCallback:Function){
   
-    }
-
-    private onGetUserInfoCallback(data:any){
-        console.log(data);
     }
 }
