@@ -3,7 +3,7 @@
  * @author 
  *
  */
-class Customer {
+class Customer extends  Model {
 	public constructor() {
 	}
 }
