@@ -22,13 +22,14 @@ class Login extends egret.EventDispatcher{
         if (data.result == 0){
             //为了保证安全性，这段代码请务必放在服务器端实现
             this.getUserInfo(data, this.onGetUserInfoCallback);
-        }
-        else{
+        } else{
             //登录失败
         }
     }
 
     private getUserInfo(data:nest.user.LoginCallbackInfo,onGetUserInfoCallback:Function){
-  
+        //从后台获取用户信息
+        
+        //进入游戏
     }
 }
