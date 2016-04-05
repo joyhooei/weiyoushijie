@@ -29,7 +29,7 @@ class LoginUI extends eui.Component implements nest.easeuser.ILoginCallbacks{
 	}
 
 	public onCreate = (data: nest.easeuser.ILoginTypes):void =>  {
-		router.changePage(new LoginTypeUI(data));
+		application.router.changePage(new LoginTypeUI(data));
 	}
 
 	public onSuccess = (data: nest.user.LoginCallbackInfo):void => {
