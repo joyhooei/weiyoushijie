@@ -7,6 +7,10 @@ var bodyParser = require('body-parser');
 var api = require('./routes/api');
 var cloud = require('./cloud');
 
+GLOBAL.moment = require("moment");
+GLOBAL._ = require("underscore");
+GLOBAL.Q = require('q');
+
 var app = express();
 
 // 设置 view 引擎
