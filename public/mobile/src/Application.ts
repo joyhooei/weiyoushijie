@@ -1,4 +1,4 @@
-module router {
+module application {
     export var router: Router;
     export var dao: Dao;
 
