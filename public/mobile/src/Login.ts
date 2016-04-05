@@ -29,8 +29,12 @@ class Login extends egret.EventDispatcher{
 
     private getUserInfo(data:nest.user.LoginCallbackInfo,onGetUserInfoCallback:Function){
         //从后台获取用户信息
-        application.dao.login(data.token, (result: bool, data: any) => {
-        
+        application.dao.login(data.token, (succeed: bool, data: any) => {
+            if (succeed) {
+                //enter game
+            } else {
+                // show error to user
+            }
         });
     }
 }
