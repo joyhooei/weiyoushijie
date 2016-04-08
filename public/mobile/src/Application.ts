@@ -2,8 +2,8 @@ module application {
     export var main: Main;
     export var router: Router;
     export var dao: Dao;
-    export var account: {};
-    export var customer: {};
+    export var account: any;
+    export var customer: any;
 
     export function init(main:Main) {
 		main = main;
@@ -28,14 +28,14 @@ module application {
 		
         if (data.result == 0){
 			//从后台获取用户信息
-			application.dao.rest("login", data.token, (succeed: bool, data: any) => {
+			application.dao.rest("login", data.token, (succeed: boolean, data: any) => {
 				if (succeed) {
 					application.account = data;
-					application.dao.fetch("Customer", {"id": application.account.customer_id}, {}, (succeed: bool, data: any) => {
+					application.dao.fetch("Customer", {"id": application.account.customer_id}, {}, (succeed: boolean, data: any) => {
 						if (succeed) {
 							application.customer = data[0];
 
-							application.main.dispatchEvent(GameEvents.EVT_LOGIN_IN_SUCCESS);
+							application.main.dispatchEventWith(GameEvents.EVT_LOGIN_IN_SUCCESS);
 						} else {
 							Toast.launch("获取用户信息失败");
 						}
