@@ -9,12 +9,4 @@ class Model {
 			this[name] = data[name];
 		}
 	}
-	
-	public set(name:string, value:string):void{
-		this[name] = value;
-	}
-	
-	public get(name:string):string{
-		return this[name];
-	}
 }
