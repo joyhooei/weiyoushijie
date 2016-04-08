@@ -31,7 +31,9 @@ router.post('/login', function(req, res, next) {
 		if (!err && response.statusCode == 200) {
 			console.log(body);
 			
-			_succeed(body);
+			var account = new Account();
+			account.set(body);
+			_saveModel(account, req, res);
 		} else {
 			_failed(res, err);
 		}
@@ -158,10 +160,6 @@ router.post('/update/:model/:id', function(req, res, next) {
 });
 
 router.post('/delete/:model/:id', function(req, res, next) {
-	if (!_isAuthenticated(req, res)) {
-		return;
-	}
-	
 	var query = new AV.Query(dao[req.params.model]);
 	query.get(req.params.id).then(function(m){
 		m.destroy().then(function(){
@@ -193,10 +191,6 @@ function _filterAttributes(req) {
 };
 
 function _saveModel(model, req, res) {
-	if (!_isAuthenticated(req, res)) {
-		return;
-	}
-	
 	_filterAttributes(req);
 	
 	model.save(req.body).then(function(m){
