@@ -7,9 +7,13 @@ class Model {
 	}
 	
 	public set(data:any):void{
-		attributes = data;
+		this.attributes = data;
 		if (data.id) {
-			id = data.id;
+			this.id = data.id;
 		}
+	}
+	
+	public get(name:string):string{
+		return this.attributes[name];
 	}
 }
