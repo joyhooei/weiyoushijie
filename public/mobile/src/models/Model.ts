@@ -1,19 +1,20 @@
 class Model {
 	public id:string;
 	
-	public attributes:any;
-	
 	public constructor() {
 	}
 	
-	public set(data:any):void{
-		this.attributes = data;
-		if (data.id) {
-			this.id = data.id;
+	public set(data:{}):void{
+		for(var name in data) {
+			this[name] = data[name];
 		}
 	}
 	
+	public set(name:string, value:string):void{
+		this[name] = value;
+	}
+	
 	public get(name:string):string{
-		return this.attributes[name];
+		return this[name];
 	}
 }
