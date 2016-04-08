@@ -9,12 +9,16 @@ class Dao {
 		this._cb = null;
     }
 	
-	public login(token: string, cb: Function) {
-		this.rest("login", {token: token}, cb);
+	public fetch(model:string, conditions:any, filters:any, cb: Function) {
+		this.rest("select/" + model, {conditions: conditions, filters: filters}, cb);
 	}
 	
-	public save(model: Model, cb: Function) {
-		this.rest("save", {model: model}, cb);
+	public save(model:string, data, cb: Function) {
+		if (data.id){
+			this.rest("update/" + model + "/" + data.id, data, cb);
+		} else {
+			this.rest("create/" + model, data, cb);
+		}
 	}
     
     private rest(method: string, data: any, cb: Function) {
