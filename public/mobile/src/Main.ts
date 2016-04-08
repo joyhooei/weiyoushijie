@@ -127,8 +127,6 @@ class Main extends eui.UILayer {
                 break;
             
             case "home":
-				this.removeEventListener( GameEvents.EVT_LOGIN_IN_SUCCESS);
-				
                 this._isResourceLoadEnd = true;
                 this.createScene();
                 break;
