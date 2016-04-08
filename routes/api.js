@@ -1,5 +1,6 @@
 var express = require('express');
 var router = express.Router();
+var crypto = require('crypto');
 
 var AV = require('leanengine');
 
@@ -24,7 +25,7 @@ router.post('/login', function(req, res, next) {
 	}
 	
 	signStr += appkey;
-	requestParams.sign = new md5().hex_md5(signStr);
+	requestParams.sign = crypto.createHash('md5').update(signStr).digest('hex');;
 	
 	var request = require('request');
 	request.post({url:"http://api.egret-labs.org/games/api.php", formData: {variables :requestParams}},function (err, response, body) {
