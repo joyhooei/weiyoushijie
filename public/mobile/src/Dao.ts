@@ -13,7 +13,7 @@ class Dao {
 		this.rest("select/" + model, {conditions: conditions, filters: filters}, cb);
 	}
 	
-	public save(model:string, data:Model, cb: Function) {
+	public save(model:string, data:{}, cb: Function) {
 		if (data.id){
 			this.rest("update/" + model + "/" + data.id, data, cb);
 		} else {
@@ -43,7 +43,7 @@ class Dao {
 		console.log("post data : ",request.response);
 		
 		if (this._cb) {
-			this._cb(true, JSON.stringify(request.response));
+			this._cb(true, JSON.parse(request.response));
 		}
 	}
 	
