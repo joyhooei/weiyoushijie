@@ -20,21 +20,24 @@ class Login extends egret.EventDispatcher{
     private onLoginCallback(data:nest.user.LoginCallbackInfo):void{
         egret.log(JSON.stringify(data));
         if (data.result == 0){
-            //为了保证安全性，这段代码请务必放在服务器端实现
-            this.getUserInfo(data, this.onGetUserInfoCallback);
+			//从后台获取用户信息
+			application.dao.rest(application.baseUrl, "login", data.token, (succeed: bool, data: any) => {
+				if (succeed) {
+					application.account.set(data);
+					application.dao.fetch(new Customer({id:application.account.customer_id}), (succeed: bool, data: any) => {
+						if (succeed) {
+							application.customer.set(data);
+							application.dispatchEvent(new GameEvent(GameEvents.LOGIN_IN_SUCCESS));
+						} else {
+							Toast.launch("获取用户信息失败");
+						}
+					});
+				} else {
+					Toast.launch("获取账号信息失败");
+				}
+        	});
         } else{
-            //登录失败
+            Toast.launch("登录失败");
         }
-    }
-
-    private getUserInfo(data:nest.user.LoginCallbackInfo,onGetUserInfoCallback:Function){
-        //从后台获取用户信息
-        application.dao.login(data.token, (succeed: bool, data: any) => {
-            if (succeed) {
-                //enter game
-            } else {
-                // show error to user
-            }
-        });
     }
 }
