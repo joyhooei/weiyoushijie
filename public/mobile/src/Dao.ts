@@ -21,9 +21,9 @@ class Dao {
 		}
 	}
     
-    private rest(method: string, data: {}, cb: Function) {
+    public rest(method: string, data: {}, cb: Function) {
 		var request = new egret.HttpRequest();
-		request.responseType = egret.HttpResponseType.JSON;
+		request.responseType = egret.HttpResponseType.TEXT;
 		
 		//设置为 POST 请求
 		request.open(this._baseUrl + method, egret.HttpMethod.POST);
