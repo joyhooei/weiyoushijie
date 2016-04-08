@@ -13,7 +13,7 @@ class Dao {
 		this.rest("select/" + model, {conditions: conditions, filters: filters}, cb);
 	}
 	
-	public save(model:string, data, cb: Function) {
+	public save(model:string, data:Model, cb: Function) {
 		if (data.id){
 			this.rest("update/" + model + "/" + data.id, data, cb);
 		} else {
