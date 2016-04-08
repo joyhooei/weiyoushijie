@@ -33,7 +33,7 @@ class LoginUI extends eui.Component implements nest.easeuser.ILoginCallbacks{
 	}
 
 	public onSuccess = (data: nest.user.LoginCallbackInfo):void => {
-		new Login().login(data);
+		application.login(data);
 	}
 
 	public onFail = (data: nest.core.ResultCallbackInfo):void => {
