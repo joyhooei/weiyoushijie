@@ -9,7 +9,7 @@ class Dao {
 		this._cb = null;
     }
 	
-	public fetch(model:string, conditions:any, filters:any, cb: Function) {
+	public fetch(model:string, conditions:{}, filters:{}, cb: Function) {
 		this.rest("select/" + model, {conditions: conditions, filters: filters}, cb);
 	}
 	
@@ -21,7 +21,7 @@ class Dao {
 		}
 	}
     
-    private rest(method: string, data: any, cb: Function) {
+    private rest(method: string, data: {}, cb: Function) {
 		var request = new egret.HttpRequest();
 		request.responseType = egret.HttpResponseType.JSON;
 		
