@@ -2,6 +2,7 @@ class Model {
 	public id:string;
 	
 	public constructor() {
+		this.id = "";
 	}
 	
 	public set(data:{}):void{
