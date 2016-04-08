@@ -27,7 +27,7 @@ class Login extends egret.EventDispatcher{
 					application.dao.fetch(new Customer({id:application.account.customer_id}), (succeed: bool, data: any) => {
 						if (succeed) {
 							application.customer.set(data);
-							application.dispatchEvent(new GameEvent(GameEvents.LOGIN_IN_SUCCESS));
+							application.dispatchEvent(GameEvents.EVT_LOGIN_IN_SUCCESS);
 						} else {
 							Toast.launch("获取用户信息失败");
 						}
