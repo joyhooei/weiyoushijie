@@ -118,16 +118,21 @@ class Main extends eui.UILayer {
                 break;
             
           case "login":
+				this.addEventListener( GameEvents.EVT_LOGIN_IN_SUCCESS, ( evt:egret.Event )=>{
+					this.loadPage( "home" );
+				}, this ); 
+				
                 this._loginUI = new LoginUI();
                 this.addChild(this._loginUI);
                 break;
             
             case "home":
+				this.removeEventListener( GameEvents.EVT_LOGIN_IN_SUCCESS);
+				
                 this._isResourceLoadEnd = true;
                 this.createScene();
                 break;
             
-            //case "profile": 
             default :
                 console.log( "\tpage["+event.groupName+"]ok:", egret.getTimer() );
                 this.pageLoadedHandler( event.groupName );
