@@ -6,117 +6,38 @@ var AV = require('leanengine');
 var Account = require('../models/account');
 var Audit = require("../models/audit");
 
-router.post('/sms/:mobile', function(req, res, next) {
-	AV.Cloud.requestSmsCode(req.params.mobile).then(function() {
-		_succeed(res);
-	}, function(error){
-		_failed(res, error);
-	});
-});
-
-router.post('/register', function(req, res, next) {
-    var account = new dao.Account();
-	account.set(req.body);
-    Account.register(account).then(function(account){
-		_authenticated(account, req, res);
-	}, function(error){
-		_failed(res, error);
-	});
-});
-
 router.post('/login', function(req, res, next) {
-    var account = new dao.Account();
-    if (req.body.username) {
-	    account.set("username", req.body.username);
-		if (req.body.password) {
-	    	account.set("password", req.body.password);
+	var appId: number = 90240;
+	var appkey: string = "ULaMnJJTDY8cPf4lCkY46";
+	var token = req.body.token;
+	var requestParams:any = {
+		action: "user.getInfo",
+		appId: appId,
+		serverId: 1,
+		time: Date.now(),
+		token: token
+	};
+	
+	var signStr = "";
+	for (var key in requestParams){
+		signStr += key + "=" + requestParams[key];
+	}
+	
+	signStr += appkey;
+	requestParams.sign = new md5().hex_md5(signStr);
+	
+	var request = require('request');
+	request.post({url:"http://api.egret-labs.org/games/api.php", formData: {variables :requestParams}},function (err, response, body) {
+		if (!err && response.statusCode == 200) {
+			console.log(body);
 			
-        	var promise = Account.login(account, false);
-		} else if (req.body.token) {
-	    	account.set("token", req.body.token);
-			
-        	var promise = Account.login(account, false);
+			_succeed(body);
 		} else {
-			_failed(res, new Error('请输入登录信息'));
-			return;
+			_failed(res, err);
 		}
-    } else if (req.body.weichat_code) {
-		var request = require('request');
-		request('https://api.weixin.qq.com/sns/oauth2/access_token?appid=APPID&secret=SECRET&code=' + req.body.weichat_code + '&grant_type=authorization_code', function (err, response, body) {
-			if (!err && response.statusCode == 200) {
-				account.set("wechat_uid", body.unionid);
-
-				Account.socialLogin(account).then(
-					function(account){
-						_authenticated(account, req, res);
-					}, function(err){
-						_failed(res, error);
-					});
-			} else {
-				_failed(res, error);
-			}
-		});
-
-		return;
-	} else if (req.body.weibo_uid) {
-		account.set("weibo_uid", req.body.weibo_uid);
-		
-    	var promise = Account.socialLogin(account);
-	} else if (req.body.wechat_uid) {
-		account.set("wechat_uid", req.body.wechat_uid);
-		
-    	var promise = Account.socialLogin(account);
-	} else if (req.body.qq_uid) {			
-		account.set("qq_uid", req.body.qq_uid);
-		
-    	var promise = Account.socialLogin(account);
-	} else {
-		_failed(res, new Error('请输入登录信息'));
-		return;
-	}
-    
-    promise.then(
-        function(account){
-			_authenticated(account, req, res);
-        }, function(err){
-            _failed(res, err);
-        });
-});
-
-router.post('/logout', function(req, res, next) {
-	req.logout();
-	
-	_succeed(res);
-});
-
-router.post('/reset', function(req, res, next) {
-	if (!_isAuthenticated(req, res)) {
-		return;
-	}
-
-    var account = new dao.Account();
-	account.set("mobile", req.body.mobile);
-	if (req.body.password) {
-		account.set("password", req.body.password);
-	} else if (req.body.transfer_password) {
-		account.set("transfer_password", req.body.transfer_password);
-	} else {
-		_failed(res, new Error('请输入需要修改的密码'));
-		
-		return;
-	}
-	
-	AV.Cloud.verifySmsCode(req.body.verify_code, req.body.mobile).then(function(){
-		Account.reset(account).then(
-			function(account){
-				_authenticated(account, req, res);
-			}, function(err){
-				_failed(res, err);
-			});
-	}, function(err){
-		_failed(res, err);
 	});
 });
+
 
 router.post('/select/:model', function(req, res, next) {
 	var query = new AV.Query(dao[req.params.model]);
@@ -311,14 +232,6 @@ function _authenticated(account, req, res) {
 	}
 };
 
-function _isAuthenticated(req, res) {
-	if (req.isAuthenticated()) {
-		return true;
-	} else {
-		_failed(res, new Error("没有权限"), 401);
-	}
-};
-
 function _decode(avObj) {
 	var attributes = _.extend({"id" : avObj.id}, _.omit(avObj.attributes, ["ACL", "location"]));
 	var model = attributes;
@@ -337,12 +250,12 @@ function _decode(avObj) {
 
 function _succeed(res, data) {
 	data = data || {};
-	res.status(200).send({result: 1, data: data});
+	res.status(200).send(data: data);
 };
 
 function _failed(res, error, status) {
 	status = status || 500;
-	res.status(status).send({result: 0, error: error.message});
+	res.status(status).send(error: error.message);
 };
 
 module.exports = router;
