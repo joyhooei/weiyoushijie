@@ -5,9 +5,14 @@ class Model {
 		this.id = "";
 	}
 	
-	public set(data:{}):void{
-		for(var name in data) {
-			this[name] = data[name];
-		}
+	public fromJSON(json: string) {
+        var jsonObj = JSON.parse(json);
+        for (var propName in jsonObj) {
+            this[propName] = jsonObj[propName]
+        }
+    }
+	
+	public toJSON():string{
+		return JSON.stringify(this);
 	}
 }
