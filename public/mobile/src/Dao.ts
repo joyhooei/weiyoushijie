@@ -43,7 +43,7 @@ class Dao {
 		console.log("post data : ",request.response);
 		
 		if (this._cb) {
-			this._cb(true, request.response);
+			this._cb(true, JSON.stringify(request.response));
 		}
 	}
 	
