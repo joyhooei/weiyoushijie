@@ -1,8 +1,8 @@
 <?xml version='1.0' encoding='utf-8'?>
-<e:Skin width="480" xmlns:e="http://ns.egret.com/eui" xmlns:w="http://ns.egret-labs.org/wing" height="800">
-	<e:Panel width="370" height="415" horizontalCenter="0" verticalCenter="-136.5">
-		<e:Button id="quickTest_btn"  label="快速测试" horizontalCenter="0" bottom="194"/>
-		<e:Button id="login_button" label="登录" x="10" y="10" horizontalCenter="2" bottom="283"/>
-		<e:Label id="info_txt" text="状态文本" textColor="0x000000" horizontalCenter="0" bottom="100"/>
-	</e:Panel>
+<e:Skin class="loginTypeUISkin" width="480" xmlns:e="http://ns.egret.com/eui" xmlns:w="http://ns.egret-labs.org/wing" height="800">
+	<e:Group id="btnGroup" width="339" height="63" x="74" y="269">
+		<e:layout>
+			<e:HorizontalLayout horizontalAlign="center" gap="20"/>
+		</e:layout>
+	</e:Group>
 </e:Skin>

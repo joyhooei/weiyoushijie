@@ -32,6 +32,15 @@ var Main = (function (_super) {
         _super.apply(this, arguments);
         this._isThemeLoadEnd = false;
         this._isResourceLoadEnd = false;
+        this.onCreate = function (data) {
+            application.router.changePage(new LoginUI(data));
+        };
+        this.onSuccess = function (data) {
+            application.login(data);
+        };
+        this.onFail = function (data) {
+            egret.log("log Fail");
+        };
     }
     var d = __define,c=Main,p=c.prototype;
     p.createChildren = function () {
@@ -55,7 +64,7 @@ var Main = (function (_super) {
      */
     p.onConfigComplete = function (event) {
         RES.removeEventListener(RES.ResourceEvent.CONFIG_COMPLETE, this.onConfigComplete, this);
-        router.init(this);
+        application.init(this);
         // load skin theme configuration file, you can manually modify the file. And replace the default skin.
         //加载皮肤主题配置文件,可以手动修改这个文件。替换默认皮肤。
         var theme = new eui.Theme("resource/default.thm.json", this.stage);
@@ -79,26 +88,30 @@ var Main = (function (_super) {
      * preload resource group is loaded
      */
     p.onResourceLoadComplete = function (event) {
+        var _this = this;
+        var self = this;
         switch (event.groupName) {
             case "loading":
                 if (this._loadingUI.parent) {
                     this._loadingUI.parent.removeChild(this._loadingUI);
                 }
                 Toast.init(this, RES.getRes("toast-bg_png"));
-                this._loadingBg = new egret.Bitmap(RES.getRes("loading_bg"));
-                this.addChild(this._loadingBg);
-                this._trueLoadingUI = new TrueLoadingUI();
-                this.loadPage("login");
-                break;
-            case "login":
-                this._loginUI = new LoginUI();
-                this.addChild(this._loginUI);
+                this.addEventListener(GameEvents.EVT_LOGIN_IN_SUCCESS, function (evt) {
+                    _this._loadingBg = new egret.Bitmap(RES.getRes("loading_bg"));
+                    _this.addChild(_this._loadingBg);
+                    _this._trueLoadingUI = new TrueLoadingUI();
+                    _this.loadPage("home");
+                }, this);
+                nest.core.startup({ egretAppId: 90240, version: 2, debug: true }, function (resultInfo) {
+                    if (resultInfo.result == 0) {
+                        nest.easeuser.login(self);
+                    }
+                });
                 break;
             case "home":
                 this._isResourceLoadEnd = true;
                 this.createScene();
                 break;
-            //case "profile": 
             default:
                 console.log("\tpage[" + event.groupName + "]ok:", egret.getTimer());
                 this.pageLoadedHandler(event.groupName);
@@ -190,4 +203,4 @@ var Main = (function (_super) {
     };
     return Main;
 })(eui.UILayer);
-egret.registerClass(Main,'Main');
+egret.registerClass(Main,'Main',["nest.easeuser.ILoginCallbacks"]);

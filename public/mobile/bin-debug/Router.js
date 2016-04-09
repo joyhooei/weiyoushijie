@@ -1,12 +1,12 @@
-var router;
-(function (router) {
-    function init(main) {
-        router.app = main;
+var Router = (function () {
+    function Router(main) {
+        this._main = main;
     }
-    router.init = init;
-    function changePage(page) {
-        router.app.removeChildren();
-        router.app.addChild(page);
-    }
-    router.changePage = changePage;
-})(router || (router = {}));
+    var d = __define,c=Router,p=c.prototype;
+    p.changePage = function (page) {
+        this._main.removeChildren();
+        this._main.addChild(page);
+    };
+    return Router;
+})();
+egret.registerClass(Router,'Router');

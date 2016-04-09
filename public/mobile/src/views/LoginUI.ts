@@ -1,42 +1,41 @@
 /**
  *
- * @author 
+ * @author
  *
  */
-class LoginUI extends eui.Component implements nest.easeuser.ILoginCallbacks{
-	public info_txt: eui.Label;
+class LoginUI extends eui.Component {
+    public btnGroup:eui.Group;
 
-	public login_button: eui.Button;
+    private loginType:nest.easeuser.ILoginTypes;
 
-	public constructor() {
-		super();
+    public constructor(loginType:nest.easeuser.ILoginTypes) {
+        super();
 
-		this.addEventListener( eui.UIEvent.COMPLETE, this.uiCompHandler, this );
-		this.skinName = "resource/custom_skins/loginUISkin.exml";
-	}
+        this.loginType = loginType;
+        
+        this.addEventListener( eui.UIEvent.COMPLETE, this.uiCompHandler, this );
+        this.skinName = "resource/custom_skins/loginUISkin.exml";
+    }
 
-	private uiCompHandler():void {     
-		this.login_button.addEventListener(egret.TouchEvent.TOUCH_TAP,this.onTouchTapHandler,this);   
-	}
+    private uiCompHandler():void {
+        var self = this;
 
-	private onTouchTapHandler(e:egret.TouchEvent):void{
-		var self = this;
-		nest.core.startup({egretAppId : 90240, version : 2, debug:true}, function(resultInfo:nest.core.ResultCallbackInfo) {
-			if (resultInfo.result == 0) {
-				nest.easeuser.login(self);
-			}
-		});
-	}
+        for (var i:number = 0; i < this.loginType.loginTypes.length; i++) {
+            var logT:nest.easeuser.ILoginType = this.loginType.loginTypes[i];
 
-	public onCreate = (data: nest.easeuser.ILoginTypes):void =>  {
-		application.router.changePage(new LoginTypeUI(data));
-	}
+            var url = "";
+            if (logT.accInfo && logT.accInfo.avatarUrl) {
+                url = logT.accInfo.avatarUrl;
+            }
+            var btn:LoginButton = new LoginButton(logT.loginType, url);
+            btn.name = logT.loginType;
+            this.btnGroup.addChild(btn);
+            btn.scaleX = btn.scaleY = 0.5;
 
-	public onSuccess = (data: nest.user.LoginCallbackInfo):void => {
-		application.login(data);
-	}
-
-	public onFail = (data: nest.core.ResultCallbackInfo):void => {
-		egret.log("log Fail");
-	}
+            btn.touchEnabled = true;
+            btn.addEventListener(egret.TouchEvent.TOUCH_TAP, function (e:egret.TouchEvent) {
+                self.loginType.onChoose(this.name);
+            }, btn);
+        }
+    }
 }

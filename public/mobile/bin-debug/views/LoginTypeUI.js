@@ -3,15 +3,15 @@
  * @author
  *
  */
-var LoginTypeUI = (function (_super) {
-    __extends(LoginTypeUI, _super);
-    function LoginTypeUI(loginType) {
+var LoginUI = (function (_super) {
+    __extends(LoginUI, _super);
+    function LoginUI(loginType) {
         _super.call(this);
         this.loginType = loginType;
         this.addEventListener(eui.UIEvent.COMPLETE, this.uiCompHandler, this);
         this.skinName = "resource/custom_skins/loginTypeUISkin.exml";
     }
-    var d = __define,c=LoginTypeUI,p=c.prototype;
+    var d = __define,c=LoginUI,p=c.prototype;
     p.uiCompHandler = function () {
         var self = this;
         for (var i = 0; i < this.loginType.loginTypes.length; i++) {
@@ -30,6 +30,6 @@ var LoginTypeUI = (function (_super) {
             }, btn);
         }
     };
-    return LoginTypeUI;
+    return LoginUI;
 })(eui.Component);
-egret.registerClass(LoginTypeUI,'LoginTypeUI');
+egret.registerClass(LoginUI,'LoginUI');

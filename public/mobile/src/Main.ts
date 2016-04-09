@@ -27,7 +27,7 @@
 //
 //////////////////////////////////////////////////////////////////////////////////////
 
-class Main extends eui.UILayer {
+class Main extends eui.UILayer implements nest.easeuser.ILoginCallbacks {
     /**
      * 加载进度界面
      * loading process interface
@@ -102,6 +102,8 @@ class Main extends eui.UILayer {
      * preload resource group is loaded
      */
     private onResourceLoadComplete(event:RES.ResourceEvent):void {
+        var self = this;
+        
         switch (event.groupName ) {
             case "loading":
                 if( this._loadingUI.parent ){
@@ -109,21 +111,20 @@ class Main extends eui.UILayer {
                 }
             
                 Toast.init( this, RES.getRes( "toast-bg_png" ) ); 
-    
-                this._loadingBg = new egret.Bitmap(RES.getRes("loading_bg"));
-                this.addChild( this._loadingBg );
                 
-                this._trueLoadingUI = new TrueLoadingUI();
-                this.loadPage("login");
-                break;
-            
-          case "login":
-				this.addEventListener( GameEvents.EVT_LOGIN_IN_SUCCESS, ( evt:egret.Event )=>{
-					this.loadPage( "home" );
-				}, this ); 
-				
-                this._loginUI = new LoginUI();
-                this.addChild(this._loginUI);
+                this.addEventListener(GameEvents.EVT_LOGIN_IN_SUCCESS,(evt: egret.Event) => {
+                    this._loadingBg = new egret.Bitmap(RES.getRes("loading_bg"));
+                    this.addChild(this._loadingBg);
+
+                    this._trueLoadingUI = new TrueLoadingUI();
+                    this.loadPage("home");
+                },this); 
+               
+                nest.core.startup({ egretAppId: 90240,version: 2,debug: true },function(resultInfo: nest.core.ResultCallbackInfo) {
+                    if(resultInfo.result == 0) {
+                        nest.easeuser.login(self);
+                    }
+                });
                 break;
             
             case "home":
@@ -233,4 +234,17 @@ class Main extends eui.UILayer {
             this._trueLoadingUI.parent.removeChild( this._trueLoadingUI );
         }
     }
+    
+    public onCreate = (data: nest.easeuser.ILoginTypes): void => {
+        application.router.changePage(new LoginUI(data));
+    }
+
+    public onSuccess = (data: nest.user.LoginCallbackInfo): void => {
+        application.login(data);
+    }
+
+    public onFail = (data: nest.core.ResultCallbackInfo): void => {
+        egret.log("log Fail");
+    }
+   
 }

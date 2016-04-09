@@ -5,36 +5,31 @@
  */
 var LoginUI = (function (_super) {
     __extends(LoginUI, _super);
-    function LoginUI() {
+    function LoginUI(loginType) {
         _super.call(this);
-        this.onCreate = function (data) {
-            router.changePage(new LoginTypeUI(data));
-        };
-        this.onSuccess = function (data) {
-            new Login().login(data);
-        };
-        this.onFail = function (data) {
-            egret.log("log Fail");
-        };
+        this.loginType = loginType;
         this.addEventListener(eui.UIEvent.COMPLETE, this.uiCompHandler, this);
         this.skinName = "resource/custom_skins/loginUISkin.exml";
     }
     var d = __define,c=LoginUI,p=c.prototype;
     p.uiCompHandler = function () {
-        this.login_button.addEventListener(egret.TouchEvent.TOUCH_TAP, this.onTouchTapHandler, this);
-    };
-    p.onTouchTapHandler = function (e) {
         var self = this;
-        nest.core.startup({ egretAppId: 88888, version: 2, debug: true }, function (resultInfo) {
-            if (resultInfo.result == 0) {
-                self.checkLogin();
+        for (var i = 0; i < this.loginType.loginTypes.length; i++) {
+            var logT = this.loginType.loginTypes[i];
+            var url = "";
+            if (logT.accInfo && logT.accInfo.avatarUrl) {
+                url = logT.accInfo.avatarUrl;
             }
-        });
-    };
-    p.checkLogin = function () {
-        egret.log("checkLogin start");
-        nest.easeuser.login(this);
+            var btn = new LoginButton(logT.loginType, url);
+            btn.name = logT.loginType;
+            this.btnGroup.addChild(btn);
+            btn.scaleX = btn.scaleY = 0.5;
+            btn.touchEnabled = true;
+            btn.addEventListener(egret.TouchEvent.TOUCH_TAP, function (e) {
+                self.loginType.onChoose(this.name);
+            }, btn);
+        }
     };
     return LoginUI;
 })(eui.Component);
-egret.registerClass(LoginUI,'LoginUI',["nest.easeuser.ILoginCallbacks"]);
+egret.registerClass(LoginUI,'LoginUI');
