@@ -8,10 +8,10 @@ var Account = require('../models/account');
 var Audit = require("../models/audit");
 
 router.post('/login', function(req, res, next) {
-	var appId: number = 90240;
-	var appkey: string = "ULaMnJJTDY8cPf4lCkY46";
+	var appId = 90240;
+	var appkey = "ULaMnJJTDY8cPf4lCkY46";
 	var token = req.body.token;
-	var requestParams:any = {
+	var requestParams = {
 		action: "user.getInfo",
 		appId: appId,
 		serverId: 1,
