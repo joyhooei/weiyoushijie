@@ -30,15 +30,17 @@ router.post('/login', function(req, res, next) {
 			var result = JSON.parse(body);
 			if (result.code == 0) {
 				var query = new AV.Query(dao.Customer);
-				query.equalTo("uid", result.id);
+				query.equalTo("uid", result.data.id);
 				query.find().then(function(customers){
 					if (customers.length > 0) {
 						_succeed(res, customers[0]);
 					} else {
 						var customer = new dao.Customer();
-						customer.set("uid", result.id);
-						customer.set("name", result.name);
-						customer.set("avatar", result.pic);
+						customer.set("uid", result.data.id);
+						customer.set("name", result.data.name);
+						customer.set("avatar", result.data.pic);
+						customer.set("sex", result.data.sex);
+						customer.set("age", result.data.age);
 						customer.save().then(function(){
 							_succeed(res, customer);
 						}, function(error){
