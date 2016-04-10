@@ -245,12 +245,12 @@ function _decode(avObj) {
 
 function _succeed(res, data) {
 	data = data || {};
-	res.status(200).send(data: data);
+	res.status(200).send(data);
 };
 
 function _failed(res, error, status) {
 	status = status || 500;
-	res.status(status).send(error: error.message);
+	res.status(status).send(error.message);
 };
 
 module.exports = router;
