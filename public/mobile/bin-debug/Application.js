@@ -21,7 +21,7 @@ var application;
         egret.log(JSON.stringify(data));
         if (data.result == 0) {
             //从后台获取用户信息
-            application.dao.rest("login", data.token, function (succeed, data) {
+            application.dao.rest("login", { token: data.token }, function (succeed, data) {
                 if (succeed) {
                     application.account = data;
                     application.dao.fetch("Customer", { "id": application.account.customer_id }, {}, function (succeed, data) {

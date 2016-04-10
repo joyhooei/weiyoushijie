@@ -22,10 +22,10 @@ var game_file_list = [
 	"bin-debug/views/HomeUI.js",
 	"bin-debug/views/LoadingUI.js",
 	"bin-debug/views/LoginButton.js",
+	"bin-debug/views/LoginUI.js",
 	"bin-debug/views/ProfileUI.js",
 	"bin-debug/views/Toast.js",
 	"bin-debug/views/TrueLoadingUI.js",
-	"bin-debug/views/LoginUI.js",
 	//----auto game_file_list end----
 ];
 

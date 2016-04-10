@@ -28,7 +28,7 @@ module application {
 		
         if (data.result == 0){
 			//从后台获取用户信息
-			application.dao.rest("login", data.token, (succeed: boolean, data: any) => {
+			application.dao.rest("login", {token: data.token}, (succeed: boolean, data: any) => {
 				if (succeed) {
 					application.account = data;
 					application.dao.fetch("Customer", {"id": application.account.customer_id}, {}, (succeed: boolean, data: any) => {

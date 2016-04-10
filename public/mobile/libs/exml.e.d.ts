@@ -12,9 +12,7 @@ declare class homeUISkin extends eui.Skin{
 }
 declare class loginButtonSkin extends eui.Skin{
 }
-declare module eui{
-	class Skin{
-	}
+declare class loginTypeUISkin extends eui.Skin{
 }
 declare class profileSkillListIRSkin extends eui.Skin{
 }
