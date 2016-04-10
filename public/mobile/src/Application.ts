@@ -6,10 +6,11 @@ module application {
     export var customer: any;
 
     export function init(main:Main) {
-		main = main;
+		application.main = main;
 		
-		router = new Router(main);
-		dao = new Dao("http://headlines.leanapp.cn/api/");
+        application.router = new Router(main);
+		//dao = new Dao("http://headlines.leanapp.cn/api/");
+        application.dao = new Dao("http://localhost:3000/api/");
     }
 	
     export function login(data?:string|nest.user.LoginCallbackInfo):void {

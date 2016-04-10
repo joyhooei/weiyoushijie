@@ -4,31 +4,53 @@ var crypto = require('crypto');
 
 var AV = require('leanengine');
 
-var Account = require('../models/account');
-var Audit = require("../models/audit");
-
 router.post('/login', function(req, res, next) {
-	var params = {
-		token: req.body.token,
-		time: Date.now(),
-		appId: 90240
-	};
-	
+	var now = Date.now();
+
 	var sign = "";
-	for (var key in params){
-		sign += key + "=" + params[key];
-	}
-	
-	params.sign = crypto.createHash('md5').update(sign).digest('hex');;
+	sign += "appId=90240";
+	sign += "time=" + now;
+	sign += "token=" + req.body.token;
+	sign += "ULaMnJJTDY8cPf4lCkY46";
+	sign = crypto.createHash('md5').update(sign).digest('hex');
+
+	var url = "http://api.egret-labs.org/v2/user/getInfo?";
+	url += "appId=90240&";
+	url += "time=" + now + "&";
+	url += "token=" + req.body.token + "&";
+	url += "sign=" + sign;
+
+	console.log(url);
 	
 	var request = require('request');
-	request.post({url:"http://api.egret-labs.org/v2/user/getInfo", formData: params},function (err, response, body) {
+	request.post({url:url},function (err, response, body) {
 		if (!err && response.statusCode == 200) {
 			console.log(body);
 			
-			var account = new dao.Account();
-			account.set(body);
-			_saveModel(account, req, res);
+			var result = JSON.parse(body);
+			if (result.code == 0) {
+				var query = new AV.Query(dao.Customer);
+				query.equalTo("uid", result.id);
+				query.find().then(function(customers){
+					if (customers.length > 0) {
+						_succeed(res, customers[0]);
+					} else {
+						var customer = new dao.Customer();
+						customer.set("uid", result.id);
+						customer.set("name", result.name);
+						customer.set("avatar", result.pic);
+						customer.save().then(function(){
+							_succeed(res, customer);
+						}, function(error){
+							_failed(res, error);
+						})				
+					}
+				}, function(error){
+					_failed(res, error);
+				})
+			} else {
+				_failed(res, new Error(result.msg));
+			}
 		} else {
 			_failed(res, err);
 		}
@@ -158,12 +180,8 @@ router.post('/delete/:model/:id', function(req, res, next) {
 	var query = new AV.Query(dao[req.params.model]);
 	query.get(req.params.id).then(function(m){
 		m.destroy().then(function(){
-			Audit.succeed(req.user, 'delete', req.params.model, m);
-			
 			_succeed(res, _decode(m));
 		}, function(error) {
-			Audit.failed(req.user, 'delete', req.params.model, m, error.message);
-			
 			_failed(res, error);
 		});
 	}, function(error){
@@ -189,8 +207,7 @@ function _saveModel(model, req, res) {
 	_filterAttributes(req);
 	
 	model.save(req.body).then(function(m){
-		Audit.succeed(req.user, 'update', req.params.model, m);
-		
+		var query = new AV.Query(dao[req.params.model]);
 		query.get(m.id).then(function(updatedModel){
 			_succeed(res, _decode(updatedModel));
 		}, function(error){
@@ -201,24 +218,6 @@ function _saveModel(model, req, res) {
 		
 		_failed(res, error);
 	});
-};
-
-function _authenticated(account, req, res) {
-	try {
-		req.login(account, function(error) {
-			if (error) { 
-				_failed(res, error);
-			} else {
-				account.set("password", "");
-				account.set("transfer_password", "");
-				account.set("salt", "");
-
-				_succeed(res, _decode(account));
-			}
-		});
-	} catch (error) {
-		_failed(res, error, 401);
-	}
 };
 
 function _decode(avObj) {

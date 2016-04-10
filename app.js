@@ -91,4 +91,8 @@ app.use(function(err, req, res, next) { // jshint ignore:line
   });
 });
 
+var DAO = require('./dao');
+GLOBAL.dao = new DAO();
+GLOBAL.dao.initialize();
+
 module.exports = app;
