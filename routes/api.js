@@ -9,7 +9,7 @@ var Audit = require("../models/audit");
 
 router.post('/login', function(req, res, next) {
 	var params = {
-		token: req.body.token
+		token: req.body.token,
 		time: Date.now(),
 		appId: 90240
 	};
