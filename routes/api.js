@@ -8,31 +8,25 @@ var Account = require('../models/account');
 var Audit = require("../models/audit");
 
 router.post('/login', function(req, res, next) {
-	var appId = 90240;
-	var appkey = "ULaMnJJTDY8cPf4lCkY46";
-	var token = req.body.token;
-	var requestParams = {
-		action: "user.getInfo",
-		appId: appId,
-		serverId: 1,
+	var params = {
+		token: req.body.token
 		time: Date.now(),
-		token: token
+		appId: 90240
 	};
 	
-	var signStr = "";
-	for (var key in requestParams){
-		signStr += key + "=" + requestParams[key];
+	var sign = "";
+	for (var key in params){
+		sign += key + "=" + params[key];
 	}
 	
-	signStr += appkey;
-	requestParams.sign = crypto.createHash('md5').update(signStr).digest('hex');;
+	params.sign = crypto.createHash('md5').update(sign).digest('hex');;
 	
 	var request = require('request');
-	request.post({url:"http://api.egret-labs.org/games/api.php", formData: {variables :requestParams}},function (err, response, body) {
+	request.post({url:"http://api.egret-labs.org/v2/user/getInfo", formData: params},function (err, response, body) {
 		if (!err && response.statusCode == 200) {
 			console.log(body);
 			
-			var account = new Account();
+			var account = new dao.Account();
 			account.set(body);
 			_saveModel(account, req, res);
 		} else {
