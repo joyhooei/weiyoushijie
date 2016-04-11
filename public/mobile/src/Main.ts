@@ -32,8 +32,6 @@ class Main extends eui.UILayer implements nest.easeuser.ILoginCallbacks {
      * 加载进度界面
      * loading process interface
      */
-    private _loadingUI: LoadingUI;
-
     private _isThemeLoadEnd: boolean = false;
 
     private _isResourceLoadEnd: boolean = false;
@@ -45,8 +43,6 @@ class Main extends eui.UILayer implements nest.easeuser.ILoginCallbacks {
     private _homeUI: HomeUI;
 
     private _loadingBg: egret.Bitmap;
-    
-    private _loginUI: LoginUI;
 
     protected createChildren(): void {
         super.createChildren();
@@ -58,8 +54,7 @@ class Main extends eui.UILayer implements nest.easeuser.ILoginCallbacks {
       
         //Config loading process interface
         //设置加载进度界面
-        this._loadingUI = new LoadingUI();
-        this.stage.addChild(this._loadingUI);
+        this.addChild(new LoadingUI());
       
         // initialize the Resource loading library
         //初始化Resource资源加载库
@@ -106,10 +101,6 @@ class Main extends eui.UILayer implements nest.easeuser.ILoginCallbacks {
         
         switch (event.groupName ) {
             case "loading":
-                if( this._loadingUI.parent ){
-                    this._loadingUI.parent.removeChild( this._loadingUI );
-                }
-            
                 Toast.init( this, RES.getRes( "toast-bg_png" ) ); 
                 
                 this.addEventListener(GameEvents.EVT_LOGIN_IN_SUCCESS,(evt: egret.Event) => {
@@ -246,5 +237,4 @@ class Main extends eui.UILayer implements nest.easeuser.ILoginCallbacks {
     public onFail = (data: nest.core.ResultCallbackInfo): void => {
         egret.log("log Fail");
     }
-   
 }
