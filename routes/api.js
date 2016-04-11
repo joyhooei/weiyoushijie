@@ -4,6 +4,18 @@ var crypto = require('crypto');
 
 var AV = require('leanengine');
 
+router.post('/egret_pay', function(req, res, next) {
+	_succeed(res, {
+					code_url:'http://headlines.leanapp.cn/mobile/bin-release/native/160411115537/game_code_160411115537.zip', 
+					update_url: ''http://headlines.leanapp.cn/mobile/bin-release/native/160411115537', 
+					customParams: {
+					}});
+})
+
+router.get('/egret_rt', function(req, res, next) {
+	_succeed(res, {code: 1013});
+})
+
 router.post('/login', function(req, res, next) {
 	var now = Date.now();
 
@@ -216,8 +228,6 @@ function _saveModel(model, req, res) {
 			_succeed(res, _decode(m));
 		});
 	}, function(error){
-		Audit.failed(req.user, 'update', req.params.model, model, error.message);
-		
 		_failed(res, error);
 	});
 };
