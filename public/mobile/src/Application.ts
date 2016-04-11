@@ -22,18 +22,14 @@ module application {
     }
 
     export function onLoginCallback(data:nest.user.LoginCallbackInfo):void{
-        if (data.result == 0){
-			//从后台获取用户信息
-			application.dao.rest("login", {token: data.token}, (succeed: boolean, data: any) => {
-				if (succeed) {
-					application.customer = data;
-					application.main.dispatchEventWith(GameEvents.EVT_LOGIN_IN_SUCCESS);
-				} else {
-					Toast.launch("获取账号信息失败");
-				}
-			});			
-        } else{
-            Toast.launch("登录失败");
-        }
+        //从后台获取用户信息
+        application.dao.rest("login", {token: data.token}, (succeed: boolean, data: any) => {
+            if (succeed) {
+                application.customer = data;
+                application.main.dispatchEventWith(GameEvents.EVT_LOGIN_IN_SUCCESS);
+            } else {
+                Toast.launch("获取账号信息失败");
+            }
+        });
     }	
 }
