@@ -1,46 +1,9 @@
-//////////////////////////////////////////////////////////////////////////////////////
-//
-//  Copyright (c) 2014-2015, Egret Technology Inc.
-//  All rights reserved.
-//  Redistribution and use in source and binary forms, with or without
-//  modification, are permitted provided that the following conditions are met:
-//
-//     * Redistributions of source code must retain the above copyright
-//       notice, this list of conditions and the following disclaimer.
-//     * Redistributions in binary form must reproduce the above copyright
-//       notice, this list of conditions and the following disclaimer in the
-//       documentation and/or other materials provided with the distribution.
-//     * Neither the name of the Egret nor the
-//       names of its contributors may be used to endorse or promote products
-//       derived from this software without specific prior written permission.
-//
-//  THIS SOFTWARE IS PROVIDED BY EGRET AND CONTRIBUTORS "AS IS" AND ANY EXPRESS
-//  OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED WARRANTIES
-//  OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE DISCLAIMED.
-//  IN NO EVENT SHALL EGRET AND CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT,
-//  INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT
-//  LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES;LOSS OF USE, DATA,
-//  OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF
-//  LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING
-//  NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE,
-//  EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
-//
-//////////////////////////////////////////////////////////////////////////////////////
 var Main = (function (_super) {
     __extends(Main, _super);
     function Main() {
         _super.apply(this, arguments);
         this._isThemeLoadEnd = false;
         this._isResourceLoadEnd = false;
-        this.onCreate = function (data) {
-            application.router.changePage(new LoginUI(data));
-        };
-        this.onSuccess = function (data) {
-            application.login(data);
-        };
-        this.onFail = function (data) {
-            egret.log("log Fail");
-        };
     }
     var d = __define,c=Main,p=c.prototype;
     p.createChildren = function () {
@@ -97,8 +60,6 @@ var Main = (function (_super) {
                 }
                 Toast.init(this, RES.getRes("toast-bg_png"));
                 this.addEventListener(GameEvents.EVT_LOGIN_IN_SUCCESS, function (evt) {
-                    _this._loadingBg = new egret.Bitmap(RES.getRes("loading_bg"));
-                    _this.addChild(_this._loadingBg);
                     _this._trueLoadingUI = new TrueLoadingUI();
                     _this.loadPage("home");
                 }, this);
@@ -171,9 +132,6 @@ var Main = (function (_super) {
         var _this = this;
         /// 主页特殊，其他页都需要传参数
         this.pageLoadedHandler("home");
-        if (this._loadingBg.parent) {
-            this._loadingBg.parent.removeChild(this._loadingBg);
-        }
         this._homeUI = new HomeUI();
         this._homeUI.addEventListener(GameEvents.EVT_LOAD_PAGE, function (evt) {
             _this.loadPage(evt.data);
@@ -200,6 +158,15 @@ var Main = (function (_super) {
         if (this._trueLoadingUI.parent) {
             this._trueLoadingUI.parent.removeChild(this._trueLoadingUI);
         }
+    };
+    p.onCreate = function (data) {
+        application.router.changePage(new LoginUI(data));
+    };
+    p.onSuccess = function (data) {
+        application.login(data);
+    };
+    p.onFail = function (data) {
+        egret.log("log Fail");
     };
     return Main;
 })(eui.UILayer);

@@ -15,8 +15,6 @@ class Main extends eui.UILayer implements nest.easeuser.ILoginCallbacks {
 
     private _homeUI: HomeUI;
 
-    private _loadingBg: egret.Bitmap;
-    
     private _loginUI: LoginUI;
 
     protected createChildren(): void {
@@ -84,9 +82,6 @@ class Main extends eui.UILayer implements nest.easeuser.ILoginCallbacks {
                 Toast.init( this, RES.getRes( "toast-bg_png" ) ); 
                 
                 this.addEventListener(GameEvents.EVT_LOGIN_IN_SUCCESS,(evt: egret.Event) => {
-                    this._loadingBg = new egret.Bitmap(RES.getRes("loading_bg"));
-                    this.addChild(this._loadingBg);
-
                     this._trueLoadingUI = new TrueLoadingUI();
                     this.loadPage("home");
                 },this); 
@@ -168,10 +163,6 @@ class Main extends eui.UILayer implements nest.easeuser.ILoginCallbacks {
     protected startCreateScene(): void {
         /// 主页特殊，其他页都需要传参数
         this.pageLoadedHandler( "home" );
-
-        if( this._loadingBg.parent ){
-            this._loadingBg.parent.removeChild( this._loadingBg );
-        }
         
         this._homeUI = new HomeUI();
         this._homeUI.addEventListener( GameEvents.EVT_LOAD_PAGE, ( evt:egret.Event )=>{
@@ -211,8 +202,7 @@ class Main extends eui.UILayer implements nest.easeuser.ILoginCallbacks {
     }
 
     public onSuccess(data: nest.user.LoginCallbackInfo): void {
-        this._loadingUI.parent.removeChild(this._loadingUI);
-        application.login(data);
+         application.login(data);
     }
 
     public onFail(data: nest.core.ResultCallbackInfo): void {
