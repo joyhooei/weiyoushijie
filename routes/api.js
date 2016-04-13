@@ -7,7 +7,7 @@ var AV = require('leanengine');
 router.post('/egret_pay', function(req, res, next) {
 	_succeed(res, {
 					code_url:'http://headlines.leanapp.cn/mobile/bin-release/native/160411115537/game_code_160411115537.zip', 
-					update_url: ''http://headlines.leanapp.cn/mobile/bin-release/native/160411115537', 
+					update_url: 'http://headlines.leanapp.cn/mobile/bin-release/native/160411115537', 
 					customParams: {
 					}});
 })
