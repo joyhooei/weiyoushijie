@@ -53,6 +53,10 @@ router.post('/login', function(req, res, next) {
 						customer.set("avatar", result.data.pic);
 						customer.set("sex", result.data.sex);
 						customer.set("age", result.data.age);
+						customer.set("gold", 0);
+						customer.set("output", 1);
+						customer.set("diamond", 100);
+						customer.set("metal", 0);
 						customer.save().then(function(){
 							_succeed(res, customer);
 						}, function(error){
