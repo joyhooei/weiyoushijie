@@ -13,7 +13,44 @@ router.post('/egret_rt', function(req, res, next) {
 })
 
 router.get('/egret_pay', function(req, res, next) {
-	_succeed(res, {code: 1013});
+	//orderId	是	渠道订单id
+	//userId	是	玩家在渠道的用户Id
+	//money	是	玩家在渠道上的实际充值金额（大陆统一为人民币元 float类型）
+	//ext	是	egret透传参数，此参数在调用渠道支付页面地址时的透传参数，这里是钻石的数量
+	//time	是	时间戳
+	//sign	是	验证签名，签名生成方式详见附录1
+	
+	var query = new AV.Query(dao.Customer);
+	query.equalTo("uid", req.body.userId);
+	query.find().then(function(customers){
+		if (customers.length > 0) {
+			var customer = customers[0];
+			
+			var order = new dao.Order();
+			order.set("oid", req.body.orderId);
+			order.set("customer_id", customer.id);
+			order.set("cent", parseInt(req.body.money));
+			order.set("quantity", parseInt(req.body.ext));
+			order.save().then(function(o){
+				customer.increment("diamond", parseInt(req.body.ext));
+				customer.save().then(function(){
+					_succeed(res, {code: 0, msg: '购买钻石成功', data: []});
+				}, function(error){
+					console.error(error.message);
+					_failed(res, {code: 1013, msg: '购买钻石失败', data: []});
+				});
+			}, function(error){
+					console.error(error.message);
+				_failed(res, {code: 1013, msg: '保存订单失败', data: []});
+			});
+		} else {
+			console.error('用户不存在');
+			_failed(res, {code: 1013, msg: '用户不存在', data: []});
+		}
+	}, function(error){
+		console.error(error.message);
+		_failed(res, {code: 1013, msg: '用户不存在', data: []});
+	});
 })
 
 router.post('/login', function(req, res, next) {
