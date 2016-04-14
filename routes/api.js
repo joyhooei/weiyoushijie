@@ -4,15 +4,21 @@ var crypto = require('crypto');
 
 var AV = require('leanengine');
 
-router.post('/egret_rt', function(req, res, next) {
-	_succeed(res, {
+router.get('/egret_rt', function(req, res, next) {
+	var content = {
 					code_url:'http://headlines.leanapp.cn/mobile/bin-release/native/160411115537/game_code_160411115537.zip', 
 					update_url: 'http://headlines.leanapp.cn/mobile/bin-release/native/160411115537', 
 					customParams: {
-					}});
+					}};
+					
+	res.setHeader('Content-disposition', 'attachment; filename=runtime.json');
+	res.setHeader('Content-type', 'text/plain');
+	res.charset = 'UTF-8';
+	res.write(JSON.stringify(content));
+	res.end();
 })
 
-router.get('/egret_pay', function(req, res, next) {
+router.post('/egret_pay', function(req, res, next) {
 	//orderId	是	渠道订单id
 	//userId	是	玩家在渠道的用户Id
 	//money	是	玩家在渠道上的实际充值金额（大陆统一为人民币元 float类型）
