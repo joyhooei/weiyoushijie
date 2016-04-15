@@ -30,6 +30,146 @@ class Project {
 		this._achieves.push({level: level, outputRatio: outputRatio, priceUseGold: priceUseGold, priceUseDiamond: priceUseDiamond});
 	}
 	
+	static initializeProjectOne(): Project {
+		let project = new Project(1, 1, 100, 1.1);
+		project.addLevelRatio(2, 99, 1.05, 1);
+		
+		return project;
+	}
+	
+	static initializeProjectTwo(): Project {
+		let project = new Project(1, 1, 100, 1.1);
+		project.addLevelRatio(2, 99, 1.05, 1);
+		
+		return project;
+	}
+	
+	static initializeProjectThree(): Project {
+		let project = new Project(1, 1, 100, 1.1);
+		project.addLevelRatio(2, 99, 1.05, 1);
+		
+		return project;
+	}
+	
+	static initializeProjectFour(): Project {
+		let project = new Project(1, 1, 100, 1.1);
+		project.addLevelRatio(2, 99, 1.05, 1);
+		
+		return project;
+	}
+	
+	static initializeProjectFive(): Project {
+		let project = new Project(1, 1, 100, 1.1);
+		project.addLevelRatio(2, 99, 1.05, 1);
+		
+		return project;
+	}
+	
+	static initializeProjectSix(): Project {
+		let project = new Project(1, 1, 100, 1.1);
+		project.addLevelRatio(2, 99, 1.05, 1);
+		
+		return project;
+	}
+	
+	static initializeProjectSeven(): Project {
+		let project = new Project(1, 1, 100, 1.1);
+		project.addLevelRatio(2, 99, 1.05, 1);
+		
+		return project;
+	}
+	
+	static initializeProjectEight(): Project {
+		let project = new Project(1, 1, 100, 1.1);
+		project.addLevelRatio(2, 99, 1.05, 1);
+		
+		return project;
+	}
+	
+	static initializeProjectNight(): Project {
+		let project = new Project(1, 1, 100, 1.1);
+		project.addLevelRatio(2, 99, 1.05, 1);
+		
+		return project;
+	}
+	
+	static initializeProjectTen(): Project {
+		let project = new Project(1, 1, 100, 1.1);
+		project.addLevelRatio(2, 99, 1.05, 1);
+		
+		return project;
+	}
+	
+	static initializeProjectEleven(): Project {
+		let project = new Project(1, 1, 100, 1.1);
+		project.addLevelRatio(2, 99, 1.05, 1);
+		
+		return project;
+	}
+	
+	static initializeProjectTwelve(): Project {
+		let project = new Project(1, 1, 100, 1.1);
+		project.addLevelRatio(2, 99, 1.05, 1);
+		
+		return project;
+	}
+	
+	static initializeProjectThirteen(): Project {
+		let project = new Project(1, 1, 100, 1.1);
+		project.addLevelRatio(2, 99, 1.05, 1);
+		
+		return project;
+	}
+	
+	static initializeProjectFourteen(): Project {
+		let project = new Project(1, 1, 100, 1.1);
+		project.addLevelRatio(2, 99, 1.05, 1);
+		
+		return project;
+	}
+	
+	static initializeProjectFifteen(): Project {
+		let project = new Project(1, 1, 100, 1.1);
+		project.addLevelRatio(2, 99, 1.05, 1);
+		
+		return project;
+	}
+	
+	static initializeProjectSixteen(): Project {
+		let project = new Project(1, 1, 100, 1.1);
+		project.addLevelRatio(2, 99, 1.05, 1);
+		
+		return project;
+	}
+	
+	static initializeProjectSeventeen(): Project {
+		let project = new Project(1, 1, 100, 1.1);
+		project.addLevelRatio(2, 99, 1.05, 1);
+		
+		return project;
+	}
+	
+	static initializeProjectEighteen(): Project {
+		let project = new Project(1, 1, 100, 1.1);
+		project.addLevelRatio(2, 99, 1.05, 1);
+		
+		return project;
+	}
+	
+	static initializeProjectNinteen(): Project {
+		let project = new Project(1, 1, 100, 1.1);
+		project.addLevelRatio(2, 99, 1.05, 1);
+		
+		return project;
+	}
+	
+	static initializeProjectTwenty(): Project {
+		let project = new Project(1, 1, 100, 1.1);
+		project.addLevelRatio(2, 99, 1.05, 1);
+		
+		return project;
+	}
+	
 	//根据级别、成就和道具个数计算本项目的秒产
 	public output(level: number, achieve: number, props: number):number {
 		//累积产量系数	判定lv所处区间。累积产量系数=上区间最终值*本区间价格系数^ (lv-上区间最终lv值）
@@ -53,11 +193,5 @@ class Project {
 		//判定lv所处区间。累积价格系数=上区间最终值*本区间价格系数^ (lv-上区间最终lv值）
 		for (var i = 1; i <= this._levelRatios.length; i++)
 		}
-	}
-	
-	public achievePriceUseGold(level: number): number {
-	}
-	
-	public achievePriceUseDiamond(level: number): number {
 	}
 }
