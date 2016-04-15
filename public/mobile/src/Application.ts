@@ -9,8 +9,8 @@ module application {
 		application.main = main;
 		
         application.router = new Router(main);
-        //application.dao = new Dao("http://headlines.leanapp.cn/api/");
-        application.dao = new Dao("http://localhost:3000/api/");
+        application.dao = new Dao("http://headlines.leanapp.cn/api/");
+        //application.dao = new Dao("http://localhost:3000/api/");
         
         application.projects = Project.createAllProjects();
     }
