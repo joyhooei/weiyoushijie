@@ -30,140 +30,169 @@ class Project {
 		this._achieves.push({level: level, outputRatio: outputRatio, priceUseGold: priceUseGold, priceUseDiamond: priceUseDiamond});
 	}
 	
-	static initializeProjectOne(): Project {
+	static createAllProjects() : Project[] {
+		let projects = new Project[];
+		
+		projects.push(Project.createProjectOne());
+		projects.push(Project.createProjectTwo());
+		projects.push(Project.createProjectThree());
+		projects.push(Project.createProjectFour());
+		projects.push(Project.createProjectFive());
+		projects.push(Project.createProjectSix());
+		projects.push(Project.createProjectSeven());
+		projects.push(Project.createProjectEight());
+		projects.push(Project.createProjectNine());
+		projects.push(Project.createProjectTen());
+		projects.push(Project.createProjectEleven());
+		projects.push(Project.createProjectTwelve());
+		projects.push(Project.createProjectThirteen());
+		projects.push(Project.createProjectFourteen());
+		projects.push(Project.createProjectFifteen());
+		projects.push(Project.createProjectSixteen());
+		projects.push(Project.createProjectSeventeen());
+		projects.push(Project.createProjectEighteen());
+		projects.push(Project.createProjectNinteen());
+		projects.push(Project.createProjectTwenty());
+		
+		return projects;
+	}
+	
+	static createProjectOne(): Project {
+		let project = new Project(1, 1, 100, 1.1);
+		project.addLevelRatio(2, 99, 1.05, 1);
+		
+		project.addAchieve(50, 2, 1000, 100);
+		
+		return project;
+	}
+	
+	static createProjectTwo(): Project {
 		let project = new Project(1, 1, 100, 1.1);
 		project.addLevelRatio(2, 99, 1.05, 1);
 		
 		return project;
 	}
 	
-	static initializeProjectTwo(): Project {
+	static createProjectThree(): Project {
 		let project = new Project(1, 1, 100, 1.1);
 		project.addLevelRatio(2, 99, 1.05, 1);
 		
 		return project;
 	}
 	
-	static initializeProjectThree(): Project {
+	static createProjectFour(): Project {
 		let project = new Project(1, 1, 100, 1.1);
 		project.addLevelRatio(2, 99, 1.05, 1);
 		
 		return project;
 	}
 	
-	static initializeProjectFour(): Project {
+	static createProjectFive(): Project {
 		let project = new Project(1, 1, 100, 1.1);
 		project.addLevelRatio(2, 99, 1.05, 1);
 		
 		return project;
 	}
 	
-	static initializeProjectFive(): Project {
+	static createProjectSix(): Project {
 		let project = new Project(1, 1, 100, 1.1);
 		project.addLevelRatio(2, 99, 1.05, 1);
 		
 		return project;
 	}
 	
-	static initializeProjectSix(): Project {
+	static createProjectSeven(): Project {
 		let project = new Project(1, 1, 100, 1.1);
 		project.addLevelRatio(2, 99, 1.05, 1);
 		
 		return project;
 	}
 	
-	static initializeProjectSeven(): Project {
+	static createProjectEight(): Project {
 		let project = new Project(1, 1, 100, 1.1);
 		project.addLevelRatio(2, 99, 1.05, 1);
 		
 		return project;
 	}
 	
-	static initializeProjectEight(): Project {
+	static createProjectNine(): Project {
 		let project = new Project(1, 1, 100, 1.1);
 		project.addLevelRatio(2, 99, 1.05, 1);
 		
 		return project;
 	}
 	
-	static initializeProjectNight(): Project {
+	static createProjectTen(): Project {
 		let project = new Project(1, 1, 100, 1.1);
 		project.addLevelRatio(2, 99, 1.05, 1);
 		
 		return project;
 	}
 	
-	static initializeProjectTen(): Project {
+	static createProjectEleven(): Project {
 		let project = new Project(1, 1, 100, 1.1);
 		project.addLevelRatio(2, 99, 1.05, 1);
 		
 		return project;
 	}
 	
-	static initializeProjectEleven(): Project {
+	static createProjectTwelve(): Project {
 		let project = new Project(1, 1, 100, 1.1);
 		project.addLevelRatio(2, 99, 1.05, 1);
 		
 		return project;
 	}
 	
-	static initializeProjectTwelve(): Project {
+	static createProjectThirteen(): Project {
 		let project = new Project(1, 1, 100, 1.1);
 		project.addLevelRatio(2, 99, 1.05, 1);
 		
 		return project;
 	}
 	
-	static initializeProjectThirteen(): Project {
+	static createProjectFourteen(): Project {
 		let project = new Project(1, 1, 100, 1.1);
 		project.addLevelRatio(2, 99, 1.05, 1);
 		
 		return project;
 	}
 	
-	static initializeProjectFourteen(): Project {
+	static createProjectFifteen(): Project {
 		let project = new Project(1, 1, 100, 1.1);
 		project.addLevelRatio(2, 99, 1.05, 1);
 		
 		return project;
 	}
 	
-	static initializeProjectFifteen(): Project {
+	static createProjectSixteen(): Project {
 		let project = new Project(1, 1, 100, 1.1);
 		project.addLevelRatio(2, 99, 1.05, 1);
 		
 		return project;
 	}
 	
-	static initializeProjectSixteen(): Project {
+	static createProjectSeventeen(): Project {
 		let project = new Project(1, 1, 100, 1.1);
 		project.addLevelRatio(2, 99, 1.05, 1);
 		
 		return project;
 	}
 	
-	static initializeProjectSeventeen(): Project {
+	static createProjectEighteen(): Project {
 		let project = new Project(1, 1, 100, 1.1);
 		project.addLevelRatio(2, 99, 1.05, 1);
 		
 		return project;
 	}
 	
-	static initializeProjectEighteen(): Project {
+	static createProjectNinteen(): Project {
 		let project = new Project(1, 1, 100, 1.1);
 		project.addLevelRatio(2, 99, 1.05, 1);
 		
 		return project;
 	}
 	
-	static initializeProjectNinteen(): Project {
-		let project = new Project(1, 1, 100, 1.1);
-		project.addLevelRatio(2, 99, 1.05, 1);
-		
-		return project;
-	}
-	
-	static initializeProjectTwenty(): Project {
+	static createProjectTwenty(): Project {
 		let project = new Project(1, 1, 100, 1.1);
 		project.addLevelRatio(2, 99, 1.05, 1);
 		
