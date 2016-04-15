@@ -287,6 +287,8 @@ class Project {
 			
 			if (level >= ratios.lowerLevel && level <= ratios.upperLevel) {
 				cumulativePriceRatio = ratios.priceBase * Math.pow(ratios.priceRatio, (level - lastLevel));
+				
+				break;
 			} else {
 				lastLevel = ratios.upperLevel;
 			}
