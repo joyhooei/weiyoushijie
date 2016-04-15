@@ -251,7 +251,7 @@ class Project {
 			let ratios = this._levelRatios[i - 1];
 			
 			if (level >= ratios.lowerLevel && level <= ratios.upperLevel) {
-				cumulativeOutputRatio = ratios.outputBase * ratios.outputRatio * (level - lastLevel);
+				cumulativeOutputRatio = ratios.outputBase * Math.pow(ratios.outputRatio, (level - lastLevel));
 				
 				break;
 			} else {
