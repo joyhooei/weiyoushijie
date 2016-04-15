@@ -25,7 +25,7 @@ class Project {
 	public addLevelRatio(lowerLevel: number, upperLevel: number, priceRatio: number, outputRatio: number) {
 		let outputBase = 1;
 		if (this._levelRatios.length > 0) {
-			outputBase = this.output(this._levelRatios[this._levelRatios.length - 1].upperLevel);
+			outputBase = this.output(this._levelRatios[this._levelRatios.length - 1].upperLevel, 0, 0);
 		}
 		
 		this._levelRatios.push({lowerLevel: lowerLevel, upperLevel: upperLevel, priceRatio: priceRatio, outputRatio: outputRatio, outputBase: outputBase});
