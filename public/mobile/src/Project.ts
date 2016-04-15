@@ -23,7 +23,12 @@ class Project {
 	}
 	
 	public addLevelRatio(lowerLevel: number, upperLevel: number, priceRatio: number, outputRatio: number) {
-		this._levelRatios.push({lowerLevel: lowerLevel, upperLevel: upperLevel, priceRatio: priceRatio, outputRatio: outputRatio});
+		let outputBase = 1;
+		if (this._levelRatios.length > 0) {
+			outputBase = this.output(this._levelRatios[this._levelRatios.length - 1].upperLevel);
+		}
+		
+		this._levelRatios.push({lowerLevel: lowerLevel, upperLevel: upperLevel, priceRatio: priceRatio, outputRatio: outputRatio, outputBase: outputBase});
 	}
 	
 	public addAchieve(level: number, outputRatio: number, prieUseGold: number, priceUseDiamond: number) {
@@ -241,10 +246,22 @@ class Project {
 	public output(level: number, achieve: number, props: number):number {
 		//累积产量系数	判定lv所处区间。累积产量系数=上区间最终值*本区间价格系数^ (lv-上区间最终lv值）
 		let cumulativeOutputRatio = 1;
+		let lastLevel = 1;
+		for (var i = 1; i <= this._levelRatios; i++) {
+			let ratios = this._levelRatios[i - 1];
+			
+			if (level >= ratios.lowerLevel && level <= ratios.upperLevel) {
+				cumulativeOutputRatio = ratios.outputBase * ratios.outputRatio * (level - lastLevel);
+				
+				break;
+			} else {
+				lastLevel = ratios.upperLevel;
+			}
+		}
 		
 		//累积成就系数	开通的各个成就系数相乘
 		let cumulativeAchieveRatio = 1;
-		for (var i = 1; i <= this._achieves.length && i <= achieve; i++)
+		for (var i = 1; i <= this._achieves.length && i <= achieve; i++) {
 			cumulativeAchieveRatio = cumulativeAchieveRatio * this._achieves[i - 1].outputRatio;
 		}
 		
