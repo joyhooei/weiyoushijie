@@ -68,7 +68,10 @@ class Project {
 	}
 	
 	static createProjectOne(): Project {
+		//priceLevelOne: number, outputLevelOne: number, propPrice: number, propOutputRatio: number
 		let project = new Project(1, 1, 100, 0.1);
+		
+		//lowerLevel: number, upperLevel: number, priceRatio: number, outputRatio: number
 		project.addLevelRatio(2, 99, 1.05, 1);
 		project.addLevelRatio(100, 199, 1.05, 1);
 		project.addLevelRatio(200, 299, 1.05, 1);
@@ -100,6 +103,7 @@ class Project {
 		project.addLevelRatio(9000, 9999, 1.01, 1.005);
 		project.addLevelRatio(10000, 99999, 1.01, 1.005);
 		
+		//level: number, outputRatio: number, prieUseGold: number, priceUseDiamond: number
 		project.addAchieve(50, 		2, 							1000, 					100);
 		project.addAchieve(100, 	5, 							5000, 					100);
 		project.addAchieve(200, 	5, 							5000, 					100);
