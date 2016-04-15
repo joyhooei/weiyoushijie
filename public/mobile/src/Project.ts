@@ -23,12 +23,17 @@ class Project {
 	}
 	
 	public addLevelRatio(lowerLevel: number, upperLevel: number, priceRatio: number, outputRatio: number) {
-		let outputBase = 1;
+		let outputBase = this._outputLevelOne;
 		if (this._levelRatios.length > 0) {
 			outputBase = this.output(this._levelRatios[this._levelRatios.length - 1].upperLevel, 0, 0);
 		}
 		
-		this._levelRatios.push({lowerLevel: lowerLevel, upperLevel: upperLevel, priceRatio: priceRatio, outputRatio: outputRatio, outputBase: outputBase});
+		let priceBase = this._priceLevelOne;
+		if (this._levelRatios.length > 0) {
+			priceBase = this.price(this._levelRatios[this._levelRatios.length - 1].upperLevel);
+		}		
+		
+		this._levelRatios.push({lowerLevel: lowerLevel, upperLevel: upperLevel, priceRatio: priceRatio, outputRatio: outputRatio, outputBase: outputBase, priceBase: priceBase});
 	}
 	
 	public addAchieve(level: number, outputRatio: number, prieUseGold: number, priceUseDiamond: number) {
@@ -244,7 +249,7 @@ class Project {
 	
 	//根据级别、成就和道具个数计算本项目的秒产
 	public output(level: number, achieve: number, props: number):number {
-		//累积产量系数	判定lv所处区间。累积产量系数=上区间最终值*本区间价格系数^ (lv-上区间最终lv值）
+		//累积产量系数	判定lv所处区间。累积产量系数=上区间最终值*本区间产量系数^ (lv-上区间最终lv值）
 		let cumulativeOutputRatio = 1;
 		let lastLevel = 1;
 		for (var i = 1; i <= this._levelRatios; i++) {
@@ -269,13 +274,24 @@ class Project {
 		let propRatio = 1 + achieve * _propOutputRatio;
 		
 		//项目秒产 	lv数*该项目1级秒产*累积产量系数*累积成就系数*道具升级系数
-		return level * this._outputLevelOne * cumulativeOutputRatio * cumulativeAchieveRatio * propRatio
+		return level * this._outputLevelOne * cumulativeOutputRatio * cumulativeAchieveRatio * propRatio;
 	}
 	
 	//升级级别的价格
-	public upgradeLevelPrice(level: number): number {
-		//判定lv所处区间。累积价格系数=上区间最终值*本区间价格系数^ (lv-上区间最终lv值）
+	public price(level: number): number {
+		//累积价格系数	判定lv所处区间。累积价格系数=上区间最终值*本区间价格系数^ (lv-上区间最终lv值）
+		let cumulativePriceRatio = 1;
+		let lastLevel = 1;
 		for (var i = 1; i <= this._levelRatios.length; i++)
+			let ratios = this._levelRatios[i - 1];
+			
+			if (level >= ratios.lowerLevel && level <= ratios.upperLevel) {
+				cumulativePriceRatio = ratios.priceBase * Math.pow(ratios.priceRatio, (level - lastLevel));
+			} else {
+				lastLevel = ratios.upperLevel;
+			}
 		}
+		
+		return level * this._priceLevelOne * cumulativePriceRatio;
 	}
 }
