@@ -24,12 +24,13 @@ class HomeUI extends eui.Component{
         this.lblGold.text = application.customer.gold;
         this.lblDiamond.text = application.customer.diamond;
         
-        application.dao.fetch("Bid",{ succeed: 1}, {limit : 1, order :'create_time desc'}, function(bids){
-            if (bids.length > 0) {
-                application.dao.fetch("Customer",{ id: bids[0].customer_id },{ limit: 1 },function(customers) {
-                    if (customers.length > 0) {
-                        this.lblBidName = customers[0].name;
-                        this.lblBidGold = bids[0].gold;
+        var self = this;
+        application.dao.fetch("Bid",{ succeed: 1}, {limit : 1, order :'create_time desc'}, function(succeed, bids){
+            if (succeed && bids.length > 0) {
+                application.dao.fetch("Customer",{ id: bids[0].customer_id },{ limit: 1 },function(succeed, customers) {
+                    if(succeed && customers.length > 0) {
+                        self.lblBidName.text = customers[0].name;
+                        self.lblBidGold.text = bids[0].gold;
                     }
                 });
             }

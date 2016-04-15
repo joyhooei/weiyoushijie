@@ -137,10 +137,10 @@ router.post('/select/:model', function(req, res, next) {
 	if (req.body.filters.order) {
 		var orders = req.body.filters.order.split(",");
 		for(var i = 0; i < orders.length; i++) {
-			var kv = $.trim(orders[i]).split(" ");
+			var kv = orders[i].trim().split(" ");
 			if (kv.length == 2) {
-				var k = $.trim(kv[0]);
-				var v = $.trim(kv[1]);
+				var k = kv[0].trim();
+				var v = kv[1].trim();
 
 				if (k ==  "create_time") {
 					var name = "createdAt";

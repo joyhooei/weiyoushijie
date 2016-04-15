@@ -33,9 +33,9 @@
 			</e:Skin>
 		</e:skinName>
 	</e:ToggleButton>
-	<e:Image id="imgAvatar" width="56" height="58" x="179" y="21" source="heros01_png"/>
-	<e:Label id="lblName" text="天王盖地虎" x="260" y="22" size="24" width="165" height="23"/>
-	<e:Label id="lblBid" text="100000000" x="295" y="55" width="154" size="24" height="27"/>
+	<e:Image id="imgAvatar" width="56" height="58" x="179" y="22" source="heros01_png"/>
+	<e:Label id="lblBidName" text="天王盖地虎" x="260" y="19" size="24" width="165" height="23"/>
+	<e:Label id="lblBidGold" text="100000000" x="295" y="56" width="154" size="24" height="27"/>
 	<e:Label id="lblGold" text="1" x="53" y="113" size="24"/>
 	<e:Label id="lblDiamond" text="0" x="55" y="149" size="24"/>
 </e:Skin>

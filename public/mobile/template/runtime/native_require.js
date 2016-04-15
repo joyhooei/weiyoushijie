@@ -16,6 +16,7 @@ var game_file_list = [
 	"bin-debug/Router.js",
 	"bin-debug/euisys/AssetAdapter.js",
 	"bin-debug/euisys/ThemeAdapter.js",
+	"bin-debug/models/Project.js",
 	"bin-debug/views/AboutUI.js",
 	"bin-debug/views/GoodsUI.js",
 	"bin-debug/views/HerosUI.js",
@@ -26,7 +27,6 @@ var game_file_list = [
 	"bin-debug/views/ProfileUI.js",
 	"bin-debug/views/Toast.js",
 	"bin-debug/views/TrueLoadingUI.js",
-	"bin-debug/models/Project.js",
 	//----auto game_file_list end----
 ];
 

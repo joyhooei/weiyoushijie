@@ -1,0 +1,50 @@
+doctype html
+html(lang='zh-CN')
+  head
+  meta(charset='utf-8')
+  
+  meta(name='viewport', content='width=device-width, initial-scale=1, user-scalable=no')
+   
+  link(rel='shortcut icon', href='img/favicon.ico')
+
+  title 上头条
+
+  body
+    div.navbar
+      div.navbar-inner
+        div.container-fluid
+          block header
+    
+    div.clearfix
+              
+    div(class="container-fluid-full", style="min-height: 600px;")
+      div.row-fluid
+        if messages && messages.errors
+          .alert.alert-danger.fade.in
+            button.close(type='button', data-dismiss='alert')
+              span.ion-close-circled
+            for error in messages.errors
+              div= error.msg
+        if messages && messages.info
+          .alert.alert-info.fade.in
+            button.close(type='button', data-dismiss='alert')
+              i.fa.fa-times-circle-o
+            for info in messages.info
+              div= info.msg
+        if messages && messages.success
+          .alert.alert-success.fade.in
+            button.close(type='button', data-dismiss='alert')
+              i.fa.fa-times-circle-o
+            for success in messages.success
+              div= success.msg
+
+      div.row-fluid
+        block content
+
+    div.clearfix
+    
+    footer()
+      block footer
+    
+    block js
+      	
