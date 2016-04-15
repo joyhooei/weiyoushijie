@@ -60,8 +60,46 @@ class Project {
 	static createProjectOne(): Project {
 		let project = new Project(1, 1, 100, 0.1);
 		project.addLevelRatio(2, 99, 1.05, 1);
+		project.addLevelRatio(100, 199, 1.05, 1);
+		project.addLevelRatio(200, 299, 1.05, 1);
+		project.addLevelRatio(300, 399, 1.05, 1);
 		
-		project.addAchieve(50, 2, 1000, 100);
+		project.addLevelRatio(400, 499, 1.03, 1);
+		project.addLevelRatio(500, 599, 1.03, 1.01);
+		project.addLevelRatio(600, 699, 1.03, 1.01);
+		project.addLevelRatio(700, 799, 1.03, 1.01);
+		project.addLevelRatio(800, 899, 1.03, 1.01);
+		project.addLevelRatio(900, 999, 1.03, 1.01);
+		
+		project.addLevelRatio(1000, 1199, 1.02, 1.005);
+		project.addLevelRatio(1200, 1399, 1.02, 1.005);
+		project.addLevelRatio(1400, 1599, 1.02, 1.005);
+		project.addLevelRatio(1600, 1799, 1.02, 1.005);
+		project.addLevelRatio(1800, 1999, 1.02, 1.005);
+		project.addLevelRatio(2000, 2499, 1.02, 1.005);
+		project.addLevelRatio(2500, 2999, 1.02, 1.005);
+		project.addLevelRatio(3000, 3499, 1.02, 1.005);
+		project.addLevelRatio(3500, 3999, 1.02, 1.005);
+		project.addLevelRatio(4000, 4499, 1.02, 1.005);
+		project.addLevelRatio(4500, 4999, 1.02, 1.005);
+		
+		project.addLevelRatio(5000, 5999, 1.01, 1.005);
+		project.addLevelRatio(6000, 6999, 1.01, 1.005);
+		project.addLevelRatio(7000, 7999, 1.01, 1.005);
+		project.addLevelRatio(8000, 8999, 1.01, 1.005);
+		project.addLevelRatio(9000, 9999, 1.01, 1.005);
+		project.addLevelRatio(10000, 99999, 1.01, 1.005);
+		
+		project.addAchieve(50, 		2, 							1000, 					100);
+		project.addAchieve(100, 	5, 							5000, 					100);
+		project.addAchieve(200, 	5, 							5000, 					100);
+		project.addAchieve(300, 	5, 							5000, 					100);
+		project.addAchieve(500, 	1000, 						100000, 				1000);
+		project.addAchieve(1000, 	1000, 						100000000, 				1000);
+		project.addAchieve(2000, 	1000000, 					100000000000, 			2000);
+		project.addAchieve(5000, 	1000000000, 				10000000000000, 		2000);
+		project.addAchieve(10000, 	1000000000000000, 			100000000000000000, 	5000);
+		project.addAchieve(100000, 	10000000000000000000000000, 1000000000000000000000, 10000);
 		
 		return project;
 	}
