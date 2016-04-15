@@ -21,6 +21,20 @@ class HomeUI extends eui.Component{
         
         this.btns = [ this.mbtnProfile, this.mbtnHeros, this.mbtnGoods, this.mbtnAbout ];
         
+        this.lblGold.text = application.customer.gold;
+        this.lblDiamond.text = application.customer.diamond;
+        
+        application.dao.fetch("Bid",{ succeed: 1}, {limit : 1, order :'create_time desc'}, function(bids){
+            if (bids.length > 0) {
+                application.dao.fetch("Customer",{ id: bids[0].customer_id },{ limit: 1 },function(customers) {
+                    if (customers.length > 0) {
+                        this.lblBidName = customers[0].name;
+                        this.lblBidGold = bids[0].gold;
+                    }
+                });
+            }
+        })
+                
         /// 首次加载完成首先显示home
         this.goHome(); 
     }
@@ -114,6 +128,12 @@ class HomeUI extends eui.Component{
     
     private imgBg:eui.Image;
     
+    private lblGold:eui.Label;
+    private lblDiamond: eui.Label;
+    
+    private lblBidName:eui.Label;
+    private lblBidGold:eui.Label;
+
     private _pageFocused:string;
 
     public pageReadyHandler( pageName:String ):void {

@@ -152,15 +152,14 @@ function _findModels(claz, query){
 
 module.exports = function() {
 	this.initialize = function(){
-		this.addModel("Account").belongsTo("Customer");
-		this.addModel("Audit");
+		this.addModel("Bid");
 
 		this.addModel("Customer");
 		
-		this.addModel("Media");
-		this.addModel("Message");
+		this.addModel("Order");
 		
-		this.addModel("Notification");
+		this.addModel("Project");
+		this.addModel("Prop");
 	};
 	
 	this.addModel = function(className) {

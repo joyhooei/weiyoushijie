@@ -26,6 +26,7 @@ var game_file_list = [
 	"bin-debug/views/ProfileUI.js",
 	"bin-debug/views/Toast.js",
 	"bin-debug/views/TrueLoadingUI.js",
+	"bin-debug/models/Project.js",
 	//----auto game_file_list end----
 ];
 

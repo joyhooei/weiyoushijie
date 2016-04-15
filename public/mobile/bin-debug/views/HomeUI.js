@@ -17,6 +17,18 @@ var HomeUI = (function (_super) {
         this.mbtnGoods.addEventListener(egret.TouchEvent.TOUCH_TAP, this.mbtnHandler, this);
         this.mbtnAbout.addEventListener(egret.TouchEvent.TOUCH_TAP, this.mbtnHandler, this);
         this.btns = [this.mbtnProfile, this.mbtnHeros, this.mbtnGoods, this.mbtnAbout];
+        this.lblGold.text = application.customer.gold;
+        this.lblDiamond.text = application.customer.diamond;
+        application.dao.fetch("Bid", { succeed: 1 }, { limit: 1, order: 'create_time desc' }, function (bids) {
+            if (bids.length > 0) {
+                application.dao.fetch("Customer", { id: bids[0].customer_id }, { limit: 1 }, function (customers) {
+                    if (customers.length > 0) {
+                        this.lblBidName = customers[0].name;
+                        this.lblBidGold = bids[0].gold;
+                    }
+                });
+            }
+        });
         /// 首次加载完成首先显示home
         this.goHome();
     };

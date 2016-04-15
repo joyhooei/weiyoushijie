@@ -1,5 +1,5 @@
 <?xml version='1.0' encoding='utf-8'?>
-<e:Skin class="homeUISkin" width="480" height="800" xmlns:e="http://ns.egret.com/eui">
+<e:Skin class="homeUISkin" width="480" height="800" xmlns:e="http://ns.egret.com/eui" xmlns:w="http://ns.egret.com/wing">
 	<e:Image id="imgBg" height="100%" width="100%" x="0" y="0" />
 	<e:ToggleButton id="mbtnProfile" x="15" y="712" name="玩家" >
 		<e:skinName>
@@ -33,4 +33,9 @@
 			</e:Skin>
 		</e:skinName>
 	</e:ToggleButton>
+	<e:Image id="imgAvatar" width="56" height="58" x="179" y="21" source="heros01_png"/>
+	<e:Label id="lblName" text="天王盖地虎" x="260" y="22" size="24" width="165" height="23"/>
+	<e:Label id="lblBid" text="100000000" x="295" y="55" width="154" size="24" height="27"/>
+	<e:Label id="lblGold" text="1" x="53" y="113" size="24"/>
+	<e:Label id="lblDiamond" text="0" x="55" y="149" size="24"/>
 </e:Skin>
