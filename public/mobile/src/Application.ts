@@ -3,6 +3,7 @@ module application {
     export var router: Router;
     export var dao: Dao;
     export var customer: any;
+    export var projects: Project[];
 
     export function init(main:Main) {
 		application.main = main;
@@ -10,6 +11,8 @@ module application {
         application.router = new Router(main);
         application.dao = new Dao("http://headlines.leanapp.cn/api/");
         //application.dao = new Dao("http://localhost:3000/api/");
+        
+        application.projects = Project.createAllProjects();
     }
 	
     export function login(data?:string|nest.user.LoginCallbackInfo):void {
