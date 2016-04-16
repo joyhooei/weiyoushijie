@@ -26,7 +26,7 @@ class ProjectItem extends eui.Component {
     }
     
     private uiCompHandler(): void {
-        if (!this._myProject) {
+        if (this._myProject.unlocked == 1) {
             this.lblLevel.text = "";
             this.lblOutput.text = "";
             this.lblPrice.text = "";

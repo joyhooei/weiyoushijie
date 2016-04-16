@@ -39,10 +39,6 @@ var HomeUI = (function (_super) {
                     var item = new ProjectItem(p, application.projects[i], 0);
                     self.grpProject.addChildAt(item, i);
                 }
-                if (projects.length < application.projects.length) {
-                    var item = new ProjectItem(null, application.projects[projects.length], 0);
-                    self.grpProject.addChildAt(item, projects.length);
-                }
             }
         });
         /// 首次加载完成首先显示home

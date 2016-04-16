@@ -15,7 +15,7 @@ var ProjectItem = (function (_super) {
     }
     var d = __define,c=ProjectItem,p=c.prototype;
     p.uiCompHandler = function () {
-        if (!this._myProject) {
+        if (this._myProject.unlocked == 1) {
             this.lblLevel.text = "";
             this.lblOutput.text = "";
             this.lblPrice.text = "";

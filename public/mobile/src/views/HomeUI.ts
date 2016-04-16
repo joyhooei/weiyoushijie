@@ -49,11 +49,6 @@ class HomeUI extends eui.Component{
                     var item: ProjectItem = new ProjectItem(p, application.projects[i], 0);
                     self.grpProject.addChildAt(item, i);
                 }
-                
-                if(projects.length < application.projects.length) {
-                    var item: ProjectItem = new ProjectItem(null,application.projects[projects.length],0);
-                    self.grpProject.addChildAt(item, projects.length);                   
-                }
             }
         });
                 
