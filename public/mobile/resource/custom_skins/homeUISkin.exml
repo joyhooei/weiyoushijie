@@ -38,4 +38,14 @@
 	<e:Label id="lblBidGold" text="100000000" x="295" y="56" width="154" size="24" height="27"/>
 	<e:Label id="lblGold" text="1" x="53" y="113" size="24"/>
 	<e:Label id="lblDiamond" text="0" x="55" y="149" size="24"/>
+	
+	<e:Scroller id="scrProjects" height="240" width="450" x="17" y="461">
+		<e:viewport>
+			<e:Group id="grpProject">
+				<e:layout>
+					<e:VerticalLayout verticalAlign="top" gap="20"/>
+				</e:layout>
+			</e:Group>
+		</e:viewport>
+	</e:Scroller>	
 </e:Skin>

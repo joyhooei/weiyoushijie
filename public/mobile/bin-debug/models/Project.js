@@ -208,7 +208,7 @@ var Project = (function () {
         //道具提升系数	道具升级次数*0.1
         var propRatio = 1 + achieve * this._propOutputRatio;
         //项目秒产 	lv数*该项目1级秒产*累积产量系数*累积成就系数*道具升级系数
-        return level * this._outputLevelOne * cumulativeOutputRatio * cumulativeAchieveRatio * propRatio;
+        return Math.round(level * this._outputLevelOne * cumulativeOutputRatio * cumulativeAchieveRatio * propRatio);
     };
     //升级级别的价格
     p.price = function (level) {
@@ -225,7 +225,7 @@ var Project = (function () {
                 lastLevel = ratios.upperLevel;
             }
         }
-        return level * this._priceLevelOne * cumulativePriceRatio;
+        return Math.round(level * this._priceLevelOne * cumulativePriceRatio);
     };
     return Project;
 })();

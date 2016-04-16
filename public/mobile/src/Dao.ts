@@ -1,12 +1,8 @@
 class Dao {
     private _baseUrl: string;
-	
-	private _cb: Function;
     
     constructor(baseUrl: string) {
         this._baseUrl = baseUrl;
-		
-		this._cb = null;
     }
 	
 	public fetch(model:string, conditions:{}, filters:{}, cb: Function) {
@@ -29,33 +25,25 @@ class Dao {
 		request.open(this._baseUrl + method, egret.HttpMethod.POST);
 		request.setRequestHeader("Content-Type", "application/json");
 
-		request.addEventListener(egret.Event.COMPLETE,this.onPostComplete,this);
-		request.addEventListener(egret.IOErrorEvent.IO_ERROR,this.onPostIOError,this);
-		request.addEventListener(egret.ProgressEvent.PROGRESS,this.onPostProgress,this);
-		
-		this._cb = cb;
+        request.addEventListener(egret.Event.COMPLETE, (evt: egret.Event) => {
+            var request = <egret.HttpRequest>evt.currentTarget;
+            console.log("post data : ",request.response);
+
+            if(cb) {
+                cb(true,JSON.parse(request.response));
+            }            
+        }, this);
+            
+        request.addEventListener(egret.IOErrorEvent.IO_ERROR,(evt: egret.IOErrorEvent) => {
+            if(cb) {
+                cb(false,event);
+            }       
+        }, this);
+        
+        request.addEventListener(egret.ProgressEvent.PROGRESS,(evt: egret.ProgressEvent) => {
+            console.log("post progress : " + Math.floor(100 * evt.bytesLoaded / evt.bytesTotal) + "%");
+        },this);
 		
 		request.send(JSON.stringify(data));
     }
-	
-	private onPostComplete(event:egret.Event):void {
-		var request = <egret.HttpRequest>event.currentTarget;
-		console.log("post data : ",request.response);
-		
-		if (this._cb) {
-			this._cb(true, JSON.parse(request.response));
-		}
-	}
-	
-	private onPostIOError(event:egret.IOErrorEvent):void {
-		console.log("post error : " + event);
-		
-		if (this._cb) {
-			this._cb(false, event);
-		}
-	}
-	
-	private onPostProgress(event:egret.ProgressEvent):void {
-		console.log("post progress : " + Math.floor(100*event.bytesLoaded/event.bytesTotal) + "%");
-	}	
 }

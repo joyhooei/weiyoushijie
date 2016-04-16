@@ -11,6 +11,7 @@
     "resource/custom_skins/loginUISkin.exml",
     "resource/custom_skins/profileSkillListIRSkin.exml",
     "resource/custom_skins/profileUISkin.exml",
+    "resource/custom_skins/projectItemSkin.exml",
     "resource/eui_skins/ButtonSkin.exml",
     "resource/eui_skins/CheckBoxSkin.exml",
     "resource/eui_skins/HScrollBarSkin.exml",

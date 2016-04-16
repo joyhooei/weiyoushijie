@@ -3,7 +3,9 @@
  */
 
 class HomeUI extends eui.Component{
-
+    private grpProject: eui.List;
+    private scrProjects: eui.Scroller;
+    
     constructor( ) {
         super();
 
@@ -35,6 +37,23 @@ class HomeUI extends eui.Component{
                 });
             }
         })
+            
+        //显示项目
+        application.dao.fetch("Project",{ customer_id: application.customer.id },{ order: 'sequence asc' },function(succeed, projects) {
+            if(succeed && projects.length > 0) {
+                for(var i = 0; i < projects.length; i ++){
+                    var p = projects[i];
+                    
+                    var item: ProjectItem = new ProjectItem(p, application.projects[i], 0);
+                    self.grpProject.addChildAt(item, i);
+                }
+                
+                if(projects.length < application.projects.length) {
+                    var item: ProjectItem = new ProjectItem(null,application.projects[projects.length],0);
+                    self.grpProject.addChildAt(item, projects.length);                   
+                }
+            }
+        });
                 
         /// 首次加载完成首先显示home
         this.goHome(); 

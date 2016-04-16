@@ -1,0 +1,9 @@
+<?xml version='1.0' encoding='utf-8'?>
+<e:Skin class="projectListIRSkin" width="443" height="104" xmlns:e="http://ns.egret.com/eui" xmlns:w="http://ns.egret.com/wing">
+	<e:Image height="100%" width="100%" x="0" y="0" source="listItemBkgd_png"/>
+	<e:Label fontFamily="微软雅黑" y="64" text="" textAlign="left" width="220" size="20" verticalAlign="middle" x="117" textColor="0x72E8FF"/>
+	<e:Image height="69" width="66" x="27" y="16" source=""/>
+	<e:Label id="lblLevel" x="120" y="61" size="24" text="1"/>
+	<e:Label id="lblOutput" text="1" x="148" y="20" size="24"/>
+	<e:Label id="lblPrice" text="1" x="326" y="18" size="24"/>
+</e:Skin>
