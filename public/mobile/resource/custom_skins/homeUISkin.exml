@@ -47,5 +47,6 @@
 				</e:layout>
 			</e:Group>
 		</e:viewport>
-	</e:Scroller>	
+	</e:Scroller>
+	<e:Label id="lblOutput" text="1" x="53" y="200" size="24"/>	
 </e:Skin>

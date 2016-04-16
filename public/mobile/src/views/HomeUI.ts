@@ -26,6 +26,8 @@ class HomeUI extends eui.Component{
         this.lblGold.text = application.customer.gold;
         this.lblDiamond.text = application.customer.diamond;
         
+        this.lblOutput.text = application.customer.output;
+        
         var self = this;
         application.dao.fetch("Bid",{ succeed: 1}, {limit : 1, order :'create_time desc'}, function(succeed, bids){
             if (succeed && bids.length > 0) {
@@ -153,6 +155,8 @@ class HomeUI extends eui.Component{
     
     private lblBidName:eui.Label;
     private lblBidGold:eui.Label;
+    
+    private lblOutput: eui.Label;
 
     private _pageFocused:string;
 
