@@ -60,4 +60,40 @@ class ProjectItem extends eui.Component {
             });
         }
     }
+    
+    private unlock(){
+        let self = this;
+
+        let p = this._project.priceOf(1);
+        if(application.customer.gold > p) {
+            self._myProject.unlocked = 1;
+            application.dao.save("Project",self._myProject,function(succeed,proj) {
+                if(succeed) {
+                    application.customer.gold -= p;
+                    application.customer.output += self._project.output(self._myProject.level,application.customer.achieve,application.customer.prop);
+                    application.dao.save("Customer",application.customer,function(succeed,c) {
+                        if(succeed) {
+                            var project:any;
+                            project.customer_id = application.customer.id;
+                            project.sequence = self._myProject.sequence + 1;
+                            project.unlocked = 0;
+                            project.achieve = 0;
+                            project.level = 0;
+                            application.dao.save("Project",project,function(succeed,proj) {
+                                if (succeed) {
+                                    
+                                } else {
+                                    Toast.launch("解锁失败");
+                                }
+                            });
+                        } else {
+                            Toast.launch("解锁失败");
+                        }
+                    });
+                } else {
+                    Toast.launch("解锁失败");
+                }
+            });
+        }
+    }
 }
