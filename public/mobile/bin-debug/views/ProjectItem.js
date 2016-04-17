@@ -7,11 +7,11 @@ var ProjectItem = (function (_super) {
     __extends(ProjectItem, _super);
     function ProjectItem(myProject, project, myProp) {
         _super.call(this);
-        this.addEventListener(eui.UIEvent.COMPLETE, this.uiCompHandler, this);
-        this.skinName = "resource/custom_skins/ProjectItemSkin.exml";
         this._myProject = myProject;
         this._project = project;
         this._myProp = myProp;
+        this.addEventListener(eui.UIEvent.COMPLETE, this.uiCompHandler, this);
+        this.skinName = "resource/custom_skins/projectItemSkin.exml";
     }
     var d = __define,c=ProjectItem,p=c.prototype;
     p.uiCompHandler = function () {

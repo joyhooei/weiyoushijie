@@ -17,12 +17,13 @@ class ProjectItem extends eui.Component {
     public constructor(myProject: any,project: Project,myProp:number) {
         super();
 
-        this.addEventListener(eui.UIEvent.COMPLETE,this.uiCompHandler,this);
-        this.skinName = "resource/custom_skins/ProjectItemSkin.exml";
-        
         this._myProject = myProject;
-        this._project = project;
-        this._myProp = myProp;
+        this._project   = project;
+        this._myProp    = myProp;
+        
+        this.addEventListener(eui.UIEvent.COMPLETE,this.uiCompHandler,this);
+        this.skinName = "resource/custom_skins/projectItemSkin.exml";
+
     }
     
     private uiCompHandler(): void {
