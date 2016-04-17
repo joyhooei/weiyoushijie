@@ -33,8 +33,8 @@ class Project {
 		
 		let priceBase = this._priceLevelOne;
 		if (this._levelRatios.length > 0) {
-			priceBase = this.price(this._levelRatios[this._levelRatios.length - 1].upperLevel);
-		}		
+			priceBase = this.priceOf(this._levelRatios[this._levelRatios.length - 1].upperLevel);
+		}
 		
 		this._levelRatios.push({lowerLevel: lowerLevel, upperLevel: upperLevel, priceRatio: priceRatio, outputRatio: outputRatio, outputBase: outputBase, priceBase: priceBase});
 	}
@@ -285,7 +285,7 @@ class Project {
 	}
 	
 	//升级级别的价格
-	public price(level: number): number {
+	public priceOf(level: number): number {
 		//累积价格系数	判定lv所处区间。累积价格系数=上区间最终值*本区间价格系数^ (lv-上区间最终lv值）
 		let cumulativePriceRatio = 1;
 		let lastLevel = 1;
@@ -302,5 +302,15 @@ class Project {
 		}
 		
 		return Math.round(level * this._priceLevelOne * cumulativePriceRatio);
+	}
+	
+	//连续升级，从levelFrom到levelTo的价格
+    public price(level: number, step: number): number {
+    	let p = 0;
+        for(var i = level; i < level + step; i++) {
+            p = p + this.priceOf(i);
+	    }
+	    
+	    return p;
 	}
 }

@@ -15,7 +15,7 @@ var Project = (function () {
         }
         var priceBase = this._priceLevelOne;
         if (this._levelRatios.length > 0) {
-            priceBase = this.price(this._levelRatios[this._levelRatios.length - 1].upperLevel);
+            priceBase = this.priceOf(this._levelRatios[this._levelRatios.length - 1].upperLevel);
         }
         this._levelRatios.push({ lowerLevel: lowerLevel, upperLevel: upperLevel, priceRatio: priceRatio, outputRatio: outputRatio, outputBase: outputBase, priceBase: priceBase });
     };
@@ -211,7 +211,7 @@ var Project = (function () {
         return Math.round(level * this._outputLevelOne * cumulativeOutputRatio * cumulativeAchieveRatio * propRatio);
     };
     //升级级别的价格
-    p.price = function (level) {
+    p.priceOf = function (level) {
         //累积价格系数	判定lv所处区间。累积价格系数=上区间最终值*本区间价格系数^ (lv-上区间最终lv值）
         var cumulativePriceRatio = 1;
         var lastLevel = 1;
@@ -226,6 +226,14 @@ var Project = (function () {
             }
         }
         return Math.round(level * this._priceLevelOne * cumulativePriceRatio);
+    };
+    //连续升级，从levelFrom到levelTo的价格
+    p.price = function (level, step) {
+        var p = 0;
+        for (var i = level; i < level + step; i++) {
+            p = p + this.priceOf(i);
+        }
+        return p;
     };
     return Project;
 })();
