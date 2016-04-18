@@ -36,7 +36,7 @@ module application {
         });
     }
     
-    export modifyCustomer(gold:number, output:number, cb: Function): void {
+    export buyOutput(gold:number, output:number, cb: Function): void {
         application.customer.gold   -= gold;
         application.customer.output += output;
         application.dao.save("Customer", application.customer, function(succeed, c){
