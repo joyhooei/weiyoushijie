@@ -208,4 +208,12 @@ class Main extends eui.UILayer implements nest.easeuser.ILoginCallbacks {
     public onFail(data: nest.core.ResultCallbackInfo): void {
         egret.log("log Fail");
     }
+    
+    public logined(): void {
+        this.dispatchEventWith(GameEvents.EVT_LOGIN_IN_SUCCESS);
+    }
+    
+    public refreshCustomer(): void {
+        this._homeUI.dispatchEventWith(GameEvents.EVT_REFRESH_CUSTOMER);
+    }
 }
