@@ -16,16 +16,17 @@ class HomeUI extends eui.Component{
     }
 
     private uiCompHandler():void {
-        this.mbtnProfile.addEventListener( egret.TouchEvent.TOUCH_TAP, this.mbtnHandler, this );
-        this.mbtnHeros.addEventListener( egret.TouchEvent.TOUCH_TAP, this.mbtnHandler, this );
-        this.mbtnGoods.addEventListener( egret.TouchEvent.TOUCH_TAP, this.mbtnHandler, this );
-        this.mbtnAbout.addEventListener( egret.TouchEvent.TOUCH_TAP, this.mbtnHandler, this );
-        
-        this.btns = [ this.mbtnProfile, this.mbtnHeros, this.mbtnGoods, this.mbtnAbout ];
-        
-        this.refreshCustomer();
-        
         var self = this;
+        
+        self.mbtnProfile.addEventListener( egret.TouchEvent.TOUCH_TAP, self.mbtnHandler, self );
+        self.mbtnHeros.addEventListener( egret.TouchEvent.TOUCH_TAP, self.mbtnHandler, self );
+        self.mbtnGoods.addEventListener( egret.TouchEvent.TOUCH_TAP, self.mbtnHandler, self );
+        self.mbtnAbout.addEventListener( egret.TouchEvent.TOUCH_TAP, self.mbtnHandler, self );
+        
+        self.btns = [ self.mbtnProfile, self.mbtnHeros, self.mbtnGoods, self.mbtnAbout ];
+        
+        self.refreshCustomer();
+        
         application.dao.fetch("Bid",{ succeed: 1}, {limit : 1, order :'create_time desc'}, function(succeed, bids){
             if (succeed && bids.length > 0) {
                 application.dao.fetch("Customer",{ id: bids[0].customer_id },{ limit: 1 },function(succeed, customers) {
@@ -36,8 +37,20 @@ class HomeUI extends eui.Component{
                 });
             }
         })
+                
+        /// 首次加载完成首先显示home
+        self.goHome(); 
+    }
+	
+	private refreshCustomer: void {
+        var self = this;
+        
+        self.lblGold.text    = application.customer.gold;
+        self.lblDiamond.text = application.customer.diamond;
+        self.lblOutput.text  = application.customer.output;
             
         //显示项目
+        self.grpProject.removeChildren();
         application.dao.fetch("Project",{ customer_id: application.customer.id },{ order: 'sequence asc' },function(succeed, projects) {
             if(succeed && projects.length > 0) {
                 for(var i = 0; i < projects.length; i ++){
@@ -48,15 +61,6 @@ class HomeUI extends eui.Component{
                 }
             }
         });
-                
-        /// 首次加载完成首先显示home
-        this.goHome(); 
-    }
-	
-	private refreshCustomer: void {
-        this.lblGold.text    = application.customer.gold;
-        this.lblDiamond.text = application.customer.diamond;
-        this.lblOutput.text  = application.customer.output;
 	}
     
     private  btns:eui.ToggleButton[];
