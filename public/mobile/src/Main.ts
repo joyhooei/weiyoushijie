@@ -148,8 +148,6 @@ class Main extends eui.UILayer implements nest.easeuser.ILoginCallbacks {
                 this._loadingUI.setProgress(event.itemsLoaded, event.itemsTotal);
                 break;
             
-            //case "home":
-            //case "profile":
             default :
                 this._trueLoadingUI.setProgress(event.itemsLoaded, event.itemsTotal);
                 break;

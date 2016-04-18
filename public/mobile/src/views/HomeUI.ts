@@ -6,6 +6,10 @@ class HomeUI extends eui.Component{
     private grpProject: eui.List;
     private scrProjects: eui.Scroller;
     
+    private imgBeauty: eui.Image;
+    
+    private timeOnEnterFrame: number;
+    
     constructor( ) {
         super();
 
@@ -37,12 +41,29 @@ class HomeUI extends eui.Component{
                 });
             }
         })
+            
+        self.imgBeauty.addEventListener(egret.TouchEvent.TOUCH_TAP,() => {
+            this.startAnimation();
+        },this);
                 
         /// 首次加载完成首先显示home
         self.goHome(); 
     }
+    
+    private startAnimation(): void {
+        this.timeOnEnterFrame = egret.getTimer();
+        this.addEventListener(egret.Event.ENTER_FRAME,this.onEnterFrame,this);
+    }
+    
+    private onEnterFrame(e: egret.Event) {
+        if(egret.getTimer() - this.timeOnEnterFrame >= 100) {
+             this.removeEventListener(egret.Event.ENTER_FRAME,this.onEnterFrame,this);
+        } else {
+            this.imgBeauty.source = "";
+        }
+    }
 	
-	private refreshCustomer: void {
+	private refreshCustomer(): void {
         var self = this;
         
         self.lblGold.text    = application.customer.gold;

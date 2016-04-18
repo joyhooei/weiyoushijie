@@ -235,6 +235,12 @@ var Project = (function () {
         }
         return p;
     };
+    p.diamondPriceOfAchieve = function (achieve) {
+        return this._achieves[achieve].priceUseDiamond;
+    };
+    p.goldPriceOfAchieve = function (achieve) {
+        return this._achieves[achieve].priceUseGold;
+    };
     return Project;
 })();
 egret.registerClass(Project,'Project');

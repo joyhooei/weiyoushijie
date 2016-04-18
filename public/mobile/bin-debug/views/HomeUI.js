@@ -5,22 +5,20 @@ var HomeUI = (function (_super) {
     __extends(HomeUI, _super);
     function HomeUI() {
         _super.call(this);
-        //console.log( "new HomeUI 资源：", RES.getRes( "commonBg_jpg" ) );
+        this.addEventListener(GameEvents.EVT_REFRESH_CUSTOMER, this.refreshCustomer, this);
         this.addEventListener(eui.UIEvent.COMPLETE, this.uiCompHandler, this);
         this.skinName = "resource/custom_skins/homeUISkin.exml";
     }
     var d = __define,c=HomeUI,p=c.prototype;
     p.uiCompHandler = function () {
-        console.log("HomeUI uiCompHandler");
-        this.mbtnProfile.addEventListener(egret.TouchEvent.TOUCH_TAP, this.mbtnHandler, this);
-        this.mbtnHeros.addEventListener(egret.TouchEvent.TOUCH_TAP, this.mbtnHandler, this);
-        this.mbtnGoods.addEventListener(egret.TouchEvent.TOUCH_TAP, this.mbtnHandler, this);
-        this.mbtnAbout.addEventListener(egret.TouchEvent.TOUCH_TAP, this.mbtnHandler, this);
-        this.btns = [this.mbtnProfile, this.mbtnHeros, this.mbtnGoods, this.mbtnAbout];
-        this.lblGold.text = application.customer.gold;
-        this.lblDiamond.text = application.customer.diamond;
-        this.lblOutput.text = application.customer.output;
+        var _this = this;
         var self = this;
+        self.mbtnProfile.addEventListener(egret.TouchEvent.TOUCH_TAP, self.mbtnHandler, self);
+        self.mbtnHeros.addEventListener(egret.TouchEvent.TOUCH_TAP, self.mbtnHandler, self);
+        self.mbtnGoods.addEventListener(egret.TouchEvent.TOUCH_TAP, self.mbtnHandler, self);
+        self.mbtnAbout.addEventListener(egret.TouchEvent.TOUCH_TAP, self.mbtnHandler, self);
+        self.btns = [self.mbtnProfile, self.mbtnHeros, self.mbtnGoods, self.mbtnAbout];
+        self.refreshCustomer();
         application.dao.fetch("Bid", { succeed: 1 }, { limit: 1, order: 'create_time desc' }, function (succeed, bids) {
             if (succeed && bids.length > 0) {
                 application.dao.fetch("Customer", { id: bids[0].customer_id }, { limit: 1 }, function (succeed, customers) {
@@ -31,7 +29,31 @@ var HomeUI = (function (_super) {
                 });
             }
         });
+        self.imgBeauty.addEventListener(egret.TouchEvent.TOUCH_TAP, function () {
+            _this.startAnimation();
+        }, this);
+        /// 首次加载完成首先显示home
+        self.goHome();
+    };
+    p.startAnimation = function () {
+        this.timeOnEnterFrame = egret.getTimer();
+        this.addEventListener(egret.Event.ENTER_FRAME, this.onEnterFrame, this);
+    };
+    p.onEnterFrame = function (e) {
+        if (egret.getTimer() - this.timeOnEnterFrame >= 100) {
+            this.removeEventListener(egret.Event.ENTER_FRAME, this.onEnterFrame, this);
+        }
+        else {
+            this.imgBeauty.source = "";
+        }
+    };
+    p.refreshCustomer = function () {
+        var self = this;
+        self.lblGold.text = application.customer.gold;
+        self.lblDiamond.text = application.customer.diamond;
+        self.lblOutput.text = application.customer.output;
         //显示项目
+        self.grpProject.removeChildren();
         application.dao.fetch("Project", { customer_id: application.customer.id }, { order: 'sequence asc' }, function (succeed, projects) {
             if (succeed && projects.length > 0) {
                 for (var i = 0; i < projects.length; i++) {
@@ -41,8 +63,6 @@ var HomeUI = (function (_super) {
                 }
             }
         });
-        /// 首次加载完成首先显示home
-        this.goHome();
     };
     p.resetFocus = function () {
         console.log(" resetFocus ");

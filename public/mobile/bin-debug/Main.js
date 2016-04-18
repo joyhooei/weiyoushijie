@@ -117,8 +117,6 @@ var Main = (function (_super) {
             case "loading":
                 this._loadingUI.setProgress(event.itemsLoaded, event.itemsTotal);
                 break;
-            //case "home":
-            //case "profile":
             default:
                 this._trueLoadingUI.setProgress(event.itemsLoaded, event.itemsTotal);
                 break;
@@ -167,6 +165,12 @@ var Main = (function (_super) {
     };
     p.onFail = function (data) {
         egret.log("log Fail");
+    };
+    p.logined = function () {
+        this.dispatchEventWith(GameEvents.EVT_LOGIN_IN_SUCCESS);
+    };
+    p.refreshCustomer = function () {
+        this._homeUI.dispatchEventWith(GameEvents.EVT_REFRESH_CUSTOMER);
     };
     return Main;
 })(eui.UILayer);

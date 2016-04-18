@@ -296,11 +296,6 @@
 				},
 				{
 					"isFolder":false,
-					"key":"loading_bg",
-					"name":"loading_bg"
-				},
-				{
-					"isFolder":false,
 					"key":"loading_run",
 					"name":"loading_run"
 				},

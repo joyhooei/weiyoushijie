@@ -313,4 +313,12 @@ class Project {
 	    
 	    return p;
 	}
+
+    public diamondPriceOfAchieve(achieve: number): number {
+        return this._achieves[achieve].priceUseDiamond;
+    }
+    
+    public goldPriceOfAchieve(achieve: number): number {
+        return this._achieves[achieve].priceUseGold;
+    }
 }

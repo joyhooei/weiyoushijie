@@ -36,13 +36,13 @@ module application {
         });
     }
     
-    export buyOutput(gold:number, diamond, number, output:number, cb: Function): void {
+    export function buyOutput(gold:number, diamond: number, output:number, cb: Function): void {
         application.customer.gold      -= gold;
         application.customer.diamond   -= diamond;
         application.customer.output    += output;
         application.dao.save("Customer", application.customer, function(succeed, c){
             if (succeed) {
-                application.main.refrechCustomer();
+                application.main.refreshCustomer();
             }
 			
 			cb(succeed, c);

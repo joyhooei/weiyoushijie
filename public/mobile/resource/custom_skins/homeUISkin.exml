@@ -1,6 +1,6 @@
 <?xml version='1.0' encoding='utf-8'?>
 <e:Skin class="homeUISkin" width="480" height="800" xmlns:e="http://ns.egret.com/eui" xmlns:w="http://ns.egret.com/wing">
-	<e:Image id="imgBg" height="100%" width="100%" x="0" y="0" />
+	<e:Image id="imgBg" height="100%" width="100%" x="0" y="1" />
 	<e:ToggleButton id="mbtnProfile" x="15" y="712" name="玩家" >
 		<e:skinName>
 			<e:Skin states="up,down,disabled,disabledAndSelected" minHeight="50" minWidth="100">
@@ -48,5 +48,6 @@
 			</e:Group>
 		</e:viewport>
 	</e:Scroller>
-	<e:Label id="lblOutput" text="1" x="53" y="200" size="24"/>	
+	<e:Label id="lblOutput" text="1" x="53" y="200" size="24"/>
+	<e:Image id="imgBeauty" width="302" height="217" x="93" y="97"/>	
 </e:Skin>

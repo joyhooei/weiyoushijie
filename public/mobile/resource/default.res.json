@@ -138,11 +138,6 @@
 			"url":"assets/ScrollBar/track_sb.png"
 		},
 		{
-			"name":"loading_bg",
-			"type":"image",
-			"url":"art/loading/loading.jpg"
-		},
-		{
 			"name":"loading_run",
 			"type":"image",
 			"url":"art/loading/loading2.png"

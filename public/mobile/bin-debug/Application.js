@@ -23,7 +23,7 @@ var application;
         application.dao.rest("login", { token: data.token }, function (succeed, data) {
             if (succeed) {
                 application.customer = data;
-                application.main.dispatchEventWith(GameEvents.EVT_LOGIN_IN_SUCCESS);
+                application.main.logined();
             }
             else {
                 Toast.launch("获取账号信息失败");
@@ -31,4 +31,16 @@ var application;
         });
     }
     application.onLoginCallback = onLoginCallback;
+    function buyOutput(gold, diamond, output, cb) {
+        application.customer.gold -= gold;
+        application.customer.diamond -= diamond;
+        application.customer.output += output;
+        application.dao.save("Customer", application.customer, function (succeed, c) {
+            if (succeed) {
+                application.main.refreshCustomer();
+            }
+            cb(succeed, c);
+        });
+    }
+    application.buyOutput = buyOutput;
 })(application || (application = {}));

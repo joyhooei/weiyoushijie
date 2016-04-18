@@ -5,5 +5,9 @@
 	<e:Image height="69" width="66" x="27" y="16" source=""/>
 	<e:Label id="lblLevel" x="120" y="61" size="24" text="1"/>
 	<e:Label id="lblOutput" text="1" x="148" y="20" size="24"/>
-	<e:Label id="lblPrice" text="1" x="326" y="18" size="24"/>
+	<e:Label id="lblPrice" text="1" x="326" y="35" size="24"/>
+	<e:Button id="btnUpgrade" label="升级" x="294" y="6" width="88" height="34"/>
+	<e:Button id="btnUpgrade10" label="10" x="385" y="6" width="56" height="31"/>
+	<e:Button id="btnUpgrade100" y="42" x="383" label="100" width="60" height="29"/>
+	<e:Button id="btnUnlock" label="解锁" x="178" y="27"/>
 </e:Skin>
