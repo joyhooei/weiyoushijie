@@ -9,13 +9,13 @@ class HomeUI extends eui.Component{
     constructor( ) {
         super();
 
-        //console.log( "new HomeUI 资源：", RES.getRes( "commonBg_jpg" ) );
+        this.addEventListener( GameEvents.EVT_REFRESH_CUSTOMER, this.refreshCustomer, this );
+		
         this.addEventListener( eui.UIEvent.COMPLETE, this.uiCompHandler, this );
         this.skinName = "resource/custom_skins/homeUISkin.exml";
     }
 
     private uiCompHandler():void {
-        console.log( "HomeUI uiCompHandler");
         this.mbtnProfile.addEventListener( egret.TouchEvent.TOUCH_TAP, this.mbtnHandler, this );
         this.mbtnHeros.addEventListener( egret.TouchEvent.TOUCH_TAP, this.mbtnHandler, this );
         this.mbtnGoods.addEventListener( egret.TouchEvent.TOUCH_TAP, this.mbtnHandler, this );
@@ -23,10 +23,7 @@ class HomeUI extends eui.Component{
         
         this.btns = [ this.mbtnProfile, this.mbtnHeros, this.mbtnGoods, this.mbtnAbout ];
         
-        this.lblGold.text = application.customer.gold;
-        this.lblDiamond.text = application.customer.diamond;
-        
-        this.lblOutput.text = application.customer.output;
+        this.refreshCustomer();
         
         var self = this;
         application.dao.fetch("Bid",{ succeed: 1}, {limit : 1, order :'create_time desc'}, function(succeed, bids){
@@ -55,6 +52,13 @@ class HomeUI extends eui.Component{
         /// 首次加载完成首先显示home
         this.goHome(); 
     }
+	
+	private refreshCustomer: void {
+        this.lblGold.text    = application.customer.gold;
+        this.lblDiamond.text = application.customer.diamond;
+        this.lblOutput.text  = application.customer.output;
+	}
+    
     private  btns:eui.ToggleButton[];
     
     private resetFocus():void{
