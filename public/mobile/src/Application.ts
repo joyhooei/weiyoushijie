@@ -29,7 +29,6 @@ module application {
         application.dao.rest("login", {token: data.token}, (succeed: boolean, data: any) => {
             if (succeed) {
                 application.customer = data;
-                //application.main.dispatchEventWith(GameEvents.EVT_LOGIN_IN_SUCCESS);
                 application.main.logined();
             } else {
                 Toast.launch("获取账号信息失败");
@@ -37,12 +36,12 @@ module application {
         });
     }
     
-    export buyOutput(gold:number, output:number, cb: Function): void {
-        application.customer.gold   -= gold;
-        application.customer.output += output;
+    export buyOutput(gold:number, diamond, number, output:number, cb: Function): void {
+        application.customer.gold      -= gold;
+        application.customer.diamond   -= diamond;
+        application.customer.output    += output;
         application.dao.save("Customer", application.customer, function(succeed, c){
             if (succeed) {
-				//application.main.homeUI.dispatchEventWith(GameEvents.EVT_REFRESH_CUSTOMER);
                 application.main.refrechCustomer();
             }
 			
