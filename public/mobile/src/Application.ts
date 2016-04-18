@@ -34,5 +34,18 @@ module application {
                 Toast.launch("获取账号信息失败");
             }
         });
-    }	
+    }
+    
+    export modifyCustomer(gold:number, output:number, cb: Function): void {
+        application.customer.gold   -= gold;
+        application.customer.output += output;
+        application.dao.save("Customer", application.customer, function(succeed, c){
+            if (succeed) {
+				application.main.homeUI.dispatchEventWith(GameEvents.EVT_REFRESH_CUSTOMER);
+            }
+			
+			cb(succeed, c);
+        });
+    }
+
 }
