@@ -6,7 +6,12 @@ class HomeUI extends eui.Component{
     private grpProject: eui.List;
     private scrProjects: eui.Scroller;
     
-    private mcBeauty: eui.MovieClip;
+    private mcBeauty: egret.MovieClip;
+    
+    private btnHome: eui.ToggleButton;
+    private btnRank: eui.ToggleButton;
+    private btnTool: eui.ToggleButton;
+    private btnAuction: eui.ToggleButton;
     
     constructor( ) {
         super();
@@ -20,12 +25,12 @@ class HomeUI extends eui.Component{
     private uiCompHandler():void {
         var self = this;
         
-        self.mbtnProfile.addEventListener( egret.TouchEvent.TOUCH_TAP, self.mbtnHandler, self );
-        self.mbtnHeros.addEventListener( egret.TouchEvent.TOUCH_TAP, self.mbtnHandler, self );
-        self.mbtnGoods.addEventListener( egret.TouchEvent.TOUCH_TAP, self.mbtnHandler, self );
-        self.mbtnAbout.addEventListener( egret.TouchEvent.TOUCH_TAP, self.mbtnHandler, self );
+        self.btnHome.addEventListener( egret.TouchEvent.TOUCH_TAP, self.mbtnHandler, self );
+        self.btnRank.addEventListener( egret.TouchEvent.TOUCH_TAP, self.mbtnHandler, self );
+        self.btnTool.addEventListener( egret.TouchEvent.TOUCH_TAP, self.mbtnHandler, self );
+        self.btnAuction.addEventListener( egret.TouchEvent.TOUCH_TAP, self.mbtnHandler, self );
         
-        self.btns = [ self.mbtnProfile, self.mbtnHeros, self.mbtnGoods, self.mbtnAbout ];
+        self.btns = [self.btnHome,self.btnRank,self.btnTool,self.btnAuction ];
         
         self.refreshCustomer();
         
@@ -46,10 +51,10 @@ class HomeUI extends eui.Component{
         
         self.mcBeauty = new egret.MovieClip( mcFactory.generateMovieClipData( "beauty" ) );
         self.mcBeauty.addEventListener(egret.TouchEvent.TOUCH_TAP,() => {
-            this.mcBeauty.gotoAndPlay();
+            this.mcBeauty.gotoAndPlay(1);
             
             application.customer.gold += application.customer.output;
-            application.dao.save("Customer", customer);
+            application.dao.save("Customer",application.customer, null);
             self.lblGold.text    = application.customer.gold;
         },this);
         self.addChild(self.mcBeauty);
@@ -97,9 +102,8 @@ class HomeUI extends eui.Component{
     }
     
     private goHome():void{
-        console.log( " ---------- HOME ---------- " );
         this._pageFocusedPrev = this._pageFocused = GamePages.HOME;
-        this.imgBg.source = "homeBg_jpg";
+        this.imgBg.source = "MBG_jpg";
     }
     
     private mbtnHandler( evt:egret.TouchEvent ):void{
@@ -134,17 +138,17 @@ class HomeUI extends eui.Component{
 
         this._pageFocusedPrev = this._pageFocused;
         switch ( this._mbtnFocused ){
-            case this.mbtnProfile:
-                this._pageFocused = GamePages.PROFILE;
+            case this.btnHome:
+                this._pageFocused = GamePages.HOME;
                 break;
-            case this.mbtnHeros:
-                this._pageFocused = GamePages.HEROS ;
+            case this.btnRank:
+                this._pageFocused = GamePages.RANK ;
                 break;
-            case this.mbtnGoods:
-                this._pageFocused = GamePages.GOODS ;
+            case this.btnTool:
+                this._pageFocused = GamePages.TOOL ;
                 break;
-            case this.mbtnAbout:
-                this._pageFocused = GamePages.ABOUT ;
+            case this.btnAuction:
+                this._pageFocused = GamePages.AUCTION ;
                 break;
         }
         this.dispatchEventWith( GameEvents.EVT_LOAD_PAGE, false, this._pageFocused );
@@ -155,10 +159,6 @@ class HomeUI extends eui.Component{
         super.createChildren();
     }
 
-    private mbtnProfile:eui.ToggleButton;
-    private mbtnHeros:eui.ToggleButton;
-    private mbtnGoods:eui.ToggleButton;
-    private mbtnAbout:eui.ToggleButton;
     private _mbtnFocused:eui.ToggleButton;
     
     private _profileUI:ProfileUI;
@@ -187,7 +187,7 @@ class HomeUI extends eui.Component{
         }
         
         switch ( pageName ){
-            case GamePages.PROFILE:
+            case GamePages.HOME:
                 if( !this._profileUI ){
                     this._profileUI = new ProfileUI;
                     this._profileUI.addEventListener( GameEvents.EVT_RETURN, ()=>{
@@ -198,7 +198,7 @@ class HomeUI extends eui.Component{
                 this.imgBg.source = "commonBg_jpg";
                 this._uiFocused = this._profileUI;
                 break;
-            case GamePages.HEROS:
+            case GamePages.RANK:
                 if( !this._herosUI ){
                     this._herosUI = new HerosUI();
                     this._herosUI.addEventListener( GameEvents.EVT_RETURN, ()=>{
@@ -209,7 +209,7 @@ class HomeUI extends eui.Component{
                 this.imgBg.source = "bgListPage_jpg";
                 this._uiFocused = this._herosUI;
                 break;
-            case GamePages.GOODS:
+            case GamePages.TOOL:
                 if( !this._goodsUI ){
                     this._goodsUI = new GoodsUI();
                     this._goodsUI.addEventListener( GameEvents.EVT_RETURN, ()=>{
@@ -220,24 +220,24 @@ class HomeUI extends eui.Component{
                 this.imgBg.source = "bgListPage_jpg";
                 this._uiFocused = this._goodsUI;
                 break;
-            case GamePages.ABOUT:
+            case GamePages.AUCTION:
                 if( !this._aboutUI ){
                     this._aboutUI = new AboutUI();
                     this._aboutUI.addEventListener( GameEvents.EVT_CLOSE_ABOUT, ()=>{
                         this.resetFocus();
                         console.log( "关闭关于 返回:", this._pageFocusedPrev );
                         switch ( this._pageFocusedPrev ){
-                            case GamePages.PROFILE:
-                                this.mbtnProfile.selected = true;
-                                this.mbtnProfile.dispatchEventWith( egret.TouchEvent.TOUCH_TAP );
+                            case GamePages.HOME:
+                                this.btnHome.selected = true;
+                                this.btnHome.dispatchEventWith( egret.TouchEvent.TOUCH_TAP );
                                 break;
-                            case GamePages.HEROS:
-                                this.mbtnHeros.selected = true;
-                                this.mbtnHeros.dispatchEventWith( egret.TouchEvent.TOUCH_TAP );
+                            case GamePages.RANK:
+                                this.btnRank.selected = true;
+                                this.btnRank.dispatchEventWith( egret.TouchEvent.TOUCH_TAP );
                                 break;
-                            case GamePages.GOODS:
-                                this.mbtnGoods.selected = true;
-                                this.mbtnGoods.dispatchEventWith( egret.TouchEvent.TOUCH_TAP );
+                            case GamePages.TOOL:
+                                this.btnTool.selected = true;
+                                this.btnTool.dispatchEventWith( egret.TouchEvent.TOUCH_TAP );
                                 break;
                         }
                     }, this );

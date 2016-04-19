@@ -5,11 +5,10 @@ var GamePages = (function () {
     function GamePages() {
     }
     var d = __define,c=GamePages,p=c.prototype;
-    GamePages.PROFILE = "profile";
-    GamePages.HEROS = "heros";
-    GamePages.GOODS = "goods";
-    GamePages.ABOUT = "about";
     GamePages.HOME = "home";
+    GamePages.RANK = "rank";
+    GamePages.TOOL = "tool";
+    GamePages.AUCTION = "auction";
     return GamePages;
 })();
 egret.registerClass(GamePages,'GamePages');
