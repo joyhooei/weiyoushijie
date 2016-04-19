@@ -6,9 +6,7 @@ class HomeUI extends eui.Component{
     private grpProject: eui.List;
     private scrProjects: eui.Scroller;
     
-    private imgBeauty: eui.Image;
-    
-    private timeOnEnterFrame: number;
+    private mcBeauty: eui.MovieClip;
     
     constructor( ) {
         super();
@@ -41,26 +39,23 @@ class HomeUI extends eui.Component{
                 });
             }
         })
+        
+        var data = RES.getRes("animations.json");
+        var txtr = RES.getRes("animations.png");
+        var mcFactory:egret.MovieClipDataFactory = new egret.MovieClipDataFactory( data, txtr );
+        
+        self.mcBeauty = new egret.MovieClip( mcFactory.generateMovieClipData( "beauty" ) );
+        self.mcBeauty.addEventListener(egret.TouchEvent.TOUCH_TAP,() => {
+            this.mcBeauty.gotoAndPlay();
             
-        self.imgBeauty.addEventListener(egret.TouchEvent.TOUCH_TAP,() => {
-            this.startAnimation();
+            application.customer.gold += application.customer.output;
+            application.dao.save("Customer", customer);
+            self.lblGold.text    = application.customer.gold;
         },this);
+        self.addChild(self.mcBeauty);
                 
         /// 首次加载完成首先显示home
         self.goHome(); 
-    }
-    
-    private startAnimation(): void {
-        this.timeOnEnterFrame = egret.getTimer();
-        this.addEventListener(egret.Event.ENTER_FRAME,this.onEnterFrame,this);
-    }
-    
-    private onEnterFrame(e: egret.Event) {
-        if(egret.getTimer() - this.timeOnEnterFrame >= 100) {
-             this.removeEventListener(egret.Event.ENTER_FRAME,this.onEnterFrame,this);
-        } else {
-            this.imgBeauty.source = "";
-        }
     }
 	
 	private refreshCustomer(): void {
