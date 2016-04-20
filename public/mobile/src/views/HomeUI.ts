@@ -1,17 +1,35 @@
-/**
- * Created by egret on 2016/1/20.
- */
-
 class HomeUI extends eui.Component{
+    //footer buttons
+    private btnHome: eui.ToggleButton;
+    private btnRank: eui.ToggleButton;
+    private btnTool: eui.ToggleButton;
+    private btnAuction: eui.ToggleButton;
+    private _btnFocused:eui.ToggleButton;
+    private btns: eui.ToggleButton[];
+    
+    private _pageFocusedPrev:string;
+    private _pageFocused:string;
+    
+    private _profileUI:ProfileUI;
+    private _herosUI:HerosUI;
+    private _goodsUI:GoodsUI;
+    private _aboutUI:AboutUI;
+    private _uiFocused:eui.Component;
+    
+    private imgBg:eui.Image;
+    
     private grpProject: eui.List;
     private scrProjects: eui.Scroller;
     
     private mcBeauty: egret.MovieClip;
     
-    private btnHome: eui.ToggleButton;
-    private btnRank: eui.ToggleButton;
-    private btnTool: eui.ToggleButton;
-    private btnAuction: eui.ToggleButton;
+    private lblGold:eui.Label;
+    private lblDiamond: eui.Label;
+    
+    private lblBidName:eui.Label;
+    private lblBidGold:eui.Label;
+    
+    private lblOutput: eui.Label;
     
     constructor( ) {
         super();
@@ -25,10 +43,10 @@ class HomeUI extends eui.Component{
     private uiCompHandler():void {
         var self = this;
         
-        self.btnHome.addEventListener( egret.TouchEvent.TOUCH_TAP, self.mbtnHandler, self );
-        self.btnRank.addEventListener( egret.TouchEvent.TOUCH_TAP, self.mbtnHandler, self );
-        self.btnTool.addEventListener( egret.TouchEvent.TOUCH_TAP, self.mbtnHandler, self );
-        self.btnAuction.addEventListener( egret.TouchEvent.TOUCH_TAP, self.mbtnHandler, self );
+        self.btnHome.addEventListener( egret.TouchEvent.TOUCH_TAP, self.btnHandler, self );
+        self.btnRank.addEventListener( egret.TouchEvent.TOUCH_TAP, self.btnHandler, self );
+        self.btnTool.addEventListener( egret.TouchEvent.TOUCH_TAP, self.btnHandler, self );
+        self.btnAuction.addEventListener( egret.TouchEvent.TOUCH_TAP, self.btnHandler, self );
         
         self.btns = [self.btnHome,self.btnRank,self.btnTool,self.btnAuction ];
         
@@ -47,8 +65,7 @@ class HomeUI extends eui.Component{
         
         var data = RES.getRes("animations.json");
         var txtr = RES.getRes("animations.png");
-        var mcFactory:egret.MovieClipDataFactory = new egret.MovieClipDataFactory( data, txtr );
-        
+        var mcFactory:egret.MovieClipDataFactory = new egret.MovieClipDataFactory( data, txtr );        
         self.mcBeauty = new egret.MovieClip( mcFactory.generateMovieClipData( "beauty" ) );
         self.mcBeauty.addEventListener(egret.TouchEvent.TOUCH_TAP,() => {
             this.mcBeauty.gotoAndPlay(1);
@@ -84,20 +101,18 @@ class HomeUI extends eui.Component{
         });
 	}
     
-    private  btns:eui.ToggleButton[];
-    
     private resetFocus():void{
-        console.log( " resetFocus " );
         if( this._uiFocused ){
             if( this._uiFocused.parent ){
                 this._uiFocused.parent.removeChild( this._uiFocused );
             }
             this._uiFocused = null;
         }
-        if( this._mbtnFocused !=null ){
-            this._mbtnFocused.selected = false;
-            this._mbtnFocused.enabled = true;
-            this._mbtnFocused = null;
+        
+        if( this._btnFocused != null ){
+            this._btnFocused.selected = false;
+            this._btnFocused.enabled = true;
+            this._btnFocused = null;
         }
     }
     
@@ -106,81 +121,59 @@ class HomeUI extends eui.Component{
         this.imgBg.source = "MBG_jpg";
     }
     
-    private mbtnHandler( evt:egret.TouchEvent ):void{
-
+    private btnHandler( evt:egret.TouchEvent ):void{
         /// 已经选中不应当再处理!
-        if( evt.currentTarget == this._mbtnFocused ) {
+        if( evt.currentTarget == this._btnFocused ) {
             console.log( evt.currentTarget.name, "已经选中不应当再处理!" );
             return;
         }
+        
         /// 逻辑生效，所有按钮锁定
         for( var i:number = this.btns.length - 1; i > -1; --i ){
             this.btns[i].enabled = false;
         }
 
         /// 移除上一焦点对应的按钮
-        //console.log( "remove _mbtnFocused:", this._mbtnFocused );
-        if( this._mbtnFocused ){
-            this._mbtnFocused.selected = false;
-            this._mbtnFocused.enabled = true;
+        if( this._btnFocused ){
+            this._btnFocused.selected = false;
+            this._btnFocused.enabled = true;
         }
+        
         /// 移除上一焦点对应的UI
         if( this._uiFocused && this._uiFocused.parent ){
             this._uiFocused.parent.removeChild( this._uiFocused );
         }
         
         /// 设置当前焦点按钮
-        this._mbtnFocused = evt.currentTarget;
-        console.log( "选中", this._mbtnFocused.name  );
-        this._mbtnFocused.enabled = false;
+        this._btnFocused = evt.currentTarget;
+        this._btnFocused.enabled = false;
+        
         /// 焦点UI重置
         this._uiFocused = null;
 
         this._pageFocusedPrev = this._pageFocused;
-        switch ( this._mbtnFocused ){
+        switch ( this._btnFocused ){
             case this.btnHome:
                 this._pageFocused = GamePages.HOME;
                 break;
+                
             case this.btnRank:
                 this._pageFocused = GamePages.RANK ;
                 break;
+                
             case this.btnTool:
                 this._pageFocused = GamePages.TOOL ;
                 break;
+                
             case this.btnAuction:
                 this._pageFocused = GamePages.AUCTION ;
                 break;
         }
+        
         this.dispatchEventWith( GameEvents.EVT_LOAD_PAGE, false, this._pageFocused );
     }
-    private _pageFocusedPrev:string;
-
-    createChildren():void {
-        super.createChildren();
-    }
-
-    private _mbtnFocused:eui.ToggleButton;
-    
-    private _profileUI:ProfileUI;
-    private _herosUI:HerosUI;
-    private _goodsUI:GoodsUI;
-    private _aboutUI:AboutUI;
-    private _uiFocused:eui.Component;
-    
-    private imgBg:eui.Image;
-    
-    private lblGold:eui.Label;
-    private lblDiamond: eui.Label;
-    
-    private lblBidName:eui.Label;
-    private lblBidGold:eui.Label;
-    
-    private lblOutput: eui.Label;
-
-    private _pageFocused:string;
 
     public pageReadyHandler( pageName:String ):void {
-        console.log( "页面就绪:", pageName  );
         /// 页面加载完成，所有非焦点按钮解锁
         for( var i:number = this.btns.length - 1; i > -1; --i ){
             this.btns[i].enabled = ! this.btns[i].selected;
@@ -198,6 +191,7 @@ class HomeUI extends eui.Component{
                 this.imgBg.source = "commonBg_jpg";
                 this._uiFocused = this._profileUI;
                 break;
+                
             case GamePages.RANK:
                 if( !this._herosUI ){
                     this._herosUI = new HerosUI();
@@ -209,6 +203,7 @@ class HomeUI extends eui.Component{
                 this.imgBg.source = "bgListPage_jpg";
                 this._uiFocused = this._herosUI;
                 break;
+                
             case GamePages.TOOL:
                 if( !this._goodsUI ){
                     this._goodsUI = new GoodsUI();
@@ -220,6 +215,7 @@ class HomeUI extends eui.Component{
                 this.imgBg.source = "bgListPage_jpg";
                 this._uiFocused = this._goodsUI;
                 break;
+                
             case GamePages.AUCTION:
                 if( !this._aboutUI ){
                     this._aboutUI = new AboutUI();
@@ -246,6 +242,7 @@ class HomeUI extends eui.Component{
                 this._uiFocused = this._aboutUI;
                 break;
         }
+        
         /// 总是把页面放在背景的上一层！
         this.addChildAt( this._uiFocused, this.getChildIndex( this.imgBg ) + 1 );
     }
