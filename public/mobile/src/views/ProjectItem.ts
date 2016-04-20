@@ -10,6 +10,7 @@ class ProjectItem extends eui.Component {
     
     private _myProp: number;
     
+    private imgIcon:eui.Image;
     private lblLevel: eui.Label;
     private lblOutput: eui.Label; 
     private lblPrice: eui.Label;
@@ -19,7 +20,9 @@ class ProjectItem extends eui.Component {
     private btnUpgrade100: eui.Button;
     private btnUnlock: eui.Button;
     
-    public constructor(myProject: any,project: Project,myProp:number) {
+    private grpAchieve: eui.Group;
+    
+    public constructor(myProject: any,project: Project,myProp: number,iconName:string) {
         super();
 
         this._myProject = myProject;
@@ -28,6 +31,15 @@ class ProjectItem extends eui.Component {
         
         this.addEventListener(eui.UIEvent.COMPLETE,this.uiCompHandler,this);
         this.skinName = "resource/custom_skins/projectItemSkin.exml";
+        
+        this.imgIcon.source = iconName;
+        
+        for(var i = 1; i <= 10; i++) {
+            let imgAchieve = new eui.Image();
+            imgAchieve.source = "Dia" + i.toString() + "_png";
+            
+            this.grpAchieve.addChild(imgAchieve);
+        }
     }
     
     private uiCompHandler(): void {

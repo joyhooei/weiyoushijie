@@ -31,4 +31,9 @@
 		</e:skinName>
 	</e:Button>
 	<e:Button id="btnUnlock" label="解锁" x="178" y="27"/>
+	<e:Group id="grpAchieve" width="440" height="34" x="0" y="69">
+		<e:layout>
+			<e:HorizontalLayout gap="0"/>
+		</e:layout>
+	</e:Group>
 </e:Skin>

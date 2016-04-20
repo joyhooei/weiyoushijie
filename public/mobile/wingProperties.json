@@ -86,11 +86,6 @@
 				},
 				{
 					"isFolder":false,
-					"key":"Dia10s_png",
-					"name":"Dia10s_png"
-				},
-				{
-					"isFolder":false,
 					"key":"Dia1_png",
 					"name":"Dia1_png"
 				},
@@ -113,26 +108,6 @@
 					"isFolder":false,
 					"key":"Dia5_png",
 					"name":"Dia5_png"
-				},
-				{
-					"isFolder":false,
-					"key":"Dia6s_png",
-					"name":"Dia6s_png"
-				},
-				{
-					"isFolder":false,
-					"key":"Dia7s_png",
-					"name":"Dia7s_png"
-				},
-				{
-					"isFolder":false,
-					"key":"Dia8s_png",
-					"name":"Dia8s_png"
-				},
-				{
-					"isFolder":false,
-					"key":"Dia9s_png",
-					"name":"Dia9s_png"
 				},
 				{
 					"isFolder":false,
@@ -393,6 +368,31 @@
 					"isFolder":false,
 					"key":"animation_png",
 					"name":"animation_png"
+				},
+				{
+					"isFolder":false,
+					"key":"Dia10_png",
+					"name":"Dia10_png"
+				},
+				{
+					"isFolder":false,
+					"key":"Dia6_png",
+					"name":"Dia6_png"
+				},
+				{
+					"isFolder":false,
+					"key":"Dia7_png",
+					"name":"Dia7_png"
+				},
+				{
+					"isFolder":false,
+					"key":"Dia8_png",
+					"name":"Dia8_png"
+				},
+				{
+					"isFolder":false,
+					"key":"Dia9_png",
+					"name":"Dia9_png"
 				}
 			]
 		}

@@ -97,7 +97,7 @@ class HomeUI extends eui.Component{
                 for(var i = 0; i < projects.length; i ++){
                     var p = projects[i];
                     
-                    var item: ProjectItem = new ProjectItem(p, application.projects[i], 0);
+                    var item: ProjectItem = new ProjectItem(p,application.projects[i],0, "pro" + (i + 1).toString() + "_png");
                     self.grpProject.addChildAt(item, i);
                 }
             }

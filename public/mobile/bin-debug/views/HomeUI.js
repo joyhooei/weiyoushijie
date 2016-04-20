@@ -55,7 +55,7 @@ var HomeUI = (function (_super) {
             if (succeed && projects.length > 0) {
                 for (var i = 0; i < projects.length; i++) {
                     var p = projects[i];
-                    var item = new ProjectItem(p, application.projects[i], 0);
+                    var item = new ProjectItem(p, application.projects[i], 0, "pro" + (i + 1).toString() + "_png");
                     self.grpProject.addChildAt(item, i);
                 }
             }

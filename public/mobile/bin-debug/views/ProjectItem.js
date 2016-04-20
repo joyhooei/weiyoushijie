@@ -5,13 +5,19 @@
  */
 var ProjectItem = (function (_super) {
     __extends(ProjectItem, _super);
-    function ProjectItem(myProject, project, myProp) {
+    function ProjectItem(myProject, project, myProp, iconName) {
         _super.call(this);
         this._myProject = myProject;
         this._project = project;
         this._myProp = myProp;
         this.addEventListener(eui.UIEvent.COMPLETE, this.uiCompHandler, this);
         this.skinName = "resource/custom_skins/projectItemSkin.exml";
+        this.imgIcon.source = iconName;
+        for (var i = 1; i <= 10; i++) {
+            var imgAchieve = new eui.Image();
+            imgAchieve.source = "Dia" + i.toString() + "_png";
+            this.grpAchieve.addChild(imgAchieve);
+        }
     }
     var d = __define,c=ProjectItem,p=c.prototype;
     p.uiCompHandler = function () {

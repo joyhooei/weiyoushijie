@@ -1,7 +1,7 @@
 {
 	"groups":[
 		{
-			"keys":"MBAuction_jpg,MBmainpage_jpg,MBrank_jpg,MBtool_jpg,MBarrow_jpg,roundthumb_png,MPbx10_jpg,MPBx100_jpg,MPpinkx10_jpg,MPpinkx100_jpg,MPup_jpg,MPupb_jpg,Dia1_png,Dia2_png,Dia3_png,Dia4_png,Dia5_png,Dia6s_png,Dia7s_png,Dia8s_png,Dia9s_png,Dia10s_png,pro1_png,pro2_png,pro3_png,pro4_png,pro5_png,pro6_png,pro7_png,pro8_png,pro9_png,pro10_png,pro11_png,pro12_png,pro13_png,pro14_png,pro15_png,pro16_png,pro17_png,pro18_png,pro19_png,pro20_png,Projectbar_png,upgrade_png,upgrade10_png,upgrade10b_png,upgrade100_png,upgrade100b_png,upgradeb_png,MPbottombar_png,MPB_png,MPgift_png,MPhit_png,MPquestion_png,animation_json,animation_png",
+			"keys":"MBAuction_jpg,MBmainpage_jpg,MBrank_jpg,MBtool_jpg,MBarrow_jpg,roundthumb_png,MPbx10_jpg,MPBx100_jpg,MPpinkx10_jpg,MPpinkx100_jpg,MPup_jpg,MPupb_jpg,Dia1_png,Dia2_png,Dia3_png,Dia4_png,Dia5_png,Dia6_png,Dia7_png,Dia8_png,Dia9_png,Dia10_png,pro1_png,pro2_png,pro3_png,pro4_png,pro5_png,pro6_png,pro7_png,pro8_png,pro9_png,pro10_png,pro11_png,pro12_png,pro13_png,pro14_png,pro15_png,pro16_png,pro17_png,pro18_png,pro19_png,pro20_png,Projectbar_png,upgrade_png,upgrade10_png,upgrade10b_png,upgrade100_png,upgrade100b_png,upgradeb_png,MPbottombar_png,MPB_png,MPgift_png,MPhit_png,MPquestion_png,animation_json,animation_png",
 			"name":"home"
 		},
 		{
@@ -218,29 +218,29 @@
 			"url":"art/home/projects/Dia5.png"
 		},
 		{
-			"name":"Dia6s_png",
+			"name":"Dia6_png",
 			"type":"image",
-			"url":"art/home/projects/Dia6s.png"
+			"url":"art/home/projects/Dia6.png"
 		},
 		{
-			"name":"Dia7s_png",
+			"name":"Dia7_png",
 			"type":"image",
-			"url":"art/home/projects/Dia7s.png"
+			"url":"art/home/projects/Dia7.png"
 		},
 		{
-			"name":"Dia8s_png",
+			"name":"Dia8_png",
 			"type":"image",
-			"url":"art/home/projects/Dia8s.png"
+			"url":"art/home/projects/Dia8.png"
 		},
 		{
-			"name":"Dia9s_png",
+			"name":"Dia9_png",
 			"type":"image",
-			"url":"art/home/projects/Dia9s.png"
+			"url":"art/home/projects/Dia9.png"
 		},
 		{
-			"name":"Dia10s_png",
+			"name":"Dia10_png",
 			"type":"image",
-			"url":"art/home/projects/Dia10s.png"
+			"url":"art/home/projects/Dia10.png"
 		},
 		{
 			"name":"pro1_png",
