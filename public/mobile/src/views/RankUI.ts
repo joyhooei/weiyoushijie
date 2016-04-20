@@ -15,7 +15,7 @@ class RankUI extends eui.Component {
 			   
             if (succeed) {
                 for(var i = 0; i < customers.length; i++) {
-                    dsCustomers.push({icon: customer.avatar, name: customer.name, metal: customer.metal});
+                    dsCustomers.push({ icon: customers[i].avatar,name: customers[i].name,metal: customers[i].metal});
                 }
             }
 				

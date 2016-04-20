@@ -61,18 +61,23 @@ class HomeUI extends eui.Component{
             }
         })
         
-        var data = RES.getRes("animations.json");
-        var txtr = RES.getRes("animations.png");
+        var data = RES.getRes("animation_json");
+        var txtr = RES.getRes("animation_png");
         var mcFactory:egret.MovieClipDataFactory = new egret.MovieClipDataFactory( data, txtr );        
         self.mcBeauty = new egret.MovieClip( mcFactory.generateMovieClipData( "beauty" ) );
-        self.mcBeauty.addEventListener(egret.TouchEvent.TOUCH_TAP,() => {
-            this.mcBeauty.gotoAndPlay(1);
+        self.mcBeauty.x = 129; 
+        self.mcBeauty.y = 106; 
+        self.mcBeauty.scaleX = 0.5;         
+        self.mcBeauty.scaleY = 0.5;
+        self.addChild(self.mcBeauty);
+        self.mcBeauty.touchEnabled = true;
+        self.mcBeauty.addEventListener(egret.TouchEvent.TOUCH_BEGIN, function() {
+            self.mcBeauty.play(3);
             
             application.customer.gold += application.customer.output;
             application.dao.save("Customer",application.customer, null);
             self.lblGold.text    = application.customer.gold;
         },this);
-        self.addChild(self.mcBeauty);
                 
         /// 首次加载完成首先显示home
         self.goHome(); 
@@ -116,7 +121,7 @@ class HomeUI extends eui.Component{
     
     private goHome():void{
         this._pageFocusedPrev = this._pageFocused = GamePages.HOME;
-        this.imgBg.source = "MBG_jpg";
+        this.imgBg.source = "MPB_png";
     }
     
     private goTool():void {

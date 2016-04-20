@@ -1,10 +1,15 @@
 {
   "autoGenerateExmlsList": true,
   "exmls": [
+    "resource/custom_skins/auctionUISkin.exml",
     "resource/custom_skins/homeUISkin.exml",
     "resource/custom_skins/loginButtonSkin.exml",
     "resource/custom_skins/loginUISkin.exml",
     "resource/custom_skins/projectItemSkin.exml",
+    "resource/custom_skins/rankIRSkin.exml",
+    "resource/custom_skins/rankUISkin.exml",
+    "resource/custom_skins/toolIRSkin.exml",
+    "resource/custom_skins/toolUISkin.exml",
     "resource/eui_skins/CheckBoxSkin.exml",
     "resource/eui_skins/HScrollBarSkin.exml",
     "resource/eui_skins/HSliderSkin.exml",
