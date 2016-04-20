@@ -11,7 +11,7 @@ class HomeUI extends eui.Component{
     private _pageFocused:string;
     
     private _profileUI:ProfileUI;
-    private _herosUI:HerosUI;
+    private _rankUI:RankUI;
     private _goodsUI:GoodsUI;
     private _aboutUI:AboutUI;
     private _uiFocused:eui.Component;
@@ -193,15 +193,14 @@ class HomeUI extends eui.Component{
                 break;
                 
             case GamePages.RANK:
-                if( !this._herosUI ){
-                    this._herosUI = new HerosUI();
-                    this._herosUI.addEventListener( GameEvents.EVT_RETURN, ()=>{
+                if( !this._rankUI ){
+                    this._rankUI = new RankUI();
+                    this._rankUI.addEventListener( GameEvents.EVT_RETURN, ()=>{
                         this.resetFocus();
                         this.goHome();
                     }, this );
                 }
-                this.imgBg.source = "bgListPage_jpg";
-                this._uiFocused = this._herosUI;
+                this._uiFocused = this._rankUI;
                 break;
                 
             case GamePages.TOOL:
