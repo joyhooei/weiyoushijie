@@ -10,16 +10,14 @@ class HomeUI extends eui.Component{
     private _pageFocusedPrev:string;
     private _pageFocused:string;
     
-    private _profileUI:ProfileUI;
     private _rankUI:RankUI;
-    private _goodsUI:GoodsUI;
-    private _aboutUI:AboutUI;
+    private _toolUI:ToolUI;
+    private _auctionUI:AuctionUI;
     private _uiFocused:eui.Component;
     
     private imgBg:eui.Image;
     
     private grpProject: eui.List;
-    private scrProjects: eui.Scroller;
     
     private mcBeauty: egret.MovieClip;
     
@@ -121,6 +119,42 @@ class HomeUI extends eui.Component{
         this.imgBg.source = "MBG_jpg";
     }
     
+    private goTool():void {
+		if( !this._toolUI ){
+			this._toolUI = new ToolUI();
+			this._toolUI.addEventListener( GameEvents.EVT_RETURN, ()=>{
+				this.resetFocus();
+				this.goHome();
+			}, this );
+		}
+		
+		this._uiFocused = this._toolUI;	
+    }
+    
+    private goRank():void {
+		if( !this._rankUI ){
+			this._rankUI = new RankUI();
+			this._rankUI.addEventListener( GameEvents.EVT_RETURN, ()=>{
+				this.resetFocus();
+				this.goHome();
+			}, this );
+		}
+		
+		this._uiFocused = this._rankUI;	
+    }
+    
+    private goAuction():void {
+		if( !this._auctionUI ){
+			this._auctionUI = new AuctionUI();
+			this._auctionUI.addEventListener( GameEvents.EVT_RETURN, ()=>{
+				this.resetFocus();
+				this.goHome();
+			}, this );
+		}
+		
+		this._uiFocused = this._auctionUI;	
+    }
+    
     private btnHandler( evt:egret.TouchEvent ):void{
         /// 已经选中不应当再处理!
         if( evt.currentTarget == this._btnFocused ) {
@@ -181,64 +215,19 @@ class HomeUI extends eui.Component{
         
         switch ( pageName ){
             case GamePages.HOME:
-                if( !this._profileUI ){
-                    this._profileUI = new ProfileUI;
-                    this._profileUI.addEventListener( GameEvents.EVT_RETURN, ()=>{
-                        this.resetFocus();
-                        this.goHome();
-                    }, this );
-                }
-                this.imgBg.source = "commonBg_jpg";
-                this._uiFocused = this._profileUI;
+                this.goHome();
                 break;
                 
             case GamePages.RANK:
-                if( !this._rankUI ){
-                    this._rankUI = new RankUI();
-                    this._rankUI.addEventListener( GameEvents.EVT_RETURN, ()=>{
-                        this.resetFocus();
-                        this.goHome();
-                    }, this );
-                }
-                this._uiFocused = this._rankUI;
+                this.goRank();
                 break;
                 
             case GamePages.TOOL:
-                if( !this._goodsUI ){
-                    this._goodsUI = new GoodsUI();
-                    this._goodsUI.addEventListener( GameEvents.EVT_RETURN, ()=>{
-                        this.resetFocus();
-                        this.goHome();
-                    }, this );
-                }
-                this.imgBg.source = "bgListPage_jpg";
-                this._uiFocused = this._goodsUI;
+				this.goTool();
                 break;
                 
             case GamePages.AUCTION:
-                if( !this._aboutUI ){
-                    this._aboutUI = new AboutUI();
-                    this._aboutUI.addEventListener( GameEvents.EVT_CLOSE_ABOUT, ()=>{
-                        this.resetFocus();
-                        console.log( "关闭关于 返回:", this._pageFocusedPrev );
-                        switch ( this._pageFocusedPrev ){
-                            case GamePages.HOME:
-                                this.btnHome.selected = true;
-                                this.btnHome.dispatchEventWith( egret.TouchEvent.TOUCH_TAP );
-                                break;
-                            case GamePages.RANK:
-                                this.btnRank.selected = true;
-                                this.btnRank.dispatchEventWith( egret.TouchEvent.TOUCH_TAP );
-                                break;
-                            case GamePages.TOOL:
-                                this.btnTool.selected = true;
-                                this.btnTool.dispatchEventWith( egret.TouchEvent.TOUCH_TAP );
-                                break;
-                        }
-                    }, this );
-                }
-                //this.imgBg.source = "homeBg_jpg";
-                this._uiFocused = this._aboutUI;
+				this.goAuction();
                 break;
         }
         
