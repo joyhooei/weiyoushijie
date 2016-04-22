@@ -175,5 +175,5 @@ var HomeUI = (function (_super) {
         this.addChildAt(this._uiFocused, this.getChildIndex(this.imgBg) + 1);
     };
     return HomeUI;
-})(eui.Component);
+}(eui.Component));
 egret.registerClass(HomeUI,'HomeUI');

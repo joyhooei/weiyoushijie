@@ -12,5 +12,5 @@ var GameEvents = (function () {
     GameEvents.EVT_LOGIN_OUT_SUCCESS = "EVT_LOGIN_OUT_SUCCESS";
     GameEvents.EVT_REFRESH_CUSTOMER = "EVT_REFRESH_CUSTOMER";
     return GameEvents;
-})();
+}());
 egret.registerClass(GameEvents,'GameEvents');

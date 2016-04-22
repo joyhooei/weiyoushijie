@@ -242,5 +242,5 @@ var Project = (function () {
         return this._achieves[achieve].priceUseGold;
     };
     return Project;
-})();
+}());
 egret.registerClass(Project,'Project');

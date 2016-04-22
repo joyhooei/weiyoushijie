@@ -38,5 +38,5 @@ var Dao = (function () {
         request.send(JSON.stringify(data));
     };
     return Dao;
-})();
+}());
 egret.registerClass(Dao,'Dao');

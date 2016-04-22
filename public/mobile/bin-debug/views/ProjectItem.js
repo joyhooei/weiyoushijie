@@ -172,5 +172,5 @@ var ProjectItem = (function (_super) {
         }
     };
     return ProjectItem;
-})(eui.Component);
+}(eui.Component));
 egret.registerClass(ProjectItem,'ProjectItem');

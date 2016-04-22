@@ -61,5 +61,5 @@ var LoginButton = (function (_super) {
         return str + "登录";
     };
     return LoginButton;
-})(eui.Component);
+}(eui.Component));
 egret.registerClass(LoginButton,'LoginButton');

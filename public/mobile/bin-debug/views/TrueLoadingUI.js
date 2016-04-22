@@ -46,5 +46,5 @@ var TrueLoadingUI = (function (_super) {
         }
     };
     return TrueLoadingUI;
-})(eui.Group);
+}(eui.Group));
 egret.registerClass(TrueLoadingUI,'TrueLoadingUI');

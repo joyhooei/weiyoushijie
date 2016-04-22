@@ -10,5 +10,5 @@ var GamePages = (function () {
     GamePages.TOOL = "tool";
     GamePages.AUCTION = "auction";
     return GamePages;
-})();
+}());
 egret.registerClass(GamePages,'GamePages');

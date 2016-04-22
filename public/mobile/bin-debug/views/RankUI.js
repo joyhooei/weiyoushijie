@@ -20,7 +20,7 @@ var RankUI = (function (_super) {
         });
     };
     return RankUI;
-})(eui.Component);
+}(eui.Component));
 egret.registerClass(RankUI,'RankUI');
 var RankIRSkin = (function (_super) {
     __extends(RankIRSkin, _super);
@@ -30,5 +30,5 @@ var RankIRSkin = (function (_super) {
     }
     var d = __define,c=RankIRSkin,p=c.prototype;
     return RankIRSkin;
-})(eui.ItemRenderer);
+}(eui.ItemRenderer));
 egret.registerClass(RankIRSkin,'RankIRSkin');

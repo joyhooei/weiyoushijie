@@ -34,5 +34,5 @@ var ProfileUI = (function (_super) {
         this.scrListSkills.horizontalScrollBar = null;
     };
     return ProfileUI;
-})(eui.Component);
+}(eui.Component));
 egret.registerClass(ProfileUI,'ProfileUI');

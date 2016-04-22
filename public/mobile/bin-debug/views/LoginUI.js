@@ -31,5 +31,5 @@ var LoginUI = (function (_super) {
         }
     };
     return LoginUI;
-})(eui.Component);
+}(eui.Component));
 egret.registerClass(LoginUI,'LoginUI');

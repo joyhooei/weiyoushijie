@@ -16,5 +16,5 @@ var AuctionUI = (function (_super) {
         }, this);
     };
     return AuctionUI;
-})(eui.Component);
+}(eui.Component));
 egret.registerClass(AuctionUI,'AuctionUI');

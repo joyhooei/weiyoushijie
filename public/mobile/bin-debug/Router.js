@@ -8,5 +8,5 @@ var Router = (function () {
         this._main.addChild(page);
     };
     return Router;
-})();
+}());
 egret.registerClass(Router,'Router');

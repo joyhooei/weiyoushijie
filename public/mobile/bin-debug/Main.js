@@ -173,5 +173,5 @@ var Main = (function (_super) {
         this._homeUI.dispatchEventWith(GameEvents.EVT_REFRESH_CUSTOMER);
     };
     return Main;
-})(eui.UILayer);
+}(eui.UILayer));
 egret.registerClass(Main,'Main',["nest.easeuser.ILoginCallbacks"]);

@@ -26,7 +26,7 @@ var ToolUI = (function (_super) {
         this.listTool.itemRenderer = ToolIRSkin;
     };
     return ToolUI;
-})(eui.Component);
+}(eui.Component));
 egret.registerClass(ToolUI,'ToolUI');
 var ToolIRSkin = (function (_super) {
     __extends(ToolIRSkin, _super);
@@ -36,5 +36,5 @@ var ToolIRSkin = (function (_super) {
     }
     var d = __define,c=ToolIRSkin,p=c.prototype;
     return ToolIRSkin;
-})(eui.ItemRenderer);
+}(eui.ItemRenderer));
 egret.registerClass(ToolIRSkin,'ToolIRSkin');
