@@ -200,7 +200,7 @@ router.post('/select/:model', function(req, res, next) {
 
 			if (req.params.model === 'Media') {
 				if (avObj.get("content")) {
-					if (conditions.width) {
+					if (req.body.conditions.width) {
 						m.url = avObj.get("content").thumbnailURL(req.body.conditions.width, req.body.conditions.height);
 					} else {
 						m.url = avObj.get("content").url();
@@ -267,7 +267,7 @@ function _filterAttributes(req) {
 function _saveModel(model, req, res) {
 	_filterAttributes(req);
 	
-	model.save(req.body).then(function(m){
+	_encode(model, req.body).save().then(function(m){
 		var query = new AV.Query(dao[req.params.model]);
 		query.get(m.id).then(function(updatedModel){
 			_succeed(res, _decode(updatedModel));
@@ -292,6 +292,26 @@ function _decode(avObj) {
 	model.create_time = moment(avObj.createdAt).utc().format("YYYY-MM-DD HH:mm:ss");
 	model.update_time = moment(avObj.updatedAt).utc().format("YYYY-MM-DD HH:mm:ss");
 
+	return model;
+};
+
+function _encode(model, attrs) {
+	var attributes = _.clone(attrs);
+	
+	if (!_.isUndefined(attributes.latitude)) {
+		if (attributes.latitude != 0) {
+			var point = new AV.GeoPoint(attributes.latitude, attributes.longitude);
+			model.set("location", point);
+		}
+
+		delete attributes.latitude;
+		delete attributes.longitude;
+	}
+
+	delete attributes.create_time;
+	delete attributes.update_time;
+
+	model.set(attributes);
 	return model;
 };
 

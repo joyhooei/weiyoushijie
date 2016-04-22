@@ -15,7 +15,7 @@ var ProjectItem = (function (_super) {
         this.imgIcon.source = iconName;
         for (var i = 1; i <= 10; i++) {
             var imgAchieve = new eui.Image();
-            imgAchieve.source = "Dia" + i.toString() + "_png";
+            imgAchieve.source = "acv" + i.toString() + "_png";
             this.grpAchieve.addChild(imgAchieve);
         }
     }
@@ -23,53 +23,46 @@ var ProjectItem = (function (_super) {
     p.uiCompHandler = function () {
         var _this = this;
         if (this._myProject.unlocked == 1) {
-            this.lblLevel.text = "";
-            this.lblOutput.text = "";
-            this.lblPrice.text = "";
-            this.btnUpgrade.enabled = false;
-            this.btnUpgrade10.enabled = false;
-            this.btnUpgrade100.enabled = false;
+            this.lblLevel.text = "0";
+            this.lblOutput.text = "0";
+            this.imgUpgrade10.source = "MPbx10_jpg";
+            this.imgUpgrade100.source = "MPBx100_jpg";
+            this.imgUpgrade.source = 'UpgradeG_png';
             var p = this._project.priceOf(1);
+            this.lblPrice.text = p.toString();
             if (application.customer.gold >= p) {
-                this.btnUnlock.addEventListener(egret.TouchEvent.TOUCH_TAP, function () {
+                this.imgUpgrade.addEventListener(egret.TouchEvent.TOUCH_TAP, function () {
                     _this.unlock();
                 }, this);
-            }
-            else {
-                this.btnUnlock.enabled = false;
             }
         }
         else {
             this.lblLevel.text = this._myProject.level;
             this.lblOutput.text = this._project.output(this._myProject.level, this._myProject.achieve, this._myProp).toString();
             this.lblPrice.text = this._project.priceOf(this._myProject.level + 1).toString();
-            this.btnUnlock.maxWidth = 0;
             var p = this._project.price(this._myProject.level + 1, 1);
             if (application.customer.gold > p) {
-                this.btnUpgrade.addEventListener(egret.TouchEvent.TOUCH_TAP, function () {
+                this.imgUpgrade.addEventListener(egret.TouchEvent.TOUCH_TAP, function () {
                     _this.upgrade(1);
                 }, this);
             }
             else {
-                this.btnUpgrade.enabled = false;
             }
             p = this._project.price(this._myProject.level + 1, 10);
             if (application.customer.gold > p) {
-                this.btnUpgrade10.addEventListener(egret.TouchEvent.TOUCH_TAP, function () {
+                this.imgUpgrade10.addEventListener(egret.TouchEvent.TOUCH_TAP, function () {
                     _this.upgrade(10);
                 }, this);
             }
             else {
-                this.btnUpgrade10.enabled = false;
             }
             p = this._project.price(this._myProject.level + 1, 10);
             if (application.customer.gold > p) {
-                this.btnUpgrade100.addEventListener(egret.TouchEvent.TOUCH_TAP, function () {
+                this.imgUpgrade100.addEventListener(egret.TouchEvent.TOUCH_TAP, function () {
                     _this.upgrade(100);
                 }, this);
             }
             else {
-                this.btnUpgrade100.enabled = false;
             }
         }
     };
@@ -102,13 +95,13 @@ var ProjectItem = (function (_super) {
         var self = this;
         var p = this._project.priceOf(1);
         if (application.customer.gold >= p) {
-            self._myProject.unlocked = 1;
+            self._myProject.unlocked = 0;
             application.dao.save("Project", self._myProject, function (succeed, proj) {
                 if (succeed) {
-                    var project;
+                    var project = {};
                     project.customer_id = application.customer.id;
                     project.sequence = self._myProject.sequence + 1;
-                    project.unlocked = 0;
+                    project.unlocked = 1;
                     project.achieve = 0;
                     project.level = 0;
                     application.dao.save("Project", project, function (succeed, proj) {

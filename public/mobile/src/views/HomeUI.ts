@@ -64,7 +64,7 @@ class HomeUI extends eui.Component{
         var data = RES.getRes("animation_json");
         var txtr = RES.getRes("animation_png");
         var mcFactory:egret.MovieClipDataFactory = new egret.MovieClipDataFactory( data, txtr );        
-        self.mcBeauty = new egret.MovieClip( mcFactory.generateMovieClipData( "beauty" ) );
+        self.mcBeauty = new egret.MovieClip( mcFactory.generateMovieClipData("" ) );
         self.mcBeauty.x = 129; 
         self.mcBeauty.y = 106; 
         self.mcBeauty.scaleX = 0.5;         

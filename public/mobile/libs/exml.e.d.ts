@@ -17,6 +17,10 @@ declare class toolIRSkin extends eui.Skin{
 declare class toolUISkin extends eui.Skin{
 }
 declare module skins{
+	class ButtonSkin extends eui.Skin{
+	}
+}
+declare module skins{
 	class CheckBoxSkin extends eui.Skin{
 	}
 }

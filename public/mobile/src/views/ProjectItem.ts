@@ -15,10 +15,9 @@ class ProjectItem extends eui.Component {
     private lblOutput: eui.Label; 
     private lblPrice: eui.Label;
     
-    private btnUpgrade: eui.Button;
-    private btnUpgrade10: eui.Button; 
-    private btnUpgrade100: eui.Button;
-    private btnUnlock: eui.Button;
+    private imgUpgrade: eui.Image;
+    private imgUpgrade10: eui.Image; 
+    private imgUpgrade100: eui.Image;
     
     private grpAchieve: eui.Group;
     
@@ -36,7 +35,7 @@ class ProjectItem extends eui.Component {
         
         for(var i = 1; i <= 10; i++) {
             let imgAchieve = new eui.Image();
-            imgAchieve.source = "Dia" + i.toString() + "_png";
+            imgAchieve.source = "acv" + i.toString() + "_png";
             
             this.grpAchieve.addChild(imgAchieve);
         }
@@ -44,53 +43,50 @@ class ProjectItem extends eui.Component {
     
     private uiCompHandler(): void {
         if (this._myProject.unlocked == 1) {
-            this.lblLevel.text = "";
-            this.lblOutput.text = "";
-            this.lblPrice.text = "";
+            this.lblLevel.text = "0";
+            this.lblOutput.text = "0";
             
-            this.btnUpgrade.enabled = false;
-            this.btnUpgrade10.enabled = false;
-            this.btnUpgrade100.enabled = false;
+            
+            this.imgUpgrade10.source  = "MPbx10_jpg";
+            this.imgUpgrade100.source = "MPBx100_jpg";           
+            this.imgUpgrade.source    = 'UpgradeG_png';
             
             let p = this._project.priceOf(1);
+            
+            this.lblPrice.text = p.toString();
             if(application.customer.gold >= p) {
-                this.btnUnlock.addEventListener(egret.TouchEvent.TOUCH_TAP,() => {
+                this.imgUpgrade.addEventListener(egret.TouchEvent.TOUCH_TAP,() => {
                     this.unlock();
                 },this);
-            } else {
-                this.btnUnlock.enabled = false;
             }
         } else {
             this.lblLevel.text = this._myProject.level;
             this.lblOutput.text = this._project.output(this._myProject.level,this._myProject.achieve,this._myProp).toString();
             this.lblPrice.text = this._project.priceOf(this._myProject.level + 1).toString();
             
-            this.btnUnlock.maxWidth = 0;
             let p = this._project.price(this._myProject.level + 1, 1);
             if(application.customer.gold > p) {
-                this.btnUpgrade.addEventListener(egret.TouchEvent.TOUCH_TAP,() => {
+                this.imgUpgrade.addEventListener(egret.TouchEvent.TOUCH_TAP,() => {
                     this.upgrade(1);
                 }, this);
             } else {
-                this.btnUpgrade.enabled = false;
+                
             }
             
             p = this._project.price(this._myProject.level + 1,10);
             if(application.customer.gold > p) {
-                this.btnUpgrade10.addEventListener(egret.TouchEvent.TOUCH_TAP,() => {
+                this.imgUpgrade10.addEventListener(egret.TouchEvent.TOUCH_TAP,() => {
                     this.upgrade(10);
                 }, this); 
             } else {
-                this.btnUpgrade10.enabled = false;
             }
             
             p = this._project.price(this._myProject.level + 1,10);
             if(application.customer.gold > p) {
-                this.btnUpgrade100.addEventListener(egret.TouchEvent.TOUCH_TAP,() => {
+                this.imgUpgrade100.addEventListener(egret.TouchEvent.TOUCH_TAP,() => {
                     this.upgrade(100);
                 }, this);
             } else {
-                this.btnUpgrade100.enabled = false;
             }
         }
     }
@@ -126,13 +122,13 @@ class ProjectItem extends eui.Component {
 
         let p = this._project.priceOf(1);
         if(application.customer.gold >= p) {
-            self._myProject.unlocked = 1;
+            self._myProject.unlocked = 0;
             application.dao.save("Project",self._myProject,function(succeed,proj) {
                 if(succeed) {
-                    var project:any;
+                    let project:any = {};
                     project.customer_id = application.customer.id;
                     project.sequence = self._myProject.sequence + 1;
-                    project.unlocked = 0;
+                    project.unlocked = 1;
                     project.achieve = 0;
                     project.level = 0;
                     application.dao.save("Project",project,function(succeed,proj) {
