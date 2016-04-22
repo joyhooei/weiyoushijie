@@ -88,7 +88,7 @@ router.post('/login', function(req, res, next) {
 				query.equalTo("uid", result.data.id);
 				query.find().then(function(customers){
 					if (customers.length > 0) {
-						_succeed(res, customers[0]);
+						_succeed(res, _decode(customers[0]));
 					} else {
 						var customer = new dao.Customer();
 						customer.set("uid", result.data.id);
@@ -101,7 +101,7 @@ router.post('/login', function(req, res, next) {
 						customer.set("diamond", 100);
 						customer.set("metal", 0);
 						customer.save().then(function(){
-							_succeed(res, customer);
+							_succeed(res, _decode(customer));
 						}, function(error){
 							_failed(res, error);
 						})				
