@@ -1,14 +1,11 @@
-/**
- *
- * @author 
- *
- */
 class ProjectItem extends eui.Component {
     private _project : Project;
     
     private _myProject : any;
-    
+	
     private imgIcon:eui.Image;
+	private lblTitle: eui.Label;
+    
     private lblLevel: eui.Label;
     private lblOutput: eui.Label; 
     private lblPrice: eui.Label;
@@ -16,8 +13,6 @@ class ProjectItem extends eui.Component {
     private imgUpgrade: eui.Image;
     private imgUpgrade10: eui.Image; 
     private imgUpgrade100: eui.Image;
-	
-	private lblTitle: eui.Label;
     
     private grpAchieve: eui.Group;
     
@@ -36,36 +31,30 @@ class ProjectItem extends eui.Component {
     
     private uiCompHandler(): void {
         if (this._myProject.unlocked == 1) {
-            this.lblLevel.text  = "0";
-            this.lblOutput.text = "0";
-            
-            this.imgUpgrade10.source  = "MPbx10_jpg";
-            this.imgUpgrade100.source = "MPBx100_jpg";           
-            this.imgUpgrade.source    = 'UpgradeG_png';
-            
-            let p = this._project.priceOf(1);           
-            this.lblPrice.text = p.toString();
-			
-			this.imgUpgrade.addEventListener(egret.TouchEvent.TOUCH_TAP,() => {
-				this.unlock();
-			},this);
-			
-			this.renderAchieves();			
+			this.renderLocked();		
         } else {
 			this.renderUnlocked();
-
-			this.imgUpgrade.addEventListener(egret.TouchEvent.TOUCH_TAP,() => {
-				this.upgrade(1);
-			}, this);
-
-			this.imgUpgrade10.addEventListener(egret.TouchEvent.TOUCH_TAP,() => {
-				this.upgrade(10);
-			}, this); 
-
-			this.imgUpgrade100.addEventListener(egret.TouchEvent.TOUCH_TAP,() => {
-				this.upgrade(100);
-			}, this);
         }
+
+		this.imgUpgrade.addEventListener(egret.TouchEvent.TOUCH_TAP,() => {
+			if (this._myProject.unlocked == 1) {
+				this.unlock();
+			} else {
+				this.upgrade(1);
+			}
+		}, this);
+
+		this.imgUpgrade10.addEventListener(egret.TouchEvent.TOUCH_TAP,() => {
+			if (this._myProject.unlocked == 0) {
+				this.upgrade(10);
+			}
+		}, this); 
+
+		this.imgUpgrade100.addEventListener(egret.TouchEvent.TOUCH_TAP,() => {
+			if (this._myProject.unlocked == 0) {
+				this.upgrade(100);
+			}
+		}, this);
     }
 
     private output(): number {
@@ -93,6 +82,18 @@ class ProjectItem extends eui.Component {
             
             this.grpAchieve.addChild(imgAchieve);
         }
+	}
+	
+	private renderLocked(): void {
+		this.lblLevel.text  = "0";
+		this.lblOutput.text = "0";
+		this.lblPrice.text  = this._project.priceOf(this._myProject.level + 1).toString();
+
+		this.imgUpgrade10.source  = "MPbx10_jpg";
+		this.imgUpgrade100.source = "MPBx100_jpg";           
+		this.imgUpgrade.source    = 'UpgradeG_png';
+		
+		this.renderAchieves();			
 	}
 	
 	private renderUnlocked(): void {
