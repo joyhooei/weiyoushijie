@@ -42,7 +42,7 @@ module application {
         application.customer.output    += output;
         application.dao.save("Customer", application.customer, function(succeed, c){
             if (succeed) {
-                application.main.homeUI.refreshCustomer(gold, diamond, output);
+                application.main.homeUI.animateCustomer(gold, diamond, output);
             }
 			
 			cb(succeed, c);
