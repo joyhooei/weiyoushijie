@@ -13,7 +13,7 @@ class Main extends eui.UILayer implements nest.easeuser.ILoginCallbacks {
     
     private _trueLoadingUI: TrueLoadingUI;
 
-    private _homeUI: HomeUI;
+    private homeUI: HomeUI;
 
     private _loginUI: LoginUI;
 
@@ -162,11 +162,11 @@ class Main extends eui.UILayer implements nest.easeuser.ILoginCallbacks {
         /// 主页特殊，其他页都需要传参数
         this.pageLoadedHandler( "home" );
         
-        this._homeUI = new HomeUI();
-        this._homeUI.addEventListener( GameEvents.EVT_LOAD_PAGE, ( evt:egret.Event )=>{
+        this.homeUI = new HomeUI();
+        this.homeUI.addEventListener( GameEvents.EVT_LOAD_PAGE, ( evt:egret.Event )=>{
             this.loadPage( evt.data );
         }, this );
-        this.addChild( this._homeUI );
+        this.addChild( this.homeUI );
     }
     
     public loadPage( pageName:string ):void{
@@ -187,7 +187,7 @@ class Main extends eui.UILayer implements nest.easeuser.ILoginCallbacks {
     
     pageLoadedHandler( name:string ):void{
         if( name != "home" ){
-            this._homeUI.pageReadyHandler( this._idLoading );
+            this.homeUI.pageReadyHandler( this._idLoading );
         }
       
         if( this._trueLoadingUI.parent ){
@@ -205,13 +205,5 @@ class Main extends eui.UILayer implements nest.easeuser.ILoginCallbacks {
 
     public onFail(data: nest.core.ResultCallbackInfo): void {
         egret.log("log Fail");
-    }
-    
-    public logined(): void {
-        this.dispatchEventWith(GameEvents.EVT_LOGIN_IN_SUCCESS);
-    }
-    
-    public refreshCustomer(): void {
-        this._homeUI.dispatchEventWith(GameEvents.EVT_REFRESH_CUSTOMER);
     }
 }
