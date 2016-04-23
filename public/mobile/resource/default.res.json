@@ -1,11 +1,11 @@
 {
 	"groups":[
 		{
-			"keys":"MBAuction_jpg,MBmainpage_jpg,MBrank_jpg,MBtool_jpg,MBarrow_jpg,roundthumb_png,MPbx10_jpg,MPBx100_jpg,MPpinkx10_jpg,MPpinkx100_jpg,MPup_jpg,MPupb_jpg,pro1_png,pro2_png,pro3_png,pro4_png,pro5_png,pro6_png,pro7_png,pro8_png,pro9_png,pro10_png,pro11_png,pro12_png,pro13_png,pro14_png,pro15_png,pro16_png,pro17_png,pro18_png,pro19_png,pro20_png,Projectbar_png,upgrade_png,upgrade10_png,upgrade10b_png,upgrade100_png,upgrade100b_png,upgradeb_png,MPbottombar_png,MPB_png,MPgift_png,MPhit_png,MPquestion_png,animation_json,animation_png,UpgradeG_png,acv1_png,acv2_png,acv3_png,acv4_png,acv5_png,acv6_png,acv7_png,acv8_png,acv9_png,acv10_png,button_down_png,button_up_png",
+			"keys":"animation_json,animation_png,MParrow_png,MPauction_png,MPbottombar_png,MPmainpage_png,MPrank_png,MPtool_png,MPB_png,MPgift_png,MPhit_png,MPquestion_png,acv1_png,acv2_png,acv3_png,acv4_png,acv5_png,acv6_png,acv7_png,acv8_png,acv9_png,acv10_png,acvlock_png,MPbx10_jpg,MPBx100_jpg,MPpinkx10_jpg,MPpinkx100_jpg,MPup_jpg,MPupb_jpg,pro1_png,pro2_png,pro3_png,pro4_png,pro5_png,pro6_png,pro7_png,pro8_png,pro9_png,pro10_png,pro11_png,pro12_png,pro13_png,pro14_png,pro15_png,pro16_png,pro17_png,pro18_png,pro19_png,pro20_png,Projectbar_png,upgrade_png,upgrade10_png,upgrade10b_png,upgrade10G_png,upgrade100_png,upgrade100b_png,upgrade100G_png,upgradeb_png,UpgradeG_png",
 			"name":"home"
 		},
 		{
-			"keys":"",
+			"keys":"toast-bg_png,roundthumb_png",
 			"name":"loading"
 		},
 		{
@@ -23,34 +23,119 @@
 	],
 	"resources":[
 		{
-			"name":"MBAuction_jpg",
-			"type":"image",
-			"url":"art/home/footer/MPauction.png"
+			"name":"animation_json",
+			"type":"json",
+			"url":"art/animation.json"
 		},
 		{
-			"name":"MBmainpage_jpg",
+			"name":"animation_png",
 			"type":"image",
-			"url":"art/home/footer/MPmainpage.png"
+			"url":"art/animation.png"
 		},
 		{
-			"name":"MBrank_jpg",
-			"type":"image",
-			"url":"art/home/footer/MPrank.png"
-		},
-		{
-			"name":"MBtool_jpg",
-			"type":"image",
-			"url":"art/home/footer/MPtool.png"
-		},
-		{
-			"name":"MBarrow_jpg",
+			"name":"MParrow_png",
 			"type":"image",
 			"url":"art/home/footer/MParrow.png"
 		},
 		{
-			"name":"roundthumb_png",
+			"name":"MPauction_png",
 			"type":"image",
-			"url":"assets/ScrollBar/roundthumb.png"
+			"url":"art/home/footer/MPauction.png"
+		},
+		{
+			"name":"MPbottombar_png",
+			"type":"image",
+			"url":"art/home/footer/MPbottombar.png"
+		},
+		{
+			"name":"MPmainpage_png",
+			"type":"image",
+			"url":"art/home/footer/MPmainpage.png"
+		},
+		{
+			"name":"MPrank_png",
+			"type":"image",
+			"url":"art/home/footer/MPrank.png"
+		},
+		{
+			"name":"MPtool_png",
+			"type":"image",
+			"url":"art/home/footer/MPtool.png"
+		},
+		{
+			"name":"MPB_png",
+			"type":"image",
+			"url":"art/home/MPB.png"
+		},
+		{
+			"name":"MPgift_png",
+			"type":"image",
+			"url":"art/home/MPgift.png"
+		},
+		{
+			"name":"MPhit_png",
+			"type":"image",
+			"url":"art/home/MPhit.png"
+		},
+		{
+			"name":"MPquestion_png",
+			"type":"image",
+			"url":"art/home/MPquestion.png"
+		},
+		{
+			"name":"acv1_png",
+			"type":"image",
+			"url":"art/home/projects/acv1.png"
+		},
+		{
+			"name":"acv2_png",
+			"type":"image",
+			"url":"art/home/projects/acv2.png"
+		},
+		{
+			"name":"acv3_png",
+			"type":"image",
+			"url":"art/home/projects/acv3.png"
+		},
+		{
+			"name":"acv4_png",
+			"type":"image",
+			"url":"art/home/projects/acv4.png"
+		},
+		{
+			"name":"acv5_png",
+			"type":"image",
+			"url":"art/home/projects/acv5.png"
+		},
+		{
+			"name":"acv6_png",
+			"type":"image",
+			"url":"art/home/projects/acv6.png"
+		},
+		{
+			"name":"acv7_png",
+			"type":"image",
+			"url":"art/home/projects/acv7.png"
+		},
+		{
+			"name":"acv8_png",
+			"type":"image",
+			"url":"art/home/projects/acv8.png"
+		},
+		{
+			"name":"acv9_png",
+			"type":"image",
+			"url":"art/home/projects/acv9.png"
+		},
+		{
+			"name":"acv10_png",
+			"type":"image",
+			"url":"art/home/projects/acv10.png"
+		},
+		{
+			"name":"acvlock_png",
+			"type":"image",
+			"url":"art/home/projects/acvlock.png"
 		},
 		{
 			"name":"MPbx10_jpg",
@@ -81,116 +166,6 @@
 			"name":"MPupb_jpg",
 			"type":"image",
 			"url":"art/home/projects/MPupb.jpg"
-		},
-		{
-			"name":"button_down_png",
-			"type":"image",
-			"url":"assets/Button/button_down.png"
-		},
-		{
-			"name":"button_up_png",
-			"type":"image",
-			"url":"assets/Button/button_up.png"
-		},
-		{
-			"name":"checkbox_select_disabled_png",
-			"type":"image",
-			"url":"assets/CheckBox/checkbox_select_disabled.png"
-		},
-		{
-			"name":"checkbox_select_down_png",
-			"type":"image",
-			"url":"assets/CheckBox/checkbox_select_down.png"
-		},
-		{
-			"name":"checkbox_select_up_png",
-			"type":"image",
-			"url":"assets/CheckBox/checkbox_select_up.png"
-		},
-		{
-			"name":"checkbox_unselect_png",
-			"type":"image",
-			"url":"assets/CheckBox/checkbox_unselect.png"
-		},
-		{
-			"name":"selected_png",
-			"type":"image",
-			"url":"assets/ItemRenderer/selected.png"
-		},
-		{
-			"name":"border_png",
-			"type":"image",
-			"url":"assets/Panel/border.png"
-		},
-		{
-			"name":"header_png",
-			"type":"image",
-			"url":"assets/Panel/header.png"
-		},
-		{
-			"name":"thumb_pb_png",
-			"type":"image",
-			"url":"assets/ProgressBar/thumb_pb.png"
-		},
-		{
-			"name":"track_pb_png",
-			"type":"image",
-			"url":"assets/ProgressBar/track_pb.png"
-		},
-		{
-			"name":"radiobutton_select_disabled_png",
-			"type":"image",
-			"url":"assets/RadioButton/radiobutton_select_disabled.png"
-		},
-		{
-			"name":"radiobutton_select_down_png",
-			"type":"image",
-			"url":"assets/RadioButton/radiobutton_select_down.png"
-		},
-		{
-			"name":"radiobutton_select_up_png",
-			"type":"image",
-			"url":"assets/RadioButton/radiobutton_select_up.png"
-		},
-		{
-			"name":"radiobutton_unselect_png",
-			"type":"image",
-			"url":"assets/RadioButton/radiobutton_unselect.png"
-		},
-		{
-			"name":"track_sb_png",
-			"type":"image",
-			"url":"assets/ScrollBar/track_sb.png"
-		},
-		{
-			"name":"thumb_png",
-			"type":"image",
-			"url":"assets/Slider/thumb.png"
-		},
-		{
-			"name":"track_png",
-			"type":"image",
-			"url":"assets/Slider/track.png"
-		},
-		{
-			"name":"tracklight_png",
-			"type":"image",
-			"url":"assets/Slider/tracklight.png"
-		},
-		{
-			"name":"handle_png",
-			"type":"image",
-			"url":"assets/ToggleSwitch/handle.png"
-		},
-		{
-			"name":"off_png",
-			"type":"image",
-			"url":"assets/ToggleSwitch/off.png"
-		},
-		{
-			"name":"on_png",
-			"type":"image",
-			"url":"assets/ToggleSwitch/on.png"
 		},
 		{
 			"name":"pro1_png",
@@ -313,6 +288,11 @@
 			"url":"art/home/projects/upgrade10b.png"
 		},
 		{
+			"name":"upgrade10G_png",
+			"type":"image",
+			"url":"art/home/projects/upgrade10G.png"
+		},
+		{
 			"name":"upgrade100_png",
 			"type":"image",
 			"url":"art/home/projects/upgrade100.png"
@@ -323,44 +303,14 @@
 			"url":"art/home/projects/upgrade100b.png"
 		},
 		{
+			"name":"upgrade100G_png",
+			"type":"image",
+			"url":"art/home/projects/upgrade100G.png"
+		},
+		{
 			"name":"upgradeb_png",
 			"type":"image",
 			"url":"art/home/projects/upgradeb.png"
-		},
-		{
-			"name":"MPbottombar_png",
-			"type":"image",
-			"url":"art/home/footer/MPbottombar.png"
-		},
-		{
-			"name":"MPB_png",
-			"type":"image",
-			"url":"art/home/MPB.png"
-		},
-		{
-			"name":"MPgift_png",
-			"type":"image",
-			"url":"art/home/MPgift.png"
-		},
-		{
-			"name":"MPhit_png",
-			"type":"image",
-			"url":"art/home/MPhit.png"
-		},
-		{
-			"name":"MPquestion_png",
-			"type":"image",
-			"url":"art/home/MPquestion.png"
-		},
-		{
-			"name":"animation_json",
-			"type":"json",
-			"url":"art/animation.json"
-		},
-		{
-			"name":"animation_png",
-			"type":"image",
-			"url":"art/animation.png"
 		},
 		{
 			"name":"UpgradeG_png",
@@ -368,54 +318,14 @@
 			"url":"art/home/projects/UpgradeG.png"
 		},
 		{
-			"name":"acv1_png",
+			"name":"toast-bg_png",
 			"type":"image",
-			"url":"art/home/projects/acv1.png"
+			"url":"art/loading/toast-bg.png"
 		},
 		{
-			"name":"acv2_png",
+			"name":"roundthumb_png",
 			"type":"image",
-			"url":"art/home/projects/acv2.png"
-		},
-		{
-			"name":"acv3_png",
-			"type":"image",
-			"url":"art/home/projects/acv3.png"
-		},
-		{
-			"name":"acv4_png",
-			"type":"image",
-			"url":"art/home/projects/acv4.png"
-		},
-		{
-			"name":"acv5_png",
-			"type":"image",
-			"url":"art/home/projects/acv5.png"
-		},
-		{
-			"name":"acv6_png",
-			"type":"image",
-			"url":"art/home/projects/acv6.png"
-		},
-		{
-			"name":"acv7_png",
-			"type":"image",
-			"url":"art/home/projects/acv7.png"
-		},
-		{
-			"name":"acv8_png",
-			"type":"image",
-			"url":"art/home/projects/acv8.png"
-		},
-		{
-			"name":"acv9_png",
-			"type":"image",
-			"url":"art/home/projects/acv9.png"
-		},
-		{
-			"name":"acv10_png",
-			"type":"image",
-			"url":"art/home/projects/acv10.png"
+			"url":"assets/ScrollBar/roundthumb.png"
 		}
 	]
 }

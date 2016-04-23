@@ -2,7 +2,7 @@ var HomeUI = (function (_super) {
     __extends(HomeUI, _super);
     function HomeUI() {
         _super.call(this);
-        this.addEventListener(GameEvents.EVT_REFRESH_CUSTOMER, this.refreshCustomer, this);
+        this.projectTitles = ["测试", "测试", "测试", "测试", "测试", "测试", "测试", "测试", "测试", "测试", "测试", "测试", "测试", "测试", "测试", "测试", "测试", "测试", "测试", "测试"];
         this.addEventListener(eui.UIEvent.COMPLETE, this.uiCompHandler, this);
         this.skinName = "resource/custom_skins/homeUISkin.exml";
     }
@@ -14,7 +14,16 @@ var HomeUI = (function (_super) {
         self.btnTool.addEventListener(egret.TouchEvent.TOUCH_TAP, self.btnHandler, self);
         self.btnAuction.addEventListener(egret.TouchEvent.TOUCH_TAP, self.btnHandler, self);
         self.btns = [self.btnHome, self.btnRank, self.btnTool, self.btnAuction];
-        self.refreshCustomer();
+        self.animateCustomer(0 - application.customer.gold, 0 - application.customer.diamond, application.customer.output, null);
+        //显示项目
+        self.grpProject.removeChildren();
+        application.dao.fetch("Project", { customer_id: application.customer.id }, { order: 'sequence asc' }, function (succeed, projects) {
+            if (succeed && projects.length > 0) {
+                for (var i = 0; i < projects.length; i++) {
+                    self.addProject(projects[i]);
+                }
+            }
+        });
         application.dao.fetch("Bid", { succeed: 1 }, { limit: 1, order: 'create_time desc' }, function (succeed, bids) {
             if (succeed && bids.length > 0) {
                 application.dao.fetch("Customer", { id: bids[0].customer_id }, { limit: 1 }, function (succeed, customers) {
@@ -39,27 +48,38 @@ var HomeUI = (function (_super) {
             self.mcBeauty.play(3);
             application.customer.gold += application.customer.output;
             application.dao.save("Customer", application.customer, null);
-            self.lblGold.text = application.customer.gold;
+            self.animateStep(self.lblGold, application.customer.gold + application.customer.output, application.customer.gold);
         }, this);
         /// 首次加载完成首先显示home
         self.goHome();
     };
-    p.refreshCustomer = function () {
-        var self = this;
-        self.lblGold.text = application.customer.gold;
-        self.lblDiamond.text = application.customer.diamond;
-        self.lblOutput.text = application.customer.output;
-        //显示项目
-        self.grpProject.removeChildren();
-        application.dao.fetch("Project", { customer_id: application.customer.id }, { order: 'sequence asc' }, function (succeed, projects) {
-            if (succeed && projects.length > 0) {
-                for (var i = 0; i < projects.length; i++) {
-                    var p = projects[i];
-                    var item = new ProjectItem(p, application.projects[i], 0, "pro" + (i + 1).toString() + "_png");
-                    self.grpProject.addChildAt(item, i);
-                }
-            }
-        });
+    p.animateStep = function (lbl, from, to) {
+        if (from == to) {
+            return;
+        }
+        var step = Math.min(Math.abs(from - to), 20);
+        var delta = (to - from) / step;
+        var timer = new egret.Timer(50, step);
+        timer.addEventListener(egret.TimerEvent.TIMER, function (event) {
+            lbl.text = Math.round(from + delta * event.target.currentCount).toString();
+        }, this);
+        timer.addEventListener(egret.TimerEvent.TIMER_COMPLETE, function (event) {
+            lbl.text = to.toString();
+        }, this);
+        timer.start();
+    };
+    p.animateCustomer = function (gold, diamond, output, proj) {
+        this.animateStep(this.lblGold, application.customer.gold + gold, application.customer.gold);
+        this.animateStep(this.lblDiamond, application.customer.diamond + diamond, application.customer.diamond);
+        this.animateStep(this.lblOutput, application.customer.output - output, application.customer.output);
+        this.addProject(proj);
+    };
+    p.addProject = function (proj) {
+        if (proj) {
+            var i = proj.sequence;
+            var item = new ProjectItem(proj, application.projects[i], "pro" + (i + 1).toString() + "_png", this.projectTitles[i]);
+            this.grpProject.addChildAt(item, i);
+        }
     };
     p.resetFocus = function () {
         if (this._uiFocused) {

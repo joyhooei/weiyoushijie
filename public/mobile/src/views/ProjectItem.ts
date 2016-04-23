@@ -62,7 +62,7 @@ class ProjectItem extends eui.Component {
     }
 	
 	private renderAchieves(): void {
-		this.grpAchieve.removeAllChildren();
+		this.grpAchieve.removeChildren();
 		
         for(var i = 1; i <= 10; i++) {
             let imgAchieve = new eui.Image();
@@ -101,9 +101,9 @@ class ProjectItem extends eui.Component {
 		this.lblOutput.text = this.output().toString();
 		this.lblPrice.text  = this._project.priceOf(this._myProject.level + 1).toString();
 		
-		this.imgUpgrade10.source  = "upgrade_png";
-		this.imgUpgrade100.source = "upgrade10_png";           
-		this.imgUpgrade.source    = 'upgrade100_png';
+        this.imgUpgrade10.source = "upgrade10_png";
+		this.imgUpgrade100.source = "upgrade100_png";           
+        this.imgUpgrade.source = 'upgrade_png';
 		
 		this.renderAchieves();
 	}
@@ -122,7 +122,7 @@ class ProjectItem extends eui.Component {
 		this._myProject.level += step;
 		application.dao.save("Project",self._myProject, function(succeed, proj) {
 			if (succeed) {
-				application.buyOutput(p, 0, self.output() - oldOutput, function(succeed, c){
+				application.buyOutput(p, 0, self.output() - oldOutput, null, function(succeed, c){
 					if (succeed) {
 						//升级成功，需要显示新的级别、秒产、升级价格，如果到了成就的级别，还需要显示成就
 						self.renderUnlocked();
@@ -157,7 +157,7 @@ class ProjectItem extends eui.Component {
 				project.level = 0;
 				application.dao.save("Project",project,function(succeed,proj) {
 					if (succeed) {
-						application.buyOutput(p, 0, self.output(), function(succeed, c) {
+						application.buyOutput(p, 0, self.output(), proj, function(succeed, c) {
 							if (succeed) {
 								self.renderUnlocked();
 							} else {
@@ -189,7 +189,7 @@ class ProjectItem extends eui.Component {
 		application.dao.save("Project",self._myProject, function(succeed, proj) {
 			if (succeed) {
 				let newOutput = self.output();
-				application.buyOutput(p, 0, newOutput - oldOutput, function(succeed, c){
+				application.buyOutput(p, 0, newOutput - oldOutput, null, function(succeed, c){
 					if (succeed) {
 						self.renderUnlocked();
 					} else {
@@ -217,7 +217,7 @@ class ProjectItem extends eui.Component {
 		application.dao.save("Project",self._myProject, function(succeed, proj) {
 			if (succeed) {
 				let newOutput = self.output();
-				application.buyOutput(0, p, newOutput - oldOutput, function(succeed, c){
+				application.buyOutput(0, p, newOutput - oldOutput, null, function(succeed, c){
 					if (succeed) {
 						self.renderUnlocked();
 					} else {

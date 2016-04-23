@@ -130,11 +130,11 @@ var Main = (function (_super) {
         var _this = this;
         /// 主页特殊，其他页都需要传参数
         this.pageLoadedHandler("home");
-        this._homeUI = new HomeUI();
-        this._homeUI.addEventListener(GameEvents.EVT_LOAD_PAGE, function (evt) {
+        this.homeUI = new HomeUI();
+        this.homeUI.addEventListener(GameEvents.EVT_LOAD_PAGE, function (evt) {
             _this.loadPage(evt.data);
         }, this);
-        this.addChild(this._homeUI);
+        this.addChild(this.homeUI);
     };
     p.loadPage = function (pageName) {
         this.addChild(this._trueLoadingUI);
@@ -151,7 +151,7 @@ var Main = (function (_super) {
     };
     p.pageLoadedHandler = function (name) {
         if (name != "home") {
-            this._homeUI.pageReadyHandler(this._idLoading);
+            this.homeUI.pageReadyHandler(this._idLoading);
         }
         if (this._trueLoadingUI.parent) {
             this._trueLoadingUI.parent.removeChild(this._trueLoadingUI);
@@ -165,12 +165,6 @@ var Main = (function (_super) {
     };
     p.onFail = function (data) {
         egret.log("log Fail");
-    };
-    p.logined = function () {
-        this.dispatchEventWith(GameEvents.EVT_LOGIN_IN_SUCCESS);
-    };
-    p.refreshCustomer = function () {
-        this._homeUI.dispatchEventWith(GameEvents.EVT_REFRESH_CUSTOMER);
     };
     return Main;
 }(eui.UILayer));

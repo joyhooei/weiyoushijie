@@ -13,7 +13,7 @@ class Main extends eui.UILayer implements nest.easeuser.ILoginCallbacks {
     
     private _trueLoadingUI: TrueLoadingUI;
 
-    private homeUI: HomeUI;
+    public homeUI: HomeUI;
 
     private _loginUI: LoginUI;
 

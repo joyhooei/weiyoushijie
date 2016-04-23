@@ -29,10 +29,10 @@ class HomeUI extends eui.Component{
     
     private lblOutput: eui.Label;
     
+    private projectTitles: string[] = ["测试","测试","测试","测试","测试","测试","测试","测试","测试","测试","测试","测试","测试","测试","测试","测试","测试","测试","测试","测试"];
+    
     constructor( ) {
         super();
-
-        this.addEventListener( GameEvents.EVT_REFRESH_CUSTOMER, this.refreshCustomer, this );
 		
         this.addEventListener( eui.UIEvent.COMPLETE, this.uiCompHandler, this );
         this.skinName = "resource/custom_skins/homeUISkin.exml";
@@ -48,17 +48,14 @@ class HomeUI extends eui.Component{
         
         self.btns = [self.btnHome,self.btnRank,self.btnTool,self.btnAuction ];
                 
-        self.animateCustomer(0 - application.customer.gold, 0 - application.customer.diamond, application.customer.output);
+        self.animateCustomer(0 - application.customer.gold, 0 - application.customer.diamond, application.customer.output, null);
             
         //显示项目
         self.grpProject.removeChildren();
         application.dao.fetch("Project",{ customer_id: application.customer.id },{ order: 'sequence asc' },function(succeed, projects) {
             if(succeed && projects.length > 0) {
-                for(var i = 0; i < projects.length; i ++){
-                    var p = projects[i];
-                    
-                    var item: ProjectItem = new ProjectItem(p,application.projects[i],0, "pro" + (i + 1).toString() + "_png");
-                    self.grpProject.addChildAt(item, i);
+                for(var i = 0; i < projects.length; i ++){                    
+                    self.addProject(projects[i]);
                 }
             }
         });
@@ -89,23 +86,24 @@ class HomeUI extends eui.Component{
             
             application.customer.gold += application.customer.output;
             application.dao.save("Customer",application.customer, null);
-            self.lblGold.text    = application.customer.gold;
+            
+            self.animateStep(self.lblGold,application.customer.gold + application.customer.output,application.customer.gold);
         },this);
                 
         /// 首次加载完成首先显示home
         self.goHome(); 
     }
 	
-	private animateSetp(lbl:eui.Label, from:number, to:number) void {
+	private animateStep(lbl:eui.Label, from:number, to:number): void {
 		if (from == to) {
 			return;
 		}
 		
 		let step:number = Math.min(Math.abs(from - to), 20);
 		var delta = (to - from) / step;
-		var timer: egret.Timer = new egret.Timer(100, step);
+		var timer: egret.Timer = new egret.Timer(50, step);
         timer.addEventListener(egret.TimerEvent.TIMER, function(event:egret.TimerEvent){
-			lbl.text = parseInt(from + delta * (<egret.Timer>event.target).currentCount).toString();
+			lbl.text = Math.round(from + delta * (<egret.Timer>event.target).currentCount).toString();
 		}, this);
 		
         timer.addEventListener(egret.TimerEvent.TIMER_COMPLETE, function(event:egret.TimerEvent){
@@ -115,10 +113,20 @@ class HomeUI extends eui.Component{
         timer.start();
 	}
 	
-	public animateCustomer(gold:number, diamond:number, output:number): void {
-        this.animateSetp(this.lblGold,    application.customer.gold + gold, application.customer.gold);
-        this.animateSetp(this.lblDiamond, application.customer.diamond + diamond, application.customer.diamond);
-        this.animateSetp(this.lblOutput,  application.customer.output - output, application.customer.output);
+	public animateCustomer(gold:number, diamond:number, output:number, proj:any):void {
+        this.animateStep(this.lblGold,    application.customer.gold + gold, application.customer.gold);
+        this.animateStep(this.lblDiamond, application.customer.diamond + diamond, application.customer.diamond);
+        this.animateStep(this.lblOutput,  application.customer.output - output, application.customer.output);
+        
+        this.addProject(proj);
+	}
+	
+	private addProject(proj) {
+    	if (proj) {
+            let i = proj.sequence;
+            let item: ProjectItem = new ProjectItem(proj,application.projects[i],"pro" + (i + 1).toString() + "_png",this.projectTitles[i]);
+            this.grpProject.addChildAt(item,i);
+        }
 	}
     
     private resetFocus():void{
