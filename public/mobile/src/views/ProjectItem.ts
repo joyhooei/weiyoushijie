@@ -73,7 +73,11 @@ class ProjectItem extends eui.Component {
 					//show help
 				}, this);
 			} else {
-            	imgAchieve.source = "acvlock_png";
+    			if (i == this._myProject.achieve + 1 && (this._project.diamondPriceOfAchieve(i) <= application.customer.diamond || this._project.goldPriceOfAchieve(i) <= application.customer.gold)) {
+                    imgAchieve.source = "acvlock_png";
+    			} else {
+            	    imgAchieve.source = "acvlock_png";
+            	}
 				
 				imgAchieve.addEventListener(egret.TouchEvent.TOUCH_TAP,() => {
 					//show buy options
