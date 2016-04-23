@@ -48,9 +48,7 @@ class HomeUI extends eui.Component{
         
         self.btns = [self.btnHome,self.btnRank,self.btnTool,self.btnAuction ];
                 
-        self.lblGold.text    = application.customer.gold;
-        self.lblDiamond.text = application.customer.diamond;
-        self.lblOutput.text  = application.customer.output;
+        self.animateCustomer(0 - application.customer.gold, 0 - application.customer.diamond, application.customer.output);
             
         //显示项目
         self.grpProject.removeChildren();
@@ -117,7 +115,7 @@ class HomeUI extends eui.Component{
         timer.start();
 	}
 	
-	private refreshCustomer(gold:number, diamond:number, output:number): void {
+	public animateCustomer(gold:number, diamond:number, output:number): void {
         this.animateSetp(this.lblGold,    application.customer.gold + gold, application.customer.gold);
         this.animateSetp(this.lblDiamond, application.customer.diamond + diamond, application.customer.diamond);
         this.animateSetp(this.lblOutput,  application.customer.output - output, application.customer.output);
