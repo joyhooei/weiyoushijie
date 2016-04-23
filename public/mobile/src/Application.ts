@@ -29,7 +29,7 @@ module application {
         application.dao.rest("login", {token: data.token}, (succeed: boolean, data: any) => {
             if (succeed) {
                 application.customer = data;
-                application.main.logined();
+                application.main.dispatchEventWith(GameEvents.EVT_LOGIN_IN_SUCCESS);
             } else {
                 Toast.launch("获取账号信息失败");
             }
