@@ -47,8 +47,23 @@ class HomeUI extends eui.Component{
         self.btnAuction.addEventListener( egret.TouchEvent.TOUCH_TAP, self.btnHandler, self );
         
         self.btns = [self.btnHome,self.btnRank,self.btnTool,self.btnAuction ];
-        
-        self.refreshCustomer();
+                
+        self.lblGold.text    = application.customer.gold;
+        self.lblDiamond.text = application.customer.diamond;
+        self.lblOutput.text  = application.customer.output;
+            
+        //显示项目
+        self.grpProject.removeChildren();
+        application.dao.fetch("Project",{ customer_id: application.customer.id },{ order: 'sequence asc' },function(succeed, projects) {
+            if(succeed && projects.length > 0) {
+                for(var i = 0; i < projects.length; i ++){
+                    var p = projects[i];
+                    
+                    var item: ProjectItem = new ProjectItem(p,application.projects[i],0, "pro" + (i + 1).toString() + "_png");
+                    self.grpProject.addChildAt(item, i);
+                }
+            }
+        });
         
         application.dao.fetch("Bid",{ succeed: 1}, {limit : 1, order :'create_time desc'}, function(succeed, bids){
             if (succeed && bids.length > 0) {
@@ -83,25 +98,29 @@ class HomeUI extends eui.Component{
         self.goHome(); 
     }
 	
-	private refreshCustomer(): void {
-        var self = this;
-        
-        self.lblGold.text    = application.customer.gold;
-        self.lblDiamond.text = application.customer.diamond;
-        self.lblOutput.text  = application.customer.output;
-            
-        //显示项目
-        self.grpProject.removeChildren();
-        application.dao.fetch("Project",{ customer_id: application.customer.id },{ order: 'sequence asc' },function(succeed, projects) {
-            if(succeed && projects.length > 0) {
-                for(var i = 0; i < projects.length; i ++){
-                    var p = projects[i];
-                    
-                    var item: ProjectItem = new ProjectItem(p,application.projects[i],0, "pro" + (i + 1).toString() + "_png");
-                    self.grpProject.addChildAt(item, i);
-                }
-            }
-        });
+	private animateSetp(lbl:eui.Label, from:number, to:number) void {
+		if (from == to) {
+			return;
+		}
+		
+		let step:number = Math.min(Math.abs(from - to), 20);
+		var delta = (to - from) / step;
+		var timer: egret.Timer = new egret.Timer(100, step);
+        timer.addEventListener(egret.TimerEvent.TIMER, function(event:egret.TimerEvent){
+			lbl.text = parseInt(from + delta * (<egret.Timer>event.target).currentCount).toString();
+		}, this);
+		
+        timer.addEventListener(egret.TimerEvent.TIMER_COMPLETE, function(event:egret.TimerEvent){
+			lbl.text = to.toString();
+		}, this);
+
+        timer.start();
+	}
+	
+	private refreshCustomer(gold:number, diamond:number, output:number): void {
+        this.animateSetp(this.lblGold,    application.customer.gold + gold, application.customer.gold);
+        this.animateSetp(this.lblDiamond, application.customer.diamond + diamond, application.customer.diamond);
+        this.animateSetp(this.lblOutput,  application.customer.output - output, application.customer.output);
 	}
     
     private resetFocus():void{
