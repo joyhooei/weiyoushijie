@@ -93,97 +93,97 @@ var Project = (function () {
     Project.createProjectTwo = function () {
         var project = new Project(1, 1, 100, 0.1);
         project.addLevelRatio(2, 99, 1.05, 1);
-        return project;
+        return this.createProjectOne();
     };
     Project.createProjectThree = function () {
         var project = new Project(1, 1, 100, 0.1);
         project.addLevelRatio(2, 99, 1.05, 1);
-        return project;
+        return this.createProjectOne();
     };
     Project.createProjectFour = function () {
         var project = new Project(1, 1, 100, 0.1);
         project.addLevelRatio(2, 99, 1.05, 1);
-        return project;
+        return this.createProjectOne();
     };
     Project.createProjectFive = function () {
         var project = new Project(1, 1, 100, 0.1);
         project.addLevelRatio(2, 99, 1.05, 1);
-        return project;
+        return this.createProjectOne();
     };
     Project.createProjectSix = function () {
         var project = new Project(1, 1, 100, 0.1);
         project.addLevelRatio(2, 99, 1.05, 1);
-        return project;
+        return this.createProjectOne();
     };
     Project.createProjectSeven = function () {
         var project = new Project(1, 1, 100, 0.1);
         project.addLevelRatio(2, 99, 1.05, 1);
-        return project;
+        return this.createProjectOne();
     };
     Project.createProjectEight = function () {
         var project = new Project(1, 1, 100, 0.1);
         project.addLevelRatio(2, 99, 1.05, 1);
-        return project;
+        return this.createProjectOne();
     };
     Project.createProjectNine = function () {
         var project = new Project(1, 1, 100, 0.1);
         project.addLevelRatio(2, 99, 1.05, 1);
-        return project;
+        return this.createProjectOne();
     };
     Project.createProjectTen = function () {
         var project = new Project(1, 1, 100, 0.1);
         project.addLevelRatio(2, 99, 1.05, 1);
-        return project;
+        return this.createProjectOne();
     };
     Project.createProjectEleven = function () {
         var project = new Project(1, 1, 100, 0.1);
         project.addLevelRatio(2, 99, 1.05, 1);
-        return project;
+        return this.createProjectOne();
     };
     Project.createProjectTwelve = function () {
         var project = new Project(1, 1, 100, 0.1);
         project.addLevelRatio(2, 99, 1.05, 1);
-        return project;
+        return this.createProjectOne();
     };
     Project.createProjectThirteen = function () {
         var project = new Project(1, 1, 100, 0.1);
         project.addLevelRatio(2, 99, 1.05, 1);
-        return project;
+        return this.createProjectOne();
     };
     Project.createProjectFourteen = function () {
         var project = new Project(1, 1, 100, 0.1);
         project.addLevelRatio(2, 99, 1.05, 1);
-        return project;
+        return this.createProjectOne();
     };
     Project.createProjectFifteen = function () {
         var project = new Project(1, 1, 100, 0.1);
         project.addLevelRatio(2, 99, 1.05, 1);
-        return project;
+        return this.createProjectOne();
     };
     Project.createProjectSixteen = function () {
         var project = new Project(1, 1, 100, 0.1);
         project.addLevelRatio(2, 99, 1.05, 1);
-        return project;
+        return this.createProjectOne();
     };
     Project.createProjectSeventeen = function () {
         var project = new Project(1, 1, 100, 0.1);
         project.addLevelRatio(2, 99, 1.05, 1);
-        return project;
+        return this.createProjectOne();
     };
     Project.createProjectEighteen = function () {
         var project = new Project(1, 1, 100, 0.1);
         project.addLevelRatio(2, 99, 1.05, 1);
-        return project;
+        return this.createProjectOne();
     };
     Project.createProjectNinteen = function () {
         var project = new Project(1, 1, 100, 0.1);
         project.addLevelRatio(2, 99, 1.05, 1);
-        return project;
+        return this.createProjectOne();
     };
     Project.createProjectTwenty = function () {
         var project = new Project(1, 1, 100, 0.1);
         project.addLevelRatio(2, 99, 1.05, 1);
-        return project;
+        return this.createProjectOne();
     };
     //根据级别、成就和道具个数计算本项目的秒产
     p.output = function (level, achieve, props) {

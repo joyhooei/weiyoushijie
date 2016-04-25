@@ -75,10 +75,8 @@ class HomeUI extends eui.Component{
         var txtr = RES.getRes("animation_png");
         var mcFactory:egret.MovieClipDataFactory = new egret.MovieClipDataFactory( data, txtr );        
         self.mcBeauty = new egret.MovieClip( mcFactory.generateMovieClipData("" ) );
-        self.mcBeauty.x = 129; 
-        self.mcBeauty.y = 106; 
-        self.mcBeauty.scaleX = 0.5;         
-        self.mcBeauty.scaleY = 0.5;
+        self.mcBeauty.x = 60; 
+        self.mcBeauty.y = 90; 
         self.addChild(self.mcBeauty);
         self.mcBeauty.touchEnabled = true;
         self.mcBeauty.addEventListener(egret.TouchEvent.TOUCH_BEGIN, function() {

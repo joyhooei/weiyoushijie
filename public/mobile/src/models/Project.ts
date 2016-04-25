@@ -125,133 +125,133 @@ class Project {
 		let project = new Project(1, 1, 100, 0.1);
 		project.addLevelRatio(2, 99, 1.05, 1);
 		
-		return project;
+        return this.createProjectOne();
 	}
 	
 	static createProjectThree(): Project {
 		let project = new Project(1, 1, 100, 0.1);
 		project.addLevelRatio(2, 99, 1.05, 1);
 		
-		return project;
+        return this.createProjectOne();
 	}
 	
 	static createProjectFour(): Project {
 		let project = new Project(1, 1, 100, 0.1);
 		project.addLevelRatio(2, 99, 1.05, 1);
 		
-		return project;
+        return this.createProjectOne();
 	}
 	
 	static createProjectFive(): Project {
 		let project = new Project(1, 1, 100, 0.1);
 		project.addLevelRatio(2, 99, 1.05, 1);
 		
-		return project;
+        return this.createProjectOne();
 	}
 	
 	static createProjectSix(): Project {
 		let project = new Project(1, 1, 100, 0.1);
 		project.addLevelRatio(2, 99, 1.05, 1);
 		
-		return project;
+        return this.createProjectOne();
 	}
 	
 	static createProjectSeven(): Project {
 		let project = new Project(1, 1, 100, 0.1);
 		project.addLevelRatio(2, 99, 1.05, 1);
 		
-		return project;
+        return this.createProjectOne();
 	}
 	
 	static createProjectEight(): Project {
 		let project = new Project(1, 1, 100, 0.1);
 		project.addLevelRatio(2, 99, 1.05, 1);
 		
-		return project;
+        return this.createProjectOne();
 	}
 	
 	static createProjectNine(): Project {
 		let project = new Project(1, 1, 100, 0.1);
 		project.addLevelRatio(2, 99, 1.05, 1);
 		
-		return project;
+        return this.createProjectOne();
 	}
 	
 	static createProjectTen(): Project {
 		let project = new Project(1, 1, 100, 0.1);
 		project.addLevelRatio(2, 99, 1.05, 1);
 		
-		return project;
+        return this.createProjectOne();
 	}
 	
 	static createProjectEleven(): Project {
 		let project = new Project(1, 1, 100, 0.1);
 		project.addLevelRatio(2, 99, 1.05, 1);
 		
-		return project;
+        return this.createProjectOne();
 	}
 	
 	static createProjectTwelve(): Project {
 		let project = new Project(1, 1, 100, 0.1);
 		project.addLevelRatio(2, 99, 1.05, 1);
 		
-		return project;
+        return this.createProjectOne();
 	}
 	
 	static createProjectThirteen(): Project {
 		let project = new Project(1, 1, 100, 0.1);
 		project.addLevelRatio(2, 99, 1.05, 1);
 		
-		return project;
+        return this.createProjectOne();
 	}
 	
 	static createProjectFourteen(): Project {
 		let project = new Project(1, 1, 100, 0.1);
 		project.addLevelRatio(2, 99, 1.05, 1);
 		
-		return project;
+        return this.createProjectOne();
 	}
 	
 	static createProjectFifteen(): Project {
 		let project = new Project(1, 1, 100, 0.1);
 		project.addLevelRatio(2, 99, 1.05, 1);
 		
-		return project;
+        return this.createProjectOne();
 	}
 	
 	static createProjectSixteen(): Project {
 		let project = new Project(1, 1, 100, 0.1);
 		project.addLevelRatio(2, 99, 1.05, 1);
 		
-		return project;
+        return this.createProjectOne();
 	}
 	
 	static createProjectSeventeen(): Project {
 		let project = new Project(1, 1, 100, 0.1);
 		project.addLevelRatio(2, 99, 1.05, 1);
 		
-		return project;
+        return this.createProjectOne();
 	}
 	
 	static createProjectEighteen(): Project {
 		let project = new Project(1, 1, 100, 0.1);
 		project.addLevelRatio(2, 99, 1.05, 1);
 		
-		return project;
+        return this.createProjectOne();
 	}
 	
 	static createProjectNinteen(): Project {
 		let project = new Project(1, 1, 100, 0.1);
 		project.addLevelRatio(2, 99, 1.05, 1);
 		
-		return project;
+        return this.createProjectOne();
 	}
 	
 	static createProjectTwenty(): Project {
 		let project = new Project(1, 1, 100, 0.1);
 		project.addLevelRatio(2, 99, 1.05, 1);
 		
-		return project;
+        return this.createProjectOne();
 	}
 	
 	//根据级别、成就和道具个数计算本项目的秒产
