@@ -66,6 +66,8 @@ class HomeUI extends eui.Component{
         
 		self.renderBeauty();
         
+        self.renderOfflineGold();
+        
         self.lblHit.addEventListener(egret.TouchEvent.TOUCH_BEGIN, function() {
 			self.onHit();
         }, this);
