@@ -137,6 +137,17 @@ class HomeUI extends eui.Component{
 			self.onBeauty();
         },this);
 	}
+    
+    private renderOfflineGold(): void {
+    	var self = this;
+		
+		application.dao.rest("offline_gold", {customer_id: application.customer.id}, function(succeed, result) {
+			if (succeed && result.gold > 0) {
+				var message = "离线" + result.hours.toString() + "小时" + result.minutes.toString() + "分钟，" + "共产生金币收益" + result.gold.toString();
+				var details = "";
+			}
+		});
+    }
 	
 	private onBeauty(): void {
 		var self = this;
