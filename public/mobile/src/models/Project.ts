@@ -321,4 +321,8 @@ class Project {
     public goldPriceOfAchieve(achieve: number): number {
         return this._achieves[achieve].priceUseGold;
     }
+	
+	public levelOfAchieve(achieve: number): number {
+		return this._achieves[achieve].level;
+	}
 }
