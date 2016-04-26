@@ -88,7 +88,7 @@ router.post('/login', function(req, res, next) {
 				query.equalTo("uid", result.data.id);
 				query.find().then(function(customers){
 					if (customers.length > 0) {
-						_logined(res, customers[0]);
+						_succeed(res,  _decode(customers[0]));
 					} else {
 						var customer = new dao.Customer();
 						customer.set("uid", result.data.id);
@@ -101,7 +101,7 @@ router.post('/login', function(req, res, next) {
 						customer.set("diamond", 100);
 						customer.set("metal", 0);
 						customer.save().then(function(){
-							_logined(res, customer);
+							_succeed(res, _decode(customer));
 						}, function(error){
 							_failed(res, error);
 						})				
@@ -118,24 +118,28 @@ router.post('/login', function(req, res, next) {
 	});
 });
 
-function _logined(customer, res) {
-	var now  = moment();
-	var last = moment(customer.updatedAt);
-	
-	var diff = last.diff(now, 'seconds');
-	
-	//最多8个小时
-	diff = Math.min(8 * 60 * 60, diff);
-	if (diff > 60) {
-		customer.increment("gold", Math.round(0.7 * diff * customer.get("output")));
-		customer.save().then(function(c){
-			_succeed(res, _decode(c));
-		}, function(error) {
-			_failed(res, error);
-		});
-	} else {
-		_succeed(res, _decode(customer));
-	}
+router.post('/offline_gold', function(req, res, next) {
+	var query = new AV.Query(dao.Customer);
+	query.find(req.body.customer_id).then(function(customer){
+		var now  = moment();
+		var last = moment(customer.updatedAt);
+
+		var diff = last.diff(now, 'seconds');
+		if (diff > 10) {
+			var minutes = last.diff(now, 'minutes') % 60;
+			if (minutes == 0) {
+				var hours = Math.min(8, last.diff(now, 'hours'));
+			} else {
+				var hours = Math.min(7, last.diff(now, 'hours'));
+			}			
+			var gold = Math.round(0.7 * (hours * 60 * 60 + minutes * 60) * customer.get("output"));
+			_succeed(res, {hours: hours, minutes: minutes, gold:gold});
+		} else {
+			_succeed(res, {hours: 0, minutes: 0, , gold:0});
+		}
+	}, function(error) {
+		_succeed(res, {hours: 0, minutes: 0, , gold:0});
+	});
 };
 
 router.post('/select/:model', function(req, res, next) {
