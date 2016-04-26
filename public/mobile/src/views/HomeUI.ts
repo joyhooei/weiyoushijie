@@ -21,13 +21,22 @@ class HomeUI extends eui.Component{
     
     private mcBeauty: egret.MovieClip;
     
+	private imgAvatar: eui.Image;
     private lblGold:eui.Label;
     private lblDiamond: eui.Label;
     
+	private imgBidAvatar:eui.Image;
     private lblBidName:eui.Label;
     private lblBidGold:eui.Label;
     
     private lblOutput: eui.Label;
+    
+    private imgHit: eui.Image;
+    private lblHit: eui.Label;
+	private hit: number = 0;
+	
+	private imgGift: eui.Image;
+	private imgHelp: eui.Image;
     
     private projectTitles: string[] = ["测试","测试","测试","测试","测试","测试","测试","测试","测试","测试","测试","测试","测试","测试","测试","测试","测试","测试","测试","测试"];
     
@@ -47,10 +56,60 @@ class HomeUI extends eui.Component{
         self.btnAuction.addEventListener( egret.TouchEvent.TOUCH_TAP, self.btnHandler, self );
         
         self.btns = [self.btnHome,self.btnRank,self.btnTool,self.btnAuction ];
-                
+        
+		self.imgAvatar.source = application.customer.avatar;
         self.animateCustomer(0 - application.customer.gold, 0 - application.customer.diamond, application.customer.output, null);
             
-        //显示项目
+        self.renderProjects();
+		
+		self.renderBid();
+        
+		self.renderBeauty();
+        
+        self.lblHit.addEventListener(egret.TouchEvent.TOUCH_BEGIN, function() {
+			self.onHit();
+        }, this);
+        self.imgHit.addEventListener(egret.TouchEvent.TOUCH_BEGIN, function() {
+			self.onHit();
+        }, this);
+                
+        self.imgGift.addEventListener(egret.TouchEvent.TOUCH_BEGIN, function() {
+			self.onGift();
+        }, this);
+                
+        self.imgHelp.addEventListener(egret.TouchEvent.TOUCH_BEGIN, function() {
+			self.onHelp();
+        }, this);
+                
+        /// 首次加载完成首先显示home
+        self.goHome(); 
+    }
+	
+	private onGift(): void {
+	}
+	
+	private onHelp(): void {
+	}
+	
+	private renderBid(): void {
+		var self = this;
+		
+        application.dao.fetch("Bid",{ succeed: 1}, {limit : 1, order :'create_time desc'}, function(succeed, bids){
+            if (succeed && bids.length > 0) {
+                application.dao.fetch("Customer",{ id: bids[0].customer_id },{ limit: 1 },function(succeed, customers) {
+                    if(succeed && customers.length > 0) {
+                        self.lblBidName.text = customers[0].name;
+                        self.lblBidGold.text = bids[0].gold;
+						self.imgBidAvatar.source = customers[0].avatar;
+                    }
+                });
+            }
+        })        
+	}
+	
+	private renderProjects(): void {
+		var self = this;
+		
         self.grpProject.removeChildren();
         application.dao.fetch("Project",{ customer_id: application.customer.id },{ order: 'sequence asc' },function(succeed, projects) {
             if(succeed && projects.length > 0) {
@@ -59,38 +118,64 @@ class HomeUI extends eui.Component{
                 }
             }
         });
-        
-        application.dao.fetch("Bid",{ succeed: 1}, {limit : 1, order :'create_time desc'}, function(succeed, bids){
-            if (succeed && bids.length > 0) {
-                application.dao.fetch("Customer",{ id: bids[0].customer_id },{ limit: 1 },function(succeed, customers) {
-                    if(succeed && customers.length > 0) {
-                        self.lblBidName.text = customers[0].name;
-                        self.lblBidGold.text = bids[0].gold;
-                    }
-                });
-            }
-        })
-        
+	}
+	
+	private renderBeauty(): void {
+		var self = this;
+		
         var data = RES.getRes("animation_json");
         var txtr = RES.getRes("animation_png");
-        var mcFactory:egret.MovieClipDataFactory = new egret.MovieClipDataFactory( data, txtr );        
+        var mcFactory:egret.MovieClipDataFactory = new egret.MovieClipDataFactory( data, txtr );
+		
         self.mcBeauty = new egret.MovieClip( mcFactory.generateMovieClipData("" ) );
         self.mcBeauty.x = 60; 
         self.mcBeauty.y = 90; 
         self.addChild(self.mcBeauty);
+		
         self.mcBeauty.touchEnabled = true;
         self.mcBeauty.addEventListener(egret.TouchEvent.TOUCH_BEGIN, function() {
-            self.mcBeauty.play(3);
-            
-            application.customer.gold += application.customer.output;
-            application.dao.save("Customer",application.customer, null);
-            
-            self.animateStep(self.lblGold,application.customer.gold + application.customer.output,application.customer.gold);
+			self.onBeauty();
         },this);
-                
-        /// 首次加载完成首先显示home
-        self.goHome(); 
-    }
+	}
+	
+	private onBeauty(): void {
+		var self = this;
+		
+		self.mcBeauty.play(3);
+
+		application.customer.gold += self.getOutput();
+		application.dao.save("Customer", application.customer, null);
+
+		self.animateStep(self.lblGold,application.customer.gold + application.customer.output,application.customer.gold);
+	}
+	
+	private onHit(): void {
+		var self = this;
+		
+		self.hit = 59;
+		self.lblOutput.text = self.getOutput().toString();
+
+		var timer: egret.Timer = new egret.Timer(1000, 60);
+		timer.addEventListener(egret.TimerEvent.TIMER, function(event:egret.TimerEvent){
+			self.lblHit.text = self.hit.toString();
+
+			self.hit = self.hit - 1;
+		}, this);
+
+		timer.addEventListener(egret.TimerEvent.TIMER_COMPLETE, function(event:egret.TimerEvent){
+			self.hit = 0;
+			self.lblHit.text = "59";
+			self.lblOutput.text = application.customer.output.toString()
+		}, this);
+	}
+	
+	private getOutput(): number {
+		if (this.hit > 0) {
+			return application.customer.output * 99;
+		} else {
+			return application.customer.output;
+		}
+	}
 	
 	private animateStep(lbl:eui.Label, from:number, to:number): void {
 		if (from == to) {
@@ -114,7 +199,7 @@ class HomeUI extends eui.Component{
 	public animateCustomer(gold:number, diamond:number, output:number, proj:any):void {
         this.animateStep(this.lblGold,    application.customer.gold + gold, application.customer.gold);
         this.animateStep(this.lblDiamond, application.customer.diamond + diamond, application.customer.diamond);
-        this.animateStep(this.lblOutput,  application.customer.output - output, application.customer.output);
+        this.animateStep(this.lblOutput,  this.getOutput() - output, this.getOutput());
         
         this.addProject(proj);
 	}
