@@ -36,12 +36,11 @@ class ProjectItem extends eui.Component {
 			this.renderUnlocked();
         }
 
+		this.lblPrice.addEventListener(egret.TouchEvent.TOUCH_TAP,() => {
+			this.onUpgrade();
+		}, this);
 		this.imgUpgrade.addEventListener(egret.TouchEvent.TOUCH_TAP,() => {
-			if (this._myProject.unlocked == 1) {
-				this.unlock();
-			} else {
-				this.upgrade(1);
-			}
+			this.onUpgrade();
 		}, this);
 
 		this.imgUpgrade10.addEventListener(egret.TouchEvent.TOUCH_TAP,() => {
@@ -56,6 +55,14 @@ class ProjectItem extends eui.Component {
 			}
 		}, this);
     }
+	
+	private onUpgrade(): void {
+		if (this._myProject.unlocked == 1) {
+			this.unlock();
+		} else {
+			this.upgrade(1);
+		}
+	}
 
     private output(): number {
         return this._project.output(this._myProject.level, this._myProject.achieve, application.customer.prop);
@@ -65,26 +72,38 @@ class ProjectItem extends eui.Component {
 		this.grpAchieve.removeChildren();
 		
         for(var i = 1; i <= 10; i++) {
-            let imgAchieve = new eui.Image();
+			let grp = new eui.Group();
+            let img = new eui.Image();
+			
 			if (i < this._myProject.achieve) {
-            	imgAchieve.source = "acv" + i.toString() + "_png";
+				//已经购买的成就
+            	img.source = "acv" + i.toString() + "_png";
+				grp.add(img);
 				
-				imgAchieve.addEventListener(egret.TouchEvent.TOUCH_TAP,() => {
+				img.addEventListener(egret.TouchEvent.TOUCH_TAP,() => {
 					//show help
 				}, this);
 			} else {
-    			if (i == this._myProject.achieve + 1 && (this._project.diamondPriceOfAchieve(i) <= application.customer.diamond || this._project.goldPriceOfAchieve(i) <= application.customer.gold)) {
-                    imgAchieve.source = "acvlock_png";
+    			if (this._myProject.level > this.project.levelOfAchieve(i)) {
+					//可以购买的成就
+                    img.source = "acvlock_png";
+					grp.add(img);
+					
+					let imgFrame = new eui.Image();
+					imgFrame.source = "acvframe_png";
+					grp.add(imgFrame);
     			} else {
-            	    imgAchieve.source = "acvlock_png";
+					//不可以购买的成就
+            	    img.source = "acvlock_png";
+					grp.add(img);
             	}
 				
-				imgAchieve.addEventListener(egret.TouchEvent.TOUCH_TAP,() => {
+				img.addEventListener(egret.TouchEvent.TOUCH_TAP,() => {
 					//show buy options
 				}, this);
 			}
             
-            this.grpAchieve.addChild(imgAchieve);
+            this.grpAchieve.addChild(grp);
         }
 	}
 	
