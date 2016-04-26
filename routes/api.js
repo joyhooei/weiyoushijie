@@ -127,7 +127,7 @@ function _logined(customer, res) {
 	//最多8个小时
 	diff = Math.min(8 * 60 * 60, diff);
 	if (diff > 60) {
-		customer.increment("gold", diff * customer.get("output"));
+		customer.increment("gold", Math.round(0.7 * diff * customer.get("output")));
 		customer.save().then(function(c){
 			_succeed(res, _decode(c));
 		}, function(error) {
