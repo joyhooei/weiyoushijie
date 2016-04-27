@@ -140,7 +140,7 @@ router.post('/offline_gold', function(req, res, next) {
 	}, function(error) {
 		_failed(res, new Error('用户信息不存在'));
 	});
-};
+});
 
 router.post('/select/:model', function(req, res, next) {
 	var query = new AV.Query(dao[req.params.model]);
