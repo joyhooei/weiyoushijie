@@ -31,12 +31,13 @@ class HomeUI extends eui.Component{
     
     private lblOutput: eui.Label;
     
-    private imgHit: eui.Image;
+    private btnHit: eui.Button;
     private lblHit: eui.Label;
+    private lblTotalHits: eui.Label;
 	private hit: number = 0;
 	
-	private imgGift: eui.Image;
-	private imgHelp: eui.Image;
+    private btnGift: eui.Button;
+    private btnHelp: eui.Button;
     
     private projectTitles: string[] = ["测试","测试","测试","测试","测试","测试","测试","测试","测试","测试","测试","测试","测试","测试","测试","测试","测试","测试","测试","测试"];
     
@@ -59,6 +60,8 @@ class HomeUI extends eui.Component{
         
 		self.imgAvatar.source = application.customer.avatar;
         self.animateCustomer(0 - application.customer.gold, 0 - application.customer.diamond, application.customer.output, null);
+        
+        self.lblTotalHits.text = "x" + application.customer.total_hits.toString();
             
         self.renderProjects();
 		
@@ -71,15 +74,15 @@ class HomeUI extends eui.Component{
         self.lblHit.addEventListener(egret.TouchEvent.TOUCH_BEGIN, function() {
 			self.onHit();
         }, this);
-        self.imgHit.addEventListener(egret.TouchEvent.TOUCH_BEGIN, function() {
+        self.btnHit.addEventListener(egret.TouchEvent.TOUCH_BEGIN, function() {
 			self.onHit();
         }, this);
                 
-        self.imgGift.addEventListener(egret.TouchEvent.TOUCH_BEGIN, function() {
+        self.btnGift.addEventListener(egret.TouchEvent.TOUCH_BEGIN, function() {
 			self.onGift();
         }, this);
                 
-        self.imgHelp.addEventListener(egret.TouchEvent.TOUCH_BEGIN, function() {
+        self.btnHelp.addEventListener(egret.TouchEvent.TOUCH_BEGIN, function() {
 			self.onHelp();
         }, this);
                 
@@ -130,7 +133,7 @@ class HomeUI extends eui.Component{
         var mcFactory:egret.MovieClipDataFactory = new egret.MovieClipDataFactory( data, txtr );
 		
         self.mcBeauty = new egret.MovieClip( mcFactory.generateMovieClipData("" ) );
-        self.mcBeauty.x = 60; 
+        self.mcBeauty.x = 70; 
         self.mcBeauty.y = 90; 
         self.addChild(self.mcBeauty);
 		
@@ -149,7 +152,7 @@ class HomeUI extends eui.Component{
 				Toast.launch(message);
                 
                 application.customer.gold += result.gold;
-                application.dao.save(application.customer, null);
+                application.dao.save("Customer", application.customer, null);
                 
                 self.animateStep(self.lblGold, application.customer.gold - result.gold, application.customer.gold);
 			}
@@ -170,21 +173,32 @@ class HomeUI extends eui.Component{
 	private onHit(): void {
 		var self = this;
 		
-		self.hit = 59;
-		self.lblOutput.text = self.getOutput().toString();
-
-		var timer: egret.Timer = new egret.Timer(1000, 60);
-		timer.addEventListener(egret.TimerEvent.TIMER, function(event:egret.TimerEvent){
-			self.lblHit.text = self.hit.toString();
-
-			self.hit = self.hit - 1;
-		}, this);
-
-		timer.addEventListener(egret.TimerEvent.TIMER_COMPLETE, function(event:egret.TimerEvent){
-			self.hit = 0;
-			self.lblHit.text = "59";
-			self.lblOutput.text = application.customer.output.toString()
-		}, this);
+		if (application.customer.total_hits > 0) {
+            application.customer.total_hits -= 1;
+            application.dao.save("Customer",application.customer,null);
+            
+            self.lblTotalHits.text = "x" + application.customer.total_hits.toString();
+            
+    		self.hit = 59;
+    		self.lblOutput.text = self.getOutput().toString();
+    
+    		var timer: egret.Timer = new egret.Timer(1000, 60);
+    		timer.addEventListener(egret.TimerEvent.TIMER, function(event:egret.TimerEvent){
+    			self.lblHit.text = self.hit.toString();
+    
+    			self.hit = self.hit - 1;
+    		}, this);
+    
+    		timer.addEventListener(egret.TimerEvent.TIMER_COMPLETE, function(event:egret.TimerEvent){
+    			self.hit = 0;
+    			self.lblHit.text = "59";
+    			self.lblOutput.text = application.customer.output.toString()
+    		}, this);
+    		
+    		timer.start();
+    	} else {
+    	    Toast.launch("暂时没有奋力一击");
+    	}
 	}
 	
 	private getOutput(): number {
@@ -247,7 +261,8 @@ class HomeUI extends eui.Component{
     
     private goHome():void{
         this._pageFocusedPrev = this._pageFocused = GamePages.HOME;
-        this.imgBg.source = "MPB_png";
+        this._btnFocused = this.btnHome;
+        this.btnHome.selected = true;
     }
     
     private goTool():void {
@@ -259,7 +274,8 @@ class HomeUI extends eui.Component{
 			}, this );
 		}
 		
-		this._uiFocused = this._toolUI;	
+		this._uiFocused = this._toolUI;
+        this.btnTool.selected = true;
     }
     
     private goRank():void {
@@ -272,6 +288,7 @@ class HomeUI extends eui.Component{
 		}
 		
 		this._uiFocused = this._rankUI;	
+        this.btnRank.selected = true;
     }
     
     private goAuction():void {
@@ -284,12 +301,13 @@ class HomeUI extends eui.Component{
 		}
 		
 		this._uiFocused = this._auctionUI;	
+        this.btnAuction.selected = true;
     }
     
     private btnHandler( evt:egret.TouchEvent ):void{
         /// 已经选中不应当再处理!
         if( evt.currentTarget == this._btnFocused ) {
-            console.log( evt.currentTarget.name, "已经选中不应当再处理!" );
+            this._btnFocused.selected = true;
             return;
         }
         
@@ -311,7 +329,7 @@ class HomeUI extends eui.Component{
         
         /// 设置当前焦点按钮
         this._btnFocused = evt.currentTarget;
-        this._btnFocused.enabled = false;
+        this._btnFocused.selected = true;
         
         /// 焦点UI重置
         this._uiFocused = null;
@@ -340,8 +358,8 @@ class HomeUI extends eui.Component{
 
     public pageReadyHandler( pageName:String ):void {
         /// 页面加载完成，所有非焦点按钮解锁
-        for( var i:number = this.btns.length - 1; i > -1; --i ){
-            this.btns[i].enabled = ! this.btns[i].selected;
+        for( var i:number = 0; i < this.btns.length; i++ ){
+            this.btns[i].enabled = true;
         }
         
         switch ( pageName ){
@@ -362,7 +380,6 @@ class HomeUI extends eui.Component{
                 break;
         }
         
-        /// 总是把页面放在背景的上一层！
-        this.addChildAt( this._uiFocused, this.getChildIndex( this.imgBg ) + 1 );
+        this.addChild( this._uiFocused);
     }
 }

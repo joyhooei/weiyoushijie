@@ -18,13 +18,11 @@ var ProjectItem = (function (_super) {
         else {
             this.renderUnlocked();
         }
+        this.lblPrice.addEventListener(egret.TouchEvent.TOUCH_TAP, function () {
+            _this.onUpgrade();
+        }, this);
         this.imgUpgrade.addEventListener(egret.TouchEvent.TOUCH_TAP, function () {
-            if (_this._myProject.unlocked == 1) {
-                _this.unlock();
-            }
-            else {
-                _this.upgrade(1);
-            }
+            _this.onUpgrade();
         }, this);
         this.imgUpgrade10.addEventListener(egret.TouchEvent.TOUCH_TAP, function () {
             if (_this._myProject.unlocked == 0) {
@@ -37,31 +35,49 @@ var ProjectItem = (function (_super) {
             }
         }, this);
     };
+    p.onUpgrade = function () {
+        if (this._myProject.unlocked == 1) {
+            this.unlock();
+        }
+        else {
+            this.upgrade(1);
+        }
+    };
     p.output = function () {
         return this._project.output(this._myProject.level, this._myProject.achieve, application.customer.prop);
     };
     p.renderAchieves = function () {
         this.grpAchieve.removeChildren();
         for (var i = 1; i <= 10; i++) {
-            var imgAchieve = new eui.Image();
+            var grp = new eui.Group();
+            var img = new eui.Image();
             if (i < this._myProject.achieve) {
-                imgAchieve.source = "acv" + i.toString() + "_png";
-                imgAchieve.addEventListener(egret.TouchEvent.TOUCH_TAP, function () {
+                //已经购买的成就
+                img.source = "acv" + i.toString() + "_png";
+                grp.addChild(img);
+                img.addEventListener(egret.TouchEvent.TOUCH_TAP, function () {
                     //show help
                 }, this);
             }
             else {
-                if (i == this._myProject.achieve + 1 && (this._project.diamondPriceOfAchieve(i) <= application.customer.diamond || this._project.goldPriceOfAchieve(i) <= application.customer.gold)) {
-                    imgAchieve.source = "acvlock_png";
+                if (this._myProject.level > this._project.levelOfAchieve(i - 1)) {
+                    //可以购买的成就
+                    var imgFrame = new eui.Image();
+                    imgFrame.source = "acvnone_png";
+                    grp.addChild(imgFrame);
+                    img.source = "acv" + i.toString() + "_png";
+                    grp.addChild(img);
                 }
                 else {
-                    imgAchieve.source = "acvlock_png";
+                    //不可以购买的成就
+                    img.source = "acvlock_png";
+                    grp.addChild(img);
                 }
-                imgAchieve.addEventListener(egret.TouchEvent.TOUCH_TAP, function () {
+                img.addEventListener(egret.TouchEvent.TOUCH_TAP, function () {
                     //show buy options
                 }, this);
             }
-            this.grpAchieve.addChild(imgAchieve);
+            this.grpAchieve.addChild(grp);
         }
     };
     p.renderLocked = function () {

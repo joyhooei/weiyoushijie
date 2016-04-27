@@ -1,15 +1,15 @@
 <?xml version='1.0' encoding='utf-8'?>
 <e:Skin class="homeUISkin" width="480" height="800" xmlns:e="http://ns.egret.com/eui" xmlns:w="http://ns.egret.com/wing">
-	<e:Image id="imgBg" height="800" width="480" x="0" y="1"  source="MPB_png"/>
+	<e:Image id="imgBg" height="800" width="480" x="0" y="0"  source="MPB_png"/>
 	<e:Image width="480" height="93" x="0" fillMode="clip" bottom="2" source="MPbottombar_png"/>
 	<e:Image id="imgAvatar" width="56" height="58" x="179" y="22" source=""/>
 	<e:Label id="lblBidName" text="天王盖地虎" x="260" y="19" size="24" width="165" height="23"/>
 	<e:Label id="lblBidGold" text="100000000" x="295" y="56" width="154" size="24" height="27"/>
 
-	<e:Label id="lblGold" text="1" x="18" y="196" size="24" width="54" textAlign="center"/>
-	<e:Label id="lblDiamond" text="0" x="20" y="290" size="24" width="53" textAlign="center"/>
+	<e:Label id="lblGold" text="1" x="27" y="193" size="18" width="54" textAlign="center"/>
+	<e:Label id="lblDiamond" text="0" x="27" y="244" size="18" width="53" textAlign="center"/>
 
-	<e:Label id="lblOutput" text="1" x="20" y="379" size="24" width="53" textAlign="center"/>
+	<e:Label id="lblOutput" text="1" x="25" y="305" size="18" width="53" textAlign="center"/>
 	
 	<e:Scroller id="scrProjects" height="260" width="450" y="441" horizontalCenter="3">
 		<e:viewport>
@@ -24,7 +24,7 @@
 	<e:ToggleButton id="btnHome" x="12" y="732">
 		<e:skinName>
 			<e:Skin states="up,down,disabled">
-				<e:Image width="100%" height="100%" source="MPmainpage_png" source.down="MPmainpage_png"/>
+				<e:Image width="100%" height="100%" source="MPmainpage_png" source.down="MPmainpageS_png"/>
 				<e:Label id="labelDisplay" horizontalCenter="0" verticalCenter="0"/>
 			</e:Skin>
 		</e:skinName>
@@ -32,7 +32,7 @@
 	<e:ToggleButton id="btnTool" x="243" y="732">
 		<e:skinName>
 			<e:Skin states="up,down,disabled">
-				<e:Image width="100%" height="100%" source="MPtool_png" source.down="MPtool_png"/>
+				<e:Image width="100%" height="100%" source="MPtool_png" source.down="MPtoolS_png"/>
 				<e:Label id="labelDisplay" horizontalCenter="0" verticalCenter="0"/>
 			</e:Skin>
 		</e:skinName>	
@@ -40,12 +40,12 @@
 	<e:ToggleButton id="btnAuction" x="128" y="732">
 		<e:skinName>
 			<e:Skin states="up,down,disabled">
-				<e:Image width="100%" height="100%" source="MPauction_png" source.down="MPauction_png"/>
+				<e:Image width="100%" height="100%" source="MPauction_png" source.down="MPauctionS_png"/>
 				<e:Label id="labelDisplay" horizontalCenter="0" verticalCenter="0"/>
 			</e:Skin>
 		</e:skinName>
 	</e:ToggleButton>
-	<e:Button id="btnGift" x="440" y="167">
+	<e:Button id="btnGift" x="417" y="238">
 		<e:skinName>
 			<e:Skin states="up,down,disabled">
 				<e:Image width="100%" height="100%" source="MPgift_png"/>
@@ -53,7 +53,7 @@
 			</e:Skin>
 		</e:skinName>
 	</e:Button>
-	<e:Button y="116" id="btnHit" x="437">
+	<e:Button y="98" id="btnHit" x="417">
 		<e:skinName>
 			<e:Skin states="up,down,disabled" xmlns:w="http://ns.egret.com/wing">
 				<e:Image width="100%" height="100%" source="MPhit_png"/>
@@ -61,7 +61,7 @@
 			</e:Skin>
 		</e:skinName>
 	</e:Button>
-	<e:Button id="btnHelp" x="444" y="226">
+	<e:Button id="btnHelp" x="415" y="323">
 		<e:skinName>
 			<e:Skin states="up,down,disabled">
 				<e:Image width="100%" height="100%" source="MPquestion_png"/>
@@ -72,9 +72,11 @@
 	<e:ToggleButton id="btnRank" x="359" y="732">
 		<e:skinName>
 			<e:Skin states="up,down,disabled">
-				<e:Image width="100%" height="100%" source="MPrank_png" source.down="MPrank_png"/>
+				<e:Image width="100%" height="100%" source="MPrank_png" source.down="MPrankS_png"/>
 				<e:Label id="labelDisplay" horizontalCenter="0" verticalCenter="0"/>
 			</e:Skin>
 		</e:skinName>
-	</e:ToggleButton>	
+	</e:ToggleButton>
+	<e:Label id="lblHit" text="59" x="432" y="142" size="16"/>
+	<e:Label id="lblTotalHits" text="x0" x="428" y="181" size="24"/>	
 </e:Skin>

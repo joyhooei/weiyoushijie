@@ -1,7 +1,7 @@
 {
 	"groups":[
 		{
-			"keys":"animation_json,animation_png,MParrow_png,MPauction_png,MPbottombar_png,MPmainpage_png,MPrank_png,MPtool_png,MPB_png,MPgift_png,MPhit_png,MPquestion_png,acv1_png,acv2_png,acv3_png,acv4_png,acv5_png,acv6_png,acv7_png,acv8_png,acv9_png,acv10_png,acvlock_png,MPbx10_jpg,MPBx100_jpg,MPpinkx10_jpg,MPpinkx100_jpg,MPup_jpg,MPupb_jpg,pro1_png,pro2_png,pro3_png,pro4_png,pro5_png,pro6_png,pro7_png,pro8_png,pro9_png,pro10_png,pro11_png,pro12_png,pro13_png,pro14_png,pro15_png,pro16_png,pro17_png,pro18_png,pro19_png,pro20_png,Projectbar_png,upgrade_png,upgrade10_png,upgrade10b_png,upgrade10G_png,upgrade100_png,upgrade100b_png,upgrade100G_png,upgradeb_png,UpgradeG_png",
+			"keys":"animation_json,animation_png,MParrow_png,MPauction_png,MPbottombar_png,MPmainpage_png,MPrank_png,MPtool_png,MPB_png,MPgift_png,MPhit_png,MPquestion_png,acv1_png,acv2_png,acv3_png,acv4_png,acv5_png,acv6_png,acv7_png,acv8_png,acv9_png,acv10_png,acvlock_png,MPbx10_jpg,MPBx100_jpg,MPpinkx10_jpg,MPpinkx100_jpg,MPup_jpg,MPupb_jpg,pro1_png,pro2_png,pro3_png,pro4_png,pro5_png,pro6_png,pro7_png,pro8_png,pro9_png,pro10_png,pro11_png,pro12_png,pro13_png,pro14_png,pro15_png,pro16_png,pro17_png,pro18_png,pro19_png,pro20_png,Projectbar_png,upgrade_png,upgrade10_png,upgrade10b_png,upgrade10G_png,upgrade100_png,upgrade100b_png,upgrade100G_png,upgradeb_png,UpgradeG_png,add_png,MPtopup_png,MPauctionS_png,MPmainpageS_png,MPrankS_png,MPtoolS_png,acvnone_png,upgrade10g_png,upgrade10p_png,upgrade100g_png,upgrade100p_png,upgradeg_png,upgradep_png",
 			"name":"home"
 		},
 		{
@@ -326,6 +326,71 @@
 			"name":"roundthumb_png",
 			"type":"image",
 			"url":"assets/ScrollBar/roundthumb.png"
+		},
+		{
+			"name":"add_png",
+			"type":"image",
+			"url":"art/home/add.png"
+		},
+		{
+			"name":"MPtopup_png",
+			"type":"image",
+			"url":"art/home/MPtopup.png"
+		},
+		{
+			"name":"MPauctionS_png",
+			"type":"image",
+			"url":"art/home/footer/MPauctionS.png"
+		},
+		{
+			"name":"MPmainpageS_png",
+			"type":"image",
+			"url":"art/home/footer/MPmainpageS.png"
+		},
+		{
+			"name":"MPrankS_png",
+			"type":"image",
+			"url":"art/home/footer/MPrankS.png"
+		},
+		{
+			"name":"MPtoolS_png",
+			"type":"image",
+			"url":"art/home/footer/MPtoolS.png"
+		},
+		{
+			"name":"acvnone_png",
+			"type":"image",
+			"url":"art/home/projects/acvnone.png"
+		},
+		{
+			"name":"upgrade10g_png",
+			"type":"image",
+			"url":"art/home/projects/upgrade10g.png"
+		},
+		{
+			"name":"upgrade10p_png",
+			"type":"image",
+			"url":"art/home/projects/upgrade10p.png"
+		},
+		{
+			"name":"upgrade100g_png",
+			"type":"image",
+			"url":"art/home/projects/upgrade100g.png"
+		},
+		{
+			"name":"upgrade100p_png",
+			"type":"image",
+			"url":"art/home/projects/upgrade100p.png"
+		},
+		{
+			"name":"upgradeg_png",
+			"type":"image",
+			"url":"art/home/projects/upgradeg.png"
+		},
+		{
+			"name":"upgradep_png",
+			"type":"image",
+			"url":"art/home/projects/upgradep.png"
 		}
 	]
 }

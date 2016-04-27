@@ -78,24 +78,24 @@ class ProjectItem extends eui.Component {
 			if (i < this._myProject.achieve) {
 				//已经购买的成就
             	img.source = "acv" + i.toString() + "_png";
-				grp.add(img);
+				grp.addChild(img);
 				
 				img.addEventListener(egret.TouchEvent.TOUCH_TAP,() => {
 					//show help
 				}, this);
 			} else {
-    			if (this._myProject.level > this.project.levelOfAchieve(i)) {
+    			if (this._myProject.level > this._project.levelOfAchieve(i - 1)) {
 					//可以购买的成就
-                    img.source = "acvlock_png";
-					grp.add(img);
-					
 					let imgFrame = new eui.Image();
-					imgFrame.source = "acvframe_png";
-					grp.add(imgFrame);
+					imgFrame.source = "acvnone_png";
+                    grp.addChild(imgFrame);
+                    
+                    img.source = "acv" + i.toString() + "_png";
+                    grp.addChild(img);                    
     			} else {
 					//不可以购买的成就
             	    img.source = "acvlock_png";
-					grp.add(img);
+                    grp.addChild(img);
             	}
 				
 				img.addEventListener(egret.TouchEvent.TOUCH_TAP,() => {

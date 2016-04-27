@@ -308,6 +308,71 @@
 					"isFolder":false,
 					"key":"roundthumb_png",
 					"name":"roundthumb_png"
+				},
+				{
+					"isFolder":false,
+					"key":"MPauctionS_png",
+					"name":"MPauctionS_png"
+				},
+				{
+					"isFolder":false,
+					"key":"MPmainpageS_png",
+					"name":"MPmainpageS_png"
+				},
+				{
+					"isFolder":false,
+					"key":"MPrankS_png",
+					"name":"MPrankS_png"
+				},
+				{
+					"isFolder":false,
+					"key":"MPtoolS_png",
+					"name":"MPtoolS_png"
+				},
+				{
+					"isFolder":false,
+					"key":"MPtopup_png",
+					"name":"MPtopup_png"
+				},
+				{
+					"isFolder":false,
+					"key":"acvnone_png",
+					"name":"acvnone_png"
+				},
+				{
+					"isFolder":false,
+					"key":"add_png",
+					"name":"add_png"
+				},
+				{
+					"isFolder":false,
+					"key":"upgrade100g_png",
+					"name":"upgrade100g_png"
+				},
+				{
+					"isFolder":false,
+					"key":"upgrade100p_png",
+					"name":"upgrade100p_png"
+				},
+				{
+					"isFolder":false,
+					"key":"upgrade10g_png",
+					"name":"upgrade10g_png"
+				},
+				{
+					"isFolder":false,
+					"key":"upgrade10p_png",
+					"name":"upgrade10p_png"
+				},
+				{
+					"isFolder":false,
+					"key":"upgradeg_png",
+					"name":"upgradeg_png"
+				},
+				{
+					"isFolder":false,
+					"key":"upgradep_png",
+					"name":"upgradep_png"
 				}
 			]
 		}

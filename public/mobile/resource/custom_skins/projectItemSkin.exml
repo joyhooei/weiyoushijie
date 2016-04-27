@@ -4,13 +4,13 @@
 	<e:Label fontFamily="微软雅黑" y="64" text="" textAlign="left" width="220" size="20" verticalAlign="middle" x="117" textColor="0x72E8FF"/>
 	<e:Image id="imgIcon" height="44" width="43" x="27" y="16" source=""/>
 	<e:Image id="imgUpgrade" width="77" height="30" x="300" y="14" source="upgrade_png"/>
-	<e:Label id="lblLevel" x="207" y="43" size="12" text="1"/>
-	<e:Label id="lblOutput" text="1" x="118" y="43" size="12"/>
+	<e:Label id="lblLevel" x="179" y="54" size="12" text="1"/>
+	<e:Label id="lblOutput" text="1" x="179" y="31" size="12"/>
 	<e:Label id="lblPrice" text="1" x="320" y="30" size="12" height="12" width="38"/>
 	<e:Button id="btnUnlock" label="解锁" x="178" y="27"/>
 	<e:Group id="grpAchieve" width="440" height="34" x="0" y="69">
 		<e:layout>
-			<e:HorizontalLayout horizontalAlign="center" gap="15"/>
+			<e:HorizontalLayout horizontalAlign="center" gap="0"/>
 		</e:layout>
 	</e:Group>
 	<e:Image id="imgUpgrade10" width="46" height="20" x="384" y="16" source="upgrade10_png"/>

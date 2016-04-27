@@ -241,6 +241,9 @@ var Project = (function () {
     p.goldPriceOfAchieve = function (achieve) {
         return this._achieves[achieve].priceUseGold;
     };
+    p.levelOfAchieve = function (achieve) {
+        return this._achieves[achieve].level;
+    };
     return Project;
 }());
 egret.registerClass(Project,'Project');
