@@ -104,7 +104,7 @@ class HomeUI extends eui.Component{
                 application.dao.fetch("Customer",{ id: bids[0].customer_id },{ limit: 1 },function(succeed, customers) {
                     if(succeed && customers.length > 0) {
                         self.lblBidName.text = customers[0].name;
-                        self.lblBidGold.text = bids[0].gold;
+                        self.lblBidGold.text = application.format(bids[0].gold);
 						self.imgBidAvatar.source = customers[0].avatar;
                     }
                 });
@@ -180,7 +180,7 @@ class HomeUI extends eui.Component{
             self.lblTotalHits.text = "x" + application.customer.total_hits.toString();
             
     		self.hit = 59;
-    		self.lblOutput.text = self.getOutput().toString();
+    		self.lblOutput.text = application.format(self.getOutput().toString());
     
     		var timer: egret.Timer = new egret.Timer(1000, 60);
     		timer.addEventListener(egret.TimerEvent.TIMER, function(event:egret.TimerEvent){
@@ -192,7 +192,7 @@ class HomeUI extends eui.Component{
     		timer.addEventListener(egret.TimerEvent.TIMER_COMPLETE, function(event:egret.TimerEvent){
     			self.hit = 0;
     			self.lblHit.text = "59";
-    			self.lblOutput.text = application.customer.output.toString()
+    			self.lblOutput.text = application.format(application.customer.output.toString());
     		}, this);
     		
     		timer.start();
@@ -218,11 +218,11 @@ class HomeUI extends eui.Component{
 		var delta = (to - from) / step;
 		var timer: egret.Timer = new egret.Timer(50, step);
         timer.addEventListener(egret.TimerEvent.TIMER, function(event:egret.TimerEvent){
-			lbl.text = Math.round(from + delta * (<egret.Timer>event.target).currentCount).toString();
+			lbl.text = application.format(Math.round(from + delta * (<egret.Timer>event.target).currentCount).toString());
 		}, this);
 		
         timer.addEventListener(egret.TimerEvent.TIMER_COMPLETE, function(event:egret.TimerEvent){
-			lbl.text = to.toString();
+			lbl.text = application.format(to.toString());
 		}, this);
 
         timer.start();
