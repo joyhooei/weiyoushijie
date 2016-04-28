@@ -135,9 +135,11 @@ router.post('/offline_gold', function(req, res, next) {
 			var gold = Math.round(0.7 * (hours * 60 * 60 + minutes * 60) * customer.get("output"));
 			_succeed(res, {hours: hours, minutes: minutes, gold:gold});
 		} else {
+			console.log("offline_gold diff = " + diff);
 			_failed(res, new Error('暂时获得没有离线金币'));
 		}
 	}, function(error) {
+		console.log("offline_gold customer = " req.body.customer_id + " failed " + error.message);
 		_failed(res, new Error('用户信息不存在'));
 	});
 });
