@@ -120,7 +120,7 @@ router.post('/login', function(req, res, next) {
 
 router.post('/offline_gold', function(req, res, next) {
 	var query = new AV.Query(dao.Customer);
-	query.find(req.body.customer_id).then(function(customer){
+	query.get(req.body.customer_id).then(function(customer){
 		var now  = moment();
 		var last = moment(customer.updatedAt);
 
