@@ -124,18 +124,18 @@ router.post('/offline_gold', function(req, res, next) {
 		var now  = moment();
 		var last = moment(customer.updatedAt);
 
-		var diff = last.diff(now, 'seconds');
+		var diff = now.diff(, 'seconds');
 		if (diff > 10) {
-			var minutes = last.diff(now, 'minutes') % 60;
+			var minutes = now.diff(customer.updatedAt, 'minutes') % 60;
 			if (minutes == 0) {
-				var hours = Math.min(8, last.diff(now, 'hours'));
+				var hours = Math.min(8, now.diff(customer.updatedAt, 'hours'));
 			} else {
-				var hours = Math.min(7, last.diff(now, 'hours'));
+				var hours = Math.min(7, now.diff(customer.updatedAt, 'hours'));
 			}			
 			var gold = Math.round(0.7 * (hours * 60 * 60 + minutes * 60) * customer.get("output"));
 			_succeed(res, {hours: hours, minutes: minutes, gold:gold});
 		} else {
-			console.log("offline_gold diff = " + diff);
+			console.log("offline_gold diff = " + diff + " now = " + now.format() + "last = " + customer.updatedAt);
 			_failed(res, new Error('暂时获得没有离线金币'));
 		}
 	}, function(error) {
