@@ -1,7 +1,3 @@
-/**
- * Created by egret on 2016/1/26.
- */
-
 class AuctionUI extends eui.Component{
     constructor() {
         super();
