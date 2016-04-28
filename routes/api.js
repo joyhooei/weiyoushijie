@@ -139,7 +139,7 @@ router.post('/offline_gold', function(req, res, next) {
 			_failed(res, new Error('暂时获得没有离线金币'));
 		}
 	}, function(error) {
-		console.log("offline_gold customer = " req.body.customer_id + " failed " + error.message);
+		console.log("offline_gold customer = " + req.body.customer_id + " failed " + error.message);
 		_failed(res, new Error('用户信息不存在'));
 	});
 });
