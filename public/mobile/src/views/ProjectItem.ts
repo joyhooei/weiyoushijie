@@ -112,17 +112,17 @@ class ProjectItem extends eui.Component {
 		this.lblOutput.text = "0";
 		this.lblPrice.text  = this._project.priceOf(this._myProject.level + 1).toString();
 
-		this.imgUpgrade10.source  = "MPbx10_jpg";
-		this.imgUpgrade100.source = "MPBx100_jpg";           
-		this.imgUpgrade.source    = 'UpgradeG_png';
+		this.imgUpgrade10.source  = "upgrade10G_png";
+		this.imgUpgrade100.source = "upgrade100G_png";           
+		this.imgUpgrade.source    = 'upgradeG_png';
 		
 		this.renderAchieves();			
 	}
 	
 	private renderUnlocked(): void {
 		this.lblLevel.text  = this._myProject.level;
-		this.lblOutput.text = this.output().toString();
-		this.lblPrice.text  = this._project.priceOf(this._myProject.level + 1).toString();
+		this.lblOutput.text = application.format(this.output());
+		this.lblPrice.text  = application.format(this._project.priceOf(this._myProject.level + 1));
 		
         this.imgUpgrade10.source = "upgrade10_png";
 		this.imgUpgrade100.source = "upgrade100_png";           
