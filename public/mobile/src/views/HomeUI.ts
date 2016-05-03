@@ -61,7 +61,8 @@ class HomeUI extends eui.Component{
 		self.imgAvatar.source = application.customer.avatar;
         self.animateCustomer(0 - application.customer.gold, 0 - application.customer.diamond, application.customer.output, null);
         
-        self.lblTotalHits.text = "x" + application.customer.total_hits.toString();
+		self.renderTotalHits();		
+        self.renderTotalHitsAllTime();
             
         self.renderProjects();
 		
@@ -94,6 +95,28 @@ class HomeUI extends eui.Component{
 	}
 	
 	private onHelp(): void {
+	}
+    
+    private renderTotalHitsAllTime(): void {
+    	var self = this;
+		
+		var timer: egret.Timer = new egret.Timer(1000 * 60 * 60 * 4, 0);
+		timer.addEventListener(egret.TimerEvent.TIMER, function(event:egret.TimerEvent){
+  			self.renderTotalHits();
+		}, this);
+
+		timer.start();
+    }
+	
+	private renderTotalHits(): void {
+    	var self = this;
+		
+		application.dao.rest("hits", {customer_id: application.customer.id}, function(succeed, result) {
+	  		if (succeed && result.hits > 0) {
+	   			application.customer.total_hits = result.hits;
+	   			self.lblTotalHits.text = "x" + application.customer.total_hits.toString();
+	  		}
+	 	});	
 	}
 	
 	private renderBid(): void {
