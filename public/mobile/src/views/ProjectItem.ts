@@ -4,7 +4,7 @@ class ProjectItem extends eui.Component {
     private _myProject : any;
 	
     private imgIcon:eui.Image;
-	private lblTitle: eui.Label;
+	private imgTitle: eui.Image;
     
     private lblLevel: eui.Label;
     private lblOutput: eui.Label; 
@@ -16,7 +16,7 @@ class ProjectItem extends eui.Component {
     
     private grpAchieve: eui.Group;
     
-    public constructor(myProject: any,project: Project, iconName:string, title:string) {
+    public constructor(myProject: any,project: Project, iconName:string, titleName:string) {
         super();
 
         this._myProject = myProject;
@@ -26,7 +26,7 @@ class ProjectItem extends eui.Component {
         this.skinName = "resource/custom_skins/projectItemSkin.exml";
         
         this.imgIcon.source = iconName;
-		this.lblTitle.text = title;
+		this.imgTitle.source = titleName;
     }
     
     private uiCompHandler(): void {
