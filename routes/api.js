@@ -144,6 +144,34 @@ router.post('/offline_gold', function(req, res, next) {
 	});
 });
 
+router.post('/hits', function(req, res, next) {
+	var query = new AV.Query(dao.Customer);
+	query.get(req.body.customer_id).then(function(customer){
+		var now  = moment();
+		
+		if (customer.get("last_hit")) {
+			var lastHit = customer.get("last_hit");
+		} else {
+			var lastHit = customer.createdAt;
+		}
+		
+		var delta = now.diff(lastHit, 'hours');
+		var totalHits  = Math.min(customer.get("total_hits") + Math.floor(delta / 4), 3);
+		
+		if (totalHits > customer.get("total_hits")) {
+			customer.set("last_hit", moment(lastHit).add(totalHits - customer.get("total_hits"), "hours").format());
+			customer.set("total_hits", totalHits);
+			
+			customer.save();
+		}
+		
+		_succeed(res, {hits: totalHits});
+	}, function(error) {
+		console.log("hits customer = " + req.body.customer_id + " failed " + error.message);
+		_failed(res, new Error('用户信息不存在'));
+	});
+});
+
 router.post('/select/:model', function(req, res, next) {
 	var query = new AV.Query(dao[req.params.model]);
 	
