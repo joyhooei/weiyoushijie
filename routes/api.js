@@ -163,6 +163,10 @@ router.post('/hits', function(req, res, next) {
 			customer.set("total_hits", totalHits);
 			
 			customer.save();
+		} else if (3 == customer.get("total_hits")) {
+			customer.set("last_hit", moment().format());
+			
+			customer.save();
 		}
 		
 		_succeed(res, {hits: totalHits});
