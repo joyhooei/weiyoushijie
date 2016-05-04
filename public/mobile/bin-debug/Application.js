@@ -43,4 +43,29 @@ var application;
         });
     }
     application.buyOutput = buyOutput;
+    function format(d) {
+        var units = [
+            'k', 'm', 'b', 't',
+            'a', 'A', 'c', 'C', 'd', 'D', 'e', 'E', 'f', 'F', 'g', 'G', 'h', 'H', 'i', 'I', 'j', 'J', 'l', 'L', 'n', 'N', 'o', 'O', 'p', 'P', 'q', 'Q', 'r', 'R', 's', 'S', 'u', 'U', 'v', 'V', 'w', 'W', 'x', 'X', 'y', 'Y', 'z', 'Z',
+            'aa', 'AA', 'cc', 'CC', 'dd', 'DD', 'ee', 'EE', 'ff', 'FF', 'gg', 'GG', 'hh', 'HH', 'ii', 'II', 'jj', 'JJ', 'll', 'LL', 'nn', 'NN', 'oo', 'OO', 'pp', 'PP', 'qq', 'QQ', 'rr', 'RR', 'ss', 'SS', 'uu', 'UU', 'vv', 'VV', 'ww', 'WW', 'xx', 'XX', 'yy', 'YY', 'zz', 'ZZ',
+        ];
+        var unit = "";
+        for (var i = 0; i < units.length; i++) {
+            if (d < 10) {
+                return d.toFixed(2) + unit;
+            }
+            else if (d < 100) {
+                return d.toFixed(1) + unit;
+            }
+            else if (d < 1000) {
+                return d.toFixed() + unit;
+            }
+            else {
+                unit = units[i];
+                d = d / 1000;
+            }
+        }
+        return d.toFixed() + unit;
+    }
+    application.format = format;
 })(application || (application = {}));

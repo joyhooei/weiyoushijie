@@ -1,13 +1,13 @@
 var ProjectItem = (function (_super) {
     __extends(ProjectItem, _super);
-    function ProjectItem(myProject, project, iconName, title) {
+    function ProjectItem(myProject, project, iconName, titleName) {
         _super.call(this);
         this._myProject = myProject;
         this._project = project;
         this.addEventListener(eui.UIEvent.COMPLETE, this.uiCompHandler, this);
         this.skinName = "resource/custom_skins/projectItemSkin.exml";
         this.imgIcon.source = iconName;
-        this.lblTitle.text = title;
+        this.imgTitle.source = titleName;
     }
     var d = __define,c=ProjectItem,p=c.prototype;
     p.uiCompHandler = function () {
@@ -84,15 +84,15 @@ var ProjectItem = (function (_super) {
         this.lblLevel.text = "0";
         this.lblOutput.text = "0";
         this.lblPrice.text = this._project.priceOf(this._myProject.level + 1).toString();
-        this.imgUpgrade10.source = "MPbx10_jpg";
-        this.imgUpgrade100.source = "MPBx100_jpg";
+        this.imgUpgrade10.source = "upgrade10G_png";
+        this.imgUpgrade100.source = "upgrade100G_png";
         this.imgUpgrade.source = 'UpgradeG_png';
         this.renderAchieves();
     };
     p.renderUnlocked = function () {
         this.lblLevel.text = this._myProject.level;
-        this.lblOutput.text = this.output().toString();
-        this.lblPrice.text = this._project.priceOf(this._myProject.level + 1).toString();
+        this.lblOutput.text = application.format(this.output());
+        this.lblPrice.text = application.format(this._project.priceOf(this._myProject.level + 1));
         this.imgUpgrade10.source = "upgrade10_png";
         this.imgUpgrade100.source = "upgrade100_png";
         this.imgUpgrade.source = 'upgrade_png';
@@ -134,27 +134,39 @@ var ProjectItem = (function (_super) {
         self._myProject.unlocked = 0;
         application.dao.save("Project", self._myProject, function (succeed, proj) {
             if (succeed) {
-                var project = {};
-                project.customer_id = application.customer.id;
-                project.sequence = self._myProject.sequence + 1;
-                project.unlocked = 1;
-                project.achieve = 0;
-                project.level = 0;
-                application.dao.save("Project", project, function (succeed, proj) {
-                    if (succeed) {
-                        application.buyOutput(p, 0, self.output(), proj, function (succeed, c) {
-                            if (succeed) {
-                                self.renderUnlocked();
-                            }
-                            else {
-                                Toast.launch("解锁失败");
-                            }
-                        });
-                    }
-                    else {
-                        Toast.launch("解锁失败");
-                    }
-                });
+                if (self._myProject.sequence < 19) {
+                    var project = {};
+                    project.customer_id = application.customer.id;
+                    project.sequence = self._myProject.sequence + 1;
+                    project.unlocked = 1;
+                    project.achieve = 0;
+                    project.level = 0;
+                    application.dao.save("Project", project, function (succeed, proj) {
+                        if (succeed) {
+                            application.buyOutput(p, 0, self.output(), proj, function (succeed, c) {
+                                if (succeed) {
+                                    self.renderUnlocked();
+                                }
+                                else {
+                                    Toast.launch("解锁失败");
+                                }
+                            });
+                        }
+                        else {
+                            Toast.launch("解锁失败");
+                        }
+                    });
+                }
+                else {
+                    application.buyOutput(p, 0, self.output(), null, function (succeed, c) {
+                        if (succeed) {
+                            self.renderUnlocked();
+                        }
+                        else {
+                            Toast.launch("解锁失败");
+                        }
+                    });
+                }
             }
             else {
                 Toast.launch("解锁失败");

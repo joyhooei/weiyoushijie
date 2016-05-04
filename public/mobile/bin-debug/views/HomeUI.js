@@ -3,7 +3,6 @@ var HomeUI = (function (_super) {
     function HomeUI() {
         _super.call(this);
         this.hit = 0;
-        this.projectTitles = ["测试", "测试", "测试", "测试", "测试", "测试", "测试", "测试", "测试", "测试", "测试", "测试", "测试", "测试", "测试", "测试", "测试", "测试", "测试", "测试"];
         this.addEventListener(eui.UIEvent.COMPLETE, this.uiCompHandler, this);
         this.skinName = "resource/custom_skins/homeUISkin.exml";
     }
@@ -17,7 +16,8 @@ var HomeUI = (function (_super) {
         self.btns = [self.btnHome, self.btnRank, self.btnTool, self.btnAuction];
         self.imgAvatar.source = application.customer.avatar;
         self.animateCustomer(0 - application.customer.gold, 0 - application.customer.diamond, application.customer.output, null);
-        self.lblTotalHits.text = "x" + application.customer.total_hits.toString();
+        self.renderTotalHits();
+        self.renderTotalHitsAllTime();
         self.renderProjects();
         self.renderBid();
         self.renderBeauty();
@@ -41,6 +41,23 @@ var HomeUI = (function (_super) {
     };
     p.onHelp = function () {
     };
+    p.renderTotalHitsAllTime = function () {
+        var self = this;
+        var timer = new egret.Timer(1000 * 60 * 60 * 4, 0);
+        timer.addEventListener(egret.TimerEvent.TIMER, function (event) {
+            self.renderTotalHits();
+        }, this);
+        timer.start();
+    };
+    p.renderTotalHits = function () {
+        var self = this;
+        application.dao.rest("hits", { customer_id: application.customer.id }, function (succeed, result) {
+            if (succeed && result.hits > 0) {
+                application.customer.total_hits = result.hits;
+                self.lblTotalHits.text = "x" + application.customer.total_hits.toString();
+            }
+        });
+    };
     p.renderBid = function () {
         var self = this;
         application.dao.fetch("Bid", { succeed: 1 }, { limit: 1, order: 'create_time desc' }, function (succeed, bids) {
@@ -48,7 +65,7 @@ var HomeUI = (function (_super) {
                 application.dao.fetch("Customer", { id: bids[0].customer_id }, { limit: 1 }, function (succeed, customers) {
                     if (succeed && customers.length > 0) {
                         self.lblBidName.text = customers[0].name;
-                        self.lblBidGold.text = bids[0].gold;
+                        self.lblBidGold.text = application.format(bids[0].gold);
                         self.imgBidAvatar.source = customers[0].avatar;
                     }
                 });
@@ -106,7 +123,7 @@ var HomeUI = (function (_super) {
             application.dao.save("Customer", application.customer, null);
             self.lblTotalHits.text = "x" + application.customer.total_hits.toString();
             self.hit = 59;
-            self.lblOutput.text = self.getOutput().toString();
+            self.lblOutput.text = application.format(self.getOutput());
             var timer = new egret.Timer(1000, 60);
             timer.addEventListener(egret.TimerEvent.TIMER, function (event) {
                 self.lblHit.text = self.hit.toString();
@@ -115,7 +132,7 @@ var HomeUI = (function (_super) {
             timer.addEventListener(egret.TimerEvent.TIMER_COMPLETE, function (event) {
                 self.hit = 0;
                 self.lblHit.text = "59";
-                self.lblOutput.text = application.customer.output.toString();
+                self.lblOutput.text = application.format(application.customer.output.toString());
             }, this);
             timer.start();
         }
@@ -139,10 +156,10 @@ var HomeUI = (function (_super) {
         var delta = (to - from) / step;
         var timer = new egret.Timer(50, step);
         timer.addEventListener(egret.TimerEvent.TIMER, function (event) {
-            lbl.text = Math.round(from + delta * event.target.currentCount).toString();
+            lbl.text = application.format(Math.round(from + delta * event.target.currentCount));
         }, this);
         timer.addEventListener(egret.TimerEvent.TIMER_COMPLETE, function (event) {
-            lbl.text = to.toString();
+            lbl.text = application.format(to);
         }, this);
         timer.start();
     };
@@ -155,7 +172,7 @@ var HomeUI = (function (_super) {
     p.addProject = function (proj) {
         if (proj) {
             var i = proj.sequence;
-            var item = new ProjectItem(proj, application.projects[i], "pro" + (i + 1).toString() + "_png", this.projectTitles[i]);
+            var item = new ProjectItem(proj, application.projects[i], (i + 1).toString() + "_png", "t" + (i + 1).toString() + "_png");
             this.grpProject.addChildAt(item, i);
         }
     };

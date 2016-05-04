@@ -1,6 +1,3 @@
-/**
- * Created by egret on 2016/1/26.
- */
 var AuctionUI = (function (_super) {
     __extends(AuctionUI, _super);
     function AuctionUI() {

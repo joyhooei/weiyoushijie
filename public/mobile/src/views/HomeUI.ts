@@ -201,7 +201,7 @@ class HomeUI extends eui.Component{
             self.lblTotalHits.text = "x" + application.customer.total_hits.toString();
             
     		self.hit = 59;
-    		self.lblOutput.text = application.format(self.getOutput().toString());
+    		self.lblOutput.text = application.format(self.getOutput());
     
     		var timer: egret.Timer = new egret.Timer(1000, 60);
     		timer.addEventListener(egret.TimerEvent.TIMER, function(event:egret.TimerEvent){
@@ -239,11 +239,11 @@ class HomeUI extends eui.Component{
 		var delta = (to - from) / step;
 		var timer: egret.Timer = new egret.Timer(50, step);
         timer.addEventListener(egret.TimerEvent.TIMER, function(event:egret.TimerEvent){
-			lbl.text = application.format(Math.round(from + delta * (<egret.Timer>event.target).currentCount).toString());
+			lbl.text = application.format(Math.round(from + delta * (<egret.Timer>event.target).currentCount));
 		}, this);
 		
         timer.addEventListener(egret.TimerEvent.TIMER_COMPLETE, function(event:egret.TimerEvent){
-			lbl.text = application.format(to.toString());
+			lbl.text = application.format(to);
 		}, this);
 
         timer.start();

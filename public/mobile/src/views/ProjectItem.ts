@@ -112,9 +112,9 @@ class ProjectItem extends eui.Component {
 		this.lblOutput.text = "0";
 		this.lblPrice.text  = this._project.priceOf(this._myProject.level + 1).toString();
 
-		this.imgUpgrade10.source  = "upgrade10G_png";
-		this.imgUpgrade100.source = "upgrade100G_png";           
-		this.imgUpgrade.source    = 'upgradeG_png';
+        this.imgUpgrade10.source = "upgrade10G_png";
+        this.imgUpgrade100.source = "upgrade100G_png";           
+        this.imgUpgrade.source = 'UpgradeG_png';
 		
 		this.renderAchieves();			
 	}
@@ -170,27 +170,38 @@ class ProjectItem extends eui.Component {
 		}
 		
 		self._myProject.unlocked = 0;
+		
 		application.dao.save("Project",self._myProject,function(succeed,proj) {
 			if(succeed) {
-				let project:any = {};
-				project.customer_id = application.customer.id;
-				project.sequence = self._myProject.sequence + 1;
-				project.unlocked = 1;
-				project.achieve = 0;
-				project.level = 0;
-				application.dao.save("Project",project,function(succeed,proj) {
-					if (succeed) {
-						application.buyOutput(p, 0, self.output(), proj, function(succeed, c) {
-							if (succeed) {
-								self.renderUnlocked();
-							} else {
-								Toast.launch("解锁失败");
-							}
-						});
-					} else {
-						Toast.launch("解锁失败");
-					}
-				});
+    			if (self._myProject.sequence < 19) {
+    				let project:any = {};
+    				project.customer_id = application.customer.id;
+    				project.sequence = self._myProject.sequence + 1;
+    				project.unlocked = 1;
+    				project.achieve = 0;
+    				project.level = 0;
+    				application.dao.save("Project",project,function(succeed,proj) {
+    					if (succeed) {
+    						application.buyOutput(p, 0, self.output(), proj, function(succeed, c) {
+    							if (succeed) {
+    								self.renderUnlocked();
+    							} else {
+    								Toast.launch("解锁失败");
+    							}
+    						});
+    					} else {
+    						Toast.launch("解锁失败");
+    					}
+    				});
+    			} else {
+                    application.buyOutput(p,0,self.output(),null,function(succeed,c) {
+                        if(succeed) {
+                            self.renderUnlocked();
+                        } else {
+                            Toast.launch("解锁失败");
+                        }
+                    });    			    
+    			}
 			} else {
 				Toast.launch("解锁失败");
 			}
