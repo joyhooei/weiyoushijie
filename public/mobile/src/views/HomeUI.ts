@@ -39,8 +39,6 @@ class HomeUI extends eui.Component{
     private btnGift: eui.Button;
     private btnHelp: eui.Button;
     
-    private projectTitles: string[] = ["测试","测试","测试","测试","测试","测试","测试","测试","测试","测试","测试","测试","测试","测试","测试","测试","测试","测试","测试","测试"];
-    
     constructor( ) {
         super();
 		
@@ -262,7 +260,7 @@ class HomeUI extends eui.Component{
 	private addProject(proj) {
     	if (proj) {
             let i = proj.sequence;
-            let item: ProjectItem = new ProjectItem(proj,application.projects[i],"pro" + (i + 1).toString() + "_png",this.projectTitles[i]);
+            let item: ProjectItem = new ProjectItem(proj,application.projects[i], (i + 1).toString() + "_png", "t" + (i + 1).toString() + "_png");
             this.grpProject.addChildAt(item,i);
         }
 	}
