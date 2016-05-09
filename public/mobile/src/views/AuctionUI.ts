@@ -6,9 +6,7 @@ class AuctionUI extends eui.Component{
     }
 
     private uiCompHandler():void {
-        this.btnClose.addEventListener( egret.TouchEvent.TOUCH_TAP, ()=>{
-            this.dispatchEventWith( GameEvents.EVT_RETURN );
-        }, this );
+
     }
     
     private btnClose:eui.Button;

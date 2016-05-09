@@ -5,7 +5,7 @@
 			"name":"home"
 		},
 		{
-			"keys":"toast-bg_png,roundthumb_png",
+			"keys":"toast-bg_png,roundthumb_png,bg_png,loading_run_png",
 			"name":"loading"
 		},
 		{
@@ -17,7 +17,7 @@
 			"name":"tool"
 		},
 		{
-			"keys":"",
+			"keys":"Aadd_png,AB_png,Abar_png,Abarbutton_png,Abarfront_png,AwinOK_png",
 			"name":"auction"
 		}
 	],
@@ -491,6 +491,46 @@
 			"name":"t20_png",
 			"type":"image",
 			"url":"art/home/projects/t20.png"
+		},
+		{
+			"name":"bg_png",
+			"type":"image",
+			"url":"art/loading/bg.png"
+		},
+		{
+			"name":"Aadd_png",
+			"type":"image",
+			"url":"art/auction/Aadd.png"
+		},
+		{
+			"name":"AB_png",
+			"type":"image",
+			"url":"art/auction/AB.png"
+		},
+		{
+			"name":"Abar_png",
+			"type":"image",
+			"url":"art/auction/Abar.png"
+		},
+		{
+			"name":"Abarbutton_png",
+			"type":"image",
+			"url":"art/auction/Abarbutton.png"
+		},
+		{
+			"name":"Abarfront_png",
+			"type":"image",
+			"url":"art/auction/Abarfront.png"
+		},
+		{
+			"name":"AwinOK_png",
+			"type":"image",
+			"url":"art/auction/AwinOK.png"
+		},
+		{
+			"name":"loading_run_png",
+			"type":"image",
+			"url":"art/loading/loading_run.png"
 		}
 	]
 }

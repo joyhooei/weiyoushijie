@@ -473,6 +473,46 @@
 					"isFolder":false,
 					"key":"t9_png",
 					"name":"t9_png"
+				},
+				{
+					"isFolder":false,
+					"key":"AB_png",
+					"name":"AB_png"
+				},
+				{
+					"isFolder":false,
+					"key":"Aadd_png",
+					"name":"Aadd_png"
+				},
+				{
+					"isFolder":false,
+					"key":"Abar_png",
+					"name":"Abar_png"
+				},
+				{
+					"isFolder":false,
+					"key":"Abarbutton_png",
+					"name":"Abarbutton_png"
+				},
+				{
+					"isFolder":false,
+					"key":"Abarfront_png",
+					"name":"Abarfront_png"
+				},
+				{
+					"isFolder":false,
+					"key":"AwinOK_png",
+					"name":"AwinOK_png"
+				},
+				{
+					"isFolder":false,
+					"key":"bg_png",
+					"name":"bg_png"
+				},
+				{
+					"isFolder":false,
+					"key":"loading_run_png",
+					"name":"loading_run_png"
 				}
 			]
 		}
