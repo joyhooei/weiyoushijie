@@ -84,9 +84,9 @@ var ProjectItem = (function (_super) {
         this.lblLevel.text = "0";
         this.lblOutput.text = "0";
         this.lblPrice.text = this._project.priceOf(this._myProject.level + 1).toString();
-        this.imgUpgrade10.source = "upgrade10G_png";
-        this.imgUpgrade100.source = "upgrade100G_png";
-        this.imgUpgrade.source = 'UpgradeG_png';
+        this.imgUpgrade10.source = "upgrade10g_png";
+        this.imgUpgrade100.source = "upgrade100g_png";
+        this.imgUpgrade.source = 'upgradeg_png';
         this.renderAchieves();
     };
     p.renderUnlocked = function () {
