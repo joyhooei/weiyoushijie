@@ -7,8 +7,10 @@ var AV = require('leanengine');
 router.get('/egret_rt', function(req, res, next) {
 	var content = {
 					code_url:'http://headlines.leanapp.cn/mobile/bin-release/native/bin-release/game_code_bin-release.zip', 
-					update_url: 'http://headlines.leanapp.cn/mobile/bin-release/native/bin-release', 
+					update_url: 'http://headlines.leanapp.cn/mobile/bin-release/native/bin-release/', 
+					password:"",   
 					customParams: {
+						customLoading:0
 					}};
 					
 	res.setHeader('Content-disposition', 'attachment; filename=runtime.json');
