@@ -8,6 +8,11 @@ class AuctionUI extends eui.Component{
 	
 	private btnBid:eui.Button;
 	
+	private grpTrack: eui.Group;
+	private lblTrack: eui.Label;
+	private imgFront: eui.Image;
+	private imgThumb: eui.Image;
+	
 	private bid:any;
 	
 	private gold:number;
@@ -55,5 +60,23 @@ class AuctionUI extends eui.Component{
 			
 			self.dispatchEventWith( GameEvents.EVT_RETURN );
         }, this);		
+		
+		self.grpTrack.touchEnabled = true;
+		self.grpTrack.addEventListener(egret.TouchEvent.TOUCH_MOVE,function(e:egret.TouchEvent){
+			console.log('touch move', e);
+			
+			let tx:number = e.localX;
+			tx = Math.max(self.imgThumb.x, tx);
+			tx = Math.min(self.imgThumb.width + self.imgThumb.x - this.grpTrack.width, tx);
+			self.grpTrack.x = tx;
+			
+			var percent = Math.round( 100 * (tx - self.imgThumb.x)  / (self.imgThumb.width - self.grpTrack.width) );
+			self.lblTrack.text = percent.toString() + "%";
+			
+			self.imgFront.width = tx - self.imgThumb.x;
+			
+			self.gold = Math.round(application.customer.gold * percent / 100);
+			self.lblCurrentBid.text = application.format(self.gold);
+		}, this);
     }
 }
