@@ -265,7 +265,7 @@
 		{
 			"name":"upgrade10g_png",
 			"type":"image",
-			"url":"art/home/projects/upgrade10g.png"
+			"url":"art/home/projects/upgrade10G.png"
 		},
 		{
 			"name":"upgrade10p_png",
@@ -275,7 +275,7 @@
 		{
 			"name":"upgrade100g_png",
 			"type":"image",
-			"url":"art/home/projects/upgrade100g.png"
+			"url":"art/home/projects/upgrade100G.png"
 		},
 		{
 			"name":"upgrade100p_png",
@@ -285,7 +285,7 @@
 		{
 			"name":"upgradeg_png",
 			"type":"image",
-			"url":"art/home/projects/upgradeg.png"
+			"url":"art/home/projects/UpgradeG.png"
 		},
 		{
 			"name":"upgradep_png",
