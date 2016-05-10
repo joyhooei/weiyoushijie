@@ -1,6 +1,5 @@
 class AuctionUI extends eui.Component{
 	private lblGold:eui.Label;
-	private lblDiamond:eui.Label;
 	
 	private lblLastBid:eui.Label;
 	private lblMaxBid:eui.Label;
@@ -29,7 +28,6 @@ class AuctionUI extends eui.Component{
 		var self = this;
 		
 		self.lblGold.text = application.format(application.customer.gold);
-		self.lblDiamond.text = application.format(application.customer.diamond);
 		
 		var dt = new Date();
 		var today = dt.getFullYear() + "/" + (dt.getMonth() + 1) + "/" + dt.getDate();
@@ -56,7 +54,7 @@ class AuctionUI extends eui.Component{
 		
         self.btnBid.addEventListener(egret.TouchEvent.TOUCH_BEGIN, function() {
 			self.bid.gold = self.gold;
-			application.dao.save("Bid", bid, null);
+			application.dao.save("Bid", self.bid, null);
 			
 			self.dispatchEventWith( GameEvents.EVT_RETURN );
         }, this);		

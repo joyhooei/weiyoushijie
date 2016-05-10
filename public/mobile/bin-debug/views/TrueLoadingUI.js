@@ -19,7 +19,6 @@ var TrueLoadingUI = (function (_super) {
     var d = __define,c=TrueLoadingUI,p=c.prototype;
     p.createChildren = function () {
         _super.prototype.createChildren.call(this);
-        this.addChild(new egret.Bitmap(RES.getRes("bg_png")));
         this._loadingRun = new egret.Bitmap(RES.getRes("loading_run_png"));
         this.addChild(this._loadingRun);
         this._loadingRun.anchorOffsetX = this._loadingRun.width * .5;
