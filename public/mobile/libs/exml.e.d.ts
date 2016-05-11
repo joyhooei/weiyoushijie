@@ -12,7 +12,7 @@ declare class rankIRSkin extends eui.Skin{
 }
 declare class RankUISkin extends eui.Skin{
 }
-declare class toolIRSkin extends eui.Skin{
+declare class toolItemSkin extends eui.Skin{
 }
 declare class toolUISkin extends eui.Skin{
 }

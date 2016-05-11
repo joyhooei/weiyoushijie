@@ -486,13 +486,78 @@
 				},
 				{
 					"isFolder":false,
-					"key":"AwinOK_png",
-					"name":"AwinOK_png"
+					"key":"loading_run_png",
+					"name":"loading_run_png"
 				},
 				{
 					"isFolder":false,
-					"key":"loading_run_png",
-					"name":"loading_run_png"
+					"key":"helpx_png",
+					"name":"helpx_png"
+				},
+				{
+					"isFolder":false,
+					"key":"Abutton_png",
+					"name":"Abutton_png"
+				},
+				{
+					"isFolder":false,
+					"key":"RB_png",
+					"name":"RB_png"
+				},
+				{
+					"isFolder":false,
+					"key":"RBlue_png",
+					"name":"RBlue_png"
+				},
+				{
+					"isFolder":false,
+					"key":"RG_png",
+					"name":"RG_png"
+				},
+				{
+					"isFolder":false,
+					"key":"RR_png",
+					"name":"RR_png"
+				},
+				{
+					"isFolder":false,
+					"key":"Button10_png",
+					"name":"Button10_png"
+				},
+				{
+					"isFolder":false,
+					"key":"Button1_png",
+					"name":"Button1_png"
+				},
+				{
+					"isFolder":false,
+					"key":"Hit_png",
+					"name":"Hit_png"
+				},
+				{
+					"isFolder":false,
+					"key":"TB_png",
+					"name":"TB_png"
+				},
+				{
+					"isFolder":false,
+					"key":"Tbar_png",
+					"name":"Tbar_png"
+				},
+				{
+					"isFolder":false,
+					"key":"VIP_png",
+					"name":"VIP_png"
+				},
+				{
+					"isFolder":false,
+					"key":"ticket_png",
+					"name":"ticket_png"
+				},
+				{
+					"isFolder":false,
+					"key":"time_png",
+					"name":"time_png"
 				}
 			]
 		}

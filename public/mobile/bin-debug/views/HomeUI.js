@@ -227,6 +227,9 @@ var HomeUI = (function (_super) {
                 _this.goHome();
             }, this);
         }
+        else {
+            this._auctionUI.refresh();
+        }
         this._uiFocused = this._auctionUI;
         this.btnAuction.selected = true;
     };

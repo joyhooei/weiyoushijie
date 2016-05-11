@@ -319,6 +319,8 @@ class HomeUI extends eui.Component{
 				this.resetFocus();
 				this.goHome();
 			}, this );
+		} else {
+            this._auctionUI.refresh();
 		}
 		
 		this._uiFocused = this._auctionUI;	

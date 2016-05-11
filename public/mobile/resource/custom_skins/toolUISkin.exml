@@ -1,27 +1,23 @@
 <?xml version='1.0' encoding='utf-8'?>
-<e:Skin class="toolUISkin" width="480" height="800" xmlns:e="http://ns.egret.com/eui">
-	<e:Scroller id="scrTool" height="517" width="450" x="14" y="184">
+<e:Skin class="toolUISkin" width="460" height="680" xmlns:e="http://ns.egret.com/eui" xmlns:w="http://ns.egret.com/wing">
+	<e:Image width="460" height="680" x="0" y="0" source="TB_png" fillMode="clip"/>
+	<e:Group width="386" height="80" x="33" y="88">
+		<e:Image id="imgHit" width="86" height="85" x="-13" y="-3" source="Hit_png" fillMode="clip"/>
+		<e:Image id="imgTime" height="85" y="-3" fillMode="clip" width="86" x="94" source="time_png"/>
+		<e:Image id="imgTicket" x="282" y="-3" fillMode="clip" width="86" height="85" source="ticket_png"/>
+		<e:Image id="imgVIP" height="85" y="-3" fillMode="clip" width="86" x="187" source="VIP_png"/>
+		<e:layout>
+			<e:HorizontalLayout horizontalAlign="center" verticalAlign="middle" gap="10"/>
+		</e:layout>
+	</e:Group>
+	<e:Scroller id="scrProjects" height="425" width="400" y="219" horizontalCenter="-2.5">
 		<e:viewport>
-			<e:List id="listTool" height="110">
-				<e:layout> 
-					<e:VerticalLayout/>
+			<e:Group id="grpProject" height="270" width="400">
+				<e:layout>
+					<e:TileLayout orientation="rows"/>
 				</e:layout>
-			</e:List>
+			</e:Group>
 		</e:viewport>
-		<e:Skin>
-			<e:VScrollBar id="verticalScrollBar" width="8" minHeight="100%" height="100%" right="0">
-				<e:Skin>
-					<e:Image id="thumb" width="8" source="hScrollBar02_png"  scale9Grid="1,1,4,4"/>
-				</e:Skin>
-			</e:VScrollBar>
-		</e:Skin>
-	</e:Scroller>
-	<e:Button id="btnReturn" x="13" y="132">
-		<e:skinName>
-			<e:Skin states="up,down,disabled" xmlns:w="http://ns.egret.com/wing">
-				<e:Image width="90%" height="90%" width.down="100%" height.down="100%" horizontalCenter="0" verticalCenter="0" source="btnReturn_png" source.down="btnReturn_png"/>
-			</e:Skin>
-		</e:skinName>
-	</e:Button>
-	<e:Image x="166" y="135" width="132" height="37" source=""/>
+	</e:Scroller>	
+	<e:Image x="394" id="imgRet" source="helpx_png" fillMode="scale" y="40" width="65" height="64"/>
 </e:Skin>

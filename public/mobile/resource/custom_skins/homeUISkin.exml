@@ -12,7 +12,7 @@
 
 	<e:Label id="lblOutput" text="1" x="25" y="305" size="18" width="53" textAlign="center"/>
 	
-	<e:Scroller id="scrProjects" height="260" width="450" y="441" horizontalCenter="3">
+	<e:Scroller id="scrProjects" height="280" width="450" y="435" horizontalCenter="3">
 		<e:viewport>
 			<e:Group id="grpProject" height="267" width="446">
 				<e:layout>

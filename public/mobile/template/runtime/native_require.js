@@ -22,7 +22,9 @@ var game_file_list = [
 	"bin-debug/views/AuctionUI.js",
 	"bin-debug/views/BuyAchieveUI.js",
 	"bin-debug/views/FirstChargeBonus.js",
+	"bin-debug/views/HelpUI.js",
 	"bin-debug/views/HomeUI.js",
+	"bin-debug/views/LandUI.js",
 	"bin-debug/views/LoadingUI.js",
 	"bin-debug/views/LoginButton.js",
 	"bin-debug/views/LoginUI.js",
@@ -33,6 +35,7 @@ var game_file_list = [
 	"bin-debug/views/Toast.js",
 	"bin-debug/views/ToolUI.js",
 	"bin-debug/views/TrueLoadingUI.js",
+	"bin-debug/views/ToolItem.js",
 	//----auto game_file_list end----
 ];
 

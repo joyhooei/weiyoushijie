@@ -1,16 +1,16 @@
 <?xml version='1.0' encoding='utf-8'?>
-<e:Skin class="auctionUISkin" width="480" height="800" xmlns:e="http://ns.egret.com/eui" xmlns:w="http://ns.egret.com/wing">
-	<e:Image height="100%" width="100%" x="0" y="0" source="AB_png"/>
-	<e:Label id="lblCurrentBid" y="488" text="0" x="317"/>
-	<e:Label id="lblLastBid" y="586" text="0" x="318"/>
-	<e:Label id="lblGold" y="308" text="0" x="318"/>
-	<e:Label id="lblMaxBid" y="171" text="0" x="319"/>
-	<e:Image id="imgThumb" width="373" height="27" x="57" y="402" source="Abar_png" fillMode="clip"/>
-	<e:Image id="imgFront" x="61" y="400" fillMode="clip" width="0" height="27" source="Abarfront_png"/>
-	<e:Group id="grpTrack" width="71" height="65" x="51" y="382">
-		<e:Image width="50" height="49" x="12" y="9" fillMode="clip" source="Abarbutton_png"/>
-		<e:Label id="lblTrack" text="0%" x="21" y="24" size="24"/>
+<e:Skin class="auctionUISkin" width="480" height="660" xmlns:e="http://ns.egret.com/eui" xmlns:w="http://ns.egret.com/wing">
+	<e:Image x="0" y="0" source="AB_png"/>
+	<e:Label id="lblCurrentBid" y="404" text="0" x="317"/>
+	<e:Label id="lblLastBid" y="489" text="0" x="314"/>
+	<e:Label id="lblGold" y="254" text="0" x="321"/>
+	<e:Label id="lblMaxBid" y="141" text="0" x="322"/>
+	<e:Image id="imgThumb" width="373" height="27" x="59" y="331" source="Abar_png" fillMode="clip"/>
+	<e:Image id="imgFront" x="59" y="331" fillMode="clip" width="10" height="27" source="Abarfront_png"/>
+	<e:Group id="grpTrack" width="50" height="50" x="50" y="311">
+		<e:Image width="50" height="50" x="0" y="10" fillMode="clip" source="Abarbutton_png"/>
+		<e:Label id="lblTrack" text="0%" x="8" y="22" size="24"/>
 	</e:Group>
-	<e:Image id="imgBid" width="198" height="65" x="149" y="667" fillMode="clip" source="AwinOK_png"/>
-	<e:Image id="imgRet" width="65" height="300" x="149" y="0" fillMode="clip" source="AwinOK_png"/>
+	<e:Image id="imgBid" width="293" height="80" x="92" y="548" fillMode="clip" source="Abutton_png"/>
+	<e:Image id="imgRet" width="65" height="64" x="405" y="63" fillMode="scale" source="helpx_png"/>
 </e:Skin>

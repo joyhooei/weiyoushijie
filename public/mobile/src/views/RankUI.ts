@@ -1,5 +1,7 @@
 class RankUI extends eui.Component {
     private listRank:eui.List;
+    
+    private imgRet:eui.Image;
 
     constructor() {
         super();
@@ -12,6 +14,10 @@ class RankUI extends eui.Component {
     private uiCompHandler():void {
 		var self = this;
 		
+        self.imgRet.addEventListener(egret.TouchEvent.TOUCH_BEGIN,function() {
+            this.back();
+        },this);	
+        
         application.dao.fetch("Customer", {}, {limit: 8, order: 'metal DESC'}, function(succeed, customers){
             var dsCustomers:Array<Object> = new Array<Object>();
 			   
@@ -28,13 +34,17 @@ class RankUI extends eui.Component {
 					}
 					
 					var c = customers[i];
-                    dsCustomers.push({ bg: bg, icon: c.avatar, name: c.name, metal: c.metal, gold: c.gold });
+                    dsCustomers.push({ bg: bg, icon: c.avatar, name: c.name, metal: c.metal, gold: application.format(c.gold) });
                 }
             }
 				
 			self.listRank.dataProvider = new eui.ArrayCollection( dsCustomers );
 			self.listRank.itemRenderer = RankIRSkin;
         })
+    }  
+
+    private back(): void {
+        this.dispatchEventWith(GameEvents.EVT_RETURN);
     }
 }
 

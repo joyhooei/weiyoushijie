@@ -8,7 +8,7 @@
     "resource/custom_skins/projectItemSkin.exml",
     "resource/custom_skins/rankIRSkin.exml",
     "resource/custom_skins/rankUISkin.exml",
-    "resource/custom_skins/toolIRSkin.exml",
+    "resource/custom_skins/toolItemSkin.exml",
     "resource/custom_skins/toolUISkin.exml",
     "resource/eui_skins/ButtonSkin.exml",
     "resource/eui_skins/CheckBoxSkin.exml",
