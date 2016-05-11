@@ -11,5 +11,6 @@
 		<e:Image width="50" height="49" x="12" y="9" fillMode="clip" source="Abarbutton_png"/>
 		<e:Label id="lblTrack" text="0%" x="21" y="24" size="24"/>
 	</e:Group>
-	<e:Image id="btnBid" width="198" height="65" x="149" y="667" fillMode="clip" source="AwinOK_png"/>
+	<e:Image id="imgBid" width="198" height="65" x="149" y="667" fillMode="clip" source="AwinOK_png"/>
+	<e:Image id="imgRet" width="65" height="300" x="149" y="0" fillMode="clip" source="AwinOK_png"/>
 </e:Skin>
