@@ -5,10 +5,10 @@
 	<e:Label id="lblLastBid" y="586" text="0" x="318"/>
 	<e:Label id="lblGold" y="308" text="0" x="318"/>
 	<e:Label id="lblMaxBid" y="171" text="0" x="319"/>
-	<e:Image width="373" height="27" x="57" y="402" source="Abar_png" fillMode="clip"/>
+	<e:Image id="imgThumb" width="373" height="27" x="57" y="402" source="Abar_png" fillMode="clip"/>
 	<e:Image id="imgFront" x="61" y="400" fillMode="clip" width="0" height="27" source="Abarfront_png"/>
 	<e:Group id="grpTrack" width="71" height="65" x="51" y="382">
-		<e:Image id="imgThumb" width="50" height="49" x="12" y="9" fillMode="clip" source="Abarbutton_png"/>
+		<e:Image width="50" height="49" x="12" y="9" fillMode="clip" source="Abarbutton_png"/>
 		<e:Label id="lblTrack" text="0%" x="21" y="24" size="24"/>
 	</e:Group>
 	<e:Image id="btnBid" width="198" height="65" x="149" y="667" fillMode="clip" source="AwinOK_png"/>
