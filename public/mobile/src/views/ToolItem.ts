@@ -32,8 +32,18 @@ class ToolItem extends eui.Component {
 	
 	private buy(price: number, level: number): void {
 		if (application.customer.diamond < price) {
-			//显示充值界面
+			Toast.launch("钻石不够");
 		} else {
+			var order = { customer_id: application.customer.id, product: "project_" + this._project.sequence + "_" + level};
+			application.dao.save("Order", order, function(succeed, o) {
+				if (succeed) {
+					application.fetchCustomer();
+
+					Toast.launch("购买了运营");
+				} else {
+					Toast.launch("购买失败");
+				}
+			});
 		}	
 	}
 }
