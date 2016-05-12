@@ -61,18 +61,58 @@ class ToolUI extends eui.Component {
     
 	//爆击。每4小时自动获取一个，最多拥有3个。“点击”可以获取10倍的收益，持续60秒。100钻石可以增加至3个。说明里提醒玩家先用完已有的，再购买，因为最多只能拥有3个。
     private buyHit() {
+        var order = { customer_id: application.customer.id, product: "hit"};
+        application.dao.save("Order", order, function(succeed, o) {
+            if (succeed) {
+                application.fetchCustomer();
+            
+                Toast.launch("购买了爆击");
+            } else {
+                Toast.launch("购买失败");
+            }
+        });
     }
     
 	//时光沙漏， 需要500钻石购买，产生相当于2天的产量。 总秒产*3600*48
     private buyTime() {
+        var order = { customer_id: application.customer.id, product: "time"};
+        application.dao.save("Order", order, function(succeed, o) {
+            if (succeed) {
+                application.fetchCustomer();
+            
+                Toast.launch("购买了时光沙漏");
+            } else {
+                Toast.launch("购买失败");
+            }
+        });    
     }
     
 	//月票，19元每月(30天）。每天登录可以领取300钻石，离线收益增加至90%，持续12小时。普通情况下离线收益为70%，持续8小时。首次购买获得1个勋章
     private buyTicket() {
+        var order = { customer_id: application.customer.id, product: "ticket"};
+        application.dao.save("Order", order, function(succeed, o) {
+            if (succeed) {
+                application.fetchCustomer();
+            
+                Toast.launch("购买了月票");
+            } else {
+                Toast.launch("购买失败");
+            }
+        });
     }
     
 	//终身VIP，49元。每天登录可以领取300钻石，离线收益增加至90%，持续12小时。
     private buyVIP() {
+        var order = { customer_id: application.customer.id, product: "vip"};
+        application.dao.save("Order", order, function(succeed, o) {
+            if (succeed) {
+                application.fetchCustomer();
+            
+                Toast.launch("购买了终身VIP");
+            } else {
+                Toast.launch("购买失败");
+            }
+        });
     }
     
 	private addProject(proj) {
