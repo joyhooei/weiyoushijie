@@ -3,7 +3,6 @@ class OfflineGoldUI extends eui.Component{
     private lblTime: eui.Label;
     
     private imgOK: eui.Image;
-    private imgMore: eui.Image;
     
     constructor(gold: number, time: string) {
         super();
@@ -18,9 +17,6 @@ class OfflineGoldUI extends eui.Component{
     private uiCompHandler():void {
         this.imgOK.addEventListener( egret.TouchEvent.TOUCH_TAP, ()=>{
             this.parent.removeChild(this);
-        }, this );
-		
-        this.imgMore.addEventListener( egret.TouchEvent.TOUCH_TAP, ()=>{
-        }, this );		
+        }, this );	
     }
 }
