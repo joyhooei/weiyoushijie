@@ -1,6 +1,3 @@
-/**
- * Created by egret on 2016/1/26.
- */
 class GamePages{
     public static HOME:string = "home";
     public static RANK:string = "rank";
@@ -10,4 +7,5 @@ class GamePages{
 	public static HELP:string = "help";
 	public static OFFLINEGOLD:string = "offline gold";
 	public static CHARGEBONUS:string = "charge bonus";
+	public static GIFT:string = "gift";
 }
