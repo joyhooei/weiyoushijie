@@ -1,16 +1,26 @@
 class OfflineGoldUI extends eui.Component{
-    constructor() {
+    private lblGold:eui.Label;
+    private lblTime: eui.Label;
+    
+    private imgOK: eui.Image;
+    private imgMore: eui.Image;
+    
+    constructor(gold: number, time: string) {
         super();
         
         this.addEventListener( eui.UIEvent.COMPLETE, this.uiCompHandler, this );
-        this.skinName = "resource/custom_skins/auctionUISkin.exml";
+        this.skinName = "resource/custom_skins/offlineGoldUISkin.exml";
+		
+		lblGold.text = application.format(gold);
+		lblTime.text = time;
     }
 
     private uiCompHandler():void {
-        this.btnClose.addEventListener( egret.TouchEvent.TOUCH_TAP, ()=>{
-            this.dispatchEventWith( GameEvents.EVT_RETURN );
+        this.imgOK.addEventListener( egret.TouchEvent.TOUCH_TAP, ()=>{
+            this.parent.removeChild(this);
         }, this );
+		
+        this.imgMore.addEventListener( egret.TouchEvent.TOUCH_TAP, ()=>{
+        }, this );		
     }
-    
-    private btnClose:eui.Button;
 }
