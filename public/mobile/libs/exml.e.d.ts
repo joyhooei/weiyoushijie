@@ -6,6 +6,8 @@ declare class loginButtonSkin extends eui.Skin{
 }
 declare class loginTypeUISkin extends eui.Skin{
 }
+declare class offlineGoldUISkin extends eui.Skin{
+}
 declare class projectListIRSkin extends eui.Skin{
 }
 declare class rankIRSkin extends eui.Skin{

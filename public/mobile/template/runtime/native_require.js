@@ -33,9 +33,9 @@ var game_file_list = [
 	"bin-debug/views/ProjectItem.js",
 	"bin-debug/views/RankUI.js",
 	"bin-debug/views/Toast.js",
+	"bin-debug/views/ToolItem.js",
 	"bin-debug/views/ToolUI.js",
 	"bin-debug/views/TrueLoadingUI.js",
-	"bin-debug/views/ToolItem.js",
 	//----auto game_file_list end----
 ];
 

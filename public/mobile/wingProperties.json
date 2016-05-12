@@ -558,6 +558,16 @@
 					"isFolder":false,
 					"key":"time_png",
 					"name":"time_png"
+				},
+				{
+					"isFolder":false,
+					"key":"offlineB_png",
+					"name":"offlineB_png"
+				},
+				{
+					"isFolder":false,
+					"key":"offlineok_png",
+					"name":"offlineok_png"
 				}
 			]
 		}

@@ -12,7 +12,11 @@ var AuctionUI = (function (_super) {
     p.uiCompHandler = function () {
         var self = this;
         self.lblGold.text = application.format(application.customer.gold);
+        //中午12点开标，所以12点之后的投标算明天的
         var dt = new Date();
+        if (dt.getHours() >= 12) {
+            dt = new Date(dt.getTime() + 24 * 60 * 60 * 1000);
+        }
         var today = dt.getFullYear() + "/" + (dt.getMonth() + 1) + "/" + dt.getDate();
         self.bid = { gold: 0, day: today, customer_id: application.customer.id, succeed: 0 };
         self.renderLastBid(today);

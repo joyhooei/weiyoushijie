@@ -1,5 +1,6 @@
 class ToolItem extends eui.Component {
-    private _project: Project;
+    private _myproject: any;
+    private _project: any;
 
     private imgIcon: eui.Image;
     private imgTitle: eui.Image;
@@ -7,10 +8,11 @@ class ToolItem extends eui.Component {
 	private img100: eui.Image;
 	private img900: eui.Image;
 
-    public constructor(project: Project,iconName: string,titleName: string) {
+    public constructor(myproject: any,project: any,iconName: string,titleName: string) {
         super();
 
         this._project = project;
+        this._myproject = myproject;
 
         this.addEventListener(eui.UIEvent.COMPLETE,this.uiCompHandler,this);
         

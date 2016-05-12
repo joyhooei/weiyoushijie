@@ -1,6 +1,3 @@
-/**
- * Created by egret on 2016/1/26.
- */
 var GamePages = (function () {
     function GamePages() {
     }
@@ -9,6 +6,10 @@ var GamePages = (function () {
     GamePages.RANK = "rank";
     GamePages.TOOL = "tool";
     GamePages.AUCTION = "auction";
+    GamePages.HELP = "help";
+    GamePages.OFFLINEGOLD = "offline gold";
+    GamePages.CHARGEBONUS = "charge bonus";
+    GamePages.GIFT = "gift";
     return GamePages;
 }());
 egret.registerClass(GamePages,'GamePages');

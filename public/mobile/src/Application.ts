@@ -38,7 +38,7 @@ module application {
     
     export function fetchCustomer() {
         application.dao.fetch("Customer", {id: application.customer.id}, {}, function(succeed, customers) {
-            if (succeed & customers.length > 0) {
+            if (succeed && customers.length > 0) {
                 application.customer = customers[0];
                 
                 application.main.homeUI.animateCustomer(application.customer.gold, application.customer.diamond, application.customer.output, null);

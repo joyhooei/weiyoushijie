@@ -169,13 +169,10 @@ class HomeUI extends eui.Component{
 		
 		application.dao.rest("offline_gold", {customer_id: application.customer.id}, function(succeed, result) {
 			if (succeed && result.gold > 0) {
-				var message = "离线" + result.hours.toString() + "小时" + result.minutes.toString() + "分钟，" + "共产生金币收益" + result.gold.toString();
-				Toast.launch(message);
-                
-                application.customer.gold += result.gold;
-                application.dao.save("Customer", application.customer, null);
-                
-                self.animateStep(self.lblGold, application.customer.gold - result.gold, application.customer.gold);
+                var ogui = new OfflineGoldUI(result.gold, result.hours.toString(), result.minutes.toString());
+                ogui.horizontalCenter = 0;
+                ogui.verticalCenter = 0;
+                self.addChild(ogui);
 			}
 		});
     }
