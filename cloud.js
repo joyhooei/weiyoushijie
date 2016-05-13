@@ -7,10 +7,6 @@ AV.Cloud.afterSave("Customer", function(request, response) {
 	Customer.afterSave(request, response);
 });
 
-AV.Cloud.beforeUpdate("Customer", function(request, response) {
-	Customer.beforeUpdate(request, response);
-});
-
 AV.Cloud.define('open_bid', function(request, response) {
 	Bid.open(request, response);
 });
