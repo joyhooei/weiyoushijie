@@ -100,7 +100,7 @@ router.post('/login', function(req, res, next) {
 						customer.set("metal", 0);
 					}
 					
-					customer.set("last_login", moment().toDate());
+					customer.set("last_login", moment().format());
 					customer.save().then(function(){
 						_succeed(res, _decode(customer));
 					}, function(error){
@@ -381,6 +381,16 @@ function _filterAttributes(req) {
 
 function _saveModel(model, req, res) {
 	_filterAttributes(req);
+	
+	if (req.params.model == "Customer") {
+		if (moment(model.get("last_login")) > moment(model.get("updatedAt"))) {
+			var os = moment().diff(model.get("last_login"), 'seconds');
+		} else {
+			var os = moment().diff(model.get("updatedAt"), 'seconds');
+		}
+
+		model.increment("online_seconds", os);
+	}
 	
 	_encode(model, req.body).save().then(function(m){
 		var query = new AV.Query(dao[req.params.model]);
