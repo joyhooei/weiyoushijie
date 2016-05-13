@@ -161,12 +161,12 @@ router.post('/hits', function(req, res, next) {
 		var totalHits  = Math.min(customer.get("total_hits") + Math.floor(delta / 4), 3);
 		
 		if (totalHits > customer.get("total_hits")) {
-			customer.set("last_hit", moment(lastHit).add(totalHits - customer.get("total_hits"), "hours").format());
+			customer.set("last_hit", moment(lastHit).add(totalHits - customer.get("total_hits"), "hours").toDate());
 			customer.set("total_hits", totalHits);
 			
 			customer.save();
 		} else if (3 == customer.get("total_hits")) {
-			customer.set("last_hit", moment().format());
+			customer.set("last_hit", moment().toDate());
 			
 			customer.save();
 		}
