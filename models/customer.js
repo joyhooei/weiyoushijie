@@ -3,7 +3,13 @@ var AV = require('leanengine');
 module.exports.beforeUpdate = function(request, response) {
     var customer = request.object;
 	
-	customer.increment("online_seconds", (moment() - moment(customer.updatedAt)).get('second'));
+    if (moment(customer.get("last_login")) > moment(customer.get("updatedAt"))) {
+        var os = moment().diff(customer.get("last_login"), 'seconds');
+    } else {
+        var os = moment().diff(customer.get("updatedAt"), 'seconds');
+    }
+    
+	customer.increment("online_seconds", os);
 	
 	response.success();
 };
