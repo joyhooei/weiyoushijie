@@ -181,7 +181,7 @@ router.post('/hits', function(req, res, next) {
 router.post('/rank', function(req, res, next) {
 	var query = new AV.Query(dao.Customer);
 	query.addDescending("metal");
-	query.addAscending("createdAt");
+	query.addDescending("online_ms");
 	query.limit(1000);
 	
 	query.count().then(function(count) {
