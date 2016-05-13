@@ -156,10 +156,11 @@ module.exports = function() {
 
 		this.addModel("Customer");
 		
+		this.addModel("Gift");
+		
 		this.addModel("Order");
 		
 		this.addModel("Project");
-		this.addModel("Prop");
 	};
 	
 	this.addModel = function(className) {
