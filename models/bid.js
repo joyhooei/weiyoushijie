@@ -20,7 +20,7 @@ module.exports.open = function(request, response) {
 					customer.increment("diamond", 2000);
 					customer.save().then(function(c){
 						console.log(customer.get("name") + "获得了" + today + "的头条");
-    					response.success(customer.get("name") + "获得了" + today + "的头条");
+    					response.success();
 					}, function(error){
 						console.error(error.message);
 						response.error(error.message);
