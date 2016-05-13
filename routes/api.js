@@ -367,20 +367,8 @@ router.post('/delete/:model/:id', function(req, res, next) {
 	});
 });
 
-function _filterAttributes(req) {
-	var forbiddenAttributes = {
-		"Customer": ["total_tickets_free", "total_tickets_bought", "total_tickets_task", "money", "blocked"],
-		"Player": ["total_likes", "total_tickets", "bonus", "place"]};
-		
-	if (forbiddenAttributes[req.params.model]) {
-		_.each(forbiddenAttributes[req.params.model], function(attr) {
-			delete req.body[attr];
-		});
-	}
-};
-
 function _saveModel(model, req, res) {
-	_filterAttributes(req);
+	var newModel = _encode(model, req.body);
 	
 	if (req.params.model == "Customer") {
 		if (moment(model.get("last_login")) > moment(model.get("updatedAt"))) {
@@ -389,10 +377,10 @@ function _saveModel(model, req, res) {
 			var os = moment().diff(model.get("updatedAt"), 'seconds');
 		}
 
-		model.increment("online_seconds", os);
+		newModel.increment("online_seconds", os);
 	}
 	
-	_encode(model, req.body).save().then(function(m){
+	newModel.save().then(function(m){
 		var query = new AV.Query(dao[req.params.model]);
 		query.get(m.id).then(function(updatedModel){
 			_succeed(res, _decode(updatedModel));
