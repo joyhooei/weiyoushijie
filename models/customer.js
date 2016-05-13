@@ -23,3 +23,13 @@ module.exports.afterSave = function(request, response) {
     //在线奖励，每天200钻。
     Gift.create(customer.id, 7, 200, 0, 0);
 };
+
+module.exports.beforeUpdate = function(customer) {
+   if (moment(customer.get("last_login")) > moment(customer.updatedAt)) {
+	  var os = moment().diff(customer.get("last_login"), 'seconds');
+   } else {
+	  var os = moment().diff(customer.updatedAt, 'seconds');
+   }
+
+   customer.increment("online_seconds", os);
+}
