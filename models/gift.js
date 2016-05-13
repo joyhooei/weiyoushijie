@@ -10,3 +10,24 @@ module.exports.create = function(customerId, category, diamond, metal, gold) {
     gift.set("unlocked", 1);
 	return gift.save()；
 }
+
+module.exports.lock = function(customerId, category) {
+    _lock(customerId, category, 0);
+}
+
+module.exports.unlock = function(customerId, category) {
+    _lock(customerId, category, 1);
+}
+
+function _lock(customerId, category, unlocked) {
+	var query = new AV.Query(dao.Gift);
+	query.equalTo("customer_id", customerId);
+    query.equalTo("category", category);
+    query.find().done(function(gifts){
+        if (gifts.length > 0) {
+            var gift = gifts[0];
+            gift.set("unlocked", unlocked);
+            gift.save();
+        }
+    });
+}
