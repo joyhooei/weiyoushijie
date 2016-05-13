@@ -1,5 +1,13 @@
 var AV = require('leanengine');
 
+AV.Cloud.beforeUpdate('Review', function(request, response) {
+    var customer = request.object;
+	
+	customer.increment("online_seconds", (moment() - moment(customer.updatedAt)).get('second'));
+	
+	response.success();
+});
+
 module.exports.afterSave = function(request, response) {
     var customer = request.object;
     
