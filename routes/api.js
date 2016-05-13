@@ -76,14 +76,10 @@ router.post('/login', function(req, res, next) {
 	url += "time=" + now + "&";
 	url += "token=" + req.body.token + "&";
 	url += "sign=" + sign;
-
-	console.log(url);
 	
 	var request = require('request');
 	request.post({url:url},function (err, response, body) {
 		if (!err && response.statusCode == 200) {
-			console.log(body);
-			
 			var result = JSON.parse(body);
 			if (result.code == 0) {
 				var query = new AV.Query(dao.Customer);
