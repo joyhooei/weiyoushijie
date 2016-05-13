@@ -38,6 +38,10 @@ var HomeUI = (function (_super) {
         self.goHome();
     };
     p.onGift = function () {
+        var ui = new GiftUI();
+        ui.horizontalCenter = 0;
+        ui.verticalCenter = 0;
+        this.addChild(ui);
     };
     p.onHelp = function () {
     };

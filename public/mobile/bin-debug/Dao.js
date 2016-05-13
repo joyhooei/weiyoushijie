@@ -7,11 +7,19 @@ var Dao = (function () {
         this.rest("select/" + model, { conditions: conditions, filters: filters }, cb);
     };
     p.save = function (model, data, cb) {
+        var _cb = function (succeed, result) {
+            if (succeed) {
+                data = result;
+            }
+            if (cb) {
+                cb(succeed, result);
+            }
+        };
         if (data.id) {
-            this.rest("update/" + model + "/" + data.id, data, cb);
+            this.rest("update/" + model + "/" + data.id, data, _cb);
         }
         else {
-            this.rest("create/" + model, data, cb);
+            this.rest("create/" + model, data, _cb);
         }
     };
     p.rest = function (method, data, cb) {

@@ -568,6 +568,31 @@
 					"isFolder":false,
 					"key":"offlineok_png",
 					"name":"offlineok_png"
+				},
+				{
+					"isFolder":false,
+					"key":"X_png",
+					"name":"X_png"
+				},
+				{
+					"isFolder":false,
+					"key":"giftB_png",
+					"name":"giftB_png"
+				},
+				{
+					"isFolder":false,
+					"key":"pick_png",
+					"name":"pick_png"
+				},
+				{
+					"isFolder":false,
+					"key":"picked_png",
+					"name":"picked_png"
+				},
+				{
+					"isFolder":false,
+					"key":"unpick_png",
+					"name":"unpick_png"
 				}
 			]
 		}

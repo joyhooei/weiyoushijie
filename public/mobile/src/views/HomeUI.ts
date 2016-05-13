@@ -90,6 +90,10 @@ class HomeUI extends eui.Component{
     }
 	
 	private onGift(): void {
+        var ui = new GiftUI();
+        ui.horizontalCenter = 0;
+        ui.verticalCenter = 0;
+        this.addChild(ui);    	
 	}
 	
 	private onHelp(): void {

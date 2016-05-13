@@ -57,19 +57,34 @@ var AuctionUI = (function (_super) {
     };
     p.renderCurrentBid = function (gold) {
         this.bid.gold = Math.round(gold);
-        this.lblCurrentBid.text = application.format(this.bid.gold);
+        this.lblCurrentBid.text = application.format(this.bid.gold + application.customer.locked_gold);
     };
     p.onBid = function () {
         var self = this;
-        application.dao.save("Bid", self.bid, function (succeed, bid) {
-            if (succeed) {
-                Toast.launch("投标成功");
-                self.back();
-            }
-            else {
-                Toast.launch("投标失败，请稍后再试");
-            }
-        });
+        if (self.bid.gold > 0) {
+            application.customer.gold -= self.bid.gold;
+            application.customer.locked_gold += self.bid.gold;
+            application.dao.save("Customer", application.customer, function (succeed, c) {
+                if (succeed) {
+                    self.bid.gold = application.customer.locked_gold;
+                    application.dao.save("Bid", self.bid, function (succeed, bid) {
+                        if (succeed) {
+                            Toast.launch("投标成功");
+                            self.back();
+                        }
+                        else {
+                            Toast.launch("投标失败，请稍后再试");
+                        }
+                    });
+                }
+                else {
+                    Toast.launch("投标失败，请稍后再试");
+                }
+            });
+        }
+        else {
+            Toast.launch("请追加投标金币");
+        }
     };
     p.back = function () {
         this.dispatchEventWith(GameEvents.EVT_RETURN);

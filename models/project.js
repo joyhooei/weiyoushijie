@@ -7,6 +7,6 @@ module.exports.create = function(customerId) {
     project.set("level", 1);
     project.set("achieve", 0);
     project.set("unlocked", 1);
-	return project.save()；
+	return project.save();
 }
 	

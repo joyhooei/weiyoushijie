@@ -1,11 +1,11 @@
 <?xml version='1.0' encoding='utf-8'?>
 <e:Skin class="homeUISkin" width="480" height="800" xmlns:e="http://ns.egret.com/eui" xmlns:w="http://ns.egret.com/wing">
-	<e:Image id="imgBg" height="800" width="480" x="0" y="0"  source="MPB_png"/>
+	<e:Image id="imgBg" height="800" width="480" x="0" y="0"  source="MPB_png" fillMode="clip"/>
 	<e:Image width="480" height="93" x="0" fillMode="clip" bottom="2" source="MPbottombar_png"/>
 	<e:Image id="imgBidAvatar" width="56" height="58" x="179" y="22"/>
 	<e:Image id="imgAvatar" height="58" y="102" width="56" x="21"/>
-	<e:Label id="lblBidName" text="天王盖地虎" x="260" y="19" size="24" width="165" height="23"/>
-	<e:Label id="lblBidGold" text="100000000" x="295" y="56" width="154" size="24" height="27"/>
+	<e:Label id="lblBidName" x="260" y="19" size="24" width="165" height="23"/>
+	<e:Label id="lblBidGold" x="295" y="56" width="133" size="24" height="22"/>
 
 	<e:Label id="lblGold" text="1" x="27" y="193" size="18" width="54" textAlign="center"/>
 	<e:Label id="lblDiamond" text="0" x="27" y="244" size="18" width="53" textAlign="center"/>
