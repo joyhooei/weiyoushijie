@@ -10,10 +10,20 @@ class Dao {
 	}
 	
 	public save(model:string, data:any, cb: Function) {
+        var _cb = function(succeed:number, result: any) {
+            if (succeed) {
+                data = result;
+            }
+            
+            if (cb) {
+                cb(succeed, result);
+            }
+        }
+        
 		if (data.id){
-			this.rest("update/" + model + "/" + data.id, data, cb);
+			this.rest("update/" + model + "/" + data.id, data, _cb);
 		} else {
-			this.rest("create/" + model, data, cb);
+			this.rest("create/" + model, data, _cb);
 		}
 	}
     
