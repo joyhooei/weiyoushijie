@@ -4,6 +4,8 @@ var crypto = require('crypto');
 
 var AV = require('leanengine');
 
+var Gift = require('../models/gift');
+
 router.get('/egret_rt', function(req, res, next) {
 	var content = {
 					code_url:'http://headlines.leanapp.cn/mobile/bin-release/native/160509194453/game_code_160509194453.zip', 
@@ -102,6 +104,8 @@ router.post('/login', function(req, res, next) {
 					
 					customer.set("last_login", moment().format());
 					customer.save().then(function(){
+						Gift.unlock(customer.id, 1);
+						
 						_succeed(res, _decode(customer));
 					}, function(error){
 						_failed(res, error);
