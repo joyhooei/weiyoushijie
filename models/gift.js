@@ -26,8 +26,11 @@ function _lock(customerId, category, unlocked) {
     query.find().done(function(gifts){
         if (gifts.length > 0) {
             var gift = gifts[0];
-            gift.set("unlocked", unlocked);
-            gift.save();
+			//一天只能领一次
+            if (!moment(gift.updatedAt).isSame(moment(), 'day')) {
+                gift.set("unlocked", unlocked);
+                gift.save();
+            }
         }
     });
 }
