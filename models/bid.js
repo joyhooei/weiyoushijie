@@ -45,6 +45,6 @@ module.exports.open = function(request, response) {
     });	
 }
 
-module.exports.beforeUpdate = function(bid) {
+module.exports.afterUpdate = function(bid) {
 	Gift.unlock(bid.get("customer_id"), 2);
 };
