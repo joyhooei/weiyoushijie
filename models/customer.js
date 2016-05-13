@@ -6,7 +6,7 @@ module.exports.beforeUpdate = function(request, response) {
 	customer.increment("online_seconds", (moment() - moment(customer.updatedAt)).get('second'));
 	
 	response.success();
-});
+};
 
 module.exports.afterSave = function(request, response) {
     var customer = request.object;
