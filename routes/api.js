@@ -178,6 +178,64 @@ router.post('/hits', function(req, res, next) {
 	});
 });
 
+router.post('/rank', function(req, res, next) {
+	var query = new AV.Query(dao.Customer);
+	query.addDescending("metal");
+	query.addAscending("createdAt");
+	query.limit(1000);
+	
+	query.count().then(function(count) {
+		var promises = [];
+		var pages = Math.floor((count - 1) / 1000);
+		for(var i = 0; i <= pages; i++) {
+			query.skip(i * 1000);			
+			promises.push(query.find());
+		}
+		
+		AV.Promise.all(promises).then(function(results){
+			var index = 0;
+			var last = null;
+			var me   = null;
+			var next = null;
+			
+			for(var j = 0; j < results.length; i++) {
+				customers = results[j];
+
+				for(var i = 0; i < customers.length; i++) {
+					if (me) {
+						next = customers[i];
+						break;
+					} else {
+						if (customers[i].id == req.body.customer_id) {
+							me = customers[i];
+
+							index = i + 1;
+						} else {
+							last = customers[i];
+						}
+					}
+				}
+				
+				if (me) {
+					if (!next && j < results.length - 1) {
+						next = results[j + 1][0];
+					}
+
+					_succeed(res, [{rank: index - 1, customer: last}, {rank: index, customer: me}, {rank: index + 1, customer: next}]);
+					
+					break;
+				} 
+			}
+		}, function(error){
+			console.error(error.message);
+			_failed(res, error);		
+		});
+	}, function(error) {
+		console.error(error.message);
+		_failed(res, error);
+	});
+});
+
 router.post('/select/:model', function(req, res, next) {
 	var query = new AV.Query(dao[req.params.model]);
 	
