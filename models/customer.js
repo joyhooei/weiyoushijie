@@ -10,7 +10,9 @@ module.exports.beforeUpdate = function(request, response) {
     }
     
 	customer.increment("online_seconds", os);
-	
+    customer.set("last_login", moment(customer.get("last_login")).toDate());
+    customer.set("last_hit", moment(customer.get("last_hit")).toDate());
+    
 	response.success();
 };
 
