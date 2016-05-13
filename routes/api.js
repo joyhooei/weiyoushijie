@@ -377,9 +377,7 @@ function _saveModel(model, req, res) {
 			var os = moment().diff(model.updatedAt, 'seconds');
 		}
 
-		newModel.set("online_seconds", model.get("online_seconds") + os);
-		
-		console.log(os);
+		newModel.increment("online_seconds", os);
 	}
 	
 	newModel.save().then(function(m){
