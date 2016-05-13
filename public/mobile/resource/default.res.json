@@ -185,7 +185,7 @@
 		{
 			"name":"upgrade10G_png",
 			"type":"image",
-			"url":"art/home/projects/upgrade10G.png"
+			"url":"art/home/projects/upgrade10g.png"
 		},
 		{
 			"name":"upgrade100_png",
@@ -195,12 +195,12 @@
 		{
 			"name":"upgrade100G_png",
 			"type":"image",
-			"url":"art/home/projects/upgrade100G.png"
+			"url":"art/home/projects/upgrade100g.png"
 		},
 		{
 			"name":"UpgradeG_png",
 			"type":"image",
-			"url":"art/home/projects/UpgradeG.png"
+			"url":"art/home/projects/upgradeg.png"
 		},
 		{
 			"name":"toast-bg_png",
