@@ -1,5 +1,7 @@
 var AV = require('leanengine');
 
+var Gift = require('./gift');
+
 module.exports.open = function(request, response) {
 	var dt = new Date();
 	var today = dt.getFullYear() + "/" + (dt.getMonth() + 1) + "/" + dt.getDate();
@@ -42,3 +44,9 @@ module.exports.open = function(request, response) {
     	response.error(error.message);
     });	
 }
+
+module.exports.afterSave = function(request, response) {
+    var bid = request.object;
+    
+	Gift.unlock(bid.get("customer_id"), 2);
+};
