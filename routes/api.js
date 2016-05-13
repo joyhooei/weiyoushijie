@@ -5,6 +5,8 @@ var crypto = require('crypto');
 var AV = require('leanengine');
 
 var Gift = require('../models/gift');
+var Customer = require('../models/customer');
+var Bid = require('../models/bid');
 
 router.get('/egret_rt', function(req, res, next) {
 	var content = {
@@ -371,31 +373,13 @@ router.post('/delete/:model/:id', function(req, res, next) {
 	});
 });
 
-
-function _filterAttributes(req) {
-	var forbiddenAttributes = {
-		"Customer": ["metal", "online_seconds"]};
-		
-	if (forbiddenAttributes[req.params.model]) {
-		_.each(forbiddenAttributes[req.params.model], function(attr) {
-			delete req.body[attr];
-		});
-	}
-};
-
 function _saveModel(model, req, res) {
 	_filterAttributes(req);
 	
-	var newModel = _encode(model, req.body);
-	
 	if (req.params.model == "Customer") {
-		if (moment(model.get("last_login")) > moment(model.updatedAt)) {
-			var os = moment().diff(model.get("last_login"), 'seconds');
-		} else {
-			var os = moment().diff(model.updatedAt, 'seconds');
-		}
-
-		newModel.increment("online_seconds", os);
+		Customer.beforeUpdate(newModel);
+	} else if (req.params.model == "Bid") {
+		Bid.beforeUpdate(newModel);
 	}
 	
 	newModel.save().then(function(m){
