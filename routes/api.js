@@ -374,12 +374,8 @@ router.post('/delete/:model/:id', function(req, res, next) {
 });
 
 function _saveModel(model, req, res) {
-	_filterAttributes(req);
-	
 	if (req.params.model == "Customer") {
 		Customer.beforeUpdate(newModel);
-	} else if (req.params.model == "Bid") {
-		Bid.beforeUpdate(newModel);
 	}
 	
 	newModel.save().then(function(m){
