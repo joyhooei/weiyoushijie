@@ -371,13 +371,15 @@ function _saveModel(model, req, res) {
 	var newModel = _encode(model, req.body);
 	
 	if (req.params.model == "Customer") {
-		if (moment(model.get("last_login")) > moment(model.get("updatedAt"))) {
+		if (moment(model.get("last_login")) > moment(model.updatedAt)) {
 			var os = moment().diff(model.get("last_login"), 'seconds');
 		} else {
-			var os = moment().diff(model.get("updatedAt"), 'seconds');
+			var os = moment().diff(model.updatedAt, 'seconds');
 		}
 
-		newModel.increment("online_seconds", os);
+		newModel.set("online_seconds", model.get("online_seconds") + os);
+		
+		console.log(os);
 	}
 	
 	newModel.save().then(function(m){
