@@ -11,6 +11,33 @@ module.exports.create = function(customerId, category, diamond, metal, gold) {
 	return gift.save();
 }
 
+module.exports.unlockAll = function() {
+    var query = new AV.Query(dao.Customer);
+    query.startWith('ticket', '2');
+    
+    query.count().then(function(count) {
+		query.limit(1000);
+		
+		var total = 0; 
+		while (total < count) {
+			query.skip(total);
+
+			var now = moment();
+			query.find().done(function(customers){
+				_.each(customers, function(customer){
+					if (moment(customer.get('ticket')) > now) {
+						_lock(customer.id, 4, 0);
+					} else {
+						customer.set('ticket', '');
+						customer.save();
+				});
+			});
+			
+			total += 1000;
+		}
+	});
+}
+
 module.exports.lock = function(customerId, category) {
     _lock(customerId, category, 0);
 }
