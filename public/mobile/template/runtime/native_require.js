@@ -21,11 +21,9 @@ var game_file_list = [
 	"bin-debug/models/Project.js",
 	"bin-debug/views/AuctionUI.js",
 	"bin-debug/views/BuyAchieveUI.js",
-	"bin-debug/views/FirstChargeBonus.js",
 	"bin-debug/views/GiftUI.js",
 	"bin-debug/views/HelpUI.js",
 	"bin-debug/views/HomeUI.js",
-	"bin-debug/views/LandUI.js",
 	"bin-debug/views/LoadingUI.js",
 	"bin-debug/views/LoginButton.js",
 	"bin-debug/views/LoginUI.js",
@@ -37,6 +35,8 @@ var game_file_list = [
 	"bin-debug/views/ToolItem.js",
 	"bin-debug/views/ToolUI.js",
 	"bin-debug/views/TrueLoadingUI.js",
+	"bin-debug/views/FirstChargeBonusUI.js",
+	"bin-debug/views/LandingUI.js",
 	//----auto game_file_list end----
 ];
 

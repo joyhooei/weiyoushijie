@@ -1,4 +1,4 @@
-class Main extends eui.UILayer implements nest.easeuser.ILoginCallbacks {
+class Main extends eui.UILayer {
     /**
      * 加载进度界面
      * loading process interface
@@ -81,16 +81,16 @@ class Main extends eui.UILayer implements nest.easeuser.ILoginCallbacks {
             
                 Toast.init( this, RES.getRes( "toast-bg_png" ) ); 
                 
+                this._trueLoadingUI = new TrueLoadingUI();
+                this.loadPage("landing");
+                break;
+                
+            case "landing":
+                this.addChild(new LandingUI());
+
                 this.addEventListener(GameEvents.EVT_LOGIN_IN_SUCCESS,(evt: egret.Event) => {
-                    this._trueLoadingUI = new TrueLoadingUI();
                     this.loadPage("home");
                 },this); 
-               
-                nest.core.startup({ egretAppId: 90240,version: 2,debug: true },function(resultInfo: nest.core.ResultCallbackInfo) {
-                    if(resultInfo.result == 0) {
-                        nest.easeuser.login(self);
-                    }
-                });
                 break;
             
             case "home":
@@ -173,16 +173,7 @@ class Main extends eui.UILayer implements nest.easeuser.ILoginCallbacks {
         this.addChild( this._trueLoadingUI );
         this._idLoading = pageName;
       
-        switch ( pageName ){
-            case "heros":
-            case "goods":
-                RES.loadGroup( "heros_goods" );
-                break;
-            
-            default :
-                RES.loadGroup( pageName );
-                break;
-        }
+        RES.loadGroup(pageName);
     }
     
     pageLoadedHandler( name:string ):void{
@@ -193,17 +184,5 @@ class Main extends eui.UILayer implements nest.easeuser.ILoginCallbacks {
         if( this._trueLoadingUI.parent ){
             this._trueLoadingUI.parent.removeChild( this._trueLoadingUI );
         }
-    }
-    
-    public onCreate(data: nest.easeuser.ILoginTypes): void {
-        application.router.changePage(new LoginUI(data));
-    }
-
-    public onSuccess(data: nest.user.LoginCallbackInfo): void {
-         application.login(data);
-    }
-
-    public onFail(data: nest.core.ResultCallbackInfo): void {
-        egret.log("log Fail");
     }
 }

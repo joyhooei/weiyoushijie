@@ -8,8 +8,10 @@ var FirstChargeBonusUI = (function (_super) {
     var d = __define,c=FirstChargeBonusUI,p=c.prototype;
     p.uiCompHandler = function () {
         var _this = this;
-        this.btnClose.addEventListener(egret.TouchEvent.TOUCH_TAP, function () {
-            _this.dispatchEventWith(GameEvents.EVT_RETURN);
+        this.btnCancel.addEventListener(egret.TouchEvent.TOUCH_TAP, function () {
+            _this.parent.removeChild(_this);
+        }, this);
+        this.btnCharge.addEventListener(egret.TouchEvent.TOUCH_TAP, function () {
         }, this);
     };
     return FirstChargeBonusUI;

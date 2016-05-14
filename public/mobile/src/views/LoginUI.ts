@@ -1,8 +1,3 @@
-/**
- *
- * @author
- *
- */
 class LoginUI extends eui.Component {
     public btnGroup:eui.Group;
 

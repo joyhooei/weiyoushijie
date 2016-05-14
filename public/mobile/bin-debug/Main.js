@@ -59,15 +59,14 @@ var Main = (function (_super) {
                     this._loadingUI.parent.removeChild(this._loadingUI);
                 }
                 Toast.init(this, RES.getRes("toast-bg_png"));
+                this._trueLoadingUI = new TrueLoadingUI();
+                this.loadPage("landing");
+                break;
+            case "landing":
+                this.addChild(new LandingUI());
                 this.addEventListener(GameEvents.EVT_LOGIN_IN_SUCCESS, function (evt) {
-                    _this._trueLoadingUI = new TrueLoadingUI();
                     _this.loadPage("home");
                 }, this);
-                nest.core.startup({ egretAppId: 90240, version: 2, debug: true }, function (resultInfo) {
-                    if (resultInfo.result == 0) {
-                        nest.easeuser.login(self);
-                    }
-                });
                 break;
             case "home":
                 this._isResourceLoadEnd = true;
@@ -139,15 +138,7 @@ var Main = (function (_super) {
     p.loadPage = function (pageName) {
         this.addChild(this._trueLoadingUI);
         this._idLoading = pageName;
-        switch (pageName) {
-            case "heros":
-            case "goods":
-                RES.loadGroup("heros_goods");
-                break;
-            default:
-                RES.loadGroup(pageName);
-                break;
-        }
+        RES.loadGroup(pageName);
     };
     p.pageLoadedHandler = function (name) {
         if (name != "home") {
@@ -157,15 +148,6 @@ var Main = (function (_super) {
             this._trueLoadingUI.parent.removeChild(this._trueLoadingUI);
         }
     };
-    p.onCreate = function (data) {
-        application.router.changePage(new LoginUI(data));
-    };
-    p.onSuccess = function (data) {
-        application.login(data);
-    };
-    p.onFail = function (data) {
-        egret.log("log Fail");
-    };
     return Main;
 }(eui.UILayer));
-egret.registerClass(Main,'Main',["nest.easeuser.ILoginCallbacks"]);
+egret.registerClass(Main,'Main');

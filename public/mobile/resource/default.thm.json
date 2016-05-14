@@ -2,8 +2,10 @@
   "autoGenerateExmlsList": true,
   "exmls": [
     "resource/custom_skins/auctionUISkin.exml",
+    "resource/custom_skins/firstChargeBonusSkin.exml",
     "resource/custom_skins/giftUISkin.exml",
     "resource/custom_skins/homeUISkin.exml",
+    "resource/custom_skins/landingUISkin.exml",
     "resource/custom_skins/loginButtonSkin.exml",
     "resource/custom_skins/loginUISkin.exml",
     "resource/custom_skins/offlineGoldUISkin.exml",

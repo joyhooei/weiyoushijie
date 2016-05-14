@@ -593,6 +593,36 @@
 					"isFolder":false,
 					"key":"unpick_png",
 					"name":"unpick_png"
+				},
+				{
+					"isFolder":false,
+					"key":"topup_png",
+					"name":"topup_png"
+				},
+				{
+					"isFolder":false,
+					"key":"topupbutton_png",
+					"name":"topupbutton_png"
+				},
+				{
+					"isFolder":false,
+					"key":"topuplater_png",
+					"name":"topuplater_png"
+				},
+				{
+					"isFolder":false,
+					"key":"Loginb_png",
+					"name":"Loginb_png"
+				},
+				{
+					"isFolder":false,
+					"key":"login1_png",
+					"name":"login1_png"
+				},
+				{
+					"isFolder":false,
+					"key":"login2_png",
+					"name":"login2_png"
 				}
 			]
 		}

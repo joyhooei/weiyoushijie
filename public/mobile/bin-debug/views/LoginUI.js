@@ -1,8 +1,3 @@
-/**
- *
- * @author
- *
- */
 var LoginUI = (function (_super) {
     __extends(LoginUI, _super);
     function LoginUI(loginType) {
