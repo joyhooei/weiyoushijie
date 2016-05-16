@@ -57,7 +57,7 @@ class HomeUI extends eui.Component{
         self.btns = [self.btnHome,self.btnRank,self.btnTool,self.btnAuction ];
         
 		self.imgAvatar.source = application.customer.avatar;
-        self.animateCustomer(0 - application.customer.gold, 0 - application.customer.diamond, application.customer.output, null);
+        self.refresh(application.customer.gold, application.customer.diamond, application.customer.output, 0, null);
         
 		self.renderTotalHits();		
         self.renderTotalHitsAllTime();
@@ -144,7 +144,7 @@ class HomeUI extends eui.Component{
         application.dao.fetch("Project",{ customer_id: application.customer.id },{ order: 'sequence asc' },function(succeed, projects) {
             if(succeed && projects.length > 0) {
                 for(var i = 0; i < projects.length; i ++){                    
-                    self.addProject(projects[i]);
+                    self.renderProject(projects[i]);
                 }
             }
         });
@@ -250,9 +250,9 @@ class HomeUI extends eui.Component{
         timer.start();
 	}
 	
-	public refreshCustomer(goldAdded:number, diamondAdded:number, outputAdded:number, totalHitsAdded:number, projEdited:any):void {
+	public refresh(goldAdded:number, diamondAdded:number, outputAdded:number, totalHitsAdded:number, projEdited:any):void {
 		if (goldAdded != 0) {
-        	this.animateStep(this.lblGold,    application.customer.gold - goldAdded, application.customer.gold);
+        	this.animateStep(this.lblGold, application.customer.gold - goldAdded, application.customer.gold);
 		}
 		
 		if (diamondAdded != 0) {
@@ -260,27 +260,26 @@ class HomeUI extends eui.Component{
 		}
 		
 		if (outputAdded != 0) {
-        	this.animateStep(this.lblOutput,  this.getOutput() - outputAdded, this.getOutput());
+        	this.animateStep(this.lblOutput, this.getOutput() - outputAdded, this.getOutput());
 		}
 		
 		this.lblTotalHits.text = totalHits.toString();
         
-		if (projEdited) {
-			if (projEdited.sequence <= this.grpProject.numElements) {
-		  		var pi = (ProjectItem)(this.grpProject.getElementAt(proj.sequence));
-		  		pi.refresh();
-		 	} else {
-		  		this.addProject(projEdited);
-		 	}
-		}
+		this.renderProject(projEdited);
 	}
 	
-	private addProject(proj) {
-    	if (proj) {
+	private renderProject(proj) {
+		if (proj) {
             let i = proj.sequence;
-            let item: ProjectItem = new ProjectItem(proj,application.projects[i], (i + 1).toString() + "_png", "t" + (i + 1).toString() + "_png");
-            this.grpProject.addChildAt(item,i);
-        }
+            
+			if (i <= this.grpProject.numElements) {
+		  		var pi = (ProjectItem)(this.grpProject.getElementAt(i));
+		  		pi.refresh();
+		 	} else {
+				let item: ProjectItem = new ProjectItem(proj, application.projects[i], (i + 1).toString() + "_png", "t" + (i + 1).toString() + "_png");
+				this.grpProject.addChildAt(item,i);
+		 	}
+		}
 	}
     
     private resetFocus():void{
