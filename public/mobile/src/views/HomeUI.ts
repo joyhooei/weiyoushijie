@@ -59,16 +59,14 @@ class HomeUI extends eui.Component{
 		self.imgAvatar.source = application.customer.avatar;
         self.refresh(application.customer.gold, application.customer.diamond, application.customer.output, 0, null);
         
-		self.renderTotalHits();		
-        self.renderTotalHitsAllTime();
+		self.lblTotalHits.text = "x" + application.customer.total_hits.toString();
+        self.renderTotalHits();
             
         self.renderProjects();
 		
 		self.renderBid();
         
 		self.renderBeauty();
-        
-        self.renderOfflineGold();
         
         self.lblHit.addEventListener(egret.TouchEvent.TOUCH_BEGIN, function() {
 			self.onHit();
@@ -87,6 +85,8 @@ class HomeUI extends eui.Component{
                 
         /// 首次加载完成首先显示home
         self.goHome(); 
+		
+		self.renderOfflineGold();
     }
 	
 	private onGift(): void {
@@ -97,29 +97,27 @@ class HomeUI extends eui.Component{
 	}
 	
 	private onHelp(): void {
+        var ui = new HelpUI();
+        ui.horizontalCenter = 0;
+        ui.verticalCenter = 0;
+        this.addChild(ui);    	
 	}
     
-    private renderTotalHitsAllTime(): void {
+    private renderTotalHits(): void {
     	var self = this;
 		
 		var timer: egret.Timer = new egret.Timer(1000 * 60 * 60 * 4, 0);
 		timer.addEventListener(egret.TimerEvent.TIMER, function(event:egret.TimerEvent){
-  			self.renderTotalHits();
+			application.dao.rest("hits", {customer_id: application.customer.id}, function(succeed, result) {
+			 	if (succeed && result.total_hits > 0) {
+				 	application.customer.total_hits = result.hits;
+				 	self.lblTotalHits.text = "x" + application.customer.total_hits.toString();
+			 	}
+		 	});	
 		}, this);
 
 		timer.start();
     }
-	
-	private renderTotalHits(): void {
-    	var self = this;
-		
-		application.dao.rest("hits", {customer_id: application.customer.id}, function(succeed, result) {
-	  		if (succeed && result.hits > 0) {
-	   			application.customer.total_hits = result.hits;
-	   			self.lblTotalHits.text = "x" + application.customer.total_hits.toString();
-	  		}
-	 	});	
-	}
 	
 	private renderBid(): void {
 		var self = this;
@@ -171,14 +169,10 @@ class HomeUI extends eui.Component{
     private renderOfflineGold(): void {
     	var self = this;
 		
-		application.dao.rest("offline_gold", {customer_id: application.customer.id}, function(succeed, result) {
-			if (succeed && result.gold > 0) {
-                var ogui = new OfflineGoldUI(result.gold, result.hours.toString(), result.minutes.toString());
-                ogui.horizontalCenter = 0;
-                ogui.verticalCenter = 0;
-                self.addChild(ogui);
-			}
-		});
+		var ogui = new OfflineGoldUI(application.customer.offline_gold, application.customer.offline_hours.toString(), application.customer.offline_minutes.toString());
+	 	ogui.horizontalCenter = 0;
+	 	ogui.verticalCenter = 0;
+	 	self.addChild(ogui);
     }
 	
 	private onBeauty(): void {
