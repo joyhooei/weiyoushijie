@@ -3,6 +3,7 @@ module application {
     export var router: Router;
     export var dao: Dao;
     export var customer: any;
+    export var bid: any;
     export var projects: Project[];
 
     export function init(main:Main) {
@@ -26,10 +27,20 @@ module application {
 
     export function onLoginCallback(data:nest.user.LoginCallbackInfo):void{
         //从后台获取用户信息
-        application.dao.rest("login", {token: data.token}, (succeed: boolean, data: any) => {
+        application.dao.rest("login", {token: data.token}, (succeed: boolean, customer: any) => {
             if (succeed) {
-                application.customer = data;
-                application.main.dispatchEventWith(GameEvents.EVT_LOGIN_IN_SUCCESS);
+                application.customer = customer;
+				
+                application.dao.fetch("Bid",{ succeed: 0, day :today, customer_id: application.customer.id}, {limit : 1}, function(succeed, bids){
+					if (succeed && bids.length > 0) {
+						application.bid = bids[0];				
+					} else {
+						application.bid = null;
+					}
+					
+                	application.main.dispatchEventWith(GameEvents.EVT_LOGIN_IN_SUCCESS);
+				})
+				
             } else {
                 Toast.launch("获取账号信息失败");
             }
