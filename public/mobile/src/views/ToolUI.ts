@@ -61,20 +61,33 @@ class ToolUI extends eui.Component {
     
 	//爆击。每4小时自动获取一个，最多拥有3个。“点击”可以获取10倍的收益，持续60秒。100钻石可以增加至3个。说明里提醒玩家先用完已有的，再购买，因为最多只能拥有3个。
     private buyHit() {
-        var order = { customer_id: application.customer.id, product: "hit"};
-        application.dao.save("Order", order, function(succeed, o) {
-            if (succeed) {
-                application.fetchCustomer();
-            
+        if (application.customer.diamond > 100) {
+            application.customer.diamond -= 100;
+            application.customer.total_hits = 3;
+            application.dao.save("Customer", application.customer, function(succeed, data){
                 Toast.launch("购买了爆击");
-            } else {
-                Toast.launch("购买失败");
-            }
-        });
+                
+                application.refreshCustomer(0, -100, 3, null);
+            });
+        } else {
+            Toast.launch("购买需要100个钻石");
+        }
     }
     
 	//时光沙漏， 需要500钻石购买，产生相当于2天的产量。 总秒产*3600*48
     private buyTime() {
+        if (application.customer.diamond > 500) {
+            application.customer.diamond -= 500;
+            application.customer.gold += application.customer.output * 3600 * 48;
+            application.dao.save("Customer", application.customer, function(succeed, data){
+                Toast.launch("购买了时光沙漏");
+                
+                application.refreshCustomer(application.customer.output * 3600 * 48, -500, 0, null);
+            });
+        } else {
+            Toast.launch("购买需要500个钻石");
+        }
+        
         var order = { customer_id: application.customer.id, product: "time"};
         application.dao.save("Order", order, function(succeed, o) {
             if (succeed) {
@@ -89,12 +102,17 @@ class ToolUI extends eui.Component {
     
 	//月票，19元每月(30天）。每天登录可以领取300钻石，离线收益增加至90%，持续12小时。普通情况下离线收益为70%，持续8小时。首次购买获得1个勋章
     private buyTicket() {
+		var self = this;
+		
         var order = { customer_id: application.customer.id, product: "ticket"};
         application.dao.save("Order", order, function(succeed, o) {
             if (succeed) {
-                application.fetchCustomer();
-            
-                Toast.launch("购买了月票");
+				self.pay("1", o, function(succeed){
+					if (succeed == 1) {
+						Toast.launch("购买了月票");
+					}
+				});
+                
             } else {
                 Toast.launch("购买失败");
             }
@@ -106,14 +124,40 @@ class ToolUI extends eui.Component {
         var order = { customer_id: application.customer.id, product: "vip"};
         application.dao.save("Order", order, function(succeed, o) {
             if (succeed) {
-                application.fetchCustomer();
-            
-                Toast.launch("购买了终身VIP");
+				self.pay("2", o, function(succeed){
+					if (succeed == 1) {
+						Toast.launch("购买了终身VIP");
+					}
+				});			
             } else {
                 Toast.launch("购买失败");
             }
         });
     }
+	
+	private pay(goodsId:string, order:any, callback:Function): void {
+		var info = {};
+		//购买物品id，在开放平台配置的物品id
+		info.goodsId = goodsId;
+		//购买数量，当前默认传1，暂不支持其他值
+		info.goodsNumber = "1";
+		//所在服
+		info.serverId = "1";
+		//透传参数
+		info.ext = order.id;
+		nest.iap.pay(info, function (data) {
+			if(data.result == 0) {
+				//支付成功
+				callback(1);
+			} else if(data.result == -1) {
+				//支付取消
+				Toast.launch("取消了购买");
+			} else {
+				//支付失败
+				Toast.launch("支付失败");
+			}
+		})
+	}
     
 	private addProject(proj) {
     	if (proj) {
