@@ -7,6 +7,7 @@ var AV = require('leanengine');
 var Gift = require('../models/gift');
 var Customer = require('../models/customer');
 var Bid = require('../models/bid');
+var Order = require('../models/order');
 
 router.get('/egret_rt', function(req, res, next) {
 	var content = {
@@ -32,7 +33,24 @@ router.post('/egret_pay', function(req, res, next) {
 	//time	是	时间戳
 	//sign	是	验证签名，签名生成方式详见附录1
 	
-	Order.pay(req, res);
+    var query = new AV.Query(dao.Order);
+	query.get(req.body.ext).then(function(order){
+		Order.pay(order).then(function(o){
+			order.set("state", 1);
+			order.save().then(function(o){
+				_succeed(res, {code: 0, msg: '支付成功', data: []});
+			}, function(error){
+				console.error(error.message);
+				_succeed(res, {code: 0, msg: '支付成功', data: []});
+			});
+		}, function(error) {
+			console.error(error.message);
+			_failed(res, {code: 1013, msg: '支付失败', data: []});
+		});
+	}, function(error){
+		console.error(error.message);
+		_failed(res, {code: 1013, msg: '订单不存在', data: []});
+	});
 })
 
 router.post('/login', function(req, res, next) {
@@ -62,6 +80,7 @@ router.post('/login', function(req, res, next) {
 					if (customers.length > 0) {
 						var customer = customers[0];
 						Cusomer.offlineGold(customer);
+						Customer.offlineHit(customer);
 					} else {
 						var customer = Cusomer.create(result.data.id, result.data.name, result.data.pic, result.data.sex, result.data.age);
 					}
@@ -83,38 +102,6 @@ router.post('/login', function(req, res, next) {
 		} else {
 			_failed(res, err);
 		}
-	});
-});
-
-router.post('/hits', function(req, res, next) {
-	var query = new AV.Query(dao.Customer);
-	query.get(req.body.customer_id).then(function(customer){
-		var now  = moment();
-		
-		if (customer.get("last_hit")) {
-			var lastHit = customer.get("last_hit");
-		} else {
-			var lastHit = customer.createdAt;
-		}
-		
-		var delta = now.diff(lastHit, 'hours');
-		var totalHits  = Math.min(customer.get("total_hits") + Math.floor(delta / 4), 3);
-		
-		if (totalHits > customer.get("total_hits")) {
-			customer.set("last_hit", moment(lastHit).add(totalHits - customer.get("total_hits"), "hours").toDate());
-			customer.set("total_hits", totalHits);
-			
-			customer.save();
-		} else if (3 == customer.get("total_hits")) {
-			customer.set("last_hit", moment().toDate());
-			
-			customer.save();
-		}
-		
-		_succeed(res, {hits: totalHits});
-	}, function(error) {
-		console.log("hits customer = " + req.body.customer_id + " failed " + error.message);
-		_failed(res, new Error('用户信息不存在'));
 	});
 });
 
