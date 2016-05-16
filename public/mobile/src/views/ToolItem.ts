@@ -14,15 +14,8 @@ class ToolItem extends eui.Component {
         this._project = project;
         this._myProject = myproject;
 
-        this.addEventListener(eui.UIEvent.COMPLETE,this.uiCompHandler,this);
-        
         this.skinName = "resource/custom_skins/toolItemSkin.exml";
-
-        this.imgIcon.source  = iconName;
-        this.imgTitle.source = titleName;
-    }
-    
-    private uiCompHandler(): void {
+		
 		this.img100.addEventListener(egret.TouchEvent.TOUCH_TAP,() => {
 			this.buy(100, 1);
 		}, this);
@@ -30,6 +23,9 @@ class ToolItem extends eui.Component {
 		this.img900.addEventListener(egret.TouchEvent.TOUCH_TAP,() => {
 			this.buy(900, 10);
 		}, this);		
+
+        this.imgIcon.source  = iconName;
+        this.imgTitle.source = titleName;
     }
 	
 	private buy(price: number, step: number): void {
