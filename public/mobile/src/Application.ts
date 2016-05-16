@@ -36,18 +36,8 @@ module application {
         });
     }
     
-    export function refreshCustomer(goldAdded:number, diamondAdded: number, outputAdded:number, totalHitsAdded:number, projAdded:any) {
-        application.main.homeUI.animateCustomer(goldAdded, diamondAdded, outputAdded, totalHitsAdded, projAdded);
-    }
-    
-    export function fetchCustomer() {
-        application.dao.fetch("Customer", {id: application.customer.id}, {}, function(succeed, customers) {
-            if (succeed && customers.length > 0) {
-                application.customer = customers[0];
-                
-                application.refreshCustomer(application.customer.gold, application.customer.diamond, application.customer.output, 0, null);
-            }
-        });
+    export function refreshCustomer(goldAdded:number, diamondAdded: number, outputAdded:number, totalHitsAdded:number, projEdited:any) {
+        application.main.homeUI.refresh(goldAdded, diamondAdded, outputAdded, totalHitsAdded, projAdded);
     }
     
     export function buyOutput(gold:number, diamond: number, output:number, proj:any, cb: Function): void {
