@@ -29,7 +29,9 @@ class ProjectItem extends eui.Component {
 		this.imgTitle.source = titleName;
     }
 	
-	public refresh(): void {
+	public refresh(myProject: any): void {
+		this._myProject = myProject;
+		
         if (this._myProject.unlocked == 1) {
 			this.renderLocked();		
         } else {
@@ -38,7 +40,7 @@ class ProjectItem extends eui.Component {
 	}
     
     private firstRefresh(): void {
-		this.refresh();
+		this.refresh(this._myProject);
 		
 		this.lblPrice.addEventListener(egret.TouchEvent.TOUCH_TAP,() => {
 			this.onUpgrade();
@@ -103,7 +105,10 @@ class ProjectItem extends eui.Component {
             	}
 				
 				img.addEventListener(egret.TouchEvent.TOUCH_TAP,() => {
-					//show buy options
+					var ui = new BuyAchieveUI(self._project, self._myProject);
+					ui.horizontalCenter = 0;
+					ui.verticalCenter = 0;
+					application.homeUI.addChild(ui);  					
 				}, this);
 			}
             
@@ -211,60 +216,5 @@ class ProjectItem extends eui.Component {
 			}
 		});
     }
-	
-	private buyAchieveUseGold(){
-        let self = this;
 
-        let p = self._project.goldPriceOfAchieve(self._myProject.acheve + 1);
-        if (application.customer.gold < p) {
-			Toast.launch("没有足够的金币");
-			
-			return;
-		}
-		
-        let oldOutput = self.output();
-		self._myProject.achieve += 1;
-		application.dao.save("Project",self._myProject, function(succeed, proj) {
-			if (succeed) {
-				let newOutput = self.output();
-				application.buyOutput(p, 0, newOutput - oldOutput, null, function(succeed, c){
-					if (succeed) {
-						self.renderUnlocked();
-					} else {
-						Toast.launch("获得成就失败");    
-					}
-				});
-			} else {
-				Toast.launch("获得成就失败");
-			}
-		});
-	}
-	
-	private buyAchieveUseDiamond(){
-        let self = this;
-
-        let p = self._project.diamondPriceOfAchieve(self._myProject.acheve + 1);
-        if (application.customer.diamond < p) {
-			Toast.launch("没有足够的钻石");
-			
-			return;
-		}
-		
-        let oldOutput = self.output();
-		self._myProject.achieve += 1;
-		application.dao.save("Project",self._myProject, function(succeed, proj) {
-			if (succeed) {
-				let newOutput = self.output();
-				application.buyOutput(0, p, newOutput - oldOutput, null, function(succeed, c){
-					if (succeed) {
-						self.renderUnlocked();
-					} else {
-						Toast.launch("获得成就失败");    
-					}
-				});
-			} else {
-				Toast.launch("获得成就失败");
-			}
-		});
-	}		
 }
