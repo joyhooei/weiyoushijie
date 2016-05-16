@@ -17,7 +17,31 @@ module.exports.offlineGold = function(customer) {
     var gold = Math.round(0.7 * (hours * 60 * 60 + minutes * 60) * customer.get("output"));
 
     customer.set({"offline_gold": gold, "offline_hours": hours, "offline_minutes": minutes});
+	
+	return {"offline_gold": gold, "offline_hours": hours, "offline_minutes": minutes};
 }
+
+module.exports.offlineHit = function(customer) {
+	var now  = moment();
+
+	if (customer.get("last_hit")) {
+		var lastHit = customer.get("last_hit");
+	} else {
+		var lastHit = customer.createdAt;
+	}
+
+	var delta = now.diff(lastHit, 'hours');
+	var totalHits  = Math.min(customer.get("total_hits") + Math.floor(delta / 4), 3);
+
+	if (totalHits > customer.get("total_hits")) {
+		customer.set("last_hit", moment(lastHit).add(totalHits - customer.get("total_hits"), "hours").format());
+		customer.set("total_hits", totalHits);
+	} else if (3 == customer.get("total_hits")) {
+		customer.set("last_hit", moment().format());
+	}
+	
+	return {"total_hits": totalHits};
+});
 
 module.exports.create = function(uid, name, avatar, sex, age) {
     var customer = new dao.Customer();
@@ -30,7 +54,7 @@ module.exports.create = function(uid, name, avatar, sex, age) {
     customer.set("output", 1);
     customer.set("diamond", 100);
     customer.set("metal", 0);
-    customer.set("total_hits", 0);
+    customer.set("total_hits", 3);
     
     customer.set("offline_gold", 0);
     customer.set("offline_hours", 0);
