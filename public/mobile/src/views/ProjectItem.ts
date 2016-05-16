@@ -22,20 +22,24 @@ class ProjectItem extends eui.Component {
         this._myProject = myProject;
         this._project   = project;
         
-        this.addEventListener(eui.UIEvent.COMPLETE,this.uiCompHandler,this);
+        this.addEventListener(eui.UIEvent.COMPLETE,this.firstRefresh,this);
         this.skinName = "resource/custom_skins/projectItemSkin.exml";
         
         this.imgIcon.source = iconName;
 		this.imgTitle.source = titleName;
     }
-    
-    private uiCompHandler(): void {
+	
+	public refresh(): void {
         if (this._myProject.unlocked == 1) {
 			this.renderLocked();		
         } else {
 			this.renderUnlocked();
         }
-
+	}
+    
+    private firstRefresh(): void {
+		this.refresh();
+		
 		this.lblPrice.addEventListener(egret.TouchEvent.TOUCH_TAP,() => {
 			this.onUpgrade();
 		}, this);
