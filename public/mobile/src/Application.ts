@@ -30,21 +30,33 @@ module application {
         application.dao.rest("login", {token: data.token}, (succeed: boolean, customer: any) => {
             if (succeed) {
                 application.customer = customer;
-				
-                application.dao.fetch("Bid",{ succeed: 0, day :today, customer_id: application.customer.id}, {limit : 1}, function(succeed, bids){
-					if (succeed && bids.length > 0) {
-						application.bid = bids[0];				
-					} else {
-						application.bid = null;
-					}
-					
-                	application.main.dispatchEventWith(GameEvents.EVT_LOGIN_IN_SUCCESS);
-				})
-				
+				application.refreshBid(function(bid){
+                    application.main.dispatchEventWith(GameEvents.EVT_LOGIN_IN_SUCCESS);
+                });
             } else {
                 Toast.launch("获取账号信息失败");
             }
         });
+    }
+    
+    export function refreshBid(cb: Function): void {
+		//中午12点开标，所以12点之后的投标算明天的
+		var dt = new Date();
+		if (dt.getHours() >= 12) {
+			dt = new Date(dt.getTime() + 24 * 60 * 60 * 1000);
+		}
+		
+		var today = dt.getFullYear() + "/" + (dt.getMonth() + 1) + "/" + dt.getDate();
+    
+        application.dao.fetch("Bid",{ succeed: 0, day :today, customer_id: application.customer.id}, {limit : 1}, function(succeed, bids){
+            if (succeed && bids.length > 0) {
+                application.bid = bids[0];				
+            } else {
+                application.bid = null;
+            }
+
+            cb(application.bid);
+        })
     }
     
     export function refreshCustomer(goldAdded:number, diamondAdded: number, outputAdded:number, totalHitsAdded:number, projEdited:any) {
