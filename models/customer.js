@@ -3,6 +3,42 @@ var AV = require('leanengine');
 var Gift = require('./gift');
 var Project = require('./project');
 
+module.exports.offlineGold = function(customer) {
+    var now  = moment();
+    var last = moment(customer.updatedAt);
+
+    var delta = now.diff(customer.updatedAt, 'seconds');
+    var minutes = Math.round((delta / 60) % 60);
+    if (minutes == 0) {
+        var hours = Math.round(Math.min(8, delta / 3600));
+    } else {
+        var hours = Math.round(Math.min(7, delta / 3600));
+    }			
+    var gold = Math.round(0.7 * (hours * 60 * 60 + minutes * 60) * customer.get("output"));
+
+    customer.set({"offline_gold": gold, "offline_hours": hours, "offline_minutes": minutes});
+}
+
+module.exports.create = function(uid, name, avatar, sex, age) {
+    var customer = new dao.Customer();
+    customer.set("uid", uid);
+    customer.set("name", name);
+    customer.set("avatar", avatar);
+    customer.set("sex", sex);
+    customer.set("age", age);
+    customer.set("gold", 0);
+    customer.set("output", 1);
+    customer.set("diamond", 100);
+    customer.set("metal", 0);
+    customer.set("total_hits", 0);
+    
+    customer.set("offline_gold", 0);
+    customer.set("offline_hours", 0);
+    customer.set("offline_minutes", 0);
+    
+    return customer;
+}
+
 module.exports.afterSave = function(request, response) {
     var customer = request.object;
 
