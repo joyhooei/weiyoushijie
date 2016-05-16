@@ -119,6 +119,27 @@ class HomeUI extends eui.Component{
 		timer.start();
     }
 	
+	//中午12点需要刷新拍卖数据
+	private refreshBid(): void {
+    	var self = this;
+		
+		var timer: egret.Timer = new egret.Timer(1000 * 60, 0);
+		timer.addEventListener(egret.TimerEvent.TIMER, function(event:egret.TimerEvent){
+			var dt = new Date();
+			if (dt.getHours() == 12) {
+				self.renderBid();
+				
+				application.refreshBid(function(bid){
+					if (bid) {
+						self.refresh(0 - bid.gold, 0, 0, 0, null);
+					}
+				});
+			}
+		}, this);
+
+		timer.start();
+	}
+	
 	private renderBid(): void {
 		var self = this;
 		
@@ -132,7 +153,7 @@ class HomeUI extends eui.Component{
                     }
                 });
             }
-        })        
+        })
 	}
 	
 	private renderProjects(): void {
@@ -246,7 +267,11 @@ class HomeUI extends eui.Component{
 	
 	public refresh(goldAdded:number, diamondAdded:number, outputAdded:number, totalHitsAdded:number, projEdited:any):void {
 		if (goldAdded != 0) {
-        	this.animateStep(this.lblGold, application.customer.gold - goldAdded, application.customer.gold);
+        	if (application.bid) {
+        		this.animateStep(this.lblGold, application.customer.gold - application.bid.gold - goldAdded, application.customer.gold - application.bid.gold);
+			} else {
+        		this.animateStep(this.lblGold, application.customer.gold - goldAdded, application.customer.gold);
+			}
 		}
 		
 		if (diamondAdded != 0) {
