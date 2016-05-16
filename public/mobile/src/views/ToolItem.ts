@@ -1,5 +1,5 @@
 class ToolItem extends eui.Component {
-    private _myproject: any;
+    private _myProject: any;
     private _project: any;
 
     private imgIcon: eui.Image;
@@ -12,7 +12,7 @@ class ToolItem extends eui.Component {
         super();
 
         this._project = project;
-        this._myproject = myproject;
+        this._myProject = myproject;
 
         this.addEventListener(eui.UIEvent.COMPLETE,this.uiCompHandler,this);
         
@@ -32,20 +32,29 @@ class ToolItem extends eui.Component {
 		}, this);		
     }
 	
-	private buy(price: number, level: number): void {
+	private buy(price: number, step: number): void {
 		if (application.customer.diamond < price) {
-			Toast.launch("钻石不够");
+			Toast.launch("需要" + price.toString() + "钻石");
 		} else {
-			var order = { customer_id: application.customer.id, product: "project_" + this._project.sequence + "_" + level};
-			application.dao.save("Order", order, function(succeed, o) {
+			let oldOutput = this.output();
+			this._myProject.level += step;
+			application.dao.save("Project",self._myProject, function(succeed, proj) {
 				if (succeed) {
-					application.fetchCustomer();
-
-					Toast.launch("购买了运营");
+					application.buyOutput(0, price, self.output() - oldOutput, self._myProject, function(succeed, c){
+						if (succeed) {
+							Toast.launch("购买成功");
+						} else {
+							Toast.launch("购买失败");    
+						}
+					});
 				} else {
 					Toast.launch("购买失败");
 				}
 			});
 		}	
 	}
+	
+	private output(): number {
+        return this._project.output(this._myProject.level, this._myProject.achieve, application.customer.prop);
+    }
 }
