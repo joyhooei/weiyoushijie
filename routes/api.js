@@ -32,37 +32,7 @@ router.post('/egret_pay', function(req, res, next) {
 	//time	是	时间戳
 	//sign	是	验证签名，签名生成方式详见附录1
 	
-	var query = new AV.Query(dao.Customer);
-	query.equalTo("uid", req.body.userId);
-	query.find().then(function(customers){
-		if (customers.length > 0) {
-			var customer = customers[0];
-			
-			var order = new dao.Order();
-			order.set("oid", req.body.orderId);
-			order.set("customer_id", customer.id);
-			order.set("cent", parseInt(req.body.money));
-			order.set("quantity", parseInt(req.body.ext));
-			order.save().then(function(o){
-				customer.increment("diamond", parseInt(req.body.ext));
-				customer.save().then(function(){
-					_succeed(res, {code: 0, msg: '购买钻石成功', data: []});
-				}, function(error){
-					console.error(error.message);
-					_failed(res, {code: 1013, msg: '购买钻石失败', data: []});
-				});
-			}, function(error){
-					console.error(error.message);
-				_failed(res, {code: 1013, msg: '保存订单失败', data: []});
-			});
-		} else {
-			console.error('用户不存在');
-			_failed(res, {code: 1013, msg: '用户不存在', data: []});
-		}
-	}, function(error){
-		console.error(error.message);
-		_failed(res, {code: 1013, msg: '用户不存在', data: []});
-	});
+	Order.pay(req, res);
 })
 
 router.post('/login', function(req, res, next) {
@@ -91,17 +61,9 @@ router.post('/login', function(req, res, next) {
 				query.find().then(function(customers){
 					if (customers.length > 0) {
 						var customer = customers[0];
+						Cusomer.offlineGold(customer);
 					} else {
-						var customer = new dao.Customer();
-						customer.set("uid", result.data.id);
-						customer.set("name", result.data.name);
-						customer.set("avatar", result.data.pic);
-						customer.set("sex", result.data.sex);
-						customer.set("age", result.data.age);
-						customer.set("gold", 0);
-						customer.set("output", 1);
-						customer.set("diamond", 100);
-						customer.set("metal", 0);
+						var customer = Cusomer.create(result.data.id, result.data.name, result.data.pic, result.data.sex, result.data.age);
 					}
 					
 					customer.set("last_login", moment().format());
@@ -121,32 +83,6 @@ router.post('/login', function(req, res, next) {
 		} else {
 			_failed(res, err);
 		}
-	});
-});
-
-router.post('/offline_gold', function(req, res, next) {
-	var query = new AV.Query(dao.Customer);
-	query.get(req.body.customer_id).then(function(customer){
-		var now  = moment();
-		var last = moment(customer.updatedAt);
-
-		var delta = now.diff(customer.updatedAt, 'seconds');
-		if (delta > 10) {
-			var minutes = Math.round((delta / 60) % 60);
-			if (minutes == 0) {
-				var hours = Math.round(Math.min(8, delta / 3600));
-			} else {
-				var hours = Math.round(Math.min(7, delta / 3600));
-			}			
-			var gold = Math.round(0.7 * (hours * 60 * 60 + minutes * 60) * customer.get("output"));
-			_succeed(res, {hours: hours, minutes: minutes, gold:gold});
-		} else {
-			console.log("offline_gold delta = " + delta + " now = " + now.format() + "last = " + customer.updatedAt);
-			_failed(res, new Error('暂时获得没有离线金币'));
-		}
-	}, function(error) {
-		console.log("offline_gold customer = " + req.body.customer_id + " failed " + error.message);
-		_failed(res, new Error('用户信息不存在'));
 	});
 });
 
