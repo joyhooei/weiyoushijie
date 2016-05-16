@@ -268,7 +268,7 @@ class HomeUI extends eui.Component{
             
 			if (i <= this.grpProject.numElements) {
 		  		var pi = (ProjectItem)(this.grpProject.getElementAt(i));
-		  		pi.refresh();
+		  		pi.refresh(proj);
 		 	} else {
 				let item: ProjectItem = new ProjectItem(proj, application.projects[i], (i + 1).toString() + "_png", "t" + (i + 1).toString() + "_png");
 				this.grpProject.addChildAt(item,i);
