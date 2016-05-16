@@ -9,6 +9,8 @@ class FirstChargeBonusUI extends eui.Component{
     }
 
     private uiCompHandler():void {
+        var self = this;
+        
         this.btnCancel.addEventListener( egret.TouchEvent.TOUCH_TAP, ()=>{
             this.parent.removeChild(this);
         }, this );
@@ -19,7 +21,7 @@ class FirstChargeBonusUI extends eui.Component{
 			var order = { customer_id: application.customer.id, product: "money"};
 			application.dao.save("Order", order, function(succeed, o) {
 				if (succeed) {
-					self.pay("3", o, function(succeed){
+					application.pay("3", o, function(succeed){
 						if (succeed == 1) {
 							Toast.launch("充值成功");
 						}

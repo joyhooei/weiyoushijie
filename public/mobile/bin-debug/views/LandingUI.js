@@ -8,25 +8,45 @@ var LandingUI = (function (_super) {
     var d = __define,c=LandingUI,p=c.prototype;
     p.uiCompHandler = function () {
         var self = this;
-        this.btnLogin.addEventListener(egret.TouchEvent.TOUCH_TAP, function () {
-            nest.core.startup({ egretAppId: 90240, version: 2, debug: true }, function (resultInfo) {
+        self.btnLogin.addEventListener(egret.TouchEvent.TOUCH_TAP, function () {
+            nest.easyuser.startup({ egretAppId: 90240, version: 2, debug: true }, function (resultInfo) {
                 if (resultInfo.result == 0) {
-                    nest.easeuser.login(self);
+                    self.login();
                 }
             });
-        }, this);
-        this.btnChange.addEventListener(egret.TouchEvent.TOUCH_TAP, function () {
-        }, this);
+        }, self);
+        self.btnChange.addEventListener(egret.TouchEvent.TOUCH_TAP, function () {
+            //TODO
+        }, self);
     };
-    p.onCreate = function (data) {
-        application.router.changePage(new LoginUI(data));
-    };
-    p.onSuccess = function (data) {
-        application.login(data);
-    };
-    p.onFail = function (data) {
-        egret.log("log Fail");
+    p.login = function () {
+        var loginTypes = nest.easyuser.getLoginTypes();
+        if (loginTypes.length > 0) {
+            //需要显示对应的登录按钮
+            var loginView = new LoginUI(loginTypes, function (logType) {
+                nest.easyuser.login(logType, function (data) {
+                    if (data.result == 0) {
+                        application.login(data);
+                    }
+                    else {
+                        egret.log("log Fail");
+                    }
+                });
+            });
+            application.router.changePage(loginView);
+        }
+        else {
+            //不需要登录按钮，直接调用登录进游戏
+            nest.easyuser.login({}, function (data) {
+                if (data.result == 0) {
+                    application.login(data);
+                }
+                else {
+                    egret.log("log Fail");
+                }
+            });
+        }
     };
     return LandingUI;
 }(eui.Component));
-egret.registerClass(LandingUI,'LandingUI',["nest.easeuser.ILoginCallbacks"]);
+egret.registerClass(LandingUI,'LandingUI');

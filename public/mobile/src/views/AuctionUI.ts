@@ -93,7 +93,7 @@ class AuctionUI extends eui.Component{
 	private renderCurrentBid(gold: number): void {
 		this.delta = Math.round(gold);
 		
-		this.lblCurrentBid.text = this.delta;
+		this.lblCurrentBid.text = this.delta.toString();
 	}
 	
 	private onBid(): void {

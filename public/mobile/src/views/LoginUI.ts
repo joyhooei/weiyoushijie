@@ -1,12 +1,15 @@
 class LoginUI extends eui.Component {
     public btnGroup:eui.Group;
 
-    private loginType:nest.easeuser.ILoginTypes;
+    private loginTypes: Array<nest.easyuser.ILoginType>;
+    
+    private onChoose: (logType: nest.easyuser.ILoginType) => void;
 
-    public constructor(loginType:nest.easeuser.ILoginTypes) {
+    public constructor(loginType: Array<nest.easyuser.ILoginType>,onChoose: (logType: nest.easyuser.ILoginType) => void) {
         super();
 
-        this.loginType = loginType;
+        this.loginTypes = loginType;
+        this.onChoose = onChoose;
         
         this.addEventListener( eui.UIEvent.COMPLETE, this.uiCompHandler, this );
         this.skinName = "resource/custom_skins/loginUISkin.exml";
@@ -15,8 +18,8 @@ class LoginUI extends eui.Component {
     private uiCompHandler():void {
         var self = this;
 
-        for (var i:number = 0; i < this.loginType.loginTypes.length; i++) {
-            var logT:nest.easeuser.ILoginType = this.loginType.loginTypes[i];
+        for(var i: number = 0;i < this.loginTypes.length; i++) {
+            var logT: nest.easyuser.ILoginType = this.loginTypes[i];
 
             var url = "";
             if (logT.accInfo && logT.accInfo.avatarUrl) {
@@ -29,8 +32,8 @@ class LoginUI extends eui.Component {
 
             btn.touchEnabled = true;
             btn.addEventListener(egret.TouchEvent.TOUCH_TAP, function (e:egret.TouchEvent) {
-                self.loginType.onChoose(this.name);
-            }, btn);
+                this.onChoose(this.loginTypes[parseInt(e.currentTarget.name)]);
+            },this);
         }
     }
 }

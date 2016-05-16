@@ -623,6 +623,11 @@
 					"isFolder":false,
 					"key":"login2_png",
 					"name":"login2_png"
+				},
+				{
+					"isFolder":false,
+					"key":"helppopup_png",
+					"name":"helppopup_png"
 				}
 			]
 		}

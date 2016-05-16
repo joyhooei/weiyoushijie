@@ -1,5 +1,5 @@
 <?xml version='1.0' encoding='utf-8'?>
-<e:Skin class="firstChargeBonusSkin" width="480" height="610" xmlns:e="http://ns.egret.com/eui" xmlns:w="http://ns.egret.com/wing">
+<e:Skin class="firstChargeBonusUISkin" width="480" height="610" xmlns:e="http://ns.egret.com/eui" xmlns:w="http://ns.egret.com/wing">
 	<e:Image width="480" height="610" x="0" y="0" source="topup_png" fillMode="clip"/>
 	<e:Button id="btnCharge" x="220" y="407">
 		<e:skinName>

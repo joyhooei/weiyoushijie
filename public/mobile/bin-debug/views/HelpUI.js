@@ -8,8 +8,8 @@ var HelpUI = (function (_super) {
     var d = __define,c=HelpUI,p=c.prototype;
     p.uiCompHandler = function () {
         var _this = this;
-        this.btnClose.addEventListener(egret.TouchEvent.TOUCH_TAP, function () {
-            _this.dispatchEventWith(GameEvents.EVT_RETURN);
+        this.imgBack.addEventListener(egret.TouchEvent.TOUCH_TAP, function () {
+            _this.parent.removeChild(_this);
         }, this);
     };
     return HelpUI;

@@ -75,7 +75,9 @@ class ProjectItem extends eui.Component {
     }
 	
 	private renderAchieves(): void {
-		this.grpAchieve.removeChildren();
+        var self = this;
+    	
+        self.grpAchieve.removeChildren();
 		
         for(var i = 1; i <= 10; i++) {
 			let grp = new eui.Group();
@@ -108,7 +110,7 @@ class ProjectItem extends eui.Component {
 					var ui = new BuyAchieveUI(self._project, self._myProject);
 					ui.horizontalCenter = 0;
 					ui.verticalCenter = 0;
-					application.homeUI.addChild(ui);  					
+					application.main.homeUI.addChild(ui);  					
 				}, this);
 			}
             

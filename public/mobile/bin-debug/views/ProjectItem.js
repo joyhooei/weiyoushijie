@@ -4,20 +4,24 @@ var ProjectItem = (function (_super) {
         _super.call(this);
         this._myProject = myProject;
         this._project = project;
-        this.addEventListener(eui.UIEvent.COMPLETE, this.uiCompHandler, this);
+        this.addEventListener(eui.UIEvent.COMPLETE, this.firstRefresh, this);
         this.skinName = "resource/custom_skins/projectItemSkin.exml";
         this.imgIcon.source = iconName;
         this.imgTitle.source = titleName;
     }
     var d = __define,c=ProjectItem,p=c.prototype;
-    p.uiCompHandler = function () {
-        var _this = this;
+    p.refresh = function (myProject) {
+        this._myProject = myProject;
         if (this._myProject.unlocked == 1) {
             this.renderLocked();
         }
         else {
             this.renderUnlocked();
         }
+    };
+    p.firstRefresh = function () {
+        var _this = this;
+        this.refresh(this._myProject);
         this.lblPrice.addEventListener(egret.TouchEvent.TOUCH_TAP, function () {
             _this.onUpgrade();
         }, this);
@@ -47,7 +51,8 @@ var ProjectItem = (function (_super) {
         return this._project.output(this._myProject.level, this._myProject.achieve, application.customer.prop);
     };
     p.renderAchieves = function () {
-        this.grpAchieve.removeChildren();
+        var self = this;
+        self.grpAchieve.removeChildren();
         for (var i = 1; i <= 10; i++) {
             var grp = new eui.Group();
             var img = new eui.Image();
@@ -74,7 +79,10 @@ var ProjectItem = (function (_super) {
                     grp.addChild(img);
                 }
                 img.addEventListener(egret.TouchEvent.TOUCH_TAP, function () {
-                    //show buy options
+                    var ui = new BuyAchieveUI(self._project, self._myProject);
+                    ui.horizontalCenter = 0;
+                    ui.verticalCenter = 0;
+                    application.main.homeUI.addChild(ui);
                 }, this);
             }
             this.grpAchieve.addChild(grp);
@@ -170,58 +178,6 @@ var ProjectItem = (function (_super) {
             }
             else {
                 Toast.launch("解锁失败");
-            }
-        });
-    };
-    p.buyAchieveUseGold = function () {
-        var self = this;
-        var p = self._project.goldPriceOfAchieve(self._myProject.acheve + 1);
-        if (application.customer.gold < p) {
-            Toast.launch("没有足够的金币");
-            return;
-        }
-        var oldOutput = self.output();
-        self._myProject.achieve += 1;
-        application.dao.save("Project", self._myProject, function (succeed, proj) {
-            if (succeed) {
-                var newOutput = self.output();
-                application.buyOutput(p, 0, newOutput - oldOutput, null, function (succeed, c) {
-                    if (succeed) {
-                        self.renderUnlocked();
-                    }
-                    else {
-                        Toast.launch("获得成就失败");
-                    }
-                });
-            }
-            else {
-                Toast.launch("获得成就失败");
-            }
-        });
-    };
-    p.buyAchieveUseDiamond = function () {
-        var self = this;
-        var p = self._project.diamondPriceOfAchieve(self._myProject.acheve + 1);
-        if (application.customer.diamond < p) {
-            Toast.launch("没有足够的钻石");
-            return;
-        }
-        var oldOutput = self.output();
-        self._myProject.achieve += 1;
-        application.dao.save("Project", self._myProject, function (succeed, proj) {
-            if (succeed) {
-                var newOutput = self.output();
-                application.buyOutput(0, p, newOutput - oldOutput, null, function (succeed, c) {
-                    if (succeed) {
-                        self.renderUnlocked();
-                    }
-                    else {
-                        Toast.launch("获得成就失败");
-                    }
-                });
-            }
-            else {
-                Toast.launch("获得成就失败");
             }
         });
     };

@@ -18,6 +18,7 @@ class HomeUI extends eui.Component{
     private imgBg:eui.Image;
     
     private grpProject: eui.List;
+    private projectItems: ProjectItem[];
     
     private mcBeauty: egret.MovieClip;
     
@@ -31,6 +32,7 @@ class HomeUI extends eui.Component{
     
     private lblOutput: eui.Label;
     
+    private imgCharge: eui.Image;
     private btnHit: eui.Button;
     private lblHit: eui.Label;
     private lblTotalHits: eui.Label;
@@ -82,11 +84,22 @@ class HomeUI extends eui.Component{
         self.btnHelp.addEventListener(egret.TouchEvent.TOUCH_BEGIN, function() {
 			self.onHelp();
         }, this);
-                
+
+        self.imgCharge.addEventListener(egret.TouchEvent.TOUCH_BEGIN,function() {
+            self.onCharge();
+        },this);
+        
         /// 首次加载完成首先显示home
         self.goHome(); 
 		
 		self.renderOfflineGold();
+    }
+    
+    private onCharge():void {
+        var ui = new FirstChargeBonusUI();
+        ui.horizontalCenter = 0;
+        ui.verticalCenter = 0;
+        this.addChild(ui);          
     }
 	
 	private onGift(): void {
@@ -159,6 +172,8 @@ class HomeUI extends eui.Component{
 	private renderProjects(): void {
 		var self = this;
 		
+        self.projectItems = new Array<ProjectItem>();
+		
         self.grpProject.removeChildren();
         application.dao.fetch("Project",{ customer_id: application.customer.id },{ order: 'sequence asc' },function(succeed, projects) {
             if(succeed && projects.length > 0) {
@@ -188,12 +203,12 @@ class HomeUI extends eui.Component{
 	}
     
     private renderOfflineGold(): void {
-    	var self = this;
-		
-		var ogui = new OfflineGoldUI(application.customer.offline_gold, application.customer.offline_hours.toString(), application.customer.offline_minutes.toString());
-	 	ogui.horizontalCenter = 0;
-	 	ogui.verticalCenter = 0;
-	 	self.addChild(ogui);
+        if(application.customer.offline_gold > 0) {
+    		var ogui = new OfflineGoldUI(application.customer.offline_gold, application.customer.offline_hours.toString(), application.customer.offline_minutes.toString());
+    	 	ogui.horizontalCenter = 0;
+    	 	ogui.verticalCenter = 0;
+            this.addChild(ogui);
+        }
     }
 	
 	private onBeauty(): void {
@@ -265,7 +280,7 @@ class HomeUI extends eui.Component{
         timer.start();
 	}
 	
-	public refresh(goldAdded:number, diamondAdded:number, outputAdded:number, totalHitsAdded:number, projEdited:any):void {
+    public refresh(goldAdded: number,diamondAdded: number,outputAdded: number,totalHits:number, projEdited:any):void {
 		if (goldAdded != 0) {
         	if (application.bid) {
         		this.animateStep(this.lblGold, application.customer.gold - application.bid.gold - goldAdded, application.customer.gold - application.bid.gold);
@@ -282,7 +297,7 @@ class HomeUI extends eui.Component{
         	this.animateStep(this.lblOutput, this.getOutput() - outputAdded, this.getOutput());
 		}
 		
-		this.lblTotalHits.text = totalHits.toString();
+        this.lblTotalHits.text = totalHits.toString();
         
 		this.renderProject(projEdited);
 	}
@@ -291,11 +306,11 @@ class HomeUI extends eui.Component{
 		if (proj) {
             let i = proj.sequence;
             
-			if (i <= this.grpProject.numElements) {
-		  		var pi = (ProjectItem)(this.grpProject.getElementAt(i));
-		  		pi.refresh(proj);
+            if(i < this.projectItems.length) {
+		  		this.projectItems[i].refresh(proj);
 		 	} else {
 				let item: ProjectItem = new ProjectItem(proj, application.projects[i], (i + 1).toString() + "_png", "t" + (i + 1).toString() + "_png");
+                this.projectItems[i] = item;
 				this.grpProject.addChildAt(item,i);
 		 	}
 		}

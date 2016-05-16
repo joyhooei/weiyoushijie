@@ -84,7 +84,7 @@ class GiftUI extends eui.Component {
             
             application.dao.save("Customer",application.customer,function(succeed,c) {
                 if(succeed) {
-                    application.main.homeUI.animateCustomer(-gift.gold, -gift.diamond, 0,null);
+                    application.refreshCustomer(-gift.gold, -gift.diamond, 0,0,null);
                     
                     self.setImage(imgPic, gift);
                 }

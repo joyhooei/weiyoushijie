@@ -67,7 +67,7 @@ class ToolUI extends eui.Component {
             application.dao.save("Customer", application.customer, function(succeed, data){
                 Toast.launch("购买了爆击");
                 
-                application.refreshCustomer(0, -100, 3, null);
+                application.refreshCustomer(0, -100, 3, 0, null);
             });
         } else {
             Toast.launch("购买需要100个钻石");
@@ -82,7 +82,7 @@ class ToolUI extends eui.Component {
             application.dao.save("Customer", application.customer, function(succeed, data){
                 Toast.launch("购买了时光沙漏");
                 
-                application.refreshCustomer(application.customer.output * 3600 * 48, -500, 0, null);
+                application.refreshCustomer(application.customer.output * 3600 * 48, -500, 0, 0, null);
             });
         } else {
             Toast.launch("购买需要500个钻石");
@@ -107,12 +107,11 @@ class ToolUI extends eui.Component {
         var order = { customer_id: application.customer.id, product: "ticket"};
         application.dao.save("Order", order, function(succeed, o) {
             if (succeed) {
-				self.pay("1", o, function(succeed){
+				application.pay("1", o, function(succeed){
 					if (succeed == 1) {
 						Toast.launch("购买了月票");
 					}
 				});
-                
             } else {
                 Toast.launch("购买失败");
             }
@@ -121,10 +120,12 @@ class ToolUI extends eui.Component {
     
 	//终身VIP，49元。每天登录可以领取300钻石，离线收益增加至90%，持续12小时。
     private buyVIP() {
+        var self = this;
+        
         var order = { customer_id: application.customer.id, product: "vip"};
         application.dao.save("Order", order, function(succeed, o) {
             if (succeed) {
-				self.pay("2", o, function(succeed){
+				application.pay("2", o, function(succeed){
 					if (succeed == 1) {
 						Toast.launch("购买了终身VIP");
 					}
@@ -134,30 +135,6 @@ class ToolUI extends eui.Component {
             }
         });
     }
-	
-	private pay(goodsId:string, order:any, callback:Function): void {
-		var info = {};
-		//购买物品id，在开放平台配置的物品id
-		info.goodsId = goodsId;
-		//购买数量，当前默认传1，暂不支持其他值
-		info.goodsNumber = "1";
-		//所在服
-		info.serverId = "1";
-		//透传参数
-		info.ext = order.id;
-		nest.iap.pay(info, function (data) {
-			if(data.result == 0) {
-				//支付成功
-				callback(1);
-			} else if(data.result == -1) {
-				//支付取消
-				Toast.launch("取消了购买");
-			} else {
-				//支付失败
-				Toast.launch("支付失败");
-			}
-		})
-	}
     
 	private addProject(proj) {
     	if (proj) {

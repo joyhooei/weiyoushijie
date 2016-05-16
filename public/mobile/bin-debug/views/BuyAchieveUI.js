@@ -1,6 +1,6 @@
 var BuyAchieveUI = (function (_super) {
     __extends(BuyAchieveUI, _super);
-    function BuyAchieveUI() {
+    function BuyAchieveUI(myProject, project) {
         _super.call(this);
         this.addEventListener(eui.UIEvent.COMPLETE, this.uiCompHandler, this);
         this.skinName = "resource/custom_skins/auctionUISkin.exml";

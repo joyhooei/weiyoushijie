@@ -29,6 +29,8 @@ class ToolItem extends eui.Component {
     }
 	
 	private buy(price: number, step: number): void {
+    	var self = this;
+    	
 		if (application.customer.diamond < price) {
 			Toast.launch("需要" + price.toString() + "钻石");
 		} else {

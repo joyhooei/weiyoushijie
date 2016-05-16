@@ -60,9 +60,13 @@ module application {
     }
     
     export function refreshCustomer(goldAdded:number, diamondAdded: number, outputAdded:number, totalHitsAdded:number, projEdited:any) {
-        application.main.homeUI.refresh(goldAdded, diamondAdded, outputAdded, totalHitsAdded, projAdded);
+        application.main.homeUI.refresh(goldAdded,diamondAdded,outputAdded,totalHitsAdded,projEdited);
     }
-    
+
+    export function fetchCustomer(): void {
+
+    }
+
     export function buyOutput(gold:number, diamond: number, output:number, proj:any, cb: Function): void {
         application.customer.gold      -= gold;
         application.customer.diamond   -= diamond;
@@ -76,6 +80,21 @@ module application {
         });
     }
     
+    export function pay(goodsId:string,order:any,callback:Function): void {
+        nest.iap.pay({ goodsId: goodsId,goodsNumber: "1",serverId: "1",ext: order.id },function(data) {
+            if(data.result == 0) {
+                //支付成功
+                callback(1);
+            } else if(data.result == -1) {
+                //支付取消
+                Toast.launch("取消了购买");
+            } else {
+                //支付失败
+                Toast.launch("支付失败");
+            }
+        })
+    }
+   
     export function format(d:number): string {
         let units = [
                 'k', 'm', 'b', 't', 

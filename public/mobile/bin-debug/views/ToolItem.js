@@ -1,40 +1,48 @@
 var ToolItem = (function (_super) {
     __extends(ToolItem, _super);
     function ToolItem(myproject, project, iconName, titleName) {
+        var _this = this;
         _super.call(this);
         this._project = project;
-        this._myproject = myproject;
-        this.addEventListener(eui.UIEvent.COMPLETE, this.uiCompHandler, this);
+        this._myProject = myproject;
         this.skinName = "resource/custom_skins/toolItemSkin.exml";
-        this.imgIcon.source = iconName;
-        this.imgTitle.source = titleName;
-    }
-    var d = __define,c=ToolItem,p=c.prototype;
-    p.uiCompHandler = function () {
-        var _this = this;
         this.img100.addEventListener(egret.TouchEvent.TOUCH_TAP, function () {
             _this.buy(100, 1);
         }, this);
         this.img900.addEventListener(egret.TouchEvent.TOUCH_TAP, function () {
             _this.buy(900, 10);
         }, this);
-    };
-    p.buy = function (price, level) {
+        this.imgIcon.source = iconName;
+        this.imgTitle.source = titleName;
+    }
+    var d = __define,c=ToolItem,p=c.prototype;
+    p.buy = function (price, step) {
+        var self = this;
         if (application.customer.diamond < price) {
-            Toast.launch("钻石不够");
+            Toast.launch("需要" + price.toString() + "钻石");
         }
         else {
-            var order = { customer_id: application.customer.id, product: "project_" + this._project.sequence + "_" + level };
-            application.dao.save("Order", order, function (succeed, o) {
+            var oldOutput_1 = this.output();
+            this._myProject.level += step;
+            application.dao.save("Project", self._myProject, function (succeed, proj) {
                 if (succeed) {
-                    application.fetchCustomer();
-                    Toast.launch("购买了运营");
+                    application.buyOutput(0, price, self.output() - oldOutput_1, self._myProject, function (succeed, c) {
+                        if (succeed) {
+                            Toast.launch("购买成功");
+                        }
+                        else {
+                            Toast.launch("购买失败");
+                        }
+                    });
                 }
                 else {
                     Toast.launch("购买失败");
                 }
             });
         }
+    };
+    p.output = function () {
+        return this._project.output(this._myProject.level, this._myProject.achieve, application.customer.prop);
     };
     return ToolItem;
 }(eui.Component));

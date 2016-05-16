@@ -1,5 +1,5 @@
 class BuyAchieveUI extends eui.Component{
-    constructor() {
+    constructor(myProject: any,project: Project) {
         super();
         this.addEventListener( eui.UIEvent.COMPLETE, this.uiCompHandler, this );
         this.skinName = "resource/custom_skins/auctionUISkin.exml";

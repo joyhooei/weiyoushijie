@@ -15,13 +15,12 @@ var HomeUI = (function (_super) {
         self.btnAuction.addEventListener(egret.TouchEvent.TOUCH_TAP, self.btnHandler, self);
         self.btns = [self.btnHome, self.btnRank, self.btnTool, self.btnAuction];
         self.imgAvatar.source = application.customer.avatar;
-        self.animateCustomer(0 - application.customer.gold, 0 - application.customer.diamond, application.customer.output, null);
+        self.refresh(application.customer.gold, application.customer.diamond, application.customer.output, 0, null);
+        self.lblTotalHits.text = "x" + application.customer.total_hits.toString();
         self.renderTotalHits();
-        self.renderTotalHitsAllTime();
         self.renderProjects();
         self.renderBid();
         self.renderBeauty();
-        self.renderOfflineGold();
         self.lblHit.addEventListener(egret.TouchEvent.TOUCH_BEGIN, function () {
             self.onHit();
         }, this);
@@ -34,8 +33,18 @@ var HomeUI = (function (_super) {
         self.btnHelp.addEventListener(egret.TouchEvent.TOUCH_BEGIN, function () {
             self.onHelp();
         }, this);
+        self.imgCharge.addEventListener(egret.TouchEvent.TOUCH_BEGIN, function () {
+            self.onCharge();
+        }, this);
         /// 首次加载完成首先显示home
         self.goHome();
+        self.renderOfflineGold();
+    };
+    p.onCharge = function () {
+        var ui = new FirstChargeBonusUI();
+        ui.horizontalCenter = 0;
+        ui.verticalCenter = 0;
+        this.addChild(ui);
     };
     p.onGift = function () {
         var ui = new GiftUI();
@@ -44,23 +53,40 @@ var HomeUI = (function (_super) {
         this.addChild(ui);
     };
     p.onHelp = function () {
-    };
-    p.renderTotalHitsAllTime = function () {
-        var self = this;
-        var timer = new egret.Timer(1000 * 60 * 60 * 4, 0);
-        timer.addEventListener(egret.TimerEvent.TIMER, function (event) {
-            self.renderTotalHits();
-        }, this);
-        timer.start();
+        var ui = new HelpUI();
+        ui.horizontalCenter = 0;
+        ui.verticalCenter = 0;
+        this.addChild(ui);
     };
     p.renderTotalHits = function () {
         var self = this;
-        application.dao.rest("hits", { customer_id: application.customer.id }, function (succeed, result) {
-            if (succeed && result.hits > 0) {
-                application.customer.total_hits = result.hits;
-                self.lblTotalHits.text = "x" + application.customer.total_hits.toString();
+        var timer = new egret.Timer(1000 * 60 * 60 * 4, 0);
+        timer.addEventListener(egret.TimerEvent.TIMER, function (event) {
+            application.dao.rest("hits", { customer_id: application.customer.id }, function (succeed, result) {
+                if (succeed && result.total_hits > 0) {
+                    application.customer.total_hits = result.hits;
+                    self.lblTotalHits.text = "x" + application.customer.total_hits.toString();
+                }
+            });
+        }, this);
+        timer.start();
+    };
+    //中午12点需要刷新拍卖数据
+    p.refreshBid = function () {
+        var self = this;
+        var timer = new egret.Timer(1000 * 60, 0);
+        timer.addEventListener(egret.TimerEvent.TIMER, function (event) {
+            var dt = new Date();
+            if (dt.getHours() == 12) {
+                self.renderBid();
+                application.refreshBid(function (bid) {
+                    if (bid) {
+                        self.refresh(0 - bid.gold, 0, 0, 0, null);
+                    }
+                });
             }
-        });
+        }, this);
+        timer.start();
     };
     p.renderBid = function () {
         var self = this;
@@ -78,11 +104,12 @@ var HomeUI = (function (_super) {
     };
     p.renderProjects = function () {
         var self = this;
+        self.projectItems = new Array();
         self.grpProject.removeChildren();
         application.dao.fetch("Project", { customer_id: application.customer.id }, { order: 'sequence asc' }, function (succeed, projects) {
             if (succeed && projects.length > 0) {
                 for (var i = 0; i < projects.length; i++) {
-                    self.addProject(projects[i]);
+                    self.renderProject(projects[i]);
                 }
             }
         });
@@ -102,15 +129,12 @@ var HomeUI = (function (_super) {
         }, this);
     };
     p.renderOfflineGold = function () {
-        var self = this;
-        application.dao.rest("offline_gold", { customer_id: application.customer.id }, function (succeed, result) {
-            if (succeed && result.gold > 0) {
-                var ogui = new OfflineGoldUI(result.gold, result.hours.toString(), result.minutes.toString());
-                ogui.horizontalCenter = 0;
-                ogui.verticalCenter = 0;
-                self.addChild(ogui);
-            }
-        });
+        if (application.customer.offline_gold > 0) {
+            var ogui = new OfflineGoldUI(application.customer.offline_gold, application.customer.offline_hours.toString(), application.customer.offline_minutes.toString());
+            ogui.horizontalCenter = 0;
+            ogui.verticalCenter = 0;
+            this.addChild(ogui);
+        }
     };
     p.onBeauty = function () {
         var self = this;
@@ -166,17 +190,35 @@ var HomeUI = (function (_super) {
         }, this);
         timer.start();
     };
-    p.animateCustomer = function (gold, diamond, output, proj) {
-        this.animateStep(this.lblGold, application.customer.gold + gold, application.customer.gold);
-        this.animateStep(this.lblDiamond, application.customer.diamond + diamond, application.customer.diamond);
-        this.animateStep(this.lblOutput, this.getOutput() - output, this.getOutput());
-        this.addProject(proj);
+    p.refresh = function (goldAdded, diamondAdded, outputAdded, totalHits, projEdited) {
+        if (goldAdded != 0) {
+            if (application.bid) {
+                this.animateStep(this.lblGold, application.customer.gold - application.bid.gold - goldAdded, application.customer.gold - application.bid.gold);
+            }
+            else {
+                this.animateStep(this.lblGold, application.customer.gold - goldAdded, application.customer.gold);
+            }
+        }
+        if (diamondAdded != 0) {
+            this.animateStep(this.lblDiamond, application.customer.diamond - diamondAdded, application.customer.diamond);
+        }
+        if (outputAdded != 0) {
+            this.animateStep(this.lblOutput, this.getOutput() - outputAdded, this.getOutput());
+        }
+        this.lblTotalHits.text = totalHits.toString();
+        this.renderProject(projEdited);
     };
-    p.addProject = function (proj) {
+    p.renderProject = function (proj) {
         if (proj) {
             var i = proj.sequence;
-            var item = new ProjectItem(proj, application.projects[i], (i + 1).toString() + "_png", "t" + (i + 1).toString() + "_png");
-            this.grpProject.addChildAt(item, i);
+            if (i < this.projectItems.length) {
+                this.projectItems[i].refresh(proj);
+            }
+            else {
+                var item = new ProjectItem(proj, application.projects[i], (i + 1).toString() + "_png", "t" + (i + 1).toString() + "_png");
+                this.projectItems[i] = item;
+                this.grpProject.addChildAt(item, i);
+            }
         }
     };
     p.resetFocus = function () {

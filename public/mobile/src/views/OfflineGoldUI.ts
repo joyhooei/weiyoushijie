@@ -25,7 +25,7 @@ class OfflineGoldUI extends eui.Component{
             application.customer.gold += this.gold;
             application.dao.save("Customer",application.customer,null);
 
-            application.main.homeUI.animateCustomer(this.gold,0,0,null);
+            application.refreshCustomer(this.gold,0,0,0,null);
              
             this.parent.removeChild(this);
         }, this );	
