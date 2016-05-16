@@ -105,6 +105,17 @@ router.post('/login', function(req, res, next) {
 	});
 });
 
+router.post('/hits', function(req, res, next) {
+	var query = new AV.Query(dao.Customer);
+	query.get(req.body.customer_id).then(function(customer){
+		_succeed(res, Customer.offlineHit(customer));
+	}, function(error) {
+		console.log("hits customer = " + req.body.customer_id + " failed " + error.message);
+		_failed(res, new Error('用户信息不存在'));
+	});
+});
+
+
 router.post('/rank', function(req, res, next) {
 	var query = new AV.Query(dao.Customer);
 	query.addDescending("metal");
