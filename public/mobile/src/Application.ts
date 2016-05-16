@@ -36,12 +36,16 @@ module application {
         });
     }
     
+    export function refreshCustomer(goldAdded:number, diamondAdded: number, outputAdded:number, totalHitsAdded:number, projAdded:any) {
+        application.main.homeUI.animateCustomer(goldAdded, diamondAdded, outputAdded, totalHitsAdded, projAdded);
+    }
+    
     export function fetchCustomer() {
         application.dao.fetch("Customer", {id: application.customer.id}, {}, function(succeed, customers) {
             if (succeed && customers.length > 0) {
                 application.customer = customers[0];
                 
-                application.main.homeUI.animateCustomer(application.customer.gold, application.customer.diamond, application.customer.output, null);
+                application.refreshCustomer(application.customer.gold, application.customer.diamond, application.customer.output, 0, null);
             }
         });
     }
@@ -52,7 +56,7 @@ module application {
         application.customer.output    += output;
         application.dao.save("Customer", application.customer, function(succeed, c){
             if (succeed) {
-                application.main.homeUI.animateCustomer(gold, diamond, output, proj);
+                application.refreshCustomer(0 - gold, 0 - diamond, output, 0, proj);
             }
 			
 			cb(succeed, c);
