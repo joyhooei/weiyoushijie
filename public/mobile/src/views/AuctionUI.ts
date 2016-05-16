@@ -105,7 +105,8 @@ class AuctionUI extends eui.Component{
 				if (succeed) {
 					Toast.launch("投标成功");
 
-					application.bid = self.bid;
+					application.bid = self.bid;				
+					application.refreshCustomer(0 - self.delta, 0, 0, 0, null);
 
 					self.back();
 				} else {
