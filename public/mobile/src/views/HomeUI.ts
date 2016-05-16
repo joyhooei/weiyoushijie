@@ -250,12 +250,29 @@ class HomeUI extends eui.Component{
         timer.start();
 	}
 	
-	public animateCustomer(gold:number, diamond:number, output:number, proj:any):void {
-        this.animateStep(this.lblGold,    application.customer.gold + gold, application.customer.gold);
-        this.animateStep(this.lblDiamond, application.customer.diamond + diamond, application.customer.diamond);
-        this.animateStep(this.lblOutput,  this.getOutput() - output, this.getOutput());
+	public refreshCustomer(goldAdded:number, diamondAdded:number, outputAdded:number, totalHitsAdded:number, projEdited:any):void {
+		if (goldAdded != 0) {
+        	this.animateStep(this.lblGold,    application.customer.gold - goldAdded, application.customer.gold);
+		}
+		
+		if (diamondAdded != 0) {
+        	this.animateStep(this.lblDiamond, application.customer.diamond - diamondAdded, application.customer.diamond);
+		}
+		
+		if (outputAdded != 0) {
+        	this.animateStep(this.lblOutput,  this.getOutput() - outputAdded, this.getOutput());
+		}
+		
+		this.lblTotalHits.text = totalHits.toString();
         
-        this.addProject(proj);
+		if (projEdited) {
+			if (projEdited.sequence <= this.grpProject.numElements) {
+		  		var pi = (ProjectItem)(this.grpProject.getElementAt(proj.sequence));
+		  		pi.refresh();
+		 	} else {
+		  		this.addProject(projEdited);
+		 	}
+		}
 	}
 	
 	private addProject(proj) {
