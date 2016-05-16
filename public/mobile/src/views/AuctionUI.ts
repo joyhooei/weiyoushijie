@@ -14,6 +14,7 @@ class AuctionUI extends eui.Component{
 	private imgThumb: eui.Image;
 	
 	private bid:any;
+	private delta:number;
 	
 	private startX:number;
 	
@@ -43,6 +44,7 @@ class AuctionUI extends eui.Component{
 		var today = dt.getFullYear() + "/" + (dt.getMonth() + 1) + "/" + dt.getDate();
 		
         self.bid = { gold: 0,day: today,customer_id: application.customer.id,succeed: 0 };
+		self.delta = 0;
         
 		self.renderLastBid(today);
 		self.renderMaxBid(today);	
@@ -89,31 +91,23 @@ class AuctionUI extends eui.Component{
 	}
 	
 	private renderCurrentBid(gold: number): void {
-		this.bid.gold = Math.round(gold);
+		this.delta = Math.round(gold);
 		
-		this.lblCurrentBid.text = application.format(this.bid.gold + application.customer.locked_gold);
+		this.lblCurrentBid.text = this.delta;
 	}
 	
 	private onBid(): void {
 		var self = this;
 		
-		if (self.bid.gold > 0) {
-			application.customer.gold -= self.bid.gold;
-			application.customer.locked_gold += self.bid.gold;
-			application.dao.save("Customer", application.customer, function(succeed, c) {
+		if (self.delta > 0) {
+			self.bid.gold += self.delta;
+			application.dao.save("Bid", self.bid, function(succeed, bid){
 				if (succeed) {
-					self.bid.gold = application.customer.locked_gold;
-					application.dao.save("Bid", self.bid, function(succeed, bid){
-						if (succeed) {
-							Toast.launch("投标成功");
+					Toast.launch("投标成功");
 
-							application.bid = self.bid;
-							
-							self.back();
-						} else {
-							Toast.launch("投标失败，请稍后再试");
-						}
-					});
+					application.bid = self.bid;
+
+					self.back();
 				} else {
 					Toast.launch("投标失败，请稍后再试");
 				}
