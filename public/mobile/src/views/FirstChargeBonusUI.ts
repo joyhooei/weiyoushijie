@@ -1,4 +1,7 @@
 class FirstChargeBonusUI extends eui.Component{
+    private btnCancel:eui.Button;
+    private btnCharge:eui.Button;
+
     constructor() {
         super();
         this.addEventListener( eui.UIEvent.COMPLETE, this.uiCompHandler, this );
@@ -11,9 +14,21 @@ class FirstChargeBonusUI extends eui.Component{
         }, this );
         
         this.btnCharge.addEventListener(egret.TouchEvent.TOUCH_TAP,() => {
+			var self = this;
+
+			var order = { customer_id: application.customer.id, product: "money"};
+			application.dao.save("Order", order, function(succeed, o) {
+				if (succeed) {
+					self.pay("3", o, function(succeed){
+						if (succeed == 1) {
+							Toast.launch("充值成功");
+						}
+					});
+
+				} else {
+					Toast.launch("充值失败");
+				}
+			});		
         },this);        
     }
-    
-    private btnCancel:eui.Button;
-    private btnCharge:eui.Button;
 }
