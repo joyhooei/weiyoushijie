@@ -45,8 +45,7 @@ function _payForVIP(order, resolve, reject){
 function _payForDeposit(order, resolve, reject){
 	var customerQuery = new AV.Query(dao.Customer);
 	customerQuery.get(order.get("customer_id")).then(function(customer){
-		//order.get("price")的单位是分，这里要调整为元，充值需要重新计算金额，因为前面可能使用了折扣
-		customer.increment("money", order.get("price") * order.get("quantity"));
+		customer.increment("money", 2);
 		customer.save().then(function(c){
 			resolve(order);
 		}, function(err){
