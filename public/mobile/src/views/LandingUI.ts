@@ -1,4 +1,4 @@
-class LandingUI extends eui.Component implements nest.easeuser.ILoginCallbacks {
+class LandingUI extends eui.Component {
     private btnLogin: eui.Button;
     private btnChange: eui.Button;
     
@@ -13,27 +13,43 @@ class LandingUI extends eui.Component implements nest.easeuser.ILoginCallbacks {
     private uiCompHandler(): void {
         var self = this;
         
-        this.btnLogin.addEventListener(egret.TouchEvent.TOUCH_TAP,() => {
+        self.btnLogin.addEventListener(egret.TouchEvent.TOUCH_TAP,() => {
             nest.core.startup({ egretAppId: 90240,version: 2,debug: true },function(resultInfo: nest.core.ResultCallbackInfo) {
                 if(resultInfo.result == 0) {
-                    nest.easeuser.login(self);
-                }
+					self.login();
+				}
             });
-        },this);
+        },self);
 
-        this.btnChange.addEventListener(egret.TouchEvent.TOUCH_TAP,() => {
-        },this);
+        self.btnChange.addEventListener(egret.TouchEvent.TOUCH_TAP,() => {
+        },self);
     }
+	
+	private login(): void {
+		var loginTypes:Array<nest.easyuser.ILoginType> = nest.easyuser.getLoginTypes();
 
-    public onCreate(data: nest.easeuser.ILoginTypes): void {
-        application.router.changePage(new LoginUI(data));
-    }
+		if (loginTypes.length > 0) {
+			//需要显示对应的登录按钮
+			var loginView:LoginUI = new LoginUI(loginTypes, function (logType:nest.easyuser.ILoginType) {
+				nest.easyuser.login(logType, function (data:nest.user.LoginCallbackInfo) {
+					if (data.result == 0) {
+						application.login(data);
+					} else {
+						egret.log("log Fail");
+					}
+				});
+			});
 
-    public onSuccess(data: nest.user.LoginCallbackInfo): void {
-        application.login(data);
-    }
-
-    public onFail(data: nest.core.ResultCallbackInfo): void {
-        egret.log("log Fail");
-    }
+			application.router.changePage(loginView);
+		} else {
+			//不需要登录按钮，直接调用登录进游戏
+			nest.easyuser.login({}, function (data:nest.user.LoginCallbackInfo) {
+				if (data.result == 0) {
+					application.login(data);
+				} else {
+					egret.log("log Fail");
+				}
+			});
+		}
+	}
 }
