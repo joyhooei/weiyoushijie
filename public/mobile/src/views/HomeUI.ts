@@ -96,10 +96,14 @@ class HomeUI extends eui.Component{
     }
     
     private onCharge():void {
-        var ui = new FirstChargeBonusUI();
-        ui.horizontalCenter = 0;
-        ui.verticalCenter = 0;
-        this.addChild(ui);          
+		if (application.customer.charge == 0) {
+			var ui = new FirstChargeBonusUI();
+		 	ui.horizontalCenter = 0;
+		 	ui.verticalCenter = 0;
+		 	this.addChild(ui);
+		} else {
+			application.charge();
+		}
     }
 	
 	private onGift(): void {
@@ -298,6 +302,10 @@ class HomeUI extends eui.Component{
 		}
 		
         this.lblTotalHits.text = totalHits.toString();
+        
+        if (application.customer.charge > 0) {
+        	this.imgCharge.source = "charge_png";
+        }
         
 		this.renderProject(projEdited);
 	}
