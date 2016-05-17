@@ -21,7 +21,7 @@ module.exports.offlineGold = function(customer) {
 	return {"offline_gold": gold, "offline_hours": hours, "offline_minutes": minutes};
 }
 
-module.exports.offlineHit = function(customer) {
+module.exports.hits = function(customer) {
 	var now  = moment();
 
 	if (customer.get("last_hit")) {
@@ -41,7 +41,7 @@ module.exports.offlineHit = function(customer) {
 	}
 	
 	return {"total_hits": totalHits};
-});
+}
 
 module.exports.create = function(uid, name, avatar, sex, age) {
     var customer = new dao.Customer();
