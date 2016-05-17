@@ -8,8 +8,12 @@ module.exports.pay = function(order) {
 			
 			if (order.get("product") == "Ticket") {
 				customer.set("ticket_expire", moment().add(30, 'days').format());
+				
+				Gift.update(customer.id, 1, 300, 0, 0);
 			} else if (order.get("product") == "VIP") {
 				customer.set("ticket_expire", moment().add(30 * 12 * 100, 'days').format());
+				
+				Gift.update(customer.id, 1, 300, 0, 0);
 			} else if (order.get("product") == "Diamond") {
 				customer.increment("diamond", 200);
 			} else {
