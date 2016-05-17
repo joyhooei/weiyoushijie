@@ -18,7 +18,7 @@ class FirstChargeBonusUI extends eui.Component{
         this.btnCharge.addEventListener(egret.TouchEvent.TOUCH_TAP,() => {
 			var self = this;
 
-			var order = { customer_id: application.customer.id, product: "money"};
+			var order = { customer_id: application.customer.id, product: "diamond", price: 2};
 			application.dao.save("Order", order, function(succeed, o) {
 				if (succeed) {
 					application.pay("3", o, function(succeed){
