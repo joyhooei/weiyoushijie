@@ -29,27 +29,10 @@ class ToolItem extends eui.Component {
     }
 	
 	private buy(price: number, step: number): void {
-    	var self = this;
-    	
-		if (application.customer.diamond < price) {
-			Toast.launch("需要" + price.toString() + "钻石");
-		} else {
-			let oldOutput = this.output();
-			this._myProject.level += step;
-			application.dao.save("Project",self._myProject, function(succeed, proj) {
-				if (succeed) {
-					application.buyOutput(0, price, self.output() - oldOutput, self._myProject, function(succeed, c){
-						if (succeed) {
-							Toast.launch("购买成功");
-						} else {
-							Toast.launch("购买失败");    
-						}
-					});
-				} else {
-					Toast.launch("购买失败");
-				}
-			});
-		}	
+		var ui = new BuyItemUI("project", price, self._project, self._myProject, step);
+		ui.horizontalCenter = 0;
+		ui.verticalCenter = 0;
+		application.main.homeUI.addChild(ui);
 	}
 	
 	private output(): number {
