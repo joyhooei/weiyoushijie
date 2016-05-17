@@ -1,7 +1,11 @@
 class BuyAchieveUI extends eui.Component{
-    private btnBack:eui.Button;
-    private btnBuyUseGold:eui.Button;
-    private btnBuyUseDiamond:eui.Button;
+    private imgBack: eui.Image;
+    
+    private imgBuyUseGold:eui.Image;
+    private imgBuyUseDiamond: eui.Image;
+    
+    private lblGold:eui.Label;
+    private lblDiamond:eui.Label;
     
     private _myProject: any;
     private _project: Project;
@@ -18,33 +22,39 @@ class BuyAchieveUI extends eui.Component{
     }
 
     private uiCompHandler():void {
-        this.btnBack.addEventListener( egret.TouchEvent.TOUCH_TAP, ()=>{
+        this.imgBack.addEventListener( egret.TouchEvent.TOUCH_TAP, ()=>{
             this.parent.removeChild(this);
         }, this );
         
-        let p = self._project.goldPriceOfAchieve(self._myProject.acheve + 1);
+        let p = this._project.goldPriceOfAchieve(this._myProject.achieve + 1);
+        this.lblGold.text = p.toString();
         if (application.customer.gold < p) {
-			this.btnBuyUseGold.enabled = false;
+            this.imgBuyUseGold.source = "buttoncoinno_png";
 		} else {
-			this.btnBuyUseGold.addEventListener( egret.TouchEvent.TOUCH_TAP, ()=>{
+            this.imgBuyUseGold.addEventListener( egret.TouchEvent.TOUCH_TAP, ()=>{
 				this.buyAchieveUseGold();
 			}, this );
 		}
 
-        let p = self._project.diamondPriceOfAchieve(self._myProject.acheve + 1);
+        p = this._project.diamondPriceOfAchieve(this._myProject.achieve + 1);
+        this.lblDiamond.text = p.toString();
         if (application.customer.diamond < p) {
-			this.btnBuyUseDiamond.enabled = false;
+            this.imgBuyUseDiamond.source = "buttondiano_png";
 		} else {
-			this.btnBuyUseDiamond.addEventListener( egret.TouchEvent.TOUCH_TAP, ()=>{
-				this.buyAchieveUseDiamond();
+            this.imgBuyUseDiamond.addEventListener( egret.TouchEvent.TOUCH_TAP, ()=>{
+                this.buyAchieveUseDiamond();
 			}, this );
 		}
     }
-    
+
+    private output(): number {
+        return this._project.output(this._myProject.level,this._myProject.achieve,application.customer.prop);
+    }
+   
 	private buyAchieveUseGold(){
         let self = this;
 
-        let p = self._project.goldPriceOfAchieve(self._myProject.acheve + 1);
+        let p = self._project.goldPriceOfAchieve(self._myProject.achieve + 1);
         let oldOutput = self.output();
 		self._myProject.achieve += 1;
 		application.dao.save("Project",self._myProject, function(succeed, proj) {
@@ -53,6 +63,8 @@ class BuyAchieveUI extends eui.Component{
 				application.buyOutput(p, 0, newOutput - oldOutput, self._myProject, function(succeed, c){
 					if (!succeed) {
 						Toast.launch("获得成就失败");    
+					} else {
+					    self.parent.removeChild(self);
 					}
 				});
 			} else {
@@ -64,7 +76,7 @@ class BuyAchieveUI extends eui.Component{
 	private buyAchieveUseDiamond(){
         let self = this;
 
-        let p = self._project.diamondPriceOfAchieve(self._myProject.acheve + 1);
+        let p = self._project.diamondPriceOfAchieve(self._myProject.achieve + 1);
         let oldOutput = self.output();
 		self._myProject.achieve += 1;
 		application.dao.save("Project",self._myProject, function(succeed, proj) {
@@ -73,6 +85,8 @@ class BuyAchieveUI extends eui.Component{
 				application.buyOutput(0, p, newOutput - oldOutput, self._myProject, function(succeed, c){
 					if (!succeed) {
 						Toast.launch("获得成就失败");    
+					} else {
+                        self.parent.removeChild(self);
 					}
 				});
 			} else {

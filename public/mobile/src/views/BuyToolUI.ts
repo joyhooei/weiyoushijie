@@ -56,7 +56,7 @@ class BuyToolUI extends eui.Component{
 		this._myProject.level += this._levelAdded;
 		application.dao.save("Project",self._myProject, function(succeed, proj) {
 			if (succeed) {
-				application.buyOutput(0, self.price, self.output() - oldOutput, self._myProject, function(succeed, c){
+                application.buyOutput(0,self._price, self.output() - oldOutput, self._myProject, function(succeed, c){
 					if (succeed) {
 						Toast.launch("购买成功");
 						
@@ -76,7 +76,7 @@ class BuyToolUI extends eui.Component{
     }
 	
 	private buyTime(){
-		application.customer.diamond -= this.price;
+        application.customer.diamond -= this._price;
 		application.customer.gold += application.customer.output * 3600 * 48;
 		application.dao.save("Customer", application.customer, function(succeed, data){
 			Toast.launch("购买了时光沙漏");
@@ -88,7 +88,7 @@ class BuyToolUI extends eui.Component{
 	}
 	
 	private buyHit() {
-		application.customer.diamond -= this.price;
+        application.customer.diamond -= this._price;
 		application.customer.total_hits = 3;
 		application.dao.save("Customer", application.customer, function(succeed, data){
 			Toast.launch("购买了爆击");

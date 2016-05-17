@@ -13,20 +13,7 @@ var FirstChargeBonusUI = (function (_super) {
             _this.parent.removeChild(_this);
         }, this);
         this.btnCharge.addEventListener(egret.TouchEvent.TOUCH_TAP, function () {
-            var self = _this;
-            var order = { customer_id: application.customer.id, product: "money" };
-            application.dao.save("Order", order, function (succeed, o) {
-                if (succeed) {
-                    application.pay("3", o, function (succeed) {
-                        if (succeed == 1) {
-                            Toast.launch("充值成功");
-                        }
-                    });
-                }
-                else {
-                    Toast.launch("充值失败");
-                }
-            });
+            application.charge();
         }, this);
     };
     return FirstChargeBonusUI;

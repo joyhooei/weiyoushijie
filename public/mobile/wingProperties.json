@@ -628,6 +628,31 @@
 					"isFolder":false,
 					"key":"helppopup_png",
 					"name":"helppopup_png"
+				},
+				{
+					"isFolder":false,
+					"key":"buttoncoin_png",
+					"name":"buttoncoin_png"
+				},
+				{
+					"isFolder":false,
+					"key":"buttoncoinno_png",
+					"name":"buttoncoinno_png"
+				},
+				{
+					"isFolder":false,
+					"key":"buttondia_png",
+					"name":"buttondia_png"
+				},
+				{
+					"isFolder":false,
+					"key":"buttondiano_png",
+					"name":"buttondiano_png"
+				},
+				{
+					"isFolder":false,
+					"key":"popwinB_png",
+					"name":"popwinB_png"
 				}
 			]
 		}

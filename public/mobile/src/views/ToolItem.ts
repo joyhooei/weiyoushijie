@@ -29,7 +29,7 @@ class ToolItem extends eui.Component {
     }
 	
 	private buy(price: number, step: number): void {
-		var ui = new BuyItemUI("project", price, self._project, self._myProject, step);
+        var ui = new BuyToolUI("project",price,this._project,this._myProject, step);
 		ui.horizontalCenter = 0;
 		ui.verticalCenter = 0;
 		application.main.homeUI.addChild(ui);

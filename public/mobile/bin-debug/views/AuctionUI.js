@@ -7,17 +7,9 @@ var AuctionUI = (function (_super) {
     }
     var d = __define,c=AuctionUI,p=c.prototype;
     p.refresh = function () {
-        this.uiCompHandler();
-    };
-    p.uiCompHandler = function () {
         var self = this;
         self.lblGold.text = application.format(application.customer.gold);
-        //中午12点开标，所以12点之后的投标算明天的
-        var dt = new Date();
-        if (dt.getHours() >= 12) {
-            dt = new Date(dt.getTime() + 24 * 60 * 60 * 1000);
-        }
-        var today = dt.getFullYear() + "/" + (dt.getMonth() + 1) + "/" + dt.getDate();
+        var today = application.bidDay();
         self.bid = { gold: 0, day: today, customer_id: application.customer.id, succeed: 0 };
         self.delta = 0;
         self.renderLastBid(today);
@@ -28,13 +20,16 @@ var AuctionUI = (function (_super) {
         self.imgFront.y = self.imgThumb.y;
         self.imgFront.width = 0;
         self.renderCurrentBid(0);
-        self.imgBid.addEventListener(egret.TouchEvent.TOUCH_BEGIN, self.onBid, this);
-        self.imgRet.addEventListener(egret.TouchEvent.TOUCH_BEGIN, function () {
+    };
+    p.uiCompHandler = function () {
+        this.refresh();
+        this.imgBid.addEventListener(egret.TouchEvent.TOUCH_BEGIN, this.onBid, this);
+        this.imgRet.addEventListener(egret.TouchEvent.TOUCH_BEGIN, function () {
             this.back();
         }, this);
-        self.grpTrack.touchEnabled = true;
-        self.grpTrack.addEventListener(egret.TouchEvent.TOUCH_BEGIN, self.onBeginChangeBid, this);
-        self.grpTrack.addEventListener(egret.TouchEvent.TOUCH_MOVE, self.onChangeBid, this);
+        this.grpTrack.touchEnabled = true;
+        this.grpTrack.addEventListener(egret.TouchEvent.TOUCH_BEGIN, this.onBeginChangeBid, this);
+        this.grpTrack.addEventListener(egret.TouchEvent.TOUCH_MOVE, this.onChangeBid, this);
     };
     p.renderLastBid = function (today) {
         var self = this;

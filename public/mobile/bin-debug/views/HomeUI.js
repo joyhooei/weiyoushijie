@@ -41,10 +41,15 @@ var HomeUI = (function (_super) {
         self.renderOfflineGold();
     };
     p.onCharge = function () {
-        var ui = new FirstChargeBonusUI();
-        ui.horizontalCenter = 0;
-        ui.verticalCenter = 0;
-        this.addChild(ui);
+        if (application.customer.charge == 0) {
+            var ui = new FirstChargeBonusUI();
+            ui.horizontalCenter = 0;
+            ui.verticalCenter = 0;
+            this.addChild(ui);
+        }
+        else {
+            application.charge();
+        }
     };
     p.onGift = function () {
         var ui = new GiftUI();
@@ -206,6 +211,9 @@ var HomeUI = (function (_super) {
             this.animateStep(this.lblOutput, this.getOutput() - outputAdded, this.getOutput());
         }
         this.lblTotalHits.text = totalHits.toString();
+        if (application.customer.charge > 0) {
+            this.imgCharge.source = "charge_png";
+        }
         this.renderProject(projEdited);
     };
     p.renderProject = function (proj) {

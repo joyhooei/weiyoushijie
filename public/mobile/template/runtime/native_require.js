@@ -21,6 +21,7 @@ var game_file_list = [
 	"bin-debug/models/Project.js",
 	"bin-debug/views/AuctionUI.js",
 	"bin-debug/views/BuyAchieveUI.js",
+	"bin-debug/views/BuyToolUI.js",
 	"bin-debug/views/FirstChargeBonusUI.js",
 	"bin-debug/views/GiftUI.js",
 	"bin-debug/views/HelpUI.js",

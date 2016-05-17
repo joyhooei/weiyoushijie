@@ -56,7 +56,7 @@ var ProjectItem = (function (_super) {
         for (var i = 1; i <= 10; i++) {
             var grp = new eui.Group();
             var img = new eui.Image();
-            if (i < this._myProject.achieve) {
+            if (i <= this._myProject.achieve) {
                 //已经购买的成就
                 img.source = "acv" + i.toString() + "_png";
                 grp.addChild(img);
@@ -67,10 +67,10 @@ var ProjectItem = (function (_super) {
             else {
                 if (this._myProject.level > this._project.levelOfAchieve(i - 1)) {
                     //可以购买的成就
-                    var imgFrame = new eui.Image();
-                    imgFrame.source = "acvnone_png";
-                    grp.addChild(imgFrame);
                     img.source = "acv" + i.toString() + "_png";
+                    grp.addChild(img);
+                    img = new eui.Image();
+                    img.source = "acvnone_png";
                     grp.addChild(img);
                 }
                 else {
@@ -79,7 +79,7 @@ var ProjectItem = (function (_super) {
                     grp.addChild(img);
                 }
                 img.addEventListener(egret.TouchEvent.TOUCH_TAP, function () {
-                    var ui = new BuyAchieveUI(self._project, self._myProject);
+                    var ui = new BuyAchieveUI(self._myProject, self._project);
                     ui.horizontalCenter = 0;
                     ui.verticalCenter = 0;
                     application.main.homeUI.addChild(ui);

@@ -45,46 +45,22 @@ var ToolUI = (function (_super) {
     };
     //爆击。每4小时自动获取一个，最多拥有3个。“点击”可以获取10倍的收益，持续60秒。100钻石可以增加至3个。说明里提醒玩家先用完已有的，再购买，因为最多只能拥有3个。
     p.buyHit = function () {
-        if (application.customer.diamond > 100) {
-            application.customer.diamond -= 100;
-            application.customer.total_hits = 3;
-            application.dao.save("Customer", application.customer, function (succeed, data) {
-                Toast.launch("购买了爆击");
-                application.refreshCustomer(0, -100, 3, 0, null);
-            });
-        }
-        else {
-            Toast.launch("购买需要100个钻石");
-        }
+        var ui = new BuyToolUI("hit", 100, null, null, 0);
+        ui.horizontalCenter = 0;
+        ui.verticalCenter = 0;
+        application.main.homeUI.addChild(ui);
     };
     //时光沙漏， 需要500钻石购买，产生相当于2天的产量。 总秒产*3600*48
     p.buyTime = function () {
-        if (application.customer.diamond > 500) {
-            application.customer.diamond -= 500;
-            application.customer.gold += application.customer.output * 3600 * 48;
-            application.dao.save("Customer", application.customer, function (succeed, data) {
-                Toast.launch("购买了时光沙漏");
-                application.refreshCustomer(application.customer.output * 3600 * 48, -500, 0, 0, null);
-            });
-        }
-        else {
-            Toast.launch("购买需要500个钻石");
-        }
-        var order = { customer_id: application.customer.id, product: "time" };
-        application.dao.save("Order", order, function (succeed, o) {
-            if (succeed) {
-                application.fetchCustomer();
-                Toast.launch("购买了时光沙漏");
-            }
-            else {
-                Toast.launch("购买失败");
-            }
-        });
+        var ui = new BuyToolUI("time", 500, null, null, 0);
+        ui.horizontalCenter = 0;
+        ui.verticalCenter = 0;
+        application.main.homeUI.addChild(ui);
     };
     //月票，19元每月(30天）。每天登录可以领取300钻石，离线收益增加至90%，持续12小时。普通情况下离线收益为70%，持续8小时。首次购买获得1个勋章
     p.buyTicket = function () {
         var self = this;
-        var order = { customer_id: application.customer.id, product: "ticket" };
+        var order = { customer_id: application.customer.id, product: "ticket", price: 19 };
         application.dao.save("Order", order, function (succeed, o) {
             if (succeed) {
                 application.pay("1", o, function (succeed) {
@@ -101,7 +77,7 @@ var ToolUI = (function (_super) {
     //终身VIP，49元。每天登录可以领取300钻石，离线收益增加至90%，持续12小时。
     p.buyVIP = function () {
         var self = this;
-        var order = { customer_id: application.customer.id, product: "vip" };
+        var order = { customer_id: application.customer.id, product: "vip", price: 49 };
         application.dao.save("Order", order, function (succeed, o) {
             if (succeed) {
                 application.pay("2", o, function (succeed) {

@@ -31,7 +31,9 @@ class AuctionUI extends eui.Component{
 		
 		self.lblGold.text = application.format(application.customer.gold);
 		
-        self.bid = { gold: 0,day: application.bidDay(),customer_id: application.customer.id,succeed: 0 };
+        var today = application.bidDay();
+        
+        self.bid = { gold: 0,day: today,customer_id: application.customer.id,succeed: 0 };
 		self.delta = 0;
         
 		self.renderLastBid(today);
