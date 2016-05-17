@@ -18,6 +18,8 @@ module.exports.expireTicket = function() {
 			query.find().done(function(customers){
 				_.each(customers, function(customer){
 					if (moment(customer.get('ticket_expire')) < now) {
+                    	Gift.update(customer.id, 1, 200, 0, 0);
+						
 						customer.set('ticket', '');
 						customer.save();
 					}
