@@ -3,9 +3,9 @@ var AV = require('leanengine');
 var Gift = require('./gift');
 var Project = require('./project');
 
-module.exports.timeoutTicket = function() {
+module.exports.expireTicket = function() {
     var query = new AV.Query(dao.Customer);
-    query.startWith('ticket', '2');
+    query.startWith('ticket_expire', '2');
     
     query.count().then(function(count) {
 		query.limit(1000);
@@ -35,7 +35,7 @@ module.exports.offlineGold = function(customer) {
     var now  = moment();
     var last = moment(customer.updatedAt);
     
-    if (customer.get("ticket") && customer.get("ticket").length > 1) {
+    if (customer.get("ticket_expire") && customer.get("ticket_expire").length > 1) {
 		var percent = 0.9;
     	var period = 12;
 	} else {
