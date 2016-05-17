@@ -34,15 +34,23 @@ module.exports.timeoutTicket = function() {
 module.exports.offlineGold = function(customer) {
     var now  = moment();
     var last = moment(customer.updatedAt);
+    
+    if (customer.get("ticket") && customer.get("ticket").length > 1) {
+		var percent = 0.9;
+    	var period = 12;
+	} else {
+		var percent = 0.7;
+		var period = 8;
+	}
 
     var delta = now.diff(customer.updatedAt, 'seconds');
     var minutes = Math.round((delta / 60) % 60);
     if (minutes == 0) {
-        var hours = Math.round(Math.min(8, delta / 3600));
+        var hours = Math.round(Math.min(period, delta / 3600));
     } else {
-        var hours = Math.round(Math.min(7, delta / 3600));
+        var hours = Math.round(Math.min(period - 1, delta / 3600));
     }			
-    var gold = Math.round(0.7 * (hours * 60 * 60 + minutes * 60) * customer.get("output"));
+    var gold = Math.round(percent * (hours * 60 * 60 + minutes * 60) * customer.get("output"));
 
     customer.set({"offline_gold": gold, "offline_hours": hours, "offline_minutes": minutes});
 	
