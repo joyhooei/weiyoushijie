@@ -11,8 +11,8 @@ AV.Cloud.define('open_bid', function(request, response) {
 	Bid.open(request, response);
 });
 
-AV.Cloud.define('timeout_ticket', function(request, response) {
-	Customer.timeoutTicket(request, response);
+AV.Cloud.define('expire_ticket', function(request, response) {
+	Customer.expireTicket(request, response);
 });
 
 module.exports = AV.Cloud;
