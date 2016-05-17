@@ -10,7 +10,9 @@ class ToolUI extends eui.Component {
     
     constructor() {
         super();
+        
         this.addEventListener( eui.UIEvent.COMPLETE, this.uiCompHandler, this );
+        
         this.skinName = "resource/custom_skins/toolUISkin.exml";
     }
 
@@ -87,17 +89,6 @@ class ToolUI extends eui.Component {
         } else {
             Toast.launch("购买需要500个钻石");
         }
-        
-        var order = { customer_id: application.customer.id, product: "time"};
-        application.dao.save("Order", order, function(succeed, o) {
-            if (succeed) {
-                application.fetchCustomer();
-            
-                Toast.launch("购买了时光沙漏");
-            } else {
-                Toast.launch("购买失败");
-            }
-        });    
     }
     
 	//月票，19元每月(30天）。每天登录可以领取300钻石，离线收益增加至90%，持续12小时。普通情况下离线收益为70%，持续8小时。首次购买获得1个勋章
