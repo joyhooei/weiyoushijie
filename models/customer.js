@@ -3,6 +3,34 @@ var AV = require('leanengine');
 var Gift = require('./gift');
 var Project = require('./project');
 
+module.exports.timeoutTicket = function() {
+    var query = new AV.Query(dao.Customer);
+    query.startWith('ticket', '2');
+    
+    query.count().then(function(count) {
+		query.limit(1000);
+		
+		var total = 0; 
+		while (total < count) {
+			query.skip(total);
+
+			var now = moment();
+			query.find().done(function(customers){
+				_.each(customers, function(customer){
+					if (moment(customer.get('ticket')) > now) {
+						Gift.unlock(customer.id, 4);
+					} else {
+						customer.set('ticket', '');
+						customer.save();
+					}
+				});
+			});
+			
+			total += 1000;
+		}
+	});
+}
+
 module.exports.offlineGold = function(customer) {
     var now  = moment();
     var last = moment(customer.updatedAt);
