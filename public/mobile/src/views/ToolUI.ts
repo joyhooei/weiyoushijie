@@ -81,7 +81,7 @@ class ToolUI extends eui.Component {
     private buyTicket() {
 		var self = this;
 		
-        var order = { customer_id: application.customer.id, product: "ticket"};
+        var order = { customer_id: application.customer.id, product: "ticket", price: 19};
         application.dao.save("Order", order, function(succeed, o) {
             if (succeed) {
 				application.pay("1", o, function(succeed){
@@ -99,7 +99,7 @@ class ToolUI extends eui.Component {
     private buyVIP() {
         var self = this;
         
-        var order = { customer_id: application.customer.id, product: "vip"};
+        var order = { customer_id: application.customer.id, product: "vip", price: 49};
         application.dao.save("Order", order, function(succeed, o) {
             if (succeed) {
 				application.pay("2", o, function(succeed){
