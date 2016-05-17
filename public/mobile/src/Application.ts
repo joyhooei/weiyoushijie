@@ -66,7 +66,13 @@ module application {
     }
 
     export function fetchCustomer(): void {
-
+        application.dao.fetch("Customer", {id: application.customer.id}, {}, function(succeed, customers) {
+            if (succeed && customers.length > 0) {
+                application.customer = customers[0];
+                
+                application.refreshCustomer(application.customer.gold, application.customer.diamond, application.customer.output, application.customer.total_hits, null);
+            }
+        });
     }
 
     export function buyOutput(gold:number, diamond: number, output:number, proj:any, cb: Function): void {
@@ -120,5 +126,4 @@ module application {
         
         return d.toFixed() + unit;
     }
-
 }
