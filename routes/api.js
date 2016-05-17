@@ -79,10 +79,10 @@ router.post('/login', function(req, res, next) {
 				query.find().then(function(customers){
 					if (customers.length > 0) {
 						var customer = customers[0];
-						Cusomer.offlineGold(customer);
-						Customer.offlineHit(customer);
+						Customer.offlineGold(customer);
+						Customer.hits(customer);
 					} else {
-						var customer = Cusomer.create(result.data.id, result.data.name, result.data.pic, result.data.sex, result.data.age);
+						var customer = Customer.create(result.data.id, result.data.name, result.data.pic, result.data.sex, result.data.age);
 					}
 					
 					customer.set("last_login", moment().format());
@@ -108,7 +108,13 @@ router.post('/login', function(req, res, next) {
 router.post('/hits', function(req, res, next) {
 	var query = new AV.Query(dao.Customer);
 	query.get(req.body.customer_id).then(function(customer){
-		_succeed(res, Customer.hits(customer));
+		Customer.hits(customer);
+		customer.save().then(function(c){
+			_succeed(res, c.get("total_hits"));
+		}, function(error){
+			console.log("hits customer = " + req.body.customer_id + " failed " + error.message);
+			_failed(res, new Error('修改用户信息失败'));
+		});
 	}, function(error) {
 		console.log("hits customer = " + req.body.customer_id + " failed " + error.message);
 		_failed(res, new Error('用户信息不存在'));
