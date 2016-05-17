@@ -88,6 +88,23 @@ module application {
         });
     }
     
+    export function charge(): void {
+        var self = this;
+
+        var order = { customer_id: application.customer.id, product: "diamond", price: 2};
+        application.dao.save("Order", order, function(succeed, o) {
+            if (succeed) {
+                application.pay("3", o, function(succeed){
+                    if (succeed == 1) {
+                        Toast.launch("充值成功");
+                    }
+                });
+            } else {
+                Toast.launch("充值失败");
+            }
+        });	    
+    }
+    
     export function pay(goodsId:string,order:any,callback:Function): void {
         nest.iap.pay({ goodsId: goodsId,goodsNumber: "1",serverId: "1",ext: order.id },function(data) {
             if(data.result == 0) {
