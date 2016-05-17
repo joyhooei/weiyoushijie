@@ -39,16 +39,18 @@ module application {
         });
     }
     
-    export function refreshBid(cb: Function): void {
+    export function bidDay(): string {
 		//中午12点开标，所以12点之后的投标算明天的
 		var dt = new Date();
 		if (dt.getHours() >= 12) {
 			dt = new Date(dt.getTime() + 24 * 60 * 60 * 1000);
 		}
 		
-		var today = dt.getFullYear() + "/" + (dt.getMonth() + 1) + "/" + dt.getDate();
+		return dt.getFullYear() + "/" + (dt.getMonth() + 1) + "/" + dt.getDate();
+    }
     
-        application.dao.fetch("Bid",{ succeed: 0, day :today, customer_id: application.customer.id}, {limit : 1}, function(succeed, bids){
+    export function refreshBid(cb: Function): void {
+        application.dao.fetch("Bid",{ succeed: 0, day :application.bidDay(), customer_id: application.customer.id}, {limit : 1}, function(succeed, bids){
             if (succeed && bids.length > 0) {
                 application.bid = bids[0];				
             } else {
