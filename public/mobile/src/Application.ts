@@ -122,9 +122,21 @@ module application {
     
     export function showHelp(content:string): void {
         var ui = new HelpUI(content);
+        return application.showUI(new HelpUI(content));
+    }
+    
+    export function showUI(ui:egret.DisplayObjectContainer): void {
         ui.horizontalCenter = 0;
         ui.verticalCenter   = 0;
         application.main.homeUI.addChild(ui); 
+        
+        return ui;
+    }
+    
+    export function back(ui:egret.DisplayObjectContainer): void {
+        ui.parent.removeChild(ui);
+        
+        return ui;
     }
    
     export function format(d:number): string {
