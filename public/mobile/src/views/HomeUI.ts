@@ -114,10 +114,7 @@ class HomeUI extends eui.Component{
 	}
 	
 	private onHelp(): void {
-        var ui = new HelpUI();
-        ui.horizontalCenter = 0;
-        ui.verticalCenter = 0;
-        this.addChild(ui);    	
+    	application.showHelp("");   	
 	}
     
     private renderTotalHits(): void {
