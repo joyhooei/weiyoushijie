@@ -1,15 +1,16 @@
 class HelpUI extends eui.Component{
-    constructor() {
+    private imgBack:eui.Image;
+    private lblContent:eui.Label;
+    
+    constructor(content:string) {
         super();
-        this.addEventListener( eui.UIEvent.COMPLETE, this.uiCompHandler, this );
+        
         this.skinName = "resource/custom_skins/helpUISkin.exml";
-    }
-
-    private uiCompHandler():void {
+        
+        this.lblContent.text = content;
+        
         this.imgBack.addEventListener( egret.TouchEvent.TOUCH_TAP, ()=>{
             this.parent.removeChild(this);
-        }, this );
+        }, this );        
     }
-    
-    private imgBack:eui.Image;
 }
