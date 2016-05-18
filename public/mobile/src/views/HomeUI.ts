@@ -97,20 +97,14 @@ class HomeUI extends eui.Component{
     
     private onCharge():void {
 		if (application.customer.charge == 0) {
-			var ui = new FirstChargeBonusUI();
-		 	ui.horizontalCenter = 0;
-		 	ui.verticalCenter = 0;
-		 	this.addChild(ui);
+			application.showUI(new FirstChargeBonusUI());
 		} else {
 			application.charge();
 		}
     }
 	
-	private onGift(): void {
-        var ui = new GiftUI();
-        ui.horizontalCenter = 0;
-        ui.verticalCenter = 0;
-        this.addChild(ui);    	
+	private onGift(): void { 	
+		application.showUI(new GiftUI());
 	}
 	
 	private onHelp(): void {
@@ -205,10 +199,7 @@ class HomeUI extends eui.Component{
     
     private renderOfflineGold(): void {
         if(application.customer.offline_gold > 0) {
-    		var ogui = new OfflineGoldUI(application.customer.offline_gold, application.customer.offline_hours.toString(), application.customer.offline_minutes.toString());
-    	 	ogui.horizontalCenter = 0;
-    	 	ogui.verticalCenter = 0;
-            this.addChild(ogui);
+			application.showUI(new OfflineGoldUI(application.customer.offline_gold, application.customer.offline_hours.toString(), application.customer.offline_minutes.toString()));
         }
     }
 	
