@@ -89,7 +89,7 @@ class ProjectItem extends eui.Component {
 				grp.addChild(img);
 				
 				img.addEventListener(egret.TouchEvent.TOUCH_TAP,() => {
-					//show help
+					application.showHelp("");
 				}, this);
 			} else {
     			if (this._myProject.level > this._project.levelOfAchieve(i - 1)) {
@@ -107,7 +107,7 @@ class ProjectItem extends eui.Component {
             	}
 				
 				img.addEventListener(egret.TouchEvent.TOUCH_TAP,() => {
-                    var ui = new BuyAchieveUI(self._myProject, self._project);
+                    var ui = new BuyAchieveUI(self._myProject, self._project,self.imgIcon.source, self.imgTitle.source);
 					ui.horizontalCenter = 0;
 					ui.verticalCenter = 0;
 					application.main.homeUI.addChild(ui);  					
