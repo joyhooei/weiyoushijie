@@ -1,7 +1,5 @@
 class RankUI extends eui.Component {
     private listRank:eui.List;
-    
-    private imgRet:eui.Image;
 
     constructor() {
         super();
@@ -13,10 +11,6 @@ class RankUI extends eui.Component {
 
     private uiCompHandler():void {
 		var self = this;
-		
-        self.imgRet.addEventListener(egret.TouchEvent.TOUCH_BEGIN,function() {
-            this.back();
-        },this);	
         
         application.dao.fetch("Customer", {}, {limit: 8, order: 'metal DESC'}, function(succeed, customers){
             var dsCustomers:Array<Object> = new Array<Object>();
