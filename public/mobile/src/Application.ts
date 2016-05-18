@@ -121,7 +121,6 @@ module application {
     }
     
     export function showHelp(content:string): void {
-        var ui = new HelpUI(content);
         return application.showUI(new HelpUI(content));
     }
     
