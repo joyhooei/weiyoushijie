@@ -51,25 +51,24 @@ class BuyAchieveUI extends eui.Component{
 			}, this );
 		}
         
-        var delta = this._project.output(this._myProject.level,this._myProject.achieve + 1) - this.output();
+        var delta = this.delta();
         var description = "获得成就将提高秒产" + delta.toString() + "个金币";
         this.lblDescription.text = description;
     }
 
-    private output(): number {
-        return this._project.output(this._myProject.level,this._myProject.achieve);
+    private delta(): number {
+        this._project.output(this._myProject.level,this._myProject.achieve + 1) -this._project.output(this._myProject.level,this._myProject.achieve);
     }
    
 	private buyAchieveUseGold(){
         let self = this;
 
         let p = self._project.goldPriceOfAchieve(self._myProject.achieve + 1);
-        let oldOutput = self.output();
+        let delta = self.delta();
 		self._myProject.achieve += 1;
 		application.dao.save("Project",self._myProject, function(succeed, proj) {
 			if (succeed) {
-				let newOutput = self.output();
-				application.buyOutput(p, 0, newOutput - oldOutput, self._myProject, function(succeed, c){
+				application.buyOutput(p, 0, delta, self._myProject, function(succeed, c){
 					if (!succeed) {
 						Toast.launch("获得成就失败");    
 					} else {
@@ -86,12 +85,11 @@ class BuyAchieveUI extends eui.Component{
         let self = this;
 
         let p = self._project.diamondPriceOfAchieve(self._myProject.achieve + 1);
-        let oldOutput = self.output();
+        let delta = self.delta();
 		self._myProject.achieve += 1;
 		application.dao.save("Project",self._myProject, function(succeed, proj) {
 			if (succeed) {
-				let newOutput = self.output();
-				application.buyOutput(0, p, newOutput - oldOutput, self._myProject, function(succeed, c){
+				application.buyOutput(0, p, delta, self._myProject, function(succeed, c){
 					if (!succeed) {
 						Toast.launch("获得成就失败");    
 					} else {
