@@ -71,7 +71,7 @@ class ProjectItem extends eui.Component {
 	}
 
     private output(): number {
-        return this._project.output(this._myProject.level, this._myProject.achieve, application.customer.prop);
+        return this._project.output(this._myProject.level, this._myProject.achieve);
     }
 	
 	private renderAchieves(): void {
@@ -100,18 +100,20 @@ class ProjectItem extends eui.Component {
                     img = new eui.Image();
                     img.source = "acvnone_png";
                     grp.addChild(img);
-   			} else {
+				
+					img.addEventListener(egret.TouchEvent.TOUCH_TAP,() => {
+						application.showUI(new BuyAchieveUI(self._myProject, self._project,"acv" + i.toString() + "_png"));				
+					}, this);
+					
+   				} else {
 					//不可以购买的成就
             	    img.source = "acvlock_png";
                     grp.addChild(img);
-            	}
 				
-				img.addEventListener(egret.TouchEvent.TOUCH_TAP,() => {
-                    var ui = new BuyAchieveUI(self._myProject, self._project,self.imgIcon.source, self.imgTitle.source);
-					ui.horizontalCenter = 0;
-					ui.verticalCenter = 0;
-					application.main.homeUI.addChild(ui);  					
-				}, this);
+					img.addEventListener(egret.TouchEvent.TOUCH_TAP,() => {
+						application.showHelp("");
+					}, this);
+            	}
 			}
             
             this.grpAchieve.addChild(grp);
@@ -218,5 +220,4 @@ class ProjectItem extends eui.Component {
 			}
 		});
     }
-
 }
