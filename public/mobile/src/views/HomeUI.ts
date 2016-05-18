@@ -262,11 +262,7 @@ class HomeUI extends eui.Component{
 	
     public refresh(goldAdded: number,diamondAdded: number,outputAdded: number,totalHits:number, projEdited:any):void {
 		if (goldAdded != 0) {
-        	if (application.bid) {
-        		this.animateStep(this.lblGold, application.customer.gold - application.bid.gold - goldAdded, application.customer.gold - application.bid.gold);
-			} else {
-        		this.animateStep(this.lblGold, application.customer.gold - goldAdded, application.customer.gold);
-			}
+        	this.animateStep(this.lblGold, application.usableGold() - goldAdded, application.usableGold());
 		}
 		
 		if (diamondAdded != 0) {
