@@ -120,11 +120,11 @@ module application {
         })
     }
     
-    export function showHelp(content:string): void {
-        return application.showUI(new HelpUI(content));
+    export function showHelp(icon:string, content:string): egret.DisplayObjectContainer {
+        return application.showUI(new HelpUI(icon, content));
     }
     
-    export function showUI(ui:egret.DisplayObjectContainer): void {
+    export function showUI(ui:egret.DisplayObjectContainer): egret.DisplayObjectContainer {
         ui.horizontalCenter = 0;
         ui.verticalCenter   = 0;
         application.main.homeUI.addChild(ui); 
@@ -132,7 +132,7 @@ module application {
         return ui;
     }
     
-    export function back(ui:egret.DisplayObjectContainer): void {
+    export function back(ui:egret.DisplayObjectContainer): egret.DisplayObjectContainer {
         ui.parent.removeChild(ui);
         
         return ui;
