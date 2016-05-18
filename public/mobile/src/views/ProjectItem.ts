@@ -111,7 +111,7 @@ class ProjectItem extends eui.Component {
                     grp.addChild(img);
 				
 					img.addEventListener(egret.TouchEvent.TOUCH_TAP,() => {
-						application.showHelp("");
+						application.showHelp("acv" + i.toString() + "_png", "成就帮助");
 					}, this);
             	}
 			}
