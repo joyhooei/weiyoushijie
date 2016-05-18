@@ -148,7 +148,7 @@ class ProjectItem extends eui.Component {
         let self = this;
         
         let p = this._project.price(this._myProject.level + 1, step);
-        if(application.customer.gold < p) {
+        if(application.usableGold() < p) {
 			Toast.launch("没有足够的金币");
 			
 			return;
@@ -176,7 +176,7 @@ class ProjectItem extends eui.Component {
         let self = this;
 
         let p = this._project.priceOf(1);
-        if(application.customer.gold < p) {
+        if(application.usableGold() < p) {
 			Toast.launch("没有足够的金币");
 			
 			return;
