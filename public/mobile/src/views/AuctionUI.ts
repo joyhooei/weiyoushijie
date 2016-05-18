@@ -6,7 +6,6 @@ class AuctionUI extends eui.Component{
 	private lblCurrentBid:eui.Label;
 	
 	private imgBid:eui.Image;
-	private imgRet:eui.Image;
 	
 	private grpTrack: eui.Group;
 	private lblTrack: eui.Label;
@@ -51,9 +50,6 @@ class AuctionUI extends eui.Component{
 		this.refresh();
 		
         this.imgBid.addEventListener(egret.TouchEvent.TOUCH_BEGIN, this.onBid, this);
-		this.imgRet.addEventListener(egret.TouchEvent.TOUCH_BEGIN, function() {
-			this.back();
-        }, this);
 		
 		this.grpTrack.touchEnabled = true;
         this.grpTrack.addEventListener(egret.TouchEvent.TOUCH_BEGIN, this.onBeginChangeBid , this);
