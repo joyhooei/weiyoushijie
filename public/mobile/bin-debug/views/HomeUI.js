@@ -28,47 +28,29 @@ var HomeUI = (function (_super) {
             self.onHit();
         }, this);
         self.btnGift.addEventListener(egret.TouchEvent.TOUCH_BEGIN, function () {
-            self.onGift();
+            application.showUI(new GiftUI());
         }, this);
         self.btnHelp.addEventListener(egret.TouchEvent.TOUCH_BEGIN, function () {
-            self.onHelp();
+            application.showHelp("icon_png", "显示帮助内容");
         }, this);
         self.imgCharge.addEventListener(egret.TouchEvent.TOUCH_BEGIN, function () {
-            self.onCharge();
+            if (application.customer.charge == 0) {
+                application.showUI(new FirstChargeBonusUI());
+            }
+            else {
+                application.charge();
+            }
         }, this);
         /// 首次加载完成首先显示home
         self.goHome();
         self.renderOfflineGold();
-    };
-    p.onCharge = function () {
-        if (application.customer.charge == 0) {
-            var ui = new FirstChargeBonusUI();
-            ui.horizontalCenter = 0;
-            ui.verticalCenter = 0;
-            this.addChild(ui);
-        }
-        else {
-            application.charge();
-        }
-    };
-    p.onGift = function () {
-        var ui = new GiftUI();
-        ui.horizontalCenter = 0;
-        ui.verticalCenter = 0;
-        this.addChild(ui);
-    };
-    p.onHelp = function () {
-        var ui = new HelpUI();
-        ui.horizontalCenter = 0;
-        ui.verticalCenter = 0;
-        this.addChild(ui);
     };
     p.renderTotalHits = function () {
         var self = this;
         var timer = new egret.Timer(1000 * 60 * 60 * 4, 0);
         timer.addEventListener(egret.TimerEvent.TIMER, function (event) {
             application.dao.rest("hits", { customer_id: application.customer.id }, function (succeed, result) {
-                if (succeed && result.total_hits > 0) {
+                if (succeed) {
                     application.customer.total_hits = result.hits;
                     self.lblTotalHits.text = "x" + application.customer.total_hits.toString();
                 }
@@ -135,10 +117,10 @@ var HomeUI = (function (_super) {
     };
     p.renderOfflineGold = function () {
         if (application.customer.offline_gold > 0) {
-            var ogui = new OfflineGoldUI(application.customer.offline_gold, application.customer.offline_hours.toString(), application.customer.offline_minutes.toString());
-            ogui.horizontalCenter = 0;
-            ogui.verticalCenter = 0;
-            this.addChild(ogui);
+            var ui = new OfflineGoldUI(application.customer.offline_gold, application.customer.offline_hours.toString(), application.customer.offline_minutes.toString());
+            ui.horizontalCenter = 0;
+            ui.verticalCenter = 0;
+            this.addChild(ui);
         }
     };
     p.onBeauty = function () {
@@ -197,12 +179,7 @@ var HomeUI = (function (_super) {
     };
     p.refresh = function (goldAdded, diamondAdded, outputAdded, totalHits, projEdited) {
         if (goldAdded != 0) {
-            if (application.bid) {
-                this.animateStep(this.lblGold, application.customer.gold - application.bid.gold - goldAdded, application.customer.gold - application.bid.gold);
-            }
-            else {
-                this.animateStep(this.lblGold, application.customer.gold - goldAdded, application.customer.gold);
-            }
+            this.animateStep(this.lblGold, application.usableGold() - goldAdded, application.usableGold());
         }
         if (diamondAdded != 0) {
             this.animateStep(this.lblDiamond, application.customer.diamond - diamondAdded, application.customer.diamond);
@@ -210,7 +187,9 @@ var HomeUI = (function (_super) {
         if (outputAdded != 0) {
             this.animateStep(this.lblOutput, this.getOutput() - outputAdded, this.getOutput());
         }
-        this.lblTotalHits.text = totalHits.toString();
+        if (totalHits != 0) {
+            this.lblTotalHits.text = "x" + totalHits.toString();
+        }
         if (application.customer.charge > 0) {
             this.imgCharge.source = "charge_png";
         }

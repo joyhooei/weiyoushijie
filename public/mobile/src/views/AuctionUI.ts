@@ -1,5 +1,6 @@
 class AuctionUI extends eui.Component{
 	private lblGold:eui.Label;
+    private lblDiamond: eui.Label;
 	
 	private lblLastBid:eui.Label;
 	private lblMaxBid:eui.Label;
@@ -29,6 +30,7 @@ class AuctionUI extends eui.Component{
 		var self = this;
 		
 		self.lblGold.text = application.format(application.customer.gold);
+        self.lblDiamond.text = application.format(application.customer.diamond);
 		
         var today = application.bidDay();
         

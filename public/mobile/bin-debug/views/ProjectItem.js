@@ -48,45 +48,50 @@ var ProjectItem = (function (_super) {
         }
     };
     p.output = function () {
-        return this._project.output(this._myProject.level, this._myProject.achieve, application.customer.prop);
+        return this._project.output(this._myProject.level, this._myProject.achieve);
     };
     p.renderAchieves = function () {
         var self = this;
         self.grpAchieve.removeChildren();
         for (var i = 1; i <= 10; i++) {
-            var grp = new eui.Group();
-            var img = new eui.Image();
-            if (i <= this._myProject.achieve) {
-                //已经购买的成就
-                img.source = "acv" + i.toString() + "_png";
+            this.grpAchieve.addChild(this.renderAchieve(i));
+        }
+    };
+    p.renderAchieve = function (achieve) {
+        var self = this;
+        var grp = new eui.Group();
+        var img = new eui.Image();
+        var icon = "acv" + achieve.toString() + "_png";
+        if (achieve <= this._myProject.achieve) {
+            //已经购买的成就
+            img.source = icon;
+            grp.addChild(img);
+            img.addEventListener(egret.TouchEvent.TOUCH_TAP, function () {
+                application.showHelp(icon, "成就帮助");
+            }, this);
+        }
+        else {
+            if (this._myProject.level > this._project.levelOfAchieve(achieve - 1)) {
+                //可以购买的成就
+                img.source = icon;
+                grp.addChild(img);
+                img = new eui.Image();
+                img.source = "acvnone_png";
                 grp.addChild(img);
                 img.addEventListener(egret.TouchEvent.TOUCH_TAP, function () {
-                    //show help
+                    application.showUI(new BuyAchieveUI(self._myProject, self._project, icon));
                 }, this);
             }
             else {
-                if (this._myProject.level > this._project.levelOfAchieve(i - 1)) {
-                    //可以购买的成就
-                    img.source = "acv" + i.toString() + "_png";
-                    grp.addChild(img);
-                    img = new eui.Image();
-                    img.source = "acvnone_png";
-                    grp.addChild(img);
-                }
-                else {
-                    //不可以购买的成就
-                    img.source = "acvlock_png";
-                    grp.addChild(img);
-                }
+                //不可以购买的成就
+                img.source = "acvlock_png";
+                grp.addChild(img);
                 img.addEventListener(egret.TouchEvent.TOUCH_TAP, function () {
-                    var ui = new BuyAchieveUI(self._myProject, self._project);
-                    ui.horizontalCenter = 0;
-                    ui.verticalCenter = 0;
-                    application.main.homeUI.addChild(ui);
+                    application.showHelp(icon, "成就帮助");
                 }, this);
             }
-            this.grpAchieve.addChild(grp);
         }
+        return grp;
     };
     p.renderLocked = function () {
         this.lblLevel.text = "0";
@@ -109,7 +114,7 @@ var ProjectItem = (function (_super) {
     p.upgrade = function (step) {
         var self = this;
         var p = this._project.price(this._myProject.level + 1, step);
-        if (application.customer.gold < p) {
+        if (application.usableGold() < p) {
             Toast.launch("没有足够的金币");
             return;
         }
@@ -135,7 +140,7 @@ var ProjectItem = (function (_super) {
     p.unlock = function () {
         var self = this;
         var p = this._project.priceOf(1);
-        if (application.customer.gold < p) {
+        if (application.usableGold() < p) {
             Toast.launch("没有足够的金币");
             return;
         }

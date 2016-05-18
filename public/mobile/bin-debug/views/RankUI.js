@@ -8,9 +8,6 @@ var RankUI = (function (_super) {
     var d = __define,c=RankUI,p=c.prototype;
     p.uiCompHandler = function () {
         var self = this;
-        self.imgRet.addEventListener(egret.TouchEvent.TOUCH_BEGIN, function () {
-            this.back();
-        }, this);
         application.dao.fetch("Customer", {}, { limit: 8, order: 'metal DESC' }, function (succeed, customers) {
             var dsCustomers = new Array();
             if (succeed) {

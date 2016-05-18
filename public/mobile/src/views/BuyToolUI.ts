@@ -1,6 +1,11 @@
 class BuyToolUI extends eui.Component{
-    private btnBack:eui.Button;
-    private btnBuy:eui.Button;
+    private imgBack:eui.Image;
+    private imgBuy: eui.Image;
+    
+    private imgIcon: eui.Image;
+    private imgTitle: eui.Image;
+    private lblDescription: eui.Label;
+    private lblDiamond: eui.Label;    
     
     private _myProject: any;
     private _project: Project;
@@ -26,18 +31,18 @@ class BuyToolUI extends eui.Component{
     }
 	
 	private back() {
-        this.parent.removeChild(this);
+        application.back(this);
 	}
 
     private uiCompHandler():void {
-        this.btnBack.addEventListener( egret.TouchEvent.TOUCH_TAP, ()=>{
+        this.imgBack.addEventListener( egret.TouchEvent.TOUCH_TAP, ()=>{
             this.back();
         }, this );
         
         if (application.customer.diamond < this._price) {
-			this.btnBuy.enabled = false;
+            this.imgBuy.source = "buttoncoinno_png";
 		} else {
-			this.btnBuy.addEventListener( egret.TouchEvent.TOUCH_TAP, ()=>{
+            this.imgBuy.addEventListener( egret.TouchEvent.TOUCH_TAP, ()=>{
 				if (this._name == "project") {
 					this.buyProject();
 				} else if (this._name == "time") {
@@ -47,6 +52,22 @@ class BuyToolUI extends eui.Component{
 				}
 			}, this );
 		}
+		
+        if(this._name == "project") {
+            this.imgIcon.source  = (1 + this._myProject.sequence).toString() + "_png";
+            this.imgTitle.source = "t" + (1 + this._myProject.sequence).toString() + "_png";
+            this.lblDescription.text = "提高" + this._levelAdded.toString() + "等级";
+        } else if(this._name == "time") {
+            this.imgIcon.source = "time_png";
+            this.imgTitle.source = "";
+            this.lblDescription.text = "增加" + (application.format(application.customer.output * 3600 * 48)).toString() + "金币";
+        } else if(this._name == "hit") {
+            this.imgIcon.source = "Hit_png";
+            this.imgTitle.source = "";
+            this.lblDescription.text = "增加" + (3 - application.customer.total_hits).toString() + "暴击";
+        }
+        
+        this.lblDiamond.text = this._price.toString();
     }
     
 	private buyProject(){
@@ -60,7 +81,7 @@ class BuyToolUI extends eui.Component{
 					if (succeed) {
 						Toast.launch("购买成功");
 						
-						this.back();
+                        self.back();
 					} else {
 						Toast.launch("购买失败");    
 					}
@@ -72,10 +93,12 @@ class BuyToolUI extends eui.Component{
 	}
 	
 	private output(): number {
-        return this._project.output(this._myProject.level, this._myProject.achieve, application.customer.prop);
+        return this._project.output(this._myProject.level, this._myProject.achieve);
     }
 	
 	private buyTime(){
+    	var self = this;
+    	
         application.customer.diamond -= this._price;
 		application.customer.gold += application.customer.output * 3600 * 48;
 		application.dao.save("Customer", application.customer, function(succeed, data){
@@ -83,11 +106,13 @@ class BuyToolUI extends eui.Component{
 
 			application.refreshCustomer(application.customer.output * 3600 * 48, -500, 0, 0, null);
 			
-			this.back();
+            self.back();
 		});
 	}
 	
 	private buyHit() {
+        var self = this;
+        
         application.customer.diamond -= this._price;
 		application.customer.total_hits = 3;
 		application.dao.save("Customer", application.customer, function(succeed, data){
@@ -95,7 +120,7 @@ class BuyToolUI extends eui.Component{
 
 			application.refreshCustomer(0, -100, 3, 0, null);
 			
-			this.back();
+            self.back();
 		});
 	}
 }

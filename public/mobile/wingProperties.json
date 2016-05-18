@@ -653,6 +653,11 @@
 					"isFolder":false,
 					"key":"popwinB_png",
 					"name":"popwinB_png"
+				},
+				{
+					"isFolder":false,
+					"key":"icon_png",
+					"name":"icon_png"
 				}
 			]
 		}

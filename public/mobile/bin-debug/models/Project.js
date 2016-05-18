@@ -11,7 +11,7 @@ var Project = (function () {
     p.addLevelRatio = function (lowerLevel, upperLevel, priceRatio, outputRatio) {
         var outputBase = this._outputLevelOne;
         if (this._levelRatios.length > 0) {
-            outputBase = this.output(this._levelRatios[this._levelRatios.length - 1].upperLevel, 0, 0);
+            outputBase = this.output(this._levelRatios[this._levelRatios.length - 1].upperLevel, 0);
         }
         var priceBase = this._priceLevelOne;
         if (this._levelRatios.length > 0) {
@@ -186,7 +186,7 @@ var Project = (function () {
         return this.createProjectOne();
     };
     //根据级别、成就和道具个数计算本项目的秒产
-    p.output = function (level, achieve, props) {
+    p.output = function (level, achieve) {
         //累积产量系数	判定lv所处区间。累积产量系数=上区间最终值*本区间产量系数^ (lv-上区间最终lv值）
         var cumulativeOutputRatio = 1;
         var lastLevel = 1;
@@ -205,10 +205,8 @@ var Project = (function () {
         for (var i = 1; i <= this._achieves.length && i <= achieve; i++) {
             cumulativeAchieveRatio = cumulativeAchieveRatio * this._achieves[i - 1].outputRatio;
         }
-        //道具提升系数	道具升级次数*0.1
-        var propRatio = 1 + achieve * this._propOutputRatio;
         //项目秒产 	lv数*该项目1级秒产*累积产量系数*累积成就系数*道具升级系数
-        return Math.round(level * this._outputLevelOne * cumulativeOutputRatio * cumulativeAchieveRatio * propRatio);
+        return Math.round(level * this._outputLevelOne * cumulativeOutputRatio * cumulativeAchieveRatio);
     };
     //升级级别的价格
     p.priceOf = function (level) {

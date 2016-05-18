@@ -57,7 +57,7 @@ class BuyAchieveUI extends eui.Component{
     }
 
     private delta(): number {
-        this._project.output(this._myProject.level,this._myProject.achieve + 1) -this._project.output(this._myProject.level,this._myProject.achieve);
+        return this._project.output(this._myProject.level,this._myProject.achieve + 1) -this._project.output(this._myProject.level,this._myProject.achieve);
     }
    
 	private buyAchieveUseGold(){

@@ -2,4 +2,6 @@
 <e:Skin class="helpUISkin" width="455" height="655" xmlns:e="http://ns.egret.com/eui" xmlns:w="http://ns.egret.com/wing">
 	<e:Image width="455" height="655" x="0" y="0" source="helppopup_png" fillMode="clip"/>
 	<e:Image id="imgBack" width="52" height="53" x="401" y="3" source="helpx_png" fillMode="clip"/>
+	<e:Image id="imgIcon" width="73" height="68" x="76" y="144"/>
+	<e:Label id="lblContent" x="74" y="236" width="310" height="324" size="24"/>
 </e:Skin>

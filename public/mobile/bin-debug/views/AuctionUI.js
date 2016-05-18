@@ -9,6 +9,7 @@ var AuctionUI = (function (_super) {
     p.refresh = function () {
         var self = this;
         self.lblGold.text = application.format(application.customer.gold);
+        self.lblDiamond.text = application.format(application.customer.diamond);
         var today = application.bidDay();
         self.bid = { gold: 0, day: today, customer_id: application.customer.id, succeed: 0 };
         self.delta = 0;
@@ -24,9 +25,6 @@ var AuctionUI = (function (_super) {
     p.uiCompHandler = function () {
         this.refresh();
         this.imgBid.addEventListener(egret.TouchEvent.TOUCH_BEGIN, this.onBid, this);
-        this.imgRet.addEventListener(egret.TouchEvent.TOUCH_BEGIN, function () {
-            this.back();
-        }, this);
         this.grpTrack.touchEnabled = true;
         this.grpTrack.addEventListener(egret.TouchEvent.TOUCH_BEGIN, this.onBeginChangeBid, this);
         this.grpTrack.addEventListener(egret.TouchEvent.TOUCH_MOVE, this.onChangeBid, this);

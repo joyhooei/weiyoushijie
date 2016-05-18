@@ -6,4 +6,6 @@
 	<e:Label id="lblGold" text="0" x="96" y="290" size="24"/>
 	<e:Label id="lblDiamond" size="24" y="289" text="0" x="247"/>
 	<e:Image id="imgBack" source="helpx_png" x="325" y="0" fillMode="clip" width="52" height="53"/>
+	<e:Image id="imgIcon" width="57" height="53" x="53" y="78" source="acv1_png" fillMode="scale"/>
+	<e:Label id="lblDescription" x="130" y="85" width="200" height="134"/>
 </e:Skin>

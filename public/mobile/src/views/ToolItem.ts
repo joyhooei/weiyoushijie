@@ -29,13 +29,6 @@ class ToolItem extends eui.Component {
     }
 	
 	private buy(price: number, step: number): void {
-        var ui = new BuyToolUI("project",price,this._project,this._myProject, step);
-		ui.horizontalCenter = 0;
-		ui.verticalCenter = 0;
-		application.main.homeUI.addChild(ui);
+        application.showUI(new BuyToolUI("project",price,this._myProject,this._project,step));
 	}
-	
-	private output(): number {
-        return this._project.output(this._myProject.level, this._myProject.achieve);
-    }
 }

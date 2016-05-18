@@ -1,9 +1,10 @@
 <?xml version='1.0' encoding='utf-8'?>
 <e:Skin class="auctionUISkin" width="480" height="660" xmlns:e="http://ns.egret.com/eui" xmlns:w="http://ns.egret.com/wing">
 	<e:Image x="0" y="0" source="AB_png"/>
-	<e:Label id="lblCurrentBid" y="404" text="0" x="317"/>
-	<e:Label id="lblLastBid" y="489" text="0" x="314"/>
-	<e:Label id="lblGold" y="254" text="0" x="321"/>
+	<e:Label id="lblCurrentBid" y="358" text="0" x="316"/>
+	<e:Label id="lblLastBid" y="439" text="0" x="315"/>
+	<e:Label id="lblGold" y="30" text="0" x="84"/>
+	<e:Label id="lblDiamond" y="30" text="0" x="282"/>
 	<e:Label id="lblMaxBid" y="141" text="0" x="322"/>
 	<e:Image id="imgThumb" width="373" height="27" x="59" y="302" source="Abar_png" fillMode="clip"/>
 	<e:Group id="grpTrack" width="50" height="50" x="50" y="280">

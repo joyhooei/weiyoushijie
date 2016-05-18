@@ -67,6 +67,15 @@ var application;
         });
     }
     application.fetchCustomer = fetchCustomer;
+    function usableGold() {
+        if (application.bid) {
+            return application.customer.gold - application.bid.gold;
+        }
+        else {
+            return application.customer.gold;
+        }
+    }
+    application.usableGold = usableGold;
     function buyOutput(gold, diamond, output, proj, cb) {
         application.customer.gold -= gold;
         application.customer.diamond -= diamond;
@@ -113,6 +122,22 @@ var application;
         });
     }
     application.pay = pay;
+    function showHelp(icon, content) {
+        return application.showUI(new HelpUI(icon, content));
+    }
+    application.showHelp = showHelp;
+    function showUI(ui) {
+        ui.horizontalCenter = 0;
+        ui.verticalCenter = 0;
+        application.main.homeUI.addChild(ui);
+        return ui;
+    }
+    application.showUI = showUI;
+    function back(ui) {
+        ui.parent.removeChild(ui);
+        return ui;
+    }
+    application.back = back;
     function format(d) {
         var units = [
             'k', 'm', 'b', 't',

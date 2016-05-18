@@ -8,9 +8,6 @@ var ToolUI = (function (_super) {
     var d = __define,c=ToolUI,p=c.prototype;
     p.uiCompHandler = function () {
         var self = this;
-        self.imgRet.addEventListener(egret.TouchEvent.TOUCH_BEGIN, function () {
-            this.back();
-        }, this);
         var tLayout = new eui.TileLayout();
         tLayout.horizontalGap = 0;
         tLayout.verticalGap = 0;
@@ -45,17 +42,11 @@ var ToolUI = (function (_super) {
     };
     //爆击。每4小时自动获取一个，最多拥有3个。“点击”可以获取10倍的收益，持续60秒。100钻石可以增加至3个。说明里提醒玩家先用完已有的，再购买，因为最多只能拥有3个。
     p.buyHit = function () {
-        var ui = new BuyToolUI("hit", 100, null, null, 0);
-        ui.horizontalCenter = 0;
-        ui.verticalCenter = 0;
-        application.main.homeUI.addChild(ui);
+        application.showUI(new BuyToolUI("hit", 100, null, null, 0));
     };
     //时光沙漏， 需要500钻石购买，产生相当于2天的产量。 总秒产*3600*48
     p.buyTime = function () {
-        var ui = new BuyToolUI("time", 500, null, null, 0);
-        ui.horizontalCenter = 0;
-        ui.verticalCenter = 0;
-        application.main.homeUI.addChild(ui);
+        application.showUI(new BuyToolUI("time", 500, null, null, 0));
     };
     //月票，19元每月(30天）。每天登录可以领取300钻石，离线收益增加至90%，持续12小时。普通情况下离线收益为70%，持续8小时。首次购买获得1个勋章
     p.buyTicket = function () {

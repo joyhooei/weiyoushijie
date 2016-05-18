@@ -1,21 +1,17 @@
 var FirstChargeBonusUI = (function (_super) {
     __extends(FirstChargeBonusUI, _super);
     function FirstChargeBonusUI() {
-        _super.call(this);
-        this.addEventListener(eui.UIEvent.COMPLETE, this.uiCompHandler, this);
-        this.skinName = "resource/custom_skins/firstChargeBonusUISkin.exml";
-    }
-    var d = __define,c=FirstChargeBonusUI,p=c.prototype;
-    p.uiCompHandler = function () {
         var _this = this;
-        var self = this;
+        _super.call(this);
+        this.skinName = "resource/custom_skins/firstChargeBonusUISkin.exml";
         this.btnCancel.addEventListener(egret.TouchEvent.TOUCH_TAP, function () {
-            _this.parent.removeChild(_this);
+            application.back(_this);
         }, this);
         this.btnCharge.addEventListener(egret.TouchEvent.TOUCH_TAP, function () {
             application.charge();
         }, this);
-    };
+    }
+    var d = __define,c=FirstChargeBonusUI,p=c.prototype;
     return FirstChargeBonusUI;
 }(eui.Component));
 egret.registerClass(FirstChargeBonusUI,'FirstChargeBonusUI');

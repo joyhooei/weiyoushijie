@@ -17,13 +17,7 @@ var ToolItem = (function (_super) {
     }
     var d = __define,c=ToolItem,p=c.prototype;
     p.buy = function (price, step) {
-        var ui = new BuyToolUI("project", price, this._project, this._myProject, step);
-        ui.horizontalCenter = 0;
-        ui.verticalCenter = 0;
-        application.main.homeUI.addChild(ui);
-    };
-    p.output = function () {
-        return this._project.output(this._myProject.level, this._myProject.achieve, application.customer.prop);
+        application.showUI(new BuyToolUI("project", price, this._myProject, this._project, step));
     };
     return ToolItem;
 }(eui.Component));

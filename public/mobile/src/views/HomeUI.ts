@@ -45,6 +45,7 @@ class HomeUI extends eui.Component{
         super();
 		
         this.addEventListener( eui.UIEvent.COMPLETE, this.uiCompHandler, this );
+        
         this.skinName = "resource/custom_skins/homeUISkin.exml";
     }
 
@@ -105,7 +106,7 @@ class HomeUI extends eui.Component{
 		var timer: egret.Timer = new egret.Timer(1000 * 60 * 60 * 4, 0);
 		timer.addEventListener(egret.TimerEvent.TIMER, function(event:egret.TimerEvent){
 			application.dao.rest("hits", {customer_id: application.customer.id}, function(succeed, result) {
-			 	if (succeed && result.total_hits > 0) {
+			 	if (succeed) {
 				 	application.customer.total_hits = result.hits;
 				 	self.lblTotalHits.text = "x" + application.customer.total_hits.toString();
 			 	}
@@ -187,7 +188,10 @@ class HomeUI extends eui.Component{
     
     private renderOfflineGold(): void {
         if(application.customer.offline_gold > 0) {
-			application.showUI(new OfflineGoldUI(application.customer.offline_gold, application.customer.offline_hours.toString(), application.customer.offline_minutes.toString()));
+			var ui = new OfflineGoldUI(application.customer.offline_gold, application.customer.offline_hours.toString(), application.customer.offline_minutes.toString());
+            ui.horizontalCenter = 0;
+            ui.verticalCenter = 0;
+            this.addChild(ui); 
         }
     }
 	
@@ -273,7 +277,9 @@ class HomeUI extends eui.Component{
         	this.animateStep(this.lblOutput, this.getOutput() - outputAdded, this.getOutput());
 		}
 		
-        this.lblTotalHits.text = totalHits.toString();
+        if(totalHits != 0) {
+            this.lblTotalHits.text = "x" + totalHits.toString();
+        }
         
         if (application.customer.charge > 0) {
         	this.imgCharge.source = "charge_png";

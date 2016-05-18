@@ -80,44 +80,52 @@ class ProjectItem extends eui.Component {
         self.grpAchieve.removeChildren();
 		
         for(var i = 1; i <= 10; i++) {
-			let grp = new eui.Group();
-            let img = new eui.Image();
-			
-			if (i <= this._myProject.achieve) {
-				//已经购买的成就
-            	img.source = "acv" + i.toString() + "_png";
-				grp.addChild(img);
-				
-				img.addEventListener(egret.TouchEvent.TOUCH_TAP,() => {
-					application.showHelp("");
-				}, this);
-			} else {
-    			if (this._myProject.level > this._project.levelOfAchieve(i - 1)) {
-					//可以购买的成就
-                    img.source = "acv" + i.toString() + "_png";
-                    grp.addChild(img);   
-                    
-                    img = new eui.Image();
-                    img.source = "acvnone_png";
-                    grp.addChild(img);
-				
-					img.addEventListener(egret.TouchEvent.TOUCH_TAP,() => {
-						application.showUI(new BuyAchieveUI(self._myProject, self._project,"acv" + i.toString() + "_png"));				
-					}, this);
-					
-   				} else {
-					//不可以购买的成就
-            	    img.source = "acvlock_png";
-                    grp.addChild(img);
-				
-					img.addEventListener(egret.TouchEvent.TOUCH_TAP,() => {
-						application.showHelp("acv" + i.toString() + "_png", "成就帮助");
-					}, this);
-            	}
-			}
-            
-            this.grpAchieve.addChild(grp);
+            this.grpAchieve.addChild(this.renderAchieve(i));
         }
+	}
+	
+	private renderAchieve(achieve:number): egret.DisplayObject {
+    	var self = this;
+    	
+        let grp = new eui.Group();
+        let img = new eui.Image();
+
+        var icon = "acv" + achieve.toString() + "_png";
+
+        if(achieve <= this._myProject.achieve) {
+            //已经购买的成就
+            img.source = icon;
+            grp.addChild(img);
+
+            img.addEventListener(egret.TouchEvent.TOUCH_TAP,() => {
+                application.showHelp(icon,"成就帮助");
+            },this);
+        } else {
+            if(this._myProject.level > this._project.levelOfAchieve(achieve - 1)) {
+                //可以购买的成就
+                img.source = icon;
+                grp.addChild(img);
+
+                img = new eui.Image();
+                img.source = "acvnone_png";
+                grp.addChild(img);
+
+                img.addEventListener(egret.TouchEvent.TOUCH_TAP,() => {
+                    application.showUI(new BuyAchieveUI(self._myProject,self._project,icon));
+                },this);
+
+            } else {
+                //不可以购买的成就
+                img.source = "acvlock_png";
+                grp.addChild(img);
+
+                img.addEventListener(egret.TouchEvent.TOUCH_TAP,() => {
+                    application.showHelp(icon,"成就帮助");
+                },this);
+            }
+        }
+        
+        return grp;
 	}
 	
 	private renderLocked(): void {
