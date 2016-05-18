@@ -119,6 +119,13 @@ module application {
             }
         })
     }
+    
+    export function showHelp(content:string): void {
+        var ui = new HelpUI(content);
+        ui.horizontalCenter = 0;
+        ui.verticalCenter   = 0;
+        application.main.homeUI.addChild(ui); 
+    }
    
     export function format(d:number): string {
         let units = [
