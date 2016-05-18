@@ -33,7 +33,7 @@ class BuyAchieveUI extends eui.Component{
         
         let p = this._project.goldPriceOfAchieve(this._myProject.achieve + 1);
         this.lblGold.text = p.toString();
-        if (application.customer.gold < p) {
+        if (application.usableGold() < p) {
             this.imgBuyUseGold.source = "buttoncoinno_png";
 		} else {
             this.imgBuyUseGold.addEventListener( egret.TouchEvent.TOUCH_TAP, ()=>{
