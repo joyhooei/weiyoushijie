@@ -74,6 +74,14 @@ module application {
             }
         });
     }
+    
+    export function usableGold() {
+        if (application.bid) {
+            return application.customer.gold - application.bid.gold;
+        } else {
+            return application.customer.gold;
+        }
+    }
 
     export function buyOutput(gold:number, diamond: number, output:number, proj:any, cb: Function): void {
         application.customer.gold      -= gold;
