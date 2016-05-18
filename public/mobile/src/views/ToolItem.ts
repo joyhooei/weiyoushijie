@@ -36,6 +36,6 @@ class ToolItem extends eui.Component {
 	}
 	
 	private output(): number {
-        return this._project.output(this._myProject.level, this._myProject.achieve, application.customer.prop);
+        return this._project.output(this._myProject.level, this._myProject.achieve);
     }
 }
