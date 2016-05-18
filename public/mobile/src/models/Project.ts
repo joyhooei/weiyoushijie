@@ -255,7 +255,7 @@ class Project {
 	}
 	
 	//根据级别、成就和道具个数计算本项目的秒产
-	public output(level: number, achieve: number, props: number):number {
+	public output(level: number, achieve: number):number {
 		//累积产量系数	判定lv所处区间。累积产量系数=上区间最终值*本区间产量系数^ (lv-上区间最终lv值）
 		let cumulativeOutputRatio = 1;
 		let lastLevel = 1;
@@ -277,11 +277,8 @@ class Project {
 			cumulativeAchieveRatio = cumulativeAchieveRatio * this._achieves[i - 1].outputRatio;
 		}
 		
-		//道具提升系数	道具升级次数*0.1
-		let propRatio = 1 + achieve * this._propOutputRatio;
-		
 		//项目秒产 	lv数*该项目1级秒产*累积产量系数*累积成就系数*道具升级系数
-        return Math.round(level * this._outputLevelOne * cumulativeOutputRatio * cumulativeAchieveRatio * propRatio);
+        return Math.round(level * this._outputLevelOne * cumulativeOutputRatio * cumulativeAchieveRatio);
 	}
 	
 	//升级级别的价格
