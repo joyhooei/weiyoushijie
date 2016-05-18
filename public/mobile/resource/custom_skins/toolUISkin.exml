@@ -19,5 +19,4 @@
 			</e:Group>
 		</e:viewport>
 	</e:Scroller>	
-	<e:Image x="394" id="imgRet" source="helpx_png" fillMode="scale" y="40" width="65" height="64"/>
 </e:Skin>
