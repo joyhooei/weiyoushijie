@@ -78,15 +78,19 @@ class HomeUI extends eui.Component{
         }, this);
                 
         self.btnGift.addEventListener(egret.TouchEvent.TOUCH_BEGIN, function() {
-			self.onGift();
+			application.showUI(new GiftUI());
         }, this);
                 
         self.btnHelp.addEventListener(egret.TouchEvent.TOUCH_BEGIN, function() {
-			self.onHelp();
+			application.showHelp("icon_png", "显示帮助内容");
         }, this);
 
         self.imgCharge.addEventListener(egret.TouchEvent.TOUCH_BEGIN,function() {
-            self.onCharge();
+			if (application.customer.charge == 0) {
+				application.showUI(new FirstChargeBonusUI());
+			} else {
+				application.charge();
+			}
         },this);
         
         /// 首次加载完成首先显示home
@@ -94,22 +98,6 @@ class HomeUI extends eui.Component{
 		
 		self.renderOfflineGold();
     }
-    
-    private onCharge():void {
-		if (application.customer.charge == 0) {
-			application.showUI(new FirstChargeBonusUI());
-		} else {
-			application.charge();
-		}
-    }
-	
-	private onGift(): void { 	
-		application.showUI(new GiftUI());
-	}
-	
-	private onHelp(): void {
-    	application.showHelp("");   	
-	}
     
     private renderTotalHits(): void {
     	var self = this;
