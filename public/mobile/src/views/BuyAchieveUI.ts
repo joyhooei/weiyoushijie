@@ -7,10 +7,13 @@ class BuyAchieveUI extends eui.Component{
     private lblGold:eui.Label;
     private lblDiamond:eui.Label;
     
+    private imgIcon:eui.Image;
+    private lblDescription:eui.Label;
+    
     private _myProject: any;
     private _project: Project;
     
-    constructor(myProject: any,project: Project) {
+    constructor(myProject: any,project: Project, icon:string) {
         super();
         
         this._myProject = myProject;
@@ -19,6 +22,8 @@ class BuyAchieveUI extends eui.Component{
         this.addEventListener( eui.UIEvent.COMPLETE, this.uiCompHandler, this );
         
         this.skinName = "resource/custom_skins/buyAchieveUISkin.exml";
+        
+        this.imgIcon.source = icon;
     }
 
     private uiCompHandler():void {
@@ -45,10 +50,14 @@ class BuyAchieveUI extends eui.Component{
                 this.buyAchieveUseDiamond();
 			}, this );
 		}
+        
+        var delta = this._project.output(this._myProject.level,this._myProject.achieve + 1) - this.output();
+        var description = "获得成就将提高秒产" + delta.toString() + "个金币";
+        this.lblDescription.text = description;
     }
 
     private output(): number {
-        return this._project.output(this._myProject.level,this._myProject.achieve,application.customer.prop);
+        return this._project.output(this._myProject.level,this._myProject.achieve);
     }
    
 	private buyAchieveUseGold(){
