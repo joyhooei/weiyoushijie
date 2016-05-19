@@ -14,7 +14,6 @@ class AuctionUI extends eui.Component{
 	private imgThumb: eui.Image;
 	
 	private bid:any;
-	private delta:number;
 	
 	private startX:number;
 	
@@ -27,25 +26,22 @@ class AuctionUI extends eui.Component{
     }
     
     public refresh(): void {
-		var self = this;
-		
-		self.lblGold.text = application.format(application.customer.gold);
-        self.lblDiamond.text = application.format(application.customer.diamond);
+		this.lblGold.text = application.format(application.customer.gold);
+        this.lblDiamond.text = application.format(application.customer.diamond);
 		
         var today = application.bidDay();
-        
-        self.bid = { gold: 0,day: today,customer_id: application.customer.id,succeed: 0 };
-		self.delta = 0;
-        
-		self.renderLastBid(today);
-		self.renderMaxBid(today);	
+		this.renderLastBid(today);
+		this.renderMaxBid(today);	
 		
-        self.grpTrack.x = self.imgThumb.x;
-        self.lblTrack.text = "0%";
-        self.imgFront.x = self.imgThumb.x;	
-        self.imgFront.y = self.imgThumb.y;	
-        self.imgFront.width = 0;	
-        self.renderCurrentBid(0);
+        this.grpTrack.x = this.imgThumb.x;
+        this.lblTrack.text = "0%";
+		
+        this.imgFront.x = this.imgThumb.x;	
+        this.imgFront.y = this.imgThumb.y;	
+        this.imgFront.width = 0;
+		
+        this.bid = { gold: 0,day: today,customer_id: application.customer.id,succeed: 0 };
+        this.renderCurrentBid(0);
     }
 
     private uiCompHandler():void {
@@ -83,31 +79,26 @@ class AuctionUI extends eui.Component{
 	}
 	
 	private renderCurrentBid(gold: number): void {
-		this.delta = Math.round(gold);
+		this.bid.gold = gold;
 		
-		this.lblCurrentBid.text = this.delta.toString();
+		this.lblCurrentBid.text = application.format(this.bid.gold);
 	}
 	
 	private onBid(): void {
 		var self = this;
-		
-		if (self.delta > 0) {
-			self.bid.gold += self.delta;
-			application.dao.save("Bid", self.bid, function(succeed, bid){
-				if (succeed) {
-					Toast.launch("投标成功");
 
-					application.bid = self.bid;				
-					application.refreshCustomer(0 - self.delta, 0, 0, 0, null);
+		application.dao.save("Bid", self.bid, function(succeed, bid){
+			if (succeed) {
+				Toast.launch("投标成功");
 
-					self.back();
-				} else {
-					Toast.launch("投标失败，请稍后再试");
-				}
-			});
-		} else {
-			Toast.launch("请追加投标金币");
-		}
+				application.bid = self.bid;				
+				application.refreshCustomer(0 - self.bid.gold, 0, 0, 0, null);
+
+				self.back();
+			} else {
+				Toast.launch("投标失败，请稍后再试");
+			}
+		});
 	}
 	
 	private back(): void {
@@ -119,17 +110,17 @@ class AuctionUI extends eui.Component{
     }
 	
 	private onChangeBid(e:egret.TouchEvent): void {
-        let step = e.stageX - this.startX;
+        let step:number = e.stageX - this.startX;
         this.startX = e.stageX;
         
-        let target = Math.max(this.imgThumb.x, this.grpTrack.x + step);
+        let target:number = Math.max(this.imgThumb.x, this.grpTrack.x + step);
         target = Math.min(this.imgThumb.width + this.imgThumb.x - this.grpTrack.width,target);
         this.grpTrack.x = target;
  
-        var percent = Math.round(100 * (this.grpTrack.x - this.imgThumb.x)  / (this.imgThumb.width - this.grpTrack.width) );
+        let percent:number = Math.round(100 * (this.grpTrack.x - this.imgThumb.x)  / (this.imgThumb.width - this.grpTrack.width) );
 		this.lblTrack.text = percent.toString() + "%";
 
 		this.renderCurrentBid(application.customer.gold * percent / 100);
-        this.imgFront.width = this.grpTrack.x - this.imgThumb.x + 20;	
+        this.imgFront.width = this.grpTrack.x - this.imgThumb.x + 20;
 	}
 }
