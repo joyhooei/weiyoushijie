@@ -123,12 +123,3 @@ module.exports.afterSave = function(request, response) {
     Gift.create(customer.id, 6, 1500, 1, 1000000);
 };
 
-module.exports.beforeUpdate = function(customer) {
-   if (moment(customer.get("last_login")) > moment(customer.updatedAt)) {
-	  var os = moment().diff(customer.get("last_login"), 'seconds');
-   } else {
-	  var os = moment().diff(customer.updatedAt, 'seconds');
-   }
-
-   customer.increment("online_seconds", os);
-}
