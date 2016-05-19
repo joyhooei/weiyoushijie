@@ -41,6 +41,9 @@ class HomeUI extends eui.Component{
     private btnGift: eui.Button;
     private btnHelp: eui.Button;
     
+    private btnAddGold: eui.Button;
+    private btnAddDiamond: eui.Button;
+    
     constructor( ) {
         super();
 		
@@ -84,6 +87,14 @@ class HomeUI extends eui.Component{
                 
         self.btnHelp.addEventListener(egret.TouchEvent.TOUCH_BEGIN, function() {
 			application.showHelp("icon_png", "显示帮助内容");
+        }, this);
+                
+        self.btnAddGold.addEventListener(egret.TouchEvent.TOUCH_BEGIN, function() {
+			application.showUI(new BuyToolUI("time", 500, null, null, 0));
+        }, this);
+                
+        self.btnAddDiamond.addEventListener(egret.TouchEvent.TOUCH_BEGIN, function() {
+			application.charge();
         }, this);
 
         self.imgCharge.addEventListener(egret.TouchEvent.TOUCH_BEGIN,function() {
