@@ -313,66 +313,47 @@ class HomeUI extends eui.Component{
 		}
 	}
     
-    private resetFocus():void{
-        if( this._uiFocused ){
-            if( this._uiFocused.parent ){
-                this._uiFocused.parent.removeChild( this._uiFocused );
-            }
-            this._uiFocused = null;
-        }
-        
-        if( this._btnFocused != null ){
-            this._btnFocused.selected = false;
-            this._btnFocused.enabled = true;
-            this._btnFocused = null;
-        }
+    private gotoHome():void{
+		this._uiFocused   = null;
+		this.selectFooter(this.btnHome);
     }
     
-    private goHome():void{
-        this._pageFocusedPrev = this._pageFocused = GamePages.HOME;
-        this._btnFocused = this.btnHome;
-        this.btnHome.selected = true;
-    }
-    
-    private goTool():void {
+    private gotoTool():void {
 		if( !this._toolUI ){
 			this._toolUI = new ToolUI();
 			this._toolUI.addEventListener( GameEvents.EVT_RETURN, ()=>{
-				this.resetFocus();
-				this.goHome();
+				this.gotoPage(GamePages.HOME, true);
 			}, this );
 		}
 		
-		this._uiFocused = this._toolUI;
-        this.btnTool.selected = true;
+		this._uiFocused = this._toolUI;		
+		this.selectFooter(this.btnTool);
     }
     
-    private goRank():void {
+    private gotoRank():void {
 		if( !this._rankUI ){
 			this._rankUI = new RankUI();
 			this._rankUI.addEventListener( GameEvents.EVT_RETURN, ()=>{
-				this.resetFocus();
-				this.goHome();
+				this.gotoPage(GamePages.HOME, true);
 			}, this );
 		}
 		
 		this._uiFocused = this._rankUI;	
-        this.btnRank.selected = true;
+		this.selectFooter(this.btnRank);
     }
     
-    private goAuction():void {
+    private gotoAuction():void {
 		if( !this._auctionUI ){
 			this._auctionUI = new AuctionUI();
 			this._auctionUI.addEventListener( GameEvents.EVT_RETURN, ()=>{
-				this.resetFocus();
-				this.goHome();
+				this.gotoPage(GamePages.HOME, true);
 			}, this );
 		} else {
             this._auctionUI.refresh();
 		}
 		
 		this._uiFocused = this._auctionUI;	
-        this.btnAuction.selected = true;
+		this.selectFooter(this.btnAuction);
     }
     
     private btnHandler( evt:egret.TouchEvent ):void{
@@ -381,76 +362,103 @@ class HomeUI extends eui.Component{
             this._btnFocused.selected = true;
             return;
         }
-        
-        /// 逻辑生效，所有按钮锁定
-        for( var i:number = this.btns.length - 1; i > -1; --i ){
-            this.btns[i].enabled = false;
-        }
 
-        /// 移除上一焦点对应的按钮
-        if( this._btnFocused ){
-            this._btnFocused.selected = false;
-            this._btnFocused.enabled = true;
-        }
-        
-        /// 移除上一焦点对应的UI
-        if( this._uiFocused && this._uiFocused.parent ){
-            this._uiFocused.parent.removeChild( this._uiFocused );
-        }
-        
-        /// 设置当前焦点按钮
-        this._btnFocused = evt.currentTarget;
-        this._btnFocused.selected = true;
-        
-        /// 焦点UI重置
-        this._uiFocused = null;
-
-        this._pageFocusedPrev = this._pageFocused;
-        switch ( this._btnFocused ){
+        switch ( evt.currentTarget ){
             case this.btnHome:
-                this._pageFocused = GamePages.HOME;
+                this.gotoPage(GamePages.HOME, true);
                 break;
                 
             case this.btnRank:
-                this._pageFocused = GamePages.RANK ;
+				this.gotoPage(GamePages.TOOL, false);
                 break;
                 
             case this.btnTool:
-                this._pageFocused = GamePages.TOOL ;
+                this.gotoPage(GamePages.TOOL, false);
                 break;
                 
             case this.btnAuction:
-                this._pageFocused = GamePages.AUCTION ;
+                this.gotoPage(GamePages.AUCTION, false);
                 break;
         }
-        
-        this.dispatchEventWith( GameEvents.EVT_LOAD_PAGE, false, this._pageFocused );
     }
-
-    public pageReadyHandler( pageName:String ):void {
-        /// 页面加载完成，所有非焦点按钮解锁
-        for( var i:number = 0; i < this.btns.length; i++ ){
-            this.btns[i].enabled = true;
+    
+    private resetFocus():void{
+        if( this._uiFocused ){
+            if( this._uiFocused.parent ){
+                this._uiFocused.parent.removeChild( this._uiFocused );
+            }
+            this._uiFocused = null;
         }
         
+        if( this._btnFocused ){
+            this._btnFocused.selected = false;
+            this._btnFocused.enabled = true;
+            this._btnFocused = null;
+        }
+    }
+	
+	public gotoPage(pageName:string, pageReady:bool) {
+		this._pageFocused = page;
+        
+        this.resetFocus();
+		
         switch ( pageName ){
             case GamePages.HOME:
-                this.goHome();
-                break;
+                this.gotoHome();
+                return;
                 
-            case GamePages.RANK:
-                this.goRank();
+            case GamePages.TOOL:
+				if( this._rankUI || pageReady){
+                	this.gotoRank();
+				} else {
+					this.loadPage();
+				}
                 break;
                 
             case GamePages.TOOL:
-				this.goTool();
+				if( this._toolUI || pageReady ){
+                	this.gotoTool();
+				} else {
+					this.loadPage();
+				}
                 break;
                 
             case GamePages.AUCTION:
-				this.goAuction();
+				if( this._auctionUI || pageReady ){
+                	this.gotoAuction();
+				} else {
+					this.loadPage();
+				}
                 break;
-        }
-        
+        }	
+	}
+	
+	private loadPage(): void {
+		this.enableFooter(false);
+		
+		this.dispatchEventWith( GameEvents.EVT_LOAD_PAGE, false, this._pageFocused);
+	}
+
+    public pageReadyHandler( pageName:String ):void {
+        this.enableFooter(true);
+		
+		this.gotoPage(pageName, true);
+		
         this.addChild( this._uiFocused);
     }
+	
+	private selectFooter(btn:eui.Button): void {
+		if (this._btnFocused) {
+			this._btnFocused.selected = false;
+		}
+		
+		this._btnFocused = btn;
+		this._btnFocused.selected = true;
+	}
+	
+	private enableFooter(enabled:bool) : void {
+        for( var i:number = 0; i < this.btns.length; i++ ){
+            this.btns[i].enabled = enabled;
+        }
+	}
 }
