@@ -128,6 +128,14 @@ module application {
         })
     }
     
+    export function gotoAuction(): void {
+        application.main.homeUI.gotoPage(GamePages.AUCTION, false);
+    }
+    
+    export function gotoTool(): void {
+        application.main.homeUI.gotoPage(GamePages.TOOL, false);
+    }
+    
     export function showHelp(icon:string, content:string): egret.DisplayObjectContainer {
         return application.showUI(new HelpUI(icon, content));
     }
