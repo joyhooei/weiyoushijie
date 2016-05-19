@@ -315,10 +315,6 @@ router.post('/delete/:model/:id', function(req, res, next) {
 function _saveModel(model, req, res) {
 	var newModel = _encode(model, req.body);
 	
-	if (req.params.model == "Customer") {
-		Customer.beforeUpdate(newModel);
-	}
-	
 	newModel.save().then(function(m){
 		var query = new AV.Query(dao[req.params.model]);
 		query.get(m.id).then(function(updatedModel){
