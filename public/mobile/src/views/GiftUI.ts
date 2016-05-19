@@ -28,17 +28,61 @@ class GiftUI extends eui.Component {
             this.pick(1,this.imgPick2);
         },this);
         this.imgPick3.addEventListener(egret.TouchEvent.TOUCH_BEGIN,function(ev) {
-            this.pick(2,this.imgPick3);
+            this.onBidGift();
         },this);
         this.imgPick4.addEventListener(egret.TouchEvent.TOUCH_BEGIN,function(ev) {
             this.pick(3,this.imgPick4);
         },this);
         this.imgPick5.addEventListener(egret.TouchEvent.TOUCH_BEGIN,function(ev) {
-            this.pick(4,this.imgPick5);
+            this.onShareGift();
         },this);
         this.imgPick6.addEventListener(egret.TouchEvent.TOUCH_BEGIN,function(ev) {
-            this.pick(5,this.imgPick6);
+            this.onFirstChargeGift();
         },this);
+    }
+	
+	private onBidGift() {
+        if (this.gifts[2].locked == 0) {
+            this.pick(2,this.imgPick3);
+        } else if (this.gifts[2].locked == 1) { {
+            application.goAuction();
+        }
+	}
+	
+	private onTicketGift() {
+        if (this.gifts[3].locked == 0) {
+            this.pick(3,this.imgPick4);
+        } else if (this.gifts[3].locked == 1) { {
+            application.goTool();
+        }
+	}
+    
+    private onShareGift() {
+		var self = this;
+		
+        if (self.gifts[4].locked == 0) {
+            self.pick(4,self.imgPick5);
+        } else if (self.gifts[4].locked == 1) { {
+			nest.share.share({title:'', description:'', url:'', imageUrl:''}, function (data) {
+				if(data.result == 0) {
+					self.gifts[4].locked = 0;
+					
+					self.setImage(self.imgPick5,gifts[4]);
+				} else if(data.result == -1) {
+					Toast.launch("取消了分享");
+				} else {
+					Toast.launch("分享失败");
+				}
+			})  
+        }
+    }
+    
+    private onFirstChargeGift() {
+        if (this.gifts[5].locked == 0) {
+            this.pick(5,this.imgPick6);
+        } else if (this.gifts[5].locked == 1) { {
+            application.showUI(new FirstChargeBonusUI());
+        }
     }
 
     public refresh(): void {
