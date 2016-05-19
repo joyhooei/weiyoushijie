@@ -75,6 +75,8 @@ class GiftUI extends eui.Component {
 				if(data.result == 0) {
 					self.gifts[4].locked = 0;
 					
+					application.dao.save("Gift",self.gifts[4], null);
+					
 					self.setImage(self.imgPick5,gifts[4]);
 				} else if(data.result == -1) {
 					Toast.launch("取消了分享");
@@ -103,16 +105,18 @@ class GiftUI extends eui.Component {
         application.dao.fetch("Gift", {customer_id: application.customer.id}, {order : 'category ASC'}, function(succeed, gifts){
             self.setImage(self.imgPick1,gifts[0]);
             
-            var dt = new Date();
-            var lastGetDate = new Date(gifts[1].update_time);
-            var loginDate = new Date(application.customer.last_login);
-            if ( lastGetDate < loginDate) {
-                if (dt.getTime() - loginDate.getTime() > 60 * 60 * 1000) {
-					gifts[1].locked = 0;
+            if (gifts[1].locked != 0) {
+				var lastDate  = new Date(gifts[1].update_time);
+				var loginDate = new Date(application.customer.last_login);
+				if ( lastDate < loginDate) {
+					lastDate = loginDate;
 				}
-            } else {
-                if (dt.getTime() - lastGetDate.getTime() > 60 * 60 * 1000) {
+				
+				var today = new Date();
+				if (today.getTime() - lastDate.getTime() > 60 * 60 * 1000) {
 					gifts[1].locked = 0;
+					
+					application.dao.save("Gift", gifts[1], null);
 				}
 			}
             self.setImage(self.imgPick2,gifts[1]);
