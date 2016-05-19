@@ -102,7 +102,21 @@ class GiftUI extends eui.Component {
 
         application.dao.fetch("Gift", {customer_id: application.customer.id}, {order : 'category ASC'}, function(succeed, gifts){
             self.setImage(self.imgPick1,gifts[0]);
+            
+            var dt = new Date();
+            var lastGetDate = new Date(gifts[1].update_time);
+            var loginDate = new Date(application.customer.last_login);
+            if ( lastGetDate < loginDate) {
+                if (dt.getTime() - loginDate.getTime() > 60 * 60 * 1000) {
+					gifts[1].locked = 0;
+				}
+            } else {
+                if (dt.getTime() - lastGetDate.getTime() > 60 * 60 * 1000) {
+					gifts[1].locked = 0;
+				}
+			}
             self.setImage(self.imgPick2,gifts[1]);
+            
             self.setImage(self.imgPick3,gifts[2]);
             self.setImage(self.imgPick4,gifts[3]);
             self.setImage(self.imgPick5,gifts[4]);
