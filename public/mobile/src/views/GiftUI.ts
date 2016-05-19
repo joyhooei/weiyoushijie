@@ -22,16 +22,16 @@ class GiftUI extends eui.Component {
         },this);	
         
         this.imgPick1.addEventListener(egret.TouchEvent.TOUCH_BEGIN, function(ev){
-            this.pick(0, this.imgPick1);
+            this.onLoginGift();
         },this);
         this.imgPick2.addEventListener(egret.TouchEvent.TOUCH_BEGIN,function(ev) {
-            this.pick(1,this.imgPick2);
+            this.onOnlineGift();
         },this);
         this.imgPick3.addEventListener(egret.TouchEvent.TOUCH_BEGIN,function(ev) {
             this.onBidGift();
         },this);
         this.imgPick4.addEventListener(egret.TouchEvent.TOUCH_BEGIN,function(ev) {
-            this.pick(3,this.imgPick4);
+            this.onTicketGift();
         },this);
         this.imgPick5.addEventListener(egret.TouchEvent.TOUCH_BEGIN,function(ev) {
             this.onShareGift();
@@ -40,12 +40,20 @@ class GiftUI extends eui.Component {
             this.onFirstChargeGift();
         },this);
     }
+    
+    private onLoginGift() {
+        this.pick(0, this.imgPick1);
+    }
+    
+    private onOnlineGift() {
+        this.pick(1,this.imgPick2);
+    }
 	
 	private onBidGift() {
         if (this.gifts[2].locked == 0) {
             this.pick(2,this.imgPick3);
         } else if (this.gifts[2].locked == 1) { {
-            application.goAuction();
+            application.gotoAuction();
         }
 	}
 	
@@ -53,7 +61,7 @@ class GiftUI extends eui.Component {
         if (this.gifts[3].locked == 0) {
             this.pick(3,this.imgPick4);
         } else if (this.gifts[3].locked == 1) { {
-            application.goTool();
+            application.gotoTool();
         }
 	}
     
