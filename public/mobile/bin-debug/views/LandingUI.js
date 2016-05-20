@@ -15,9 +15,6 @@ var LandingUI = (function (_super) {
                 }
             });
         }, self);
-        self.btnChange.addEventListener(egret.TouchEvent.TOUCH_TAP, function () {
-            //TODO
-        }, self);
     };
     p.login = function () {
         var loginTypes = nest.easyuser.getLoginTypes();

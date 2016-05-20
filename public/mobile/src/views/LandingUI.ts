@@ -1,6 +1,5 @@
 class LandingUI extends eui.Component {
     private btnLogin: eui.Button;
-    private btnChange: eui.Button;
     
     public constructor() {
         super();
@@ -19,10 +18,6 @@ class LandingUI extends eui.Component {
 					self.login();
 				}
             });
-        },self);
-
-        self.btnChange.addEventListener(egret.TouchEvent.TOUCH_TAP,() => {
-            //TODO
         },self);
     }
 	

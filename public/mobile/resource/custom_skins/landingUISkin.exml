@@ -1,19 +1,11 @@
 <?xml version='1.0' encoding='utf-8'?>
 <e:Skin class="landingUISkin" width="480" height="800" xmlns:e="http://ns.egret.com/eui" xmlns:w="http://ns.egret.com/wing">
 	<e:Image width="480" height="800" x="0" y="0" source="Loginb_png" fillMode="clip"/>
-	<e:Button id="btnLogin" x="59" y="575">
+	<e:Button id="btnLogin" x="163" y="580">
 		<e:skinName>
 			<e:Skin states="up,down,disabled">
 				<e:Image width="100%" height="100%" source="login1_png"/>
 				<e:Label id="labelDisplay" horizontalCenter="0" verticalCenter="0"/>
-			</e:Skin>
-		</e:skinName>
-	</e:Button>
-	<e:Button id="btnChange" y="577" x="265">
-		<e:skinName>
-			<e:Skin states="up,down,disabled">
-				<e:Image width="100%" height="100%" source="login2_png"/>
-				<e:Label id="labelDisplay0" horizontalCenter="0" verticalCenter="0"/>
 			</e:Skin>
 		</e:skinName>
 	</e:Button>
