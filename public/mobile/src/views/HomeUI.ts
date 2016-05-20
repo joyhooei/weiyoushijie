@@ -109,6 +109,17 @@ class HomeUI extends eui.Component{
         self.goHome(); 
 		
 		self.renderOfflineGold();
+		
+		self.earnGoldDynamically();
+    }
+    
+    private earnGoldDynamically(): void {
+		var timer: egret.Timer = new egret.Timer(5000, 0);
+		timer.addEventListener(egret.TimerEvent.TIMER, function(event:egret.TimerEvent){
+			this.earnGold(5);
+		}, this);
+
+		timer.start();    
     }
     
     private renderTotalHits(): void {
@@ -207,14 +218,17 @@ class HomeUI extends eui.Component{
     }
 	
 	private onBeauty(): void {
-		var self = this;
+		this.mcBeauty.play(3);
+		this.earnGold(1);
+	}
+	
+	private earnGold(second:number): void {
+		var gold = this.getOutput() * second;
 		
-		self.mcBeauty.play(3);
-
-		application.customer.gold += self.getOutput();
+		application.customer.gold += gold;
 		application.dao.save("Customer", application.customer, null);
 
-		self.animateStep(self.lblGold,application.customer.gold + application.customer.output,application.customer.gold);
+		this.animateStep(this.lblGold, application.usableGold() - gold, application.usableGold());
 	}
 	
 	private onHit(): void {
