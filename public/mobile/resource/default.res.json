@@ -1,7 +1,7 @@
 {
 	"groups":[
 		{
-			"keys":"animation_json,animation_png,MParrow_png,MPauction_png,MPbottombar_png,MPmainpage_png,MPrank_png,MPtool_png,MPB_png,MPgift_png,MPhit_png,MPquestion_png,acv1_png,acv2_png,acv3_png,acv4_png,acv5_png,acv6_png,acv7_png,acv8_png,acv9_png,acv10_png,acvlock_png,MPbx10_jpg,MPBx100_jpg,MPpinkx10_jpg,MPpinkx100_jpg,MPup_jpg,MPupb_jpg,Projectbar_png,upgrade_png,upgrade10_png,upgrade10G_png,upgrade100_png,upgrade100G_png,UpgradeG_png,add_png,MPtopup_png,MPauctionS_png,MPmainpageS_png,MPrankS_png,MPtoolS_png,acvnone_png,upgrade10g_png,upgrade10p_png,upgrade100g_png,upgrade100p_png,upgradeg_png,upgradep_png,1_png,2_png,3_png,4_png,5_png,6_png,7_png,8_png,9_png,10_png,11_png,12_png,13_png,14_png,15_png,16_png,17_png,18_png,19_png,20_png,t1_png,t2_png,t3_png,t4_png,t5_png,t6_png,t7_png,t8_png,t9_png,t10_png,t11_png,t12_png,t13_png,t14_png,t15_png,t16_png,t17_png,t18_png,t19_png,t20_png,helpx_png,offlineB_png,offlineok_png,giftB_png,pick_png,picked_png,unpick_png,X_png,topup_png,topupbutton_png,topuplater_png,helppopup_png,buttoncoin_png,buttoncoinno_png,buttondia_png,buttondiano_png,popwinB_png,icon_png",
+			"keys":"animation_json,animation_png,MPauction_png,MPbottombar_png,MPmainpage_png,MPrank_png,MPtool_png,MPB_png,MPgift_png,MPhit_png,MPquestion_png,acv1_png,acv2_png,acv3_png,acv4_png,acv5_png,acv6_png,acv7_png,acv8_png,acv9_png,acv10_png,acvlock_png,MPbx10_jpg,MPBx100_jpg,MPpinkx10_jpg,MPpinkx100_jpg,MPup_jpg,MPupb_jpg,Projectbar_png,upgrade_png,upgrade10_png,upgrade10G_png,upgrade100_png,upgrade100G_png,UpgradeG_png,add_png,MPtopup_png,MPauctionS_png,MPmainpageS_png,MPrankS_png,MPtoolS_png,acvnone_png,upgrade10g_png,upgrade10p_png,upgrade100g_png,upgrade100p_png,upgradeg_png,upgradep_png,1_png,2_png,3_png,4_png,5_png,6_png,7_png,8_png,9_png,10_png,11_png,12_png,13_png,14_png,15_png,16_png,17_png,18_png,19_png,20_png,t1_png,t2_png,t3_png,t4_png,t5_png,t6_png,t7_png,t8_png,t9_png,t10_png,t11_png,t12_png,t13_png,t14_png,t15_png,t16_png,t17_png,t18_png,t19_png,t20_png,helpx_png,offlineB_png,offlineok_png,giftB_png,pick_png,picked_png,unpick_png,X_png,topup_png,topupbutton_png,topuplater_png,helppopup_png,buttoncoin_png,buttoncoinno_png,buttondia_png,buttondiano_png,popwinB_png,icon_png,charge_png",
 			"name":"home"
 		},
 		{
@@ -9,7 +9,7 @@
 			"name":"loading"
 		},
 		{
-			"keys":"RB_png,RBlue_png,RG_png,RR_png",
+			"keys":"RB_png,RBlue_png,RG_png,RR_png,RGreen_png,RY_png",
 			"name":"rank"
 		},
 		{
@@ -35,11 +35,6 @@
 			"name":"animation_png",
 			"type":"image",
 			"url":"art/animation.png"
-		},
-		{
-			"name":"MParrow_png",
-			"type":"image",
-			"url":"art/home/footer/MParrow.png"
 		},
 		{
 			"name":"MPauction_png",
@@ -680,6 +675,21 @@
 			"name":"icon_png",
 			"type":"image",
 			"url":"art/home/icon.png"
+		},
+		{
+			"name":"RGreen_png",
+			"type":"image",
+			"url":"art/rank/RGreen.png"
+		},
+		{
+			"name":"RY_png",
+			"type":"image",
+			"url":"art/rank/RY.png"
+		},
+		{
+			"name":"charge_png",
+			"type":"image",
+			"url":"art/home/charge.png"
 		}
 	]
 }

@@ -8,25 +8,76 @@ var GiftUI = (function (_super) {
             this.back();
         }, this);
         this.imgPick1.addEventListener(egret.TouchEvent.TOUCH_BEGIN, function (ev) {
-            this.pick(0, this.imgPick1);
+            this.onLoginGift();
         }, this);
         this.imgPick2.addEventListener(egret.TouchEvent.TOUCH_BEGIN, function (ev) {
-            this.pick(1, this.imgPick2);
+            this.onOnlineGift();
         }, this);
         this.imgPick3.addEventListener(egret.TouchEvent.TOUCH_BEGIN, function (ev) {
-            this.pick(2, this.imgPick3);
+            this.onBidGift();
         }, this);
         this.imgPick4.addEventListener(egret.TouchEvent.TOUCH_BEGIN, function (ev) {
-            this.pick(3, this.imgPick4);
+            this.onTicketGift();
         }, this);
         this.imgPick5.addEventListener(egret.TouchEvent.TOUCH_BEGIN, function (ev) {
-            this.pick(4, this.imgPick5);
+            this.onShareGift();
         }, this);
         this.imgPick6.addEventListener(egret.TouchEvent.TOUCH_BEGIN, function (ev) {
-            this.pick(5, this.imgPick6);
+            this.onFirstChargeGift();
         }, this);
     }
     var d = __define,c=GiftUI,p=c.prototype;
+    p.onLoginGift = function () {
+        this.pick(0, this.imgPick1);
+    };
+    p.onOnlineGift = function () {
+        this.pick(1, this.imgPick2);
+    };
+    p.onBidGift = function () {
+        if (this.gifts[2].locked == 0) {
+            this.pick(2, this.imgPick3);
+        }
+        else if (this.gifts[2].locked == 1) {
+            application.gotoAuction();
+        }
+    };
+    p.onTicketGift = function () {
+        if (this.gifts[3].locked == 0) {
+            this.pick(3, this.imgPick4);
+        }
+        else if (this.gifts[3].locked == 1) {
+            application.gotoTool();
+        }
+    };
+    p.onShareGift = function () {
+        var self = this;
+        if (self.gifts[4].locked == 0) {
+            self.pick(4, self.imgPick5);
+        }
+        else if (self.gifts[4].locked == 1) {
+            nest.share.share({ title: '', description: '', url: '', img_url: '', img_title: '' }, function (data) {
+                if (data.result == 0) {
+                    self.gifts[4].locked = 0;
+                    application.dao.save("Gift", self.gifts[4], null);
+                    self.setImage(self.imgPick5, self.gifts[4]);
+                }
+                else if (data.result == -1) {
+                    Toast.launch("取消了分享");
+                }
+                else {
+                    Toast.launch("分享失败");
+                }
+            });
+        }
+    };
+    p.onFirstChargeGift = function () {
+        if (this.gifts[5].locked == 0) {
+            this.pick(5, this.imgPick6);
+        }
+        else if (this.gifts[5].locked == 1) {
+            application.showUI(new FirstChargeBonusUI());
+        }
+    };
     p.refresh = function () {
         this.uiCompHandler();
     };
@@ -34,6 +85,18 @@ var GiftUI = (function (_super) {
         var self = this;
         application.dao.fetch("Gift", { customer_id: application.customer.id }, { order: 'category ASC' }, function (succeed, gifts) {
             self.setImage(self.imgPick1, gifts[0]);
+            if (gifts[1].locked != 0) {
+                var lastDate = new Date(gifts[1].update_time);
+                var loginDate = new Date(application.customer.last_login);
+                if (lastDate < loginDate) {
+                    lastDate = loginDate;
+                }
+                var today = new Date();
+                if (today.getTime() - lastDate.getTime() > 60 * 60 * 1000) {
+                    gifts[1].locked = 0;
+                    application.dao.save("Gift", gifts[1], null);
+                }
+            }
             self.setImage(self.imgPick2, gifts[1]);
             self.setImage(self.imgPick3, gifts[2]);
             self.setImage(self.imgPick4, gifts[3]);

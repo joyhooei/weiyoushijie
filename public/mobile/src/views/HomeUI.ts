@@ -106,7 +106,7 @@ class HomeUI extends eui.Component{
         },this);
         
         /// 首次加载完成首先显示home
-        self.goHome(); 
+        self.gotoHome(); 
 		
 		self.renderOfflineGold();
 		
@@ -202,7 +202,7 @@ class HomeUI extends eui.Component{
         self.mcBeauty = new egret.MovieClip( mcFactory.generateMovieClipData("" ) );
         self.mcBeauty.x = 70; 
         self.mcBeauty.y = 90; 
-        self.addChild(self.mcBeauty);
+        self.addChildAt(self.mcBeauty, 1);
 		
         self.mcBeauty.touchEnabled = true;
         self.mcBeauty.addEventListener(egret.TouchEvent.TOUCH_BEGIN, function() {
@@ -391,7 +391,7 @@ class HomeUI extends eui.Component{
                 break;
                 
             case this.btnRank:
-				this.gotoPage(GamePages.TOOL, false);
+				this.gotoPage(GamePages.RANK, false);
                 break;
                 
             case this.btnTool:
@@ -419,8 +419,8 @@ class HomeUI extends eui.Component{
         }
     }
 	
-	public gotoPage(pageName:string, pageReady:bool) {
-		this._pageFocused = page;
+	public gotoPage(pageName:string, pageReady:boolean) {
+        this._pageFocused = pageName;
         
         this.resetFocus();
 		
@@ -429,7 +429,7 @@ class HomeUI extends eui.Component{
                 this.gotoHome();
                 return;
                 
-            case GamePages.TOOL:
+            case GamePages.RANK:
 				if( this._rankUI || pageReady){
                 	this.gotoRank();
 				} else {
@@ -467,7 +467,7 @@ class HomeUI extends eui.Component{
 		this.dispatchEventWith( GameEvents.EVT_LOAD_PAGE, false, this._pageFocused);
 	}
 
-    public pageReadyHandler( pageName:String ):void {
+    public pageReadyHandler( pageName:string ):void {
         this.enableFooter(true);
 		
 		this.gotoPage(pageName, true);
@@ -475,16 +475,16 @@ class HomeUI extends eui.Component{
         this.addChild( this._uiFocused);
     }
 	
-	private selectFooter(btn:eui.Button): void {
+	private selectFooter(btn:eui.ToggleButton): void {
 		if (this._btnFocused) {
 			this._btnFocused.selected = false;
 		}
 		
-		this._btnFocused = btn;
+        this._btnFocused = btn;
 		this._btnFocused.selected = true;
 	}
 	
-	private enableFooter(enabled:bool) : void {
+	private enableFooter(enabled:boolean) : void {
         for( var i:number = 0; i < this.btns.length; i++ ){
             this.btns[i].enabled = enabled;
         }

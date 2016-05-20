@@ -21,11 +21,6 @@
 				},
 				{
 					"isFolder":false,
-					"key":"MParrow_png",
-					"name":"MParrow_png"
-				},
-				{
-					"isFolder":false,
 					"key":"MPauction_png",
 					"name":"MPauction_png"
 				},
@@ -658,6 +653,21 @@
 					"isFolder":false,
 					"key":"icon_png",
 					"name":"icon_png"
+				},
+				{
+					"isFolder":false,
+					"key":"RGreen_png",
+					"name":"RGreen_png"
+				},
+				{
+					"isFolder":false,
+					"key":"RY_png",
+					"name":"RY_png"
+				},
+				{
+					"isFolder":false,
+					"key":"charge_png",
+					"name":"charge_png"
 				}
 			]
 		}

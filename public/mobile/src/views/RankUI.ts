@@ -22,7 +22,7 @@ class RankUI extends eui.Component {
 					} else if (i == 1) {
 						var bg = "RBlue_png";
 					} else if (i == 2) {
-						var bg = "RB_png";
+                        var bg = "RGreen_png";
 					} else {
 						var bg = "RG_png";
 					}

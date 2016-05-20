@@ -2,6 +2,8 @@ declare class auctionUISkin extends eui.Skin{
 }
 declare class buyAchieveUISkin extends eui.Skin{
 }
+declare class chargeTipUISkin extends eui.Skin{
+}
 declare class firstChargeBonusUISkin extends eui.Skin{
 }
 declare class giftUISkin extends eui.Skin{

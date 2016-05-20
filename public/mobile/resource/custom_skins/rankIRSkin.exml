@@ -1,8 +1,8 @@
 <?xml version='1.0' encoding='utf-8'?>
-<e:Skin class="rankIRSkin" width="396" height="70" xmlns:e="http://ns.egret.com/eui">
-	<e:Image height="70" width="100%" x="0" y="0" fillMode="clip" source="{data.bg}"/>
-	<e:Label fontFamily="微软雅黑" text="{data.name}" x="109" y="9" size="20" width="252" textAlign="center" verticalAlign="middle" textColor="0xFFFF00"/>
-	<e:Label fontFamily="微软雅黑" y="43" text="{data.metal}" textAlign="left" width="82" size="20" verticalAlign="middle" x="136" textColor="0x72E8FF" height="20"/>
-	<e:Label fontFamily="微软雅黑" y="42" text="{data.gold}" textAlign="left" width="86" size="20" verticalAlign="middle" x="271" textColor="0x72E8FF" height="20"/>
-	<e:Image height="42" width="44" x="39" y="16" source="{data.icon}"/>
+<e:Skin class="rankIRSkin" width="430" height="72" xmlns:e="http://ns.egret.com/eui">
+	<e:Image height="72" width="430" x="0" y="0" fillMode="clip" source="{data.bg}"/>
+	<e:Label fontFamily="微软雅黑" text="{data.name}" x="163" y="9" size="20" width="198" textAlign="left" verticalAlign="middle" textColor="0xFFFF00"/>
+	<e:Label fontFamily="微软雅黑" y="46" text="{data.metal}" textAlign="left" width="82" size="20" verticalAlign="middle" x="195" textColor="0x72E8FF" height="20"/>
+	<e:Label fontFamily="微软雅黑" y="48" text="{data.gold}" textAlign="left" width="86" size="20" verticalAlign="middle" x="330" textColor="0x72E8FF" height="20"/>
+	<e:Image height="60" width="64" x="89" y="7" source="{data.icon}"/>
 </e:Skin>

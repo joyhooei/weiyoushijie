@@ -5,7 +5,7 @@
 	<e:Label id="lblGold" y="30" text="0" x="84"/>
 	<e:Label id="lblDiamond" y="30" text="0" x="282"/>
 	
-	<e:Label id="lblMaxBid" y="141" text="0" x="315"/>
+	<e:Label id="lblMaxBid" y="182" text="0" x="315"/>
 	<e:Label id="lblLastBid" y="439" text="0" x="315"/>
 	<e:Label id="lblCurrentBid" y="358" text="0" x="315"/>
 	

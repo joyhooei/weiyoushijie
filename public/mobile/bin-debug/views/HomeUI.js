@@ -33,6 +33,12 @@ var HomeUI = (function (_super) {
         self.btnHelp.addEventListener(egret.TouchEvent.TOUCH_BEGIN, function () {
             application.showHelp("icon_png", "显示帮助内容");
         }, this);
+        self.btnAddGold.addEventListener(egret.TouchEvent.TOUCH_BEGIN, function () {
+            application.showUI(new BuyToolUI("time", 500, null, null, 0));
+        }, this);
+        self.btnAddDiamond.addEventListener(egret.TouchEvent.TOUCH_BEGIN, function () {
+            application.charge();
+        }, this);
         self.imgCharge.addEventListener(egret.TouchEvent.TOUCH_BEGIN, function () {
             if (application.customer.charge == 0) {
                 application.showUI(new FirstChargeBonusUI());
@@ -42,8 +48,17 @@ var HomeUI = (function (_super) {
             }
         }, this);
         /// 首次加载完成首先显示home
-        self.goHome();
+        self.gotoHome();
         self.renderOfflineGold();
+        self.earnGoldDynamically();
+    };
+    p.earnGoldDynamically = function () {
+        var seconds = 5;
+        var timer = new egret.Timer(seconds * 1000, 0);
+        timer.addEventListener(egret.TimerEvent.TIMER, function (event) {
+            this.earnGold(seconds);
+        }, this);
+        timer.start();
     };
     p.renderTotalHits = function () {
         var self = this;
@@ -109,7 +124,7 @@ var HomeUI = (function (_super) {
         self.mcBeauty = new egret.MovieClip(mcFactory.generateMovieClipData(""));
         self.mcBeauty.x = 70;
         self.mcBeauty.y = 90;
-        self.addChild(self.mcBeauty);
+        self.addChildAt(self.mcBeauty, 1);
         self.mcBeauty.touchEnabled = true;
         self.mcBeauty.addEventListener(egret.TouchEvent.TOUCH_BEGIN, function () {
             self.onBeauty();
@@ -124,24 +139,32 @@ var HomeUI = (function (_super) {
         }
     };
     p.onBeauty = function () {
-        var self = this;
-        self.mcBeauty.play(3);
-        application.customer.gold += self.getOutput();
+        this.mcBeauty.play(3);
+        this.earnGold(1);
+    };
+    p.earnGold = function (second) {
+        var gold = this.getOutput() * second;
+        application.customer.gold += gold;
+        this.animateStep(this.lblGold, application.usableGold() - gold, application.usableGold());
         application.dao.save("Customer", application.customer, null);
-        self.animateStep(self.lblGold, application.customer.gold + application.customer.output, application.customer.gold);
     };
     p.onHit = function () {
         var self = this;
+        if (self.hit > 0) {
+            return;
+        }
         if (application.customer.total_hits > 0) {
             application.customer.total_hits -= 1;
             application.dao.save("Customer", application.customer, null);
             self.lblTotalHits.text = "x" + application.customer.total_hits.toString();
             self.hit = 59;
             self.lblOutput.text = application.format(self.getOutput());
-            var timer = new egret.Timer(1000, 60);
+            var timer = new egret.Timer(1000, 59);
             timer.addEventListener(egret.TimerEvent.TIMER, function (event) {
                 self.lblHit.text = self.hit.toString();
-                self.hit = self.hit - 1;
+                if (self.hit > 0) {
+                    self.hit = self.hit - 1;
+                }
             }, this);
             timer.addEventListener(egret.TimerEvent.TIMER_COMPLETE, function (event) {
                 self.hit = 0;
@@ -208,62 +231,45 @@ var HomeUI = (function (_super) {
             }
         }
     };
-    p.resetFocus = function () {
-        if (this._uiFocused) {
-            if (this._uiFocused.parent) {
-                this._uiFocused.parent.removeChild(this._uiFocused);
-            }
-            this._uiFocused = null;
-        }
-        if (this._btnFocused != null) {
-            this._btnFocused.selected = false;
-            this._btnFocused.enabled = true;
-            this._btnFocused = null;
-        }
+    p.gotoHome = function () {
+        this._uiFocused = null;
+        this.selectFooter(this.btnHome);
     };
-    p.goHome = function () {
-        this._pageFocusedPrev = this._pageFocused = GamePages.HOME;
-        this._btnFocused = this.btnHome;
-        this.btnHome.selected = true;
-    };
-    p.goTool = function () {
+    p.gotoTool = function () {
         var _this = this;
         if (!this._toolUI) {
             this._toolUI = new ToolUI();
             this._toolUI.addEventListener(GameEvents.EVT_RETURN, function () {
-                _this.resetFocus();
-                _this.goHome();
+                _this.gotoPage(GamePages.HOME, true);
             }, this);
         }
         this._uiFocused = this._toolUI;
-        this.btnTool.selected = true;
+        this.selectFooter(this.btnTool);
     };
-    p.goRank = function () {
+    p.gotoRank = function () {
         var _this = this;
         if (!this._rankUI) {
             this._rankUI = new RankUI();
             this._rankUI.addEventListener(GameEvents.EVT_RETURN, function () {
-                _this.resetFocus();
-                _this.goHome();
+                _this.gotoPage(GamePages.HOME, true);
             }, this);
         }
         this._uiFocused = this._rankUI;
-        this.btnRank.selected = true;
+        this.selectFooter(this.btnRank);
     };
-    p.goAuction = function () {
+    p.gotoAuction = function () {
         var _this = this;
         if (!this._auctionUI) {
             this._auctionUI = new AuctionUI();
             this._auctionUI.addEventListener(GameEvents.EVT_RETURN, function () {
-                _this.resetFocus();
-                _this.goHome();
+                _this.gotoPage(GamePages.HOME, true);
             }, this);
         }
         else {
             this._auctionUI.refresh();
         }
         this._uiFocused = this._auctionUI;
-        this.btnAuction.selected = true;
+        this.selectFooter(this.btnAuction);
     };
     p.btnHandler = function (evt) {
         /// 已经选中不应当再处理!
@@ -271,61 +277,92 @@ var HomeUI = (function (_super) {
             this._btnFocused.selected = true;
             return;
         }
-        /// 逻辑生效，所有按钮锁定
-        for (var i = this.btns.length - 1; i > -1; --i) {
-            this.btns[i].enabled = false;
+        switch (evt.currentTarget) {
+            case this.btnHome:
+                this.gotoPage(GamePages.HOME, true);
+                break;
+            case this.btnRank:
+                this.gotoPage(GamePages.RANK, false);
+                break;
+            case this.btnTool:
+                this.gotoPage(GamePages.TOOL, false);
+                break;
+            case this.btnAuction:
+                this.gotoPage(GamePages.AUCTION, false);
+                break;
         }
-        /// 移除上一焦点对应的按钮
+    };
+    p.resetFocus = function () {
+        if (this._uiFocused) {
+            if (this._uiFocused.parent) {
+                this._uiFocused.parent.removeChild(this._uiFocused);
+            }
+            this._uiFocused = null;
+        }
         if (this._btnFocused) {
             this._btnFocused.selected = false;
             this._btnFocused.enabled = true;
+            this._btnFocused = null;
         }
-        /// 移除上一焦点对应的UI
-        if (this._uiFocused && this._uiFocused.parent) {
-            this._uiFocused.parent.removeChild(this._uiFocused);
+    };
+    p.gotoPage = function (pageName, pageReady) {
+        this._pageFocused = pageName;
+        this.resetFocus();
+        switch (pageName) {
+            case GamePages.HOME:
+                this.gotoHome();
+                return;
+            case GamePages.RANK:
+                if (this._rankUI || pageReady) {
+                    this.gotoRank();
+                }
+                else {
+                    this.loadPage();
+                }
+                break;
+            case GamePages.TOOL:
+                if (this._toolUI || pageReady) {
+                    this.gotoTool();
+                }
+                else {
+                    this.loadPage();
+                }
+                break;
+            case GamePages.AUCTION:
+                if (this._auctionUI || pageReady) {
+                    this.gotoAuction();
+                }
+                else {
+                    this.loadPage();
+                }
+                break;
         }
-        /// 设置当前焦点按钮
-        this._btnFocused = evt.currentTarget;
-        this._btnFocused.selected = true;
-        /// 焦点UI重置
-        this._uiFocused = null;
-        this._pageFocusedPrev = this._pageFocused;
-        switch (this._btnFocused) {
-            case this.btnHome:
-                this._pageFocused = GamePages.HOME;
-                break;
-            case this.btnRank:
-                this._pageFocused = GamePages.RANK;
-                break;
-            case this.btnTool:
-                this._pageFocused = GamePages.TOOL;
-                break;
-            case this.btnAuction:
-                this._pageFocused = GamePages.AUCTION;
-                break;
+        if (this._uiFocused) {
+            this._uiFocused.horizontalCenter = 0;
+            this._uiFocused.verticalCenter = 0;
+            this.addChild(this._uiFocused);
         }
+    };
+    p.loadPage = function () {
+        this.enableFooter(false);
         this.dispatchEventWith(GameEvents.EVT_LOAD_PAGE, false, this._pageFocused);
     };
     p.pageReadyHandler = function (pageName) {
-        /// 页面加载完成，所有非焦点按钮解锁
-        for (var i = 0; i < this.btns.length; i++) {
-            this.btns[i].enabled = true;
-        }
-        switch (pageName) {
-            case GamePages.HOME:
-                this.goHome();
-                break;
-            case GamePages.RANK:
-                this.goRank();
-                break;
-            case GamePages.TOOL:
-                this.goTool();
-                break;
-            case GamePages.AUCTION:
-                this.goAuction();
-                break;
-        }
+        this.enableFooter(true);
+        this.gotoPage(pageName, true);
         this.addChild(this._uiFocused);
+    };
+    p.selectFooter = function (btn) {
+        if (this._btnFocused) {
+            this._btnFocused.selected = false;
+        }
+        this._btnFocused = btn;
+        this._btnFocused.selected = true;
+    };
+    p.enableFooter = function (enabled) {
+        for (var i = 0; i < this.btns.length; i++) {
+            this.btns[i].enabled = enabled;
+        }
     };
     return HomeUI;
 }(eui.Component));

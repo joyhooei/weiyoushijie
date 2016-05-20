@@ -52,7 +52,7 @@ class GiftUI extends eui.Component {
 	private onBidGift() {
         if (this.gifts[2].locked == 0) {
             this.pick(2,this.imgPick3);
-        } else if (this.gifts[2].locked == 1) { {
+        } else if (this.gifts[2].locked == 1) {
             application.gotoAuction();
         }
 	}
@@ -60,7 +60,7 @@ class GiftUI extends eui.Component {
 	private onTicketGift() {
         if (this.gifts[3].locked == 0) {
             this.pick(3,this.imgPick4);
-        } else if (this.gifts[3].locked == 1) { {
+        } else if (this.gifts[3].locked == 1) {
             application.gotoTool();
         }
 	}
@@ -70,14 +70,14 @@ class GiftUI extends eui.Component {
 		
         if (self.gifts[4].locked == 0) {
             self.pick(4,self.imgPick5);
-        } else if (self.gifts[4].locked == 1) { {
-			nest.share.share({title:'', description:'', url:'', imageUrl:''}, function (data) {
+        } else if (self.gifts[4].locked == 1) {
+            nest.share.share({ title: '',description: '',url: '',img_url: '',img_title:''}, function (data) {
 				if(data.result == 0) {
 					self.gifts[4].locked = 0;
 					
 					application.dao.save("Gift",self.gifts[4], null);
 					
-					self.setImage(self.imgPick5,gifts[4]);
+					self.setImage(self.imgPick5,self.gifts[4]);
 				} else if(data.result == -1) {
 					Toast.launch("取消了分享");
 				} else {
@@ -90,7 +90,7 @@ class GiftUI extends eui.Component {
     private onFirstChargeGift() {
         if (this.gifts[5].locked == 0) {
             this.pick(5,this.imgPick6);
-        } else if (this.gifts[5].locked == 1) { {
+        } else if (this.gifts[5].locked == 1) {
             application.showUI(new FirstChargeBonusUI());
         }
     }

@@ -122,6 +122,14 @@ var application;
         });
     }
     application.pay = pay;
+    function gotoAuction() {
+        application.main.homeUI.gotoPage(GamePages.AUCTION, false);
+    }
+    application.gotoAuction = gotoAuction;
+    function gotoTool() {
+        application.main.homeUI.gotoPage(GamePages.TOOL, false);
+    }
+    application.gotoTool = gotoTool;
     function showHelp(icon, content) {
         return application.showUI(new HelpUI(icon, content));
     }

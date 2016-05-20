@@ -1,9 +1,9 @@
 <?xml version='1.0' encoding='utf-8'?>
-<e:Skin class="RankUISkin" width="470" height="700" xmlns:e="http://ns.egret.com/eui">
-	<e:Image x="0" y="0" source="RB_png"/>
-	<e:Scroller id="scrRank" height="560" width="400" x="33" y="90">
+<e:Skin class="RankUISkin" width="480" height="655" xmlns:e="http://ns.egret.com/eui">
+	<e:Image x="0" y="0" source="RB_png" width="480" height="655" fillMode="clip"/>
+	<e:Scroller id="scrRank" height="600" width="440" x="21" y="30">
 		<e:viewport>
-			<e:List id="listRank" height="660" width="370">
+			<e:List id="listRank" height="600" width="440">
 				<e:layout> 
 					<e:VerticalLayout verticalAlign="top" gap="20"/>
 				</e:layout>
