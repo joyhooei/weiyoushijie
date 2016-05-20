@@ -452,7 +452,13 @@ class HomeUI extends eui.Component{
 					this.loadPage();
 				}
                 break;
-        }	
+        }
+        
+        if (this._uiFocused) {
+			this._uiFocused.horizontalCenter = 0;
+			this._uiFocused.verticalCenter   = 0;
+			this.addChild(this._uiFocused);         
+        }
 	}
 	
 	private loadPage(): void {
