@@ -233,11 +233,13 @@ class HomeUI extends eui.Component{
     		self.hit = 59;
     		self.lblOutput.text = application.format(self.getOutput());
     
-    		var timer: egret.Timer = new egret.Timer(1000, 60);
+    		var timer: egret.Timer = new egret.Timer(1000, 59);
     		timer.addEventListener(egret.TimerEvent.TIMER, function(event:egret.TimerEvent){
     			self.lblHit.text = self.hit.toString();
     
-    			self.hit = self.hit - 1;
+				if (self.hit > 0) {
+    				self.hit = self.hit - 1;
+				}
     		}, this);
     
     		timer.addEventListener(egret.TimerEvent.TIMER_COMPLETE, function(event:egret.TimerEvent){
