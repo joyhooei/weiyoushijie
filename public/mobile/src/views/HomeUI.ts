@@ -219,6 +219,10 @@ class HomeUI extends eui.Component{
 	
 	private onHit(): void {
 		var self = this;
+        
+        if (self.hit > 0) {
+        	return;
+		}
 		
 		if (application.customer.total_hits > 0) {
             application.customer.total_hits -= 1;
