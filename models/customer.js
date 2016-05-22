@@ -5,7 +5,7 @@ var Project = require('./project');
 
 module.exports.expireTicket = function() {
     var query = new AV.Query(dao.Customer);
-    query.startWith('ticket_expire', '2');
+    query.startsWith('ticket_expire', '2');
     
     query.count().then(function(count) {
 		query.limit(1000);

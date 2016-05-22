@@ -70,8 +70,8 @@ router.post('/login', function(req, res, next) {
 	url += "sign=" + sign;
 	
 	var request = require('request');
-	request.post({url:url},function (err, response, body) {
-		if (!err && response.statusCode == 200) {
+	request.post({url:url},function (error, response, body) {
+		if (!error && response.statusCode == 200) {
 			var result = JSON.parse(body);
 			if (result.code == 0) {
 				var query = new AV.Query(dao.Customer);
@@ -91,16 +91,20 @@ router.post('/login', function(req, res, next) {
 						
 						_succeed(res, _decode(customer));
 					}, function(error){
+						console.error("save customer failed " + error.message);
 						_failed(res, error);
 					})				
 				}, function(error){
+					console.error("find customer failed " + error.message);
 					_failed(res, error);
 				})
 			} else {
+				console.error("get info failed " + result.msg);
 				_failed(res, new Error(result.msg));
 			}
 		} else {
-			_failed(res, err);
+			console.error("post request failed " + error.message);
+			_failed(res, error);
 		}
 	});
 });

@@ -67,7 +67,7 @@ var ProjectItem = (function (_super) {
             img.source = icon;
             grp.addChild(img);
             img.addEventListener(egret.TouchEvent.TOUCH_TAP, function () {
-                application.showHelp(icon, "成就帮助");
+                application.showHelp("成就帮助");
             }, this);
         }
         else {
@@ -87,7 +87,7 @@ var ProjectItem = (function (_super) {
                 img.source = "acvlock_png";
                 grp.addChild(img);
                 img.addEventListener(egret.TouchEvent.TOUCH_TAP, function () {
-                    application.showHelp(icon, "成就帮助");
+                    application.showHelp("成就帮助");
                 }, this);
             }
         }

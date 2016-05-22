@@ -31,7 +31,7 @@ var HomeUI = (function (_super) {
             application.showUI(new GiftUI());
         }, this);
         self.btnHelp.addEventListener(egret.TouchEvent.TOUCH_BEGIN, function () {
-            application.showHelp("icon_png", "显示帮助内容");
+            application.showHelp("");
         }, this);
         self.btnAddGold.addEventListener(egret.TouchEvent.TOUCH_BEGIN, function () {
             application.showUI(new BuyToolUI("time", 500, null, null, 0));

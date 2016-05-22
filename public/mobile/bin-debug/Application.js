@@ -130,8 +130,15 @@ var application;
         application.main.homeUI.gotoPage(GamePages.TOOL, false);
     }
     application.gotoTool = gotoTool;
-    function showHelp(icon, content) {
-        return application.showUI(new HelpUI(icon, content));
+    function showHelp(content) {
+        if (content.length == 0) {
+            content = "\
+            玩法\n\
+            点击跳舞人偶产生金币，可以用来升级运营项目。运营项目随等级提高会产生更多的金币。金币可以用来参加头条拍卖，每天最高出价者会成为头条，获得勋章和钻石奖励。道具可以帮助玩家快速获得大量金币和永久提高运营项目的秒产。排行榜会按照勋章的多少排明，勋章数量相同则按照获得金币的总量排名。\n\
+            玩法\n\
+            点击跳舞人偶产生金币，可以用来升级运营项目。运营项目随等级提高会产生更多的金币。金币可以用来参加头条拍卖，每天最高出价者会成为头条，获得勋章和钻石奖励。道具可以帮助玩家快速获得大量金币和永久提高运营项目的秒产。排行榜会按照勋章的多少排明，勋章数量相同则按照获得金币的总量排名。";
+        }
+        return application.showUI(new HelpUI(content));
     }
     application.showHelp = showHelp;
     function showUI(ui) {

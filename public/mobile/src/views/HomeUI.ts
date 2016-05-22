@@ -86,7 +86,7 @@ class HomeUI extends eui.Component{
         }, this);
                 
         self.btnHelp.addEventListener(egret.TouchEvent.TOUCH_BEGIN, function() {
-			application.showHelp("icon_png", "显示帮助内容");
+			application.showHelp("");
         }, this);
                 
         self.btnAddGold.addEventListener(egret.TouchEvent.TOUCH_BEGIN, function() {

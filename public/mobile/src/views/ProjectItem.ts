@@ -98,7 +98,7 @@ class ProjectItem extends eui.Component {
             grp.addChild(img);
 
             img.addEventListener(egret.TouchEvent.TOUCH_TAP,() => {
-                application.showHelp(icon,"成就帮助");
+                application.showHelp("成就帮助");
             },this);
         } else {
             if(this._myProject.level > this._project.levelOfAchieve(achieve - 1)) {
@@ -120,7 +120,7 @@ class ProjectItem extends eui.Component {
                 grp.addChild(img);
 
                 img.addEventListener(egret.TouchEvent.TOUCH_TAP,() => {
-                    application.showHelp(icon,"成就帮助");
+                    application.showHelp("成就帮助");
                 },this);
             }
         }
