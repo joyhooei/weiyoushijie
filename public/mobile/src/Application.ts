@@ -1,15 +1,15 @@
 module application {
     export var main: Main;
-    export var router: Router;
     export var dao: Dao;
+    
     export var customer: any;
     export var bid: any;
+    
     export var projects: Project[];
 
     export function init(main:Main) {
 		application.main = main;
 		
-        application.router = new Router(main);
         application.dao = new Dao("http://headlines.leanapp.cn/api/");
         //application.dao = new Dao("http://localhost:3000/api/");
         
@@ -174,7 +174,7 @@ module application {
         return ui;
     }
     
-    export function back(ui: eui.Component): eui.Component {
+    export function hideUI(ui: eui.Component): eui.Component {
         ui.parent.removeChild(ui);
         
         return ui;
