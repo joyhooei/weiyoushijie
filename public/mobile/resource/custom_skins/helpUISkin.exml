@@ -4,7 +4,9 @@
 	<e:Image id="imgBack" width="52" height="53" x="401" y="3" source="helpx_png" fillMode="clip"/>
 	<e:Scroller width="380" height="480" x="35" y="104">
 		<e:viewport>
-			<e:Label id="lblContent" x="0" y="0" width="380" height="655" size="24" text=""/>
+			<e:Group>
+				<e:Label id="lblContent" x="0" y="0" width="380" height="1000" size="24" text=""/>
+			</e:Group>
 		</e:viewport>
 	</e:Scroller>
 </e:Skin>
