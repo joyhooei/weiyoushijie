@@ -18,7 +18,7 @@ class GiftUI extends eui.Component {
         this.skinName = "resource/custom_skins/giftUISkin.exml";
 
         this.imgRet.addEventListener(egret.TouchEvent.TOUCH_BEGIN,function() {
-            this.back();
+            application.hideUI(this);
         },this);	
         
         this.imgPick1.addEventListener(egret.TouchEvent.TOUCH_BEGIN, function(ev){
@@ -154,9 +154,5 @@ class GiftUI extends eui.Component {
                 }
             });
         }
-    }
-
-    private back(): void {
-        this.parent.removeChild(this);
     }
 }
