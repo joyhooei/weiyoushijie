@@ -8,7 +8,7 @@ class FirstChargeBonusUI extends eui.Component{
         this.skinName = "resource/custom_skins/firstChargeBonusUISkin.exml";
         
         this.btnCancel.addEventListener( egret.TouchEvent.TOUCH_TAP, ()=>{
-            application.back(this);
+            application.hideUI(this);
         }, this );
         
         this.btnCharge.addEventListener(egret.TouchEvent.TOUCH_TAP,() => {
