@@ -322,4 +322,8 @@ class Project {
 	public levelOfAchieve(achieve: number): number {
 		return this._achieves[achieve].level;
 	}
+	
+	public outputRatioOfAchieve(achieve: number): number {
+		return this._achieves[achieve].outputRatio;
+	}
 }
