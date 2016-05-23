@@ -11,7 +11,7 @@ class HelpUI extends eui.Component{
         this.lblContent.text = content;
         
         this.imgBack.addEventListener( egret.TouchEvent.TOUCH_TAP, ()=>{
-            application.back(this);
+            application.hideUI(this);
         }, this );        
     }
 }
