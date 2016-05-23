@@ -22,7 +22,7 @@ class LandingUI extends eui.Component {
     }
 	
 	private login(): void {
-		application.back(this);
+		application.hideUI(this);
 		
         var loginTypes: Array<nest.easyuser.ILoginType> = nest.easyuser.getLoginTypes();
 		if (loginTypes.length > 0) {
