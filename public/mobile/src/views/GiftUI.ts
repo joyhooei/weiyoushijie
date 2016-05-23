@@ -71,19 +71,13 @@ class GiftUI extends eui.Component {
         if (self.gifts[4].locked == 0) {
             self.pick(4,self.imgPick5);
         } else if (self.gifts[4].locked == 1) {
-            nest.share.share({ title: '',description: '',url: '',img_url: '',img_title:''}, function (data) {
-				if(data.result == 0) {
-					self.gifts[4].locked = 0;
-					
-					application.dao.save("Gift",self.gifts[4], null);
-					
-					self.setImage(self.imgPick5,self.gifts[4]);
-				} else if(data.result == -1) {
-					Toast.launch("取消了分享");
-				} else {
-					Toast.launch("分享失败");
-				}
-			})  
+            application.share(function () {
+                self.gifts[4].locked = 0;
+
+                application.dao.save("Gift",self.gifts[4], null);
+
+                self.setImage(self.imgPick5,self.gifts[4]);
+			})
         }
     }
     
