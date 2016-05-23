@@ -128,6 +128,20 @@ module application {
         })
     }
     
+    export function share(callback:Function): void {
+        var url = "http://headlines.leanapp.cn/mobile/index.html?platInfo=open_90240_9166&egret.runtime.spid=9166&appId=90240&channelId=9166&egretSdkDomain=http://api.egret-labs.org/v2&egretServerDomain=http://api.egret-labs.org/v2";
+        var img_url = "http://headlines.leanapp.cn/mobile/resource/art/home/icon.png";
+        nest.share.share({ title: '我要上头条',description: '我要上头条',url: url, img_url: img_url,img_title:'我要上头条'}, function (data) {
+            if(data.result == 0) {
+                callback();
+            } else if(data.result == -1) {
+                Toast.launch("取消了分享");
+            } else {
+                Toast.launch("分享失败");
+            }
+        })
+    }
+    
     export function gotoAuction(): void {
         application.main.homeUI.gotoPage(GamePages.AUCTION, false);
     }
