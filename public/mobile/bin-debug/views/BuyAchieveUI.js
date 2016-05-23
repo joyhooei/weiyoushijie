@@ -12,7 +12,7 @@ var BuyAchieveUI = (function (_super) {
     p.uiCompHandler = function () {
         var _this = this;
         this.imgBack.addEventListener(egret.TouchEvent.TOUCH_TAP, function () {
-            _this.parent.removeChild(_this);
+            application.hideUI(_this);
         }, this);
         var p = this._project.goldPriceOfAchieve(this._myProject.achieve + 1);
         this.lblGold.text = p.toString();
@@ -53,7 +53,7 @@ var BuyAchieveUI = (function (_super) {
                         Toast.launch("获得成就失败");
                     }
                     else {
-                        self.parent.removeChild(self);
+                        application.hideUI(self);
                     }
                 });
             }
@@ -74,7 +74,7 @@ var BuyAchieveUI = (function (_super) {
                         Toast.launch("获得成就失败");
                     }
                     else {
-                        self.parent.removeChild(self);
+                        application.hideUI(self);
                     }
                 });
             }

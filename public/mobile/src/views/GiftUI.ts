@@ -126,7 +126,11 @@ class GiftUI extends eui.Component {
     
     private setImage(imgPic: eui.Image, gift:any) {
         if(gift.locked == 1) {
-            imgPic.source = "unpick_png";
+            if (gift.category == 5) {
+                imgPic.source = "share_png";
+            } else {
+                imgPic.source = "unpick_png";
+            }
         } else if(gift.locked == 0) {
             imgPic.source = "pick_png";
         } else {

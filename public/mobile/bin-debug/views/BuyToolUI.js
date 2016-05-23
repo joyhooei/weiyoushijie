@@ -11,13 +11,11 @@ var BuyToolUI = (function (_super) {
         this.skinName = "resource/custom_skins/buyToolUISkin.exml";
     }
     var d = __define,c=BuyToolUI,p=c.prototype;
-    p.back = function () {
-        application.back(this);
-    };
     p.uiCompHandler = function () {
         var _this = this;
         this.imgBack.addEventListener(egret.TouchEvent.TOUCH_TAP, function () {
-            _this.back();
+            application.hideUI(_this);
+            ;
         }, this);
         if (application.customer.diamond < this._price) {
             this.imgBuy.source = "buttoncoinno_png";
@@ -61,7 +59,7 @@ var BuyToolUI = (function (_super) {
                 application.buyOutput(0, self._price, self.output() - oldOutput, self._myProject, function (succeed, c) {
                     if (succeed) {
                         Toast.launch("购买成功");
-                        self.back();
+                        application.hideUI(self);
                     }
                     else {
                         Toast.launch("购买失败");
@@ -83,7 +81,7 @@ var BuyToolUI = (function (_super) {
         application.dao.save("Customer", application.customer, function (succeed, data) {
             Toast.launch("购买了时光沙漏");
             application.refreshCustomer(application.customer.output * 3600 * 48, -500, 0, 0, null);
-            self.back();
+            application.hideUI(self);
         });
     };
     p.buyHit = function () {
@@ -93,7 +91,7 @@ var BuyToolUI = (function (_super) {
         application.dao.save("Customer", application.customer, function (succeed, data) {
             Toast.launch("购买了爆击");
             application.refreshCustomer(0, -100, 3, 0, null);
-            self.back();
+            application.hideUI(self);
         });
     };
     return BuyToolUI;

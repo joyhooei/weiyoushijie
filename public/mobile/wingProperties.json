@@ -668,6 +668,26 @@
 					"isFolder":false,
 					"key":"charge_png",
 					"name":"charge_png"
+				},
+				{
+					"isFolder":false,
+					"key":"share_png",
+					"name":"share_png"
+				},
+				{
+					"isFolder":false,
+					"key":"upgrade100b_png",
+					"name":"upgrade100b_png"
+				},
+				{
+					"isFolder":false,
+					"key":"upgrade10b_png",
+					"name":"upgrade10b_png"
+				},
+				{
+					"isFolder":false,
+					"key":"upgradeb_png",
+					"name":"upgradeb_png"
 				}
 			]
 		}

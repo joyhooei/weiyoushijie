@@ -17,6 +17,7 @@ var LandingUI = (function (_super) {
         }, self);
     };
     p.login = function () {
+        application.hideUI(this);
         var loginTypes = nest.easyuser.getLoginTypes();
         if (loginTypes.length > 0) {
             //需要显示对应的登录按钮
@@ -30,7 +31,7 @@ var LandingUI = (function (_super) {
                     }
                 });
             });
-            application.router.changePage(loginView);
+            application.showUI(loginView);
         }
         else {
             //不需要登录按钮，直接调用登录进游戏

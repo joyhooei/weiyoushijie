@@ -242,6 +242,9 @@ var Project = (function () {
     p.levelOfAchieve = function (achieve) {
         return this._achieves[achieve].level;
     };
+    p.outputRatioOfAchieve = function (achieve) {
+        return this._achieves[achieve].outputRatio;
+    };
     return Project;
 }());
 egret.registerClass(Project,'Project');

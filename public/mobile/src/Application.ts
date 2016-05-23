@@ -145,6 +145,7 @@ module application {
 			} else {
 				Toast.launch("当前平台不支持分享");
 			}
+		});
     }
     
     export function gotoAuction(): void {

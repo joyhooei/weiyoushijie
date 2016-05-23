@@ -6,7 +6,7 @@ var HelpUI = (function (_super) {
         this.skinName = "resource/custom_skins/helpUISkin.exml";
         this.lblContent.text = content;
         this.imgBack.addEventListener(egret.TouchEvent.TOUCH_TAP, function () {
-            application.back(_this);
+            application.hideUI(_this);
         }, this);
     }
     var d = __define,c=HelpUI,p=c.prototype;

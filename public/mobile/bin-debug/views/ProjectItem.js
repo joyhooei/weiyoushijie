@@ -62,16 +62,20 @@ var ProjectItem = (function (_super) {
         var grp = new eui.Group();
         var img = new eui.Image();
         var icon = "acv" + achieve.toString() + "_png";
+        var tiltels = ['英勇黄铜', '不屈白银', '荣耀黄金', '华贵铂金', '璀璨钻石', '超凡大师', '最强王者', '近神Dominating', '神Godlike', '超神Legendary'];
+        var help = tiltels[achieve - 1] + "\n";
+        help += "完成成就提高金币产量" + this._project.outputRatioOfAchieve(achieve - 1).toString() + "倍，并获得100钻石奖励。\n";
+        help += this._project.levelOfAchieve(achieve - 1).toString() + "级 解锁成就\n";
         if (achieve <= this._myProject.achieve) {
             //已经购买的成就
             img.source = icon;
             grp.addChild(img);
             img.addEventListener(egret.TouchEvent.TOUCH_TAP, function () {
-                application.showHelp("成就帮助");
+                application.showHelp(help);
             }, this);
         }
         else {
-            if (this._myProject.level > this._project.levelOfAchieve(achieve - 1)) {
+            if (this._myProject.level >= this._project.levelOfAchieve(achieve - 1)) {
                 //可以购买的成就
                 img.source = icon;
                 grp.addChild(img);
@@ -87,7 +91,7 @@ var ProjectItem = (function (_super) {
                 img.source = "acvlock_png";
                 grp.addChild(img);
                 img.addEventListener(egret.TouchEvent.TOUCH_TAP, function () {
-                    application.showHelp("成就帮助");
+                    application.showHelp(help);
                 }, this);
             }
         }
@@ -106,9 +110,16 @@ var ProjectItem = (function (_super) {
         this.lblLevel.text = this._myProject.level;
         this.lblOutput.text = application.format(this.output());
         this.lblPrice.text = application.format(this._project.priceOf(this._myProject.level + 1));
-        this.imgUpgrade10.source = "upgrade10_png";
-        this.imgUpgrade100.source = "upgrade100_png";
-        this.imgUpgrade.source = 'upgrade_png';
+        if (this._myProject.sequence % 2 == 0) {
+            this.imgUpgrade10.source = "upgrade10_png";
+            this.imgUpgrade100.source = "upgrade100_png";
+            this.imgUpgrade.source = 'upgrade_png';
+        }
+        else {
+            this.imgUpgrade10.source = "upgrade10b_png";
+            this.imgUpgrade100.source = "upgrade100b_png";
+            this.imgUpgrade.source = 'upgradeb_png';
+        }
         this.renderAchieves();
     };
     p.upgrade = function (step) {

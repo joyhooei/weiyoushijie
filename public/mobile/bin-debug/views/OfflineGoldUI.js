@@ -10,7 +10,7 @@ var OfflineGoldUI = (function (_super) {
         this.imgOK.addEventListener(egret.TouchEvent.TOUCH_TAP, function () {
             application.customer.gold += gold;
             application.dao.save("Customer", application.customer, null);
-            application.back(_this);
+            application.hideUI(_this);
             application.refreshCustomer(gold, 0, 0, 0, null);
         }, this);
     }

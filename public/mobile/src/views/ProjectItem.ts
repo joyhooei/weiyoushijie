@@ -141,7 +141,7 @@ class ProjectItem extends eui.Component {
         this.imgUpgrade10.source = "upgrade10g_png";
         this.imgUpgrade100.source = "upgrade100g_png";           
         this.imgUpgrade.source = 'upgradeg_png';
-		
+ 		
 		this.renderAchieves();			
 	}
 	
@@ -150,9 +150,15 @@ class ProjectItem extends eui.Component {
 		this.lblOutput.text = application.format(this.output());
 		this.lblPrice.text  = application.format(this._project.priceOf(this._myProject.level + 1));
 		
-        this.imgUpgrade10.source = "upgrade10_png";
-		this.imgUpgrade100.source = "upgrade100_png";           
-        this.imgUpgrade.source = 'upgrade_png';
+        if(this._myProject.sequence % 2 == 0) {        
+            this.imgUpgrade10.source = "upgrade10_png";
+		    this.imgUpgrade100.source = "upgrade100_png";           
+            this.imgUpgrade.source = 'upgrade_png';
+        } else {
+            this.imgUpgrade10.source = "upgrade10b_png";
+            this.imgUpgrade100.source = "upgrade100b_png";
+            this.imgUpgrade.source = 'upgradeb_png';
+        }
 		
 		this.renderAchieves();
 	}

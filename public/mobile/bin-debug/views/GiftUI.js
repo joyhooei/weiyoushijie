@@ -5,7 +5,7 @@ var GiftUI = (function (_super) {
         this.addEventListener(eui.UIEvent.COMPLETE, this.uiCompHandler, this);
         this.skinName = "resource/custom_skins/giftUISkin.exml";
         this.imgRet.addEventListener(egret.TouchEvent.TOUCH_BEGIN, function () {
-            this.back();
+            application.hideUI(this);
         }, this);
         this.imgPick1.addEventListener(egret.TouchEvent.TOUCH_BEGIN, function (ev) {
             this.onLoginGift();
@@ -55,18 +55,10 @@ var GiftUI = (function (_super) {
             self.pick(4, self.imgPick5);
         }
         else if (self.gifts[4].locked == 1) {
-            nest.share.share({ title: '', description: '', url: '', img_url: '', img_title: '' }, function (data) {
-                if (data.result == 0) {
-                    self.gifts[4].locked = 0;
-                    application.dao.save("Gift", self.gifts[4], null);
-                    self.setImage(self.imgPick5, self.gifts[4]);
-                }
-                else if (data.result == -1) {
-                    Toast.launch("取消了分享");
-                }
-                else {
-                    Toast.launch("分享失败");
-                }
+            application.share(function () {
+                self.gifts[4].locked = 0;
+                application.dao.save("Gift", self.gifts[4], null);
+                self.setImage(self.imgPick5, self.gifts[4]);
             });
         }
     };
@@ -107,7 +99,12 @@ var GiftUI = (function (_super) {
     };
     p.setImage = function (imgPic, gift) {
         if (gift.locked == 1) {
-            imgPic.source = "unpick_png";
+            if (gift.category == 5) {
+                imgPic.source = "share_png";
+            }
+            else {
+                imgPic.source = "unpick_png";
+            }
         }
         else if (gift.locked == 0) {
             imgPic.source = "pick_png";
@@ -132,9 +129,6 @@ var GiftUI = (function (_super) {
                 }
             });
         }
-    };
-    p.back = function () {
-        this.parent.removeChild(this);
     };
     return GiftUI;
 }(eui.Component));
