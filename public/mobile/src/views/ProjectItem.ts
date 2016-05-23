@@ -91,6 +91,11 @@ class ProjectItem extends eui.Component {
         let img = new eui.Image();
 
         var icon = "acv" + achieve.toString() + "_png";
+        
+        var tiltels = ['英勇黄铜', '不屈白银', '荣耀黄金', '华贵铂金', '璀璨钻石', '超凡大师', '最强王者', '近神Dominating', '神Godlike', '超神Legendary'];
+        var help = tiltels[achieve - 1] + "\n";
+        help += "完成成就提高金币产量" + this._project.outputRatioOfAchieve(achieve - 1) + "倍，并获得100钻石奖励。\n";
+        help += "+ " + this._project.levelOfAchieve(achieve - 1).toString() + "级 解锁成就\n";
 
         if(achieve <= this._myProject.achieve) {
             //已经购买的成就
@@ -98,7 +103,7 @@ class ProjectItem extends eui.Component {
             grp.addChild(img);
 
             img.addEventListener(egret.TouchEvent.TOUCH_TAP,() => {
-                application.showHelp("成就帮助");
+                application.showHelp(help);
             },this);
         } else {
             if(this._myProject.level >= this._project.levelOfAchieve(achieve - 1)) {
@@ -120,7 +125,7 @@ class ProjectItem extends eui.Component {
                 grp.addChild(img);
 
                 img.addEventListener(egret.TouchEvent.TOUCH_TAP,() => {
-                    application.showHelp("成就帮助");
+                    application.showHelp(help);
                 },this);
             }
         }
