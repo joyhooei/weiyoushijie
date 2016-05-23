@@ -28,7 +28,7 @@ class BuyAchieveUI extends eui.Component{
 
     private uiCompHandler():void {
         this.imgBack.addEventListener( egret.TouchEvent.TOUCH_TAP, ()=>{
-            this.parent.removeChild(this);
+            application.hideUI(this);
         }, this );
         
         let p = this._project.goldPriceOfAchieve(this._myProject.achieve + 1);
@@ -72,7 +72,7 @@ class BuyAchieveUI extends eui.Component{
 					if (!succeed) {
 						Toast.launch("获得成就失败");    
 					} else {
-					    self.parent.removeChild(self);
+					    application.hideUI(self);
 					}
 				});
 			} else {
@@ -93,7 +93,7 @@ class BuyAchieveUI extends eui.Component{
 					if (!succeed) {
 						Toast.launch("获得成就失败");    
 					} else {
-                        self.parent.removeChild(self);
+                        application.hideUI(self);
 					}
 				});
 			} else {
