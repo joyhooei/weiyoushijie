@@ -29,14 +29,10 @@ class BuyToolUI extends eui.Component{
         
         this.skinName = "resource/custom_skins/buyToolUISkin.exml";
     }
-	
-	private back() {
-        application.back(this);
-	}
 
     private uiCompHandler():void {
         this.imgBack.addEventListener( egret.TouchEvent.TOUCH_TAP, ()=>{
-            this.back();
+            application.hideUI(this);;
         }, this );
         
         if (application.customer.diamond < this._price) {
@@ -81,7 +77,7 @@ class BuyToolUI extends eui.Component{
 					if (succeed) {
 						Toast.launch("购买成功");
 						
-                        self.back();
+                        application.hideUI(self);
 					} else {
 						Toast.launch("购买失败");    
 					}
@@ -106,7 +102,7 @@ class BuyToolUI extends eui.Component{
 
 			application.refreshCustomer(application.customer.output * 3600 * 48, -500, 0, 0, null);
 			
-            self.back();
+            application.hideUI(self);
 		});
 	}
 	
@@ -120,7 +116,7 @@ class BuyToolUI extends eui.Component{
 
 			application.refreshCustomer(0, -100, 3, 0, null);
 			
-            self.back();
+            application.hideUI(self);
 		});
 	}
 }
