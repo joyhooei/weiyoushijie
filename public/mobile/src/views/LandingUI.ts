@@ -22,8 +22,9 @@ class LandingUI extends eui.Component {
     }
 	
 	private login(): void {
+		application.back(this);
+		
         var loginTypes: Array<nest.easyuser.ILoginType> = nest.easyuser.getLoginTypes();
-
 		if (loginTypes.length > 0) {
 			//需要显示对应的登录按钮
             var loginView: LoginUI = new LoginUI(loginTypes,function(logType: nest.easyuser.ILoginType) {
@@ -35,8 +36,8 @@ class LandingUI extends eui.Component {
 					}
 				});
 			});
-
-			application.router.changePage(loginView);
+			
+			application.showUI(loginView);
 		} else {
 			//不需要登录按钮，直接调用登录进游戏
             nest.easyuser.login({}, function (data:nest.user.LoginCallbackInfo) {
