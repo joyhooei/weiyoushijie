@@ -101,7 +101,7 @@ class ProjectItem extends eui.Component {
                 application.showHelp("成就帮助");
             },this);
         } else {
-            if(this._myProject.level > this._project.levelOfAchieve(achieve - 1)) {
+            if(this._myProject.level >= this._project.levelOfAchieve(achieve - 1)) {
                 //可以购买的成就
                 img.source = icon;
                 grp.addChild(img);
