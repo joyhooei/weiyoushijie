@@ -9,7 +9,7 @@ class Dao {
 		this.rest("select/" + model, {conditions: conditions, filters: filters}, cb);
 	}
 	
-	public save(model:string, data:any, cb: Function) {
+	public save(model:string, data:any, cb?: Function) {
         var _cb = function(succeed:number, result: any) {
             if (succeed) {
                 data = result;
