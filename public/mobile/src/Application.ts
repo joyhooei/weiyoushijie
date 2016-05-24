@@ -89,7 +89,7 @@ module application {
 		
 		if (Math.floor(Math.log10(application.customer.output + output)) > Math.floor(Math.log10(application.customer.output))) {
 			application.dao.fetch("Gift", {customer_id: application.customer.id, category: 7}, {limit 1}, function(succeed, gifts){
-				if (succeed) {
+				if (succeed && gifts.length > 0) {
 					var gift = gifts[0];
 					gift.locked = 0;
 					application.dao.save("Gift", gift);
