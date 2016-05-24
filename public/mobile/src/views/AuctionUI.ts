@@ -13,7 +13,8 @@ class AuctionUI extends eui.Component{
 	private imgFront: eui.Image;
 	private imgThumb: eui.Image;
 	
-    private btnGift: eui.Button;
+    private btnAddGold: eui.Button;
+    private btnAddDiamond: eui.Button;
     private btnHelp: eui.Button;
 	
 	private bid:any;
@@ -62,6 +63,10 @@ class AuctionUI extends eui.Component{
                 
         this.btnAddDiamond.addEventListener(egret.TouchEvent.TOUCH_BEGIN, function() {
 			application.charge();
+        }, this);
+                
+        this.btnHelp.addEventListener(egret.TouchEvent.TOUCH_BEGIN, function() {
+			application.showHelp("拍卖每天中午12点结束, 出价最高者成为今日头条，获得勋章一枚和2000钻石的奖励，未中标玩家的拍卖金币自动返还。拍卖期间系统显示截至上个小时的最高出价，为新出价的玩家提供参考。玩家在拍卖结束前可以反复加价，每次加价最高为当前拥有的所有金币。每天首次参加拍卖可以在礼物页面中领取100钻石奖励。");
         }, this);
     }
 	
