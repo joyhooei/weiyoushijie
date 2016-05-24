@@ -86,7 +86,18 @@ module application {
     export function buyOutput(gold:number, diamond: number, output:number, proj:any, cb: Function): void {
         application.customer.gold      -= gold;
         application.customer.diamond   -= diamond;
-        application.customer.output    += output;
+		
+		if (Math.floor(Math.log10(application.customer.output + output)) > Math.floor(Math.log10(application.customer.output))) {
+			application.dao.fetch("Gift", {customer_id: application.customer.id, category: 7}, {limit 1}, function(succeed, gifts){
+				if (succeed) {
+					var gift = gifts[0];
+					gift.locked = 0;
+					application.dao.save("Gift", gift);
+				}
+			});
+		}
+		
+        application.customer.output += output;
         application.dao.save("Customer", application.customer, function(succeed, c){
             if (succeed) {
                 application.refreshCustomer(0 - gold, 0 - diamond, output, 0, proj);
@@ -203,5 +214,5 @@ module application {
         }
         
         return d.toFixed() + unit;
-    }
+    } 
 }
