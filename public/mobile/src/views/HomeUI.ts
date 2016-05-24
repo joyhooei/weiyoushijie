@@ -468,6 +468,8 @@ class HomeUI extends eui.Component{
 	}
 
     public pageReadyHandler( pageName:string ):void {
+        this.removeChildren();
+        
         this.enableFooter(true);
 		
 		this.gotoPage(pageName, true);
