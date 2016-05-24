@@ -92,6 +92,7 @@ module application {
 				if (succeed && gifts.length > 0) {
 					var gift = gifts[0];
 					gift.locked = 0;
+                    gift.data = Math.floor(Math.log10(application.customer.output + output)).toString();
 					application.dao.save("Gift", gift);
 				}
 			});
