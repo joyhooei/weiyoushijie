@@ -13,6 +13,9 @@ class AuctionUI extends eui.Component{
 	private imgFront: eui.Image;
 	private imgThumb: eui.Image;
 	
+    private btnGift: eui.Button;
+    private btnHelp: eui.Button;
+	
 	private bid:any;
 	
 	private startX:number;
@@ -52,6 +55,14 @@ class AuctionUI extends eui.Component{
 		this.grpTrack.touchEnabled = true;
         this.grpTrack.addEventListener(egret.TouchEvent.TOUCH_BEGIN, this.onBeginChangeBid , this);
         this.grpTrack.addEventListener(egret.TouchEvent.TOUCH_MOVE,this.onChangeBid,this);
+		
+        this.btnAddGold.addEventListener(egret.TouchEvent.TOUCH_BEGIN, function() {
+			application.showUI(new BuyToolUI("time", 500, null, null, 0));
+        }, this);
+                
+        this.btnAddDiamond.addEventListener(egret.TouchEvent.TOUCH_BEGIN, function() {
+			application.charge();
+        }, this);
     }
 	
 	private renderLastBid(today:string): void {
