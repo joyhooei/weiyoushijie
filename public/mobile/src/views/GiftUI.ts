@@ -5,6 +5,7 @@ class GiftUI extends eui.Component {
     private imgPick4: eui.Image;
     private imgPick5: eui.Image;
     private imgPick6: eui.Image;
+    private imgPick7: eui.Image;
     
     private imgRet: eui.Image;
     
@@ -38,6 +39,9 @@ class GiftUI extends eui.Component {
         },this);
         this.imgPick6.addEventListener(egret.TouchEvent.TOUCH_BEGIN,function(ev) {
             this.onFirstChargeGift();
+        },this);
+        this.imgPick7.addEventListener(egret.TouchEvent.TOUCH_BEGIN,function(ev) {
+            this.onOutputGift();
         },this);
     }
     
@@ -88,6 +92,18 @@ class GiftUI extends eui.Component {
             application.showUI(new FirstChargeBonusUI());
         }
     }
+	
+	private onOutputGift() {
+		var gift = this.gifts[index];
+		
+		if (Math.floor(Math.log10(application.customer.output)) > parseInt(gift.data)) {
+			this.pick(1,this.imgPick7);
+		} else {
+			if(gift.locked == 0) {
+				this.income(gift);
+			}
+		}
+	}
 
     public refresh(): void {
         this.uiCompHandler();
@@ -139,24 +155,26 @@ class GiftUI extends eui.Component {
     }
     
     private pick(index: number,imgPic: eui.Image) {
-        var self = this;
-        
         var gift = this.gifts[index];
         if(gift.locked == 0) {
             gift.locked = 2;
-            application.dao.save("Gift", gift, null);
+            application.dao.save("Gift", gift);
             
-            application.customer.metal += gift.metal;
-            application.customer.gold  += gift.gold;
-            application.customer.diamond += gift.diamond;
-            
-            application.dao.save("Customer",application.customer,function(succeed,c) {
-                if(succeed) {
-                    application.refreshCustomer(-gift.gold, -gift.diamond, 0,0,null);
-                    
-                    self.setImage(imgPic, gift);
-                }
-            });
+            this.income(gift);
         }
     }
+	
+	private income(gift:any): void {
+		application.customer.metal += gift.metal;
+		application.customer.gold  += gift.gold;
+		application.customer.diamond += gift.diamond;
+
+		application.dao.save("Customer",application.customer,function(succeed,c) {
+			if(succeed) {
+				application.refreshCustomer(-gift.gold, -gift.diamond, 0,0,null);
+
+				self.setImage(imgPic, gift);
+			}
+		});	
+	}
 }
