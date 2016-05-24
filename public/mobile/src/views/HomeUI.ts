@@ -90,7 +90,7 @@ class HomeUI extends eui.Component{
         }, this);
                 
         self.btnAddGold.addEventListener(egret.TouchEvent.TOUCH_BEGIN, function() {
-			application.showUI(new BuyToolUI("time", 500, null, null, 0));
+			application.showUI(new BuyToolUI("time", 500));
         }, this);
                 
         self.btnAddDiamond.addEventListener(egret.TouchEvent.TOUCH_BEGIN, function() {
@@ -468,8 +468,6 @@ class HomeUI extends eui.Component{
 	}
 
     public pageReadyHandler( pageName:string ):void {
-        this.removeChildren();
-        
         this.enableFooter(true);
 		
 		this.gotoPage(pageName, true);

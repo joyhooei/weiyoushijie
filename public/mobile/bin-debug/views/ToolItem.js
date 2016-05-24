@@ -17,7 +17,32 @@ var ToolItem = (function (_super) {
     }
     var d = __define,c=ToolItem,p=c.prototype;
     p.buy = function (price, step) {
-        application.showUI(new BuyToolUI("project", price, this._myProject, this._project, step));
+        var self = this;
+        if (application.customer.diamond >= price) {
+            var oldOutput_1 = this.output();
+            self._myProject.level += step;
+            application.dao.save("Project", self._myProject, function (succeed, proj) {
+                if (succeed) {
+                    application.buyOutput(0, price, self.output() - oldOutput_1, self._myProject, function (succeed, c) {
+                        if (succeed) {
+                            Toast.launch("购买成功");
+                        }
+                        else {
+                            Toast.launch("购买失败");
+                        }
+                    });
+                }
+                else {
+                    Toast.launch("购买失败");
+                }
+            });
+        }
+        else {
+            application.charge();
+        }
+    };
+    p.output = function () {
+        return this._project.output(this._myProject.level, this._myProject.achieve);
     };
     return ToolItem;
 }(eui.Component));

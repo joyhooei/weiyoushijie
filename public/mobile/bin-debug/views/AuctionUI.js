@@ -26,6 +26,15 @@ var AuctionUI = (function (_super) {
         this.grpTrack.touchEnabled = true;
         this.grpTrack.addEventListener(egret.TouchEvent.TOUCH_BEGIN, this.onBeginChangeBid, this);
         this.grpTrack.addEventListener(egret.TouchEvent.TOUCH_MOVE, this.onChangeBid, this);
+        this.btnAddGold.addEventListener(egret.TouchEvent.TOUCH_BEGIN, function () {
+            application.showUI(new BuyToolUI("time", 500));
+        }, this);
+        this.btnAddDiamond.addEventListener(egret.TouchEvent.TOUCH_BEGIN, function () {
+            application.charge();
+        }, this);
+        this.btnHelp.addEventListener(egret.TouchEvent.TOUCH_BEGIN, function () {
+            application.showHelp("拍卖每天中午12点结束, 出价最高者成为今日头条，获得勋章一枚和2000钻石的奖励，未中标玩家的拍卖金币自动返还。拍卖期间系统显示截至上个小时的最高出价，为新出价的玩家提供参考。玩家在拍卖结束前可以反复加价，每次加价最高为当前拥有的所有金币。每天首次参加拍卖可以在礼物页面中领取100钻石奖励。");
+        }, this);
     };
     p.renderLastBid = function (today) {
         var self = this;

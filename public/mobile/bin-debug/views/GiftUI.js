@@ -25,6 +25,9 @@ var GiftUI = (function (_super) {
         this.imgPick6.addEventListener(egret.TouchEvent.TOUCH_BEGIN, function (ev) {
             this.onFirstChargeGift();
         }, this);
+        this.imgPick7.addEventListener(egret.TouchEvent.TOUCH_BEGIN, function (ev) {
+            this.onOutputGift();
+        }, this);
     }
     var d = __define,c=GiftUI,p=c.prototype;
     p.onLoginGift = function () {
@@ -70,6 +73,17 @@ var GiftUI = (function (_super) {
             application.showUI(new FirstChargeBonusUI());
         }
     };
+    p.onOutputGift = function () {
+        var gift = this.gifts[6];
+        if (application.log10(application.customer.output) > parseInt(gift.data)) {
+            this.pick(1, this.imgPick7);
+        }
+        else {
+            if (gift.locked == 0) {
+                this.income(gift, this.imgPick7);
+            }
+        }
+    };
     p.refresh = function () {
         this.uiCompHandler();
     };
@@ -94,6 +108,7 @@ var GiftUI = (function (_super) {
             self.setImage(self.imgPick4, gifts[3]);
             self.setImage(self.imgPick5, gifts[4]);
             self.setImage(self.imgPick6, gifts[5]);
+            self.setImage(self.imgPick7, gifts[6]);
             self.gifts = gifts;
         });
     };
@@ -114,21 +129,24 @@ var GiftUI = (function (_super) {
         }
     };
     p.pick = function (index, imgPic) {
-        var self = this;
         var gift = this.gifts[index];
         if (gift.locked == 0) {
             gift.locked = 2;
-            application.dao.save("Gift", gift, null);
-            application.customer.metal += gift.metal;
-            application.customer.gold += gift.gold;
-            application.customer.diamond += gift.diamond;
-            application.dao.save("Customer", application.customer, function (succeed, c) {
-                if (succeed) {
-                    application.refreshCustomer(-gift.gold, -gift.diamond, 0, 0, null);
-                    self.setImage(imgPic, gift);
-                }
-            });
+            application.dao.save("Gift", gift);
+            this.income(gift, imgPic);
         }
+    };
+    p.income = function (gift, imgPic) {
+        var self = this;
+        application.customer.metal += gift.metal;
+        application.customer.gold += gift.gold;
+        application.customer.diamond += gift.diamond;
+        application.dao.save("Customer", application.customer, function (succeed, c) {
+            if (succeed) {
+                application.refreshCustomer(-gift.gold, -gift.diamond, 0, 0, null);
+                self.setImage(gift, imgPic);
+            }
+        });
     };
     return GiftUI;
 }(eui.Component));

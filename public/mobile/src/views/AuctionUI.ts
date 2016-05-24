@@ -58,7 +58,7 @@ class AuctionUI extends eui.Component{
         this.grpTrack.addEventListener(egret.TouchEvent.TOUCH_MOVE,this.onChangeBid,this);
 		
         this.btnAddGold.addEventListener(egret.TouchEvent.TOUCH_BEGIN, function() {
-			application.showUI(new BuyToolUI("time", 500, null, null, 0));
+			application.showUI(new BuyToolUI("time", 500));
         }, this);
                 
         this.btnAddDiamond.addEventListener(egret.TouchEvent.TOUCH_BEGIN, function() {

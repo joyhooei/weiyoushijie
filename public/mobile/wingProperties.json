@@ -241,18 +241,8 @@
 				},
 				{
 					"isFolder":false,
-					"key":"upgrade10p_png",
-					"name":"upgrade10p_png"
-				},
-				{
-					"isFolder":false,
 					"key":"upgradeg_png",
 					"name":"upgradeg_png"
-				},
-				{
-					"isFolder":false,
-					"key":"upgradep_png",
-					"name":"upgradep_png"
 				},
 				{
 					"isFolder":false,
@@ -688,6 +678,11 @@
 					"isFolder":false,
 					"key":"upgradeb_png",
 					"name":"upgradeb_png"
+				},
+				{
+					"isFolder":false,
+					"key":"Ahelp_png",
+					"name":"Ahelp_png"
 				}
 			]
 		}

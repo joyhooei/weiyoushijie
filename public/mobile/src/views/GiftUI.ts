@@ -94,13 +94,13 @@ class GiftUI extends eui.Component {
     }
 	
 	private onOutputGift() {
-		var gift = this.gifts[index];
+		var gift = this.gifts[6];
 		
-		if (Math.floor(Math.log10(application.customer.output)) > parseInt(gift.data)) {
+		if (application.log10(application.customer.output) > parseInt(gift.data)) {
 			this.pick(1,this.imgPick7);
 		} else {
 			if(gift.locked == 0) {
-				this.income(gift);
+                this.income(gift,this.imgPick7);
 			}
 		}
 	}
@@ -135,6 +135,7 @@ class GiftUI extends eui.Component {
             self.setImage(self.imgPick4,gifts[3]);
             self.setImage(self.imgPick5,gifts[4]);
             self.setImage(self.imgPick6,gifts[5]);
+            self.setImage(self.imgPick7,gifts[6]);
             
             self.gifts = gifts;
         })
@@ -160,11 +161,13 @@ class GiftUI extends eui.Component {
             gift.locked = 2;
             application.dao.save("Gift", gift);
             
-            this.income(gift);
+            this.income(gift,imgPic);
         }
     }
 	
-	private income(gift:any): void {
+    private income(gift: any,imgPic: eui.Image): void {
+        var self = this;
+        
 		application.customer.metal += gift.metal;
 		application.customer.gold  += gift.gold;
 		application.customer.diamond += gift.diamond;
@@ -173,7 +176,7 @@ class GiftUI extends eui.Component {
 			if(succeed) {
 				application.refreshCustomer(-gift.gold, -gift.diamond, 0,0,null);
 
-				self.setImage(imgPic, gift);
+                self.setImage(gift,imgPic);
 			}
 		});	
 	}

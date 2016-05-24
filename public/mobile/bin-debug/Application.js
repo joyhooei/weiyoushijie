@@ -78,6 +78,16 @@ var application;
     function buyOutput(gold, diamond, output, proj, cb) {
         application.customer.gold -= gold;
         application.customer.diamond -= diamond;
+        if (application.log10(application.customer.output + output) > application.log10(application.customer.output)) {
+            application.dao.fetch("Gift", { customer_id: application.customer.id, category: 7 }, { limit: 1 }, function (succeed, gifts) {
+                if (succeed && gifts.length > 0) {
+                    var gift = gifts[0];
+                    gift.locked = 0;
+                    gift.data = application.log10(application.customer.output + output).toString();
+                    application.dao.save("Gift", gift);
+                }
+            });
+        }
         application.customer.output += output;
         application.dao.save("Customer", application.customer, function (succeed, c) {
             if (succeed) {
@@ -200,4 +210,13 @@ var application;
         return d.toFixed() + unit;
     }
     application.format = format;
+    function log10(d) {
+        var result = 0;
+        while (d >= 10) {
+            result += 1;
+            d = d / 10;
+        }
+        return result;
+    }
+    application.log10 = log10;
 })(application || (application = {}));

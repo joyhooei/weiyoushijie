@@ -87,12 +87,12 @@ module application {
         application.customer.gold      -= gold;
         application.customer.diamond   -= diamond;
 		
-		if (Math.floor(Math.log10(application.customer.output + output)) > Math.floor(Math.log10(application.customer.output))) {
-			application.dao.fetch("Gift", {customer_id: application.customer.id, category: 7}, {limit 1}, function(succeed, gifts){
+        if(application.log10(application.customer.output + output) > application.log10(application.customer.output)) {
+			application.dao.fetch("Gift", {customer_id: application.customer.id, category: 7}, {limit: 1}, function(succeed, gifts){
 				if (succeed && gifts.length > 0) {
 					var gift = gifts[0];
 					gift.locked = 0;
-                    gift.data = Math.floor(Math.log10(application.customer.output + output)).toString();
+                    gift.data = application.log10(application.customer.output + output).toString();
 					application.dao.save("Gift", gift);
 				}
 			});
@@ -215,5 +215,16 @@ module application {
         }
         
         return d.toFixed() + unit;
-    } 
+    }
+    
+    export function log10(d:number):number {
+        let result: number = 0;
+        
+        while(d >= 10) {
+            result += 1;
+            d = d / 10;
+        }
+        
+        return result;
+    }
 }
