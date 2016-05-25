@@ -11,7 +11,7 @@
 	<e:Label id="lblDiamond" text="0.00aa" x="9" y="242" size="20" width="64" textAlign="center" height="24"/>
 	<e:Label id="lblOutput" text="0.00aa" x="10" y="303" size="20" width="64" textAlign="center" height="24"/>
 	
-	<e:Scroller id="scrProjects" height="300" width="450" y="425" horizontalCenter="3">
+	<e:Scroller id="scrProjects" height="300" width="470" y="425" horizontalCenter="-2">
 		<e:viewport>
 			<e:Group id="grpProject">
 				<e:layout>

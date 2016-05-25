@@ -29,6 +29,6 @@ module.exports.findAll = function(query) {
 		}, function(error){
 			console.error("Helper findAll count " + error.message);
 			reject(error);
-		);
+		});
 	});
 }

@@ -22,13 +22,15 @@ declare class offlineGoldUISkin extends eui.Skin{
 }
 declare class projectListIRSkin extends eui.Skin{
 }
-declare class rankIRSkin extends eui.Skin{
+declare class rankItemSkin extends eui.Skin{
 }
 declare class RankUISkin extends eui.Skin{
 }
 declare class toolItemSkin extends eui.Skin{
 }
 declare class toolUISkin extends eui.Skin{
+}
+declare class winUISkin extends eui.Skin{
 }
 declare module skins{
 	class ButtonSkin extends eui.Skin{

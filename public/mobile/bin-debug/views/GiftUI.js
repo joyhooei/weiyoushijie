@@ -28,6 +28,9 @@ var GiftUI = (function (_super) {
         this.imgPick7.addEventListener(egret.TouchEvent.TOUCH_BEGIN, function (ev) {
             this.onOutputGift();
         }, this);
+        this.imgPick8.addEventListener(egret.TouchEvent.TOUCH_BEGIN, function (ev) {
+            this.onAttentionGift();
+        }, this);
     }
     var d = __define,c=GiftUI,p=c.prototype;
     p.onLoginGift = function () {
@@ -41,6 +44,7 @@ var GiftUI = (function (_super) {
             this.pick(2, this.imgPick3);
         }
         else if (this.gifts[2].locked == 1) {
+            application.hideUI(this);
             application.gotoAuction();
         }
     };
@@ -49,6 +53,7 @@ var GiftUI = (function (_super) {
             this.pick(3, this.imgPick4);
         }
         else if (this.gifts[3].locked == 1) {
+            application.hideUI(this);
             application.gotoTool();
         }
     };
@@ -70,6 +75,7 @@ var GiftUI = (function (_super) {
             this.pick(5, this.imgPick6);
         }
         else if (this.gifts[5].locked == 1) {
+            application.hideUI(this);
             application.showUI(new FirstChargeBonusUI());
         }
     };
@@ -84,6 +90,19 @@ var GiftUI = (function (_super) {
             }
         }
     };
+    p.onAttentionGift = function () {
+        var self = this;
+        if (self.gifts[7].locked == 0) {
+            self.pick(7, self.imgPick8);
+        }
+        else if (self.gifts[7].locked == 1) {
+            application.attention(function () {
+                self.gifts[7].locked = 0;
+                application.dao.save("Gift", self.gifts[7], null);
+                self.setImage(self.imgPick8, self.gifts[7]);
+            });
+        }
+    };
     p.refresh = function () {
         this.uiCompHandler();
     };
@@ -91,20 +110,28 @@ var GiftUI = (function (_super) {
         var self = this;
         application.dao.fetch("Gift", { customer_id: application.customer.id }, { order: 'category ASC' }, function (succeed, gifts) {
             self.setImage(self.imgPick1, gifts[0]);
-            if (gifts[1].locked != 0) {
-                var lastDate = new Date(gifts[1].update_time);
-                var loginDate = new Date(application.customer.last_login);
-                if (lastDate < loginDate) {
-                    lastDate = loginDate;
-                }
-                var today = new Date();
-                if (today.getTime() - lastDate.getTime() > 60 * 60 * 1000) {
-                    gifts[1].locked = 0;
-                    application.dao.save("Gift", gifts[1], null);
-                }
-            }
             self.setImage(self.imgPick2, gifts[1]);
             self.setImage(self.imgPick3, gifts[2]);
+            //如果今天的在线时间礼物还没有领取，检查一下是否可以领取了
+            if (gifts[3].locked == 1) {
+                var lastLogin = new Date(application.customer.last_login);
+                var today = new Date();
+                var diff = (today.getTime() - lastLogin.getTime()) / 1000;
+                if (diff > 60 * 60) {
+                    //已经过了一小时，可以领取了
+                    gifts[3].locked = 0;
+                }
+                else {
+                    //在线还不到1个小时，启动定时器
+                    var timer = new egret.Timer(1000, diff);
+                    this.onlineGiftTimeout = diff;
+                    timer.addEventListener(egret.TimerEvent.TIMER, function (event) {
+                        this.lblOnlineGiftTimeout.text = (Math.floor(this.onlineGiftTimeout / 60)).toString() + "：" + (this.onlineGiftTimeout % 60).toString();
+                        this.onlineGiftTimeout -= 1;
+                    }, this);
+                    timer.start();
+                }
+            }
             self.setImage(self.imgPick4, gifts[3]);
             self.setImage(self.imgPick5, gifts[4]);
             self.setImage(self.imgPick6, gifts[5]);
@@ -116,6 +143,9 @@ var GiftUI = (function (_super) {
         if (gift.locked == 1) {
             if (gift.category == 5) {
                 imgPic.source = "share_png";
+            }
+            else if (gift.category == 7) {
+                imgPic.source = "att_png";
             }
             else {
                 imgPic.source = "unpick_png";

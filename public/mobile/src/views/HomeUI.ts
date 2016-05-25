@@ -17,7 +17,7 @@ class HomeUI extends eui.Component{
     
     private imgBg:eui.Image;
     
-    private grpProject: eui.List;
+    private grpProject: eui.Group;
     private projectItems: ProjectItem[];
     
     private mcBeauty: egret.MovieClip;
@@ -149,7 +149,7 @@ class HomeUI extends eui.Component{
 		var timer: egret.Timer = new egret.Timer(1000 * 60, 0);
 		timer.addEventListener(egret.TimerEvent.TIMER, function(event:egret.TimerEvent){
 			var dt = new Date();
-			if (dt.getHours() == 12 && dt.getMiniutes() == 0) {
+			if (dt.getHours() == 12 && dt.getMinutes() == 0) {
 				self.renderBid();
 				
 				application.refreshBid(function(bid){

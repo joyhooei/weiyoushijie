@@ -1,6 +1,6 @@
 class RankUI extends eui.Component {
-    private listRank:eui.List;
-    private listMyRank:eui.List;
+    private listRank:eui.Group;
+    private listMyRank: eui.Group;
 
     constructor() {
         super();
@@ -16,9 +16,7 @@ class RankUI extends eui.Component {
         application.dao.fetch("Customer", {}, {limit: 8, order: 'metal DESC'}, function(succeed, customers){
             if (succeed) {
                 for(var i = 0; i < customers.length; i++) {
-					if (customers[i].metal > 0) {
-						self.addCustomer(false, i + 1, customers[i]);
-					}
+					self.addCustomer(false, i + 1, customers[i]);
                 }
             }
         })
@@ -32,7 +30,7 @@ class RankUI extends eui.Component {
 		});
     } 
 	
-	private addCustomer(showMe:true, rank: number, customer: any) {
+	private addCustomer(showMe:boolean, rank: number, customer: any) {
 		var item = new RankItem(showMe, rank, customer);
 		if (showMe) {
 			this.listMyRank.addChild(item);

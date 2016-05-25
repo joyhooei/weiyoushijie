@@ -163,7 +163,7 @@ module application {
     export function attention(callback:Function): void {
         nest.app.isSupport({}, function (data) {
 			if (data.attention == 1) {
-				nest.share.attention({}, function (data) {
+                nest.app.attention({}, function (data) {
 					if(data.result == 0) {
 						callback();
 					} else if(data.result == -1) {

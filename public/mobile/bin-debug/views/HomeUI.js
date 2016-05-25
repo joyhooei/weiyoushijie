@@ -51,6 +51,7 @@ var HomeUI = (function (_super) {
         self.gotoHome();
         self.renderOfflineGold();
         self.earnGoldDynamically();
+        self.refreshBidAtNoon();
     };
     p.earnGoldDynamically = function () {
         var seconds = 5;
@@ -74,16 +75,19 @@ var HomeUI = (function (_super) {
         timer.start();
     };
     //中午12点需要刷新拍卖数据
-    p.refreshBid = function () {
+    p.refreshBidAtNoon = function () {
         var self = this;
         var timer = new egret.Timer(1000 * 60, 0);
         timer.addEventListener(egret.TimerEvent.TIMER, function (event) {
             var dt = new Date();
-            if (dt.getHours() == 12) {
+            if (dt.getHours() == 12 && dt.getMinutes() == 0) {
                 self.renderBid();
                 application.refreshBid(function (bid) {
                     if (bid) {
                         self.refresh(0 - bid.gold, 0, 0, 0, null);
+                    }
+                    else {
+                        self.refresh(0, 0, 0, 0, null);
                     }
                 });
             }
@@ -94,15 +98,33 @@ var HomeUI = (function (_super) {
         var self = this;
         application.dao.fetch("Bid", { succeed: 1 }, { limit: 1, order: 'create_time desc' }, function (succeed, bids) {
             if (succeed && bids.length > 0) {
-                application.dao.fetch("Customer", { id: bids[0].customer_id }, { limit: 1 }, function (succeed, customers) {
-                    if (succeed && customers.length > 0) {
-                        self.lblBidName.text = customers[0].name;
-                        self.lblBidGold.text = application.format(bids[0].gold);
-                        self.imgBidAvatar.source = customers[0].avatar;
+                if (application.customer.id == bids[0].customer_id) {
+                    var bidDay = application.bidDay();
+                    if (application.customer.win_day != bidDay) {
+                        application.customer.win_day = bidDay;
+                        application.showUI(new WinUI());
                     }
-                });
+                    self.renderBidCustomer(application.customer, bids[0]);
+                }
+                else {
+                    application.dao.fetch("Customer", { id: bids[0].customer_id }, { limit: 1 }, function (succeed, customers) {
+                        if (succeed && customers.length > 0) {
+                            self.renderBidCustomer(customers[0], bids[0]);
+                        }
+                    });
+                }
             }
         });
+    };
+    p.renderBidCustomer = function (customer, bid) {
+        this.lblBidName.text = customer.name;
+        this.lblBidGold.text = application.format(bid.gold);
+        if (customer.hide_winner == 1) {
+            this.imgBidAvatar.source = "Ahide_png";
+        }
+        else {
+            this.imgBidAvatar.source = customer.avatar;
+        }
     };
     p.renderProjects = function () {
         var self = this;

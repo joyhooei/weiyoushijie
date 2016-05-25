@@ -556,11 +556,6 @@
 				},
 				{
 					"isFolder":false,
-					"key":"X_png",
-					"name":"X_png"
-				},
-				{
-					"isFolder":false,
 					"key":"giftB_png",
 					"name":"giftB_png"
 				},
@@ -683,6 +678,31 @@
 					"isFolder":false,
 					"key":"Ahelp_png",
 					"name":"Ahelp_png"
+				},
+				{
+					"isFolder":false,
+					"key":"Ahide_png",
+					"name":"Ahide_png"
+				},
+				{
+					"isFolder":false,
+					"key":"Awin_png",
+					"name":"Awin_png"
+				},
+				{
+					"isFolder":false,
+					"key":"Awinhide_png",
+					"name":"Awinhide_png"
+				},
+				{
+					"isFolder":false,
+					"key":"hidecancel_png",
+					"name":"hidecancel_png"
+				},
+				{
+					"isFolder":false,
+					"key":"att_png",
+					"name":"att_png"
 				}
 			]
 		}

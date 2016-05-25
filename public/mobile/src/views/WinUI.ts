@@ -1,5 +1,5 @@
 class WinUI extends eui.Component{
-    private btnCancel:eui.Button;
+    private imgBack:eui.Button;
 	
     private imgHide:eui.Image;
 	private imgAvatar:eui.Image;
@@ -9,7 +9,7 @@ class WinUI extends eui.Component{
         
         this.skinName = "resource/custom_skins/winUISkin.exml";
         
-        this.btnCancel.addEventListener( egret.TouchEvent.TOUCH_TAP, ()=>{
+        this.imgBack.addEventListener( egret.TouchEvent.TOUCH_TAP, ()=>{
             application.hideUI(this);
         }, this );
         
@@ -30,11 +30,11 @@ class WinUI extends eui.Component{
 	
 	private renderAvatar(): void {
 		if (application.customer.hide_winner == 1) {
-			this.imgHide.source == "hidecancel_png";
+			this.imgHide.source = "hidecancel_png";
 			
 			this.imgAvatar.source = "Ahide_png"
 		} else {
-			this.imgHide.source == "Awinhide_png";
+			this.imgHide.source = "Awinhide_png";
 			
 			this.imgAvatar.source = application.customer.avatar;
 		}

@@ -125,5 +125,8 @@ module.exports.afterSave = function(request, response) {
     
     //秒产每增加一个数量级，就得100个钻石
     Gift.create(customer.id, 7, 100, 0, 0);
+    
+    //关注
+    Gift.create(customer.id, 8, 200, 0, 0);
 };
 

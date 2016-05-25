@@ -1,5 +1,5 @@
 class RankItem extends eui.Component {
-	private imgBg: eui.Label;
+    private imgBg: eui.Image;
     private lblRank: eui.Label;
 	
     private imgAvatar: eui.Image;
@@ -18,29 +18,29 @@ class RankItem extends eui.Component {
 				
 				return;
 			} else {
-				lblRank.text = rank.toString();
+				this.lblRank.text = rank.toString();
 				if (customer.id == application.customer.id) {
-					imgBg.source = "PYellow_png";
+                    this.imgBg.source = "PYellow_png";
 				} else {
-					imgBg.source = "RG_png";
+                    this.imgBg.source = "RG_png";
 				}
 			}
 		} else {
 			if (rank == 1) {
-				imgBg.source = "RR_png";
+                this.imgBg.source = "RR_png";
 			} else if (rank == 2) {
-				imgBg.source = "RBlue_png";
+                this.imgBg.source = "RBlue_png";
 			} else if (rank == 3) {
-				imgBg.source = "RGreen_png";
+                this.imgBg.source = "RGreen_png";
 			} else {
-				imgBg.source = "RG_png";
-				lblRank.text = rank.toString();
+                this.imgBg.source = "RG_png";
+                this.lblRank.text = rank.toString();
 			}
 		}
 		
-		imgAvatar.source = customer.avatar;
-		lblName.text = customer.name;
-		lblMetal = application.format(customer.metal);
-		lblGold = application.format(customer.gold);
+        this.imgAvatar.source = customer.avatar;
+        this.lblName.text = customer.name;
+        this.lblMetal.text = application.format(customer.metal);
+        this.lblGold.text = application.format(customer.gold);
     }
 }

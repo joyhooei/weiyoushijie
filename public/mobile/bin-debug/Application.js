@@ -154,6 +154,27 @@ var application;
         });
     }
     application.share = share;
+    function attention(callback) {
+        nest.app.isSupport({}, function (data) {
+            if (data.attention == 1) {
+                nest.app.attention({}, function (data) {
+                    if (data.result == 0) {
+                        callback();
+                    }
+                    else if (data.result == -1) {
+                        Toast.launch("取消了关注");
+                    }
+                    else {
+                        Toast.launch("关注失败");
+                    }
+                });
+            }
+            else {
+                Toast.launch("当前平台不支持关注");
+            }
+        });
+    }
+    application.attention = attention;
     function gotoAuction() {
         application.main.homeUI.gotoPage(GamePages.AUCTION, false);
     }

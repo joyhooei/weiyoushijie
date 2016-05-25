@@ -72,11 +72,11 @@ module.exports.unlock = function(customerId, category) {
     _lock(customerId, category, 0);
 }
 
-model.exports.unlockLogin = function(customerId) {
+module.exports.unlockLogin = function(customerId) {
     _lock(customerId, 1, 0);
 }
 
-model.exports.unlockBid = function(customerId) {
+module.exports.unlockBid = function(customerId) {
     _lock(customerId, 3, 0);
 }
 

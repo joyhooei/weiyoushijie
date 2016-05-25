@@ -177,7 +177,15 @@ router.post('/rank', function(req, res, next) {
 						next = results[j + 1][0];
 					}
 
-					_succeed(res, [{rank: index - 1, customer: last}, {rank: index, customer: me}, {rank: index + 1, customer: next}]);
+					if (last && next) {
+						_succeed(res, [{rank: index - 1, customer: _decode(last)}, {rank: index, customer: _decode(me)}, {rank: index + 1, customer: _decode(next)}]);
+					} else if (last) {
+						_succeed(res, [{rank: index - 1, customer: _decode(last)}, {rank: index, customer: _decode(me)}, {rank: index + 1, customer: null}]);						
+					} else if (next) {
+						_succeed(res, [{rank: index - 1, customer: null}, {rank: index, customer: _decode(me)}, {rank: index + 1, customer: _decode(next)}]);
+					} else {
+						_succeed(res, [{rank: index - 1, customer: null}, {rank: index, customer: _decode(me)}, {rank: index + 1, customer: null}]);						
+					}
 					
 					break;
 				} 

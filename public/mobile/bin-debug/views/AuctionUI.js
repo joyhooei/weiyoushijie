@@ -17,8 +17,9 @@ var AuctionUI = (function (_super) {
         this.imgFront.x = this.imgThumb.x;
         this.imgFront.y = this.imgThumb.y;
         this.imgFront.width = 0;
+        this.addGold = 0;
         this.bid = { gold: 0, day: today, customer_id: application.customer.id, succeed: 0 };
-        this.renderCurrentBid(0);
+        this.renderBid(0);
     };
     p.uiCompHandler = function () {
         this.refresh();
@@ -41,8 +42,8 @@ var AuctionUI = (function (_super) {
         application.dao.fetch("Bid", { succeed: 0, day: today, customer_id: application.customer.id }, { limit: 1 }, function (succeed, bids) {
             if (succeed && bids.length > 0) {
                 self.bid = bids[0];
+                self.renderBid(self.addGold);
             }
-            self.lblLastBid.text = application.format(self.bid.gold);
         });
     };
     p.renderMaxBid = function (today) {
@@ -56,17 +57,19 @@ var AuctionUI = (function (_super) {
             }
         });
     };
-    p.renderCurrentBid = function (gold) {
-        this.bid.gold = gold;
-        this.lblCurrentBid.text = application.format(this.bid.gold);
+    p.renderBid = function (gold) {
+        this.addGold = gold;
+        this.lblCurrentBid.text = application.format(this.addGold);
+        this.lblLastBid.text = application.format(this.addGold + this.bid.gold);
     };
     p.onBid = function () {
         var self = this;
+        self.bid.gold += self.addGold;
         application.dao.save("Bid", self.bid, function (succeed, bid) {
             if (succeed) {
                 Toast.launch("投标成功");
                 application.bid = self.bid;
-                application.refreshCustomer(0 - self.bid.gold, 0, 0, 0, null);
+                application.refreshCustomer(0 - self.addGold, 0, 0, 0, null);
                 self.back();
             }
             else {
@@ -88,7 +91,7 @@ var AuctionUI = (function (_super) {
         this.grpTrack.x = target;
         var percent = Math.round(100 * (this.grpTrack.x - this.imgThumb.x) / (this.imgThumb.width - this.grpTrack.width));
         this.lblTrack.text = percent.toString() + "%";
-        this.renderCurrentBid(application.customer.gold * percent / 100);
+        this.renderBid((application.customer.gold - this.bid.gold) * percent / 100);
         this.imgFront.width = this.grpTrack.x - this.imgThumb.x + 20;
     };
     return AuctionUI;
