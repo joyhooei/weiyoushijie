@@ -3,11 +3,16 @@
 	<e:Image x="0" y="0" source="RB_png" width="480" height="655" fillMode="clip"/>
 	<e:Scroller id="scrRank" height="600" width="440" x="21" y="30">
 		<e:viewport>
-			<e:List id="listRank" height="600" width="440">
+			<e:List id="listRank" height="400" width="440">
 				<e:layout> 
 					<e:VerticalLayout verticalAlign="top" gap="20"/>
 				</e:layout>
 			</e:List>
 		</e:viewport>
 	</e:Scroller>
+	<e:List id="listRank" height="200" width="440">
+		<e:layout> 
+			<e:VerticalLayout verticalAlign="top" gap="20"/>
+		</e:layout>
+	</e:List>	
 </e:Skin>
