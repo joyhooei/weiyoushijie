@@ -6,7 +6,8 @@ class GiftUI extends eui.Component {
     private imgPick5: eui.Image;
     private imgPick6: eui.Image;
     private imgPick7: eui.Image;
-    
+    private imgPick8: eui.Image;
+   
     private imgRet: eui.Image;
     
     private gifts: any[];
@@ -45,6 +46,9 @@ class GiftUI extends eui.Component {
         },this);
         this.imgPick7.addEventListener(egret.TouchEvent.TOUCH_BEGIN,function(ev) {
             this.onOutputGift();
+        },this);
+        this.imgPick8.addEventListener(egret.TouchEvent.TOUCH_BEGIN,function(ev) {
+            this.onAttentionGift();
         },this);
     }
     
@@ -109,6 +113,22 @@ class GiftUI extends eui.Component {
                 this.income(gift,this.imgPick7);
 			}
 		}
+	}
+	
+	private onAttentionGift() {
+		var self = this;
+		
+        if (self.gifts[7].locked == 0) {
+            self.pick(7,self.imgPick8);
+        } else if (self.gifts[7].locked == 1) {
+            application.attention(function () {
+                self.gifts[7].locked = 0;
+
+                application.dao.save("Gift",self.gifts[7], null);
+
+                self.setImage(self.imgPick8,self.gifts[7]);
+			})
+        }
 	}
 
     public refresh(): void {
