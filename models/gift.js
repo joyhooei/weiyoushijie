@@ -1,26 +1,27 @@
 var AV = require('leanengine');
 
+var Helper = require('./helper');
+
 module.exports.lockAllPicked = function(request, response) {
+	var promises = [];
+	
 	var query = new AV.Query(dao.Gift);
 	query.equalTo("locked", 2);
-    query.limit(1000);
-    query.count().then(function(count) {
-		query.limit(1000);
-		
-		var total = 0; 
-		while (total < count) {
-			query.skip(total);
-
-			var now = moment();
-			query.find().done(function(gifts){
-				_.each(gifts, function(gift){
-                    gift.set("locked", 1);
-                    gift.save();
-				});
-			});
-			
-			total += 1000;
-		}
+	Helper.findAll().then(function(count){
+		promises.all().then(function(){
+			response.succeed("lockAllPicked " + count);
+		}, function(error) {
+			console.error(error.message);
+			response.error(error.message);		
+		});
+	}, function(error){
+		console.error(error.message);
+		response.error(error.message);		
+	}, function(gifts) {
+		_.each(gifts, function(gift){
+			gift.set("locked", 1);
+			promises.push(gift.save());
+		});	
 	});
 }
 
