@@ -112,7 +112,7 @@ class HomeUI extends eui.Component{
 		
 		self.earnGoldDynamically();
 		
-		self.refreshBid();
+		self.refreshBidAtNoon();
     }
     
     private earnGoldDynamically(): void {
@@ -143,7 +143,7 @@ class HomeUI extends eui.Component{
     }
 	
 	//中午12点需要刷新拍卖数据
-	private refreshBid(): void {
+	private refreshBidAtNoon(): void {
     	var self = this;
 		
 		var timer: egret.Timer = new egret.Timer(1000 * 60, 0);
