@@ -2,33 +2,25 @@ var AV = require('leanengine');
 
 var Gift = require('./gift');
 var Project = require('./project');
+var Helper = require('./helper');
 
 module.exports.expireTicket = function() {
+    var now = moment();
+    
     var query = new AV.Query(dao.Customer);
     query.startsWith('ticket_expire', '2');
-    
-    query.count().then(function(count) {
-		query.limit(1000);
-		
-		var total = 0; 
-		while (total < count) {
-			query.skip(total);
+    Helper.findAll(query).then(function() {
+    }, function(error) {
+    }, function(customers) {
+        _.each(customers, function(customer){
+            if (moment(customer.get('ticket_expire')) < now) {
+                Gift.update(customer.id, 1, 200, 0, 0);
 
-			var now = moment();
-			query.find().done(function(customers){
-				_.each(customers, function(customer){
-					if (moment(customer.get('ticket_expire')) < now) {
-                    	Gift.update(customer.id, 1, 200, 0, 0);
-						
-						customer.set('ticket', '');
-						customer.save();
-					}
-				});
-			});
-			
-			total += 1000;
-		}
-	});
+                customer.set('ticket', '');
+                customer.save();
+            }
+        });
+    });
 }
 
 module.exports.offlineGold = function(customer) {
