@@ -1,5 +1,29 @@
 var AV = require('leanengine');
 
+module.exports.lockAllPicked = function(request, response) {
+	var query = new AV.Query(dao.Gift);
+	query.equalTo("locked", 2);
+    query.limit(1000);
+    query.count().then(function(count) {
+		query.limit(1000);
+		
+		var total = 0; 
+		while (total < count) {
+			query.skip(total);
+
+			var now = moment();
+			query.find().done(function(gifts){
+				_.each(gifts, function(gift){
+                    gift.set("locked", 1);
+                    gift.save();
+				});
+			});
+			
+			total += 1000;
+		}
+	});
+}
+
 module.exports.create = function(customerId, category, diamond, metal, gold) {
     var gift = new dao.Gift();
     gift.set("customer_id", customerId);
