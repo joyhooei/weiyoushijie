@@ -36,6 +36,14 @@ module.exports.unlock = function(customerId, category) {
     _lock(customerId, category, 0);
 }
 
+model.exports.unlockLogin = function(customerId) {
+    _lock(customerId, 1, 0);
+}
+
+model.exports.unlockBid = function(customerId) {
+    _lock(customerId, 3, 0);
+}
+
 function _lock(customerId, category, locked) {
 	var query = new AV.Query(dao.Gift);
 	query.equalTo("customer_id", customerId);
@@ -44,11 +52,8 @@ function _lock(customerId, category, locked) {
         if (gifts.length > 0) {
             var gift = gifts[0];
 			
-			//一天只能领一次
-            if (!moment().isSame(gift.updatedAt, 'day') || moment(gift.createdAt).isSame(gift.updatedAt)) {
-                gift.set("locked", locked);
-                gift.save();
-            }
+            gift.set("locked", locked);
+            gift.save();
         }
     });
 }
