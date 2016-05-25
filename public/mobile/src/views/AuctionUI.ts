@@ -18,6 +18,7 @@ class AuctionUI extends eui.Component{
     private btnHelp: eui.Button;
 	
 	private bid:any;
+	private addGold: number;
 	
 	private startX:number;
 	
@@ -44,8 +45,9 @@ class AuctionUI extends eui.Component{
         this.imgFront.y = this.imgThumb.y;	
         this.imgFront.width = 0;
 		
-        this.bid = { gold: 0,day: today,customer_id: application.customer.id,succeed: 0 };
-        this.renderCurrentBid(0);
+		this.addGold = 0;
+		this.bid = { gold: 0,day: today,customer_id: application.customer.id,succeed: 0 };
+        this.renderBid(0);
     }
 
     private uiCompHandler():void {
@@ -76,9 +78,8 @@ class AuctionUI extends eui.Component{
         application.dao.fetch("Bid",{ succeed: 0, day :today, customer_id: application.customer.id}, {limit : 1}, function(succeed, bids){
             if (succeed && bids.length > 0) {
 				self.bid = bids[0];
+				self.renderBid(self.addGold);
 			}
-			
-			self.lblLastBid.text = application.format(self.bid.gold);
         })
 	}
 	
@@ -94,21 +95,23 @@ class AuctionUI extends eui.Component{
         })
 	}
 	
-	private renderCurrentBid(gold: number): void {
-		this.bid.gold = gold;
+	private renderBid(gold: number): void {
+		this.addGold = gold;
 		
-		this.lblCurrentBid.text = application.format(this.bid.gold);
+		this.lblCurrentBid.text = application.format(this.addGold);
+		this.lblLastBid.text = application.format(this.addGold + this.bid.gold);
 	}
 	
 	private onBid(): void {
 		var self = this;
 
+		self.bid.gold += self.addGold;
 		application.dao.save("Bid", self.bid, function(succeed, bid){
 			if (succeed) {
 				Toast.launch("投标成功");
 
 				application.bid = self.bid;				
-				application.refreshCustomer(0 - self.bid.gold, 0, 0, 0, null);
+				application.refreshCustomer(0 - self.addGold, 0, 0, 0, null);
 
 				self.back();
 			} else {
@@ -136,7 +139,7 @@ class AuctionUI extends eui.Component{
         let percent:number = Math.round(100 * (this.grpTrack.x - this.imgThumb.x)  / (this.imgThumb.width - this.grpTrack.width) );
 		this.lblTrack.text = percent.toString() + "%";
 
-		this.renderCurrentBid(application.customer.gold * percent / 100);
+		this.renderBid((application.customer.gold - this.bid.gold) * percent / 100);
         this.imgFront.width = this.grpTrack.x - this.imgThumb.x + 20;
 	}
 }
