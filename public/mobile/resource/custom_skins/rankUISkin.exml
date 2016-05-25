@@ -10,7 +10,7 @@
 			</e:List>
 		</e:viewport>
 	</e:Scroller>
-	<e:List id="listRank" height="200" width="440">
+	<e:List id="listMyRank" height="200" width="440" x="21" y="430">
 		<e:layout> 
 			<e:VerticalLayout verticalAlign="top" gap="20"/>
 		</e:layout>
