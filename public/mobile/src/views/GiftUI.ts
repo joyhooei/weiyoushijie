@@ -60,6 +60,7 @@ class GiftUI extends eui.Component {
         if (this.gifts[2].locked == 0) {
             this.pick(2,this.imgPick3);
         } else if (this.gifts[2].locked == 1) {
+            application.hideUI(this);
             application.gotoAuction();
         }
 	}
@@ -68,6 +69,7 @@ class GiftUI extends eui.Component {
         if (this.gifts[3].locked == 0) {
             this.pick(3,this.imgPick4);
         } else if (this.gifts[3].locked == 1) {
+            application.hideUI(this);
             application.gotoTool();
         }
 	}
@@ -92,6 +94,7 @@ class GiftUI extends eui.Component {
         if (this.gifts[5].locked == 0) {
             this.pick(5,this.imgPick6);
         } else if (this.gifts[5].locked == 1) {
+            application.hideUI(this);
             application.showUI(new FirstChargeBonusUI());
         }
     }
