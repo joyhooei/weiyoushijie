@@ -331,10 +331,6 @@ function _saveModel(model, req, res) {
 	newModel.save().then(function(m){
 		var query = new AV.Query(dao[req.params.model]);
 		query.get(m.id).then(function(updatedModel){
-			if (req.params.model == "Bid") {
-				Bid.afterUpdate(updatedModel);
-			}
-			
 			_succeed(res, _decode(updatedModel));
 		}, function(error){
 			_succeed(res, _decode(m));
