@@ -4,20 +4,29 @@ var Gift = require('./gift');
 var Project = require('./project');
 var Helper = require('./helper');
 
-module.exports.expireTicket = function() {
+module.exports.expireTicket = function(request, response) {
     var now = moment();
+    var promises = [];
     
     var query = new AV.Query(dao.Customer);
+    query.select('objectId', 'ticket_expire', 'ticket');
     query.startsWith('ticket_expire', '2');
-    Helper.findAll(query).then(function() {
+    Helper.findAll(query).then(function(count) {
+		Q.all(promises).then(function(){
+			response.succeed("expireTicket " + promises.length);
+		}, function(error) {
+			console.error(error.message);
+			response.error(error.message);		
+		});
     }, function(error) {
+        response.error(error.message);
     }, function(customers) {
         _.each(customers, function(customer){
             if (moment(customer.get('ticket_expire')) < now) {
-                Gift.update(customer.id, 1, 200, 0, 0);
+                promises.push(Gift.update(customer.id, 1, 200, 0, 0));
 
                 customer.set('ticket', '');
-                customer.save();
+                promises.push(customer.save());
             }
         });
     });
