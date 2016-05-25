@@ -30,11 +30,11 @@ class WinUI extends eui.Component{
 	
 	private renderAvatar(): void {
 		if (application.customer.hide_winner == 1) {
-			this.imgHide.source == "";
+			this.imgHide.source == "hidecancel_png";
 			
 			this.imgAvatar.source = "Ahide_png"
 		} else {
-			this.imgHide.source == "";
+			this.imgHide.source == "Awinhide_png";
 			
 			this.imgAvatar.source = application.customer.avatar;
 		}
