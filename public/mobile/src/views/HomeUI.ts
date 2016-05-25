@@ -166,15 +166,36 @@ class HomeUI extends eui.Component{
 		
         application.dao.fetch("Bid",{ succeed: 1}, {limit : 1, order :'create_time desc'}, function(succeed, bids){
             if (succeed && bids.length > 0) {
-                application.dao.fetch("Customer",{ id: bids[0].customer_id },{ limit: 1 },function(succeed, customers) {
-                    if(succeed && customers.length > 0) {
-                        self.lblBidName.text = customers[0].name;
-                        self.lblBidGold.text = application.format(bids[0].gold);
-						self.imgBidAvatar.source = customers[0].avatar;
-                    }
-                });
+				if (application.customer.id == bids[0].customer_id) {
+					var bidDay = application.bidDay();
+					if (application.customer.win_day != bidDay) {
+						application.showUI(new WinUI());
+						
+						application.customer.win_day = bidDay;
+						application.dao.save("Customer", application.customer);
+					}
+					
+					self.renderBidCustomer(application.customer, bids[0]);
+				} else {
+					application.dao.fetch("Customer",{ id: bids[0].customer_id },{ limit: 1 },function(succeed, customers) {
+						if(succeed && customers.length > 0) {
+							self.renderBidCustomer(customers[0], bids[0]);
+						}
+					});
+				}
             }
         })
+	}
+	
+	private renderBidCustomer(customer:any, bid:any) {
+		this.lblBidName.text = customer.name;
+		this.lblBidGold.text = application.format(bid.gold);
+
+		if (customer.hide_winner == 1) {
+			this.imgBidAvatar.source = "Ahide_png";
+		} else {
+			this.imgBidAvatar.source = customer.avatar;
+		}
 	}
 	
 	private renderProjects(): void {
