@@ -10,6 +10,9 @@ class GiftUI extends eui.Component {
     private imgRet: eui.Image;
     
     private gifts: any[];
+	
+	private onlineGiftTimeout: number;
+	private lblOnlineGiftTimeout:eui.Label;
 
     constructor() {
         super();
@@ -115,24 +118,32 @@ class GiftUI extends eui.Component {
         application.dao.fetch("Gift", {customer_id: application.customer.id}, {order : 'category ASC'}, function(succeed, gifts){
             self.setImage(self.imgPick1,gifts[0]);
             
-            if (gifts[1].locked != 0) {
-				var lastDate  = new Date(gifts[1].update_time);
-				var loginDate = new Date(application.customer.last_login);
-				if ( lastDate < loginDate) {
-					lastDate = loginDate;
-				}
-				
-				var today = new Date();
-				if (today.getTime() - lastDate.getTime() > 60 * 60 * 1000) {
-					gifts[1].locked = 0;
-					
-					application.dao.save("Gift", gifts[1], null);
-				}
-			}
             self.setImage(self.imgPick2,gifts[1]);
             
             self.setImage(self.imgPick3,gifts[2]);
+            
+            //如果今天的在线时间礼物还没有领取，检查一下是否可以领取了
+            if (gifts[3].locked == 1) {
+				var lastLogin = new Date(application.customer.last_login);
+				var today = new Date();
+				var diff = (today.getTime() - lastLogin.getTime()) / 1000;
+				if (diff > 60 * 60) {
+					//已经过了一小时，可以领取了
+					gifts[3].locked = 0;
+				} else {
+					//在线还不到1个小时，启动定时器
+					var timer: egret.Timer = new egret.Timer(1000, diff);
+					this.onlineGiftTimeout = diff;
+					timer.addEventListener(egret.TimerEvent.TIMER, function(event:egret.TimerEvent){
+						this.lblOnlineGiftTimeout.text = (Math.floor(this.onlineGiftTimeout / 60)).toString() + "分钟" + (this.onlineGiftTimeout % 60).toString() + "秒";
+						this.onlineGiftTimeout -= 1;
+					}, this);
+
+					timer.start();				
+				}
+			}
             self.setImage(self.imgPick4,gifts[3]);
+            
             self.setImage(self.imgPick5,gifts[4]);
             self.setImage(self.imgPick6,gifts[5]);
             self.setImage(self.imgPick7,gifts[6]);
