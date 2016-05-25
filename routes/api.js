@@ -77,18 +77,27 @@ router.post('/login', function(req, res, next) {
 				var query = new AV.Query(dao.Customer);
 				query.equalTo("uid", result.data.id);
 				query.find().then(function(customers){
+					var now = moment();
+					
 					if (customers.length > 0) {
 						var customer = customers[0];
 						Customer.offlineGold(customer);
 						Customer.hits(customer);
+						
+						//一天只会记录一次最早的登录
+						if (!moment(customer.get("last_login")).isSame(now, "day")) {
+							customer.set("last_login", now.format());
+													
+							Gift.unlockLogin(customer.id);
+						}
 					} else {
 						var customer = Customer.create(result.data.id, result.data.name, result.data.pic, result.data.sex, result.data.age);
+						customer.set("last_login", now.format());
+						
+						Gift.unlockLogin(customer.id);
 					}
 					
-					customer.set("last_login", moment().format());
 					customer.save().then(function(){
-						Gift.unlock(customer.id, 1);
-						
 						_succeed(res, _decode(customer));
 					}, function(error){
 						console.error("save customer failed " + error.message);
