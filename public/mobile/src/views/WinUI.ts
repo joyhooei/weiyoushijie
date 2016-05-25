@@ -14,10 +14,10 @@ class WinUI extends eui.Component{
         }, this );
         
         this.imgHide.addEventListener(egret.TouchEvent.TOUCH_TAP,() => {
-			if (application.customer.hide_avatar == 1) {
-            	application.customer.hide_avatar = 0;
+			if (application.customer.hide_winner == 1) {
+            	application.customer.hide_winner = 0;
 			} else {
-				application.customer.hide_avatar = 1;
+				application.customer.hide_winner = 1;
 			}
 			
 			this.renderAvatar();
@@ -29,7 +29,7 @@ class WinUI extends eui.Component{
     }
 	
 	private renderAvatar(): void {
-		if (application.customer.hide_avatar == 1) {
+		if (application.customer.hide_winner == 1) {
 			this.imgHide.source == "";
 			
 			this.imgAvatar.source = "Ahide_png"
