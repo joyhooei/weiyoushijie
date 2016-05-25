@@ -2,27 +2,33 @@ var AV = require('leanengine');
 
 module.exports.findAll = function(query) {
 	return Q.Promise(function(resolve, reject, notify) {
-		query.count().then(function(count) {
+		query.count().then(function(total) {
 			if (count <= 0) {
-				resolve();
+				resolve(total);
 				return;
 			}
 			
-			var total  = 0; 
+			var offset  = 0; 
 			var result = [];
-			while (total < count) {
-				query.skip(total);
+			while (offset < total) {
+				query.skip(offset);
 				query.limit(1000);
-				query.find().done(function(models){
+				query.find().then(function(models){
 					notify(models);
 					
-					if (result.length == count) {
-						resolve();
+					if (offset + models.length >= total) {
+						resolve(count);
 					}
+				}, function(error){
+					console.error("Helper findAll find " + error.message);
+					reject(error);
 				});
 
-				total += 1000;
+				offset += 1000;
 			}
-		});
+		}, function(error){
+			console.error("Helper findAll count " + error.message);
+			reject(error);
+		);
 	});
 }
