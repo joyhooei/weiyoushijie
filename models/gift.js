@@ -8,6 +8,7 @@ module.exports.create = function(customerId, category, diamond, metal, gold) {
     gift.set("metal", metal);
     gift.set("gold", gold);
     gift.set("locked", 1);
+    gift.set("data", "");
 	return gift.save();
 }
 
