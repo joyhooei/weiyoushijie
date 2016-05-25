@@ -1,8 +1,5 @@
 var AV = require('leanengine');
 
-var Gift = require('./gift');
-var Project = require('./project');
-
 module.exports.findAll = function(query) {
 	return Q.Promise(function(resolve, reject, notify) {
 		query.count().then(function(count) {
