@@ -8,7 +8,7 @@ module.exports.lockPicked = function(request, response) {
 	var query = new AV.Query(dao.Gift);
 	query.equalTo("locked", 2);
 	Helper.findAll().then(function(count){
-		promises.all().then(function(){
+		Q.all(promises).then(function(){
 			response.succeed("lockAllPicked " + count);
 		}, function(error) {
 			console.error(error.message);
@@ -37,18 +37,29 @@ module.exports.create = function(customerId, category, diamond, metal, gold) {
 }
 
 module.exports.update = function(customerId, category, diamond, metal, gold) {
-	var query = new AV.Query(dao.Gift);
-	query.equalTo("customer_id", customerId);
-    query.equalTo("category", category);
-    query.find().done(function(gifts){
-		if (gifts.length > 0) {
-			var gift = gifts;
-			
-			gift.set("diamond", diamond);
-			gift.set("metal", metal);
-			gift.set("gold", gold);
-			gift.save();
-		}
+	return Q.Promise(function(resolve, reject, notify) {
+		var query = new AV.Query(dao.Gift);
+		query.equalTo("customer_id", customerId);
+		query.equalTo("category", category);
+		query.limit(1);
+		query.find().done(function(gifts){
+			if (gifts.length > 0) {
+				var gift = gifts[0];
+
+				gift.set("diamond", diamond);
+				gift.set("metal", metal);
+				gift.set("gold", gold);
+				gift.save().then(function(){
+					resolve();
+				}, function(error){
+					reject(error);
+				});
+			} else {
+				reject(new Error("cant find gift " + customer_id + " " + category));
+			}
+		}, function(error){
+			reject(error);
+		});
 	});
 }
 
