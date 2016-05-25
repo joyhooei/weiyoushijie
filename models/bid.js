@@ -45,6 +45,8 @@ module.exports.open = function(request, response) {
     });	
 }
 
-module.exports.afterUpdate = function(bid) {
-	Gift.unlock(bid.get("customer_id"), 3);
+module.exports.afterSave = function(request, response) {
+    var bid = request.object;
+
+	Gift.unlockBid(bid.get("customer_id"));
 };
