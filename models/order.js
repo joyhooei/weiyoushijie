@@ -21,7 +21,7 @@ module.exports.pay = function(order) {
 					Gift.update(customer.id, 1, 300, 0, 0);
 				} else if (order.get("product") == "VIP") {
 					customer.set("ticket_expire", moment().add(30 * 12 * 100, 'days').format());
-					customer.increment("metal", 3);
+					customer.increment("metal", 2);
 
 					Gift.update(customer.id, 1, 300, 0, 0);
 				} else if (order.get("product") == "Diamond") {
