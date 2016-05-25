@@ -147,7 +147,7 @@ class HomeUI extends eui.Component{
 		var timer: egret.Timer = new egret.Timer(1000 * 60, 0);
 		timer.addEventListener(egret.TimerEvent.TIMER, function(event:egret.TimerEvent){
 			var dt = new Date();
-			if (dt.getHours() == 12) {
+			if (dt.getHours() == 12 && dt.getMiniutes() == 0) {
 				self.renderBid();
 				
 				application.refreshBid(function(bid){
