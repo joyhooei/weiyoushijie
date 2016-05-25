@@ -2,7 +2,7 @@ var AV = require('leanengine');
 
 var Helper = require('./helper');
 
-module.exports.lockAllPicked = function(request, response) {
+module.exports.lockPicked = function(request, response) {
 	var promises = [];
 	
 	var query = new AV.Query(dao.Gift);
@@ -15,7 +15,6 @@ module.exports.lockAllPicked = function(request, response) {
 			response.error(error.message);		
 		});
 	}, function(error){
-		console.error(error.message);
 		response.error(error.message);		
 	}, function(gifts) {
 		_.each(gifts, function(gift){
