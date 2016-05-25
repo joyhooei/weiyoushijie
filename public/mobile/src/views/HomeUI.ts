@@ -111,6 +111,8 @@ class HomeUI extends eui.Component{
 		self.renderOfflineGold();
 		
 		self.earnGoldDynamically();
+		
+		self.refreshBid();
     }
     
     private earnGoldDynamically(): void {
@@ -153,7 +155,9 @@ class HomeUI extends eui.Component{
 				application.refreshBid(function(bid){
 					if (bid) {
 						self.refresh(0 - bid.gold, 0, 0, 0, null);
-					}
+					} else {
+                    	self.refresh(0, 0, 0, 0, null);
+                    }
 				});
 			}
 		}, this);
@@ -169,10 +173,8 @@ class HomeUI extends eui.Component{
 				if (application.customer.id == bids[0].customer_id) {
 					var bidDay = application.bidDay();
 					if (application.customer.win_day != bidDay) {
-						application.showUI(new WinUI());
-						
 						application.customer.win_day = bidDay;
-						application.dao.save("Customer", application.customer);
+						application.showUI(new WinUI());
 					}
 					
 					self.renderBidCustomer(application.customer, bids[0]);
