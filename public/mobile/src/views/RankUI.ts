@@ -1,5 +1,6 @@
 class RankUI extends eui.Component {
     private listRank:eui.List;
+    private listMyRank:eui.List;
 
     constructor() {
         super();
@@ -13,39 +14,34 @@ class RankUI extends eui.Component {
 		var self = this;
         
         application.dao.fetch("Customer", {}, {limit: 8, order: 'metal DESC'}, function(succeed, customers){
-            var dsCustomers:Array<Object> = new Array<Object>();
-			   
             if (succeed) {
                 for(var i = 0; i < customers.length; i++) {
-					if (i == 0) {
-						var bg = "RR_png";
-					} else if (i == 1) {
-						var bg = "RBlue_png";
-					} else if (i == 2) {
-                        var bg = "RGreen_png";
-					} else {
-						var bg = "RG_png";
+					if (customers[i].metal > 0) {
+						self.addCustomer(false, i + 1, customers[i]);
 					}
-					
-					var c = customers[i];
-                    dsCustomers.push({ bg: bg, icon: c.avatar, name: c.name, metal: c.metal, gold: application.format(c.gold), rank: i + 1 });
                 }
             }
-				
-			self.listRank.dataProvider = new eui.ArrayCollection( dsCustomers );
-			self.listRank.itemRenderer = RankIRSkin;
         })
-    }  
+		
+		application.dao.rest("rank", {customer_id: application.customer.id}, function(succeed, ranks) {
+			if (succeed) {
+				for (var i = 0; i < ranks.length; i++) {
+					self.addCustomer(true, ranks[i].rank, ranks[i].customer);
+				}
+			}
+		});
+    } 
+	
+	private addCustomer(showMe:true, rank: number, customer: any) {
+		var item = new RankItem(showMe, rank, customer);
+		if (showMe) {
+			this.listMyRank.addChild(item);
+		} else {
+			this.listRank.addChild(item);
+		}
+	}
 
     private back(): void {
         this.dispatchEventWith(GameEvents.EVT_RETURN);
-    }
-}
-
-class RankIRSkin extends eui.ItemRenderer {
-    constructor() {
-        super();
-        
-        this.skinName = "rankIRSkin";
     }
 }
