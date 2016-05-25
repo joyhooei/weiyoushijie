@@ -28,7 +28,7 @@ class RankUI extends eui.Component {
 					}
 					
 					var c = customers[i];
-                    dsCustomers.push({ bg: bg, icon: c.avatar, name: c.name, metal: c.metal, gold: application.format(c.gold) });
+                    dsCustomers.push({ bg: bg, icon: c.avatar, name: c.name, metal: c.metal, gold: application.format(c.gold), rank: i + 1 });
                 }
             }
 				
