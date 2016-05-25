@@ -121,5 +121,8 @@ module.exports.afterSave = function(request, response) {
     
     //首冲 1500钻+1勋章+1M 金币。 只能领取一次，不再刷新。灰色时点击跳转首冲页面。
     Gift.create(customer.id, 6, 1500, 1, 1000000);
+    
+    //秒产每增加一个数量级，就得100个钻石
+    Gift.create(customer.id, 7, 100, 0, 0);
 };
 
