@@ -87,18 +87,20 @@ module application {
         application.customer.gold      -= gold;
         application.customer.diamond   -= diamond;
 		
-        if(application.log10(application.customer.output + output) > application.log10(application.customer.output)) {
-			application.dao.fetch("Gift", {customer_id: application.customer.id, category: 7}, {limit: 1}, function(succeed, gifts){
-				if (succeed && gifts.length > 0) {
-					var gift = gifts[0];
-					gift.locked = 0;
-                    gift.data = application.log10(application.customer.output + output).toString();
-					application.dao.save("Gift", gift);
-				}
-			});
+        application.customer.output += output;
+        if (application.customer.output >= 100) {
+			if(application.log10(application.customer.output) > application.log10(application.customer.output - output)) {
+				application.dao.fetch("Gift", {customer_id: application.customer.id, category: 7}, {limit: 1}, function(succeed, gifts){
+					if (succeed && gifts.length > 0) {
+						var gift = gifts[0];
+						gift.locked = 0;
+						gift.data = application.log10(application.customer.output).toString();
+						application.dao.save("Gift", gift);
+					}
+				});
+			}
 		}
 		
-        application.customer.output += output;
         application.dao.save("Customer", application.customer, function(succeed, c){
             if (succeed) {
                 application.refreshCustomer(0 - gold, 0 - diamond, output, 0, proj);
@@ -218,25 +220,29 @@ module application {
                 'aa', 'AA', 'cc', 'CC', 'dd', 'DD', 'ee', 'EE', 'ff', 'FF', 'gg', 'GG', 'hh', 'HH', 'ii', 'II', 'jj', 'JJ', 'll', 'LL', 'nn', 'NN', 'oo', 'OO', 'pp', 'PP', 'qq', 'QQ', 'rr', 'RR', 'ss', 'SS', 'uu', 'UU', 'vv', 'VV', 'ww', 'WW', 'xx', 'XX', 'yy', 'YY', 'zz', 'ZZ',
             ];
             
-        let unit:string  = "";
-        for (var i = 0; i < units.length; i++) {
-            if (d < 10) {
-                return d.toFixed(2) + unit;
-            } else if (d < 100) {
-                return d.toFixed(1) + unit;
-            } else if (d < 1000) {
-                    return d.toFixed() + unit;
-            } else {
-                unit = units[i];
-                d = d / 1000;
-            }
-        }
+		let unit:string  = "";
+		try {
+			for (var i = 0; i < units.length; i++) {
+				if (d < 10) {
+					return d.toFixed(2) + unit;
+				} else if (d < 100) {
+					return d.toFixed(1) + unit;
+				} else if (d < 1000) {
+						return d.toFixed() + unit;
+				} else {
+					unit = units[i];
+					d = d / 1000;
+				}
+			}
+		} catch (error) {
+			console.error("format " + d.toString() + " error " + error.message);
+		}
         
         return d.toFixed() + unit;
     }
     
     export function log10(d:number):number {
-        let result: number = 0;
+        let result:number = 0;
         
         while(d >= 10) {
             result += 1;
