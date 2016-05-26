@@ -12,8 +12,15 @@ class GiftUI extends eui.Component {
     
     private gifts: any[];
 	
+    //在线礼物计时
 	private onlineGiftTimeout: number;
 	private lblOnlineGiftTimeout:eui.Label;
+    
+    //月票剩余天数，如果是终生卡就写永久
+    private lblTicketTimeout:eui.Label;
+    
+    //秒产奖励下一个需要达到的秒产
+    private lblOutput:eui.Label;
 
     constructor() {
         super();
@@ -167,9 +174,37 @@ class GiftUI extends eui.Component {
 			}
             self.setImage(self.imgPick4,gifts[3]);
             
+            //月票礼物
+			if (application.customer.ticket && application.customer.ticket.length > 1) {
+				var ticketTimeout = new Date(application.customer.ticket);
+				var now = Date.now();
+				
+				var timeDiff = ticketTimeout.getTime() - now.getTime();
+				if (timeDiff < 0) {
+					self.lblTicketTimeout.text = "";
+				} else {
+					var diffDays = Math.ceil(timeDiff / (1000 * 3600 * 24)); 
+					if (diffDays > 30) {
+						self.lblTicketTimeout.text = "永久";
+					} else {
+						self.lblTicketTimeout.text = diffDays.toString() + "天";
+					}
+				}
+			} else {
+            	self.lblTicketTimeout.text = "";
+			}
             self.setImage(self.imgPick5,gifts[4]);
+            
             self.setImage(self.imgPick6,gifts[5]);
+            
+            //秒产礼物
+            if (gifts[6].data && gifts[6].data.length > 0) {
+                self.lblOutput.text = (parseInt(gifts[6].data) * 10).toString();
+            } else {
+                self.lblOutput.text = "100";
+            }
             self.setImage(self.imgPick7,gifts[6]);
+            self.setImage(self.imgPick8,gifts[7]);
             
             self.gifts = gifts;
         })
