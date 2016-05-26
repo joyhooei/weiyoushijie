@@ -15,12 +15,13 @@ class RankItem extends eui.Component {
 		if (showMe) {
 			if (rank == 0) {
 				//show empty
+                this.imgBg.source = "RG_png";
 				
 				return;
 			} else {
 				this.lblRank.text = rank.toString();
 				if (customer.id == application.customer.id) {
-                    this.imgBg.source = "PYellow_png";
+                    this.imgBg.source = "RY_png";
 				} else {
                     this.imgBg.source = "RG_png";
 				}
