@@ -156,11 +156,11 @@ class GiftUI extends eui.Component {
 				} else {
 					//在线还不到1个小时，启动定时器
 					var timer: egret.Timer = new egret.Timer(1000, diff);
-					this.onlineGiftTimeout = diff;
+					self.onlineGiftTimeout = diff;
 					timer.addEventListener(egret.TimerEvent.TIMER, function(event:egret.TimerEvent){
-						this.lblOnlineGiftTimeout.text = (Math.floor(this.onlineGiftTimeout / 60)).toString() + "：" + (this.onlineGiftTimeout % 60).toString();
-						this.onlineGiftTimeout -= 1;
-					}, this);
+						self.lblOnlineGiftTimeout.text = (Math.floor(self.onlineGiftTimeout / 60)).toString() + "：" + (self.onlineGiftTimeout % 60).toString();
+						self.onlineGiftTimeout -= 1;
+					}, self);
 
 					timer.start();				
 				}
