@@ -1,15 +1,18 @@
 <?xml version='1.0' encoding='utf-8'?>
 <e:Skin class="giftUISkin" width="467" height="608" xmlns:e="http://ns.egret.com/eui" xmlns:w="http://ns.egret.com/wing">
 	<e:Image width="467" height="608" x="0" y="0" source="giftB_png" fillMode="clip"/>
-	<e:Image id="imgPick1" width="120" height="65" x="315" y="62" fillMode="clip" source="picked_png"/>
-	<e:Image height="65" y="133" fillMode="clip" id="imgPick2" width="120" x="315" source="picked_png"/>
-	<e:Image x="315" y="199" fillMode="clip" id="imgPick3" width="120" height="65" source="picked_png"/>
-	<e:Image height="65" y="265" fillMode="clip" id="imgPick4" width="120" x="315" source="picked_png"/>
-	<e:Image x="315" y="331" fillMode="clip" id="imgPick5" width="120" height="65" source="picked_png"/>
-	<e:Image height="65" y="397" fillMode="clip" id="imgPick6" width="120" x="315" source="picked_png"/>
-	<e:Image y="460" fillMode="clip" source="picked_png" x="315" id="imgPick0" width="120" height="65"/>
-	<e:Image y="530" fillMode="clip" source="picked_png" height="65" id="imgPick7" width="120" x="315"/>
-	<e:Image x="404" id="imgRet" source="helpx_png" fillMode="scale" y="-2" width="65" height="64"/>
+	
+	<e:Image id="imgPick1" width="120" height="65" x="315" y="62"  fillMode="clip" source="picked_png"/>
+	<e:Image id="imgPick2" width="120" height="65" x="315" y="133" fillMode="clip" source="picked_png"/>
+	<e:Image id="imgPick3" width="120" height="65" x="315" y="199" fillMode="clip" source="picked_png"/>
+	<e:Image id="imgPick4" width="120" height="65" x="315" y="265" fillMode="clip" source="picked_png"/>
+	<e:Image id="imgPick5" width="120" height="65" x="315" y="331" fillMode="clip" source="picked_png"/>
+	<e:Image id="imgPick6" width="120" height="65" x="315" y="397" fillMode="clip" source="picked_png"/>
+	<e:Image id="imgPick7" width="120" height="65" x="315" y="460" fillMode="clip" source="picked_png" />
+	<e:Image id="imgPick8" width="120" height="65" x="315" y="530" fillMode="clip" source="picked_png"/>
+	
+	<e:Image x="404" id="imgRet" source="helpx_png" fillMode="scale" y="-2" width="65" height="65"/>
+	
 	<e:Label id="lblOnlineGiftTimeout" text="00:00" x="200" y="143" size="24"/>
 	<e:Label id="lblOutput" size="24" y="473" text="00.0aa" x="212"/>
 	<e:Label id="lblDiamond" size="24" y="496" text="100" x="189" width="42" height="24"/>
