@@ -24,7 +24,9 @@ class RankUI extends eui.Component {
 		application.dao.rest("rank", {customer_id: application.customer.id}, function(succeed, ranks) {
 			if (succeed) {
 				for (var i = 0; i < ranks.length; i++) {
-					self.addCustomer(true, ranks[i].rank, ranks[i].customer);
+                    if (ranks[i].customer) {
+					    self.addCustomer(true, ranks[i].rank, ranks[i].customer);
+                    }
 				}
 			}
 		});
