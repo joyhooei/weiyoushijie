@@ -9,6 +9,9 @@ var HomeUI = (function (_super) {
     var d = __define,c=HomeUI,p=c.prototype;
     p.uiCompHandler = function () {
         var self = this;
+        self.lblAddGold.visible = false;
+        self.imgAddGold.visible = false;
+        self.lblAddGold.backgroundColor = 0xFFFFFF;
         self.btnHome.addEventListener(egret.TouchEvent.TOUCH_TAP, self.btnHandler, self);
         self.btnRank.addEventListener(egret.TouchEvent.TOUCH_TAP, self.btnHandler, self);
         self.btnTool.addEventListener(egret.TouchEvent.TOUCH_TAP, self.btnHandler, self);
@@ -167,7 +170,7 @@ var HomeUI = (function (_super) {
     p.earnGold = function (second) {
         var gold = this.getOutput() * second;
         application.customer.gold += gold;
-        this.animateStep(this.lblGold, application.usableGold() - gold, application.usableGold());
+        this.refresh(gold, 0, 0, 0, null);
         application.dao.save("Customer", application.customer, null);
     };
     p.onHit = function () {
@@ -225,6 +228,19 @@ var HomeUI = (function (_super) {
     p.refresh = function (goldAdded, diamondAdded, outputAdded, totalHits, projEdited) {
         if (goldAdded != 0) {
             this.animateStep(this.lblGold, application.usableGold() - goldAdded, application.usableGold());
+            if (goldAdded > 0) {
+                this.lblAddGold.visible = true;
+                this.lblAddGold.text = application.format(goldAdded);
+                var timer = new egret.Timer(200, 5);
+                timer.addEventListener(egret.TimerEvent.TIMER, function (event) {
+                    this.imgAddGold.visible = !this.imgAddGold.visible;
+                }, this);
+                timer.addEventListener(egret.TimerEvent.TIMER_COMPLETE, function (event) {
+                    this.lblAddGold.visible = false;
+                    this.imgAddGold.visible = false;
+                }, this);
+                timer.start();
+            }
         }
         if (diamondAdded != 0) {
             this.animateStep(this.lblDiamond, application.customer.diamond - diamondAdded, application.customer.diamond);

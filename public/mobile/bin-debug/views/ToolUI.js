@@ -88,7 +88,7 @@ var ToolUI = (function (_super) {
         });
     };
     p.addProject = function (proj) {
-        if (proj) {
+        if (proj && proj.unlocked == 0) {
             var i = proj.sequence;
             var item = new ToolItem(proj, application.projects[i], (i + 1).toString() + "_png", "t" + (i + 1).toString() + "_png");
             this.grpProject.addChildAt(item, i);

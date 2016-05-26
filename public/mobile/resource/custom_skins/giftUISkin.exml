@@ -14,6 +14,6 @@
 	<e:Image x="404" id="imgRet" source="helpx_png" fillMode="scale" y="-2" width="65" height="65"/>
 	
 	<e:Label id="lblOnlineGiftTimeout" text="00:00" x="200" y="143" size="24"/>
-	<e:Label id="lblOutput" size="24" y="473" text="00.0aa" x="212"/>
-	<e:Label id="lblDiamond" size="24" y="496" text="100" x="189" width="42" height="24"/>
+	<e:Label id="lblTicketGiftTimeout" size="24" y="340" text="00" x="298"/>
+	<e:Label id="lblOutputGift" size="24" y="473" text="00.0aa" x="212"/>
 </e:Skin>

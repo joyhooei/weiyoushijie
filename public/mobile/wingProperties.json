@@ -703,6 +703,11 @@
 					"isFolder":false,
 					"key":"att_png",
 					"name":"att_png"
+				},
+				{
+					"isFolder":false,
+					"key":"coineffect_png",
+					"name":"coineffect_png"
 				}
 			]
 		}

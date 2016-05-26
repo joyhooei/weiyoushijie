@@ -26,7 +26,7 @@ class HomeUI extends eui.Component{
     private lblGold:eui.Label;
     private lblDiamond: eui.Label;
 	
-	private grpAddGold: eui.Group;
+	private imgAddGold: eui.Image;
 	private lblAddGold: eui.Label;
     
 	private imgBidAvatar:eui.Image;
@@ -57,6 +57,10 @@ class HomeUI extends eui.Component{
 
     private uiCompHandler():void {
         var self = this;
+        
+        self.lblAddGold.visible = false;
+        self.imgAddGold.visible = false;
+        self.lblAddGold.backgroundColor = 0xFFFFFF;
         
         self.btnHome.addEventListener( egret.TouchEvent.TOUCH_TAP, self.btnHandler, self );
         self.btnRank.addEventListener( egret.TouchEvent.TOUCH_TAP, self.btnHandler, self );
@@ -254,7 +258,7 @@ class HomeUI extends eui.Component{
 		var gold = this.getOutput() * second;
 		
 		application.customer.gold += gold;
-		this.animateStep(this.lblGold, application.usableGold() - gold, application.usableGold());
+		this.refresh(gold, 0, 0, 0, null);
 		
 		application.dao.save("Customer", application.customer, null);
 	}
@@ -323,20 +327,23 @@ class HomeUI extends eui.Component{
         timer.start();
 	}
 	
-    public refresh(goldAdded: number,diamondAdded: number,outputAdded: number,totalHits:number, projEdited:any):void {
+    public refresh(goldAdded: number, diamondAdded: number,outputAdded: number,totalHits:number, projEdited:any):void {
 		if (goldAdded != 0) {
         	this.animateStep(this.lblGold, application.usableGold() - goldAdded, application.usableGold());
             
 			if (goldAdded > 0) {
-				this.grpAddGold.visible = true;
+                this.lblAddGold.visible = true;
 				this.lblAddGold.text = application.format(goldAdded);
-				var timer: egret.Timer = new egret.Timer(100, 10);
+				var timer: egret.Timer = new egret.Timer(200, 5);
 				timer.addEventListener(egret.TimerEvent.TIMER, function(event:egret.TimerEvent){
-					this.grpAddGold.visible = !this.grpAddGold.visible;
+                    this.imgAddGold.visible = !this.imgAddGold.visible;
 				}, this);			
 				timer.addEventListener(egret.TimerEvent.TIMER_COMPLETE, function(event:egret.TimerEvent){
-					this.grpAddGold.visible = false;
+                    this.lblAddGold.visible = false;
+                    this.imgAddGold.visible = false;
 				}, this);
+				
+                timer.start();
             }
 		}
 		

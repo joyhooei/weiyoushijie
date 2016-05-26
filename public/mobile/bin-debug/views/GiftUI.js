@@ -109,33 +109,69 @@ var GiftUI = (function (_super) {
     p.uiCompHandler = function () {
         var self = this;
         application.dao.fetch("Gift", { customer_id: application.customer.id }, { order: 'category ASC' }, function (succeed, gifts) {
+            //登录200钻。每天领取一次
             self.setImage(self.imgPick1, gifts[0]);
-            self.setImage(self.imgPick2, gifts[1]);
-            self.setImage(self.imgPick3, gifts[2]);
+            //在线奖励，每天200钻。
             //如果今天的在线时间礼物还没有领取，检查一下是否可以领取了
-            if (gifts[3].locked == 1) {
+            if (gifts[1].locked == 1) {
                 var lastLogin = new Date(application.customer.last_login);
                 var today = new Date();
                 var diff = (today.getTime() - lastLogin.getTime()) / 1000;
                 if (diff > 60 * 60) {
                     //已经过了一小时，可以领取了
-                    gifts[3].locked = 0;
+                    gifts[1].locked = 0;
                 }
                 else {
                     //在线还不到1个小时，启动定时器
                     var timer = new egret.Timer(1000, diff);
-                    this.onlineGiftTimeout = diff;
+                    self.onlineGiftTimeout = diff;
                     timer.addEventListener(egret.TimerEvent.TIMER, function (event) {
-                        this.lblOnlineGiftTimeout.text = (Math.floor(this.onlineGiftTimeout / 60)).toString() + "：" + (this.onlineGiftTimeout % 60).toString();
-                        this.onlineGiftTimeout -= 1;
-                    }, this);
+                        self.lblOnlineGiftTimeout.text = (Math.floor(self.onlineGiftTimeout / 60)).toString() + ":" + (Math.floor(self.onlineGiftTimeout % 60)).toString();
+                        self.onlineGiftTimeout -= 1;
+                    }, self);
                     timer.start();
                 }
             }
+            self.setImage(self.imgPick2, gifts[1]);
+            //拍卖100钻。每天领取一次。灰色点击直接跳去拍卖页面。
+            self.setImage(self.imgPick3, gifts[2]);
+            //永久会员/月票 300钻。每天领取一次。灰色是点击跳入会员购买页面（参照道具弹出窗口） 月票默认30天，会显示剩余月票天数，如果是永久则显示永久
+            if (application.customer.ticket && application.customer.ticket.length > 1) {
+                var ticketTimeout = new Date(application.customer.ticket);
+                var now = new Date();
+                ;
+                var timeDiff = ticketTimeout.getTime() - now.getTime();
+                if (timeDiff < 0) {
+                    self.lblTicketGiftTimeout.text = "";
+                }
+                else {
+                    var diffDays = Math.ceil(timeDiff / (1000 * 3600 * 24));
+                    if (diffDays > 30) {
+                        self.lblTicketGiftTimeout.text = "永久";
+                    }
+                    else {
+                        self.lblTicketGiftTimeout.text = diffDays.toString() + "天";
+                    }
+                }
+            }
+            else {
+                self.lblTicketGiftTimeout.text = "";
+            }
             self.setImage(self.imgPick4, gifts[3]);
+            //分享100钻。每天任意在微博，微信等地方分享一次就可以领取。灰色时点击跳入分享页面。
             self.setImage(self.imgPick5, gifts[4]);
+            //首冲 1500钻+1勋章+1M 金币。 只能领取一次，不再刷新。灰色时点击跳转首冲页面。
             self.setImage(self.imgPick6, gifts[5]);
+            //秒产每增加一个数量级，就得100个钻石
+            if (gifts[6].data && gifts[6].data.length > 0) {
+                self.lblOutputGift.text = (parseInt(gifts[6].data) * 10).toString();
+            }
+            else {
+                self.lblOutputGift.text = "100";
+            }
             self.setImage(self.imgPick7, gifts[6]);
+            //关注
+            self.setImage(self.imgPick8, gifts[7]);
             self.gifts = gifts;
         });
     };
@@ -144,7 +180,7 @@ var GiftUI = (function (_super) {
             if (gift.category == 5) {
                 imgPic.source = "share_png";
             }
-            else if (gift.category == 7) {
+            else if (gift.category == 8) {
                 imgPic.source = "att_png";
             }
             else {

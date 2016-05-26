@@ -97,8 +97,9 @@
 		</e:skinName>
 	</e:Button>
 	
-	<e:Group id="grpAddGold" width="50" height="50" x="50" y="280" visible=false>
-		<e:Image width="50" height="50" x="0" y="10" fillMode="clip" source="coineffect_png"/>
-		<e:Label id="lblAddGold" text="100%" x="3" y="27" size="16" textAlign="center" width="43" height="15"/>
+	<e:Group id="grpAddGold" width="98" height="27" x="9" y="370">
+		<e:Image id="imgAddGold" width="22" height="25" x="0" y="0" fillMode="clip" source="coineffect_png"/>
+		<e:Label id="lblAddGold" text="00.0aa" x="23" y="2" size="20" textAlign="left" width="69" height="23" verticalAlign="justify"/>
 	</e:Group>
+
 </e:Skin>
