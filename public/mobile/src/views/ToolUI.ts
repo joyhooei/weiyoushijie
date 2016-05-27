@@ -21,7 +21,7 @@ class ToolUI extends eui.Component {
         tLayout.horizontalGap = 0;
         tLayout.verticalGap = 0;
         tLayout.columnAlign = eui.ColumnAlign.JUSTIFY_USING_WIDTH;
-        tLayout.rowAlign = eui.RowAlign.JUSTIFY_USING_HEIGHT;
+        tLayout.rowAlign = eui.RowAlign.TOP;
         tLayout.paddingTop = 0;
         tLayout.paddingRight = 0;
         tLayout.paddingLeft = 0;
