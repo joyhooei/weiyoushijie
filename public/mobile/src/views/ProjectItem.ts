@@ -117,7 +117,7 @@ class ProjectItem extends eui.Component {
                 grp.addChild(img);
 
 			 	img.addEventListener(egret.TouchEvent.TOUCH_TAP,() => {
-			  		application.showUI(new BuyAchieveUI(self._myProject,self._project,icon));
+			  		application.showUI(new BuyAchieveUI(self._myProject, self._project, achieve));
 			 	},this);
             } else {
                 //不可以购买的成就
