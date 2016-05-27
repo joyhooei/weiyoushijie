@@ -25,7 +25,7 @@ module.exports.lockPicked = function(request, response) {
 	});
 }
 
-module.exports.create = function(customerId, category, diamond, metal, gold) {
+module.exports.create = function(customerId, category, diamond, metal, gold, game) {
     var gift = new dao.Gift();
     gift.set("customer_id", customerId);
     gift.set("category", category);
@@ -34,6 +34,7 @@ module.exports.create = function(customerId, category, diamond, metal, gold) {
     gift.set("gold", gold);
     gift.set("locked", 1);
     gift.set("data", "");
+	gift.set("game", game);
 	return gift.save();
 }
 
