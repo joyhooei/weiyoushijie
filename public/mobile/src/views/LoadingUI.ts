@@ -1,12 +1,9 @@
 class LoadingUI extends egret.Sprite {
-    public constructor() {
-        super();
-        this.createView();
-    }
-
     private textField:egret.TextField;
 
-    private createView():void {
+    public constructor() {
+        super();
+        
         this.textField = new egret.TextField();
         this.textField.textColor = 0XFFFFFF;
         this.textField.y = 300;
