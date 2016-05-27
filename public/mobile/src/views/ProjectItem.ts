@@ -94,7 +94,7 @@ class ProjectItem extends eui.Component {
         
         var tiltels = ['英勇黄铜', '不屈白银', '荣耀黄金', '华贵铂金', '璀璨钻石', '超凡大师', '最强王者', '近神Dominating', '神Godlike', '超神Legendary'];
         var help = tiltels[achieve - 1] + "\n";
-        help += "完成成就提高金币产量" + this._project.outputRatioOfAchieve(achieve - 1).toString() + "倍，并获得100钻石奖励。\n";
+        help += "完成成就提高金币产量" + this._project.outputRatioOfAchieve(achieve - 1).toString() + "倍。\n";
         help += this._project.levelOfAchieve(achieve - 1).toString() + "级解锁成就\n";
 
         if(achieve <= this._myProject.achieve) {
