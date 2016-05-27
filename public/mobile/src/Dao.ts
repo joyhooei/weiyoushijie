@@ -1,11 +1,19 @@
 class Dao {
     private _baseUrl: string;
+    private _gameName: string;
     
-    constructor(baseUrl: string) {
+    constructor(baseUrl: string, gameName: string) {
         this._baseUrl = baseUrl;
+        this._gameName = gameName;
     }
 	
 	public fetch(model:string, conditions:{}, filters:{}, cb: Function) {
+        if (conditions) {
+            conditions.game = this._gameName;
+        } else {
+            conditions = {game: this._gameName};
+        }
+        
 		this.rest("select/" + model, {conditions: conditions, filters: filters}, cb);
 	}
 	
@@ -20,6 +28,8 @@ class Dao {
             }
         }
         
+        data.game = this._gameName;
+        
 		if (data.id){
 			this.rest("update/" + model + "/" + data.id, data, _cb);
 		} else {
@@ -32,7 +42,7 @@ class Dao {
 		request.responseType = egret.HttpResponseType.TEXT;
 		
 		//设置为 POST 请求
-		request.open(this._baseUrl + method, egret.HttpMethod.POST);
+		request.open(this._baseUrl + method + "?game=" + this._gameName, egret.HttpMethod.POST);
 		request.setRequestHeader("Content-Type", "application/json");
 
         request.addEventListener(egret.Event.COMPLETE, (evt: egret.Event) => {
