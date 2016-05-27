@@ -208,7 +208,9 @@ module application {
     }
     
     export function hideUI(ui: eui.Component): eui.Component {
-        ui.parent.removeChild(ui);
+        if (ui && ui.parent) {
+            ui.parent.removeChild(ui);
+        }
         
         return ui;
     }
