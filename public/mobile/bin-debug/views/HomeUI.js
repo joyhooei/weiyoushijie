@@ -229,11 +229,13 @@ var HomeUI = (function (_super) {
         if (goldAdded != 0) {
             this.animateStep(this.lblGold, application.usableGold() - goldAdded, application.usableGold());
             if (goldAdded > 0) {
+                this.grpAddGold.y = 370;
+                this.imgAddGold.visible = true;
                 this.lblAddGold.visible = true;
-                this.lblAddGold.text = application.format(goldAdded);
-                var timer = new egret.Timer(200, 5);
+                this.lblAddGold.text = "+" + application.format(goldAdded);
+                var timer = new egret.Timer(100, 20);
                 timer.addEventListener(egret.TimerEvent.TIMER, function (event) {
-                    this.imgAddGold.visible = !this.imgAddGold.visible;
+                    this.grpAddGold.y -= 10;
                 }, this);
                 timer.addEventListener(egret.TimerEvent.TIMER_COMPLETE, function (event) {
                     this.lblAddGold.visible = false;
@@ -263,7 +265,7 @@ var HomeUI = (function (_super) {
                 this.projectItems[i].refresh(proj);
             }
             else {
-                var item = new ProjectItem(proj, application.projects[i], (i + 1).toString() + "_png", "t" + (i + 1).toString() + "_png");
+                var item = new ProjectItem(proj, application.projects[i]);
                 this.projectItems[i] = item;
                 this.grpProject.addChildAt(item, i);
             }

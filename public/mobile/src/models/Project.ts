@@ -123,18 +123,6 @@ class Project {
 		return project;
 	}
 	
-	static createProjectSix(): Project {
-        return this.createProject();
-	}
-	
-	static createProjectSeven(): Project {
-        return this.createProject();
-	}
-	
-	static createProjectEight(): Project {
-        return this.createProject();
-	}
-	
 	//根据级别、成就和道具个数计算本项目的秒产
 	public output(level: number, achieve: number):number {
 		//累积产量系数	判定lv所处区间。累积产量系数=上区间最终值*本区间产量系数^ (lv-上区间最终lv值）
@@ -193,6 +181,6 @@ class Project {
 	}
 	
 	public achieve(a: number): any {
-		return this._achieves[achieve - 1];
+		return this._achieves[a - 1];
 	}
 }

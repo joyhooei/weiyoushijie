@@ -1,9 +1,16 @@
 var Dao = (function () {
-    function Dao(baseUrl) {
+    function Dao(baseUrl, gameName) {
         this._baseUrl = baseUrl;
+        this._gameName = gameName;
     }
     var d = __define,c=Dao,p=c.prototype;
     p.fetch = function (model, conditions, filters, cb) {
+        if (conditions) {
+            conditions["game"] = this._gameName;
+        }
+        else {
+            conditions = { game: this._gameName };
+        }
         this.rest("select/" + model, { conditions: conditions, filters: filters }, cb);
     };
     p.save = function (model, data, cb) {
@@ -15,6 +22,7 @@ var Dao = (function () {
                 cb(succeed, result);
             }
         };
+        data.game = this._gameName;
         if (data.id) {
             this.rest("update/" + model + "/" + data.id, data, _cb);
         }
@@ -26,7 +34,7 @@ var Dao = (function () {
         var request = new egret.HttpRequest();
         request.responseType = egret.HttpResponseType.TEXT;
         //设置为 POST 请求
-        request.open(this._baseUrl + method, egret.HttpMethod.POST);
+        request.open(this._baseUrl + method + "?game=" + this._gameName, egret.HttpMethod.POST);
         request.setRequestHeader("Content-Type", "application/json");
         request.addEventListener(egret.Event.COMPLETE, function (evt) {
             var request = evt.currentTarget;

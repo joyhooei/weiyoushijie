@@ -18,12 +18,12 @@ module.exports.pay = function(order) {
 						customer.increment("metal", 1);
 					}
 
-					Gift.update(customer.id, 1, 300, 0, 0);
+					Gift.buyTicket(customer);
 				} else if (order.get("product") == "VIP") {
 					customer.set("ticket_expire", moment().add(30 * 12 * 100, 'days').format());
 					customer.increment("metal", 2);
 
-					Gift.update(customer.id, 1, 300, 0, 0);
+					Gift.buyTicket(customer);
 				} else if (order.get("product") == "Diamond") {
 					customer.increment("diamond", 200);
 				} else {

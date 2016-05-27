@@ -9,7 +9,7 @@ class Dao {
 	
 	public fetch(model:string, conditions:{}, filters:{}, cb: Function) {
         if (conditions) {
-            conditions.game = this._gameName;
+            conditions["game"] = this._gameName;
         } else {
             conditions = {game: this._gameName};
         }

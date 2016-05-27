@@ -1,12 +1,16 @@
 var BuyAchieveUI = (function (_super) {
     __extends(BuyAchieveUI, _super);
-    function BuyAchieveUI(myProject, project, icon) {
+    function BuyAchieveUI(myProject, project, achieve) {
         _super.call(this);
         this._myProject = myProject;
         this._project = project;
+        this._achieve = achieve;
         this.addEventListener(eui.UIEvent.COMPLETE, this.uiCompHandler, this);
         this.skinName = "resource/custom_skins/buyAchieveUISkin.exml";
-        this.imgIcon.source = icon;
+        this.imgIcon.source = "acv" + achieve.toString() + "_png";
+        this.imgProject.source = "t" + (myProject.sequence + 1).toString() + "_png";
+        this.lblRatio.text = project.achieve(achieve).outputRatio.toString();
+        this.lblLevel.text = project.achieve(achieve).level.toString();
     }
     var d = __define,c=BuyAchieveUI,p=c.prototype;
     p.uiCompHandler = function () {
@@ -14,7 +18,7 @@ var BuyAchieveUI = (function (_super) {
         this.imgBack.addEventListener(egret.TouchEvent.TOUCH_TAP, function () {
             application.hideUI(_this);
         }, this);
-        var p = this._project.goldPriceOfAchieve(this._myProject.achieve + 1);
+        var p = this._project.achieve(this._myProject.achieve + 1).priceUseGold;
         this.lblGold.text = p.toString();
         if (application.usableGold() < p) {
             this.imgBuyUseGold.source = "buttoncoinno_png";
@@ -24,7 +28,7 @@ var BuyAchieveUI = (function (_super) {
                 _this.buyAchieveUseGold();
             }, this);
         }
-        p = this._project.diamondPriceOfAchieve(this._myProject.achieve + 1);
+        p = this._project.achieve(this._myProject.achieve + 1).priceUseDiamond;
         this.lblDiamond.text = p.toString();
         if (application.customer.diamond < p) {
             this.imgBuyUseDiamond.source = "buttondiano_png";
@@ -34,18 +38,15 @@ var BuyAchieveUI = (function (_super) {
                 _this.buyAchieveUseDiamond();
             }, this);
         }
-        var delta = this.delta();
-        var description = "获得成就将提高秒产" + delta.toString() + "个金币";
-        this.lblDescription.text = description;
     };
     p.delta = function () {
-        return this._project.output(this._myProject.level, this._myProject.achieve + 1) - this._project.output(this._myProject.level, this._myProject.achieve);
+        return this._project.output(this._myProject.level, this._achieve) - this._project.output(this._myProject.level, this._myProject.achieve);
     };
     p.buyAchieveUseGold = function () {
         var self = this;
-        var p = self._project.goldPriceOfAchieve(self._myProject.achieve + 1);
+        var p = self._project.achieve(self._myProject.achieve + 1).priceUseGold;
         var delta = self.delta();
-        self._myProject.achieve += 1;
+        self._myProject.achieve = self._achieve;
         application.dao.save("Project", self._myProject, function (succeed, proj) {
             if (succeed) {
                 application.buyOutput(p, 0, delta, self._myProject, function (succeed, c) {
@@ -64,9 +65,9 @@ var BuyAchieveUI = (function (_super) {
     };
     p.buyAchieveUseDiamond = function () {
         var self = this;
-        var p = self._project.diamondPriceOfAchieve(self._myProject.achieve + 1);
+        var p = self._project.achieve(self._myProject.achieve + 1).priceUseDiamond;
         var delta = self.delta();
-        self._myProject.achieve += 1;
+        self._myProject.achieve = self._achieve;
         application.dao.save("Project", self._myProject, function (succeed, proj) {
             if (succeed) {
                 application.buyOutput(0, p, delta, self._myProject, function (succeed, c) {

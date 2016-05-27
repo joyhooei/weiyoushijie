@@ -25,8 +25,8 @@ class ProjectItem extends eui.Component {
         this.addEventListener(eui.UIEvent.COMPLETE,this.firstRefresh,this);
         this.skinName = "resource/custom_skins/projectItemSkin.exml";
         
-        this.imgIcon.source = myProject.sequence.toString() + "_png";
-		this.imgTitle.source = "t" + myProject.sequence.toString() + "_png";
+        this.imgIcon.source = (myProject.sequence + 1).toString() + "_png";
+        this.imgTitle.source = "t" + (myProject.sequence + 1).toString() + "_png";
     }
 	
 	public refresh(myProject: any): void {

@@ -3,9 +3,9 @@
 	<e:Image height="140" width="470" x="0" y="0" source="Projectbar_png" fillMode="clip"/>
 	<e:Image id="imgIcon" height="77" width="112" x="1" y="0" source="1_png" fillMode="clip"/>
 	<e:Image id="imgUpgrade" width="139" height="84" x="253" y="7" fillMode="clip" source="upgrade_png"/>
-	<e:Label id="lblLevel" x="187" y="75" size="12" text="1"/>
-	<e:Label id="lblOutput" text="1" x="188" y="45" size="12"/>
-	<e:Label id="lblPrice" text="1" x="271" y="53" size="12" height="21" width="90" textAlign="center"/>
+	<e:Label id="lblLevel" x="180" y="69" size="24" text="0.00aa"/>
+	<e:Label id="lblOutput" text="0.00aa" x="180" y="38" size="24"/>
+	<e:Label id="lblPrice" text="0.00aa" x="271" y="54" size="24" height="23" width="90" textAlign="center"/>
 	<e:Button id="btnUnlock" label="解锁" x="178" y="27"/>
 	<e:Group id="grpAchieve" width="465" height="41" x="2" y="96">
 		<e:layout>
@@ -14,5 +14,5 @@
 	</e:Group>
 	<e:Image id="imgUpgrade10" width="76" height="44" x="388" y="5" fillMode="clip" source="upgrade10_png"/>
 	<e:Image id="imgUpgrade100" y="51" x="389" width="75" height="48" fillMode="clip" source="upgrade100_png"/>
-	<e:Image id="imgTitle" height="32" width="120" x="120" y="0" source="t1_png" fillMode="clip"/>
+	<e:Image id="imgTitle" height="32" width="120" x="120" y="3" source="t1_png" fillMode="clip"/>
 </e:Skin>

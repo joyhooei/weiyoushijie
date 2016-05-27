@@ -2,9 +2,15 @@ var application;
 (function (application) {
     function init(main) {
         application.main = main;
-        application.dao = new Dao("http://headlines.leanapp.cn/api/");
-        //application.dao = new Dao("http://localhost:3000/api/");
+        application.baseUrl = "http://weiyugame.leanapp.cn/";
+        //application.baseUrl = "http://localhost:3000/";
+        application.dao = new Dao(application.baseUrl + "api/", "headlines");
         application.projects = Project.createAllProjects();
+        application.units = [
+            'k', 'm', 'b', 't',
+            'a', 'A', 'c', 'C', 'd', 'D', 'e', 'E', 'f', 'F', 'g', 'G', 'h', 'H', 'i', 'I', 'j', 'J', 'l', 'L', 'n', 'N', 'o', 'O', 'p', 'P', 'q', 'Q', 'r', 'R', 's', 'S', 'u', 'U', 'v', 'V', 'w', 'W', 'x', 'X', 'y', 'Y', 'z', 'Z',
+            'aa', 'AA', 'cc', 'CC', 'dd', 'DD', 'ee', 'EE', 'ff', 'FF', 'gg', 'GG', 'hh', 'HH', 'ii', 'II', 'jj', 'JJ', 'll', 'LL', 'nn', 'NN', 'oo', 'OO', 'pp', 'PP', 'qq', 'QQ', 'rr', 'RR', 'ss', 'SS', 'uu', 'UU', 'vv', 'VV', 'ww', 'WW', 'xx', 'XX', 'yy', 'YY', 'zz', 'ZZ',
+        ];
     }
     application.init = init;
     function login(data) {
@@ -136,8 +142,8 @@ var application;
     function share(callback) {
         nest.share.isSupport({}, function (data) {
             if (data.share == 1) {
-                var url = "http://headlines.leanapp.cn/mobile/index.html?platInfo=open_90240_9166&egret.runtime.spid=9166&appId=90240&channelId=9166&egretSdkDomain=http://api.egret-labs.org/v2&egretServerDomain=http://api.egret-labs.org/v2";
-                var img_url = "http://headlines.leanapp.cn/mobile/resource/art/home/icon.png";
+                var url = application.baseUrl + "mobile/index.html";
+                var img_url = application.baseUrl + "mobile/resource/art/home/icon.png";
                 nest.share.share({ title: '我要上头条', description: '我要上头条', url: url, img_url: img_url, img_title: '我要上头条' }, function (data) {
                     if (data.result == 0) {
                         callback();
@@ -187,36 +193,50 @@ var application;
     application.gotoTool = gotoTool;
     function showHelp(content) {
         if (content.length == 0) {
-            content = "\
-            玩法\n\
-            点击跳舞人偶产生金币，可以用来升级运营项目。运营项目随等级提高会产生更多的金币。金币可以用来参加头条拍卖，每天最高出价者会成为头条，获得勋章和钻石奖励。道具可以帮助玩家快速获得大量金币和永久提高运营项目的秒产。排行榜会按照勋章的多少排明，勋章数量相同则按照获得金币的总量排名。\n\
-            玩法\n\
-            点击跳舞人偶产生金币，可以用来升级运营项目。运营项目随等级提高会产生更多的金币。金币可以用来参加头条拍卖，每天最高出价者会成为头条，获得勋章和钻石奖励。道具可以帮助玩家快速获得大量金币和永久提高运营项目的秒产。排行榜会按照勋章的多少排明，勋章数量相同则按照获得金币的总量排名。";
+            content = "微信帮助平台 Amazing微遇游戏\n";
+            content += "QQ客服 3369182016\n";
+            content += "邮箱 3369182016@qq.com\n";
+            content += "玩法\n";
+            content += "1. 点击中间舞者可产生金币，金币用来升级运营项目，而运营项目随等级提高从而产生更多的金币。\n";
+            content += "2. 金币可以用来参加头条拍卖，每天最高出价者会成为头条，获得头条殊荣，勋章和钻石奖励。\n";
+            content += "3. 道具可以帮助玩家快速获得大量金币和永久提高运营项目的每秒产量。\n";
+            content += "4. 排行榜会按照勋章的个数排名，勋章数量一致时则按照金币的总量排名。\n";
+            content += "金币单位\n";
+            for (var i = 0; i < application.units.length; i++) {
+                var zeros = ((i + 1) * 3).toString();
+                content += zeros + "个0";
+                for (var j = zeros.length; j < 10; j++) {
+                    content += " ";
+                }
+                content += application.units[i] + "\n";
+            }
         }
         return application.showUI(new HelpUI(content));
     }
     application.showHelp = showHelp;
-    function showUI(ui) {
+    function showUI(ui, parent) {
         ui.horizontalCenter = 0;
         ui.verticalCenter = 0;
-        application.main.homeUI.addChild(ui);
+        if (parent) {
+            parent.addChild(ui);
+        }
+        else {
+            application.main.homeUI.addChild(ui);
+        }
         return ui;
     }
     application.showUI = showUI;
     function hideUI(ui) {
-        ui.parent.removeChild(ui);
+        if (ui && ui.parent) {
+            ui.parent.removeChild(ui);
+        }
         return ui;
     }
     application.hideUI = hideUI;
     function format(d) {
-        var units = [
-            'k', 'm', 'b', 't',
-            'a', 'A', 'c', 'C', 'd', 'D', 'e', 'E', 'f', 'F', 'g', 'G', 'h', 'H', 'i', 'I', 'j', 'J', 'l', 'L', 'n', 'N', 'o', 'O', 'p', 'P', 'q', 'Q', 'r', 'R', 's', 'S', 'u', 'U', 'v', 'V', 'w', 'W', 'x', 'X', 'y', 'Y', 'z', 'Z',
-            'aa', 'AA', 'cc', 'CC', 'dd', 'DD', 'ee', 'EE', 'ff', 'FF', 'gg', 'GG', 'hh', 'HH', 'ii', 'II', 'jj', 'JJ', 'll', 'LL', 'nn', 'NN', 'oo', 'OO', 'pp', 'PP', 'qq', 'QQ', 'rr', 'RR', 'ss', 'SS', 'uu', 'UU', 'vv', 'VV', 'ww', 'WW', 'xx', 'XX', 'yy', 'YY', 'zz', 'ZZ',
-        ];
         var unit = "";
         try {
-            for (var i = 0; i < units.length; i++) {
+            for (var i = 0; i < application.units.length; i++) {
                 if (d < 10) {
                     return d.toFixed(2) + unit;
                 }
@@ -227,7 +247,7 @@ var application;
                     return d.toFixed() + unit;
                 }
                 else {
-                    unit = units[i];
+                    unit = application.units[i];
                     d = d / 1000;
                 }
             }

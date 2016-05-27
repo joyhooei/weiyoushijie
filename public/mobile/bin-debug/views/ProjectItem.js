@@ -1,13 +1,13 @@
 var ProjectItem = (function (_super) {
     __extends(ProjectItem, _super);
-    function ProjectItem(myProject, project, iconName, titleName) {
+    function ProjectItem(myProject, project) {
         _super.call(this);
         this._myProject = myProject;
         this._project = project;
         this.addEventListener(eui.UIEvent.COMPLETE, this.firstRefresh, this);
         this.skinName = "resource/custom_skins/projectItemSkin.exml";
-        this.imgIcon.source = iconName;
-        this.imgTitle.source = titleName;
+        this.imgIcon.source = (myProject.sequence + 1).toString() + "_png";
+        this.imgTitle.source = "t" + (myProject.sequence + 1).toString() + "_png";
     }
     var d = __define,c=ProjectItem,p=c.prototype;
     p.refresh = function (myProject) {
@@ -64,8 +64,8 @@ var ProjectItem = (function (_super) {
         var icon = "acv" + achieve.toString() + "_png";
         var tiltels = ['英勇黄铜', '不屈白银', '荣耀黄金', '华贵铂金', '璀璨钻石', '超凡大师', '最强王者', '近神Dominating', '神Godlike', '超神Legendary'];
         var help = tiltels[achieve - 1] + "\n";
-        help += "完成成就提高金币产量" + this._project.outputRatioOfAchieve(achieve - 1).toString() + "倍，并获得100钻石奖励。\n";
-        help += this._project.levelOfAchieve(achieve - 1).toString() + "级解锁成就\n";
+        help += "完成成就提高金币产量" + this._project.achieve(achieve).outputRatio.toString() + "倍。\n";
+        help += this._project.achieve(achieve).level.toString() + "级解锁成就\n";
         if (achieve <= this._myProject.achieve) {
             //已经购买的成就
             img.source = icon;
@@ -75,7 +75,8 @@ var ProjectItem = (function (_super) {
             }, this);
         }
         else {
-            if (this._myProject.level >= this._project.levelOfAchieve(achieve - 1)) {
+            //不允许跨级购买
+            if (this._myProject.level >= this._project.achieve(achieve).level && achieve == this._myProject.achieve + 1) {
                 //可以购买的成就
                 img.source = icon;
                 grp.addChild(img);
@@ -83,7 +84,7 @@ var ProjectItem = (function (_super) {
                 img.source = "acvnone_png";
                 grp.addChild(img);
                 img.addEventListener(egret.TouchEvent.TOUCH_TAP, function () {
-                    application.showUI(new BuyAchieveUI(self._myProject, self._project, icon));
+                    application.showUI(new BuyAchieveUI(self._myProject, self._project, achieve));
                 }, this);
             }
             else {

@@ -26,6 +26,7 @@ class HomeUI extends eui.Component{
     private lblGold:eui.Label;
     private lblDiamond: eui.Label;
 	
+    private grpAddGold: eui.Group;
 	private imgAddGold: eui.Image;
 	private lblAddGold: eui.Label;
     
@@ -332,11 +333,13 @@ class HomeUI extends eui.Component{
         	this.animateStep(this.lblGold, application.usableGold() - goldAdded, application.usableGold());
             
 			if (goldAdded > 0) {
+                this.grpAddGold.y = 370;
+                this.imgAddGold.visible = true;
                 this.lblAddGold.visible = true;
-				this.lblAddGold.text = application.format(goldAdded);
-				var timer: egret.Timer = new egret.Timer(200, 5);
+				this.lblAddGold.text = "+" + application.format(goldAdded);
+				var timer: egret.Timer = new egret.Timer(100, 20);
 				timer.addEventListener(egret.TimerEvent.TIMER, function(event:egret.TimerEvent){
-                    this.imgAddGold.visible = !this.imgAddGold.visible;
+                    this.grpAddGold.y -= 10;
 				}, this);			
 				timer.addEventListener(egret.TimerEvent.TIMER_COMPLETE, function(event:egret.TimerEvent){
                     this.lblAddGold.visible = false;

@@ -7,15 +7,15 @@ module application {
     
     export var projects: Project[];
 	
-	export var baseUrl: '';
+	export var baseUrl: string;
 	
-	export var units: [];
+	export var units: any[];
 
     export function init(main:Main) {
 		application.main = main;
 		
-		application.baseUrl = "http://weiyugame.leanapp.cn/"
-		//application.baseUrl = "http://localhost:3000/"
+        application.baseUrl = "http://weiyugame.leanapp.cn/";
+		//application.baseUrl = "http://localhost:3000/";
 		
         application.dao = new Dao(application.baseUrl + "api/", "headlines");
         
@@ -213,7 +213,7 @@ module application {
             content += "金币单位\n";
 			for (var i = 0; i < application.units.length; i++) {
 				var zeros = ((i + 1) * 3).toString();
-				content += "个0";
+                content += zeros + "个0";
 				for(var j = zeros.length; j < 10; j++) {
 					content += " ";
 				}
@@ -224,7 +224,7 @@ module application {
         return application.showUI(new HelpUI(content));
     }
     
-    export function showUI(ui: eui.Component, parent?:egret.DisplayObjectContainer): egret.DisplayObject {
+    export function showUI(ui: eui.Component,parent?: egret.DisplayObjectContainer): egret.DisplayObjectContainer {
         ui.horizontalCenter = 0;
         ui.verticalCenter   = 0;
         
@@ -237,7 +237,7 @@ module application {
         return ui;
     }
     
-    export function hideUI(ui: eui.Component): egret.DisplayObject {
+    export function hideUI(ui: eui.Component): egret.DisplayObjectContainer {
         if (ui && ui.parent) {
             ui.parent.removeChild(ui);
         }

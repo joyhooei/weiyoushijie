@@ -34,7 +34,13 @@ var AuctionUI = (function (_super) {
             application.charge();
         }, this);
         this.btnHelp.addEventListener(egret.TouchEvent.TOUCH_BEGIN, function () {
-            application.showHelp("拍卖每天中午12点结束, 出价最高者成为今日头条，获得勋章一枚和2000钻石的奖励，未中标玩家的拍卖金币自动返还。拍卖期间系统显示截至上个小时的最高出价，为新出价的玩家提供参考。玩家在拍卖结束前可以反复加价，每次加价最高为当前拥有的所有金币。每天首次参加拍卖可以在礼物页面中领取100钻石奖励。");
+            var content = "1. 每天中午12点拍卖结束。";
+            content += "2. 出价最高者成为今日头条，获得1枚勋章和2000个钻石的奖励。";
+            content += "3. 未中标玩家的拍卖金币自动返还。";
+            content += "4. 拍卖期间，系统自动显示截至上个小时的最高出价，为新出价的玩家提供参考。";
+            content += "5. 玩家在拍卖结束前可以反复加价，每次加价最高为当前拥有的所有金币。";
+            content += "6. 每天首次参加拍卖可以在礼物页面中领取100钻石奖励。";
+            application.showHelp(content);
         }, this);
     };
     p.renderLastBid = function (today) {
