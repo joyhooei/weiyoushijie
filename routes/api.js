@@ -76,6 +76,7 @@ router.post('/login', function(req, res, next) {
 			if (result.code == 0) {
 				var query = new AV.Query(dao.Customer);
 				query.equalTo("uid", result.data.id);
+				query.equalTo("game", req.query.game);
 				query.find().then(function(customers){
 					var now = moment();
 					
@@ -92,6 +93,7 @@ router.post('/login', function(req, res, next) {
 						}
 					} else {
 						var customer = Customer.create(result.data.id, result.data.name, result.data.pic, result.data.sex, result.data.age);
+						customer.set("game", req.query.game);
 						customer.set("last_login", now.format());
 						
 						Gift.unlockLogin(customer.id);
