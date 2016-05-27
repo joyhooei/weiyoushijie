@@ -29,8 +29,8 @@ class BuyAchieveUI extends eui.Component{
         
         this.imgIcon.source = "acv" + achieve.toString() + "_png";
         this.imgProject.source = "t" + myProject.sequence.toString() + "_png";
-        this.lblRatio.text = project.outputRatioOfAchieve(achieve - 1).toString();
-        this.lblLevel.text = project.levelOfAchieve(achieve - 1).toString();
+        this.lblRatio.text = project.archieve(achieve).outputRatio.toString();
+        this.lblLevel.text = project.archieve(achieve).level.toString();
     }
 
     private uiCompHandler():void {
@@ -38,7 +38,7 @@ class BuyAchieveUI extends eui.Component{
             application.hideUI(this);
         }, this );
         
-        let p = this._project.goldPriceOfAchieve(this._myProject.achieve + 1);
+        let p = this._project.archieve(this._myProject.achieve + 1).priceUseGold;
         this.lblGold.text = p.toString();
         if (application.usableGold() < p) {
             this.imgBuyUseGold.source = "buttoncoinno_png";
@@ -48,7 +48,7 @@ class BuyAchieveUI extends eui.Component{
 			}, this );
 		}
 
-        p = this._project.diamondPriceOfAchieve(this._myProject.achieve + 1);
+        p = this._project.archieve(this._myProject.achieve + 1).priceUseDiamond;
         this.lblDiamond.text = p.toString();
         if (application.customer.diamond < p) {
             this.imgBuyUseDiamond.source = "buttondiano_png";
@@ -66,7 +66,7 @@ class BuyAchieveUI extends eui.Component{
 	private buyAchieveUseGold(){
         let self = this;
 
-        let p = self._project.goldPriceOfAchieve(self._achieve);
+        let p = self._project.archieve(self._myProject.achieve + 1).priceUseGold;
         let delta = self.delta();
 		self._myProject.achieve = self._achieve;
 		application.dao.save("Project",self._myProject, function(succeed, proj) {
@@ -87,7 +87,7 @@ class BuyAchieveUI extends eui.Component{
 	private buyAchieveUseDiamond(){
         let self = this;
 
-        let p = self._project.diamondPriceOfAchieve(self._achieve);
+        let p = self._project.archieve(self._myProject.achieve + 1).priceUseDiamond;
         let delta = self.delta();
 		self._myProject.achieve = self._achieve;
 		application.dao.save("Project",self._myProject, function(succeed, proj) {
