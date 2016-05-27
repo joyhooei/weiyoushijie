@@ -16,7 +16,7 @@ class ProjectItem extends eui.Component {
     
     private grpAchieve: eui.Group;
     
-    public constructor(myProject: any,project: Project, iconName:string, titleName:string) {
+    public constructor(myProject: any,project: Project) {
         super();
 
         this._myProject = myProject;
@@ -25,8 +25,8 @@ class ProjectItem extends eui.Component {
         this.addEventListener(eui.UIEvent.COMPLETE,this.firstRefresh,this);
         this.skinName = "resource/custom_skins/projectItemSkin.exml";
         
-        this.imgIcon.source = iconName;
-		this.imgTitle.source = titleName;
+        this.imgIcon.source = myProject.sequence.toString() + "_png";
+		this.imgTitle.source = "t" + myProject.sequence.toString() + "_png";
     }
 	
 	public refresh(myProject: any): void {
