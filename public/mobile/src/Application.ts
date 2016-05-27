@@ -17,7 +17,7 @@ module application {
 		application.baseUrl = "http://weiyugame.leanapp.cn/"
 		//application.baseUrl = "http://localhost:3000/"
 		
-        application.dao = new Dao(application.baseUrl + "api/");
+        application.dao = new Dao(application.baseUrl + "api/", "headlines");
         
         application.projects = Project.createAllProjects();
 		
