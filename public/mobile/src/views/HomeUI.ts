@@ -373,7 +373,7 @@ class HomeUI extends eui.Component{
             if(i < this.projectItems.length) {
 		  		this.projectItems[i].refresh(proj);
 		 	} else {
-				let item: ProjectItem = new ProjectItem(proj, application.projects[i], (i + 1).toString() + "_png", "t" + (i + 1).toString() + "_png");
+				let item: ProjectItem = new ProjectItem(proj, application.projects[i]);
                 this.projectItems[i] = item;
 				this.grpProject.addChildAt(item,i);
 		 	}
