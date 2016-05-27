@@ -6,12 +6,16 @@ module application {
     export var bid: any;
     
     export var projects: Project[];
+	
+	export var baseUrl: '';
 
     export function init(main:Main) {
 		application.main = main;
 		
-        application.dao = new Dao("http://weiyugame.leanapp.cn/api/");
-        //application.dao = new Dao("http://localhost:3000/api/");
+		application.baseUrl = "http://weiyugame.leanapp.cn/"
+		//application.baseUrl = "http://localhost:3000/"
+		
+        application.dao = new Dao(application.baseUrl + "api/");
         
         application.projects = Project.createAllProjects();
     }
@@ -145,8 +149,8 @@ module application {
     export function share(callback:Function): void {
         nest.share.isSupport({}, function (data) {
 			if (data.share == 1) {
-				var url = "http://headlines.leanapp.cn/mobile/index.html?platInfo=open_90240_9166&egret.runtime.spid=9166&appId=90240&channelId=9166&egretSdkDomain=http://api.egret-labs.org/v2&egretServerDomain=http://api.egret-labs.org/v2";
-				var img_url = "http://headlines.leanapp.cn/mobile/resource/art/home/icon.png";
+				var url     = application.baseUrl + "mobile/index.html";
+				var img_url = application.baseUrl + "mobile/resource/art/home/icon.png";
 				nest.share.share({ title: '我要上头条',description: '我要上头条',url: url, img_url: img_url,img_title:'我要上头条'}, function (data) {
 					if(data.result == 0) {
 						callback();
