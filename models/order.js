@@ -6,7 +6,7 @@ module.exports.pay = function(order) {
 		query.get(order.get("customer_id")).then(function(customer){
 			customer.increment("charge", order.get("price"));
 			
-			query = new AV.Query(dao.Orde);
+			query = new AV.Query(dao.Order);
 			query.equalTo("customer_id", customer.id);
 			query.equalTo("product", order.get("product"));
 			query.equalTo("state", 1);
