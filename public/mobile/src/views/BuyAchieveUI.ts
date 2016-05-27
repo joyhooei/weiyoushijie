@@ -8,22 +8,29 @@ class BuyAchieveUI extends eui.Component{
     private lblDiamond:eui.Label;
     
     private imgIcon:eui.Image;
-    private lblDescription:eui.Label;
+    private imgProject:eui.Image;
+    private lblRatio:eui.Label;
+    private lblLevel:eui.Label;
     
     private _myProject: any;
     private _project: Project;
+    private _achieve:number;
     
-    constructor(myProject: any,project: Project, icon:string) {
+    constructor(myProject: any,project: Project, achieve:number) {
         super();
         
         this._myProject = myProject;
         this._project = project;
+        this._achieve = achieve;
         
         this.addEventListener( eui.UIEvent.COMPLETE, this.uiCompHandler, this );
         
         this.skinName = "resource/custom_skins/buyAchieveUISkin.exml";
         
-        this.imgIcon.source = icon;
+        this.imgIcon.source = "acv" + achieve.toString() + "_png";
+        this.imgProject.source = "t" + myProject.sequence.toString() + "_png";
+        this.lblRatio.text = project.outputRatioOfAchieve(achieve - 1).toString();
+        this.lblLevel.text = project.levelOfAchieve(achieve - 1).toString();
     }
 
     private uiCompHandler():void {
@@ -50,22 +57,18 @@ class BuyAchieveUI extends eui.Component{
                 this.buyAchieveUseDiamond();
 			}, this );
 		}
-        
-        var delta = this.delta();
-        var description = "获得成就将提高秒产" + delta.toString() + "个金币";
-        this.lblDescription.text = description;
     }
 
     private delta(): number {
-        return this._project.output(this._myProject.level,this._myProject.achieve + 1) -this._project.output(this._myProject.level,this._myProject.achieve);
+        return this._project.output(this._myProject.level,this._achieve) -this._project.output(this._myProject.level,this._myProject.achieve);
     }
    
 	private buyAchieveUseGold(){
         let self = this;
 
-        let p = self._project.goldPriceOfAchieve(self._myProject.achieve + 1);
+        let p = self._project.goldPriceOfAchieve(self._achieve);
         let delta = self.delta();
-		self._myProject.achieve += 1;
+		self._myProject.achieve = self._achieve;
 		application.dao.save("Project",self._myProject, function(succeed, proj) {
 			if (succeed) {
 				application.buyOutput(p, 0, delta, self._myProject, function(succeed, c){
@@ -84,9 +87,9 @@ class BuyAchieveUI extends eui.Component{
 	private buyAchieveUseDiamond(){
         let self = this;
 
-        let p = self._project.diamondPriceOfAchieve(self._myProject.achieve + 1);
+        let p = self._project.diamondPriceOfAchieve(self._achieve);
         let delta = self.delta();
-		self._myProject.achieve += 1;
+		self._myProject.achieve = self._achieve;
 		application.dao.save("Project",self._myProject, function(succeed, proj) {
 			if (succeed) {
 				application.buyOutput(0, p, delta, self._myProject, function(succeed, c){
