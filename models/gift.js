@@ -25,16 +25,16 @@ module.exports.lockPicked = function(request, response) {
 	});
 }
 
-module.exports.create = function(customerId, category, diamond, metal, gold, game) {
+module.exports.create = function(customer, category, diamond, metal, gold) {
     var gift = new dao.Gift();
-    gift.set("customer_id", customerId);
+    gift.set("customer_id", customer.id);
     gift.set("category", category);
     gift.set("diamond", diamond);
     gift.set("metal", metal);
     gift.set("gold", gold);
     gift.set("locked", 1);
     gift.set("data", "");
-	gift.set("game", game);
+	gift.set("game", customer.get("game"));
 	return gift.save();
 }
 
