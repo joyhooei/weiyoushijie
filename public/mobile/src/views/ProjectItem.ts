@@ -106,7 +106,8 @@ class ProjectItem extends eui.Component {
                 application.showHelp(help);
             },this);
         } else {
-            if(this._myProject.level >= this._project.levelOfAchieve(achieve - 1)) {
+			//不允许跨级购买
+            if(this._myProject.level >= this._project.levelOfAchieve(achieve - 1) && achieve == this._myProject.achieve + 1) {
                 //可以购买的成就
                 img.source = icon;
                 grp.addChild(img);
@@ -115,10 +116,9 @@ class ProjectItem extends eui.Component {
                 img.source = "acvnone_png";
                 grp.addChild(img);
 
-                img.addEventListener(egret.TouchEvent.TOUCH_TAP,() => {
-                    application.showUI(new BuyAchieveUI(self._myProject,self._project,icon));
-                },this);
-
+			 	img.addEventListener(egret.TouchEvent.TOUCH_TAP,() => {
+			  		application.showUI(new BuyAchieveUI(self._myProject,self._project,icon));
+			 	},this);
             } else {
                 //不可以购买的成就
                 img.source = "acvlock_png";
