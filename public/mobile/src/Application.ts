@@ -8,6 +8,8 @@ module application {
     export var projects: Project[];
 	
 	export var baseUrl: '';
+	
+	export var units: [];
 
     export function init(main:Main) {
 		application.main = main;
@@ -18,6 +20,12 @@ module application {
         application.dao = new Dao(application.baseUrl + "api/");
         
         application.projects = Project.createAllProjects();
+		
+        application.units = [
+                'k', 'm', 'b', 't', 
+                'a', 'A', 'c', 'C', 'd', 'D', 'e', 'E', 'f', 'F', 'g', 'G', 'h', 'H', 'i', 'I', 'j', 'J', 'l', 'L', 'n', 'N', 'o', 'O', 'p', 'P', 'q', 'Q', 'r', 'R', 's', 'S', 'u', 'U', 'v', 'V', 'w', 'W', 'x', 'X', 'y', 'Y', 'z', 'Z',
+                'aa', 'AA', 'cc', 'CC', 'dd', 'DD', 'ee', 'EE', 'ff', 'FF', 'gg', 'GG', 'hh', 'HH', 'ii', 'II', 'jj', 'JJ', 'll', 'LL', 'nn', 'NN', 'oo', 'OO', 'pp', 'PP', 'qq', 'QQ', 'rr', 'RR', 'ss', 'SS', 'uu', 'UU', 'vv', 'VV', 'ww', 'WW', 'xx', 'XX', 'yy', 'YY', 'zz', 'ZZ',
+            ];
     }
 	
     export function login(data?:string|nest.user.LoginCallbackInfo):void {
@@ -194,12 +202,20 @@ module application {
     
     export function showHelp(content:string): egret.DisplayObjectContainer {
         if (content.length == 0) {
-            content = "\
-            玩法\n\
-            点击跳舞人偶产生金币，可以用来升级运营项目。运营项目随等级提高会产生更多的金币。金币可以用来参加头条拍卖，每天最高出价者会成为头条，获得勋章和钻石奖励。道具可以帮助玩家快速获得大量金币和永久提高运营项目的秒产。排行榜会按照勋章的多少排明，勋章数量相同则按照获得金币的总量排名。\n\
-            玩法\n\
-            点击跳舞人偶产生金币，可以用来升级运营项目。运营项目随等级提高会产生更多的金币。金币可以用来参加头条拍卖，每天最高出价者会成为头条，获得勋章和钻石奖励。道具可以帮助玩家快速获得大量金币和永久提高运营项目的秒产。排行榜会按照勋章的多少排明，勋章数量相同则按照获得金币的总量排名。"
+            content =  "微信帮助平台 weiyugame@qq.com  QQ客服 weiyugame@qq.com 邮箱 weiyugame@qq.com\n";
+            content += "玩法\n"
+            content += "点击跳舞人偶产生金币，可以用来升级运营项目。运营项目随等级提高会产生更多的金币。金币可以用来参加头条拍卖，每天最高出价者会成为头条，获得勋章和钻石奖励。道具可以帮助玩家快速获得大量金币和永久提高运营项目的秒产。排行榜会按照勋章的多少排明，勋章数量相同则按照获得金币的总量排名。\n"
+            content += "金币单位\n";
+			for (var i = 0; i < application.units.length; i++) {
+				var zeros = ((i + 1) * 3).toString();
+				content += "个0";
+				for(var j = zeros.length; j < 10; j++) {
+					content += " ";
+				}
+				content += application.units[i] + "\n";
+			}
         }
+		
         return application.showUI(new HelpUI(content));
     }
     
@@ -220,15 +236,9 @@ module application {
     }
    
     export function format(d:number): string {
-        let units = [
-                'k', 'm', 'b', 't', 
-                'a', 'A', 'c', 'C', 'd', 'D', 'e', 'E', 'f', 'F', 'g', 'G', 'h', 'H', 'i', 'I', 'j', 'J', 'l', 'L', 'n', 'N', 'o', 'O', 'p', 'P', 'q', 'Q', 'r', 'R', 's', 'S', 'u', 'U', 'v', 'V', 'w', 'W', 'x', 'X', 'y', 'Y', 'z', 'Z',
-                'aa', 'AA', 'cc', 'CC', 'dd', 'DD', 'ee', 'EE', 'ff', 'FF', 'gg', 'GG', 'hh', 'HH', 'ii', 'II', 'jj', 'JJ', 'll', 'LL', 'nn', 'NN', 'oo', 'OO', 'pp', 'PP', 'qq', 'QQ', 'rr', 'RR', 'ss', 'SS', 'uu', 'UU', 'vv', 'VV', 'ww', 'WW', 'xx', 'XX', 'yy', 'YY', 'zz', 'ZZ',
-            ];
-            
 		let unit:string  = "";
 		try {
-			for (var i = 0; i < units.length; i++) {
+			for (var i = 0; i < application.units.length; i++) {
 				if (d < 10) {
 					return d.toFixed(2) + unit;
 				} else if (d < 100) {
@@ -236,7 +246,7 @@ module application {
 				} else if (d < 1000) {
 						return d.toFixed() + unit;
 				} else {
-					unit = units[i];
+					unit = application.units[i];
 					d = d / 1000;
 				}
 			}
