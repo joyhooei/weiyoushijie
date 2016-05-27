@@ -310,20 +310,8 @@ class Project {
 	    
 	    return p;
 	}
-
-    public diamondPriceOfAchieve(achieve: number): number {
-        return this._achieves[achieve].priceUseDiamond;
-    }
-    
-    public goldPriceOfAchieve(achieve: number): number {
-        return this._achieves[achieve].priceUseGold;
-    }
 	
-	public levelOfAchieve(achieve: number): number {
-		return this._achieves[achieve].level;
-	}
-	
-	public outputRatioOfAchieve(achieve: number): number {
-		return this._achieves[achieve].outputRatio;
+	public achieve(a: number): any {
+		return this._achieves[achieve - 1];
 	}
 }
