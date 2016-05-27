@@ -10,16 +10,9 @@ class Project {
 	//成就产量系数和成就价格/金币: {level: 50, outputRatio: 2, priceUseGold: 1.00E+03, priceUseDiamond: 100}
 	private _achieves: any[];
 	
-	//升级道具价格/钻石
-	private _propPrice: number;
-	//道具产量系数 线性
-	private _propOutputRatio: number;
-	
-	constructor(priceLevelOne: number, outputLevelOne: number, propPrice: number, propOutputRatio: number) {
+	constructor(priceLevelOne: number, outputLevelOne: number) {
 		this._priceLevelOne = priceLevelOne;
 		this._outputLevelOne = outputLevelOne;
-		this._propPrice = propPrice;
-		this._propOutputRatio = propOutputRatio;
 		
         this._levelRatios = new Array<any>();
         this._achieves = new Array<any>();
@@ -47,29 +40,29 @@ class Project {
 		let projects = new Array<Project>();
 		
 		let data = [
-			[1, 1, 2, 1000],
-			[10, 5, 2, 1000],
-			[300, 25, 2, 1000],
-			[6000, 160, 2, 1000],
+			[1, 	1, 	  2, 1000],
+			[10, 	5, 	  2, 1000],
+			[300, 	25,   2, 1000],
+			[6000, 	160,  2, 1000],
 			[30000, 3200, 2, 1000],
 			
-			[45000000, 64000, 4, 1000],
-			[6750000000, 320000, 4, 1000],
-			[1350000000000, 6500000, 4, 1000],
-			[270000000000000, 32000000, 4, 1000],
+			[45000000, 			64000,     4, 1000],
+			[6750000000, 		320000,    4, 1000],
+			[1350000000000, 	6400000,   4, 1000],
+			[270000000000000, 	32000000,  4, 1000],
 			[54000000000000000, 640000000, 4, 1000],
 			
-			[10800000000000000000, 3200000000, 8, 10000],
-			[2160000000000000000000, 64000000000, 8, 10000],
-			[432000000000000000000000, 320000000000, 8, 10000],
-			[86400000000000000000000000, 6400000000000, 8, 10000],
+			[10800000000000000000, 			3200000000, 	8, 10000],
+			[2160000000000000000000, 		64000000000,    8, 10000],
+			[432000000000000000000000, 		320000000000,   8, 10000],
+			[86400000000000000000000000, 	6400000000000,  8, 10000],
 			[17300000000000000000000000000, 32000000000000, 8, 10000],
 			
-			[3460000000000000000000000000000, 640000000000000, 16, 10000],
-			[691000000000000000000000000000000, 3200000000000000, 16, 10000],
-			[138000000000000000000000000000000000, 64000000000000000, 16, 10000],
-			[27600000000000000000000000000000000000, 320000000000000000, 16, 10000],
-			[5530000000000000000000000000000000000000, 6400000000000000000, 16, 10000]	
+			[3460000000000000000000000000000, 			640000000000000, 	 16, 10000],
+			[691000000000000000000000000000000, 		3200000000000000,    16, 10000],
+			[138000000000000000000000000000000000, 		64000000000000000,   16, 10000],
+			[27600000000000000000000000000000000000, 	320000000000000000,  16, 10000],
+			[5530000000000000000000000000000000000000, 	6400000000000000000, 16, 10000]	
 		];
 
 		for (var i = 0; i < data.length; i++) {
@@ -80,8 +73,7 @@ class Project {
 	}
 	
 	static createProject(priceLevelOne: number, outputLevelOne: number, achieve1OutputRatio:number, achieve5OutputRatio:number): Project {
-		//priceLevelOne: number, outputLevelOne: number, propPrice: number, propOutputRatio: number
-		let project = new Project(priceLevelOne, outputLevelOne, 100, 0.1);
+		let project = new Project(priceLevelOne, outputLevelOne);
 		
 		//lowerLevel: number, upperLevel: number, priceRatio: number, outputRatio: number
 		project.addLevelRatio(2, 99, 1.05, 1);
@@ -120,7 +112,7 @@ class Project {
 		project.addAchieve(50, 		achieve1OutputRatio, 		100, 	1000);
 		project.addAchieve(100, 	achieve1OutputRatio * 2, 	100, 	1190);
 		project.addAchieve(200, 	achieve1OutputRatio * 4, 	100, 	157000);
-		project.addAchieve(300, 	achieve1OutputRatio* 8, 	100, 	6030000);
+		project.addAchieve(300, 	achieve1OutputRatio * 8, 	100, 	6030000);
 		project.addAchieve(500, 	achieve5OutputRatio, 		1000, 	10000000000);
 		project.addAchieve(1000, 	achieve5OutputRatio, 		2000, 	100000000000000000);
 		project.addAchieve(2000, 	achieve5OutputRatio, 		3000, 	50000000000000000000000000);
