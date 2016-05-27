@@ -219,15 +219,20 @@ module application {
         return application.showUI(new HelpUI(content));
     }
     
-    export function showUI(ui: eui.Component): eui.Component {
+    export function showUI(ui: eui.Component, parent?:egret.DisplayObjectContainer): egret.DisplayObject {
         ui.horizontalCenter = 0;
         ui.verticalCenter   = 0;
-        application.main.homeUI.addChild(ui); 
+        
+        if (parent) {
+            parent.addChild(ui); 
+        } else {
+            application.main.homeUI.addChild(ui);
+        }
         
         return ui;
     }
     
-    export function hideUI(ui: eui.Component): eui.Component {
+    export function hideUI(ui: eui.Component): egret.DisplayObject {
         if (ui && ui.parent) {
             ui.parent.removeChild(ui);
         }
