@@ -202,9 +202,14 @@ module application {
     
     export function showHelp(content:string): egret.DisplayObjectContainer {
         if (content.length == 0) {
-            content =  "微信帮助平台 weiyugame@qq.com  QQ客服 weiyugame@qq.com 邮箱 weiyugame@qq.com\n";
+            content =  "微信帮助平台 Amazing微遇游戏\n"
+            content += "QQ客服 3369182016\n"
+            content += "邮箱 3369182016@qq.com\n";
             content += "玩法\n"
-            content += "点击跳舞人偶产生金币，可以用来升级运营项目。运营项目随等级提高会产生更多的金币。金币可以用来参加头条拍卖，每天最高出价者会成为头条，获得勋章和钻石奖励。道具可以帮助玩家快速获得大量金币和永久提高运营项目的秒产。排行榜会按照勋章的多少排明，勋章数量相同则按照获得金币的总量排名。\n"
+            content += "1. 点击中间舞者可产生金币，金币用来升级运营项目，而运营项目随等级提高从而产生更多的金币。\n"
+            content += "2. 金币可以用来参加头条拍卖，每天最高出价者会成为头条，获得头条殊荣，勋章和钻石奖励。\n"
+            content += "3. 道具可以帮助玩家快速获得大量金币和永久提高运营项目的每秒产量。\n"
+            content += "4. 排行榜会按照勋章的个数排名，勋章数量一致时则按照金币的总量排名。\n"
             content += "金币单位\n";
 			for (var i = 0; i < application.units.length; i++) {
 				var zeros = ((i + 1) * 3).toString();
