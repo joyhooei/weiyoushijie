@@ -10,7 +10,7 @@ module application {
     export function init(main:Main) {
 		application.main = main;
 		
-        application.dao = new Dao("http://headlines.leanapp.cn/api/");
+        application.dao = new Dao("http://weiyugame.leanapp.cn/api/");
         //application.dao = new Dao("http://localhost:3000/api/");
         
         application.projects = Project.createAllProjects();
