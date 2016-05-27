@@ -113,7 +113,7 @@ class GiftUI extends eui.Component {
 	private onOutputGift() {
 		var gift = this.gifts[6];
 		
-		if (application.log10(application.customer.output) > parseInt(gift.data)) {
+		if (application.log10(application.customer.output) > application.log10(parseInt(gift.data))) {
 			this.pick(1,this.imgPick7);
 		} else {
 			if(gift.locked == 0) {
@@ -204,7 +204,7 @@ class GiftUI extends eui.Component {
             
             //秒产每增加一个数量级，就得100个钻石
             if (gifts[6].data && gifts[6].data.length > 0) {
-                self.lblOutputGift.text = (parseInt(gifts[6].data) * 10).toString();
+                self.lblOutputGift.text = application.format(parseInt(gifts[6].data) * 10);
             } else {
                 self.lblOutputGift.text = "100";
             }
