@@ -156,6 +156,7 @@ module.exports = function() {
 
 		this.addModel("Customer");
 		
+		this.addModel("Game");
 		this.addModel("Gift");
 		
 		this.addModel("Order");
