@@ -99,51 +99,29 @@ class BuyToolUI extends eui.Component{
 				application.showUI(new ChargeTipUI());
 			}
 		} else {
-			Toast.launch("你还有" + application.customer.total_hits + "个暴击，建议用完后再购买");
+			Toast.launch("你还有" + application.customer.total_hits + "个暴击，请用完后再购买");
 		}
 	}
     
 	//月票，19元每月(30天）。每天登录可以领取300钻石，离线收益增加至90%，持续12小时。普通情况下离线收益为70%，持续8小时。首次购买获得1个勋章
     private buyTicket() {
-		var self = this;
-		
 		var ticketDay = application.ticketDay();
 		if (ticketDay >= 0) {
-			var order = { customer_id: application.customer.id, product: "Ticket", price: this._price, state: 0};
-			application.dao.save("Order", order, function(succeed, o) {
-				if (succeed) {
-					application.pay("1", o, function(succeed){
-						if (succeed == 1) {
-							Toast.launch("购买了月票");
-						}
-					});
-				} else {
-					Toast.launch("保存订单失败，请稍后再试");
-				}
-			});
+			application.hideUI(this);
+			
+			application.buyTicket();
 		} else {
-			Toast.launch("你已经购买了VIP，终身免费");
+			Toast.launch("你已经购买了VIP，不需要购买月票");
 		}
     }
     
 	//终身VIP，49元。每天登录可以领取300钻石，离线收益增加至90%，持续12小时。
     private buyVIP() {
-        var self = this;
-        	
 		var ticketDay = application.ticketDay();
 		if (ticketDay >= 0) {
-			var order = { customer_id: application.customer.id, product: "VIP", price: this._price, state: 0};
-			application.dao.save("Order", order, function(succeed, o) {
-				if (succeed) {
-					application.pay("2", o, function(succeed){
-						if (succeed == 1) {
-							Toast.launch("购买了终身VIP");
-						}
-					});			
-				} else {
-					Toast.launch("保存订单失败，请稍后再试");
-				}
-			});
+			application.hideUI(this);
+			
+			application.buyVIP();
 		} else {
 			Toast.launch("你已经购买了VIP，终身免费");
 		}			
