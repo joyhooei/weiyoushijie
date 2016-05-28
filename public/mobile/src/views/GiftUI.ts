@@ -128,9 +128,22 @@ class GiftUI extends eui.Component {
 	private pickOutputGift() {
 		var gift = this.gift(GiftCategory.Output);
 		
-		if (application.log10(application.customer.output) > application.log10(parseInt(gift.data))) {
-			this.pickGift(gift);
-		}
+        if (gift.locked == 0) {
+			//修改下一个可以领取的秒产
+			var nextOutput = parseInt(gift.data) * 10;
+			gift.data = nextOutput.toString();
+			
+			//如果用户的秒产超过了下一个可以领取的秒产，则仍然保持解锁状态
+			if (application.log10(application.customer.output) >= application.log10(nextOutput) {
+				this.lockGift(gift, 0);
+			} else {
+				this.lockGift(gift, 1);
+			}
+			
+			this.lblOutputGift.text = application.format(nextOutput);
+			
+            this.updateCustomer(gift);
+        }
 	}
 	
 	private pickAttentionGift() {
@@ -194,6 +207,8 @@ class GiftUI extends eui.Component {
 	private renderOnlineGift() {
 		var gift = this.gift(GiftCategory.Online);
 		
+		this.lblOnlineGiftTimeout.text = "";
+		
 		if(gift.locked == 1) {
 			var lastLogin = new Date(application.customer.last_login);
 			var today     = new Date();
@@ -210,8 +225,9 @@ class GiftUI extends eui.Component {
 					this.onlineGiftTimeout -= 1;
 				},this);
 				timer.addEventListener(egret.TimerEvent.COMPLETE,function(event: egret.TimerEvent) {
+					//时间到了，可以领取了
 					this.lockGift(gift, 0);
-				},this);					
+				},this);
 				timer.start();
 				
 				this.renderGift(gift);
@@ -238,11 +254,7 @@ class GiftUI extends eui.Component {
 	private renderOutputGift() {
 		//7、秒产每增加一个数量级，就得100个钻石
 		var gift = this.gift(GiftCategory.Output);
-		if (gift.data && gift.data.length > 0) {
-			this.lblOutputGift.text = application.format(parseInt(gift.data) * 10);
-		} else {
-			this.lblOutputGift.text = "100";
-		}
+		this.lblOutputGift.text = application.format(parseInt(gift.data));
 		this.renderGift(gift);
 	}
 	
