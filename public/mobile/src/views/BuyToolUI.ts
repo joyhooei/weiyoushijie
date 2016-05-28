@@ -109,7 +109,7 @@ class BuyToolUI extends eui.Component{
 		
 		var ticketDay = application.ticketDay();
 		if (ticketDay >= 0) {
-			var order = { customer_id: application.customer.id, product: "ticket", price: this._price};
+			var order = { customer_id: application.customer.id, product: "Ticket", price: this._price, state: 0};
 			application.dao.save("Order", order, function(succeed, o) {
 				if (succeed) {
 					application.pay("1", o, function(succeed){
@@ -118,7 +118,7 @@ class BuyToolUI extends eui.Component{
 						}
 					});
 				} else {
-					Toast.launch("购买失败");
+					Toast.launch("保存订单失败，请稍后再试");
 				}
 			});
 		} else {
@@ -132,7 +132,7 @@ class BuyToolUI extends eui.Component{
         	
 		var ticketDay = application.ticketDay();
 		if (ticketDay >= 0) {
-			var order = { customer_id: application.customer.id, product: "vip", price: this._price};
+			var order = { customer_id: application.customer.id, product: "VIP", price: this._price, state: 0};
 			application.dao.save("Order", order, function(succeed, o) {
 				if (succeed) {
 					application.pay("2", o, function(succeed){
@@ -141,7 +141,7 @@ class BuyToolUI extends eui.Component{
 						}
 					});			
 				} else {
-					Toast.launch("购买失败");
+					Toast.launch("保存订单失败，请稍后再试");
 				}
 			});
 		} else {
