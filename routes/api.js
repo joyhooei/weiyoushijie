@@ -11,8 +11,8 @@ var Order = require('../models/order');
 
 router.get('/egret_rt', function(req, res, next) {
 	var content = {
-					code_url:'http://headlines.leanapp.cn/mobile/bin-release/native/160509194453/game_code_160509194453.zip', 
-					update_url: 'http://headlines.leanapp.cn/mobile/bin-release/native/160509194453/', 
+					code_url:'http://weiyugame.leanapp.cn/mobile/bin-release/native/160509194453/game_code_160509194453.zip', 
+					update_url: 'http://weiyugame.leanapp.cn/mobile/bin-release/native/160509194453/', 
 					password:"",   
 					customParams: {
 						customLoading:0
