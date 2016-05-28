@@ -7,14 +7,20 @@ class ToolItem extends eui.Component {
 	
 	private img100: eui.Image;
 	private img900: eui.Image;
+	
+	private lbl100: eui.Label;
+	private lbl900: eui.Label;
 
-    public constructor(myproject: any,project: any,iconName: string,titleName: string) {
+    public constructor(myProject: any,project: any,iconName: string,titleName: string) {
         super();
 
         this._project = project;
-        this._myProject = myproject;
+        this._myProject = myProject;
 
         this.skinName = "resource/custom_skins/toolItemSkin.exml";
+		
+		this.lbl100.text = application.format(this.ratio(myProject.tool_ratio, 1));
+		this.lbl900.text = application.format(this.ratio(myProject.tool_ratio, 10));
 		
 		this.img100.addEventListener(egret.TouchEvent.TOUCH_TAP,() => {
 			this.buy(100, 1);
