@@ -89,14 +89,12 @@ router.post('/login', function(req, res, next) {
 						if (!moment(customer.get("last_login")).isSame(now, "day")) {
 							customer.set("last_login", now.format());
 													
-							Gift.unlockLogin(customer.id);
+							Gift.unlockLogin(customer);
 						}
 					} else {
 						var customer = Customer.create(result.data.id, result.data.name, result.data.pic, result.data.sex, result.data.age);
 						customer.set("game", req.query.game);
 						customer.set("last_login", now.format());
-						
-						Gift.unlockLogin(customer.id);
 					}
 					
 					customer.save().then(function(){
