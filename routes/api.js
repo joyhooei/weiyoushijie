@@ -11,19 +11,22 @@ var Order = require('../models/order');
 var Helper = require('../models/helper');
 
 router.get('/egret_rt', function(req, res, next) {
-	var content = {
-					code_url:'http://weiyugame.leanapp.cn/mobile/bin-release/native/160509194453/game_code_160509194453.zip', 
-					update_url: 'http://weiyugame.leanapp.cn/mobile/bin-release/native/160509194453/', 
-					password:"",   
-					customParams: {
-						customLoading:0
-					}};
-					
-	res.setHeader('Content-disposition', 'attachment; filename=runtime.json');
-	res.setHeader('Content-type', 'text/plain');
-	res.charset = 'UTF-8';
-	res.write(JSON.stringify(content));
-	res.end();
+	var query = new AV.Query(dao.Game);
+	query.equalTo("name", req.query.name);
+	query.addDescending("version");
+	query.first().then(function(game){
+		var content = {
+						code_url:game.get("code_url"), 
+						update_url: game.get("update_url"), 
+						customParams: {
+						}};
+
+		res.setHeader('Content-disposition', 'attachment; filename=runtime.json');
+		res.setHeader('Content-type', 'text/plain');
+		res.charset = 'UTF-8';
+		res.write(JSON.stringify(content));
+		res.end();
+	});
 })
 
 router.post('/egret_pay', function(req, res, next) {
