@@ -12,13 +12,13 @@ module.exports.pay = function(order) {
 			query.equalTo("state", 1);
 			query.count().then(function(count) {
 				if (order.get("product") == "Ticket") {
-					customer.set("ticket_expire", moment().add(30, 'days').format());
+					customer.set("ticket", moment().add(30, 'days').format());
 					
 					if (count == 0) {
 						customer.increment("metal", 1);
 					}
 				} else if (order.get("product") == "VIP") {
-					customer.set("ticket_expire", moment().add(30 * 12 * 100, 'days').format());
+					customer.set("ticket", moment().add(30 * 12 * 100, 'days').format());
 					customer.increment("metal", 2);
 				} else if (order.get("product") == "Diamond") {
 					customer.increment("diamond", 200);
@@ -29,6 +29,7 @@ module.exports.pay = function(order) {
 				}
 
 				customer.save().then(function(c){
+					order.set("state", 1);
 					resolve(order);
 				}, function(err){
 					reject(new Error("_payForTicket save customer " + err.message));
