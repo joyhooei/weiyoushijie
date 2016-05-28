@@ -8,6 +8,7 @@ module.exports.create = function(customer) {
     project.set("achieve", 0);
     project.set("unlocked", 1);
     project.set("game", customer.get("game"));
+    project.set("tool_ratio", 1);
 	return project.save();
 }
 	
