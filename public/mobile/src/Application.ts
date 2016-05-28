@@ -143,46 +143,44 @@ module application {
         });
     }
     
-    function _buy(product: string, price: number, title: string) {
+    function _buy(product: string, gid: string, price: number, title: string) {
         var order = { customer_id: application.customer.id, product: product, price: price, state: 0};
         application.dao.save("Order", order, function(succeed, o) {
             if (succeed) {
-                application.pay("3", o, function(succeed){
-                    if (succeed == 1) {
-                        Toast.launch(title + "成功");
-                    }
-                });
+				nest.iap.pay({ goodsId: gid, goodsNumber: "1", serverId: "1",ext: order.id }, function(data) {
+					if(data.result == 0) {
+						//支付成功
+						Toast.launch(title + "成功");
+					} else if(data.result == -1) {
+						//支付取消
+						order.set("state", 2);
+						order.set("reason", "用户取消了支付");
+						application.dao.save("Order", order);
+					} else {
+						//支付失败
+						order.set("state", 3);
+						order.set("reason", JSON.stringify(data));
+						application.dao.save("Order", order);
+						
+						Toast.launch("支付失败");
+					}
+				})
             } else {
-                Toast.launch(title + "失败");
+                Toast.launch("保存订单失败，请稍后再试");
             }
-        });	     
+        });
     }
     
     export function charge(): void {
-        this._buy("Diamond", 2, "充值");  
+        this._buy("Diamond", "1", 2, "充值");  
     }
     
     export function buyTicket(): void {
-        this._buy("Ticket", 19, "购买月票");     
+        this._buy("Ticket", "2", 19, "购买月票");     
     }
     
     export function buyVIP(): void {
-        this._buy("VIP", 49, "购买终身VIP");      
-    }
-    
-    export function pay(goodsId:string,order:any,callback:Function): void {
-        nest.iap.pay({ goodsId: goodsId,goodsNumber: "1",serverId: "1",ext: order.id },function(data) {
-            if(data.result == 0) {
-                //支付成功
-                callback(1);
-            } else if(data.result == -1) {
-                //支付取消
-                Toast.launch("取消了购买");
-            } else {
-                //支付失败
-                Toast.launch("支付失败");
-            }
-        })
+        this._buy("VIP", "3", 49, "购买终身VIP");      
     }
     
     export function share(callback:Function): void {
