@@ -175,7 +175,7 @@ router.post('/rank', function(req, res, next) {
 		_failed(res, error);
 	}, function(customers){
 		for (var i = 0; i < customers.length; i++) {
-			all.push(customers[i];
+			all.push(customers[i]);
 		}	
 	});
 });
