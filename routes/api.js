@@ -8,6 +8,7 @@ var Gift = require('../models/gift');
 var Customer = require('../models/customer');
 var Bid = require('../models/bid');
 var Order = require('../models/order');
+var Helper = require('../models/helper');
 
 router.get('/egret_rt', function(req, res, next) {
 	var content = {
@@ -134,68 +135,48 @@ router.post('/hits', function(req, res, next) {
 });
 
 router.post('/rank', function(req, res, next) {
-	var query = new AV.Query(dao.Customer);
-	query.addDescending("metal");
-	query.addDescending("online_ms");
-	query.limit(1000);
+	var all = [];
 	
-	query.count().then(function(count) {
-		var promises = [];
-		var pages = Math.floor((count - 1) / 1000);
-		for(var i = 0; i <= pages; i++) {
-			query.skip(i * 1000);			
-			promises.push(query.find());
-		}
-		
-		AV.Promise.all(promises).then(function(results){
-			var index = 0;
-			var last = null;
-			var me   = null;
-			var next = null;
-			
-			for(var j = 0; j < results.length; i++) {
-				customers = results[j];
+	var query = new AV.Query(dao.Customer);
+	query.equalTo("game", req.query.game);
+	query.select('objectId', 'name', 'metal', 'diamond');
+	query.addDescending("metal");
+	Helper.findAll(query).then(function(){
+		var index = 0;
+		var last = null;
+		var me   = null;
+		var next = null;
+	
+		for(var i = 0; i < all.length; i++) {
+			if (me) {
+				next = all[i];
+				break;
+			} else {
+				if (all[i].id == req.body.customer_id) {
+					me = all[i];
 
-				for(var i = 0; i < customers.length; i++) {
-					if (me) {
-						next = customers[i];
-						break;
-					} else {
-						if (customers[i].id == req.body.customer_id) {
-							me = customers[i];
-
-							index = i + 1;
-						} else {
-							last = customers[i];
-						}
-					}
+					index = i + 1;
+				} else {
+					last = all[i];
 				}
-				
-				if (me) {
-					if (!next && j < results.length - 1) {
-						next = results[j + 1][0];
-					}
-
-					if (last && next) {
-						_succeed(res, [{rank: index - 1, customer: _decode(last)}, {rank: index, customer: _decode(me)}, {rank: index + 1, customer: _decode(next)}]);
-					} else if (last) {
-						_succeed(res, [{rank: index - 1, customer: _decode(last)}, {rank: index, customer: _decode(me)}, {rank: index + 1, customer: null}]);						
-					} else if (next) {
-						_succeed(res, [{rank: index - 1, customer: null}, {rank: index, customer: _decode(me)}, {rank: index + 1, customer: _decode(next)}]);
-					} else {
-						_succeed(res, [{rank: index - 1, customer: null}, {rank: index, customer: _decode(me)}, {rank: index + 1, customer: null}]);						
-					}
-					
-					break;
-				} 
 			}
-		}, function(error){
-			console.error(error.message);
-			_failed(res, error);		
-		});
-	}, function(error) {
-		console.error(error.message);
+		}
+
+		if (last && next) {
+			_succeed(res, [{rank: index - 1, customer: _decode(last)}, {rank: index, customer: _decode(me)}, {rank: index + 1, customer: _decode(next)}]);
+		} else if (last) {
+			_succeed(res, [{rank: index - 1, customer: _decode(last)}, {rank: index, customer: _decode(me)}, {rank: index + 1, customer: null}]);						
+		} else if (next) {
+			_succeed(res, [{rank: index - 1, customer: null}, {rank: index, customer: _decode(me)}, {rank: index + 1, customer: _decode(next)}]);
+		} else {
+			_succeed(res, [{rank: index - 1, customer: null}, {rank: index, customer: _decode(me)}, {rank: index + 1, customer: null}]);						
+		}		
+	}, function(error){
 		_failed(res, error);
+	}, function(customers){
+		for (var i = 0; i < customers.length; i++) {
+			all.push(customers[i];
+		}	
 	});
 });
 
