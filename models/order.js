@@ -17,13 +17,9 @@ module.exports.pay = function(order) {
 					if (count == 0) {
 						customer.increment("metal", 1);
 					}
-
-					Gift.buyTicket(customer);
 				} else if (order.get("product") == "VIP") {
 					customer.set("ticket_expire", moment().add(30 * 12 * 100, 'days').format());
 					customer.increment("metal", 2);
-
-					Gift.buyTicket(customer);
 				} else if (order.get("product") == "Diamond") {
 					customer.increment("diamond", 200);
 				} else {
