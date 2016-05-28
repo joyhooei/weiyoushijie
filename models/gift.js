@@ -9,6 +9,8 @@ module.exports.lockPicked = function(request, response) {
 	var query = new AV.Query(dao.Gift);
 	query.select('objectId', 'locked');
 	query.equalTo("locked", 2);
+    query.notEqualTo("category", 4);
+    query.notEqualTo("category", 6);
 	Helper.findAll().then(function(count){
 		Q.all(promises).then(function(){
 			response.succeed("lockAllPicked " + count);
