@@ -32,7 +32,7 @@ class BuyToolUI extends eui.Component{
             this.imgBuy.addEventListener( egret.TouchEvent.TOUCH_TAP, ()=>{
 				if (this._name == "time") {
 					this.buyTime();
-				} else {
+				} else if (this._name == "hit") {
 					this.buyHit();
 				} else if (this._name == "ticket") {
                     this.buyTicket();
@@ -66,36 +66,44 @@ class BuyToolUI extends eui.Component{
 	private buyTime(){
     	var self = this;
     	
-        application.customer.diamond -= this._price;
-		application.customer.gold += application.customer.output * 3600 * 48;
-		application.dao.save("Customer", application.customer, function(succeed, data){
-			Toast.launch("购买了时光沙漏");
+		if (application.customer.diamond > this._price) {
+			application.customer.diamond -= this._price;
+			application.customer.gold += application.customer.output * 3600 * 48;
+			application.dao.save("Customer", application.customer, function(succeed, data){
+				Toast.launch("购买了时光沙漏");
 
-			application.refreshCustomer(application.customer.output * 3600 * 48, -500, 0, 0, null);
-			
-            application.hideUI(self);
-		});
+				application.refreshCustomer(application.customer.output * 3600 * 48, -500, 0, 0, null);
+
+				application.hideUI(self);
+			});
+		} else {
+			//TBD
+		}
 	}
 	
 	private buyHit() {
         var self = this;
         
-        application.customer.diamond -= this._price;
-		application.customer.total_hits = 3;
-		application.dao.save("Customer", application.customer, function(succeed, data){
-			Toast.launch("购买了爆击");
+		if (application.customer.diamond > this._price) {
+			application.customer.diamond -= this._price;
+			application.customer.total_hits = 3;
+			application.dao.save("Customer", application.customer, function(succeed, data){
+				Toast.launch("购买了爆击");
 
-			application.refreshCustomer(0, -100, 3, 0, null);
-			
-            application.hideUI(self);
-		});
+				application.refreshCustomer(0, -100, 3, 0, null);
+
+				application.hideUI(self);
+			});
+		} else {
+			//TBD
+		}
 	}
     
 	//月票，19元每月(30天）。每天登录可以领取300钻石，离线收益增加至90%，持续12小时。普通情况下离线收益为70%，持续8小时。首次购买获得1个勋章
     private buyTicket() {
 		var self = this;
 		
-        var order = { customer_id: application.customer.id, product: "ticket", price: 19};
+        var order = { customer_id: application.customer.id, product: "ticket", price: this._price};
         application.dao.save("Order", order, function(succeed, o) {
             if (succeed) {
 				application.pay("1", o, function(succeed){
@@ -113,7 +121,7 @@ class BuyToolUI extends eui.Component{
     private buyVIP() {
         var self = this;
         
-        var order = { customer_id: application.customer.id, product: "vip", price: 49};
+        var order = { customer_id: application.customer.id, product: "vip", price: this._price};
         application.dao.save("Order", order, function(succeed, o) {
             if (succeed) {
 				application.pay("2", o, function(succeed){
