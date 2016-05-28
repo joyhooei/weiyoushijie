@@ -34,7 +34,11 @@ class BuyToolUI extends eui.Component{
 					this.buyTime();
 				} else {
 					this.buyHit();
-				}
+				} else if (this._name == "ticket") {
+                    this.buyTicket();
+                } else if (this._name == "vip") { 
+                    this.buyVIP();
+                }
 			}, this );
 		}
 		
@@ -42,11 +46,19 @@ class BuyToolUI extends eui.Component{
             this.imgIcon.source = "time_png";
             this.imgTitle.source = "";
             this.lblDescription.text = "增加" + (application.format(application.customer.output * 3600 * 48)).toString() + "金币";
-        } else {
+        } else if (this._name == "hit") {
             this.imgIcon.source = "Hit_png";
             this.imgTitle.source = "";
             this.lblDescription.text = "增加" + (3 - application.customer.total_hits).toString() + "暴击";
-        }
+        } else if (this._name == "ticket") {
+            this.imgIcon.source = "Hit_png";
+            this.imgTitle.source = "";
+            this.lblDescription.text = "增加" + (3 - application.customer.total_hits).toString() + "暴击";
+        } else if (this._name == "vip") {
+            this.imgIcon.source = "Hit_png";
+            this.imgTitle.source = "";
+            this.lblDescription.text = "增加" + (3 - application.customer.total_hits).toString() + "暴击";
+        } 
         
         this.lblDiamond.text = this._price.toString();
     }
@@ -78,4 +90,40 @@ class BuyToolUI extends eui.Component{
             application.hideUI(self);
 		});
 	}
+    
+	//月票，19元每月(30天）。每天登录可以领取300钻石，离线收益增加至90%，持续12小时。普通情况下离线收益为70%，持续8小时。首次购买获得1个勋章
+    private buyTicket() {
+		var self = this;
+		
+        var order = { customer_id: application.customer.id, product: "ticket", price: 19};
+        application.dao.save("Order", order, function(succeed, o) {
+            if (succeed) {
+				application.pay("1", o, function(succeed){
+					if (succeed == 1) {
+						Toast.launch("购买了月票");
+					}
+				});
+            } else {
+                Toast.launch("购买失败");
+            }
+        });
+    }
+    
+	//终身VIP，49元。每天登录可以领取300钻石，离线收益增加至90%，持续12小时。
+    private buyVIP() {
+        var self = this;
+        
+        var order = { customer_id: application.customer.id, product: "vip", price: 49};
+        application.dao.save("Order", order, function(succeed, o) {
+            if (succeed) {
+				application.pay("2", o, function(succeed){
+					if (succeed == 1) {
+						Toast.launch("购买了终身VIP");
+					}
+				});			
+            } else {
+                Toast.launch("购买失败");
+            }
+        });
+    }    
 }
