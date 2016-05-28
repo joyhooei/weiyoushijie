@@ -9,8 +9,8 @@ module.exports.expireTicket = function(request, response) {
     var promises = [];
     
     var query = new AV.Query(dao.Customer);
-    query.select('objectId', 'ticket_expire', 'ticket');
-    query.startsWith('ticket_expire', '2');
+    query.select('objectId', 'ticket');
+    query.startsWith('ticket', '2');
     Helper.findAll(query).then(function(count) {
 		Q.all(promises).then(function(){
 			response.succeed("expireTicket " + promises.length);
@@ -22,7 +22,7 @@ module.exports.expireTicket = function(request, response) {
         response.error(error.message);
     }, function(customers) {
         _.each(customers, function(customer){
-            if (moment(customer.get('ticket_expire')) < now) {
+            if (moment(customer.get('ticket')) < now) {
                 customer.set('ticket', '');
                 promises.push(customer.save());
             }
@@ -34,7 +34,7 @@ module.exports.offlineGold = function(customer) {
     var now  = moment();
     var last = moment(customer.updatedAt);
     
-    if (customer.get("ticket_expire") && customer.get("ticket_expire").length > 1) {
+    if (customer.get("ticket") && customer.get("ticket").length > 1) {
 		var percent = 0.9;
     	var period = 12;
 	} else {
@@ -80,16 +80,23 @@ module.exports.hits = function(customer) {
 
 module.exports.create = function(uid, name, avatar, sex, age) {
     var customer = new dao.Customer();
+    
     customer.set("uid", uid);
     customer.set("name", name);
     customer.set("avatar", avatar);
     customer.set("sex", sex);
     customer.set("age", age);
+    
     customer.set("gold", 0);
-    customer.set("output", 1);
     customer.set("diamond", 100);
     customer.set("metal", 0);
+    
+    customer.set("output", 1);
+    
     customer.set("total_hits", 3);
+    customer.set("last_hit", "");
+    
+    customer.set("ticket", "");
     
     customer.set("offline_gold", 0);
     customer.set("offline_hours", 0);
