@@ -77,25 +77,29 @@ class BuyToolUI extends eui.Component{
 				application.hideUI(self);
 			});
 		} else {
-			//TBD
+			application.showUI(new ChargeTipUI());
 		}
 	}
 	
 	private buyHit() {
         var self = this;
         
-		if (application.customer.diamond > this._price) {
-			application.customer.diamond -= this._price;
-			application.customer.total_hits = 3;
-			application.dao.save("Customer", application.customer, function(succeed, data){
-				Toast.launch("购买了爆击");
+        if (application.customer.total_hits == 0) {
+			if (application.customer.diamond > this._price) {
+				application.customer.diamond -= this._price;
+				application.customer.total_hits = 3;
+				application.dao.save("Customer", application.customer, function(succeed, data){
+					Toast.launch("购买了暴击");
 
-				application.refreshCustomer(0, -100, 3, 0, null);
+					application.refreshCustomer(0, -100, 3, 0, null);
 
-				application.hideUI(self);
-			});
+					application.hideUI(self);
+				});
+			} else {
+				application.showUI(new ChargeTipUI());
+			}
 		} else {
-			//TBD
+			Toast.launch("你还有" + application.customer.total_hits + "个暴击，建议用完后再购买");
 		}
 	}
     
@@ -103,35 +107,45 @@ class BuyToolUI extends eui.Component{
     private buyTicket() {
 		var self = this;
 		
-        var order = { customer_id: application.customer.id, product: "ticket", price: this._price};
-        application.dao.save("Order", order, function(succeed, o) {
-            if (succeed) {
-				application.pay("1", o, function(succeed){
-					if (succeed == 1) {
-						Toast.launch("购买了月票");
-					}
-				});
-            } else {
-                Toast.launch("购买失败");
-            }
-        });
+		var ticketDay = application.ticketDay();
+		if (ticketDay >= 0) {
+			var order = { customer_id: application.customer.id, product: "ticket", price: this._price};
+			application.dao.save("Order", order, function(succeed, o) {
+				if (succeed) {
+					application.pay("1", o, function(succeed){
+						if (succeed == 1) {
+							Toast.launch("购买了月票");
+						}
+					});
+				} else {
+					Toast.launch("购买失败");
+				}
+			});
+		} else {
+			Toast.launch("你已经购买了VIP，终身免费");
+		}
     }
     
 	//终身VIP，49元。每天登录可以领取300钻石，离线收益增加至90%，持续12小时。
     private buyVIP() {
         var self = this;
-        
-        var order = { customer_id: application.customer.id, product: "vip", price: this._price};
-        application.dao.save("Order", order, function(succeed, o) {
-            if (succeed) {
-				application.pay("2", o, function(succeed){
-					if (succeed == 1) {
-						Toast.launch("购买了终身VIP");
-					}
-				});			
-            } else {
-                Toast.launch("购买失败");
-            }
-        });
+        	
+		var ticketDay = application.ticketDay();
+		if (ticketDay >= 0) {
+			var order = { customer_id: application.customer.id, product: "vip", price: this._price};
+			application.dao.save("Order", order, function(succeed, o) {
+				if (succeed) {
+					application.pay("2", o, function(succeed){
+						if (succeed == 1) {
+							Toast.launch("购买了终身VIP");
+						}
+					});			
+				} else {
+					Toast.launch("购买失败");
+				}
+			});
+		} else {
+			Toast.launch("你已经购买了VIP，终身免费");
+		}			
     }    
 }
