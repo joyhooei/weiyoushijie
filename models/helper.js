@@ -3,7 +3,7 @@ var AV = require('leanengine');
 module.exports.findAll = function(query) {
 	return Q.Promise(function(resolve, reject, notify) {
 		query.count().then(function(total) {
-			if (count <= 0) {
+			if (total <= 0) {
 				resolve(total);
 				return;
 			}
