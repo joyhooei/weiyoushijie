@@ -23,8 +23,6 @@ module.exports.expireTicket = function(request, response) {
     }, function(customers) {
         _.each(customers, function(customer){
             if (moment(customer.get('ticket_expire')) < now) {
-                promises.push(Gift.expireTicket(customer));
-
                 customer.set('ticket', '');
                 promises.push(customer.save());
             }
