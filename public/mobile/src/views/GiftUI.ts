@@ -176,24 +176,14 @@ class GiftUI extends eui.Component {
             self.setImage(self.imgPick3, gifts[2]);
             
             //4、永久会员/月票 300钻。每天领取一次。灰色是点击跳入会员购买页面（参照道具弹出窗口） 月票默认30天，会显示剩余月票天数，如果是永久则显示永久
-			if (application.customer.ticket && application.customer.ticket.length > 1) {
-				var ticketTimeout = new Date(application.customer.ticket);
-                var now = new Date();;
-				
-				var timeDiff = ticketTimeout.getTime() - now.getTime();
-				if (timeDiff < 0) {
-                    self.lblTicketGiftTimeout.text = "";
-				} else {
-					var diffDays = Math.ceil(timeDiff / (1000 * 3600 * 24)); 
-					if (diffDays > 30) {
-                        self.lblTicketGiftTimeout.text = "永久";
-					} else {
-                        self.lblTicketGiftTimeout.text = diffDays.toString() + "天";
-					}
-				}
-			} else {
+			var ticketDay = application.ticketDay();
+            if (ticketDay == 0) {
                 self.lblTicketGiftTimeout.text = "";
-			}
+            } else if (ticketDay < 0) {
+                self.lblTicketGiftTimeout.text = "永久";
+            } else {
+                self.lblTicketGiftTimeout.text = ticketDay.toString() + "天";
+            }
             self.setImage(self.imgPick4,gifts[3]);
             
             //5、分享100钻。每天任意在微博，微信等地方分享一次就可以领取。灰色时点击跳入分享页面。
