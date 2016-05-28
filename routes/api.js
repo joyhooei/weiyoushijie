@@ -26,6 +26,8 @@ router.get('/egret_rt', function(req, res, next) {
 		res.charset = 'UTF-8';
 		res.write(JSON.stringify(content));
 		res.end();
+	}, function(error){
+		_failed(res, error.message);
 	});
 })
 
