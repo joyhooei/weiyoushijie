@@ -61,6 +61,27 @@ module application {
 		return dt.getFullYear() + "/" + (dt.getMonth() + 1) + "/" + dt.getDate();
     }
     
+    export function ticketDay(): number {
+        if (application.customer.ticket && application.customer.ticket.length > 1) {
+            var ticketTimeout = new Date(application.customer.ticket);
+            var now = new Date();;
+
+            var timeDiff = ticketTimeout.getTime() - now.getTime();
+            if (timeDiff < 0) {
+                return 0;
+            } else {
+                var diffDays = Math.ceil(timeDiff / (1000 * 3600 * 24)); 
+                if (diffDays > 30) {
+                    return -1;
+                } else {
+                    return diffDays;
+                }
+            }
+        } else {
+            return 0;
+        }    
+    }
+    
     export function refreshBid(cb: Function): void {
         application.dao.fetch("Bid",{ succeed: 0, day :application.bidDay(), customer_id: application.customer.id}, {limit : 1}, function(succeed, bids){
             if (succeed && bids.length > 0) {
