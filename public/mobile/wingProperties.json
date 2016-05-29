@@ -708,6 +708,56 @@
 					"isFolder":false,
 					"key":"coineffect_png",
 					"name":"coineffect_png"
+				},
+				{
+					"isFolder":false,
+					"key":"b10_png",
+					"name":"b10_png"
+				},
+				{
+					"isFolder":false,
+					"key":"b1_png",
+					"name":"b1_png"
+				},
+				{
+					"isFolder":false,
+					"key":"b2_png",
+					"name":"b2_png"
+				},
+				{
+					"isFolder":false,
+					"key":"b3_png",
+					"name":"b3_png"
+				},
+				{
+					"isFolder":false,
+					"key":"b4_png",
+					"name":"b4_png"
+				},
+				{
+					"isFolder":false,
+					"key":"b5_png",
+					"name":"b5_png"
+				},
+				{
+					"isFolder":false,
+					"key":"b6_png",
+					"name":"b6_png"
+				},
+				{
+					"isFolder":false,
+					"key":"b7_png",
+					"name":"b7_png"
+				},
+				{
+					"isFolder":false,
+					"key":"b8_png",
+					"name":"b8_png"
+				},
+				{
+					"isFolder":false,
+					"key":"b9_png",
+					"name":"b9_png"
 				}
 			]
 		}

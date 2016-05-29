@@ -146,20 +146,20 @@ module application {
         var order = { customer_id: application.customer.id, product: product, price: price, state: 0};
         application.dao.save("Order", order, function(succeed, o) {
             if (succeed) {
-				nest.iap.pay({ goodsId: gid, goodsNumber: "1", serverId: "1",ext: order.id }, function(data) {
+				nest.iap.pay({ goodsId: gid, goodsNumber: "1", serverId: "1",ext: o.id }, function(data) {
 					if(data.result == 0) {
 						//支付成功
 						Toast.launch(title + "成功");
 					} else if(data.result == -1) {
 						//支付取消
-						order.set("state", 2);
-						order.set("reason", "用户取消了支付");
-						application.dao.save("Order", order);
+    					o.state = 2;
+                        o.reason = "用户取消了支付";
+						application.dao.save("Order", o);
 					} else {
 						//支付失败
-						order.set("state", 3);
-						order.set("reason", JSON.stringify(data));
-						application.dao.save("Order", order);
+                        o.state = 3;
+                        o.reason = JSON.stringify(data);
+						application.dao.save("Order", o);
 						
 						Toast.launch("支付失败");
 					}

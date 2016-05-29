@@ -93,7 +93,7 @@ class ToolItem extends eui.Component {
 	//购买十次的倍数
 	private ratio(oldRatio: number, step: number):number {
 		for (var i = 0; i < step; i++) {
-			oldRatio = ratioOne(oldRatio);
+			oldRatio = this.ratioOne(oldRatio);
 		}
 		
 		return oldRatio;

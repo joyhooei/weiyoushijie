@@ -48,7 +48,7 @@ var ProjectItem = (function (_super) {
         }
     };
     p.output = function () {
-        return this._project.output(this._myProject.level, this._myProject.achieve);
+        return this._project.output(this._myProject.level, this._myProject.achieve, this._myProject.tool_ratio);
     };
     p.renderAchieves = function () {
         var self = this;
@@ -62,17 +62,10 @@ var ProjectItem = (function (_super) {
         var grp = new eui.Group();
         var img = new eui.Image();
         var icon = "acv" + achieve.toString() + "_png";
-        var tiltels = ['英勇黄铜', '不屈白银', '荣耀黄金', '华贵铂金', '璀璨钻石', '超凡大师', '最强王者', '近神Dominating', '神Godlike', '超神Legendary'];
-        var help = tiltels[achieve - 1] + "\n";
-        help += "完成成就提高金币产量" + this._project.achieve(achieve).outputRatio.toString() + "倍。\n";
-        help += this._project.achieve(achieve).level.toString() + "级解锁成就\n";
         if (achieve <= this._myProject.achieve) {
             //已经购买的成就
             img.source = icon;
             grp.addChild(img);
-            img.addEventListener(egret.TouchEvent.TOUCH_TAP, function () {
-                application.showHelp(help);
-            }, this);
         }
         else {
             //不允许跨级购买
@@ -83,19 +76,16 @@ var ProjectItem = (function (_super) {
                 img = new eui.Image();
                 img.source = "acvnone_png";
                 grp.addChild(img);
-                img.addEventListener(egret.TouchEvent.TOUCH_TAP, function () {
-                    application.showUI(new BuyAchieveUI(self._myProject, self._project, achieve));
-                }, this);
             }
             else {
                 //不可以购买的成就
                 img.source = "acvlock_png";
                 grp.addChild(img);
-                img.addEventListener(egret.TouchEvent.TOUCH_TAP, function () {
-                    application.showHelp(help);
-                }, this);
             }
         }
+        img.addEventListener(egret.TouchEvent.TOUCH_TAP, function () {
+            application.showUI(new BuyAchieveUI(self._myProject, self._project, achieve));
+        }, this);
         return grp;
     };
     p.renderLocked = function () {

@@ -47,6 +47,30 @@ var application;
         return dt.getFullYear() + "/" + (dt.getMonth() + 1) + "/" + dt.getDate();
     }
     application.bidDay = bidDay;
+    function ticketDay() {
+        if (application.customer.ticket && application.customer.ticket.length > 1) {
+            var ticketTimeout = new Date(application.customer.ticket);
+            var now = new Date();
+            ;
+            var timeDiff = ticketTimeout.getTime() - now.getTime();
+            if (timeDiff < 0) {
+                return 0;
+            }
+            else {
+                var diffDays = Math.ceil(timeDiff / (1000 * 3600 * 24));
+                if (diffDays > 30) {
+                    return -1;
+                }
+                else {
+                    return diffDays;
+                }
+            }
+        }
+        else {
+            return 0;
+        }
+    }
+    application.ticketDay = ticketDay;
     function refreshBid(cb) {
         application.dao.fetch("Bid", { succeed: 0, day: application.bidDay(), customer_id: application.customer.id }, { limit: 1 }, function (succeed, bids) {
             if (succeed && bids.length > 0) {
@@ -91,7 +115,6 @@ var application;
                     if (succeed && gifts.length > 0) {
                         var gift = gifts[0];
                         gift.locked = 0;
-                        gift.data = application.log10(application.customer.output).toString();
                         application.dao.save("Gift", gift);
                     }
                 });
@@ -105,40 +128,47 @@ var application;
         });
     }
     application.buyOutput = buyOutput;
-    function charge() {
-        var self = this;
-        var order = { customer_id: application.customer.id, product: "diamond", price: 2 };
+    function _buy(product, gid, price, title) {
+        var order = { customer_id: application.customer.id, product: product, price: price, state: 0 };
         application.dao.save("Order", order, function (succeed, o) {
             if (succeed) {
-                application.pay("3", o, function (succeed) {
-                    if (succeed == 1) {
-                        Toast.launch("充值成功");
+                nest.iap.pay({ goodsId: gid, goodsNumber: "1", serverId: "1", ext: o.id }, function (data) {
+                    if (data.result == 0) {
+                        //支付成功
+                        Toast.launch(title + "成功");
+                    }
+                    else if (data.result == -1) {
+                        //支付取消
+                        o.state = 2;
+                        o.reason = "用户取消了支付";
+                        application.dao.save("Order", o);
+                    }
+                    else {
+                        //支付失败
+                        o.state = 3;
+                        o.reason = JSON.stringify(data);
+                        application.dao.save("Order", o);
+                        Toast.launch("支付失败");
                     }
                 });
             }
             else {
-                Toast.launch("充值失败");
+                Toast.launch("保存订单失败，请稍后再试");
             }
         });
+    }
+    function charge() {
+        this._buy("Diamond", "1", 2, "充值");
     }
     application.charge = charge;
-    function pay(goodsId, order, callback) {
-        nest.iap.pay({ goodsId: goodsId, goodsNumber: "1", serverId: "1", ext: order.id }, function (data) {
-            if (data.result == 0) {
-                //支付成功
-                callback(1);
-            }
-            else if (data.result == -1) {
-                //支付取消
-                Toast.launch("取消了购买");
-            }
-            else {
-                //支付失败
-                Toast.launch("支付失败");
-            }
-        });
+    function buyTicket() {
+        this._buy("Ticket", "2", 19, "购买月票");
     }
-    application.pay = pay;
+    application.buyTicket = buyTicket;
+    function buyVIP() {
+        this._buy("VIP", "3", 49, "购买终身VIP");
+    }
+    application.buyVIP = buyVIP;
     function share(callback) {
         nest.share.isSupport({}, function (data) {
             if (data.share == 1) {

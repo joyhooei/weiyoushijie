@@ -134,7 +134,7 @@ class GiftUI extends eui.Component {
 			gift.data = nextOutput.toString();
 			
 			//如果用户的秒产超过了下一个可以领取的秒产，则仍然保持解锁状态
-			if (application.log10(application.customer.output) >= application.log10(nextOutput) {
+			if (application.log10(application.customer.output) >= application.log10(nextOutput)) {
 				this.lockGift(gift, 0);
 			} else {
 				this.lockGift(gift, 1);
@@ -258,7 +258,7 @@ class GiftUI extends eui.Component {
 		this.renderGift(gift);
 	}
 	
-	private gift(category: CardCategory) {
+	private gift(category: GiftCategory) {
 		return this.gifts[category - 1];
 	}
     
