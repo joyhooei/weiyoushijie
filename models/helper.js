@@ -17,7 +17,7 @@ module.exports.findAll = function(query) {
 					notify(models);
 					
 					if (offset + models.length >= total) {
-						resolve(count);
+						resolve(total);
 					}
 				}, function(error){
 					console.error("Helper findAll find " + error.message);
