@@ -3,9 +3,8 @@ class BuyToolUI extends eui.Component{
     private imgBuy: eui.Image;
     
     private imgIcon: eui.Image;
-    private imgTitle: eui.Image;
-    private lblDescription: eui.Label;
-    private lblDiamond: eui.Label;    
+
+    private lblPrice: eui.Label;    
 	
     private _name: string;
 	private _price: number;
@@ -25,43 +24,45 @@ class BuyToolUI extends eui.Component{
         this.imgBack.addEventListener( egret.TouchEvent.TOUCH_TAP, ()=>{
             application.hideUI(this);;
         }, this );
-        
-        if (application.customer.diamond < this._price) {
-            this.imgBuy.source = "buttoncoinno_png";
-		} else {
-            this.imgBuy.addEventListener( egret.TouchEvent.TOUCH_TAP, ()=>{
-				if (this._name == "time") {
-					this.buyTime();
-				} else if (this._name == "hit") {
-					this.buyHit();
-				} else if (this._name == "ticket") {
-                    this.buyTicket();
-                } else if (this._name == "vip") { 
-                    this.buyVIP();
-                }
-			}, this );
-		}
+		
+		this.imgBuy.addEventListener( egret.TouchEvent.TOUCH_TAP, ()=>{
+			this.buy();
+		}, this );
 		
         if(this._name == "time") {
             this.imgIcon.source = "time_png";
-            this.imgTitle.source = "";
-            this.lblDescription.text = "增加" + (application.format(application.customer.output * 3600 * 48)).toString() + "金币";
         } else if (this._name == "hit") {
             this.imgIcon.source = "Hit_png";
-            this.imgTitle.source = "";
-            this.lblDescription.text = "增加" + (3 - application.customer.total_hits).toString() + "暴击";
         } else if (this._name == "ticket") {
             this.imgIcon.source = "Hit_png";
-            this.imgTitle.source = "";
-            this.lblDescription.text = "增加" + (3 - application.customer.total_hits).toString() + "暴击";
         } else if (this._name == "vip") {
             this.imgIcon.source = "Hit_png";
-            this.imgTitle.source = "";
-            this.lblDescription.text = "增加" + (3 - application.customer.total_hits).toString() + "暴击";
         } 
         
-        this.lblDiamond.text = this._price.toString();
+        this.lblPrice.text = this._price.toString();
+		
+		if (this._name == "time" || this._name == "hit")
+			if (application.customer.diamond < this._price) {
+				this.imgBuy.source = "buttondiano_png";
+			} else {
+				this.imgBuy.source = "buttondia_png";
+			}
+		} else {
+			this.imgBuy.source = "buttoncoin_png";
+		}
     }
+	
+	private buy() {
+		if (this._name == "time") {
+			this.buyTime();
+		} else if (this._name == "hit") {
+			this.buyHit();
+		} else if (this._name == "ticket") {
+			this.buyTicket();
+		} else if (this._name == "vip") { 
+			this.buyVIP();
+		}	
+	}
 	
 	private buyTime(){
     	var self = this;
