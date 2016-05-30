@@ -44,7 +44,7 @@ class BuyAchieveUI extends eui.Component{
         let priceUseDiamond = this._project.achieve(this._myProject.achieve + 1).priceUseDiamond;
         this.lblDiamond.text = priceUseDiamond.toString();    
         
-        if(this._myProject.achieve < this._achieve) {
+        if(this._myProject.level < this._project.achieve(this._achieve).level) {
             this.imgBuyUseGold.source = "buttoncoinno_png";
             this.imgBuyUseDiamond.source = "buttondiano_png";           
         } else {
