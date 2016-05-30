@@ -1,4 +1,6 @@
 class AuctionUI extends eui.Component{
+    private imgBack: eui.Image;
+
 	private lblGold:eui.Label;
     private lblDiamond: eui.Label;
 	
@@ -53,6 +55,10 @@ class AuctionUI extends eui.Component{
     private uiCompHandler():void {
 		this.refresh();
 		
+        this.imgBack.addEventListener(egret.TouchEvent.TOUCH_TAP,() => {
+            application.gotoHome();
+        },this);
+
         this.imgBid.addEventListener(egret.TouchEvent.TOUCH_BEGIN, this.onBid, this);
 		
 		this.grpTrack.touchEnabled = true;

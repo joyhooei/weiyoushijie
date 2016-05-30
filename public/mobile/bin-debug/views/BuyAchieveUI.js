@@ -22,7 +22,10 @@ var BuyAchieveUI = (function (_super) {
         this.lblGold.text = priceUseGold.toString();
         var priceUseDiamond = this._project.achieve(this._myProject.achieve + 1).priceUseDiamond;
         this.lblDiamond.text = priceUseDiamond.toString();
-        if (this._myProject.achieve < this._achieve) {
+        //如果当前级别小于成就所需要的级别，则不能购买
+        //如果上一个成就还没有解锁，则不能购买
+        if (this._myProject.level < this._project.achieve(this._achieve).level
+            || this._achieve > this._myProject.achieve + 1) {
             this.imgBuyUseGold.source = "buttoncoinno_png";
             this.imgBuyUseDiamond.source = "buttondiano_png";
         }

@@ -31,7 +31,7 @@ var HomeUI = (function (_super) {
             self.onHit();
         }, this);
         self.btnGift.addEventListener(egret.TouchEvent.TOUCH_BEGIN, function () {
-            application.showUI(new GiftUI());
+            application.showUI(new GiftUI(), this);
         }, this);
         self.btnHelp.addEventListener(egret.TouchEvent.TOUCH_BEGIN, function () {
             application.showHelp("");
@@ -44,7 +44,7 @@ var HomeUI = (function (_super) {
         }, this);
         self.imgCharge.addEventListener(egret.TouchEvent.TOUCH_BEGIN, function () {
             if (application.customer.charge == 0) {
-                application.showUI(new FirstChargeBonusUI());
+                application.showUI(new FirstChargeBonusUI(), this);
             }
             else {
                 application.charge();
@@ -105,7 +105,7 @@ var HomeUI = (function (_super) {
                     var bidDay = application.bidDay();
                     if (application.customer.win_day != bidDay) {
                         application.customer.win_day = bidDay;
-                        application.showUI(new WinUI());
+                        application.showUI(new WinUI(), this);
                     }
                     self.renderBidCustomer(application.customer, bids[0]);
                 }
@@ -158,9 +158,7 @@ var HomeUI = (function (_super) {
     p.renderOfflineGold = function () {
         if (application.customer.offline_gold > 0) {
             var ui = new OfflineGoldUI(application.customer.offline_gold, application.customer.offline_hours.toString(), application.customer.offline_minutes.toString());
-            ui.horizontalCenter = 0;
-            ui.verticalCenter = 0;
-            this.addChild(ui);
+            application.showUI(ui, this);
         }
     };
     p.onBeauty = function () {
@@ -194,7 +192,7 @@ var HomeUI = (function (_super) {
             timer.addEventListener(egret.TimerEvent.TIMER_COMPLETE, function (event) {
                 self.hit = 0;
                 self.lblHit.text = "59";
-                self.lblOutput.text = application.format(application.customer.output.toString());
+                self.lblOutput.text = application.format(application.customer.output);
             }, this);
             timer.start();
         }
@@ -283,6 +281,9 @@ var HomeUI = (function (_super) {
                 _this.gotoPage(GamePages.HOME, true);
             }, this);
         }
+        else {
+            this._toolUI.refresh();
+        }
         this._uiFocused = this._toolUI;
         this.selectFooter(this.btnTool);
     };
@@ -293,6 +294,9 @@ var HomeUI = (function (_super) {
             this._rankUI.addEventListener(GameEvents.EVT_RETURN, function () {
                 _this.gotoPage(GamePages.HOME, true);
             }, this);
+        }
+        else {
+            this._rankUI.refresh();
         }
         this._uiFocused = this._rankUI;
         this.selectFooter(this.btnRank);
@@ -390,7 +394,6 @@ var HomeUI = (function (_super) {
     p.pageReadyHandler = function (pageName) {
         this.enableFooter(true);
         this.gotoPage(pageName, true);
-        this.addChild(this._uiFocused);
     };
     p.selectFooter = function (btn) {
         if (this._btnFocused) {

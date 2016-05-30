@@ -1,4 +1,6 @@
 class ToolUI extends eui.Component {
+    private imgBack: eui.Button;
+
     private imgHit: eui.Image;
     private imgTime: eui.Image;
     private imgTicket: eui.Image;
@@ -41,6 +43,10 @@ class ToolUI extends eui.Component {
 
     private uiCompHandler():void {
         this.refresh();
+
+        this.imgBack.addEventListener(egret.TouchEvent.TOUCH_TAP,() => {
+            application.gotoHome();
+        },this);
         
         this.imgHit.addEventListener(egret.TouchEvent.TOUCH_BEGIN,function() {
             application.showUI(new BuyToolUI("hit", 100), this);

@@ -10,8 +10,8 @@ module application {
 	export var baseUrl: string;
 	
 	export var units: any[];
-    
-    var blockUI: BlockUI;
+	
+	export var blockUI: BlockUI;
 
     export function init(main:Main) {
 		application.main = main;
@@ -28,8 +28,6 @@ module application {
                 'a', 'A', 'c', 'C', 'd', 'D', 'e', 'E', 'f', 'F', 'g', 'G', 'h', 'H', 'i', 'I', 'j', 'J', 'l', 'L', 'n', 'N', 'o', 'O', 'p', 'P', 'q', 'Q', 'r', 'R', 's', 'S', 'u', 'U', 'v', 'V', 'w', 'W', 'x', 'X', 'y', 'Y', 'z', 'Z',
                 'aa', 'AA', 'cc', 'CC', 'dd', 'DD', 'ee', 'EE', 'ff', 'FF', 'gg', 'GG', 'hh', 'HH', 'ii', 'II', 'jj', 'JJ', 'll', 'LL', 'nn', 'NN', 'oo', 'OO', 'pp', 'PP', 'qq', 'QQ', 'rr', 'RR', 'ss', 'SS', 'uu', 'UU', 'vv', 'VV', 'ww', 'WW', 'xx', 'XX', 'yy', 'YY', 'zz', 'ZZ',
             ];
-            
-        application.blockUI = new BlockUI();
     }
 	
     export function login(data?:string|nest.user.LoginCallbackInfo):void {
@@ -223,6 +221,10 @@ module application {
 			}
 		});
     }
+
+    export function gotoHome(): void {
+        application.main.homeUI.gotoPage(GamePages.HOME,true);
+    }
     
     export function gotoAuction(): void {
         application.main.homeUI.gotoPage(GamePages.AUCTION, false);
@@ -260,7 +262,10 @@ module application {
         ui.horizontalCenter = 0;
         ui.verticalCenter   = 0;
         
-        application.blockUI.removeChildren();
+        if (!application.blockUI) {
+            application.blockUI = new BlockUI();
+        }
+        
         application.blockUI.addChild(ui);
         
         if (parent) {
@@ -274,11 +279,12 @@ module application {
     
     export function hideUI(ui: eui.Component): egret.DisplayObjectContainer {
         if (ui && ui.parent) {
-            if (ui.parent == application.blockUI) {
-                ui.parent.removeChild(ui);
+            if(ui.parent == application.blockUI) {
                 if (ui.parent.parent) {
-                    ui.parent.parent.removeChild(ui.parent);
+                    ui.parent.parent.removeChild(application.blockUI);
                 }
+                
+                application.blockUI.removeChild(ui);
             } else {
                 ui.parent.removeChild(ui);
             }

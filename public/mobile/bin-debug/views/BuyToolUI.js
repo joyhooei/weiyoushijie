@@ -14,46 +14,47 @@ var BuyToolUI = (function (_super) {
             application.hideUI(_this);
             ;
         }, this);
-        if (application.customer.diamond < this._price) {
-            this.imgBuy.source = "buttoncoinno_png";
-        }
-        else {
-            this.imgBuy.addEventListener(egret.TouchEvent.TOUCH_TAP, function () {
-                if (_this._name == "time") {
-                    _this.buyTime();
-                }
-                else if (_this._name == "hit") {
-                    _this.buyHit();
-                }
-                else if (_this._name == "ticket") {
-                    _this.buyTicket();
-                }
-                else if (_this._name == "vip") {
-                    _this.buyVIP();
-                }
-            }, this);
-        }
+        this.imgBuy.addEventListener(egret.TouchEvent.TOUCH_TAP, function () {
+            _this.buy();
+        }, this);
         if (this._name == "time") {
-            this.imgIcon.source = "time_png";
-            this.imgTitle.source = "";
-            this.lblDescription.text = "增加" + (application.format(application.customer.output * 3600 * 48)).toString() + "金币";
+            this.imgIcon.source = "timeh_png";
         }
         else if (this._name == "hit") {
-            this.imgIcon.source = "Hit_png";
-            this.imgTitle.source = "";
-            this.lblDescription.text = "增加" + (3 - application.customer.total_hits).toString() + "暴击";
+            this.imgIcon.source = "hith_png";
         }
         else if (this._name == "ticket") {
-            this.imgIcon.source = "Hit_png";
-            this.imgTitle.source = "";
-            this.lblDescription.text = "增加" + (3 - application.customer.total_hits).toString() + "暴击";
+            this.imgIcon.source = "ticketh_png";
         }
         else if (this._name == "vip") {
-            this.imgIcon.source = "Hit_png";
-            this.imgTitle.source = "";
-            this.lblDescription.text = "增加" + (3 - application.customer.total_hits).toString() + "暴击";
+            this.imgIcon.source = "VIPh_png";
         }
-        this.lblDiamond.text = this._price.toString();
+        this.lblPrice.text = this._price.toString();
+        if (this._name == "time" || this._name == "hit") {
+            if (application.customer.diamond < this._price) {
+                this.imgBuy.source = "buttondiano_png";
+            }
+            else {
+                this.imgBuy.source = "buttondia_png";
+            }
+        }
+        else {
+            this.imgBuy.source = "buttoncoin_png";
+        }
+    };
+    p.buy = function () {
+        if (this._name == "time") {
+            this.buyTime();
+        }
+        else if (this._name == "hit") {
+            this.buyHit();
+        }
+        else if (this._name == "ticket") {
+            this.buyTicket();
+        }
+        else if (this._name == "vip") {
+            this.buyVIP();
+        }
     };
     p.buyTime = function () {
         var self = this;

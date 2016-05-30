@@ -13,7 +13,7 @@
 			"name":"rank"
 		},
 		{
-			"keys":"Button1_png,Button10_png,Hit_png,TB_png,Tbar_png,ticket_png,time_png,VIP_png",
+			"keys":"Button1_png,Button10_png,Hit_png,TB_png,Tbar_png,ticket_png,time_png,VIP_png,hith_png,ticketh_png,timeh_png,VIPh_png",
 			"name":"tool"
 		},
 		{
@@ -780,6 +780,26 @@
 			"name":"b10_png",
 			"type":"image",
 			"url":"art/home/projects/b10.png"
+		},
+		{
+			"name":"hith_png",
+			"type":"image",
+			"url":"art/tool/hith.png"
+		},
+		{
+			"name":"ticketh_png",
+			"type":"image",
+			"url":"art/tool/ticketh.png"
+		},
+		{
+			"name":"timeh_png",
+			"type":"image",
+			"url":"art/tool/timeh.png"
+		},
+		{
+			"name":"VIPh_png",
+			"type":"image",
+			"url":"art/tool/VIPh.png"
 		}
 	]
 }

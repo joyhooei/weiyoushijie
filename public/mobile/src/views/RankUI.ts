@@ -1,4 +1,6 @@
 class RankUI extends eui.Component {
+    private imgBack: eui.Button;
+
     private listRank:eui.Group;
     private listMyRank: eui.Group;
 
@@ -36,6 +38,10 @@ class RankUI extends eui.Component {
 
     private uiCompHandler():void {
         this.refresh();
+
+        this.imgBack.addEventListener(egret.TouchEvent.TOUCH_TAP,() => {
+            application.gotoHome();
+        },this);
     } 
 	
 	private addCustomer(showMe:boolean, rank: number, customer: any) {

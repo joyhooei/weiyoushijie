@@ -41,4 +41,5 @@
 			</e:Skin>
 		</e:skinName>
 	</e:Button>
+	<e:Image id="imgBack" source="helpx_png" x="441" y="-1" width="41" fillMode="clip" height="41"/>
 </e:Skin>

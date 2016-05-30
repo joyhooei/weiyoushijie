@@ -1,6 +1,7 @@
 <?xml version='1.0' encoding='utf-8'?>
 <e:Skin class="toolUISkin" width="460" height="680" xmlns:e="http://ns.egret.com/eui" xmlns:w="http://ns.egret.com/wing">
 	<e:Image width="460" height="680" x="0" y="0" source="TB_png" fillMode="clip"/>
+	<e:Image id="imgBack" fillMode="clip" height="41" y="51" width="41" source="helpx_png" x="412"/>
 	<e:Group width="386" height="80" x="33" y="88">
 		<e:Image id="imgHit" width="86" height="85" x="-13" y="-3" fillMode="clip" source="Hit_png"/>
 		<e:Image id="imgTime" height="85" y="-3" fillMode="clip" width="86" x="94" source="time_png"/>

@@ -19,6 +19,9 @@ var TrueLoadingUI = (function (_super) {
     var d = __define,c=TrueLoadingUI,p=c.prototype;
     p.createChildren = function () {
         _super.prototype.createChildren.call(this);
+        var imgBack = new eui.Image();
+        imgBack.source = "Loginb_png";
+        this.addChild(imgBack);
         this._loadingRun = new egret.Bitmap(RES.getRes("loading_run_png"));
         this.addChild(this._loadingRun);
         this._loadingRun.anchorOffsetX = this._loadingRun.width * .5;

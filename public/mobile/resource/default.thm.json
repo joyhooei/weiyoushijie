@@ -2,6 +2,7 @@
   "autoGenerateExmlsList": true,
   "exmls": [
     "resource/custom_skins/auctionUISkin.exml",
+    "resource/custom_skins/blockUISkin.exml",
     "resource/custom_skins/buyAchieveUISkin.exml",
     "resource/custom_skins/buyToolUISkin.exml",
     "resource/custom_skins/chargeTipUISkin.exml",

@@ -30,18 +30,18 @@ class BuyToolUI extends eui.Component{
 		}, this );
 		
         if(this._name == "time") {
-            this.imgIcon.source = "time_png";
+            this.imgIcon.source = "timeh_png";
         } else if (this._name == "hit") {
-            this.imgIcon.source = "Hit_png";
+            this.imgIcon.source = "hith_png";
         } else if (this._name == "ticket") {
-            this.imgIcon.source = "Hit_png";
+            this.imgIcon.source = "ticketh_png";
         } else if (this._name == "vip") {
-            this.imgIcon.source = "Hit_png";
+            this.imgIcon.source = "VIPh_png";
         } 
         
         this.lblPrice.text = this._price.toString();
 		
-		if (this._name == "time" || this._name == "hit")
+		if (this._name == "time" || this._name == "hit") {
 			if (application.customer.diamond < this._price) {
 				this.imgBuy.source = "buttondiano_png";
 			} else {

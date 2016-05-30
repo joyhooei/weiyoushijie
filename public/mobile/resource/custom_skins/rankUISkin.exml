@@ -15,4 +15,5 @@
 			<e:VerticalLayout verticalAlign="top" gap="0"/>
 		</e:layout>
 	</e:Group>	
+	<e:Image id="imgBack" fillMode="clip" height="41" x="439" y="2" width="41" source="helpx_png"/>
 </e:Skin>

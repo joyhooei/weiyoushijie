@@ -213,6 +213,10 @@ var application;
         });
     }
     application.attention = attention;
+    function gotoHome() {
+        application.main.homeUI.gotoPage(GamePages.HOME, true);
+    }
+    application.gotoHome = gotoHome;
     function gotoAuction() {
         application.main.homeUI.gotoPage(GamePages.AUCTION, false);
     }
@@ -247,18 +251,30 @@ var application;
     function showUI(ui, parent) {
         ui.horizontalCenter = 0;
         ui.verticalCenter = 0;
+        if (!application.blockUI) {
+            application.blockUI = new BlockUI();
+        }
+        application.blockUI.addChild(ui);
         if (parent) {
-            parent.addChild(ui);
+            parent.addChild(application.blockUI);
         }
         else {
-            application.main.homeUI.addChild(ui);
+            application.main.homeUI.addChild(application.blockUI);
         }
         return ui;
     }
     application.showUI = showUI;
     function hideUI(ui) {
         if (ui && ui.parent) {
-            ui.parent.removeChild(ui);
+            if (ui.parent == application.blockUI) {
+                if (ui.parent.parent) {
+                    ui.parent.parent.removeChild(application.blockUI);
+                }
+                application.blockUI.removeChild(ui);
+            }
+            else {
+                ui.parent.removeChild(ui);
+            }
         }
         return ui;
     }

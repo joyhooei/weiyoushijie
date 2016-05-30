@@ -137,7 +137,7 @@ var GiftUI = (function (_super) {
                 self.gifts = gifts;
                 //1、登录200钻。每天领取一次
                 self.renderGift(self.gift(GiftCategory.Login));
-                this.renderOnlineGift();
+                self.renderOnlineGift();
                 //3、拍卖100钻。每天领取一次。灰色点击直接跳去拍卖页面。
                 self.renderGift(self.gift(GiftCategory.Bid));
                 self.renderTicketGift();
@@ -230,6 +230,29 @@ var GiftUI = (function (_super) {
     };
     p.updateCustomer = function (gift) {
         var self = this;
+        var tip = "";
+        if (gift.diamond > 0) {
+            tip += "获得" + gift.diamond.toString() + "钻石";
+        }
+        if (gift.gold > 0) {
+            if (tip.length > 0) {
+                tip += "，";
+            }
+            else {
+                tip += "获得";
+            }
+            tip += gift.gold.toString() + "金币";
+        }
+        if (gift.metal > 0) {
+            if (tip.length > 0) {
+                tip += "，";
+            }
+            else {
+                tip += "获得";
+            }
+            tip += gift.metal.toString() + "奖章";
+        }
+        Toast.launch(tip);
         application.customer.metal += gift.metal;
         application.customer.gold += gift.gold;
         application.customer.diamond += gift.diamond;

@@ -91,7 +91,7 @@ var ProjectItem = (function (_super) {
     p.renderLocked = function () {
         this.lblLevel.text = "0";
         this.lblOutput.text = "0";
-        this.lblPrice.text = this._project.priceOf(this._myProject.level + 1).toString();
+        this.lblPrice.text = application.format(this._project.priceOf(1));
         this.imgUpgrade10.source = "upgrade10g_png";
         this.imgUpgrade100.source = "upgrade100g_png";
         this.imgUpgrade.source = 'upgradeg_png';
@@ -115,7 +115,7 @@ var ProjectItem = (function (_super) {
     };
     p.upgrade = function (step) {
         var self = this;
-        var p = this._project.price(this._myProject.level + 1, step);
+        var p = this._project.price(this._myProject.level, step);
         if (application.usableGold() < p) {
             Toast.launch("没有足够的金币");
             return;

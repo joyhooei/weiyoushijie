@@ -6,8 +6,9 @@ var RankUI = (function (_super) {
         this.skinName = "resource/custom_skins/rankUISkin.exml";
     }
     var d = __define,c=RankUI,p=c.prototype;
-    p.uiCompHandler = function () {
+    p.refresh = function () {
         var self = this;
+        self.listRank.removeChildren();
         application.dao.fetch("Customer", {}, { limit: 8, order: 'metal DESC' }, function (succeed, customers) {
             if (succeed) {
                 for (var i = 0; i < customers.length; i++) {
@@ -15,6 +16,7 @@ var RankUI = (function (_super) {
                 }
             }
         });
+        self.listMyRank.removeChildren();
         application.dao.rest("rank", { customer_id: application.customer.id }, function (succeed, ranks) {
             if (succeed) {
                 for (var i = 0; i < ranks.length; i++) {
@@ -24,6 +26,12 @@ var RankUI = (function (_super) {
                 }
             }
         });
+    };
+    p.uiCompHandler = function () {
+        this.refresh();
+        this.imgBack.addEventListener(egret.TouchEvent.TOUCH_TAP, function () {
+            application.gotoHome();
+        }, this);
     };
     p.addCustomer = function (showMe, rank, customer) {
         var item = new RankItem(showMe, rank, customer);
