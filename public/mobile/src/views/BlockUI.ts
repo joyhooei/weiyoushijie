@@ -1,5 +1,5 @@
 class BlockUI extends egret.Sprite {
-    public constructor(ui:egret.Component) {
+    public constructor() {
         super();
 		
 		this.width  = 400;
@@ -11,13 +11,9 @@ class BlockUI extends egret.Sprite {
 		
 		this.alpha = 0.2;
 		
-        ui.horizontalCenter = 0;
-        ui.verticalCenter   = 0;
-		this.addChild(ui);
-		
 		this.touchEnabled = true;
 		this.addEventListener(egret.TouchEvent.TOUCH_END, function(){
-			application.hideUI(ui);
+			application.hideUI(this);
 		}, this);
     }
 }
