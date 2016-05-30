@@ -2,9 +2,7 @@
 <e:Skin class="buyAchieveUISkin" width="375" height="340" xmlns:e="http://ns.egret.com/eui" xmlns:w="http://ns.egret.com/wing">
 	<e:Image width="375" height="340" x="0" y="0" source="popwinB_png" fillMode="clip"/>
 	<e:Image id="imgBuy" y="249" height="75" fillMode="clip" width="125" x="136" source="buttondia_png"/>
-	<e:Label id="lblDiamond" size="24" y="287" text="0" x="180"/>
+	<e:Label id="lblPrice" size="24" y="287" text="0" x="180"/>
 	<e:Image id="imgBack" source="helpx_png" x="325" y="0" fillMode="clip" width="52" height="53"/>
 	<e:Image id="imgIcon" width="57" height="53" x="43" y="79" source="acv1_png" fillMode="scale"/>
-	<e:Image id="imgTitle" x="134" fillMode="scale" y="83" width="189" height="47" source="t1_png"/>
-	<e:Label id="lblDescription" x="50" y="147" width="276" height="70"/>
 </e:Skin>
