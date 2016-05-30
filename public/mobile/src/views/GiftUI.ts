@@ -282,7 +282,29 @@ class GiftUI extends eui.Component {
 	
     private updateCustomer(gift: any): void {
         var self = this;
-        
+		
+		var tip = "";
+		if (gift.diamond > 0) {
+			tip += "获得" + gift.diamond.toString() + "钻石";
+        }
+		if (gift.gold > 0) {
+			if (tip.length > 0) {
+				tip += "，"
+			} else {
+				tip += "获得";
+			}
+			tip += gift.gold.toString() + "金币";
+		}
+		if (gift.metal > 0) {
+			if (tip.length > 0) {
+				tip += "，"
+			} else {
+				tip += "获得";
+			}
+			tip += gift.metal.toString() + "奖章";
+		}
+		Toast.launch(tip);
+		
 		application.customer.metal   += gift.metal;
 		application.customer.gold    += gift.gold;
 		application.customer.diamond += gift.diamond;
