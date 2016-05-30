@@ -181,7 +181,7 @@ class GiftUI extends eui.Component {
 				//1、登录200钻。每天领取一次
 				self.renderGift(self.gift(GiftCategory.Login));
 
-				this.renderOnlineGift();
+				self.renderOnlineGift();
 
 				//3、拍卖100钻。每天领取一次。灰色点击直接跳去拍卖页面。
 				self.renderGift(self.gift(GiftCategory.Bid));
