@@ -123,7 +123,7 @@ class ProjectItem extends eui.Component {
 	private renderLocked(): void {
 		this.lblLevel.text  = "0";
 		this.lblOutput.text = "0";
-		this.lblPrice.text  = this._project.priceOf(this._myProject.level).toString();
+		this.lblPrice.text  = application.format(this._project.priceOf(this._myProject.level));
 
         this.imgUpgrade10.source = "upgrade10g_png";
         this.imgUpgrade100.source = "upgrade100g_png";           
