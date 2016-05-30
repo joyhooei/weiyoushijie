@@ -9,10 +9,11 @@ class RankUI extends eui.Component {
         
         this.skinName = "resource/custom_skins/rankUISkin.exml";
     }
-
-    private uiCompHandler():void {
+    
+    public refresh(): void {
 		var self = this;
         
+        self.listRank.removeChildren();
         application.dao.fetch("Customer", {}, {limit: 8, order: 'metal DESC'}, function(succeed, customers){
             if (succeed) {
                 for(var i = 0; i < customers.length; i++) {
@@ -21,6 +22,7 @@ class RankUI extends eui.Component {
             }
         })
 		
+        self.listMyRank.removeChildren();
 		application.dao.rest("rank", {customer_id: application.customer.id}, function(succeed, ranks) {
 			if (succeed) {
 				for (var i = 0; i < ranks.length; i++) {
@@ -30,6 +32,10 @@ class RankUI extends eui.Component {
 				}
 			}
 		});
+    }
+
+    private uiCompHandler():void {
+        this.refresh();
     } 
 	
 	private addCustomer(showMe:boolean, rank: number, customer: any) {
