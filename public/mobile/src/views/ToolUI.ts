@@ -13,8 +13,8 @@ class ToolUI extends eui.Component {
         
         this.skinName = "resource/custom_skins/toolUISkin.exml";
     }
-
-    private uiCompHandler():void {
+    
+    public refresh(): void {
         var self = this;
         
         var tLayout: eui.TileLayout = new eui.TileLayout();
@@ -37,20 +37,24 @@ class ToolUI extends eui.Component {
                 }
             }
         });
+    }
+
+    private uiCompHandler():void {
+        this.refresh();
         
-        self.imgHit.addEventListener(egret.TouchEvent.TOUCH_BEGIN,function() {
+        this.imgHit.addEventListener(egret.TouchEvent.TOUCH_BEGIN,function() {
             application.showUI(new BuyToolUI("hit", 100), this);
         },this);
         
-        self.imgTime.addEventListener(egret.TouchEvent.TOUCH_BEGIN,function() {
+        this.imgTime.addEventListener(egret.TouchEvent.TOUCH_BEGIN,function() {
             application.showUI(new BuyToolUI("time", 500), this);
         },this);
         
-        self.imgTicket.addEventListener(egret.TouchEvent.TOUCH_BEGIN,function() {
+        this.imgTicket.addEventListener(egret.TouchEvent.TOUCH_BEGIN,function() {
             application.showUI(new BuyToolUI("ticket", 19), this);
         },this);
         
-        self.imgVIP.addEventListener(egret.TouchEvent.TOUCH_BEGIN,function() {
+        this.imgVIP.addEventListener(egret.TouchEvent.TOUCH_BEGIN,function() {
             application.showUI(new BuyToolUI("vip", 49), this);
         },this);
     }
