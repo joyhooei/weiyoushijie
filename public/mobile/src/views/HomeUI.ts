@@ -90,7 +90,7 @@ class HomeUI extends eui.Component{
         }, this);
                 
         self.btnGift.addEventListener(egret.TouchEvent.TOUCH_BEGIN, function() {
-			application.showUI(new GiftUI());
+			application.showUI(new GiftUI(), this);
         }, this);
                 
         self.btnHelp.addEventListener(egret.TouchEvent.TOUCH_BEGIN, function() {
@@ -107,7 +107,7 @@ class HomeUI extends eui.Component{
 
         self.imgCharge.addEventListener(egret.TouchEvent.TOUCH_BEGIN,function() {
 			if (application.customer.charge == 0) {
-				application.showUI(new FirstChargeBonusUI());
+				application.showUI(new FirstChargeBonusUI(), this);
 			} else {
 				application.charge();
 			}
@@ -182,7 +182,7 @@ class HomeUI extends eui.Component{
 					var bidDay = application.bidDay();
 					if (application.customer.win_day != bidDay) {
 						application.customer.win_day = bidDay;
-						application.showUI(new WinUI());
+						application.showUI(new WinUI(), this);
 					}
 					
 					self.renderBidCustomer(application.customer, bids[0]);
@@ -244,9 +244,7 @@ class HomeUI extends eui.Component{
     private renderOfflineGold(): void {
         if(application.customer.offline_gold > 0) {
 			var ui = new OfflineGoldUI(application.customer.offline_gold, application.customer.offline_hours.toString(), application.customer.offline_minutes.toString());
-            ui.horizontalCenter = 0;
-            ui.verticalCenter = 0;
-            this.addChild(ui); 
+            application.showUI(ui, this);
         }
     }
 	
@@ -292,7 +290,7 @@ class HomeUI extends eui.Component{
     		timer.addEventListener(egret.TimerEvent.TIMER_COMPLETE, function(event:egret.TimerEvent){
     			self.hit = 0;
     			self.lblHit.text = "59";
-    			self.lblOutput.text = application.format(application.customer.output.toString());
+    			self.lblOutput.text = application.format(application.customer.output);
     		}, this);
     		
     		timer.start();
@@ -523,8 +521,6 @@ class HomeUI extends eui.Component{
         this.enableFooter(true);
 		
 		this.gotoPage(pageName, true);
-		
-        this.addChild( this._uiFocused);
     }
 	
 	private selectFooter(btn:eui.ToggleButton): void {
