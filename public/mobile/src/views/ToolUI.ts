@@ -39,19 +39,19 @@ class ToolUI extends eui.Component {
         });
         
         self.imgHit.addEventListener(egret.TouchEvent.TOUCH_BEGIN,function() {
-            application.showUI(new BuyToolUI("hit", 100));
+            application.showUI(new BuyToolUI("hit", 100), this);
         },this);
         
         self.imgTime.addEventListener(egret.TouchEvent.TOUCH_BEGIN,function() {
-            application.showUI(new BuyToolUI("time", 500));
+            application.showUI(new BuyToolUI("time", 500), this);
         },this);
         
         self.imgTicket.addEventListener(egret.TouchEvent.TOUCH_BEGIN,function() {
-            application.showUI(new BuyToolUI("ticket", 19));
+            application.showUI(new BuyToolUI("ticket", 19), this);
         },this);
         
         self.imgVIP.addEventListener(egret.TouchEvent.TOUCH_BEGIN,function() {
-            application.showUI(new BuyToolUI("vip", 49));
+            application.showUI(new BuyToolUI("vip", 49), this);
         },this);
     }
     
