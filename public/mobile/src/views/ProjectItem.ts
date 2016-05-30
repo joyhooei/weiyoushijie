@@ -123,7 +123,7 @@ class ProjectItem extends eui.Component {
 	private renderLocked(): void {
 		this.lblLevel.text  = "0";
 		this.lblOutput.text = "0";
-		this.lblPrice.text  = this._project.priceOf(this._myProject.level + 1).toString();
+		this.lblPrice.text  = this._project.priceOf(this._myProject.level).toString();
 
         this.imgUpgrade10.source = "upgrade10g_png";
         this.imgUpgrade100.source = "upgrade100g_png";           
@@ -135,7 +135,7 @@ class ProjectItem extends eui.Component {
 	private renderUnlocked(): void {
 		this.lblLevel.text  = this._myProject.level;
 		this.lblOutput.text = application.format(this.output());
-		this.lblPrice.text  = application.format(this._project.priceOf(this._myProject.level + 1));
+		this.lblPrice.text  = application.format(this._project.priceOf(this._myProject.level));
 		
         if(this._myProject.sequence % 2 == 0) {        
             this.imgUpgrade10.source = "upgrade10_png";
@@ -153,7 +153,7 @@ class ProjectItem extends eui.Component {
     private upgrade(step:number): void {
         let self = this;
         
-        let p = this._project.price(this._myProject.level + 1, step);
+        let p = this._project.price(this._myProject.level, step);
         if(application.usableGold() < p) {
 			Toast.launch("没有足够的金币");
 			
