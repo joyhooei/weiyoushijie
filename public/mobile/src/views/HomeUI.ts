@@ -394,6 +394,8 @@ class HomeUI extends eui.Component{
 			this._toolUI.addEventListener( GameEvents.EVT_RETURN, ()=>{
 				this.gotoPage(GamePages.HOME, true);
 			}, this );
+		} else {
+            this._toolUI.refresh();
 		}
 		
 		this._uiFocused = this._toolUI;		
@@ -406,6 +408,8 @@ class HomeUI extends eui.Component{
 			this._rankUI.addEventListener( GameEvents.EVT_RETURN, ()=>{
 				this.gotoPage(GamePages.HOME, true);
 			}, this );
+		} else {
+            this._rankUI.refresh();
 		}
 		
 		this._uiFocused = this._rankUI;	
