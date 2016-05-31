@@ -135,7 +135,7 @@ class ProjectItem extends eui.Component {
 	private renderUnlocked(): void {
 		this.lblLevel.text  = this._myProject.level;
 		this.lblOutput.text = application.format(this.output());
-		this.lblPrice.text  = application.format(this._project.priceOf(this._myProject.level + 1));
+		this.lblPrice.text  = application.format(this._project.priceOf(this._myProject.level));
 		
         if(this._myProject.sequence % 2 == 0) {        
             this.imgUpgrade10.source = "upgrade10_png";
@@ -198,7 +198,7 @@ class ProjectItem extends eui.Component {
     				project.sequence = self._myProject.sequence + 1;
     				project.unlocked = 1;
     				project.achieve = 0;
-    				project.level = 0;
+    				project.level = 1;
     				application.dao.save("Project",project,function(succeed,proj) {
     					if (succeed) {
     						application.buyOutput(p, 0, self.output(), proj, function(succeed, c) {
