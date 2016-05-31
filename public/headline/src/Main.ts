@@ -94,6 +94,7 @@ class Main extends eui.UILayer {
                 break;
             
             case "home":
+                this._trueLoadingUI.removeBgImage();
                 this._isResourceLoadEnd = true;
                 this.createScene();
                 break;
