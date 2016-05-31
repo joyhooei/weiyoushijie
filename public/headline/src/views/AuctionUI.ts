@@ -118,18 +118,22 @@ class AuctionUI extends eui.Component{
 		var self = this;
 
 		self.bid.gold += self.addGold;
-		application.dao.save("Bid", self.bid, function(succeed, bid){
-			if (succeed) {
-				Toast.launch("投标成功");
+		if (self.bid.gold > 0) {
+			application.dao.save("Bid", self.bid, function(succeed, bid){
+				if (succeed) {
+					Toast.launch("投标成功");
 
-				application.bid = self.bid;				
-				application.refreshCustomer(0 - self.addGold, 0, 0, 0, null);
+					application.bid = self.bid;				
+					application.refreshCustomer(0 - self.addGold, 0, 0, 0, null);
 
-				self.back();
-			} else {
-				Toast.launch("投标失败，请稍后再试");
-			}
-		});
+					self.back();
+				} else {
+					Toast.launch("投标失败，请稍后再试");
+				}
+			});
+		} else {
+			Toast.launch("投标的金币数量不能是0");
+		}
 	}
 	
 	private back(): void {
