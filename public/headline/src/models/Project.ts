@@ -32,7 +32,7 @@ class Project {
 		this._levelRatios.push({lowerLevel: lowerLevel, upperLevel: upperLevel, priceRatio: priceRatio, outputRatio: outputRatio, outputBase: outputBase, priceBase: priceBase});
 	}
 	
-    public addAchieve(level: number,outputRatio: number,priceUseGold: number, priceUseDiamond: number) {
+    public addAchieve(level: number,outputRatio: number, priceUseDiamond: number, priceUseGold: number) {
 		this._achieves.push({level: level, outputRatio: outputRatio, priceUseGold: priceUseGold, priceUseDiamond: priceUseDiamond});
 	}
 	
