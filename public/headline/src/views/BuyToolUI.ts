@@ -4,7 +4,9 @@ class BuyToolUI extends eui.Component{
     
     private imgIcon: eui.Image;
 
-    private lblPrice: eui.Label;    
+    private lblPrice: eui.Label;   
+	
+	private lblGold: eui.Label;
 	
     private _name: string;
 	private _price: number;
@@ -29,8 +31,10 @@ class BuyToolUI extends eui.Component{
 			this.buy();
 		}, this );
 		
+		this.lblGold.text = "";
         if(this._name == "time") {
             this.imgIcon.source = "timeh_png";
+			this.lblGold.text = (application.customer.output * 3600 * 48).toString();
         } else if (this._name == "hit") {
             this.imgIcon.source = "hith_png";
         } else if (this._name == "ticket") {
