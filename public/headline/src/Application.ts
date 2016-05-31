@@ -144,7 +144,7 @@ module application {
         });
     }
     
-    function _buy(product: string, gid: string, price: number, title: string) {
+    export function buy(product: string, gid: string, price: number, title: string) {
         var order = { customer_id: application.customer.id, product: product, price: price, state: 0};
         application.dao.save("Order", order, function(succeed, o) {
             if (succeed) {
@@ -173,15 +173,15 @@ module application {
     }
     
     export function charge(): void {
-        this._buy("Diamond", "1", 2, "充值");  
+        application.buy("Diamond", "1", 2, "充值");  
     }
     
     export function buyTicket(): void {
-        this._buy("Ticket", "2", 19, "购买月票");     
+        application.buy("Ticket", "2", 19, "购买月票");     
     }
     
     export function buyVIP(): void {
-        this._buy("VIP", "3", 49, "购买终身VIP");      
+        application.buy("VIP", "3", 49, "购买终身VIP");      
     }
     
     export function share(callback:Function): void {
