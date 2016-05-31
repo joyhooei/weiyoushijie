@@ -108,7 +108,7 @@ class AuctionUI extends eui.Component{
 	}
 	
 	private renderBid(gold: number): void {
-		this.addGold = gold;
+		this.addGold = Math.floor(gold);
 		
 		this.lblCurrentBid.text = application.format(this.addGold);
 		this.lblLastBid.text = application.format(this.addGold + this.bid.gold);
