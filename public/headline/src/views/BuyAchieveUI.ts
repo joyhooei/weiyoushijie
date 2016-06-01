@@ -51,10 +51,14 @@ class BuyAchieveUI extends eui.Component{
             || this._achieve > this._myProject.achieve + 1
             || this._achieve <= this._myProject.achieve) {
             this.imgBuyUseGold.source = "buttoncoinno_png";
-            this.imgBuyUseDiamond.source = "buttondiano_png";           
+            this.imgBuyUseDiamond.source = "buttondiano_png";             
         } else {
             if(application.usableGold() < priceUseGold) {
                 this.imgBuyUseGold.source = "buttoncoinno_png";
+                
+                this.imgBuyUseGold.addEventListener( egret.TouchEvent.TOUCH_TAP, ()=>{
+                    application.showUI(new BuyToolUI("time", 500), this);
+    			}, this );
     		} else {
                 this.imgBuyUseGold.addEventListener( egret.TouchEvent.TOUCH_TAP, ()=>{
     				this._buy(priceUseGold, 0);
@@ -63,6 +67,10 @@ class BuyAchieveUI extends eui.Component{
 
             if(application.customer.diamond < priceUseDiamond) {
                 this.imgBuyUseDiamond.source = "buttondiano_png";
+                
+                this.imgBuyUseDiamond.addEventListener( egret.TouchEvent.TOUCH_TAP, ()=>{
+                    application.showUI(new ChargeTipUI(), this);
+    			}, this );                
     		} else {
                 this.imgBuyUseDiamond.addEventListener( egret.TouchEvent.TOUCH_TAP, ()=>{
                     this._buy(0, priceUseDiamond);
