@@ -49,7 +49,7 @@ class BuyAchieveUI extends eui.Component{
         //如果已经购买了，也不能购买
         if(this._myProject.level < this._project.achieve(this._achieve).level 
             || this._achieve > this._myProject.achieve + 1
-            || this._achieve < this._myProject.achieve) {
+            || this._achieve <= this._myProject.achieve) {
             this.imgBuyUseGold.source = "buttoncoinno_png";
             this.imgBuyUseDiamond.source = "buttondiano_png";           
         } else {
