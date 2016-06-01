@@ -38,10 +38,10 @@ class BuyAchieveUI extends eui.Component{
             application.hideUI(this);
         }, this );
         
-        let priceUseGold = this._project.achieve(this._myProject.achieve + 1).priceUseGold;
+        let priceUseGold = this._project.achieve(this._achieve).priceUseGold;
         this.lblGold.text = priceUseGold.toString();
 
-        let priceUseDiamond = this._project.achieve(this._myProject.achieve + 1).priceUseDiamond;
+        let priceUseDiamond = this._project.achieve(this._achieve).priceUseDiamond;
         this.lblDiamond.text = priceUseDiamond.toString();    
         
         //如果当前级别小于成就所需要的级别，则不能购买
@@ -57,7 +57,7 @@ class BuyAchieveUI extends eui.Component{
                 this.imgBuyUseGold.source = "buttoncoinno_png";
     		} else {
                 this.imgBuyUseGold.addEventListener( egret.TouchEvent.TOUCH_TAP, ()=>{
-    				this.buyAchieveUseGold();
+    				this._buy(priceUseGold, 0);
     			}, this );
     		}
 
@@ -65,46 +65,22 @@ class BuyAchieveUI extends eui.Component{
                 this.imgBuyUseDiamond.source = "buttondiano_png";
     		} else {
                 this.imgBuyUseDiamond.addEventListener( egret.TouchEvent.TOUCH_TAP, ()=>{
-                    this.buyAchieveUseDiamond();
+                    this._buy(0, priceUseDiamond);
     			}, this );
     		}
     	}
     }
-
-    private delta(): number {
-        return this._project.output(this._myProject.level,this._achieve,this._myProject.tool_ratio) - this._project.output(this._myProject.level,this._myProject.achieve,this._myProject.tool_ratio);
-    }
-   
-	private buyAchieveUseGold(){
+    
+    private _buy(gold:number, diamond:number): void {
         let self = this;
 
-        let p = self._project.achieve(self._myProject.achieve + 1).priceUseGold;
-        let delta = self.delta();
 		self._myProject.achieve = self._achieve;
 		application.dao.save("Project",self._myProject, function(succeed, proj) {
 			if (succeed) {
-				application.buyOutput(p, 0, delta, self._myProject, function(succeed, c){
-					if (!succeed) {
-						Toast.launch("获得成就失败");    
-					} else {
-					    application.hideUI(self);
-					}
-				});
-			} else {
-				Toast.launch("获得成就失败");
-			}
-		});
-	}
-	
-	private buyAchieveUseDiamond(){
-        let self = this;
-
-        let p = self._project.achieve(self._myProject.achieve + 1).priceUseDiamond;
-        let delta = self.delta();
-		self._myProject.achieve = self._achieve;
-		application.dao.save("Project",self._myProject, function(succeed, proj) {
-			if (succeed) {
-				application.buyOutput(0, p, delta, self._myProject, function(succeed, c){
+				let delta = self._project.output(self._myProject.level,self._achieve,self._myProject.tool_ratio) 
+								- self._project.output(self._myProject.level,self._myProject.achieve,self._myProject.tool_ratio);
+								
+				application.buyOutput(gold, diamond, delta, self._myProject, function(succeed, c){
 					if (!succeed) {
 						Toast.launch("获得成就失败");    
 					} else {
@@ -114,6 +90,6 @@ class BuyAchieveUI extends eui.Component{
 			} else {
 				Toast.launch("获得成就失败");
 			}
-		});
-	}	
+		});    
+    }
 }
