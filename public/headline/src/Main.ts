@@ -42,8 +42,6 @@ class Main extends eui.UILayer {
      */
     private onConfigComplete(event:RES.ResourceEvent):void {
         RES.removeEventListener(RES.ResourceEvent.CONFIG_COMPLETE, this.onConfigComplete, this);
-        
-        application.init(this);
       
         // load skin theme configuration file, you can manually modify the file. And replace the default skin.
         //加载皮肤主题配置文件,可以手动修改这个文件。替换默认皮肤。
@@ -78,6 +76,8 @@ class Main extends eui.UILayer {
                 if( this._loadingUI.parent ){
                     this._loadingUI.parent.removeChild( this._loadingUI );
                 }
+        
+                application.init(this);
             
                 Toast.init( this, RES.getRes( "toast-bg_png" ) ); 
                 
