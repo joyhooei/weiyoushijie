@@ -137,7 +137,7 @@ class GiftUI extends eui.Component {
 			if (application.log10(application.customer.output) >= application.log10(nextOutput)) {
 				this.lockGift(gift, 0);
 			} else {
-				this.lockGift(gift, 1);
+				this.lockGift(gift, 2);
 			}
 			
 			this.lblOutputGift.text = application.format(nextOutput);
