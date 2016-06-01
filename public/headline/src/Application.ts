@@ -19,7 +19,7 @@ module application {
         application.baseUrl = "http://weiyugame.leanapp.cn/";
 		//application.baseUrl = "http://localhost:3000/";
 		
-        application.dao = new Dao(application.baseUrl + "api/", "headlines");
+        application.dao = new Dao(application.baseUrl + "api/", "headline");
         
         application.projects = Project.createAllProjects();
 		
@@ -173,15 +173,15 @@ module application {
     }
     
     export function charge(): void {
-        application.buy("Diamond", "1", 2, "充值");  
+        application.buy("Diamond", "diamond", 2, "充值");  
     }
     
     export function buyTicket(): void {
-        application.buy("Ticket", "2", 19, "购买月票");     
+        application.buy("Ticket", "ticket", 19, "购买月票");     
     }
     
     export function buyVIP(): void {
-        application.buy("VIP", "3", 49, "购买终身VIP");      
+        application.buy("VIP", "vip", 49, "购买终身VIP");      
     }
     
     export function share(callback:Function): void {
@@ -189,7 +189,7 @@ module application {
 			if (data.share == 1) {
 				var url     = application.baseUrl + "mobile/index.html";
 				var img_url = application.baseUrl + "mobile/resource/art/home/icon.png";
-				nest.share.share({ title: '我要上头条',description: '我要上头条',url: url, img_url: img_url,img_title:'我要上头条'}, function (data) {
+				nest.share.share({ title: '头条关注',description: '头条关注',url: url, img_url: img_url,img_title:'头条关注'}, function (data) {
 					if(data.result == 0) {
 						callback();
 					} else if(data.result == -1) {
