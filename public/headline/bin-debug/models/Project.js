@@ -17,7 +17,7 @@ var Project = (function () {
         }
         this._levelRatios.push({ lowerLevel: lowerLevel, upperLevel: upperLevel, priceRatio: priceRatio, outputRatio: outputRatio, outputBase: outputBase, priceBase: priceBase });
     };
-    p.addAchieve = function (level, outputRatio, priceUseGold, priceUseDiamond) {
+    p.addAchieve = function (level, outputRatio, priceUseDiamond, priceUseGold) {
         this._achieves.push({ level: level, outputRatio: outputRatio, priceUseGold: priceUseGold, priceUseDiamond: priceUseDiamond });
     };
     Project.createAllProjects = function () {

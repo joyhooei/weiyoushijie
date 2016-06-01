@@ -91,11 +91,6 @@
 				},
 				{
 					"isFolder":false,
-					"key":"UpgradeG_png",
-					"name":"UpgradeG_png"
-				},
-				{
-					"isFolder":false,
 					"key":"acv10_png",
 					"name":"acv10_png"
 				},
@@ -156,18 +151,8 @@
 				},
 				{
 					"isFolder":false,
-					"key":"upgrade100G_png",
-					"name":"upgrade100G_png"
-				},
-				{
-					"isFolder":false,
 					"key":"upgrade100_png",
 					"name":"upgrade100_png"
-				},
-				{
-					"isFolder":false,
-					"key":"upgrade10G_png",
-					"name":"upgrade10G_png"
 				},
 				{
 					"isFolder":false,
@@ -228,11 +213,6 @@
 					"isFolder":false,
 					"key":"upgrade100g_png",
 					"name":"upgrade100g_png"
-				},
-				{
-					"isFolder":false,
-					"key":"upgrade100p_png",
-					"name":"upgrade100p_png"
 				},
 				{
 					"isFolder":false,

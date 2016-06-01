@@ -19,9 +19,9 @@ var TrueLoadingUI = (function (_super) {
     var d = __define,c=TrueLoadingUI,p=c.prototype;
     p.createChildren = function () {
         _super.prototype.createChildren.call(this);
-        var imgBack = new eui.Image();
-        imgBack.source = "Loginb_png";
-        this.addChild(imgBack);
+        this._imgBg = new eui.Image();
+        this._imgBg.source = "Loginb_png";
+        this.addChild(this._imgBg);
         this._loadingRun = new egret.Bitmap(RES.getRes("loading_run_png"));
         this.addChild(this._loadingRun);
         this._loadingRun.anchorOffsetX = this._loadingRun.width * .5;
@@ -39,6 +39,9 @@ var TrueLoadingUI = (function (_super) {
         this._txProgress.stroke = 1;
         this._txProgress.strokeColor = 0;
         this.addChild(this._txProgress);
+    };
+    p.removeBgImage = function () {
+        this.removeChild(this._imgBg);
     };
     p.runLoading = function (evt) {
         this._loadingRun.rotation += 3;

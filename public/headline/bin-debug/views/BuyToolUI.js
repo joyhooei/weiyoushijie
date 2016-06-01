@@ -17,8 +17,10 @@ var BuyToolUI = (function (_super) {
         this.imgBuy.addEventListener(egret.TouchEvent.TOUCH_TAP, function () {
             _this.buy();
         }, this);
+        this.lblGold.text = "";
         if (this._name == "time") {
             this.imgIcon.source = "timeh_png";
+            this.lblGold.text = (application.customer.output * 3600 * 48).toString();
         }
         else if (this._name == "hit") {
             this.imgIcon.source = "hith_png";

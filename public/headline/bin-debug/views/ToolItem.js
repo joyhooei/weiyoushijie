@@ -6,6 +6,7 @@ var ToolItem = (function (_super) {
         this._project = project;
         this._myProject = myProject;
         this.skinName = "resource/custom_skins/toolItemSkin.exml";
+        this.lbl1.text = application.format(myProject.tool_ratio);
         this.lbl100.text = application.format(this.ratio(myProject.tool_ratio, 1));
         this.lbl900.text = application.format(this.ratio(myProject.tool_ratio, 10));
         this.img100.addEventListener(egret.TouchEvent.TOUCH_TAP, function () {

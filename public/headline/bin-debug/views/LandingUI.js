@@ -9,7 +9,7 @@ var LandingUI = (function (_super) {
     p.uiCompHandler = function () {
         var self = this;
         self.btnLogin.addEventListener(egret.TouchEvent.TOUCH_TAP, function () {
-            nest.easyuser.startup({ egretAppId: 90240, version: 2, debug: true }, function (resultInfo) {
+            nest.easyuser.startup({ egretAppId: 90359, version: 2, debug: true }, function (resultInfo) {
                 if (resultInfo.result == 0) {
                     self.login();
                 }

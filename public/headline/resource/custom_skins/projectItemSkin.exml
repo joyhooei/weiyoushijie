@@ -14,5 +14,5 @@
 	</e:Group>
 	<e:Image id="imgUpgrade10" width="76" height="44" x="388" y="5" fillMode="clip" source="upgrade10_png"/>
 	<e:Image id="imgUpgrade100" y="51" x="389" width="75" height="48" fillMode="clip" source="upgrade100_png"/>
-	<e:Image id="imgTitle" height="32" width="120" x="120" y="3" source="t1_png" fillMode="clip"/>
+	<e:Image id="imgTitle" height="32" width="120" x="133" y="8" source="t1_png" fillMode="clip"/>
 </e:Skin>

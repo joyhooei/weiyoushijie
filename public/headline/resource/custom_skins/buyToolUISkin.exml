@@ -5,4 +5,5 @@
 	<e:Label id="lblPrice" size="24" y="287" text="0" x="180"/>
 	<e:Image id="imgBack" source="helpx_png" x="325" y="0" fillMode="clip" width="52" height="53"/>
 	<e:Image id="imgIcon" width="330" height="180" x="22" y="58" fillMode="clip" source="hith_png"/>
+	<e:Label id="lblGold" text="0.00aa" x="149" y="117" size="24"/>
 </e:Skin>

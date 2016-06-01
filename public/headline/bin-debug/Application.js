@@ -4,7 +4,7 @@ var application;
         application.main = main;
         application.baseUrl = "http://weiyugame.leanapp.cn/";
         //application.baseUrl = "http://localhost:3000/";
-        application.dao = new Dao(application.baseUrl + "api/", "headlines");
+        application.dao = new Dao(application.baseUrl + "api/", "headline");
         application.projects = Project.createAllProjects();
         application.units = [
             'k', 'm', 'b', 't',
@@ -106,6 +106,9 @@ var application;
     }
     application.usableGold = usableGold;
     function buyOutput(gold, diamond, output, proj, cb) {
+        gold = Math.abs(gold);
+        diamond = Math.abs(diamond);
+        output = Math.abs(output);
         application.customer.gold -= gold;
         application.customer.diamond -= diamond;
         application.customer.output += output;
@@ -128,7 +131,7 @@ var application;
         });
     }
     application.buyOutput = buyOutput;
-    function _buy(product, gid, price, title) {
+    function buy(product, gid, price, title) {
         var order = { customer_id: application.customer.id, product: product, price: price, state: 0 };
         application.dao.save("Order", order, function (succeed, o) {
             if (succeed) {
@@ -157,16 +160,17 @@ var application;
             }
         });
     }
+    application.buy = buy;
     function charge() {
-        this._buy("Diamond", "1", 2, "充值");
+        application.buy("Diamond", "diamond", 2, "充值");
     }
     application.charge = charge;
     function buyTicket() {
-        this._buy("Ticket", "2", 19, "购买月票");
+        application.buy("Ticket", "ticket", 19, "购买月票");
     }
     application.buyTicket = buyTicket;
     function buyVIP() {
-        this._buy("VIP", "3", 49, "购买终身VIP");
+        application.buy("VIP", "vip", 49, "购买终身VIP");
     }
     application.buyVIP = buyVIP;
     function share(callback) {
@@ -174,7 +178,7 @@ var application;
             if (data.share == 1) {
                 var url = application.baseUrl + "mobile/index.html";
                 var img_url = application.baseUrl + "mobile/resource/art/home/icon.png";
-                nest.share.share({ title: '我要上头条', description: '我要上头条', url: url, img_url: img_url, img_title: '我要上头条' }, function (data) {
+                nest.share.share({ title: '头条关注', description: '头条关注', url: url, img_url: img_url, img_title: '头条关注' }, function (data) {
                     if (data.result == 0) {
                         callback();
                     }

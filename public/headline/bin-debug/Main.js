@@ -27,7 +27,6 @@ var Main = (function (_super) {
      */
     p.onConfigComplete = function (event) {
         RES.removeEventListener(RES.ResourceEvent.CONFIG_COMPLETE, this.onConfigComplete, this);
-        application.init(this);
         // load skin theme configuration file, you can manually modify the file. And replace the default skin.
         //加载皮肤主题配置文件,可以手动修改这个文件。替换默认皮肤。
         var theme = new eui.Theme("resource/default.thm.json", this.stage);
@@ -58,6 +57,7 @@ var Main = (function (_super) {
                 if (this._loadingUI.parent) {
                     this._loadingUI.parent.removeChild(this._loadingUI);
                 }
+                application.init(this);
                 Toast.init(this, RES.getRes("toast-bg_png"));
                 this._trueLoadingUI = new TrueLoadingUI();
                 this.loadPage("landing");
@@ -69,6 +69,7 @@ var Main = (function (_super) {
                 }, this);
                 break;
             case "home":
+                this._trueLoadingUI.removeBgImage();
                 this._isResourceLoadEnd = true;
                 this.createScene();
                 break;

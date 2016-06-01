@@ -100,7 +100,7 @@ var ProjectItem = (function (_super) {
     p.renderUnlocked = function () {
         this.lblLevel.text = this._myProject.level;
         this.lblOutput.text = application.format(this.output());
-        this.lblPrice.text = application.format(this._project.priceOf(this._myProject.level + 1));
+        this.lblPrice.text = application.format(this._project.priceOf(this._myProject.level));
         if (this._myProject.sequence % 2 == 0) {
             this.imgUpgrade10.source = "upgrade10_png";
             this.imgUpgrade100.source = "upgrade100_png";
@@ -155,7 +155,7 @@ var ProjectItem = (function (_super) {
                     project.sequence = self._myProject.sequence + 1;
                     project.unlocked = 1;
                     project.achieve = 0;
-                    project.level = 0;
+                    project.level = 1;
                     application.dao.save("Project", project, function (succeed, proj) {
                         if (succeed) {
                             application.buyOutput(p, 0, self.output(), proj, function (succeed, c) {
