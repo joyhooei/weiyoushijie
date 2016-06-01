@@ -119,6 +119,10 @@ module application {
     }
 
     export function buyOutput(gold:number, diamond: number, output:number, proj:any, cb: Function): void {
+        gold    = Math.abs(gold);
+        diamond = Math.abs(diamond);
+        output  = Math.abs(output);
+        
         application.customer.gold      -= gold;
         application.customer.diamond   -= diamond;
 		
