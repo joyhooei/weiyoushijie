@@ -13,7 +13,7 @@ class LandingUI extends eui.Component {
         var self = this;
         
         self.btnLogin.addEventListener(egret.TouchEvent.TOUCH_TAP,() => {
-            nest.easyuser.startup({ egretAppId: 90240,version: 2,debug: true },function(resultInfo: nest.core.ResultCallbackInfo) {
+            nest.easyuser.startup({ egretAppId: 90359,version: 2,debug: true },function(resultInfo: nest.core.ResultCallbackInfo) {
                 if(resultInfo.result == 0) {
 					self.login();
 				}
