@@ -216,9 +216,21 @@ class HomeUI extends eui.Component{
         self.grpProject.removeChildren();
         application.dao.fetch("Project",{ customer_id: application.customer.id },{ order: 'sequence asc' },function(succeed, projects) {
             if(succeed && projects.length > 0) {
-                for(var i = 0; i < projects.length; i ++){                    
-                    self.renderProject(projects[i]);
+              	var output = 0;
+                for(var i = 0; i < projects.length; i ++){
+					var p = projects[i];
+					
+                    self.renderProject(p);
+                    
+                    output += application.projects[p.sequence].output(p.level, p.achieve, p.tool_ratio);
                 }
+				
+				if (output != application.customer.output) {
+					self.lblOutput.text = application.format(output);
+					
+					application.customer.output = output;
+					application.dao.save("Customer", application.customer);
+				}
             }
         });
 	}
