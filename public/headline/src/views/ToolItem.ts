@@ -52,7 +52,7 @@ class ToolItem extends eui.Component {
 						if (succeed) {
 							Toast.launch("购买成功");
 							
-							this.refresh();
+							self.refresh();
 						} else {
 							Toast.launch("购买失败");    
 						}

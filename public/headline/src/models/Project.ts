@@ -29,7 +29,7 @@ class Project {
 			priceRatioBase  = lastRatio.priceRatioBase  * Math.pow(lastRatio.priceRatio,  levels);
 		}
 		
-		this._levelRatios.push({lowerLevel: lowerLevel, upperLevel: upperLevel, priceRatioBase: priceRatioBase, outputRatioBase: outputRatioBase});
+        this._levelRatios.push({ lowerLevel: lowerLevel,upperLevel: upperLevel,priceRatioBase: priceRatioBase,outputRatioBase: outputRatioBase,priceRatio: priceRatio,outputRatio: outputRatio});
 	}
 	
     public addAchieve(level: number,outputRatio: number, priceUseDiamond: number, priceUseGold: number) {

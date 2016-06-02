@@ -32,7 +32,7 @@ var ToolItem = (function (_super) {
                     application.buyOutput(0, price, self.output() - oldOutput_1, self._myProject, function (succeed, c) {
                         if (succeed) {
                             Toast.launch("购买成功");
-                            this.refresh();
+                            self.refresh();
                         }
                         else {
                             Toast.launch("购买失败");

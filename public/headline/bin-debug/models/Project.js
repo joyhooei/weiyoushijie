@@ -15,7 +15,7 @@ var Project = (function () {
             outputRatioBase = lastRatio.outputRatioBase * Math.pow(lastRatio.outputRatio, levels);
             priceRatioBase = lastRatio.priceRatioBase * Math.pow(lastRatio.priceRatio, levels);
         }
-        this._levelRatios.push({ lowerLevel: lowerLevel, upperLevel: upperLevel, priceRatioBase: priceRatioBase, outputRatioBase: outputRatioBase });
+        this._levelRatios.push({ lowerLevel: lowerLevel, upperLevel: upperLevel, priceRatioBase: priceRatioBase, outputRatioBase: outputRatioBase, priceRatio: priceRatio, outputRatio: outputRatio });
     };
     p.addAchieve = function (level, outputRatio, priceUseDiamond, priceUseGold) {
         this._achieves.push({ level: level, outputRatio: outputRatio, priceUseGold: priceUseGold, priceUseDiamond: priceUseDiamond });

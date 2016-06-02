@@ -298,7 +298,7 @@ module application {
     }
    
     export function format(d:number): string {
-        if (d < 100000) {
+        if (d < 1000000) {
             return d.toString();
         }
         

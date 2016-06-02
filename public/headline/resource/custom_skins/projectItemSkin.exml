@@ -5,7 +5,7 @@
 	<e:Image id="imgUpgrade" width="139" height="84" x="253" y="7" fillMode="clip" source="upgrade_png"/>
 	<e:Label id="lblLevel" x="180" y="69" size="24" text="0.00aa"/>
 	<e:Label id="lblOutput" text="0.00aa" x="180" y="38" size="24"/>
-	<e:Label id="lblPrice" text="0.00aa" x="271" y="54" size="24" height="23" width="90" textAlign="center"/>
+	<e:Label id="lblPrice" text="0.00aa" x="274" y="54" size="24" height="23" width="93" textAlign="center"/>
 	<e:Button id="btnUnlock" label="解锁" x="178" y="27"/>
 	<e:Group id="grpAchieve" width="465" height="41" x="2" y="96">
 		<e:layout>

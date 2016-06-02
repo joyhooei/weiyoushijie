@@ -284,7 +284,7 @@ var application;
     }
     application.hideUI = hideUI;
     function format(d) {
-        if (d < 100000) {
+        if (d < 1000000) {
             return d.toString();
         }
         var unit = "";
