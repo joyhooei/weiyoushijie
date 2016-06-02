@@ -147,7 +147,7 @@ class Project {
 		}
 		
 		//项目秒产 	lv数*该项目1级秒产*累积产量系数*累积成就系数*道具升级系数
-        return Math.round(level * this._outputLevelOne * cumulativeOutputRatio * cumulativeAchieveRatio * toolRatio);
+        return Math.round(level * cumulativeOutputRatio * cumulativeAchieveRatio * toolRatio);
 	}
 	
 	//升级级别的价格
