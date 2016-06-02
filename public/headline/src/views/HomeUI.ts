@@ -202,10 +202,9 @@ class HomeUI extends eui.Component{
 		this.lblBidGold.text = application.format(bid.gold);
 
 		if (customer.hide_winner == 1) {
-			this.imgBidAvatar.source = "Ahide_png";
-		} else {
-			this.imgBidAvatar.source = application.avatarUrl(customer);
+			customer.avatar = "";
 		}
+        this.imgBidAvatar.source = application.avatarUrl(customer);
 	}
 	
 	private renderProjects(): void {
