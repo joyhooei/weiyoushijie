@@ -39,10 +39,10 @@ class BuyAchieveUI extends eui.Component{
         }, this );
         
         let priceUseGold = this._project.achieve(this._achieve).priceUseGold;
-        this.lblGold.text = priceUseGold.toString();
+        this.lblGold.text = application.format(priceUseGold);
 
         let priceUseDiamond = this._project.achieve(this._achieve).priceUseDiamond;
-        this.lblDiamond.text = priceUseDiamond.toString();    
+        this.lblDiamond.text = application.format(priceUseDiamond);    
         
         //如果当前级别小于成就所需要的级别，则不能购买
         //如果上一个成就还没有解锁，则不能购买
