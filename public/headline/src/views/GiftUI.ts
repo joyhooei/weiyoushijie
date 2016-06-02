@@ -218,11 +218,14 @@ class GiftUI extends eui.Component {
 				this.lockGift(gift, 0);
 			} else {
 				//在线还不到1个小时，启动定时器
-				var timer: egret.Timer = new egret.Timer(1000, diff);
 				this.onlineGiftTimeout = diff;
+				
+				var timer: egret.Timer = new egret.Timer(1000, diff);
 				timer.addEventListener(egret.TimerEvent.TIMER,function(event: egret.TimerEvent) {
 					this.lblOnlineGiftTimeout.text = (Math.floor(this.onlineGiftTimeout / 60)).toString() + ":" + (Math.floor(this.onlineGiftTimeout % 60)).toString();
-					this.onlineGiftTimeout -= 1;
+					if (this.onlineGiftTime > 0) {
+						this.onlineGiftTimeout -= 1;
+					}
 				},this);
 				timer.addEventListener(egret.TimerEvent.COMPLETE,function(event: egret.TimerEvent) {
 					//时间到了，可以领取了
