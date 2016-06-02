@@ -20,17 +20,16 @@ class Project {
 	
 	public addLevelRatio(lowerLevel: number, upperLevel: number, priceRatio: number, outputRatio: number) {
 		let outputRatioBase = 1;
+		let priceRatioBase  = 1;		
 		if (this._levelRatios.length > 0) {
-			outputRatioBase = this._levelRatios[this._levelRatios.length - 1].outputRatioBase;
-		}
-		outputRatioBase = outputRatioBase * Math.pow(outputRatio, (upperLevel - lowerLevel + 1));
-		
-		let priceBase = this._priceLevelOne;
-		if (this._levelRatios.length > 0) {
-			priceBase = this.priceOf(this._levelRatios[this._levelRatios.length - 1].upperLevel);
+			let lastRatio = this._levelRatios[this._levelRatios.length - 1];
+			
+			let levels = lastRatio.upperLevel - lastRatio.lowerLevel + 1;
+			outputRatioBase = lastRatio.outputRatioBase * Math.pow(lastRatio.outputRatio, levels);
+			priceRatioBase  = lastRatio.priceRatioBase  * Math.pow(lastRatio.priceRatio,  levels);
 		}
 		
-		this._levelRatios.push({lowerLevel: lowerLevel, upperLevel: upperLevel, priceRatio: priceRatio, outputRatioBase: outputRatioBase, outputBase: outputBase, priceBase: priceBase});
+		this._levelRatios.push({lowerLevel: lowerLevel, upperLevel: upperLevel, priceRatioBase: priceRatioBase, outputRatioBase: outputRatioBase});
 	}
 	
     public addAchieve(level: number,outputRatio: number, priceUseDiamond: number, priceUseGold: number) {
@@ -130,14 +129,14 @@ class Project {
 		let cumulativeOutputRatio = 1;
 		let lastLevel = 1;
 		for (var i = 1; i <= this._levelRatios.length; i++) {
-			let ratios = this._levelRatios[i - 1];
+			let ratio = this._levelRatios[i - 1];
 			
-			if (level >= ratios.lowerLevel && level <= ratios.upperLevel) {
-				cumulativeOutputRatio = ratios.outputRatioBase * Math.pow(ratios.outputRatio, (level - lastLevel));
+			if (level >= ratio.lowerLevel && level <= ratio.upperLevel) {
+				cumulativeOutputRatio = ratio.outputRatioBase * Math.pow(ratio.outputRatio, (level - lastLevel));
 				
 				break;
 			} else {
-				lastLevel = ratios.upperLevel;
+				lastLevel = ratio.upperLevel;
 			}
 		}
 		
@@ -157,14 +156,14 @@ class Project {
 		let cumulativePriceRatio = 1;
 		let lastLevel = 1;
 		for (var i = 1; i <= this._levelRatios.length; i++) {
-			var ratios = this._levelRatios[i - 1];
+			var ratio = this._levelRatios[i - 1];
 			
-            if(level >= ratios.lowerLevel && level <= ratios.upperLevel) {
-				cumulativePriceRatio = ratios.priceBase * Math.pow(ratios.priceRatio, (level - lastLevel));
+            if(level >= ratio.lowerLevel && level <= ratio.upperLevel) {
+				cumulativePriceRatio = ratio.priceRatioBase * Math.pow(ratio.priceRatio, (level - lastLevel));
 				
 				break;
 			} else {
-				lastLevel = ratios.upperLevel;
+				lastLevel = ratio.upperLevel;
 			}
 		}
 		
