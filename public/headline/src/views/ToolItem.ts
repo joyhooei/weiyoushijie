@@ -20,10 +20,6 @@ class ToolItem extends eui.Component {
 
         this.skinName = "resource/custom_skins/toolItemSkin.exml";
 		
-		this.lbl1.text   = application.format(myProject.tool_ratio);
-		this.lbl100.text = application.format(this.ratio(myProject.tool_ratio, 1));
-		this.lbl900.text = application.format(this.ratio(myProject.tool_ratio, 10));
-		
 		this.img100.addEventListener(egret.TouchEvent.TOUCH_TAP,() => {
 			this.buy(100, 1);
 		}, this);
@@ -34,7 +30,15 @@ class ToolItem extends eui.Component {
 
         this.imgIcon.source  = iconName;
         this.imgTitle.source = titleName;
+		
+		this.refresh();
     }
+	
+	public refresh():void {
+		this.lbl1.text   = application.format(this.myProject.tool_ratio);
+		this.lbl100.text = application.format(this.ratio(this.myProject.tool_ratio, 1));
+		this.lbl900.text = application.format(this.ratio(this.myProject.tool_ratio, 10));
+	}
 	
 	private buy(price: number, step: number): void {
     	var self = this;
@@ -47,6 +51,8 @@ class ToolItem extends eui.Component {
 					application.buyOutput(0, price, self.output() - oldOutput, self._myProject, function(succeed, c){
 						if (succeed) {
 							Toast.launch("购买成功");
+							
+							this.refresh();
 						} else {
 							Toast.launch("购买失败");    
 						}
