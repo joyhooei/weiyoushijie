@@ -30,7 +30,7 @@ class BuyAchieveUI extends eui.Component{
         this.imgIcon.source = "b" + achieve.toString() + "_png";
         this.imgProject.source = "t" + (myProject.sequence + 1).toString() + "_png";
         this.lblRatio.text = application.format(project.achieve(achieve).outputRatio);
-        this.lblLevel.text = application.format(project.achieve(achieve).level);
+        this.lblLevel.text = project.achieve(achieve).level.toString();
     }
 
     private uiCompHandler():void {
