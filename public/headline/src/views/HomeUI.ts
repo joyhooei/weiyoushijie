@@ -70,7 +70,7 @@ class HomeUI extends eui.Component{
         
         self.btns = [self.btnHome,self.btnRank,self.btnTool,self.btnAuction ];
         
-		self.imgAvatar.source = application.customer.avatar;
+		self.imgAvatar.source = application.avatarUrl(application.customer);
         self.refresh(application.customer.gold, application.customer.diamond, application.customer.output, 0, null);
         
 		self.lblTotalHits.text = "x" + application.customer.total_hits.toString();
@@ -204,7 +204,7 @@ class HomeUI extends eui.Component{
 		if (customer.hide_winner == 1) {
 			this.imgBidAvatar.source = "Ahide_png";
 		} else {
-			this.imgBidAvatar.source = customer.avatar;
+			this.imgBidAvatar.source = application.avatarUrl(customer);
 		}
 	}
 	
