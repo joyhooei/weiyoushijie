@@ -329,4 +329,16 @@ module application {
         
         return result;
     }
+	
+	export function avatarUrl(customer: any): string {
+		if (customer.avatar && customer.avatar.length > 1) {
+			return cusomer.avatar;
+		} else {
+			if (customer.sex == 1) {
+				return application.baseUrl + "headline/resource/art/headM.png";
+			} else {
+				return application.baseUrl + "headline/resource/art/headF.png";
+			}
+		}
+	}
 }
