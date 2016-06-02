@@ -35,9 +35,9 @@ class ToolItem extends eui.Component {
     }
 	
 	public refresh():void {
-		this.lbl1.text   = application.format(this.myProject.tool_ratio);
-		this.lbl100.text = application.format(this.ratio(this.myProject.tool_ratio, 1));
-		this.lbl900.text = application.format(this.ratio(this.myProject.tool_ratio, 10));
+		this.lbl1.text   = application.format(this._myProject.tool_ratio);
+		this.lbl100.text = application.format(this.ratio(this._myProject.tool_ratio, 1));
+		this.lbl900.text = application.format(this.ratio(this._myProject.tool_ratio, 10));
 	}
 	
 	private buy(price: number, step: number): void {
@@ -62,7 +62,7 @@ class ToolItem extends eui.Component {
 				}
 			});
 		} else {
-			application.charge();
+			application.showUI(new ChargeTipUI());
 		}
 	}
 	

@@ -3,6 +3,8 @@ class AuctionUI extends eui.Component{
 
 	private lblGold:eui.Label;
     private lblDiamond: eui.Label;
+    private btnAddGold: eui.Button;
+    private btnAddDiamond: eui.Button;
 	
 	private lblLastBid:eui.Label;
 	private lblMaxBid:eui.Label;
@@ -15,8 +17,6 @@ class AuctionUI extends eui.Component{
 	private imgFront: eui.Image;
 	private imgThumb: eui.Image;
 	
-    private btnAddGold: eui.Button;
-    private btnAddDiamond: eui.Button;
     private btnHelp: eui.Button;
 	
 	private bid:any;

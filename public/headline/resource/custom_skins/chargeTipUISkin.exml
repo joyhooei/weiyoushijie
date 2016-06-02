@@ -1,7 +1,7 @@
 <?xml version='1.0' encoding='utf-8'?>
-<e:Skin class="chargeTipUISkin" width="480" height="610" xmlns:e="http://ns.egret.com/eui" xmlns:w="http://ns.egret.com/wing">
-	<e:Image width="480" height="610" x="0" y="0" source="topup_png" fillMode="clip"/>
-	<e:Button id="btnCharge" x="220" y="407">
+<e:Skin class="chargeTipUISkin" width="375" height="305" xmlns:e="http://ns.egret.com/eui" xmlns:w="http://ns.egret.com/wing">
+	<e:Image width="375" height="305" x="0" y="0" fillMode="clip" source="tipsB_png"/>
+	<e:Button id="btnCharge" x="197" y="124" width="148" height="46">
 		<e:skinName>
 			<e:Skin states="up,down,disabled">
 				<e:Image width="100%" height="100%" source="topupbutton_png"/>
@@ -9,10 +9,10 @@
 			</e:Skin>
 		</e:skinName>
 	</e:Button>
-	<e:Button id="btnCancel" y="473" x="239">
+	<e:Button id="btnCancel" y="180" x="213" width="120" height="47">
 		<e:skinName>
 			<e:Skin states="up,down,disabled">
-				<e:Image width="100%" height="100%" source="topuplater_png"/>
+				<e:Image width="100%" height="100%" source="laterbutton_png"/>
 				<e:Label id="labelDisplay0" horizontalCenter="0" verticalCenter="0"/>
 			</e:Skin>
 		</e:skinName>

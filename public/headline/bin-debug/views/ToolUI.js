@@ -8,6 +8,8 @@ var ToolUI = (function (_super) {
     var d = __define,c=ToolUI,p=c.prototype;
     p.refresh = function () {
         var self = this;
+        this.lblGold.text = application.format(application.customer.gold);
+        this.lblDiamond.text = application.format(application.customer.diamond);
         var tLayout = new eui.TileLayout();
         tLayout.horizontalGap = 0;
         tLayout.verticalGap = 0;
@@ -32,6 +34,12 @@ var ToolUI = (function (_super) {
         this.refresh();
         this.imgBack.addEventListener(egret.TouchEvent.TOUCH_TAP, function () {
             application.gotoHome();
+        }, this);
+        this.btnAddGold.addEventListener(egret.TouchEvent.TOUCH_BEGIN, function () {
+            application.showUI(new BuyToolUI("time", 500));
+        }, this);
+        this.btnAddDiamond.addEventListener(egret.TouchEvent.TOUCH_BEGIN, function () {
+            application.charge();
         }, this);
         this.imgHit.addEventListener(egret.TouchEvent.TOUCH_BEGIN, function () {
             application.showUI(new BuyToolUI("hit", 100), this);

@@ -223,7 +223,7 @@ class GiftUI extends eui.Component {
 				var timer: egret.Timer = new egret.Timer(1000, this.onlineGiftTimeout);
 				timer.addEventListener(egret.TimerEvent.TIMER,function(event: egret.TimerEvent) {
 					this.lblOnlineGiftTimeout.text = (Math.floor(this.onlineGiftTimeout / 60)).toString() + ":" + (Math.floor(this.onlineGiftTimeout % 60)).toString();
-					if (this.onlineGiftTime > 0) {
+                    if(this.onlineGiftTimeout > 0) {
 						this.onlineGiftTimeout -= 1;
 					}
 				},this);

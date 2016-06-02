@@ -249,7 +249,7 @@ module application {
             content += "3. 道具可以帮助玩家快速获得大量金币和永久提高运营项目的每秒产量。\n"
             content += "4. 排行榜会按照勋章的个数排名，勋章数量一致时则按照金币的总量排名。\n"
             content += "金币单位\n";
-			for (var i = 0; i < application.units.length; i++) {
+			for (var i = 1; i < application.units.length; i++) {
 				var zeros = ((i + 1) * 3).toString();
                 content += zeros + "个0";
 				for(var j = zeros.length; j < 10; j++) {
@@ -298,6 +298,10 @@ module application {
     }
    
     export function format(d:number): string {
+        if (d < 100000) {
+            return d.toString();
+        }
+        
 		let unit:string  = "";
 		try {
 			for (var i = 0; i < application.units.length; i++) {
@@ -332,7 +336,7 @@ module application {
 	
 	export function avatarUrl(customer: any): string {
 		if (customer.avatar && customer.avatar.length > 1) {
-			return cusomer.avatar;
+			return customer.avatar;
 		} else {
 			if (customer.sex == 1) {
 				return application.baseUrl + "headline/resource/art/headM.png";

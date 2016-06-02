@@ -176,9 +176,9 @@ var application;
     function share(callback) {
         nest.share.isSupport({}, function (data) {
             if (data.share == 1) {
-                var url = application.baseUrl + "mobile/index.html";
-                var img_url = application.baseUrl + "mobile/resource/art/home/icon.png";
-                nest.share.share({ title: '头条关注', description: '头条关注', url: url, img_url: img_url, img_title: '头条关注' }, function (data) {
+                var url = application.baseUrl + "headline/index.html";
+                var img_url = application.baseUrl + "headline/resource/art/home/icon.png";
+                nest.share.share({ title: '我来上头条，女神任我挑！', description: '最炫最浪的舞蹈经营类游戏，无需下载，点开即送，多重豪礼等你来拿！', url: url, img_url: img_url, img_title: '我要上头条' }, function (data) {
                     if (data.result == 0) {
                         callback();
                     }
@@ -240,7 +240,7 @@ var application;
             content += "3. 道具可以帮助玩家快速获得大量金币和永久提高运营项目的每秒产量。\n";
             content += "4. 排行榜会按照勋章的个数排名，勋章数量一致时则按照金币的总量排名。\n";
             content += "金币单位\n";
-            for (var i = 0; i < application.units.length; i++) {
+            for (var i = 1; i < application.units.length; i++) {
                 var zeros = ((i + 1) * 3).toString();
                 content += zeros + "个0";
                 for (var j = zeros.length; j < 10; j++) {
@@ -284,6 +284,9 @@ var application;
     }
     application.hideUI = hideUI;
     function format(d) {
+        if (d < 100000) {
+            return d.toString();
+        }
         var unit = "";
         try {
             for (var i = 0; i < application.units.length; i++) {
@@ -317,4 +320,18 @@ var application;
         return result;
     }
     application.log10 = log10;
+    function avatarUrl(customer) {
+        if (customer.avatar && customer.avatar.length > 1) {
+            return customer.avatar;
+        }
+        else {
+            if (customer.sex == 1) {
+                return application.baseUrl + "headline/resource/art/headM.png";
+            }
+            else {
+                return application.baseUrl + "headline/resource/art/headF.png";
+            }
+        }
+    }
+    application.avatarUrl = avatarUrl;
 })(application || (application = {}));

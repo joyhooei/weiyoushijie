@@ -159,18 +159,20 @@ var GiftUI = (function (_super) {
         if (gift.locked == 1) {
             var lastLogin = new Date(application.customer.last_login);
             var today = new Date();
-            var diff = (today.getTime() - lastLogin.getTime()) / 1000;
+            var diff = Math.floor((today.getTime() - lastLogin.getTime()) / 1000);
             if (diff > 60 * 60) {
                 //已经过了一小时，可以领取了
                 this.lockGift(gift, 0);
             }
             else {
                 //在线还不到1个小时，启动定时器
-                var timer = new egret.Timer(1000, diff);
-                this.onlineGiftTimeout = diff;
+                this.onlineGiftTimeout = 3600 - diff;
+                var timer = new egret.Timer(1000, this.onlineGiftTimeout);
                 timer.addEventListener(egret.TimerEvent.TIMER, function (event) {
                     this.lblOnlineGiftTimeout.text = (Math.floor(this.onlineGiftTimeout / 60)).toString() + ":" + (Math.floor(this.onlineGiftTimeout % 60)).toString();
-                    this.onlineGiftTimeout -= 1;
+                    if (this.onlineGiftTimeout > 0) {
+                        this.onlineGiftTimeout -= 1;
+                    }
                 }, this);
                 timer.addEventListener(egret.TimerEvent.COMPLETE, function (event) {
                     //时间到了，可以领取了

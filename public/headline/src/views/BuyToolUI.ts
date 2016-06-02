@@ -34,7 +34,7 @@ class BuyToolUI extends eui.Component{
 		this.lblGold.text = "";
         if(this._name == "time") {
             this.imgIcon.source = "timeh_png";
-			this.lblGold.text = (application.customer.output * 3600 * 48).toString();
+			this.lblGold.text = application.format(application.customer.output * 3600 * 48);
         } else if (this._name == "hit") {
             this.imgIcon.source = "hith_png";
         } else if (this._name == "ticket") {
@@ -43,7 +43,6 @@ class BuyToolUI extends eui.Component{
             this.imgIcon.source = "VIPh_png";
         } 
         
-        this.lblPrice.text = this._price.toString();
 		
 		if (this._name == "time" || this._name == "hit") {
 			if (application.customer.diamond < this._price) {
@@ -51,8 +50,12 @@ class BuyToolUI extends eui.Component{
 			} else {
 				this.imgBuy.source = "buttondia_png";
 			}
+			
+            this.lblPrice.text = this._price.toString();
 		} else {
-			this.imgBuy.source = "buttoncoin_png";
+            this.imgBuy.source = "topupbutton_png";
+			
+            this.lblPrice.text = "";
 		}
     }
 	

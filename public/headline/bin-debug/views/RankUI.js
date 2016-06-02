@@ -8,39 +8,56 @@ var RankUI = (function (_super) {
     var d = __define,c=RankUI,p=c.prototype;
     p.refresh = function () {
         var self = this;
-        self.listRank.removeChildren();
-        application.dao.fetch("Customer", {}, { limit: 8, order: 'metal DESC' }, function (succeed, customers) {
+        self.dataReady = 0;
+        application.dao.rest("rank", { customer_id: application.customer.id }, function (succeed, ranks) {
             if (succeed) {
-                for (var i = 0; i < customers.length; i++) {
-                    self.addCustomer(false, i + 1, customers[i]);
+                self.ranks = ranks;
+                self.dataReady++;
+                if (self.dataReady == 2) {
+                    self.renderCustomers();
                 }
             }
         });
-        self.listMyRank.removeChildren();
-        application.dao.rest("rank", { customer_id: application.customer.id }, function (succeed, ranks) {
+        application.dao.fetch("Customer", {}, { limit: 8, order: 'metal DESC, gold DESC' }, function (succeed, customers) {
             if (succeed) {
-                for (var i = 0; i < ranks.length; i++) {
-                    if (ranks[i].customer) {
-                        self.addCustomer(true, ranks[i].rank, ranks[i].customer);
+                self.customers = customers;
+                self.dataReady++;
+                if (self.dataReady == 2) {
+                    self.renderCustomers();
+                }
+            }
+        });
+    };
+    p.renderCustomers = function () {
+        //同步数据，以免两次获取的用户信息已经发生了变化
+        for (var i = 0; i < this.ranks.length; i++) {
+            if (this.ranks[i].customer) {
+                for (var j = 0; j < this.customers.length; j++) {
+                    if (this.ranks[i].customer.id == this.customers[j].id) {
+                        this.customers[j].metal = this.ranks[i].customer.metal;
+                        this.customers[j].gold = this.ranks[i].customer.gold;
                     }
                 }
             }
-        });
+        }
+        this.listMyRank.removeChildren();
+        for (var i = 0; i < this.ranks.length; i++) {
+            if (this.ranks[i].customer) {
+                var item = new RankItem(true, this.ranks[i].rank, this.ranks[i].customer);
+                this.listMyRank.addChild(item);
+            }
+        }
+        this.listRank.removeChildren();
+        for (var i = 0; i < this.customers.length; i++) {
+            var item = new RankItem(false, i + 1, this.customers[i]);
+            this.listRank.addChild(item);
+        }
     };
     p.uiCompHandler = function () {
         this.refresh();
         this.imgBack.addEventListener(egret.TouchEvent.TOUCH_TAP, function () {
             application.gotoHome();
         }, this);
-    };
-    p.addCustomer = function (showMe, rank, customer) {
-        var item = new RankItem(showMe, rank, customer);
-        if (showMe) {
-            this.listMyRank.addChild(item);
-        }
-        else {
-            this.listRank.addChild(item);
-        }
     };
     p.back = function () {
         this.dispatchEventWith(GameEvents.EVT_RETURN);

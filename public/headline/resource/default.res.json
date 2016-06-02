@@ -13,7 +13,7 @@
 			"name":"rank"
 		},
 		{
-			"keys":"Button1_png,Button10_png,Hit_png,TB_png,Tbar_png,ticket_png,time_png,VIP_png,hith_png,ticketh_png,timeh_png,VIPh_png",
+			"keys":"Button1_png,Button10_png,Hit_png,TB_png,Tbar_png,ticket_png,time_png,VIP_png,hith_png,ticketh_png,timeh_png,VIPh_png,toolpopB_png,laterbutton_png,tipsB_png",
 			"name":"tool"
 		},
 		{
@@ -780,6 +780,21 @@
 			"name":"VIPh_png",
 			"type":"image",
 			"url":"art/tool/VIPh.png"
+		},
+		{
+			"name":"toolpopB_png",
+			"type":"image",
+			"url":"art/tool/toolpopB.png"
+		},
+		{
+			"name":"laterbutton_png",
+			"type":"image",
+			"url":"art/tool/laterbutton.png"
+		},
+		{
+			"name":"tipsB_png",
+			"type":"image",
+			"url":"art/tool/tipsB.png"
 		}
 	]
 }

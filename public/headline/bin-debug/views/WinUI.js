@@ -27,7 +27,7 @@ var WinUI = (function (_super) {
         }
         else {
             this.imgHide.source = "Awinhide_png";
-            this.imgAvatar.source = application.customer.avatar;
+            this.imgAvatar.source = application.avatarUrl(application.customer);
         }
     };
     return WinUI;

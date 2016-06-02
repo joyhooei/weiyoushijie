@@ -1,6 +1,11 @@
 class ToolUI extends eui.Component {
     private imgBack: eui.Button;
 
+    private lblGold: eui.Label;
+    private lblDiamond: eui.Label;
+    private btnAddGold: eui.Button;
+    private btnAddDiamond: eui.Button;
+
     private imgHit: eui.Image;
     private imgTime: eui.Image;
     private imgTicket: eui.Image;
@@ -18,7 +23,10 @@ class ToolUI extends eui.Component {
     
     public refresh(): void {
         var self = this;
-        
+
+        this.lblGold.text = application.format(application.customer.gold);
+        this.lblDiamond.text = application.format(application.customer.diamond);
+      
         var tLayout: eui.TileLayout = new eui.TileLayout();
         tLayout.horizontalGap = 0;
         tLayout.verticalGap = 0;
@@ -46,6 +54,14 @@ class ToolUI extends eui.Component {
 
         this.imgBack.addEventListener(egret.TouchEvent.TOUCH_TAP,() => {
             application.gotoHome();
+        },this);
+
+        this.btnAddGold.addEventListener(egret.TouchEvent.TOUCH_BEGIN,function() {
+            application.showUI(new BuyToolUI("time",500));
+        },this);
+
+        this.btnAddDiamond.addEventListener(egret.TouchEvent.TOUCH_BEGIN,function() {
+            application.charge();
         },this);
         
         this.imgHit.addEventListener(egret.TouchEvent.TOUCH_BEGIN,function() {

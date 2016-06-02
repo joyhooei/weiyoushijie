@@ -28,7 +28,7 @@ class WinUI extends eui.Component{
 		this.renderAvatar();
     }
 	
-	private renderAvatar(): void {
+    private renderAvatar(): void {
 		if (application.customer.hide_winner == 1) {
 			this.imgHide.source = "hidecancel_png";
 			
@@ -36,7 +36,7 @@ class WinUI extends eui.Component{
 		} else {
 			this.imgHide.source = "Awinhide_png";
 			
-			this.imgAvatar.source = application.avatarUrl(customer);
+            this.imgAvatar.source = application.avatarUrl(application.customer);
 		}
 	}
 }

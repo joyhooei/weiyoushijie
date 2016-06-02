@@ -10,7 +10,7 @@ var BuyAchieveUI = (function (_super) {
         this.imgIcon.source = "b" + achieve.toString() + "_png";
         this.imgProject.source = "t" + (myProject.sequence + 1).toString() + "_png";
         this.lblRatio.text = application.format(project.achieve(achieve).outputRatio);
-        this.lblLevel.text = application.format(project.achieve(achieve).level);
+        this.lblLevel.text = project.achieve(achieve).level.toString();
     }
     var d = __define,c=BuyAchieveUI,p=c.prototype;
     p.uiCompHandler = function () {
@@ -19,9 +19,9 @@ var BuyAchieveUI = (function (_super) {
             application.hideUI(_this);
         }, this);
         var priceUseGold = this._project.achieve(this._achieve).priceUseGold;
-        this.lblGold.text = priceUseGold.toString();
+        this.lblGold.text = application.format(priceUseGold);
         var priceUseDiamond = this._project.achieve(this._achieve).priceUseDiamond;
-        this.lblDiamond.text = priceUseDiamond.toString();
+        this.lblDiamond.text = priceUseDiamond;
         //如果当前级别小于成就所需要的级别，则不能购买
         //如果上一个成就还没有解锁，则不能购买
         //如果已经购买了，也不能购买

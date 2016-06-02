@@ -6,9 +6,6 @@ var ToolItem = (function (_super) {
         this._project = project;
         this._myProject = myProject;
         this.skinName = "resource/custom_skins/toolItemSkin.exml";
-        this.lbl1.text = application.format(myProject.tool_ratio);
-        this.lbl100.text = application.format(this.ratio(myProject.tool_ratio, 1));
-        this.lbl900.text = application.format(this.ratio(myProject.tool_ratio, 10));
         this.img100.addEventListener(egret.TouchEvent.TOUCH_TAP, function () {
             _this.buy(100, 1);
         }, this);
@@ -17,8 +14,14 @@ var ToolItem = (function (_super) {
         }, this);
         this.imgIcon.source = iconName;
         this.imgTitle.source = titleName;
+        this.refresh();
     }
     var d = __define,c=ToolItem,p=c.prototype;
+    p.refresh = function () {
+        this.lbl1.text = application.format(this._myProject.tool_ratio);
+        this.lbl100.text = application.format(this.ratio(this._myProject.tool_ratio, 1));
+        this.lbl900.text = application.format(this.ratio(this._myProject.tool_ratio, 10));
+    };
     p.buy = function (price, step) {
         var self = this;
         if (application.customer.diamond >= price) {
@@ -29,6 +32,7 @@ var ToolItem = (function (_super) {
                     application.buyOutput(0, price, self.output() - oldOutput_1, self._myProject, function (succeed, c) {
                         if (succeed) {
                             Toast.launch("购买成功");
+                            this.refresh();
                         }
                         else {
                             Toast.launch("购买失败");
@@ -41,7 +45,7 @@ var ToolItem = (function (_super) {
             });
         }
         else {
-            application.charge();
+            application.showUI(new ChargeTipUI());
         }
     };
     //购买一次的倍数

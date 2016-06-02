@@ -758,6 +758,21 @@
 					"isFolder":false,
 					"key":"timeh_png",
 					"name":"timeh_png"
+				},
+				{
+					"isFolder":false,
+					"key":"toolpopB_png",
+					"name":"toolpopB_png"
+				},
+				{
+					"isFolder":false,
+					"key":"laterbutton_png",
+					"name":"laterbutton_png"
+				},
+				{
+					"isFolder":false,
+					"key":"tipsB_png",
+					"name":"tipsB_png"
 				}
 			]
 		}

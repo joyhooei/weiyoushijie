@@ -7,15 +7,15 @@ var Project = (function () {
     }
     var d = __define,c=Project,p=c.prototype;
     p.addLevelRatio = function (lowerLevel, upperLevel, priceRatio, outputRatio) {
-        var outputBase = this._outputLevelOne;
+        var outputRatioBase = 1;
+        var priceRatioBase = 1;
         if (this._levelRatios.length > 0) {
-            outputBase = this.output(this._levelRatios[this._levelRatios.length - 1].upperLevel, 0, 0);
+            var lastRatio = this._levelRatios[this._levelRatios.length - 1];
+            var levels = lastRatio.upperLevel - lastRatio.lowerLevel + 1;
+            outputRatioBase = lastRatio.outputRatioBase * Math.pow(lastRatio.outputRatio, levels);
+            priceRatioBase = lastRatio.priceRatioBase * Math.pow(lastRatio.priceRatio, levels);
         }
-        var priceBase = this._priceLevelOne;
-        if (this._levelRatios.length > 0) {
-            priceBase = this.priceOf(this._levelRatios[this._levelRatios.length - 1].upperLevel);
-        }
-        this._levelRatios.push({ lowerLevel: lowerLevel, upperLevel: upperLevel, priceRatio: priceRatio, outputRatio: outputRatio, outputBase: outputBase, priceBase: priceBase });
+        this._levelRatios.push({ lowerLevel: lowerLevel, upperLevel: upperLevel, priceRatioBase: priceRatioBase, outputRatioBase: outputRatioBase });
     };
     p.addAchieve = function (level, outputRatio, priceUseDiamond, priceUseGold) {
         this._achieves.push({ level: level, outputRatio: outputRatio, priceUseGold: priceUseGold, priceUseDiamond: priceUseDiamond });
@@ -27,7 +27,7 @@ var Project = (function () {
             [10, 5, 2, 1000],
             [300, 25, 2, 1000],
             [6000, 160, 2, 1000],
-            [30000, 3200, 2, 1000],
+            [300000, 3200, 2, 1000],
             [45000000, 64000, 4, 1000],
             [6750000000, 320000, 4, 1000],
             [1350000000000, 6400000, 4, 1000],
@@ -98,13 +98,13 @@ var Project = (function () {
         var cumulativeOutputRatio = 1;
         var lastLevel = 1;
         for (var i = 1; i <= this._levelRatios.length; i++) {
-            var ratios = this._levelRatios[i - 1];
-            if (level >= ratios.lowerLevel && level <= ratios.upperLevel) {
-                cumulativeOutputRatio = ratios.outputBase * Math.pow(ratios.outputRatio, (level - lastLevel));
+            var ratio = this._levelRatios[i - 1];
+            if (level >= ratio.lowerLevel && level <= ratio.upperLevel) {
+                cumulativeOutputRatio = ratio.outputRatioBase * Math.pow(ratio.outputRatio, (level - lastLevel));
                 break;
             }
             else {
-                lastLevel = ratios.upperLevel;
+                lastLevel = ratio.upperLevel;
             }
         }
         //累积成就系数	开通的各个成就系数相乘
@@ -121,13 +121,13 @@ var Project = (function () {
         var cumulativePriceRatio = 1;
         var lastLevel = 1;
         for (var i = 1; i <= this._levelRatios.length; i++) {
-            var ratios = this._levelRatios[i - 1];
-            if (level >= ratios.lowerLevel && level <= ratios.upperLevel) {
-                cumulativePriceRatio = ratios.priceBase * Math.pow(ratios.priceRatio, (level - lastLevel));
+            var ratio = this._levelRatios[i - 1];
+            if (level >= ratio.lowerLevel && level <= ratio.upperLevel) {
+                cumulativePriceRatio = ratio.priceRatioBase * Math.pow(ratio.priceRatio, (level - lastLevel));
                 break;
             }
             else {
-                lastLevel = ratios.upperLevel;
+                lastLevel = ratio.upperLevel;
             }
         }
         return Math.round(level * this._priceLevelOne * cumulativePriceRatio);
