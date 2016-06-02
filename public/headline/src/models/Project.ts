@@ -19,17 +19,18 @@ class Project {
     }
 	
 	public addLevelRatio(lowerLevel: number, upperLevel: number, priceRatio: number, outputRatio: number) {
-		let outputBase = this._outputLevelOne;
+		let outputRatioBase = 1;
 		if (this._levelRatios.length > 0) {
-			outputBase = this.output(this._levelRatios[this._levelRatios.length - 1].upperLevel, 0, 1);
+			outputRatioBase = this._levelRatios[this._levelRatios.length - 1].outputRatioBase;
 		}
+		outputRatioBase = outputRatioBase * Math.pow(outputRatio, (upperLevel - lowerLevel + 1));
 		
 		let priceBase = this._priceLevelOne;
 		if (this._levelRatios.length > 0) {
 			priceBase = this.priceOf(this._levelRatios[this._levelRatios.length - 1].upperLevel);
 		}
 		
-		this._levelRatios.push({lowerLevel: lowerLevel, upperLevel: upperLevel, priceRatio: priceRatio, outputRatio: outputRatio, outputBase: outputBase, priceBase: priceBase});
+		this._levelRatios.push({lowerLevel: lowerLevel, upperLevel: upperLevel, priceRatio: priceRatio, outputRatioBase: outputRatioBase, outputBase: outputBase, priceBase: priceBase});
 	}
 	
     public addAchieve(level: number,outputRatio: number, priceUseDiamond: number, priceUseGold: number) {
@@ -132,7 +133,7 @@ class Project {
 			let ratios = this._levelRatios[i - 1];
 			
 			if (level >= ratios.lowerLevel && level <= ratios.upperLevel) {
-				cumulativeOutputRatio = ratios.outputBase * Math.pow(ratios.outputRatio, (level - lastLevel));
+				cumulativeOutputRatio = ratios.outputRatioBase * Math.pow(ratios.outputRatio, (level - lastLevel));
 				
 				break;
 			} else {
@@ -147,7 +148,7 @@ class Project {
 		}
 		
 		//项目秒产 	lv数*该项目1级秒产*累积产量系数*累积成就系数*道具升级系数
-        return Math.round(level * cumulativeOutputRatio * cumulativeAchieveRatio * toolRatio);
+        return Math.round(level * this._outputLevelOne * cumulativeOutputRatio * cumulativeAchieveRatio * toolRatio);
 	}
 	
 	//升级级别的价格
