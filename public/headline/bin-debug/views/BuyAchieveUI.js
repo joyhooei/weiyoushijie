@@ -58,11 +58,11 @@ var BuyAchieveUI = (function (_super) {
     };
     p._buy = function (gold, diamond) {
         var self = this;
+                var delta = self._project.output(self._myProject.level, self._achieve, self._myProject.tool_ratio)
+                    - self._project.output(self._myProject.level, self._myProject.achieve, self._myProject.tool_ratio);
         self._myProject.achieve = self._achieve;
         application.dao.save("Project", self._myProject, function (succeed, proj) {
             if (succeed) {
-                var delta = self._project.output(self._myProject.level, self._achieve, self._myProject.tool_ratio)
-                    - self._project.output(self._myProject.level, self._myProject.achieve, self._myProject.tool_ratio);
                 application.buyOutput(gold, diamond, delta, self._myProject, function (succeed, c) {
                     if (!succeed) {
                         Toast.launch("获得成就失败");
