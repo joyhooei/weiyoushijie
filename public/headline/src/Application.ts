@@ -123,10 +123,11 @@ module application {
         diamond = Math.abs(diamond);
         output  = Math.abs(output);
         
-        application.customer.gold      -= gold;
-        application.customer.diamond   -= diamond;
-		
-        application.customer.output += output;
+        application.customer.gold    -= gold;
+        application.customer.diamond -= diamond;	
+        application.customer.output  += output;
+        application.refreshCustomer(0 - gold, 0 - diamond, output, 0, proj);
+        
         if (application.customer.output >= 100) {
 			if(application.log10(application.customer.output) > application.log10(application.customer.output - output)) {
 				application.dao.fetch("Gift", {customer_id: application.customer.id, category: 7}, {limit: 1}, function(succeed, gifts){
@@ -140,10 +141,6 @@ module application {
 		}
 		
         application.dao.save("Customer", application.customer, function(succeed, c){
-            if (succeed) {
-                application.refreshCustomer(0 - gold, 0 - diamond, output, 0, proj);
-            }
-			
 			cb(succeed, c);
         });
     }
