@@ -2,7 +2,7 @@ class ToolUI extends eui.Component {
     private imgBack: eui.Button;
 
     private lblGold: eui.Label;
-    private lblDiamond: eui.Label;
+    public lblDiamond: eui.Label;
     private btnAddGold: eui.Button;
     private btnAddDiamond: eui.Button;
 
@@ -84,7 +84,7 @@ class ToolUI extends eui.Component {
 	private addProject(proj) {
     	if (proj && proj.unlocked == 0) {
             let i = proj.sequence;
-            let item: ToolItem = new ToolItem(proj, application.projects[i], (i + 1).toString() + "_png", "t" + (i + 1).toString() + "_png");
+            let item: ToolItem = new ToolItem(this, proj, application.projects[i], (i + 1).toString() + "_png", "t" + (i + 1).toString() + "_png");
             this.grpProject.addChildAt(item,i);
         }
 	}
