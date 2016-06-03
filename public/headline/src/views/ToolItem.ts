@@ -11,12 +11,15 @@ class ToolItem extends eui.Component {
 	private lbl100: eui.Label;
 	private lbl900: eui.Label;
 	private lbl1: eui.Label;
+	
+	private _toolUI: ToolUI;
 
-    public constructor(myProject: any,project: any,iconName: string,titleName: string) {
+    public constructor(toolUI:ToolUI, myProject: any,project: any,iconName: string,titleName: string) {
         super();
 
         this._project = project;
         this._myProject = myProject;
+		this._toolUI = toolUI;
 
         this.skinName = "resource/custom_skins/toolItemSkin.exml";
 		
@@ -52,6 +55,8 @@ class ToolItem extends eui.Component {
 
 					application.dao.save("Project",self._myProject);
 					self.refresh();
+					
+					self._toolUI.lblDiamond.text = application.format(application.customer.diamond);
 				} else {
 					Toast.launch("购买失败");    
 				}
