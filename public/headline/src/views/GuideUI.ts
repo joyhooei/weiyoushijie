@@ -77,6 +77,8 @@ class GuideUI extends eui.Component {
 	
 	private over(): void {
 		application.hideUI(this);
+		application.guideUI = null;
+		
 		if (this.overCallback) {
 			this.overCallback();
 		}	
