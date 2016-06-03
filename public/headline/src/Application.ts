@@ -12,6 +12,8 @@ module application {
 	export var units: any[];
 	
 	export var blockUI: BlockUI;
+    
+    export var guideUI: GuideUI;
 
     export function init(main:Main) {
 		application.main = main;
@@ -43,6 +45,11 @@ module application {
         //从后台获取用户信息
         application.dao.rest("login", {token: data.token}, (succeed: boolean, customer: any) => {
             if (succeed) {
+                //首次登录，需要显示引导页面
+                if (application.customer.gold == 0) {
+                    application.guideUI = new GuideUI();
+                }
+                
                 application.customer = customer;
 				application.refreshBid(function(bid){
                     application.main.dispatchEventWith(GameEvents.EVT_LOGIN_IN_SUCCESS);
@@ -269,11 +276,23 @@ module application {
         
         application.blockUI.addChild(ui);
         
-        if (parent) {
-            parent.addChild(application.blockUI); 
+        if (application.guideUI) {
+			if (parent) {
+				if (parent.contains(application.guideUI)) {
+					parent.addChildAt(application.blockUI, parent.getChildIndex(application.guideUI));
+				} else {
+					parent.addChild(application.blockUI); 
+				}
+			} else {
+				application.main.homeUI.addChildAt(application.blockUI, parent.getChildIndex(application.guideUI));
+			}
         } else {
-            application.main.homeUI.addChild(application.blockUI);
-        }
+			if (parent) {
+				parent.addChild(application.blockUI); 
+			} else {
+				application.main.homeUI.addChild(application.blockUI);
+			}
+		}
         
         return ui;
     }
