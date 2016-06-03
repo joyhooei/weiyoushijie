@@ -10,12 +10,16 @@ class BuyToolUI extends eui.Component{
 	
     private _name: string;
 	private _price: number;
+	
+	private _toolUI: ToolUI;
     
-    constructor(name:string, price: number) {
+    constructor(toolUI: ToolUI, name:string, price: number) {
         super();
 		
         this._name = name;
 		this._price = price;
+		
+		this._toolUI = toolUI;
         
         this.addEventListener( eui.UIEvent.COMPLETE, this.uiCompHandler, this );
         
@@ -42,8 +46,7 @@ class BuyToolUI extends eui.Component{
         } else if (this._name == "vip") {
             this.imgIcon.source = "VIPh_png";
         } 
-        
-		
+        		
 		if (this._name == "time" || this._name == "hit") {
 			if (application.customer.diamond < this._price) {
 				this.imgBuy.source = "buttondiano_png";
@@ -81,6 +84,9 @@ class BuyToolUI extends eui.Component{
 				Toast.launch("购买了时光沙漏");
 
 				application.refreshCustomer(application.customer.output * 3600 * 48, -500, 0, 0, null);
+				
+				self._toolUI.lblGold.text = application.format(application.gold);
+				self._toolUI.lblDiamond.text = application.format(application.diamond);
 
 				application.hideUI(self);
 			});
@@ -100,6 +106,7 @@ class BuyToolUI extends eui.Component{
 					Toast.launch("购买了暴击");
 
 					application.refreshCustomer(0, -100, 3, 0, null);
+					self._toolUI.lblDiamond.text = application.format(application.diamond);
 
 					application.hideUI(self);
 				});
