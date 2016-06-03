@@ -9,9 +9,13 @@ class GuideUI extends eui.Component {
 	private imgPinger: egret.Image;
 	
 	private step: number;
+	
+	private overCallback: Function;
     
-    public constructor() {
+    public constructor(overCallback: Function) {
         super();
+		
+		this.overCallback = overCallback
 		
         this.skinName = "resource/custom_skins/blockUISkin.exml";
 		
@@ -19,7 +23,7 @@ class GuideUI extends eui.Component {
 		this.next();
     }
 	
-	public next(): void {
+	public next(): number {
 		this.step ++;
 		switch(this.step) {
 			case 1:
@@ -35,7 +39,11 @@ class GuideUI extends eui.Component {
 				return this.renderStep4();
 				
 			case 5:
-				return this.renderStep5();				
+				return this.renderStep5();
+				
+			case 6:
+				this.overCallback();
+				return 6;
 		}
 	}
 	
