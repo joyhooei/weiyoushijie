@@ -123,12 +123,10 @@ class HomeUI extends eui.Component{
 			 	self.earnGoldDynamically();
 
 			 	self.refreshBidAtNoon();
-				
-                this.removeChild(application.guideUI);
-				application.guideUI = null;
 			});
             
         	this.addChild(application.guideUI);
+            this.next();
 		} else {
 		 	self.renderOfflineGold();
 
