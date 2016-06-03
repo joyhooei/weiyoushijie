@@ -23,47 +23,47 @@ class GuideUI extends eui.Component {
 		this.next();
     }
 	
-	public next(): number {
+	public next(): void {
 		this.step ++;
 		switch(this.step) {
 			case 1:
-				return this.renderStep1();
+				this.renderStep1();
+				break;
 				
 			case 2:
-				return this.renderStep2();
+				this.renderStep2();
+				break;
 				
 			case 3:
-				return this.renderStep3();
+				this.renderStep3();
+				break;
 				
 			case 4:
-				return this.renderStep4();
+				this.renderStep4();
+				break;
 				
 			case 5:
-				return this.renderStep5();
+				this.renderStep5();
+				break;
 				
 			case 6:
 				this.overCallback();
-				return 6;
+				break;
 		}
 	}
 	
-	private renderStep1(): number {
-		return this.step;
+	private renderStep1(): void {
 	}
 
-	private renderStep2(): number {
-		turn this.step;
+	private renderStep2(): void {
 	}
 
-	private renderStep3(): number {
-		turn this.step;
+	private renderStep3(): void {
 	}
 	
-	private renderStep4(): number {
-		turn this.step;
+	private renderStep4(): void {
 	}
 	
-	private renderStep5(): number {
-		return this.step;
+	private renderStep5(): void {
 	}	
 }
