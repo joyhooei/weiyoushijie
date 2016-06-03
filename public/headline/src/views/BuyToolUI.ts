@@ -83,10 +83,10 @@ class BuyToolUI extends eui.Component{
 			application.dao.save("Customer", application.customer, function(succeed, data){
 				Toast.launch("购买了时光沙漏");
 
-				application.refreshCustomer(application.customer.output * 3600 * 48, -500, 0, 0, null);
-				
-				self._toolUI.lblGold.text = application.format(application.gold);
-				self._toolUI.lblDiamond.text = application.format(application.diamond);
+				application.refreshCustomer(application.customer.output * 3600 * 48, -500, 0, 0, null);					
+				if (self._toolUI) {
+					self._toolUI.refreshCustomer();
+				}
 
 				application.hideUI(self);
 			});
@@ -105,8 +105,10 @@ class BuyToolUI extends eui.Component{
 				application.dao.save("Customer", application.customer, function(succeed, data){
 					Toast.launch("购买了暴击");
 
-					application.refreshCustomer(0, -100, 3, 0, null);
-					self._toolUI.lblDiamond.text = application.format(application.diamond);
+					application.refreshCustomer(0, -100, 3, 0, null);	
+					if (self._toolUI) {
+						self._toolUI.refreshCustomer();
+					}
 
 					application.hideUI(self);
 				});
