@@ -335,12 +335,13 @@ module application {
 		if (customer.avatar && customer.avatar.length > 1) {
 			return customer.avatar;
 		} else {
+            var url = application.baseUrl + "headline/resource/art/";
 			if (customer.sex == 1) {
-				return application.baseUrl + "headline/resource/art/headM.png";
-			} else if (customer.sex == 1) {
-				return application.baseUrl + "headline/resource/art/headF.png";
+				return url + "headM.png";
+			} else if (customer.sex == 2) {
+				return url + "headF.png";
 			} else {
-                return "Ahide_png";
+                return url + "head.png";
             }
 		}
 	}
