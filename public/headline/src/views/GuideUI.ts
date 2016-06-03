@@ -8,11 +8,13 @@ class GuideUI extends eui.Component {
     private rcRight: egret.Rect;
 	
 	private lblHelp: egret.Label;
-	private imgPinger: egret.Image;
+	private imgFinger: egret.Image;
 	
 	private step: number;
 	
 	private overCallback: Function;
+	
+	private timer: egret.Timer;
     
     public constructor() {
         super();
@@ -24,6 +26,17 @@ class GuideUI extends eui.Component {
         this.imgBack.addEventListener(egret.TouchEvent.TOUCH_TAP,() => {
 			this.over();
         },this);
+		
+		this.timer = new egret.Timer(1000, 0);
+		this.timer.addEventListener(egret.TimerEvent.TIMER, function(event:egret.TimerEvent){
+			if ( (<egret.Timer>event.target).currentCount) % 2 == 0) {
+				this.imgFinger.x -= 5;
+			} else {
+				this.imgFinger.x += 5;
+			}
+		}, this);
+
+		this.timer.start();		
     }
 	
 	public setOverCallback(ocb: Function) {
@@ -60,6 +73,7 @@ class GuideUI extends eui.Component {
 	}
 	
 	private renderStep1(): void {
+		this.renderBlock(200, 200, 200, 200);
 	}
 
 	private renderStep2(): void {
@@ -74,9 +88,32 @@ class GuideUI extends eui.Component {
 	private renderStep5(): void {
 	}
 	
+	private renderBlock(x: number, y: number, width: number, height: number): void {		
+		this.rcRight.x = x + width;
+		this.rcRight.y = 0;
+		this.rcRight.height = 800;
+		this.rcRight.width = 480 - this.rcRight.x;
+		
+		this.rcTop.x = this.rcTop.y = 0;
+		this.rcTop.height = y;
+		this.rcTop.width = this.rcRight.x;
+		
+		this.rcMiddle.x = 0;
+		this.rcMiddle.y = y;
+		this.rcMiddle.width = y;
+		this.rcMiddle.height = height;
+		
+		this.rcBottom.x = 0;
+		this.rcBottom.y = y + height;
+		this.rcBottom.width = this.rcTop.width;
+		this.rcBottom.height = this.rcRight.height - y - height;
+	}
+	
 	private over(): void {
 		application.hideUI(this);
 		application.guideUI = null;
+		
+		this.timer.stop();
 		
 		if (this.overCallback) {
 			this.overCallback();
