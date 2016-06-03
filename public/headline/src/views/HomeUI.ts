@@ -227,6 +227,7 @@ class HomeUI extends eui.Component{
 					}
                 }
 				
+                output = Math.max(1, output);
 				if (output != application.customer.output) {
 					application.customer.output = output;
 					application.dao.save("Customer", application.customer);
