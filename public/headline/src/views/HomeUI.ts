@@ -118,8 +118,6 @@ class HomeUI extends eui.Component{
 		
         if (application.guideUI) {
 			application.guideUI.setOverCallback(function(){
-			 	self.renderOfflineGold();
-
 			 	self.earnGoldDynamically();
 
 			 	self.refreshBidAtNoon();
