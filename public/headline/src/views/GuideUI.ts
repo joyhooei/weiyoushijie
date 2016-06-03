@@ -16,15 +16,14 @@ class GuideUI extends eui.Component {
     
     public constructor() {
         super();
+		
+		this.step = 0;
 	
         this.skinName = "resource/custom_skins/blockUISkin.exml";
 		
         this.imgBack.addEventListener(egret.TouchEvent.TOUCH_TAP,() => {
 			this.over();
         },this);
-		
-		this.step = 0;
-		this.next();
     }
 	
 	public setOverCallback(ocb: Function) {
