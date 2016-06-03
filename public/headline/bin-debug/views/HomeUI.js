@@ -139,7 +139,9 @@ var HomeUI = (function (_super) {
                 for (var i = 0; i < projects.length; i++) {
                     var p = projects[i];
                     self.renderProject(p);
+                    if (p.unlocked == 0) {
                     output += application.projects[p.sequence].output(p.level, p.achieve, p.tool_ratio);
+                    }
                 }
                 if (output != application.customer.output) {
                     self.lblOutput.text = application.format(output);
