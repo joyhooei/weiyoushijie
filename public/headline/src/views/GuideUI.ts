@@ -12,16 +12,18 @@ class GuideUI extends eui.Component {
 	
 	private overCallback: Function;
     
-    public constructor(overCallback: Function) {
+    public constructor() {
         super();
-		
-		this.overCallback = overCallback
-		
+	
         this.skinName = "resource/custom_skins/blockUISkin.exml";
 		
 		this.step = 0;
 		this.next();
     }
+	
+	public setOverCallback(ocb: Function) {
+		this.overCallback = overCallback;
+	}
 	
 	public next(): void {
 		this.step ++;
@@ -47,7 +49,9 @@ class GuideUI extends eui.Component {
 				break;
 				
 			case 6:
-				this.overCallback();
+				if (this.overCallback) {
+					this.overCallback();
+				}
 				break;
 		}
 	}
