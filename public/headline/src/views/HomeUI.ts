@@ -98,7 +98,7 @@ class HomeUI extends eui.Component{
         }, this);
                 
         self.btnAddGold.addEventListener(egret.TouchEvent.TOUCH_BEGIN, function() {
-			application.showUI(new BuyToolUI("time", 500));
+			application.showUI(new BuyToolUI(null, "time", 500));
         }, this);
                 
         self.btnAddDiamond.addEventListener(egret.TouchEvent.TOUCH_BEGIN, function() {
@@ -124,7 +124,7 @@ class HomeUI extends eui.Component{
 			});
             
         	this.addChild(application.guideUI);
-            this.next();
+            application.guideUI.next();
 		} else {
 		 	self.renderOfflineGold();
 
@@ -276,6 +276,10 @@ class HomeUI extends eui.Component{
 	private onBeauty(): void {
 		this.mcBeauty.play(3);
 		this.earnGold(1);
+		
+		if (application.guideUI) {
+		    application.guideUI.next();
+		}
 	}
 	
 	private earnGold(second:number): void {

@@ -46,9 +46,9 @@ module application {
         application.dao.rest("login", {token: data.token}, (succeed: boolean, customer: any) => {
             if (succeed) {
                 //首次登录，需要显示引导页面
-                if (application.customer.gold == 0) {
+                //if (customer.gold == 0) {
                     application.guideUI = new GuideUI();
-                }
+                //}
                 
                 application.customer = customer;
 				application.refreshBid(function(bid){
@@ -149,7 +149,7 @@ module application {
 		
         application.dao.save("Customer", application.customer);
         
-        cb(true, c);
+        cb(true,application.customer);
     }
     
     export function buy(product: string, gid: string, price: number, title: string) {
@@ -253,15 +253,15 @@ module application {
             content += "3. 道具可以帮助玩家快速获得大量金币和永久提高运营项目的每秒产量。\n"
             content += "4. 排行榜会按照勋章的个数排名，勋章数量一致时则按照金币的总量排名。\n"
 			
-			var blankWidth = egret.measureTextWidth(" ");
-			var maxWidth   = egret.measureTextWidth("276个0          zz");
+            var blankWidth = Math.round(egret.sys.measureText(" ",'Arial',24,false,false));
+            var maxWidth = Math.round(egret.sys.measureText("276个0          zz",'Arial',24,false,false));
 			
 			var lines = [];
 			lines.push("金币单位");
 			for (var i = 0; i < application.units.length; i++) {
                 var line  = ((i + 1) * 3).toString() + "个0";
 				
-				var blanks = Math.floor((maxWidth - egret.measureTextWidth(line + application.units[i])) / blankWidth);
+				var blanks = Math.round((maxWidth - egret.sys.measureText(line + application.units[i], 'Arial', 24, false, false))/ blankWidth);
 				for(var j = 0; j < blanks; j++) {
 					line += " ";
 				}

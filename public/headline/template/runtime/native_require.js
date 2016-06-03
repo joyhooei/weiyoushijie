@@ -25,6 +25,7 @@ var game_file_list = [
 	"bin-debug/views/ChargeTipUI.js",
 	"bin-debug/views/FirstChargeBonusUI.js",
 	"bin-debug/views/GiftUI.js",
+	"bin-debug/views/GuideUI.js",
 	"bin-debug/views/HelpUI.js",
 	"bin-debug/views/HomeUI.js",
 	"bin-debug/views/LandingUI.js",

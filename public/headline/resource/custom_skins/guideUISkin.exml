@@ -5,8 +5,9 @@
 	<e:Rect id="rcBottom" width="480" height="800" x="0" y="0" fillAlpha="0.61" enabled="true"/>
 	<e:Rect id="rcRight" width="480" height="800" x="0" y="0" fillAlpha="0.61" enabled="true"/>  
     
-	<e:Label id="lblHelp" y="377" text="0.00aa" x="275" width="105" textAlign="center"/>
+	<e:Label id="lblHelp" y="207" text="0.00aa" x="74" width="105" textAlign="center"/>
 	
-	<e:Image id="imgFinger" width="373" height="27" x="59" y="302" source="Abar_png" fillMode="clip"/>
+	<e:Image id="imgFinger" width="56" height="27" x="100" y="294" source="Abar_png" fillMode="clip"/>
+	<e:Image id="imgBack" fillMode="clip" source="helpx_png" x="437" y="1" width="41" height="41"/>
     
 </e:Skin>

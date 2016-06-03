@@ -38,26 +38,28 @@ class BuyAchieveUI extends eui.Component{
             application.hideUI(this);
         }, this );
         
-        let priceUseGold = this._project.achieve(this._achieve).priceUseGold;
-        this.lblGold.text = application.format(priceUseGold);
-
-        let priceUseDiamond = this._project.achieve(this._achieve).priceUseDiamond;
-        this.lblDiamond.text = priceUseDiamond;    
-        
         //如果当前级别小于成就所需要的级别，则不能购买
         //如果上一个成就还没有解锁，则不能购买
         //如果已经购买了，也不能购买
         if(this._myProject.level < this._project.achieve(this._achieve).level 
             || this._achieve > this._myProject.achieve + 1
             || this._achieve <= this._myProject.achieve) {
-            this.imgBuyUseGold.source = "buttoncoinno_png";
-            this.imgBuyUseDiamond.source = "buttondiano_png";             
+            this.imgBuyUseGold.source = "";
+            this.imgBuyUseDiamond.source = "";   
+            this.lblGold.text = "";
+            this.lblDiamond.text = "";
         } else {
+            let priceUseGold = this._project.achieve(this._achieve).priceUseGold;
+            this.lblGold.text = application.format(priceUseGold);
+
+            let priceUseDiamond = this._project.achieve(this._achieve).priceUseDiamond;
+            this.lblDiamond.text = priceUseDiamond;
+
             if(application.usableGold() < priceUseGold) {
                 this.imgBuyUseGold.source = "buttoncoinno_png";
                 
                 this.imgBuyUseGold.addEventListener( egret.TouchEvent.TOUCH_TAP, ()=>{
-                    application.showUI(new BuyToolUI("time", 500), this);
+                    application.showUI(new BuyToolUI(null, "time", 500), this);
     			}, this );
     		} else {
                 this.imgBuyUseGold.addEventListener( egret.TouchEvent.TOUCH_TAP, ()=>{
@@ -87,7 +89,7 @@ class BuyAchieveUI extends eui.Component{
 
 		self._myProject.achieve = self._achieve;
 		application.buyOutput(gold, diamond, newOutput - oldOutput, self._myProject, function(succeed, c){
-			if (!succeed) {
+			if (succeed) {
 				Toast.launch("获得成就成功");
 				
 				application.dao.save("Project", self._myProject);

@@ -1,9 +1,10 @@
 var BuyToolUI = (function (_super) {
     __extends(BuyToolUI, _super);
-    function BuyToolUI(name, price) {
+    function BuyToolUI(toolUI, name, price) {
         _super.call(this);
         this._name = name;
         this._price = price;
+        this._toolUI = toolUI;
         this.addEventListener(eui.UIEvent.COMPLETE, this.uiCompHandler, this);
         this.skinName = "resource/custom_skins/buyToolUISkin.exml";
     }
@@ -67,6 +68,9 @@ var BuyToolUI = (function (_super) {
             application.dao.save("Customer", application.customer, function (succeed, data) {
                 Toast.launch("购买了时光沙漏");
                 application.refreshCustomer(application.customer.output * 3600 * 48, -500, 0, 0, null);
+                if (self._toolUI) {
+                    self._toolUI.refreshCustomer();
+                }
                 application.hideUI(self);
             });
         }
@@ -83,6 +87,9 @@ var BuyToolUI = (function (_super) {
                 application.dao.save("Customer", application.customer, function (succeed, data) {
                     Toast.launch("购买了暴击");
                     application.refreshCustomer(0, -100, 3, 0, null);
+                    if (self._toolUI) {
+                        self._toolUI.refreshCustomer();
+                    }
                     application.hideUI(self);
                 });
             }

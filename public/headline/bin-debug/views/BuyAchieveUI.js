@@ -18,32 +18,34 @@ var BuyAchieveUI = (function (_super) {
         this.imgBack.addEventListener(egret.TouchEvent.TOUCH_TAP, function () {
             application.hideUI(_this);
         }, this);
-        var priceUseGold = this._project.achieve(this._achieve).priceUseGold;
-        this.lblGold.text = application.format(priceUseGold);
-        var priceUseDiamond = this._project.achieve(this._achieve).priceUseDiamond;
-        this.lblDiamond.text = priceUseDiamond;
         //如果当前级别小于成就所需要的级别，则不能购买
         //如果上一个成就还没有解锁，则不能购买
         //如果已经购买了，也不能购买
         if (this._myProject.level < this._project.achieve(this._achieve).level
             || this._achieve > this._myProject.achieve + 1
             || this._achieve <= this._myProject.achieve) {
-            this.imgBuyUseGold.source = "buttoncoinno_png";
-            this.imgBuyUseDiamond.source = "buttondiano_png";
+            this.imgBuyUseGold.source = "";
+            this.imgBuyUseDiamond.source = "";
+            this.lblGold.text = "";
+            this.lblDiamond.text = "";
         }
         else {
-            if (application.usableGold() < priceUseGold) {
+            var priceUseGold_1 = this._project.achieve(this._achieve).priceUseGold;
+            this.lblGold.text = application.format(priceUseGold_1);
+            var priceUseDiamond_1 = this._project.achieve(this._achieve).priceUseDiamond;
+            this.lblDiamond.text = priceUseDiamond_1;
+            if (application.usableGold() < priceUseGold_1) {
                 this.imgBuyUseGold.source = "buttoncoinno_png";
                 this.imgBuyUseGold.addEventListener(egret.TouchEvent.TOUCH_TAP, function () {
-                    application.showUI(new BuyToolUI("time", 500), _this);
+                    application.showUI(new BuyToolUI(null, "time", 500), _this);
                 }, this);
             }
             else {
                 this.imgBuyUseGold.addEventListener(egret.TouchEvent.TOUCH_TAP, function () {
-                    _this._buy(priceUseGold, 0);
+                    _this._buy(priceUseGold_1, 0);
                 }, this);
             }
-            if (application.customer.diamond < priceUseDiamond) {
+            if (application.customer.diamond < priceUseDiamond_1) {
                 this.imgBuyUseDiamond.source = "buttondiano_png";
                 this.imgBuyUseDiamond.addEventListener(egret.TouchEvent.TOUCH_TAP, function () {
                     application.showUI(new ChargeTipUI(), _this);
@@ -51,26 +53,21 @@ var BuyAchieveUI = (function (_super) {
             }
             else {
                 this.imgBuyUseDiamond.addEventListener(egret.TouchEvent.TOUCH_TAP, function () {
-                    _this._buy(0, priceUseDiamond);
+                    _this._buy(0, priceUseDiamond_1);
                 }, this);
             }
         }
     };
     p._buy = function (gold, diamond) {
         var self = this;
-                var delta = self._project.output(self._myProject.level, self._achieve, self._myProject.tool_ratio)
-                    - self._project.output(self._myProject.level, self._myProject.achieve, self._myProject.tool_ratio);
+        var newOutput = self._project.output(self._myProject.level, self._achieve, self._myProject.tool_ratio);
+        var oldOutput = self._project.output(self._myProject.level, self._myProject.achieve, self._myProject.tool_ratio);
         self._myProject.achieve = self._achieve;
-        application.dao.save("Project", self._myProject, function (succeed, proj) {
+        application.buyOutput(gold, diamond, newOutput - oldOutput, self._myProject, function (succeed, c) {
             if (succeed) {
-                application.buyOutput(gold, diamond, delta, self._myProject, function (succeed, c) {
-                    if (!succeed) {
-                        Toast.launch("获得成就失败");
-                    }
-                    else {
-                        application.hideUI(self);
-                    }
-                });
+                Toast.launch("获得成就成功");
+                application.dao.save("Project", self._myProject);
+                application.hideUI(self);
             }
             else {
                 Toast.launch("获得成就失败");

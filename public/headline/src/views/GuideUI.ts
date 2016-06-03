@@ -2,13 +2,13 @@ class GuideUI extends eui.Component {
     private imgBack: eui.Image;
 
     //用4个矩形围成这样一个中空的形状，调整4个矩形的位置宽高，使得中空的矩形是你需要暴露的UI界面区域。
-    private rcTop: egret.Rect;
-    private rcMiddle: egret.Rect;
-    private rcBottom: egret.Rect;
-    private rcRight: egret.Rect;
+    private rcTop: egret.Rectangle;
+    private rcMiddle: egret.Rectangle;
+    private rcBottom: egret.Rectangle;
+    private rcRight: egret.Rectangle;
 	
-	private lblHelp: egret.Label;
-	private imgFinger: egret.Image;
+	private lblHelp: eui.Label;
+    private imgFinger: eui.Image;
 	
 	private step: number;
 	
@@ -21,7 +21,7 @@ class GuideUI extends eui.Component {
 		
 		this.step = 0;
 	
-        this.skinName = "resource/custom_skins/blockUISkin.exml";
+        this.skinName = "resource/custom_skins/guideUISkin.exml";
 		
         this.imgBack.addEventListener(egret.TouchEvent.TOUCH_TAP,() => {
 			this.over();
@@ -29,10 +29,10 @@ class GuideUI extends eui.Component {
 		
 		this.timer = new egret.Timer(1000, 0);
 		this.timer.addEventListener(egret.TimerEvent.TIMER, function(event:egret.TimerEvent){
-			if ( (<egret.Timer>event.target).currentCount) % 2 == 0) {
-				this.imgFinger.x -= 5;
+			if (((<egret.Timer>event.target).currentCount) % 2 == 0) {
+				this.imgFinger.x -= 10;
 			} else {
-				this.imgFinger.x += 5;
+				this.imgFinger.x += 10;
 			}
 		}, this);
 
@@ -40,7 +40,7 @@ class GuideUI extends eui.Component {
     }
 	
 	public setOverCallback(ocb: Function) {
-		this.overCallback = overCallback;
+        this.overCallback = ocb;
 	}
 	
 	public next(): void {
@@ -77,15 +77,19 @@ class GuideUI extends eui.Component {
 	}
 
 	private renderStep2(): void {
+    	this.renderBlock(100,0,200,200);
 	}
 
 	private renderStep3(): void {
+        this.renderBlock(0,300,200,200);
 	}
 	
 	private renderStep4(): void {
+        this.renderBlock(330,300,200,200);
 	}
 	
 	private renderStep5(): void {
+        this.renderBlock(340,300,200,200);
 	}
 	
 	private renderBlock(x: number, y: number, width: number, height: number): void {		

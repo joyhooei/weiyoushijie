@@ -10,6 +10,8 @@ declare class firstChargeBonusUISkin extends eui.Skin{
 }
 declare class giftUISkin extends eui.Skin{
 }
+declare class guideUISkin extends eui.Skin{
+}
 declare class helpUISkin extends eui.Skin{
 }
 declare class homeUISkin extends eui.Skin{

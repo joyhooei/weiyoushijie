@@ -37,7 +37,7 @@ var HomeUI = (function (_super) {
             application.showHelp("");
         }, this);
         self.btnAddGold.addEventListener(egret.TouchEvent.TOUCH_BEGIN, function () {
-            application.showUI(new BuyToolUI("time", 500));
+            application.showUI(new BuyToolUI(null, "time", 500));
         }, this);
         self.btnAddDiamond.addEventListener(egret.TouchEvent.TOUCH_BEGIN, function () {
             application.charge();
@@ -52,9 +52,19 @@ var HomeUI = (function (_super) {
         }, this);
         /// 首次加载完成首先显示home
         self.gotoHome();
-        self.renderOfflineGold();
-        self.earnGoldDynamically();
-        self.refreshBidAtNoon();
+        if (application.guideUI) {
+            application.guideUI.setOverCallback(function () {
+                self.earnGoldDynamically();
+                self.refreshBidAtNoon();
+            });
+            this.addChild(application.guideUI);
+            application.guideUI.next();
+        }
+        else {
+            self.renderOfflineGold();
+            self.earnGoldDynamically();
+            self.refreshBidAtNoon();
+        }
     };
     p.earnGoldDynamically = function () {
         var seconds = 5;
@@ -135,19 +145,18 @@ var HomeUI = (function (_super) {
         self.grpProject.removeChildren();
         application.dao.fetch("Project", { customer_id: application.customer.id }, { order: 'sequence asc' }, function (succeed, projects) {
             if (succeed && projects.length > 0) {
-                var output = 0;
+                var output = 1;
                 for (var i = 0; i < projects.length; i++) {
                     var p = projects[i];
                     self.renderProject(p);
                     if (p.unlocked == 0) {
-                    output += application.projects[p.sequence].output(p.level, p.achieve, p.tool_ratio);
+                        output += application.projects[p.sequence].output(p.level, p.achieve, p.tool_ratio);
                     }
                 }
-                output = Math.max(1, output);
                 if (output != application.customer.output) {
-                    self.lblOutput.text = application.format(output);
                     application.customer.output = output;
                     application.dao.save("Customer", application.customer);
+                    self.lblOutput.text = application.format(self.getOutput());
                 }
             }
         });
@@ -175,6 +184,9 @@ var HomeUI = (function (_super) {
     p.onBeauty = function () {
         this.mcBeauty.play(3);
         this.earnGold(1);
+        if (application.guideUI) {
+            application.guideUI.next();
+        }
     };
     p.earnGold = function (second) {
         var gold = this.getOutput() * second;
@@ -193,6 +205,7 @@ var HomeUI = (function (_super) {
             self.lblTotalHits.text = "x" + application.customer.total_hits.toString();
             self.hit = 59;
             self.lblOutput.text = application.format(self.getOutput());
+            Toast.launch("获得10倍收益，持续60秒");
             var timer = new egret.Timer(1000, 59);
             timer.addEventListener(egret.TimerEvent.TIMER, function (event) {
                 self.lblHit.text = self.hit.toString();
@@ -203,7 +216,7 @@ var HomeUI = (function (_super) {
             timer.addEventListener(egret.TimerEvent.TIMER_COMPLETE, function (event) {
                 self.hit = 0;
                 self.lblHit.text = "59";
-                self.lblOutput.text = application.format(application.customer.output);
+                self.lblOutput.text = application.format(self.getOutput());
             }, this);
             timer.start();
         }
@@ -213,7 +226,7 @@ var HomeUI = (function (_super) {
     };
     p.getOutput = function () {
         if (this.hit > 0) {
-            return application.customer.output * 99;
+            return application.customer.output * 10;
         }
         else {
             return application.customer.output;

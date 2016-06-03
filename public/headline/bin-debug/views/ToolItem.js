@@ -1,10 +1,11 @@
 var ToolItem = (function (_super) {
     __extends(ToolItem, _super);
-    function ToolItem(myProject, project, iconName, titleName) {
+    function ToolItem(toolUI, myProject, project, iconName, titleName) {
         var _this = this;
         _super.call(this);
         this._project = project;
         this._myProject = myProject;
+        this._toolUI = toolUI;
         this.skinName = "resource/custom_skins/toolItemSkin.exml";
         this.img100.addEventListener(egret.TouchEvent.TOUCH_TAP, function () {
             _this.buy(100, 1);
@@ -25,19 +26,16 @@ var ToolItem = (function (_super) {
     p.buy = function (price, step) {
         var self = this;
         if (application.customer.diamond >= price) {
-            var oldOutput_1 = this.output();
+            var oldOutput = this.output();
             self._myProject.tool_ratio = self.ratio(self._myProject.tool_ratio, step);
-            application.dao.save("Project", self._myProject, function (succeed, proj) {
+            application.buyOutput(0, price, self.output() - oldOutput, self._myProject, function (succeed, c) {
                 if (succeed) {
-                    application.buyOutput(0, price, self.output() - oldOutput_1, self._myProject, function (succeed, c) {
-                        if (succeed) {
-                            Toast.launch("购买成功");
-                            self.refresh();
-                        }
-                        else {
-                            Toast.launch("购买失败");
-                        }
-                    });
+                    Toast.launch("购买成功");
+                    application.dao.save("Project", self._myProject);
+                    self.refresh();
+                    if (self._toolUI) {
+                        self._toolUI.refreshCustomer();
+                    }
                 }
                 else {
                     Toast.launch("购买失败");

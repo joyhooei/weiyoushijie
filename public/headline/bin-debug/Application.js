@@ -27,6 +27,10 @@ var application;
         //从后台获取用户信息
         application.dao.rest("login", { token: data.token }, function (succeed, customer) {
             if (succeed) {
+                //首次登录，需要显示引导页面
+                //if (customer.gold == 0) {
+                application.guideUI = new GuideUI();
+                //}
                 application.customer = customer;
                 application.refreshBid(function (bid) {
                     application.main.dispatchEventWith(GameEvents.EVT_LOGIN_IN_SUCCESS);
@@ -112,6 +116,7 @@ var application;
         application.customer.gold -= gold;
         application.customer.diamond -= diamond;
         application.customer.output += output;
+        application.refreshCustomer(0 - gold, 0 - diamond, output, 0, proj);
         if (application.customer.output >= 100) {
             if (application.log10(application.customer.output) > application.log10(application.customer.output - output)) {
                 application.dao.fetch("Gift", { customer_id: application.customer.id, category: 7 }, { limit: 1 }, function (succeed, gifts) {
@@ -123,12 +128,8 @@ var application;
                 });
             }
         }
-        application.dao.save("Customer", application.customer, function (succeed, c) {
-            if (succeed) {
-                application.refreshCustomer(0 - gold, 0 - diamond, output, 0, proj);
-            }
-            cb(succeed, c);
-        });
+        application.dao.save("Customer", application.customer);
+        cb(true, application.customer);
     }
     application.buyOutput = buyOutput;
     function buy(product, gid, price, title) {
@@ -239,14 +240,25 @@ var application;
             content += "2. 金币可以用来参加头条拍卖，每天最高出价者会成为头条，获得头条殊荣，勋章和钻石奖励。\n";
             content += "3. 道具可以帮助玩家快速获得大量金币和永久提高运营项目的每秒产量。\n";
             content += "4. 排行榜会按照勋章的个数排名，勋章数量一致时则按照金币的总量排名。\n";
-            content += "金币单位\n";
-            for (var i = 1; i < application.units.length; i++) {
-                var zeros = ((i + 1) * 3).toString();
-                content += zeros + "个0";
-                for (var j = zeros.length; j < 10; j++) {
-                    content += " ";
+            var blankWidth = Math.round(egret.sys.measureText(" ", 'Arial', 24, false, false));
+            var maxWidth = Math.round(egret.sys.measureText("276个0          zz", 'Arial', 24, false, false));
+            var lines = [];
+            lines.push("金币单位");
+            for (var i = 0; i < application.units.length; i++) {
+                var line = ((i + 1) * 3).toString() + "个0";
+                var blanks = Math.round((maxWidth - egret.sys.measureText(line + application.units[i], 'Arial', 24, false, false)) / blankWidth);
+                for (var j = 0; j < blanks; j++) {
+                    line += " ";
                 }
-                content += application.units[i] + "\n";
+                lines.push(line + application.units[i]);
+            }
+            var leftBlanks = Math.floor((380 - maxWidth) / (blankWidth * 2));
+            var leftBlank = "";
+            for (var j = 0; j < leftBlanks; j++) {
+                leftBlank += " ";
+            }
+            for (var i = 0; i < lines.length; i++) {
+                content += leftBlank + lines[i] + "\n";
             }
         }
         return application.showUI(new HelpUI(content));
@@ -259,11 +271,26 @@ var application;
             application.blockUI = new BlockUI();
         }
         application.blockUI.addChild(ui);
-        if (parent) {
-            parent.addChild(application.blockUI);
+        if (application.guideUI) {
+            if (parent) {
+                if (parent.contains(application.guideUI)) {
+                    parent.addChildAt(application.blockUI, parent.getChildIndex(application.guideUI));
+                }
+                else {
+                    parent.addChild(application.blockUI);
+                }
+            }
+            else {
+                application.main.homeUI.addChildAt(application.blockUI, parent.getChildIndex(application.guideUI));
+            }
         }
         else {
-            application.main.homeUI.addChild(application.blockUI);
+            if (parent) {
+                parent.addChild(application.blockUI);
+            }
+            else {
+                application.main.homeUI.addChild(application.blockUI);
+            }
         }
         return ui;
     }
@@ -284,7 +311,7 @@ var application;
     }
     application.hideUI = hideUI;
     function format(d) {
-        if (d < 99999) {
+        if (d <= 99999) {
             return d.toString();
         }
         var unit = "";
@@ -325,11 +352,15 @@ var application;
             return customer.avatar;
         }
         else {
+            var url = application.baseUrl + "headline/resource/art/";
             if (customer.sex == 1) {
-                return application.baseUrl + "headline/resource/art/headM.png";
+                return url + "headM.png";
+            }
+            else if (customer.sex == 2) {
+                return url + "headF.png";
             }
             else {
-                return application.baseUrl + "headline/resource/art/headF.png";
+                return url + "head.png";
             }
         }
     }
