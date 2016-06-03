@@ -216,7 +216,7 @@ class HomeUI extends eui.Component{
         self.grpProject.removeChildren();
         application.dao.fetch("Project",{ customer_id: application.customer.id },{ order: 'sequence asc' },function(succeed, projects) {
             if(succeed && projects.length > 0) {
-              	var output = 0;
+              	var output = 1;
                 for(var i = 0; i < projects.length; i ++){
 					var p = projects[i];
 					
@@ -227,7 +227,6 @@ class HomeUI extends eui.Component{
 					}
                 }
 				
-                output = Math.max(1, output);
 				if (output != application.customer.output) {
 					application.customer.output = output;
 					application.dao.save("Customer", application.customer);
