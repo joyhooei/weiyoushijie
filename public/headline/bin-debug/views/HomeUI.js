@@ -143,6 +143,7 @@ var HomeUI = (function (_super) {
                     output += application.projects[p.sequence].output(p.level, p.achieve, p.tool_ratio);
                     }
                 }
+                output = Math.max(1, output);
                 if (output != application.customer.output) {
                     self.lblOutput.text = application.format(output);
                     application.customer.output = output;
