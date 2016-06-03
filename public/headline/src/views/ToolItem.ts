@@ -56,7 +56,9 @@ class ToolItem extends eui.Component {
 					application.dao.save("Project",self._myProject);
 					self.refresh();
 					
-					self._toolUI.lblDiamond.text = application.format(application.customer.diamond);
+					if (self._toolUI) {
+						self._toolUI.refreshCustomer();
+					}
 				} else {
 					Toast.launch("购买失败");    
 				}
