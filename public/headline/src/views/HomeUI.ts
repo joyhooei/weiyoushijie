@@ -222,7 +222,9 @@ class HomeUI extends eui.Component{
 					
                     self.renderProject(p);
                     
-                    output += application.projects[p.sequence].output(p.level, p.achieve, p.tool_ratio);
+                    if (p.unlocked == 0) {
+                    	output += application.projects[p.sequence].output(p.level, p.achieve, p.tool_ratio);
+					}
                 }
 				
 				if (output != application.customer.output) {
