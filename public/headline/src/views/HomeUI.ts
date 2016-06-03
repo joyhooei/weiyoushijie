@@ -124,10 +124,11 @@ class HomeUI extends eui.Component{
 
 			 	self.refreshBidAtNoon();
 				
-				self._guideUI = null;
+                this.removeChild(application.guideUI);
+				application.guideUI = null;
 			});
             
-        	application.showUI(application.guideUI, this);
+        	this.addChild(application.guideUI);
 		} else {
 		 	self.renderOfflineGold();
 
