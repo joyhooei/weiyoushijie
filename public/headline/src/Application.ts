@@ -252,14 +252,31 @@ module application {
             content += "2. 金币可以用来参加头条拍卖，每天最高出价者会成为头条，获得头条殊荣，勋章和钻石奖励。\n"
             content += "3. 道具可以帮助玩家快速获得大量金币和永久提高运营项目的每秒产量。\n"
             content += "4. 排行榜会按照勋章的个数排名，勋章数量一致时则按照金币的总量排名。\n"
-            content += "金币单位\n";
+			
+			var blankWidth = egret.measureTextWidth(" ");
+			var maxWidth   = egret.measureTextWidth("276个0          zz");
+			
+			var lines = [];
+			lines.push("金币单位");
 			for (var i = 0; i < application.units.length; i++) {
-				var zeros = ((i + 1) * 3).toString();
-                content += zeros + "个0";
-				for(var j = zeros.length; j < 10; j++) {
-					content += " ";
+                var line  = ((i + 1) * 3).toString() + "个0";
+				
+				var blanks = Math.floor((maxWidth - egret.measureTextWidth(line + application.units[i])) / blankWidth);
+				for(var j = 0; j < blanks; j++) {
+					line += " ";
 				}
-				content += application.units[i] + "\n";
+				
+				lines.push(line + application.units[i]);
+			}
+			
+			var leftBlanks = Math.floor((380 - maxWidth) / (blankWidth * 2));
+			var leftBlank = "";
+			for(var j = 0; j < leftBlanks; j++) {
+				leftBlank += " ";
+			}
+			
+			for (var i = 0; i < lines.length; i++) {
+				content += leftBlank + lines[i] + "\n";
 			}
         }
 		
