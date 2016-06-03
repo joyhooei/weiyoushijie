@@ -81,13 +81,13 @@ class BuyAchieveUI extends eui.Component{
     
     private _buy(gold:number, diamond:number): void {
         let self = this;
+        
+        let delta = self._project.output(self._myProject.level,self._achieve,self._myProject.tool_ratio) 
+                        - self._project.output(self._myProject.level,self._myProject.achieve,self._myProject.tool_ratio);							
 
 		self._myProject.achieve = self._achieve;
 		application.dao.save("Project",self._myProject, function(succeed, proj) {
 			if (succeed) {
-				let delta = self._project.output(self._myProject.level,self._achieve,self._myProject.tool_ratio) 
-								- self._project.output(self._myProject.level,self._myProject.achieve,self._myProject.tool_ratio);
-								
 				application.buyOutput(gold, diamond, delta, self._myProject, function(succeed, c){
 					if (!succeed) {
 						Toast.launch("获得成就失败");    
