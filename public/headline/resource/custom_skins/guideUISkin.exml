@@ -1,0 +1,12 @@
+<?xml version='1.0' encoding='utf-8'?>
+<e:Skin class="guideUISkin" width="480" height="800" xmlns:e="http://ns.egret.com/eui">
+	<e:Rect id="rcTop" width="480" height="800" x="0" y="0" fillAlpha="0.61" enabled="true"/>
+	<e:Rect id="rcMiddle" width="480" height="800" x="0" y="0" fillAlpha="0.61" enabled="true"/>
+	<e:Rect id="rcBottom" width="480" height="800" x="0" y="0" fillAlpha="0.61" enabled="true"/>
+	<e:Rect id="rcRight" width="480" height="800" x="0" y="0" fillAlpha="0.61" enabled="true"/>  
+    
+	<e:Label id="lblHelp" y="377" text="0.00aa" x="275" width="105" textAlign="center"/>
+	
+	<e:Image id="imgFinger" width="373" height="27" x="59" y="302" source="Abar_png" fillMode="clip"/>
+    
+</e:Skin>
