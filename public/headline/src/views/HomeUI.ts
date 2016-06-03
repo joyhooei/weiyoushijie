@@ -228,10 +228,10 @@ class HomeUI extends eui.Component{
                 }
 				
 				if (output != application.customer.output) {
-					self.lblOutput.text = application.format(output);
-					
 					application.customer.output = output;
 					application.dao.save("Customer", application.customer);
+					
+					self.lblOutput.text = application.format(self.getOutput());
 				}
             }
         });
@@ -304,7 +304,7 @@ class HomeUI extends eui.Component{
     		timer.addEventListener(egret.TimerEvent.TIMER_COMPLETE, function(event:egret.TimerEvent){
     			self.hit = 0;
     			self.lblHit.text = "59";
-    			self.lblOutput.text = application.format(application.customer.output);
+    			self.lblOutput.text = application.format(self.getOutput());
     		}, this);
     		
     		timer.start();
