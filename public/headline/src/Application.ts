@@ -140,9 +140,9 @@ module application {
 			}
 		}
 		
-        application.dao.save("Customer", application.customer, function(succeed, c){
-			cb(succeed, c);
-        });
+        application.dao.save("Customer", application.customer);
+        
+        cb(true, c);
     }
     
     export function buy(product: string, gid: string, price: number, title: string) {
