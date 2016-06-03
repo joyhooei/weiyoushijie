@@ -337,9 +337,11 @@ module application {
 		} else {
 			if (customer.sex == 1) {
 				return application.baseUrl + "headline/resource/art/headM.png";
-			} else {
+			} else if (customer.sex == 1) {
 				return application.baseUrl + "headline/resource/art/headF.png";
-			}
+			} else {
+                return "Ahide_png";
+            }
 		}
 	}
 }
