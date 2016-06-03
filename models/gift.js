@@ -47,8 +47,8 @@ module.exports.createAll = function(customer) {
     //首冲 1500钻+1勋章+1M 金币。 只能领取一次，不再刷新。灰色时点击跳转首冲页面。
     _create(customer, 6, 1500, 1, 1000000, 1, "");
     
-    //秒产每增加一个数量级，就得100个钻石
-    _create(customer, 7, 100, 0, 0, 1, "100");
+    //秒产每增加一个数量级，就得200个钻石
+    _create(customer, 7, 200, 0, 0, 1, "100");
     
     //关注
     _create(customer, 8, 200, 0, 0, 1, "");

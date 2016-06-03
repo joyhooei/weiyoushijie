@@ -7,9 +7,9 @@
 	<e:Label id="lblBidName" x="260" y="13" size="24" width="165" height="23"/>
 	<e:Label id="lblBidGold" x="295" y="47" width="133" size="24" height="22"/>
 
-	<e:Label id="lblGold" text="0.00aa" x="11" y="189" size="20" width="64" textAlign="center" height="24"/>
-	<e:Label id="lblDiamond" text="0.00aa" x="9" y="242" size="20" width="64" textAlign="center" height="24"/>
-	<e:Label id="lblOutput" text="0.00aa" x="10" y="303" size="20" width="64" textAlign="center" height="24"/>
+	<e:Label id="lblGold" text="0" x="11" y="189" size="20" width="64" textAlign="center" height="24"/>
+	<e:Label id="lblDiamond" text="0" x="9" y="242" size="20" width="64" textAlign="center" height="24"/>
+	<e:Label id="lblOutput" text="0" x="10" y="303" size="20" width="64" textAlign="center" height="24"/>
 	
 	<e:Scroller id="scrProjects" height="300" width="470" y="425" horizontalCenter="-2">
 		<e:viewport>
@@ -99,7 +99,7 @@
 	
 	<e:Group id="grpAddGold" width="98" height="27" x="10" y="370">
 		<e:Image id="imgAddGold" width="22" height="25" x="0" y="0" fillMode="clip" source="coineffect_png"/>
-		<e:Label id="lblAddGold" text="00.0aa" x="23" y="2" size="20" textAlign="left" width="69" height="23" verticalAlign="justify"/>
+		<e:Label id="lblAddGold" text="0" x="23" y="2" size="20" textAlign="left" width="69" height="23" verticalAlign="justify"/>
 	</e:Group>
 
 </e:Skin>
