@@ -46,19 +46,14 @@ class ToolItem extends eui.Component {
         if (application.customer.diamond >= price) {
 			let oldOutput = this.output();
 			self._myProject.tool_ratio = self.ratio(self._myProject.tool_ratio, step);
-			application.dao.save("Project",self._myProject, function(succeed, proj) {
+			application.buyOutput(0, price, self.output() - oldOutput, self._myProject, function(succeed, c){
 				if (succeed) {
-					application.buyOutput(0, price, self.output() - oldOutput, self._myProject, function(succeed, c){
-						if (succeed) {
-							Toast.launch("购买成功");
-							
-							self.refresh();
-						} else {
-							Toast.launch("购买失败");    
-						}
-					});
+					Toast.launch("购买成功");
+
+					application.dao.save("Project",self._myProject);
+					self.refresh();
 				} else {
-					Toast.launch("购买失败");
+					Toast.launch("购买失败");    
 				}
 			});
 		} else {
