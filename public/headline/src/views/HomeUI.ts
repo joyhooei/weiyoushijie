@@ -14,8 +14,6 @@ class HomeUI extends eui.Component{
     private _toolUI:ToolUI;
     private _auctionUI:AuctionUI;
     private _uiFocused:eui.Component;
-	
-	private _guideUI:GuildeUI;
     
     private imgBg:eui.Image;
     
@@ -118,8 +116,8 @@ class HomeUI extends eui.Component{
         /// 首次加载完成首先显示home
         self.gotoHome(); 
 		
-        if (application.customer.updatedAt === application.customer.createdAt) {
-			this._guideUI = new GuideUI(function(){
+        if (application.guideUI) {
+			application.guideUI.setOverCallback(function(){
 			 	self.renderOfflineGold();
 
 			 	self.earnGoldDynamically();
@@ -128,7 +126,8 @@ class HomeUI extends eui.Component{
 				
 				self._guideUI = null;
 			});
-        	application.showUI(this._guideUI, this);
+            
+        	application.showUI(application.guideUI, this);
 		} else {
 		 	self.renderOfflineGold();
 
