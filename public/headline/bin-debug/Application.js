@@ -28,9 +28,9 @@ var application;
         application.dao.rest("login", { token: data.token }, function (succeed, customer) {
             if (succeed) {
                 //首次登录，需要显示引导页面
-                //if (customer.gold == 0) {
-                application.guideUI = new GuideUI();
-                //}
+                if (customer.gold == 0) {
+                    application.guideUI = new GuideUI();
+                }
                 application.customer = customer;
                 application.refreshBid(function (bid) {
                     application.main.dispatchEventWith(GameEvents.EVT_LOGIN_IN_SUCCESS);
