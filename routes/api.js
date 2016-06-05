@@ -313,8 +313,8 @@ router.post('/delete/:model/:id', function(req, res, next) {
 			_failed(res, error);
 		});
 	}, function(error){
-		Audit.failed(req.user, 'delete', req.params.model, req.params.id, error.message);
-		
+		console.error("delete model failed " + error.message + " model is " + JSON.stringify(newModel));
+
 		_failed(res, error);
 	});
 });
@@ -330,6 +330,8 @@ function _saveModel(model, req, res) {
 			_succeed(res, _decode(m));
 		});
 	}, function(error){
+		console.error("_saveModel failed " + error.message + " model is " + JSON.stringify(newModel));
+
 		_failed(res, error);
 	});
 };

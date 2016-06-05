@@ -773,6 +773,16 @@
 					"isFolder":false,
 					"key":"tipsB_png",
 					"name":"tipsB_png"
+				},
+				{
+					"isFolder":false,
+					"key":"updatedp2_png",
+					"name":"updatedp2_png"
+				},
+				{
+					"isFolder":false,
+					"key":"upgradeg2_png",
+					"name":"upgradeg2_png"
 				}
 			]
 		}

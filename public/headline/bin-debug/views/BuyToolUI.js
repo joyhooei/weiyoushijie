@@ -1,10 +1,9 @@
 var BuyToolUI = (function (_super) {
     __extends(BuyToolUI, _super);
-    function BuyToolUI(toolUI, name, price) {
+    function BuyToolUI(name, price) {
         _super.call(this);
         this._name = name;
         this._price = price;
-        this._toolUI = toolUI;
         this.addEventListener(eui.UIEvent.COMPLETE, this.uiCompHandler, this);
         this.skinName = "resource/custom_skins/buyToolUISkin.exml";
     }
@@ -61,37 +60,25 @@ var BuyToolUI = (function (_super) {
         }
     };
     p.buyTime = function () {
-        var self = this;
         if (application.customer.diamond > this._price) {
             application.customer.diamond -= this._price;
             application.customer.gold += application.customer.output * 3600 * 48;
-            application.dao.save("Customer", application.customer, function (succeed, data) {
-                Toast.launch("购买了时光沙漏");
-                application.refreshCustomer(application.customer.output * 3600 * 48, -500, 0, 0, null);
-                if (self._toolUI) {
-                    self._toolUI.refreshCustomer();
-                }
-                application.hideUI(self);
-            });
+            application.saveCustomer();
+            Toast.launch("购买了时光沙漏");
+            application.hideUI(this);
         }
         else {
             application.showUI(new ChargeTipUI());
         }
     };
     p.buyHit = function () {
-        var self = this;
         if (application.customer.total_hits == 0) {
             if (application.customer.diamond > this._price) {
                 application.customer.diamond -= this._price;
                 application.customer.total_hits = 3;
-                application.dao.save("Customer", application.customer, function (succeed, data) {
-                    Toast.launch("购买了暴击");
-                    application.refreshCustomer(0, -100, 3, 0, null);
-                    if (self._toolUI) {
-                        self._toolUI.refreshCustomer();
-                    }
-                    application.hideUI(self);
-                });
+                application.saveCustomer();
+                Toast.launch("购买了暴击");
+                application.hideUI(this);
             }
             else {
                 application.showUI(new ChargeTipUI());

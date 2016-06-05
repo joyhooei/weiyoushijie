@@ -25,7 +25,8 @@ class ToolUI extends eui.Component {
     public refresh(): void {
         var self = this;
 
-        this.refreshCustomer();
+        this.lblGold.text = application.format(application.usableGold());
+        this.lblDiamond.text = application.format(application.customer.diamond);
       
         var tLayout: eui.TileLayout = new eui.TileLayout();
         tLayout.horizontalGap = 0;
@@ -49,11 +50,6 @@ class ToolUI extends eui.Component {
         });
     }
     
-    public refreshCustomer(): void {
-        this.lblGold.text = application.format(application.usableGold());
-        this.lblDiamond.text = application.format(application.customer.diamond);
-    }
-
     private uiCompHandler():void {
         this.refresh();
 
@@ -61,8 +57,13 @@ class ToolUI extends eui.Component {
             application.gotoHome();
         },this);
 
+        application.dao.addEventListener("Customer",function(evt: egret.Event) {
+            this.lblGold.text = application.format(application.usableGold());
+            this.lblDiamond.text = application.format(application.customer.diamond);
+        },this);
+
         this.btnAddGold.addEventListener(egret.TouchEvent.TOUCH_BEGIN,function() {
-            application.showUI(new BuyToolUI(this, "time",500));
+            application.showUI(new BuyToolUI("time",500));
         },this);
 
         this.btnAddDiamond.addEventListener(egret.TouchEvent.TOUCH_BEGIN,function() {
@@ -70,26 +71,26 @@ class ToolUI extends eui.Component {
         },this);
         
         this.imgHit.addEventListener(egret.TouchEvent.TOUCH_BEGIN,function() {
-            application.showUI(new BuyToolUI(this, "hit", 100), this);
+            application.showUI(new BuyToolUI("hit", 100), this);
         },this);
         
         this.imgTime.addEventListener(egret.TouchEvent.TOUCH_BEGIN,function() {
-            application.showUI(new BuyToolUI(this,"time", 500), this);
+            application.showUI(new BuyToolUI("time", 500), this);
         },this);
         
         this.imgTicket.addEventListener(egret.TouchEvent.TOUCH_BEGIN,function() {
-            application.showUI(new BuyToolUI(this, "ticket", 19), this);
+            application.showUI(new BuyToolUI("ticket", 19), this);
         },this);
         
         this.imgVIP.addEventListener(egret.TouchEvent.TOUCH_BEGIN,function() {
-            application.showUI(new BuyToolUI(this, "vip", 49), this);
+            application.showUI(new BuyToolUI("vip", 49), this);
         },this);
     }
     
 	private addProject(proj) {
     	if (proj && proj.unlocked == 0) {
             let i = proj.sequence;
-            let item: ToolItem = new ToolItem(this, proj, application.projects[i], (i + 1).toString() + "_png", "t" + (i + 1).toString() + "_png");
+            let item: ToolItem = new ToolItem(proj, application.projects[i], (i + 1).toString() + "_png", "t" + (i + 1).toString() + "_png");
             this.grpProject.addChildAt(item,i);
         }
 	}

@@ -47,7 +47,7 @@ module application {
             if (succeed) {
                 //首次登录，需要显示引导页面
                 if (customer.gold == 0) {
-                    application.guideUI = new GuideUI();
+                    //application.guideUI = new GuideUI();
                 }
                 
                 application.customer = customer;
@@ -102,30 +102,22 @@ module application {
             cb(application.bid);
         })
     }
-    
-    export function refreshCustomer(goldAdded:number, diamondAdded: number, outputAdded:number, totalHitsAdded:number, projEdited:any) {
-        application.main.homeUI.refresh(goldAdded,diamondAdded,outputAdded,totalHitsAdded,projEdited);
-    }
 
-    export function fetchCustomer(): void {
-        application.dao.fetch("Customer", {id: application.customer.id}, {}, function(succeed, customers) {
-            if (succeed && customers.length > 0) {
-                application.customer = customers[0];
-                
-                application.refreshCustomer(application.customer.gold, application.customer.diamond, application.customer.output, application.customer.total_hits, null);
-            }
-        });
+    export function saveCustomer() {
+        application.customer.gold = Math.max(0,application.customer.gold);
+        application.customer.diamond = Math.max(0,application.customer.diamond);
+        application.dao.save("Customer",application.customer);
     }
     
     export function usableGold() {
         if (application.bid) {
-            return application.customer.gold - application.bid.gold;
+            return Math.max(0, application.customer.gold - application.bid.gold);
         } else {
-            return application.customer.gold;
+            return Math.max(0, application.customer.gold);
         }
     }
 
-    export function buyOutput(gold:number, diamond: number, output:number, proj:any, cb: Function): void {
+    export function buyOutput(gold:number, diamond: number, output:number): void {
         gold    = Math.abs(gold);
         diamond = Math.abs(diamond);
         output  = Math.abs(output);
@@ -133,7 +125,7 @@ module application {
         application.customer.gold    -= gold;
         application.customer.diamond -= diamond;	
         application.customer.output  += output;
-        application.refreshCustomer(0 - gold, 0 - diamond, output, 0, proj);
+        application.saveCustomer();
         
         if (application.customer.output >= 100) {
 			if(application.log10(application.customer.output) > application.log10(application.customer.output - output)) {
@@ -146,10 +138,6 @@ module application {
 				});
 			}
 		}
-		
-        application.dao.save("Customer", application.customer);
-        
-        cb(true,application.customer);
     }
     
     export function buy(product: string, gid: string, price: number, title: string) {

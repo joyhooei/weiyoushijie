@@ -22,25 +22,17 @@ class ProjectItem extends eui.Component {
         this._myProject = myProject;
         this._project   = project;
         
-        this.addEventListener(eui.UIEvent.COMPLETE,this.firstRefresh,this);
+        this.addEventListener(eui.UIEvent.COMPLETE,this.uiCompHandler,this);
         this.skinName = "resource/custom_skins/projectItemSkin.exml";
         
         this.imgIcon.source = (myProject.sequence + 1).toString() + "_png";
         this.imgTitle.source = "t" + (myProject.sequence + 1).toString() + "_png";
     }
-	
-	public refresh(myProject: any): void {
-		this._myProject = myProject;
-		
-        if (this._myProject.unlocked == 1) {
-			this.renderLocked();		
-        } else {
-			this.renderUnlocked();
-        }
-	}
     
-    private firstRefresh(): void {
-		this.refresh(this._myProject);
+    private uiCompHandler(): void {
+        this.renderProject();
+        
+        this.renderAchieves();
 		
 		this.lblPrice.addEventListener(egret.TouchEvent.TOUCH_TAP,() => {
 			this.onUpgrade();
@@ -60,6 +52,23 @@ class ProjectItem extends eui.Component {
 				this.upgrade(100);
 			}
 		}, this);
+		
+		application.dao.addEventListener("Project", function(ev:egret.Event){
+            var myProject = ev.data;
+            if(myProject.id == this._myProject.id) {
+                this._myProject = myProject;
+                
+                this.renderProject();
+                this.renderAchieves();    
+    		}
+    	}, this);
+    	
+        application.dao.addEventListener("Customer",function(ev: egret.Event) {
+            var customer = ev.data;
+            
+            this.renderProject();
+        },this);
+    	
     }
 	
 	private onUpgrade(): void {
@@ -72,6 +81,64 @@ class ProjectItem extends eui.Component {
 
     private output(): number {
         return this._project.output(this._myProject.level,this._myProject.achieve,this._myProject.tool_ratio);
+    }
+    
+    private renderProject(): void {
+        if(this._myProject.unlocked == 1) {
+            var p = this._project.priceOf(1);
+
+            this.lblLevel.text = "0";
+            this.lblOutput.text = "0";
+            this.lblPrice.text = application.format(p);
+
+            if(application.usableGold() > p) {
+                this.imgUpgrade.source = "updatedp2_png";
+            } else {
+                this.imgUpgrade.source = 'upgradeg_png';
+            }
+            this.imgUpgrade10.source = "upgrade10g_png";
+            this.imgUpgrade100.source = "upgrade100g_png";           
+        } else {
+            var p = this._project.priceOf(this._myProject.level);
+
+            this.lblLevel.text = this._myProject.level;
+            this.lblOutput.text = application.format(this.output());
+            this.lblPrice.text = application.format(p);
+
+            if(this._myProject.sequence % 2 == 0) {
+                if(application.usableGold() > this._project.price(this._myProject.level, 10)) {
+                    this.imgUpgrade10.source = "upgrade10_png";
+                } else {
+                    this.imgUpgrade10.source = "upgrade10g_png";
+                }
+                if(application.usableGold() > this._project.price(this._myProject.level,100)) {
+                    this.imgUpgrade100.source = "upgrade100_png";
+                } else {
+                    this.imgUpgrade100.source = "upgrade100g_png";
+                }
+                if(application.usableGold() > p) {
+                    this.imgUpgrade.source = 'upgrade_png';
+                } else {
+                    this.imgUpgrade.source = 'upgradeg2_png';
+                }
+            } else {
+                if(application.usableGold() > this._project.price(this._myProject.level,10)) {
+                    this.imgUpgrade10.source = "upgrade10b_png";
+                } else {
+                    this.imgUpgrade10.source = "upgrade10g_png";
+                }
+                if(application.usableGold() > this._project.price(this._myProject.level,100)) {
+                    this.imgUpgrade100.source = "upgrade10b_png";
+                } else {
+                    this.imgUpgrade100.source = "upgrade100g_png";
+                }
+                if(application.usableGold() > p) {
+                    this.imgUpgrade.source = 'upgradeb_png';
+                } else {
+                    this.imgUpgrade.source = 'upgradeg2_png';
+                }                
+            }
+        }
     }
 	
 	private renderAchieves(): void {
@@ -119,36 +186,6 @@ class ProjectItem extends eui.Component {
         
         return grp;
 	}
-	
-	private renderLocked(): void {
-		this.lblLevel.text  = "0";
-		this.lblOutput.text = "0";
-		this.lblPrice.text  = application.format(this._project.priceOf(1));
-
-        this.imgUpgrade10.source = "upgrade10g_png";
-        this.imgUpgrade100.source = "upgrade100g_png";           
-        this.imgUpgrade.source = 'upgradeg_png';
- 		
-		this.renderAchieves();			
-	}
-	
-	private renderUnlocked(): void {
-		this.lblLevel.text  = this._myProject.level;
-		this.lblOutput.text = application.format(this.output());
-		this.lblPrice.text  = application.format(this._project.priceOf(this._myProject.level));
-		
-        if(this._myProject.sequence % 2 == 0) {        
-            this.imgUpgrade10.source = "upgrade10_png";
-		    this.imgUpgrade100.source = "upgrade100_png";           
-            this.imgUpgrade.source = 'upgrade_png';
-        } else {
-            this.imgUpgrade10.source = "upgrade10b_png";
-            this.imgUpgrade100.source = "upgrade100b_png";
-            this.imgUpgrade.source = 'upgradeb_png';
-        }
-		
-		this.renderAchieves();
-	}
     
     private upgrade(step:number): void {
         let self = this;
@@ -162,20 +199,8 @@ class ProjectItem extends eui.Component {
 		
         let oldOutput = this.output();
 		this._myProject.level += step;
-		application.dao.save("Project",self._myProject, function(succeed, proj) {
-			if (succeed) {
-				application.buyOutput(p, 0, self.output() - oldOutput, null, function(succeed, c){
-					if (succeed) {
-						//升级成功，需要显示新的级别、秒产、升级价格，如果到了成就的级别，还需要显示成就
-						self.renderUnlocked();
-					} else {
-						Toast.launch("升级失败");    
-					}
-				});
-			} else {
-				Toast.launch("升级失败");
-			}
-		});
+		application.dao.save("Project",self._myProject);
+        application.buyOutput(p, 0, self.output() - oldOutput);
     }
     
     private unlock(){
@@ -188,42 +213,21 @@ class ProjectItem extends eui.Component {
 			return;
 		}
 		
-		self._myProject.unlocked = 0;
-		
-		application.dao.save("Project",self._myProject,function(succeed,proj) {
-			if(succeed) {
-    			if (self._myProject.sequence < 19) {
-    				let project:any = {};
-    				project.customer_id = application.customer.id;
-    				project.sequence = self._myProject.sequence + 1;
-    				project.unlocked = 1;
-    				project.achieve = 0;
-    				project.level = 1;
-    				application.dao.save("Project",project,function(succeed,proj) {
-    					if (succeed) {
-    						application.buyOutput(p, 0, self.output(), proj, function(succeed, c) {
-    							if (succeed) {
-    								self.renderUnlocked();
-    							} else {
-    								Toast.launch("解锁失败");
-    							}
-    						});
-    					} else {
-    						Toast.launch("解锁失败");
-    					}
-    				});
-    			} else {
-                    application.buyOutput(p,0,self.output(),null,function(succeed,c) {
-                        if(succeed) {
-                            self.renderUnlocked();
-                        } else {
-                            Toast.launch("解锁失败");
-                        }
-                    });    			    
-    			}
-			} else {
-				Toast.launch("解锁失败");
-			}
-		});
+		self._myProject.unlocked = 0;		
+		application.dao.save("Project",self._myProject);
+
+		if (self._myProject.sequence < 19) {
+			let project:any = {};
+			project.customer_id = application.customer.id;
+			project.sequence = self._myProject.sequence + 1;
+			project.unlocked = 1;
+			project.achieve = 0;
+			project.level = 1;
+			application.dao.save("Project",project);
+			
+			application.buyOutput(p, 0, self.output());
+		} else {
+            application.buyOutput(p,0,self.output());    			    
+		}
     }
 }

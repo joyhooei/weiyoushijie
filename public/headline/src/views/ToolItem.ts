@@ -12,14 +12,11 @@ class ToolItem extends eui.Component {
 	private lbl900: eui.Label;
 	private lbl1: eui.Label;
 	
-	private _toolUI: ToolUI;
-
-    public constructor(toolUI:ToolUI, myProject: any,project: any,iconName: string,titleName: string) {
+    public constructor(myProject: any,project: any,iconName: string,titleName: string) {
         super();
 
         this._project = project;
         this._myProject = myProject;
-		this._toolUI = toolUI;
 
         this.skinName = "resource/custom_skins/toolItemSkin.exml";
 		
@@ -44,25 +41,14 @@ class ToolItem extends eui.Component {
 	}
 	
 	private buy(price: number, step: number): void {
-    	var self = this;
-    	
         if (application.customer.diamond >= price) {
 			let oldOutput = this.output();
-			self._myProject.tool_ratio = self.ratio(self._myProject.tool_ratio, step);
-			application.buyOutput(0, price, self.output() - oldOutput, self._myProject, function(succeed, c){
-				if (succeed) {
-					Toast.launch("购买成功");
-
-					application.dao.save("Project",self._myProject);
-					self.refresh();
-					
-					if (self._toolUI) {
-						self._toolUI.refreshCustomer();
-					}
-				} else {
-					Toast.launch("购买失败");    
-				}
-			});
+            this._myProject.tool_ratio = this.ratio(this._myProject.tool_ratio, step);
+            application.buyOutput(0,price,this.output() - oldOutput);
+            application.dao.save("Project",this._myProject);
+            
+            Toast.launch("购买成功");
+            this.refresh();
 		} else {
 			application.showUI(new ChargeTipUI());
 		}

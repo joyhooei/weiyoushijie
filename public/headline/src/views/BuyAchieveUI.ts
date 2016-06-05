@@ -59,7 +59,7 @@ class BuyAchieveUI extends eui.Component{
                 this.imgBuyUseGold.source = "buttoncoinno_png";
                 
                 this.imgBuyUseGold.addEventListener( egret.TouchEvent.TOUCH_TAP, ()=>{
-                    application.showUI(new BuyToolUI(null, "time", 500), this);
+                    application.showUI(new BuyToolUI( "time", 500), this);
     			}, this );
     		} else {
                 this.imgBuyUseGold.addEventListener( egret.TouchEvent.TOUCH_TAP, ()=>{
@@ -82,21 +82,15 @@ class BuyAchieveUI extends eui.Component{
     }
     
     private _buy(gold:number, diamond:number): void {
-        let self = this;
-        
-        let newOutput = self._project.output(self._myProject.level,self._achieve,self._myProject.tool_ratio) 
-        let oldOutput = self._project.output(self._myProject.level,self._myProject.achieve,self._myProject.tool_ratio);							
+        let newOutput = this._project.output(this._myProject.level,this._achieve,this._myProject.tool_ratio) 
+        let oldOutput = this._project.output(this._myProject.level,this._myProject.achieve,this._myProject.tool_ratio);							
 
-		self._myProject.achieve = self._achieve;
-		application.buyOutput(gold, diamond, newOutput - oldOutput, self._myProject, function(succeed, c){
-			if (succeed) {
-				Toast.launch("获得成就成功");
-				
-				application.dao.save("Project", self._myProject);
-				application.hideUI(self);
-			} else {
-				Toast.launch("获得成就失败");    
-			}
-		}); 
+        this._myProject.achieve = this._achieve;
+		application.buyOutput(gold, diamond, newOutput - oldOutput);
+        Toast.launch("获得成就成功");
+
+        application.dao.save("Project",this._myProject);
+        application.hideUI(this);
+
     }
 }

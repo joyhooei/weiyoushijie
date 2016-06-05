@@ -15,7 +15,7 @@ var WinUI = (function (_super) {
                 application.customer.hide_winner = 1;
             }
             _this.renderAvatar();
-            application.dao.save("Customer", application.customer);
+            application.saveCustomer();
         }, this);
         this.renderAvatar();
     }

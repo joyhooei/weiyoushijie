@@ -1,8 +1,10 @@
-class Dao {
+class Dao extends egret.EventDispatcher {
     private _baseUrl: string;
     private _gameName: string;
     
     constructor(baseUrl: string, gameName: string) {
+        super();
+        
         this._baseUrl = baseUrl;
         this._gameName = gameName;
     }
@@ -18,8 +20,12 @@ class Dao {
 	}
 	
 	public save(model:string, data:any, cb?: Function) {
+    	var self = this;
+    	
         var _cb = function(succeed:number, result: any) {
             if (succeed) {
+                self.dispatchEventWith(model,true, result);
+                
                 data = result;
             }
             

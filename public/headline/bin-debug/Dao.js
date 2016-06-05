@@ -1,5 +1,7 @@
-var Dao = (function () {
+var Dao = (function (_super) {
+    __extends(Dao, _super);
     function Dao(baseUrl, gameName) {
+        _super.call(this);
         this._baseUrl = baseUrl;
         this._gameName = gameName;
     }
@@ -14,8 +16,10 @@ var Dao = (function () {
         this.rest("select/" + model, { conditions: conditions, filters: filters }, cb);
     };
     p.save = function (model, data, cb) {
+        var self = this;
         var _cb = function (succeed, result) {
             if (succeed) {
+                self.dispatchEventWith(model, true, result);
                 data = result;
             }
             if (cb) {
@@ -54,5 +58,5 @@ var Dao = (function () {
         request.send(JSON.stringify(data));
     };
     return Dao;
-}());
+}(egret.EventDispatcher));
 egret.registerClass(Dao,'Dao');

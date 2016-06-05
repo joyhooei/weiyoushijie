@@ -258,11 +258,7 @@ var GiftUI = (function (_super) {
         application.customer.metal += gift.metal;
         application.customer.gold += gift.gold;
         application.customer.diamond += gift.diamond;
-        application.dao.save("Customer", application.customer, function (succeed, c) {
-            if (succeed) {
-                application.refreshCustomer(gift.gold, gift.diamond, 0, 0, null);
-            }
-        });
+        application.saveCustomer();
     };
     return GiftUI;
 }(eui.Component));

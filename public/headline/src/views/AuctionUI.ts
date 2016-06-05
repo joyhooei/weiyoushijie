@@ -33,7 +33,7 @@ class AuctionUI extends eui.Component{
     }
     
     public refresh(): void {
-		this.lblGold.text = application.format(application.customer.gold);
+        this.lblGold.text = application.format(application.usableGold());
         this.lblDiamond.text = application.format(application.customer.diamond);
 		
         var today = application.bidDay();
@@ -58,6 +58,11 @@ class AuctionUI extends eui.Component{
         this.imgBack.addEventListener(egret.TouchEvent.TOUCH_TAP,() => {
             application.gotoHome();
         },this);
+        
+        application.dao.addEventListener("Customer",function(evt:egret.Event){
+            this.lblGold.text = application.format(application.usableGold());
+            this.lblDiamond.text = application.format(application.customer.diamond);
+        }, this);
 
         this.imgBid.addEventListener(egret.TouchEvent.TOUCH_BEGIN, this.onBid, this);
 		
@@ -66,7 +71,7 @@ class AuctionUI extends eui.Component{
         this.grpTrack.addEventListener(egret.TouchEvent.TOUCH_MOVE,this.onChangeBid,this);
 		
         this.btnAddGold.addEventListener(egret.TouchEvent.TOUCH_BEGIN, function() {
-			application.showUI(new BuyToolUI(null, "time", 500));
+			application.showUI(new BuyToolUI("time", 500));
         }, this);
                 
         this.btnAddDiamond.addEventListener(egret.TouchEvent.TOUCH_BEGIN, function() {
@@ -119,18 +124,13 @@ class AuctionUI extends eui.Component{
 
 		self.bid.gold += self.addGold;
 		if (self.bid.gold > 0) {
-			application.dao.save("Bid", self.bid, function(succeed, bid){
-				if (succeed) {
-					Toast.launch("投标成功");
+			application.dao.save("Bid", self.bid);
+			
+            Toast.launch("投标成功");
 
-					application.bid = self.bid;				
-					application.refreshCustomer(0 - self.addGold, 0, 0, 0, null);
+            application.bid = self.bid;
 
-					self.back();
-				} else {
-					Toast.launch("投标失败，请稍后再试");
-				}
-			});
+            self.back();
 		} else {
 			Toast.launch("投标的金币数量不能是0");
 		}

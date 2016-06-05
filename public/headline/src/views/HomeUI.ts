@@ -71,7 +71,7 @@ class HomeUI extends eui.Component{
         self.btns = [self.btnHome,self.btnRank,self.btnTool,self.btnAuction ];
         
 		self.imgAvatar.source = application.avatarUrl(application.customer);
-        self.refresh(application.customer.gold, application.customer.diamond, application.customer.output, 0, null);
+        self.renderCustomer();
         
 		self.lblTotalHits.text = "x" + application.customer.total_hits.toString();
         self.renderTotalHits();
@@ -98,7 +98,7 @@ class HomeUI extends eui.Component{
         }, this);
                 
         self.btnAddGold.addEventListener(egret.TouchEvent.TOUCH_BEGIN, function() {
-			application.showUI(new BuyToolUI(null, "time", 500));
+			application.showUI(new BuyToolUI("time", 500));
         }, this);
                 
         self.btnAddDiamond.addEventListener(egret.TouchEvent.TOUCH_BEGIN, function() {
@@ -111,6 +111,19 @@ class HomeUI extends eui.Component{
 			} else {
 				application.charge();
 			}
+        },this);
+        
+        application.dao.addEventListener("Project",function(ev: egret.Event) {
+            var myProject = ev.data;
+            this.renderProject(myProject);
+        },this);
+
+        application.dao.addEventListener("Customer",function(ev: egret.Event) {
+            this.renderCustomer();
+        },this);
+
+        application.dao.addEventListener("Bid",function(ev: egret.Event) {
+            this.renderCustomer();
         },this);
         
         /// 首次加载完成首先显示home
@@ -172,11 +185,7 @@ class HomeUI extends eui.Component{
 				self.renderBid();
 				
 				application.refreshBid(function(bid){
-					if (bid) {
-						self.refresh(0 - bid.gold, 0, 0, 0, null);
-					} else {
-                    	self.refresh(0, 0, 0, 0, null);
-                    }
+                    self.renderCustomer();
 				});
 			}
 		}, this);
@@ -240,7 +249,7 @@ class HomeUI extends eui.Component{
 				
 				if (output != application.customer.output) {
 					application.customer.output = output;
-					application.dao.save("Customer", application.customer);
+					application.saveCustomer();
 					
 					self.lblOutput.text = application.format(self.getOutput());
 				}
@@ -286,9 +295,21 @@ class HomeUI extends eui.Component{
 		var gold = this.getOutput() * second;
 		
 		application.customer.gold += gold;
-		this.refresh(gold, 0, 0, 0, null);
-		
-		application.dao.save("Customer", application.customer, null);
+        application.saveCustomer();
+        
+        this.grpAddGold.y = 370;
+        this.imgAddGold.visible = true;
+        this.lblAddGold.visible = true;
+        this.lblAddGold.text = "+" + application.format(gold);
+        var timer: egret.Timer = new egret.Timer(100,20);
+        timer.addEventListener(egret.TimerEvent.TIMER,function(event: egret.TimerEvent) {
+            this.grpAddGold.y -= 10;
+        },this);
+        timer.addEventListener(egret.TimerEvent.TIMER_COMPLETE,function(event: egret.TimerEvent) {
+            this.lblAddGold.visible = false;
+            this.imgAddGold.visible = false;
+        },this);
+        timer.start();
 	}
 	
 	private onHit(): void {
@@ -300,7 +321,7 @@ class HomeUI extends eui.Component{
 		
 		if (application.customer.total_hits > 0) {
             application.customer.total_hits -= 1;
-            application.dao.save("Customer",application.customer,null);
+            application.saveCustomer();
             
             self.lblTotalHits.text = "x" + application.customer.total_hits.toString();
             
@@ -357,54 +378,31 @@ class HomeUI extends eui.Component{
         timer.start();
 	}
 	
-    public refresh(goldAdded: number, diamondAdded: number,outputAdded: number,totalHits:number, projEdited:any):void {
-		if (goldAdded != 0) {
-        	this.animateStep(this.lblGold, application.usableGold() - goldAdded, application.usableGold());
-            
-			if (goldAdded > 0) {
-                this.grpAddGold.y = 370;
-                this.imgAddGold.visible = true;
-                this.lblAddGold.visible = true;
-				this.lblAddGold.text = "+" + application.format(goldAdded);
-				var timer: egret.Timer = new egret.Timer(100, 20);
-				timer.addEventListener(egret.TimerEvent.TIMER, function(event:egret.TimerEvent){
-                    this.grpAddGold.y -= 10;
-				}, this);			
-				timer.addEventListener(egret.TimerEvent.TIMER_COMPLETE, function(event:egret.TimerEvent){
-                    this.lblAddGold.visible = false;
-                    this.imgAddGold.visible = false;
-				}, this);
-				
-                timer.start();
-            }
+    public renderCustomer():void {
+        if(this.lblGold.text != application.format(application.customer.gold)) {
+        	this.animateStep(this.lblGold, 0, application.usableGold());
 		}
 		
-		if (diamondAdded != 0) {
-        	this.animateStep(this.lblDiamond, application.customer.diamond - diamondAdded, application.customer.diamond);
+        if(this.lblDiamond.text != application.format(application.customer.diamond)) {
+        	this.animateStep(this.lblDiamond, 0, application.customer.diamond);
 		}
 		
-		if (outputAdded != 0) {
-        	this.animateStep(this.lblOutput, this.getOutput() - outputAdded, this.getOutput());
+        if(this.lblOutput.text != application.format(this.getOutput())) {
+        	this.animateStep(this.lblOutput, 0, this.getOutput());
 		}
 		
-        if(totalHits != 0) {
-            this.lblTotalHits.text = "x" + totalHits.toString();
-        }
+        this.lblTotalHits.text = "x" + application.customer.total_hits.toString();
         
         if (application.customer.charge > 0) {
         	this.imgCharge.source = "charge_png";
         }
-        
-		this.renderProject(projEdited);
 	}
 	
 	private renderProject(proj) {
 		if (proj) {
             let i = proj.sequence;
             
-            if(i < this.projectItems.length) {
-		  		this.projectItems[i].refresh(proj);
-		 	} else {
+            if(i >= this.projectItems.length) {
 				let item: ProjectItem = new ProjectItem(proj, application.projects[i]);
                 this.projectItems[i] = item;
 				this.grpProject.addChildAt(item,i);

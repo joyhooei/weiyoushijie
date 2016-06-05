@@ -29,7 +29,6 @@ var application;
             if (succeed) {
                 //首次登录，需要显示引导页面
                 if (customer.gold == 0) {
-                    application.guideUI = new GuideUI();
                 }
                 application.customer = customer;
                 application.refreshBid(function (bid) {
@@ -87,36 +86,29 @@ var application;
         });
     }
     application.refreshBid = refreshBid;
-    function refreshCustomer(goldAdded, diamondAdded, outputAdded, totalHitsAdded, projEdited) {
-        application.main.homeUI.refresh(goldAdded, diamondAdded, outputAdded, totalHitsAdded, projEdited);
+    function saveCustomer() {
+        application.customer.gold = Math.max(0, application.customer.gold);
+        application.customer.diamond = Math.max(0, application.customer.diamond);
+        application.dao.save("Customer", application.customer);
     }
-    application.refreshCustomer = refreshCustomer;
-    function fetchCustomer() {
-        application.dao.fetch("Customer", { id: application.customer.id }, {}, function (succeed, customers) {
-            if (succeed && customers.length > 0) {
-                application.customer = customers[0];
-                application.refreshCustomer(application.customer.gold, application.customer.diamond, application.customer.output, application.customer.total_hits, null);
-            }
-        });
-    }
-    application.fetchCustomer = fetchCustomer;
+    application.saveCustomer = saveCustomer;
     function usableGold() {
         if (application.bid) {
-            return application.customer.gold - application.bid.gold;
+            return Math.max(0, application.customer.gold - application.bid.gold);
         }
         else {
-            return application.customer.gold;
+            return Math.max(0, application.customer.gold);
         }
     }
     application.usableGold = usableGold;
-    function buyOutput(gold, diamond, output, proj, cb) {
+    function buyOutput(gold, diamond, output) {
         gold = Math.abs(gold);
         diamond = Math.abs(diamond);
         output = Math.abs(output);
         application.customer.gold -= gold;
         application.customer.diamond -= diamond;
         application.customer.output += output;
-        application.refreshCustomer(0 - gold, 0 - diamond, output, 0, proj);
+        application.saveCustomer();
         if (application.customer.output >= 100) {
             if (application.log10(application.customer.output) > application.log10(application.customer.output - output)) {
                 application.dao.fetch("Gift", { customer_id: application.customer.id, category: 7 }, { limit: 1 }, function (succeed, gifts) {
@@ -128,8 +120,6 @@ var application;
                 });
             }
         }
-        application.dao.save("Customer", application.customer);
-        cb(true, application.customer);
     }
     application.buyOutput = buyOutput;
     function buy(product, gid, price, title) {

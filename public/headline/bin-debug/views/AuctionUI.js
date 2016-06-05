@@ -7,7 +7,7 @@ var AuctionUI = (function (_super) {
     }
     var d = __define,c=AuctionUI,p=c.prototype;
     p.refresh = function () {
-        this.lblGold.text = application.format(application.customer.gold);
+        this.lblGold.text = application.format(application.usableGold());
         this.lblDiamond.text = application.format(application.customer.diamond);
         var today = application.bidDay();
         this.renderLastBid(today);
@@ -26,12 +26,16 @@ var AuctionUI = (function (_super) {
         this.imgBack.addEventListener(egret.TouchEvent.TOUCH_TAP, function () {
             application.gotoHome();
         }, this);
+        application.dao.addEventListener("Customer", function (evt) {
+            this.lblGold.text = application.format(application.usableGold());
+            this.lblDiamond.text = application.format(application.customer.diamond);
+        }, this);
         this.imgBid.addEventListener(egret.TouchEvent.TOUCH_BEGIN, this.onBid, this);
         this.grpTrack.touchEnabled = true;
         this.grpTrack.addEventListener(egret.TouchEvent.TOUCH_BEGIN, this.onBeginChangeBid, this);
         this.grpTrack.addEventListener(egret.TouchEvent.TOUCH_MOVE, this.onChangeBid, this);
         this.btnAddGold.addEventListener(egret.TouchEvent.TOUCH_BEGIN, function () {
-            application.showUI(new BuyToolUI(null, "time", 500));
+            application.showUI(new BuyToolUI("time", 500));
         }, this);
         this.btnAddDiamond.addEventListener(egret.TouchEvent.TOUCH_BEGIN, function () {
             application.charge();
@@ -75,17 +79,10 @@ var AuctionUI = (function (_super) {
         var self = this;
         self.bid.gold += self.addGold;
         if (self.bid.gold > 0) {
-            application.dao.save("Bid", self.bid, function (succeed, bid) {
-                if (succeed) {
-                    Toast.launch("投标成功");
-                    application.bid = self.bid;
-                    application.refreshCustomer(0 - self.addGold, 0, 0, 0, null);
-                    self.back();
-                }
-                else {
-                    Toast.launch("投标失败，请稍后再试");
-                }
-            });
+            application.dao.save("Bid", self.bid);
+            Toast.launch("投标成功");
+            application.bid = self.bid;
+            self.back();
         }
         else {
             Toast.launch("投标的金币数量不能是0");

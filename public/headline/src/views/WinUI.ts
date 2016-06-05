@@ -22,7 +22,7 @@ class WinUI extends eui.Component{
 			
 			this.renderAvatar();
 			
-			application.dao.save("Customer", application.customer);
+			application.saveCustomer();
         },this);
 		
 		this.renderAvatar();
