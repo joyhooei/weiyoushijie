@@ -9,6 +9,7 @@ class GuideUI extends eui.Component {
 	
 	private imgSpeak: eui.Image;
     private imgFinger: eui.Image;
+	private imgBonus: eui.Image;
 	
 	private step: number;
 	
@@ -37,6 +38,8 @@ class GuideUI extends eui.Component {
 				this.imgFinger.x += 10;
 			}
 		}, this);
+		
+		this.imgBonus.visible = false;
 
 		this.timer.start();		
     }
