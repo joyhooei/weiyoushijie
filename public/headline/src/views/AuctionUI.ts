@@ -103,7 +103,7 @@ class AuctionUI extends eui.Component{
 	private renderMaxBid(today:string): void {
 		var self = this;
 		
-        application.dao.fetch("Bid",{ succeed: 0, day :today }, {limit : 1, order:"gold DESC"}, function(succeed, bids){
+        application.dao.fetch("MaxBid",{ day :today }, {limit : 1}, function(succeed, bids){
             if (succeed && bids.length > 0) {
 				self.lblMaxBid.text = application.format(bids[0].gold);			
             } else {
