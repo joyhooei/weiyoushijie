@@ -143,46 +143,52 @@ router.post('/rank', function(req, res, next) {
 	var all = [];
 	
 	var query = new AV.Query(dao.Customer);
-	query.equalTo("game", req.query.game);
-	query.select('objectId', 'name', 'metal', 'gold');
-	query.addDescending("metal");
-	query.addDescending("gold");
-	Helper.findAll(query).then(function(){
-		var index = 0;
-		var last = null;
-		var me   = null;
-		var next = null;
-	
-		for(var i = 0; i < all.length; i++) {
-			if (me) {
-				next = all[i];
-				break;
-			} else {
-				if (all[i].id == req.body.customer_id) {
-					me = all[i];
+	query.get(req.body.customer_id).then(function(customer){
+		var q = new AV.Query(dao.Customer);
+		q.equalTo("game", req.query.game);
+		q.greaterThanOrEqualTo("metal", customer.get("metal"));
+		q.select('objectId', 'name', 'metal', 'accumulated_gold ');
+		q.addDescending("metal");
+		q.addDescending("accumulated_gold");
+		Helper.findAll(q).then(function(){
+			var index = 0;
+			var last = null;
+			var me   = null;
+			var next = null;
 
-					index = i + 1;
+			for(var i = 0; i < all.length; i++) {
+				if (me) {
+					next = all[i];
+					break;
 				} else {
-					last = all[i];
+					if (all[i].id == req.body.customer_id) {
+						me = all[i];
+
+						index = i + 1;
+					} else {
+						last = all[i];
+					}
 				}
 			}
-		}
 
-		if (last && next) {
-			_succeed(res, [{rank: index - 1, customer: _decode(last)}, {rank: index, customer: _decode(me)}, {rank: index + 1, customer: _decode(next)}]);
-		} else if (last) {
-			_succeed(res, [{rank: index - 1, customer: _decode(last)}, {rank: index, customer: _decode(me)}, {rank: index + 1, customer: null}]);						
-		} else if (next) {
-			_succeed(res, [{rank: index - 1, customer: null}, {rank: index, customer: _decode(me)}, {rank: index + 1, customer: _decode(next)}]);
-		} else {
-			_succeed(res, [{rank: index - 1, customer: null}, {rank: index, customer: _decode(me)}, {rank: index + 1, customer: null}]);						
-		}		
+			if (last && next) {
+				_succeed(res, [{rank: index - 1, customer: _decode(last)}, {rank: index, customer: _decode(me)}, {rank: index + 1, customer: _decode(next)}]);
+			} else if (last) {
+				_succeed(res, [{rank: index - 1, customer: _decode(last)}, {rank: index, customer: _decode(me)}, {rank: index + 1, customer: null}]);						
+			} else if (next) {
+				_succeed(res, [{rank: index - 1, customer: null}, {rank: index, customer: _decode(me)}, {rank: index + 1, customer: _decode(next)}]);
+			} else {
+				_succeed(res, [{rank: index - 1, customer: null}, {rank: index, customer: _decode(me)}, {rank: index + 1, customer: null}]);						
+			}		
+		}, function(error){
+			_failed(res, error);
+		}, function(customers){
+			for (var i = 0; i < customers.length; i++) {
+				all.push(customers[i]);
+			}	
+		});
 	}, function(error){
 		_failed(res, error);
-	}, function(customers){
-		for (var i = 0; i < customers.length; i++) {
-			all.push(customers[i]);
-		}	
 	});
 });
 
