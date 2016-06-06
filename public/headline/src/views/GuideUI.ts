@@ -7,10 +7,12 @@ class GuideUI extends eui.Component {
     private rcBottom: egret.Rectangle;
     private rcRight: egret.Rectangle;
 	
-	private lblHelp: eui.Label;
+	private imgSpeak: eui.Image;
     private imgFinger: eui.Image;
 	
 	private step: number;
+	
+	private click: number;
 	
 	private overCallback: Function;
 	
@@ -44,7 +46,21 @@ class GuideUI extends eui.Component {
 	}
 	
 	public next(): void {
-		this.step ++;
+		switch(this.step) {
+			case 1:
+				this.click ++;
+				if (this.click == 5) {
+					this.step ++;
+					break;
+				} else {
+					return;
+				}
+				
+			default:
+				this.step ++;
+				break;
+		}
+		
 		switch(this.step) {
 			case 1:
 				this.renderStep1();
@@ -67,29 +83,90 @@ class GuideUI extends eui.Component {
 				break;
 				
 			case 6:
-				this.over();
+				this.renderStep6();
+				break;
+				
+			case 7:
+				this.renderStep6();
+				break;
+							
+			case 8:
+				this.renderStep6();
 				break;
 		}
 	}
 	
+	//点击美女
 	private renderStep1(): void {
+		this.click = 0;
 		this.renderBlock(200, 200, 200, 200);
+		this.imgSpeak = "s1_png";
+		this.imgFinger.x = 0;
+		this.imgFinger.y = 0;
 	}
 
+	//购买运营
 	private renderStep2(): void {
-    	this.renderBlock(100,0,200,200);
+		this.renderBlock(200, 200, 200, 200);
+		this.imgSpeak = "s2_png";
+		this.imgFinger.x = 0;
+		this.imgFinger.y = 0;
 	}
 
+	//升级运营
 	private renderStep3(): void {
-        this.renderBlock(0,300,200,200);
+		this.imgSpeak = "s3_png";
 	}
 	
+	//拍卖
 	private renderStep4(): void {
-        this.renderBlock(330,300,200,200);
+		this.renderBlock(200, 200, 200, 200);
+		this.imgSpeak = "s3_png";
+		this.imgFinger.x = 0;
+		this.imgFinger.y = 0;
 	}
 	
+	//滑动投标金币
 	private renderStep5(): void {
-        this.renderBlock(340,300,200,200);
+		this.renderBlock(200, 200, 200, 200);
+		this.imgSpeak = "s4_png";
+		this.imgFinger.x = 0;
+		this.imgFinger.y = 0;
+	}
+	
+	//投标
+	private renderStep6(): void {
+		this.renderBlock(200, 200, 200, 200);
+		this.imgSpeak = "s5_png";
+		this.imgFinger.x = 0;
+		this.imgFinger.y = 0;
+	}
+	
+	//总结
+	private renderStep7(): void {
+		this.renderBlock(200, 200, 200, 200);
+		this.imgSpeak = "s6_png";
+		this.imgFinger.x = 0;
+		this.imgFinger.y = 0;
+		this.imgFinger.addEventListener(egret.TouchEvent.TOUCH_BEGIN, function() {
+			this.next();
+        }, this);
+	}
+	
+	//获取奖励
+	private renderStep8(): void {
+		this.renderBlock(200, 200, 200, 200);
+		this.imgSpeak = "s7_png";
+		this.imgFinger.visible = false;
+		this.imgBonus.visible = true;
+		this.imgBonus.addEventListener(egret.TouchEvent.TOUCH_BEGIN, function() {
+			application.customer.metal += 1;
+			application.customer.diamond += 500;
+			
+			application.saveCustomer();
+			
+			over();
+        }, this);
 	}
 	
 	private renderBlock(x: number, y: number, width: number, height: number): void {		
