@@ -66,7 +66,7 @@ module.exports.unlockBid = function(customerId) {
     _lock(customerId, 3, 0);
 }
 
-module.exports.unlockfirstCharge = function(customerId) {
+module.exports.unlockFirstCharge = function(customerId) {
     _lock(customerId, 6, 0);
 }
 
