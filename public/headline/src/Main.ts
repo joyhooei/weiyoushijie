@@ -20,6 +20,8 @@ class Main extends eui.UILayer {
     protected createChildren(): void {
         super.createChildren();
         
+        egret.TextField.default_fontFamily = "STXihei";
+        
         //inject the custom material parser
         //注入自定义的素材解析器
         this.stage.registerImplementation("eui.IAssetAdapter",new AssetAdapter());
