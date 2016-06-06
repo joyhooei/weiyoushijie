@@ -122,18 +122,23 @@ class AuctionUI extends eui.Component{
 	private onBid(): void {
 		var self = this;
 
-		self.bid.gold += self.addGold;
-		self.bid.day = application.bidDay();
-		if (self.bid.gold > 0) {
-			application.dao.save("Bid", self.bid);
-			
-            Toast.launch("投标成功");
+		if (self.bid.day == application.bidDay()) {
+			self.bid.gold += self.addGold;
+			if (self.bid.gold > 0) {
+				application.dao.save("Bid", self.bid);
 
-            application.bid = self.bid;
+				Toast.launch("投标成功");
 
-            self.back();
+				application.bid = self.bid;
+
+				self.back();
+			} else {
+				Toast.launch("投标的金币数量不能是0");
+			}
 		} else {
-			Toast.launch("投标的金币数量不能是0");
+			Toast.launch("今天投标已经结束");
+			
+			self.refresh();
 		}
 	}
 	
