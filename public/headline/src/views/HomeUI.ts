@@ -77,8 +77,6 @@ class HomeUI extends eui.Component{
         self.renderTotalHits();
             
         self.renderProjects();
-		
-		self.renderBid();
         
 		self.renderBeauty();
         
@@ -133,16 +131,18 @@ class HomeUI extends eui.Component{
 			application.guideUI.setOverCallback(function(){
 			 	self.earnGoldDynamically();
 
+				self.renderBid();
+
 			 	self.refreshBidAtNoon();
 			});
             
         	this.addChild(application.guideUI);
             application.guideUI.next();
-		} else {
-		 	self.renderOfflineGold();
-
+		} else {	
 		 	self.earnGoldDynamically();
 
+			self.renderBid();
+			
 		 	self.refreshBidAtNoon();
 		}
     }
@@ -203,7 +203,17 @@ class HomeUI extends eui.Component{
 					if (application.customer.win_day != bidDay) {
 						application.customer.win_day = bidDay;
 						application.showUI(new WinUI(), this);
-					}
+						
+						application.customer.win_day = "";
+						application.customer.gold += application.customer.offline_gold;
+						application.customer.accumulated_gold += application.customer.offline_gold;
+						application.customer.offline_gold = 0;
+						application.customer.offline_minutes = 0;
+						application.customer.offline_hours = 0;
+						application.saveCustomer();
+					} else {
+                    	self.renderOfflineGold();
+                    }
 					
 					self.renderBidCustomer(application.customer, bids[0]);
 				} else {
@@ -216,6 +226,13 @@ class HomeUI extends eui.Component{
             }
         })
 	}
+    
+    private renderOfflineGold(): void {
+        if(application.customer.offline_gold > 0) {
+			var ui = new OfflineGoldUI(application.customer.offline_gold, application.customer.offline_hours.toString(), application.customer.offline_minutes.toString());
+            application.showUI(ui, this);
+        }
+    }
 	
 	private renderBidCustomer(customer:any, bid:any) {
 		this.lblBidName.text = customer.name;
@@ -274,13 +291,6 @@ class HomeUI extends eui.Component{
 			self.onBeauty();
         },this);
 	}
-    
-    private renderOfflineGold(): void {
-        if(application.customer.offline_gold > 0) {
-			var ui = new OfflineGoldUI(application.customer.offline_gold, application.customer.offline_hours.toString(), application.customer.offline_minutes.toString());
-            application.showUI(ui, this);
-        }
-    }
 	
 	private onBeauty(): void {
 		this.mcBeauty.play(3);
