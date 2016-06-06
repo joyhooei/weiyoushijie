@@ -140,7 +140,7 @@ module application {
 		}
     }
     
-    export function buy(product: string, gid: string, price: number, title: string) {
+    export function buy(product: string, gid: string, price: number, title: string, cb:Function) {
         var order = { customer_id: application.customer.id, product: product, price: price, state: 0};
         application.dao.save("Order", order, function(succeed, o) {
             if (succeed) {
@@ -148,6 +148,10 @@ module application {
 					if(data.result == 0) {
 						//支付成功
 						Toast.launch(title + "成功");
+                        
+                        if (cb) {
+                            cb(order);
+                        }
 					} else if(data.result == -1) {
 						//支付取消
     					o.state = 2;
@@ -169,15 +173,49 @@ module application {
     }
     
     export function charge(): void {
-        application.buy("Diamond", "diamond", 2, "充值");  
+        application.buy("Diamond", "diamond", 2, "充值", function(order){
+            application.customer.diamond += 200;
+            application.customer.charge += 2;
+            application.saveCustomer();
+        }); 
     }
     
     export function buyTicket(): void {
-        application.buy("Ticket", "ticket", 19, "购买月票");     
+        application.dao.fetch("Order", {customer_id: application.customer.id, "product": "Ticket", state: 1}, {}, function(succeed, orders){
+			if (succeed && orders.length > 1) {
+				var metal = 0;
+			} else {
+				var metal = 1;
+			}
+			
+			application.buy("Ticket", "ticket", 19, "购买月票", function(order){
+				var dt = new Date();
+				dt = new Date(dt.getTime() + 1000 * 60 * 60 * 24 * 30);
+				application.customer.ticket = dt.toString();
+				application.customer.charge += 19;
+				application.customer.metal += metal;
+				application.saveCustomer();
+			});
+		});
     }
     
     export function buyVIP(): void {
-        application.buy("VIP", "vip", 49, "购买终身VIP");      
+        application.dao.fetch("Order", {customer_id: application.customer.id, "product": "Ticket", state: 1}, {}, function(succeed, orders){
+			if (succeed && orders.length > 1) {
+				var metal = 2;
+			} else {
+				var metal = 3;
+			}
+			
+			application.buy("VIP", "vip", 49, "购买终身VIP", function(order){
+				var dt = new Date();
+				dt = new Date(dt.getTime() + 1000 * 60 * 60 * 24 * 30 * 12 * 100);
+				application.customer.ticket = dt.toString();
+				application.customer.charge += 49;
+				application.customer.metal += metal;
+				application.saveCustomer();
+			});
+		});			
     }
     
     export function share(callback:Function): void {
