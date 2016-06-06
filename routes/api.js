@@ -41,12 +41,16 @@ router.post('/egret_pay', function(req, res, next) {
 	
     var query = new AV.Query(dao.Order);
 	query.get(req.body.ext).then(function(order){
-		order.set("state", 1);
-		order.save().then(function(o){
-			_succeed(res, {code: 0, msg: '支付成功', data: []});
-		}, function(error){
+		Order.pay(order).then(function(o){
+			order.save().then(function(o){
+				_succeed(res, {code: 0, msg: '支付成功', data: []});
+			}, function(error){
+				console.error(error.message);
+				_succeed(res, {code: 0, msg: '支付成功', data: []});
+			});
+		}, function(error) {
 			console.error(error.message);
-			_succeed(res, {code: 0, msg: '支付成功', data: []});
+			_failed(res, {code: 1013, msg: '支付失败', data: []});
 		});
 	}, function(error){
 		console.error(error.message);
@@ -321,7 +325,21 @@ router.post('/delete/:model/:id', function(req, res, next) {
 	});
 });
 
+function _filterAttributes(req) {
+	var forbiddenAttributes = {
+		"Customer": ["charge", "ticket"],
+	};
+		
+	if (forbiddenAttributes[req.params.model]) {
+		_.each(forbiddenAttributes[req.params.model], function(attr) {
+			delete req.body[attr];
+		});
+	}
+};
+
 function _saveModel(model, req, res) {
+	_filterAttributes(req);
+	
 	var newModel = _encode(model, req.body);
 	
 	newModel.save().then(function(m){
