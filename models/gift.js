@@ -79,31 +79,6 @@ function _create(customer, category, diamond, metal, gold, locked, data) {
     return gift.save();
 }
 
-function _update(customer, category, diamond) {
-     return Q.Promise(function(resolve, reject, notify) {
-        var query = new AV.Query(dao.Gift);
-        query.equalTo("customer_id", customer.id);
-        query.equalTo("category", category);
-        query.limit(1);
-        query.find().done(function(gifts){
-            if (gifts.length > 0) {
-                var gift = gifts[0];
-
-                gift.set("diamond", diamond);
-                gift.save().then(function(){
-                    resolve();
-                }, function(error){
-                    reject(error);
-                });
-            } else {
-                reject(new Error("cant find gift " + customer.id + " " + category));
-            }
-        }, function(error){
-            reject(error);
-        });
-    });   
-}
-
 function _lock(customerId, category, locked) {
 	var query = new AV.Query(dao.Gift);
 	query.equalTo("customer_id", customerId);
