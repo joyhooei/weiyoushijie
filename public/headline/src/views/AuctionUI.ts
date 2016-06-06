@@ -123,6 +123,7 @@ class AuctionUI extends eui.Component{
 		var self = this;
 
 		self.bid.gold += self.addGold;
+		self.bid.day = application.bidDay();
 		if (self.bid.gold > 0) {
 			application.dao.save("Bid", self.bid);
 			
