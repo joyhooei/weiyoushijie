@@ -4,12 +4,26 @@ class WinUI extends eui.Component{
     private imgHide:eui.Image;
 	private imgAvatar:eui.Image;
 
-    constructor() {
+    constructor(bid: any) {
         super();
         
         this.skinName = "resource/custom_skins/winUISkin.exml";
         
         this.imgBack.addEventListener( egret.TouchEvent.TOUCH_TAP, ()=>{
+			application.customer.win_day = bid.day;
+			
+			application.customer.gold -= bid.gold;
+			application.customer.metal++;
+			application.customer.diamond += 2000;
+			
+			application.customer.gold += application.customer.offline_gold;
+			application.customer.accumulated_gold += application.customer.offline_gold;
+			application.customer.offline_gold = 0;
+			application.customer.offline_minutes = 0;
+			application.customer.offline_hours = 0;
+			
+			application.saveCustomer();
+			
             application.hideUI(this);
         }, this );
         
@@ -21,8 +35,6 @@ class WinUI extends eui.Component{
 			}
 			
 			this.renderAvatar();
-			
-			application.saveCustomer();
         },this);
 		
 		this.renderAvatar();
