@@ -201,6 +201,10 @@ class ProjectItem extends eui.Component {
 		this._myProject.level += step;
 		application.dao.save("Project",self._myProject);
         application.buyOutput(p, 0, self.output() - oldOutput);
+        
+		if (application.guideUI) {
+		    application.guideUI.next();
+		}          
     }
     
     private unlock(){
@@ -229,5 +233,9 @@ class ProjectItem extends eui.Component {
 		} else {
             application.buyOutput(p,0,self.output());    			    
 		}
+        
+		if (application.guideUI) {
+		    application.guideUI.next();
+		}        
     }
 }
