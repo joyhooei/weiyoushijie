@@ -201,17 +201,8 @@ class HomeUI extends eui.Component{
             if (succeed && bids.length > 0) {
 				if (application.customer.id == bids[0].customer_id) {
 					var bidDay = application.bidDay();
-					if (application.customer.win_day != bidDay) {
-						application.customer.win_day = bidDay;
-						application.showUI(new WinUI(), this);
-						
-						application.customer.win_day = "";
-						application.customer.gold += application.customer.offline_gold;
-						application.customer.accumulated_gold += application.customer.offline_gold;
-						application.customer.offline_gold = 0;
-						application.customer.offline_minutes = 0;
-						application.customer.offline_hours = 0;
-						application.saveCustomer();
+					if (application.customer.win_day != bidDay && bids[0].day == bidDay) {
+						application.showUI(new WinUI(bids[0]), this);
 					} else {
                     	self.renderOfflineGold();
                     }
