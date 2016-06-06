@@ -1,5 +1,6 @@
 var AV = require('leanengine');
-	
+var Gift = require('./gift');
+
 module.exports.pay = function(order) {
 	return new AV.Promise(function(resolve, reject){
 		var query = new AV.Query(dao.Customer);
@@ -19,7 +20,7 @@ module.exports.pay = function(order) {
 
 				customer.save().then(function(c){
 					if (count == 0) {
-						Gift.unlockFirstCharge();
+						Gift.unlockFirstCharge(customer.id);
 					}
 				
 					order.set("state", 1);
