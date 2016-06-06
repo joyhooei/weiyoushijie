@@ -196,6 +196,7 @@ class HomeUI extends eui.Component{
 	private renderBid(): void {
 		var self = this;
 		
+		//如果显示win ui，则不显示offlinegold ui，否则显示offlinegold ui
         application.dao.fetch("Bid",{ succeed: 1}, {limit : 1, order :'create_time desc'}, function(succeed, bids){
             if (succeed && bids.length > 0) {
 				if (application.customer.id == bids[0].customer_id) {
@@ -222,6 +223,8 @@ class HomeUI extends eui.Component{
 							self.renderBidCustomer(customers[0], bids[0]);
 						}
 					});
+					
+					self.renderOfflineGold();
 				}
             }
         })
