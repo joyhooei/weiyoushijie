@@ -133,6 +133,10 @@ class AuctionUI extends eui.Component{
 				Toast.launch("投标成功");
 
 				application.bid = self.bid;
+				      
+				if (application.guideUI) {
+					application.guideUI.next();
+				}  				
 
 				self.back();
 			} else {
@@ -168,5 +172,9 @@ class AuctionUI extends eui.Component{
 
 		this.renderBid((application.customer.gold - this.bid.gold) * percent / 100);
         this.imgFront.width = this.grpTrack.x - this.imgThumb.x + 20;
+		
+		if (application.guideUI) {
+		    application.guideUI.next();
+		}  		
 	}
 }
