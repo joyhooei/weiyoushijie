@@ -154,12 +154,10 @@ module application {
                         }
 					} else if(data.result == -1) {
 						//支付取消
-    					o.state = 2;
                         o.reason = "用户取消了支付";
 						application.dao.save("Order", o);
 					} else {
 						//支付失败
-                        o.state = 3;
                         o.reason = JSON.stringify(data);
 						application.dao.save("Order", o);
 						
