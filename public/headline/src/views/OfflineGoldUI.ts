@@ -16,6 +16,7 @@ class OfflineGoldUI extends eui.Component{
         
         this.imgOK.addEventListener( egret.TouchEvent.TOUCH_TAP, ()=>{
             application.customer.gold += gold;
+            application.customer.accumulated_gold += gold;
             application.saveCustomer();
 			
             application.hideUI(this);
