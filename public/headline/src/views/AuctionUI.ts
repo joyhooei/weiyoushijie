@@ -95,6 +95,9 @@ class AuctionUI extends eui.Component{
         application.dao.fetch("Bid",{ succeed: 0, day :today, customer_id: application.customer.id}, {limit : 1}, function(succeed, bids){
             if (succeed && bids.length > 0) {
 				self.bid = bids[0];
+				
+				application.bid = self.bid;
+				
 				self.renderBid(self.addGold);
 			}
         })
@@ -137,6 +140,8 @@ class AuctionUI extends eui.Component{
 			}
 		} else {
 			Toast.launch("今天投标已经结束");
+			
+			application.bid = null;
 			
 			self.refresh();
 		}
