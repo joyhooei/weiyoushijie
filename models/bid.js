@@ -66,6 +66,7 @@ module.exports.max = function(request, response) {
 					console.error(error.message);
 					response.error(error.message);				
 				});
+			});
     	} else {
 			console.error("没有投标");
     		response.error();
