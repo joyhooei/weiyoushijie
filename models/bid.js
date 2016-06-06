@@ -34,6 +34,10 @@ module.exports.open = function(request, response) {
 
 module.exports.max = function(request, response) {
 	var dt = new Date();
+	if (dt.getHours() >= 12) {
+		dt = new Date(dt.getTime() + 24 * 60 * 60 * 1000);
+	}
+
 	var today = dt.getFullYear() + "/" + (dt.getMonth() + 1) + "/" + dt.getDate();
 
     var query = new AV.Query(dao.Bid);
