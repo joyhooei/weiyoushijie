@@ -41,16 +41,12 @@ router.post('/egret_pay', function(req, res, next) {
 	
     var query = new AV.Query(dao.Order);
 	query.get(req.body.ext).then(function(order){
-		Order.pay(order).then(function(o){
-			order.save().then(function(o){
-				_succeed(res, {code: 0, msg: '支付成功', data: []});
-			}, function(error){
-				console.error(error.message);
-				_succeed(res, {code: 0, msg: '支付成功', data: []});
-			});
-		}, function(error) {
+		order.set("state", 1);
+		order.save().then(function(o){
+			_succeed(res, {code: 0, msg: '支付成功', data: []});
+		}, function(error){
 			console.error(error.message);
-			_failed(res, {code: 1013, msg: '支付失败', data: []});
+			_succeed(res, {code: 0, msg: '支付成功', data: []});
 		});
 	}, function(error){
 		console.error(error.message);
