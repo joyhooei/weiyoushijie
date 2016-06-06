@@ -66,6 +66,10 @@ module.exports.unlockBid = function(customerId) {
     _lock(customerId, 3, 0);
 }
 
+module.exports.unlockfirstCharge = function(customerId) {
+    _lock(customerId, 6, 0);
+}
+
 function _create(customer, category, diamond, metal, gold, locked, data) {
     var gift = new dao.Gift();
     gift.set("customer_id", customer.id);
