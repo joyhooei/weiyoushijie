@@ -295,6 +295,7 @@ class HomeUI extends eui.Component{
 		var gold = this.getOutput() * second;
 		
 		application.customer.gold += gold;
+        application.customer.accumulated_gold += gold;
         application.saveCustomer();
         
         this.grpAddGold.y = 370;
