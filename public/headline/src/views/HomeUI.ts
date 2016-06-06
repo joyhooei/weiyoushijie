@@ -384,7 +384,7 @@ class HomeUI extends eui.Component{
 	}
 	
     public renderCustomer():void {
-        if(this.lblGold.text != application.format(application.customer.gold)) {
+        if(this.lblGold.text != application.format(application.usableGold())) {
         	this.animateStep(this.lblGold, 0, application.usableGold());
 		}
 		
