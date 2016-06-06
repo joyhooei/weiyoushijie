@@ -73,7 +73,11 @@ class BuyToolUI extends eui.Component{
 	private buyTime(){
 		if (application.customer.diamond > this._price) {
 			application.customer.diamond -= this._price;
-			application.customer.gold += application.customer.output * 3600 * 48;			
+			
+			var gold = application.customer.output * 3600 * 48;
+			application.customer.gold += gold;
+			application.customer.accumulated_gold += gold;
+			
             application.saveCustomer();
             
             Toast.launch("购买了时光沙漏");
