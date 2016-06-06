@@ -128,7 +128,7 @@ class ProjectItem extends eui.Component {
                     this.imgUpgrade10.source = "upgrade10g_png";
                 }
                 if(application.usableGold() > this._project.price(this._myProject.level,100)) {
-                    this.imgUpgrade100.source = "upgrade10b_png";
+                    this.imgUpgrade100.source = "upgrade100b_png";
                 } else {
                     this.imgUpgrade100.source = "upgrade100g_png";
                 }
