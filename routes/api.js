@@ -328,6 +328,7 @@ router.post('/delete/:model/:id', function(req, res, next) {
 function _filterAttributes(req) {
 	var forbiddenAttributes = {
 		"Customer": ["charge", "ticket"],
+		"Order": ["state"],
 	};
 		
 	if (forbiddenAttributes[req.params.model]) {
