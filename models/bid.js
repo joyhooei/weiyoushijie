@@ -59,7 +59,7 @@ module.exports.max = function(request, response) {
 				}
 				
 				maxbid.set("gold", bid.get("gold"));
-				maxbid.set("customer_id", bid.get("customer_id");
+				maxbid.set("customer_id", bid.get("customer_id"));
 				maxbid.save().then(function(){
 					response.success();
 				}, function(error){
