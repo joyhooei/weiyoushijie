@@ -8,6 +8,7 @@ var Main = (function (_super) {
     var d = __define,c=Main,p=c.prototype;
     p.createChildren = function () {
         _super.prototype.createChildren.call(this);
+        egret.TextField.default_fontFamily = "STXihei";
         //inject the custom material parser
         //注入自定义的素材解析器
         this.stage.registerImplementation("eui.IAssetAdapter", new AssetAdapter());

@@ -36,8 +36,8 @@ var RankItem = (function (_super) {
         }
         this.imgAvatar.source = application.avatarUrl(customer);
         this.lblName.text = customer.name;
-        this.lblMetal.text = application.format(customer.metal);
-        this.lblGold.text = application.format(customer.gold);
+        this.lblMetal.text = customer.metal;
+        this.lblGold.text = application.format(customer.accumulated_gold);
     }
     var d = __define,c=RankItem,p=c.prototype;
     return RankItem;

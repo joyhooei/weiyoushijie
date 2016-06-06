@@ -46,9 +46,9 @@ module application {
         application.dao.rest("login", {token: data.token}, (succeed: boolean, customer: any) => {
             if (succeed) {
                 //首次登录，需要显示引导页面
-                if (customer.gold == 0) {
-                    //application.guideUI = new GuideUI();
-                }
+                //if (customer.gold == 0) {
+                //    application.guideUI = new GuideUI();
+                //}
                 
                 application.customer = customer;
 				application.refreshBid(function(bid){
@@ -332,13 +332,9 @@ module application {
     export function hideUI(ui: eui.Component): egret.DisplayObjectContainer {
         if (ui && ui.parent) {
             if(ui.parent == application.blockUI) {
-                if (application.blockUI.numChildren <= 1) {
+                if (application.blockUI.numChildren <= 2) {
 					if (ui.parent.parent) {
 						ui.parent.parent.removeChild(application.blockUI);
-					}
-				} else {
-					if (ui.parent.parent) {
-						ui.parent.parent.removeChild(ui);
 					}
 				}
                 

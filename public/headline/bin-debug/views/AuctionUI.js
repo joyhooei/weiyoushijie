@@ -34,6 +34,7 @@ var AuctionUI = (function (_super) {
         this.grpTrack.touchEnabled = true;
         this.grpTrack.addEventListener(egret.TouchEvent.TOUCH_BEGIN, this.onBeginChangeBid, this);
         this.grpTrack.addEventListener(egret.TouchEvent.TOUCH_MOVE, this.onChangeBid, this);
+        this.grpTrack.addEventListener(egret.TouchEvent.TOUCH_END, this.onEndChangeBid, this);
         this.btnAddGold.addEventListener(egret.TouchEvent.TOUCH_BEGIN, function () {
             application.showUI(new BuyToolUI("time", 500));
         }, this);
@@ -55,13 +56,14 @@ var AuctionUI = (function (_super) {
         application.dao.fetch("Bid", { succeed: 0, day: today, customer_id: application.customer.id }, { limit: 1 }, function (succeed, bids) {
             if (succeed && bids.length > 0) {
                 self.bid = bids[0];
+                application.bid = self.bid;
                 self.renderBid(self.addGold);
             }
         });
     };
     p.renderMaxBid = function (today) {
         var self = this;
-        application.dao.fetch("Bid", { succeed: 0, day: today }, { limit: 1, order: "gold DESC" }, function (succeed, bids) {
+        application.dao.fetch("MaxBid", { day: today }, { limit: 1 }, function (succeed, bids) {
             if (succeed && bids.length > 0) {
                 self.lblMaxBid.text = application.format(bids[0].gold);
             }
@@ -77,15 +79,25 @@ var AuctionUI = (function (_super) {
     };
     p.onBid = function () {
         var self = this;
-        self.bid.gold += self.addGold;
-        if (self.bid.gold > 0) {
-            application.dao.save("Bid", self.bid);
-            Toast.launch("投标成功");
-            application.bid = self.bid;
-            self.back();
+        if (self.bid.day == application.bidDay()) {
+            self.bid.gold += self.addGold;
+            if (self.bid.gold > 0) {
+                application.dao.save("Bid", self.bid);
+                Toast.launch("投标成功");
+                application.bid = self.bid;
+                if (application.guideUI) {
+                    application.guideUI.next();
+                }
+                self.back();
+            }
+            else {
+                Toast.launch("投标的金币数量不能是0");
+            }
         }
         else {
-            Toast.launch("投标的金币数量不能是0");
+            Toast.launch("今天投标已经结束");
+            application.bid = null;
+            self.refresh();
         }
     };
     p.back = function () {
@@ -104,6 +116,11 @@ var AuctionUI = (function (_super) {
         this.lblTrack.text = percent.toString() + "%";
         this.renderBid((application.customer.gold - this.bid.gold) * percent / 100);
         this.imgFront.width = this.grpTrack.x - this.imgThumb.x + 20;
+    };
+    p.onEndChangeBid = function (e) {
+        if (application.guideUI) {
+            application.guideUI.next();
+        }
     };
     return AuctionUI;
 }(eui.Component));

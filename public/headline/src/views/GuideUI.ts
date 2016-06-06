@@ -10,7 +10,9 @@ class GuideUI extends eui.Component {
 	private imgSpeak: eui.Image;
     private imgFinger: eui.Image;
 	private imgBonus: eui.Image;
-	
+    private imgBg: eui.Image;	
+    private imgFocus: eui.Image;
+    
 	private step: number;
 	
 	private click: number;
@@ -90,11 +92,11 @@ class GuideUI extends eui.Component {
 				break;
 				
 			case 7:
-				this.renderStep6();
+				this.renderStep7();
 				break;
 							
 			case 8:
-				this.renderStep6();
+				this.renderStep8();
 				break;
 		}
 	}
@@ -102,55 +104,52 @@ class GuideUI extends eui.Component {
 	//点击美女
 	private renderStep1(): void {
 		this.click = 0;
-		this.renderBlock(200, 200, 200, 200);
-		this.imgSpeak = "s1_png";
-		this.imgFinger.x = 0;
-		this.imgFinger.y = 0;
+        this.renderBlock(0,0,480,800);
+		this.imgSpeak.source = "G1_png";
+		this.imgFinger.x = 90;
+		this.imgFinger.y = 340;
 	}
 
 	//购买运营
 	private renderStep2(): void {
-		this.renderBlock(200, 200, 200, 200);
-		this.imgSpeak = "s2_png";
-		this.imgFinger.x = 0;
-		this.imgFinger.y = 0;
+        this.renderBlock(0,0,480,800);
+        this.imgSpeak.source  = "G2_png";
+        this.imgFinger.x = 90;
+        this.imgFinger.y = 380;
 	}
 
 	//升级运营
 	private renderStep3(): void {
-		this.imgSpeak = "s3_png";
+        this.imgSpeak.source  = "G3_png";
 	}
 	
 	//拍卖
 	private renderStep4(): void {
-		this.renderBlock(200, 200, 200, 200);
-		this.imgSpeak = "s3_png";
-		this.imgFinger.x = 0;
-		this.imgFinger.y = 0;
+        this.renderBlock(0,0,480,800);
+        this.imgSpeak.source  = "G4_png";
+        this.imgBg.y -= 100;
+        this.imgSpeak.y -= 100;
 	}
 	
 	//滑动投标金币
 	private renderStep5(): void {
-		this.renderBlock(200, 200, 200, 200);
-		this.imgSpeak = "s4_png";
-		this.imgFinger.x = 0;
-		this.imgFinger.y = 0;
+        this.renderBlock(0,0,480,800);
+        this.imgSpeak.source  = "G5_png";
 	}
 	
 	//投标
 	private renderStep6(): void {
-		this.renderBlock(200, 200, 200, 200);
-		this.imgSpeak = "s5_png";
-		this.imgFinger.x = 0;
-		this.imgFinger.y = 0;
+        this.renderBlock(0,0,480,800);
+        this.imgSpeak.source  = "G6_png";
+        this.imgSpeak.y -= 100; 
+        this.imgBg.y -= 100;
+
 	}
 	
 	//总结
 	private renderStep7(): void {
-		this.renderBlock(200, 200, 200, 200);
-		this.imgSpeak = "s6_png";
-		this.imgFinger.x = 0;
-		this.imgFinger.y = 0;
+        this.renderBlock(0,0,480,800);
+        this.imgSpeak.source  = "G7_png";
 		this.imgFinger.addEventListener(egret.TouchEvent.TOUCH_BEGIN, function() {
 			this.next();
         }, this);
@@ -158,8 +157,8 @@ class GuideUI extends eui.Component {
 	
 	//获取奖励
 	private renderStep8(): void {
-		this.renderBlock(200, 200, 200, 200);
-		this.imgSpeak = "s7_png";
+		this.renderBlock(0, 0, 480, 800);
+        this.imgSpeak.source  = "G8_png";
 		this.imgFinger.visible = false;
 		this.imgBonus.visible = true;
 		this.imgBonus.addEventListener(egret.TouchEvent.TOUCH_BEGIN, function() {
@@ -168,7 +167,7 @@ class GuideUI extends eui.Component {
 			
 			application.saveCustomer();
 			
-			over();
+			this.over();
         }, this);
 	}
 	

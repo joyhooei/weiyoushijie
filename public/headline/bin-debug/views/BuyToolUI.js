@@ -62,7 +62,9 @@ var BuyToolUI = (function (_super) {
     p.buyTime = function () {
         if (application.customer.diamond > this._price) {
             application.customer.diamond -= this._price;
-            application.customer.gold += application.customer.output * 3600 * 48;
+            var gold = application.customer.output * 3600 * 48;
+            application.customer.gold += gold;
+            application.customer.accumulated_gold += gold;
             application.saveCustomer();
             Toast.launch("购买了时光沙漏");
             application.hideUI(this);

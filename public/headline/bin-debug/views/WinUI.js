@@ -1,10 +1,20 @@
 var WinUI = (function (_super) {
     __extends(WinUI, _super);
-    function WinUI() {
+    function WinUI(bid) {
         var _this = this;
         _super.call(this);
         this.skinName = "resource/custom_skins/winUISkin.exml";
         this.imgBack.addEventListener(egret.TouchEvent.TOUCH_TAP, function () {
+            application.customer.win_day = bid.day;
+            application.customer.gold -= bid.gold;
+            application.customer.metal++;
+            application.customer.diamond += 2000;
+            application.customer.gold += application.customer.offline_gold;
+            application.customer.accumulated_gold += application.customer.offline_gold;
+            application.customer.offline_gold = 0;
+            application.customer.offline_minutes = 0;
+            application.customer.offline_hours = 0;
+            application.saveCustomer();
             application.hideUI(_this);
         }, this);
         this.imgHide.addEventListener(egret.TouchEvent.TOUCH_TAP, function () {
@@ -15,7 +25,6 @@ var WinUI = (function (_super) {
                 application.customer.hide_winner = 1;
             }
             _this.renderAvatar();
-            application.saveCustomer();
         }, this);
         this.renderAvatar();
     }

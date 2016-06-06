@@ -102,7 +102,7 @@ var ProjectItem = (function (_super) {
                     this.imgUpgrade10.source = "upgrade10g_png";
                 }
                 if (application.usableGold() > this._project.price(this._myProject.level, 100)) {
-                    this.imgUpgrade100.source = "upgrade10b_png";
+                    this.imgUpgrade100.source = "upgrade100b_png";
                 }
                 else {
                     this.imgUpgrade100.source = "upgrade100g_png";
@@ -165,6 +165,9 @@ var ProjectItem = (function (_super) {
         this._myProject.level += step;
         application.dao.save("Project", self._myProject);
         application.buyOutput(p, 0, self.output() - oldOutput);
+        if (application.guideUI) {
+            application.guideUI.next();
+        }
     };
     p.unlock = function () {
         var self = this;
@@ -187,6 +190,9 @@ var ProjectItem = (function (_super) {
         }
         else {
             application.buyOutput(p, 0, self.output());
+        }
+        if (application.guideUI) {
+            application.guideUI.next();
         }
     };
     return ProjectItem;

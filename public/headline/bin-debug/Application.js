@@ -28,8 +28,9 @@ var application;
         application.dao.rest("login", { token: data.token }, function (succeed, customer) {
             if (succeed) {
                 //首次登录，需要显示引导页面
-                if (customer.gold == 0) {
-                }
+                //if (customer.gold == 0) {
+                //    application.guideUI = new GuideUI();
+                //}
                 application.customer = customer;
                 application.refreshBid(function (bid) {
                     application.main.dispatchEventWith(GameEvents.EVT_LOGIN_IN_SUCCESS);
@@ -122,7 +123,7 @@ var application;
         }
     }
     application.buyOutput = buyOutput;
-    function buy(product, gid, price, title) {
+    function buy(product, gid, price, title, cb) {
         var order = { customer_id: application.customer.id, product: product, price: price, state: 0 };
         application.dao.save("Order", order, function (succeed, o) {
             if (succeed) {
@@ -130,16 +131,17 @@ var application;
                     if (data.result == 0) {
                         //支付成功
                         Toast.launch(title + "成功");
+                        if (cb) {
+                            cb(order);
+                        }
                     }
                     else if (data.result == -1) {
                         //支付取消
-                        o.state = 2;
                         o.reason = "用户取消了支付";
                         application.dao.save("Order", o);
                     }
                     else {
                         //支付失败
-                        o.state = 3;
                         o.reason = JSON.stringify(data);
                         application.dao.save("Order", o);
                         Toast.launch("支付失败");
@@ -153,15 +155,40 @@ var application;
     }
     application.buy = buy;
     function charge() {
-        application.buy("Diamond", "diamond", 2, "充值");
+        application.buy("Diamond", "diamond", 2, "充值", function (order) {
+            application.customer.diamond += 200;
+            application.saveCustomer();
+        });
     }
     application.charge = charge;
     function buyTicket() {
-        application.buy("Ticket", "ticket", 19, "购买月票");
+        application.dao.fetch("Order", { customer_id: application.customer.id, "product": "Ticket", state: 1 }, {}, function (succeed, orders) {
+            if (succeed && orders.length > 1) {
+                var metal = 0;
+            }
+            else {
+                var metal = 1;
+            }
+            application.buy("Ticket", "ticket", 19, "购买月票", function (order) {
+                application.customer.metal += metal;
+                application.saveCustomer();
+            });
+        });
     }
     application.buyTicket = buyTicket;
     function buyVIP() {
-        application.buy("VIP", "vip", 49, "购买终身VIP");
+        application.dao.fetch("Order", { customer_id: application.customer.id, "product": "Ticket", state: 1 }, {}, function (succeed, orders) {
+            if (succeed && orders.length > 1) {
+                var metal = 2;
+            }
+            else {
+                var metal = 3;
+            }
+            application.buy("VIP", "vip", 49, "购买终身VIP", function (order) {
+                application.customer.metal += metal;
+                application.saveCustomer();
+            });
+        });
     }
     application.buyVIP = buyVIP;
     function share(callback) {
@@ -288,8 +315,10 @@ var application;
     function hideUI(ui) {
         if (ui && ui.parent) {
             if (ui.parent == application.blockUI) {
-                if (ui.parent.parent) {
-                    ui.parent.parent.removeChild(application.blockUI);
+                if (application.blockUI.numChildren <= 2) {
+                    if (ui.parent.parent) {
+                        ui.parent.parent.removeChild(application.blockUI);
+                    }
                 }
                 application.blockUI.removeChild(ui);
             }

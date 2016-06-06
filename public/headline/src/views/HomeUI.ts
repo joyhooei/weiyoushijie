@@ -460,6 +460,10 @@ class HomeUI extends eui.Component{
 		
 		this._uiFocused = this._auctionUI;	
 		this.selectFooter(this.btnAuction);
+		
+        if(application.guideUI) {
+            application.guideUI.next();
+        }		
     }
     
     private btnHandler( evt:egret.TouchEvent ):void{
