@@ -325,7 +325,21 @@ router.post('/delete/:model/:id', function(req, res, next) {
 	});
 });
 
+function _filterAttributes(req) {
+	var forbiddenAttributes = {
+		"Customer": ["charge"],
+	};
+		
+	if (forbiddenAttributes[req.params.model]) {
+		_.each(forbiddenAttributes[req.params.model], function(attr) {
+			delete req.body[attr];
+		});
+	}
+};
+
 function _saveModel(model, req, res) {
+	_filterAttributes(req);
+	
 	var newModel = _encode(model, req.body);
 	
 	newModel.save().then(function(m){
