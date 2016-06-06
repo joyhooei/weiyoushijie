@@ -16,22 +16,8 @@ module.exports.open = function(request, response) {
 			var bid = bids[0];
 			bid.set("succeed", 1);
 			bid.save().then(function(b) {
-				var query = new AV.Query(dao.Customer);
-				query.get(bid.get("customer_id")).then(function(customer) {
-					customer.increment("gold", 0 - bid.get("gold"));
-					customer.increment("metal", 1);
-					customer.increment("diamond", 2000);
-					customer.save().then(function(c){
-						console.log(customer.get("name") + "获得了" + today + "的头条");
-    					response.success();
-					}, function(error){
-						console.error(error.message);
-						response.error(error.message);
-					});
-				}, function(error) {
-					console.error(error.message);
-					response.error(error.message);
-				});
+				console.log(b.get("customer_id") + "获得了" + today + "的头条");
+				response.success();
 			}, function(error){
 				console.error(error.message);
 				response.error(error.message);
