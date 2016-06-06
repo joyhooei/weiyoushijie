@@ -348,7 +348,7 @@ class HomeUI extends eui.Component{
     		
     		timer.start();
     	} else {
-    	    Toast.launch("暂时没有奋力一击");
+    	    application.showUI(new BuyToolUI("hit", 100), this);
     	}
 	}
 	
