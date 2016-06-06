@@ -159,6 +159,8 @@ module.exports = function() {
 		this.addModel("Game");
 		this.addModel("Gift");
 		
+		this.addModel("MaxBid");
+		
 		this.addModel("Order");
 		
 		this.addModel("Project");
