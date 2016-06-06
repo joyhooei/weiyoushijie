@@ -541,7 +541,13 @@ class HomeUI extends eui.Component{
         if (this._uiFocused) {
 			this._uiFocused.horizontalCenter = 0;
 			this._uiFocused.verticalCenter   = 0;
-			this.addChild(this._uiFocused);         
+            
+        
+			if (application.guideUI) {
+				this.addChildAt(this._uiFocused, this.getChildIndex(application.guideUI));
+			} else {              
+				this.addChild(this._uiFocused);
+			}
         }
 	}
 	
