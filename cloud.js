@@ -16,6 +16,10 @@ AV.Cloud.define('open_bid', function(request, response) {
 	Bid.open(request, response);
 });
 
+AV.Cloud.define('max_bid', function(request, response) {
+	Bid.max(request, response);
+});
+
 AV.Cloud.define('expire_ticket', function(request, response) {
 	Customer.expireTicket(request, response);
 });
