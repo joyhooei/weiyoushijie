@@ -305,9 +305,15 @@ module application {
     export function hideUI(ui: eui.Component): egret.DisplayObjectContainer {
         if (ui && ui.parent) {
             if(ui.parent == application.blockUI) {
-                if (ui.parent.parent) {
-                    ui.parent.parent.removeChild(application.blockUI);
-                }
+                if (application.blockUI.numChildren <= 1) {
+					if (ui.parent.parent) {
+						ui.parent.parent.removeChild(application.blockUI);
+					}
+				} else {
+					if (ui.parent.parent) {
+						ui.parent.parent.removeChild(ui);
+					}
+				}
                 
                 application.blockUI.removeChild(ui);
             } else {
