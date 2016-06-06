@@ -371,7 +371,7 @@ function _decode(avObj) {
 	model.update_time = moment(avObj.updatedAt).utc().format("YYYY-MM-DD HH:mm:ss");
 	
 	_.each(model, function(v, k){
-		if (_.isNumber(v) && v >= 1+e21) {
+		if (_.isNumber(v) && v >= 1000000000000000000000) {
 			model[k] = v / 100;
 		}
 	});
@@ -396,7 +396,7 @@ function _encode(model, attrs) {
 	delete attributes.update_time;
 	
 	_.each(attributes, function(v, k){
-		if (_.isNumber(v) && v >= 1+e19) {
+		if (_.isNumber(v) && v >= 10000000000000000000) {
 			attributes[k] = v * 100;
 		}
 	});
