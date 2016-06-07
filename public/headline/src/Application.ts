@@ -49,9 +49,9 @@ module application {
                 application.customer = customer;
                 
                 //首次登录，需要显示引导页面
-                //if (application.customer.gold == 0) {
-                //    application.guideUI = new GuideUI();
-                //}
+                if (application.customer.gold == 0) {
+                    application.guideUI = new GuideUI();
+                }
                 
                 //检查是否ticket超期了
                 if (application.customer.vip == 1) {
