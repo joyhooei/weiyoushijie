@@ -177,6 +177,18 @@ class GiftUI extends eui.Component {
         application.dao.fetch("Gift", {customer_id: application.customer.id}, {order : 'category ASC'}, function(succeed, gifts){
             if (succeed) {
 				self.gifts = gifts;
+				
+				//如果到了第二天，将所有已经领取礼物重新修改为可以领取
+				var day = 1000 * 60 * 60 * 24;
+				var now = new Date();
+				for(var i = 0; i < gifts.length; i++) {
+					if (gifts[i].category != 6 && gifts[i].locked == 2) {
+						var dt  = new Date(gifts[i].update_time);
+						if (Math.floor(now.getTime() / day) > Math.floor(dt.getTime() / day)){
+							gifts.locked = 1;
+						}
+					}
+				}
 
 				//1、登录200钻。每天领取一次
 				self.renderGift(self.gift(GiftCategory.Login));
