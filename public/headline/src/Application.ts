@@ -195,6 +195,9 @@ module application {
 			}
 			
 			application.buy("Ticket", "ticket", 19, "购买月票", function(order){
+                var dt = new Date();
+				dt = new Date(dt.getTime() + 1000 * 60 * 60 * 24 * 30);
+				application.customer.ticket = dt.toString();            
 				application.customer.metal += metal;
 				application.saveCustomer();
 			});
@@ -210,6 +213,8 @@ module application {
 			}
 			
 			application.buy("VIP", "vip", 49, "购买终身VIP", function(order){
+                application.customer.ticket = "";
+                application.customer.vip = 1;
 				application.customer.metal += metal;
 				application.saveCustomer();
 			});
