@@ -10,7 +10,7 @@ class WinUI extends eui.Component{
         this.skinName = "resource/custom_skins/winUISkin.exml";
         
         this.imgBack.addEventListener( egret.TouchEvent.TOUCH_TAP, ()=>{
-			application.fetch("Bid", {customer_id: application.customer.id, succeed: 1, claimed: 0}, {}, function(succeed, bids){
+			application.dao.fetch("Bid", {customer_id: application.customer.id, succeed: 1, claimed: 0}, {}, function(succeed, bids){
 				if (succeed) {
 					for(var i = 0; i < bids.length; i++) {
 						application.customer.gold -= bids[i].gold;
@@ -18,7 +18,7 @@ class WinUI extends eui.Component{
 						application.customer.diamond += 2000;
 
 						bids[i].claimed = 1;
-						application.save("Bid", bid);
+						application.dao.save("Bid", bid);
 					}
 				}
 			
