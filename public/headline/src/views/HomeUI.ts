@@ -25,6 +25,11 @@ class HomeUI extends eui.Component{
 	private imgAvatar: eui.Image;
     private lblGold:eui.Label;
     private lblDiamond: eui.Label;
+    private lblOutput: eui.Label;
+    
+    private gold: number = 0;
+    private diamond: number = 0;
+    private output: number = 0;
 	
     private grpAddGold: eui.Group;
 	private imgAddGold: eui.Image;
@@ -34,9 +39,7 @@ class HomeUI extends eui.Component{
 	private imgBidAvatar:eui.Image;
     private lblBidName:eui.Label;
     private lblBidGold:eui.Label;
-    
-    private lblOutput: eui.Label;
-    
+        
     private imgCharge: eui.Image;
     private btnHit: eui.Button;
     private lblHit: eui.Label;
@@ -380,16 +383,22 @@ class HomeUI extends eui.Component{
 	}
 	
     public renderCustomer():void {
-        if(this.lblGold.text != application.format(application.usableGold())) {
-        	this.animateStep(this.lblGold, 0, application.usableGold());
+        if(this.gold != application.usableGold()) {
+        	this.animateStep(this.lblGold, this.gold, application.usableGold());
+            
+            this.gold = application.usableGold();
 		}
 		
-        if(this.lblDiamond.text != application.format(application.customer.diamond)) {
-        	this.animateStep(this.lblDiamond, 0, application.customer.diamond);
+        if(this.diamond != application.customer.diamond) {
+        	this.animateStep(this.lblDiamond, this.diamond, application.customer.diamond);
+            
+            this.diamond = application.customer.diamond;
 		}
 		
-        if(this.lblOutput.text != application.format(this.getOutput())) {
-        	this.animateStep(this.lblOutput, 0, this.getOutput());
+        if(this.output != this.getOutput()) {
+        	this.animateStep(this.lblOutput, this.output, this.getOutput());
+            
+            this.output = this.getOutput();
 		}
 		
         this.lblTotalHits.text = "x" + application.customer.total_hits.toString();
