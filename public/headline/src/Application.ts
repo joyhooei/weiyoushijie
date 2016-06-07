@@ -253,7 +253,7 @@ module application {
 			if (data.share == 1) {
 				var url     = application.baseUrl + "headline/index.html";
 				var img_url = application.baseUrl + "headline/resource/art/home/icon.png";
-				nest.share.share({ title: '我来上头条，女神任我挑！',description: '最炫最浪的舞蹈经营类游戏，无需下载，点开即送，多重豪礼等你来拿！',url: url, img_url: img_url,img_title:'我要上头条'}, function (data) {
+				nest.share.share({ title: '我来上头条，女神任我挑！',description: '最炫最浪的舞蹈经营类游戏，无需下载，点开即送，多重豪礼等你来拿！',url: url, img_url: img_url,img_title:'头条关注'}, function (data) {
 					if(data.result == 0) {
 						callback();
 					} else if(data.result == -1) {
