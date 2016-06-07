@@ -15,6 +15,9 @@ module application {
 	export var blockUI: BlockUI;
     
     export var guideUI: GuideUI;
+    
+    export var ticks: number = 0;
+    export var stopwatch: egret.EventDispatcher;
 
     export function init(main:Main) {
 		application.main = main;
@@ -25,6 +28,8 @@ module application {
         application.dao = new Dao(application.baseUrl + "api/", "headline");
         
         application.projects = Project.createAllProjects();
+        
+        application.stopwatch = new egret.EventDispatcher();
 		
         application.units = [
                 'k', 'm', 'b', 't', 
@@ -62,6 +67,17 @@ module application {
                         application.customer.vip = 0;
                     }
                 }
+                
+                var timer: egret.Timer = new egret.Timer(1000, 0);
+				timer.addEventListener(egret.TimerEvent.TIMER,function(event: egret.TimerEvent) {
+                    application.ticks++;
+                    application.stopwatch.dispatchEventWith("second", true, application.ticks);
+                    
+                    if (application.ticks % 60 == 0) {
+                        application.stopwatch.dispatchEventWith("miniute", true, application.ticks / 60);
+                    }
+				},this);
+                timer.start();
                 
 				application.refreshBid(function(bid){
                     application.main.dispatchEventWith(GameEvents.EVT_LOGIN_IN_SUCCESS);
