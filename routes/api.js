@@ -329,6 +329,7 @@ function _filterAttributes(req) {
 	var forbiddenAttributes = {
 		"Customer": ["charge"],
 		"Order": ["state"],
+		"Bid": ["succeed"],
 	};
 		
 	if (forbiddenAttributes[req.params.model]) {
