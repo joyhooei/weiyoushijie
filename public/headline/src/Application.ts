@@ -4,6 +4,7 @@ module application {
     
     export var customer: any;
     export var bid: any;
+    export var earnedGold: number = 0;
     
     export var projects: Project[];
 	
@@ -120,9 +121,9 @@ module application {
     
     export function usableGold() {
         if (application.bid) {
-            return Math.max(0, application.customer.gold - application.bid.gold);
+            return Math.max(0, application.customer.gold - application.bid.gold + application.earnedGold);
         } else {
-            return Math.max(0, application.customer.gold);
+            return Math.max(0, application.customer.gold + application.earnedGold);
         }
     }
 
