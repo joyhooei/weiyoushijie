@@ -1,11 +1,14 @@
 var application;
 (function (application) {
+    application.earnedGold = 0;
+    application.ticks = 0;
     function init(main) {
         application.main = main;
         application.baseUrl = "http://weiyugame.leanapp.cn/";
         //application.baseUrl = "http://localhost:3000/";
         application.dao = new Dao(application.baseUrl + "api/", "headline");
         application.projects = Project.createAllProjects();
+        application.stopwatch = new egret.EventDispatcher();
         application.units = [
             'k', 'm', 'b', 't',
             'a', 'A', 'c', 'C', 'd', 'D', 'e', 'E', 'f', 'F', 'g', 'G', 'h', 'H', 'i', 'I', 'j', 'J', 'l', 'L', 'n', 'N', 'o', 'O', 'p', 'P', 'q', 'Q', 'r', 'R', 's', 'S', 'u', 'U', 'v', 'V', 'w', 'W', 'x', 'X', 'y', 'Y', 'z', 'Z',
@@ -24,14 +27,36 @@ var application;
     }
     application.login = login;
     function onLoginCallback(data) {
+        var _this = this;
         //从后台获取用户信息
         application.dao.rest("login", { token: data.token }, function (succeed, customer) {
             if (succeed) {
-                //首次登录，需要显示引导页面
-                //if (customer.gold == 0) {
-                //    application.guideUI = new GuideUI();
-                //}
                 application.customer = customer;
+                //首次登录，需要显示引导页面
+                if (application.customer.gold == 0) {
+                    application.guideUI = new GuideUI();
+                }
+                //检查是否ticket超期了
+                if (application.customer.vip == 1) {
+                    var dt = new Date(application.customer.ticket);
+                    var now = new Date();
+                    if (dt.getTime() < now.getTime()) {
+                        application.customer.ticket = "";
+                        application.customer.vip = 0;
+                    }
+                }
+                var timer = new egret.Timer(1000, 0);
+                timer.addEventListener(egret.TimerEvent.TIMER, function (event) {
+                    application.ticks++;
+                    application.stopwatch.dispatchEventWith("second", true, application.ticks);
+                    if (application.ticks % 60 == 0) {
+                        application.stopwatch.dispatchEventWith("miniute", true, application.ticks / 60);
+                        if (application.ticks % 3600 == 0) {
+                            application.stopwatch.dispatchEventWith("hour", true, application.ticks / 3600);
+                        }
+                    }
+                }, _this);
+                timer.start();
                 application.refreshBid(function (bid) {
                     application.main.dispatchEventWith(GameEvents.EVT_LOGIN_IN_SUCCESS);
                 });
@@ -51,30 +76,6 @@ var application;
         return dt.getFullYear() + "/" + (dt.getMonth() + 1) + "/" + dt.getDate();
     }
     application.bidDay = bidDay;
-    function ticketDay() {
-        if (application.customer.ticket && application.customer.ticket.length > 1) {
-            var ticketTimeout = new Date(application.customer.ticket);
-            var now = new Date();
-            ;
-            var timeDiff = ticketTimeout.getTime() - now.getTime();
-            if (timeDiff < 0) {
-                return 0;
-            }
-            else {
-                var diffDays = Math.ceil(timeDiff / (1000 * 3600 * 24));
-                if (diffDays > 30) {
-                    return -1;
-                }
-                else {
-                    return diffDays;
-                }
-            }
-        }
-        else {
-            return 0;
-        }
-    }
-    application.ticketDay = ticketDay;
     function refreshBid(cb) {
         application.dao.fetch("Bid", { succeed: 0, day: application.bidDay(), customer_id: application.customer.id }, { limit: 1 }, function (succeed, bids) {
             if (succeed && bids.length > 0) {
@@ -93,12 +94,35 @@ var application;
         application.dao.save("Customer", application.customer);
     }
     application.saveCustomer = saveCustomer;
-    function usableGold() {
-        if (application.bid) {
-            return Math.max(0, application.customer.gold - application.bid.gold);
+    function earnGold(gold) {
+        //处理大数 + 小数，小数被四舍五入的问题
+        application.earnedGold += gold;
+        var oldGold = application.customer.gold;
+        application.customer.gold += application.earnedGold;
+        if (oldGold != application.customer.gold) {
+            application.earnedGold = 0;
+            application.customer.accumulated_gold += application.earnedGold;
+        }
+        application.saveCustomer();
+    }
+    application.earnGold = earnGold;
+    function useGold(gold) {
+        if (application.earnedGold > gold) {
+            application.earnedGold -= gold;
         }
         else {
-            return Math.max(0, application.customer.gold);
+            application.customer.gold = application.customer.gold + application.earnedGold - gold;
+            application.earnedGold = 0;
+        }
+        application.saveCustomer();
+    }
+    application.useGold = useGold;
+    function usableGold() {
+        if (application.bid) {
+            return Math.max(0, application.customer.gold - application.bid.gold + application.earnedGold);
+        }
+        else {
+            return Math.max(0, application.customer.gold + application.earnedGold);
         }
     }
     application.usableGold = usableGold;
@@ -106,10 +130,9 @@ var application;
         gold = Math.abs(gold);
         diamond = Math.abs(diamond);
         output = Math.abs(output);
-        application.customer.gold -= gold;
         application.customer.diamond -= diamond;
         application.customer.output += output;
-        application.saveCustomer();
+        application.useGold(gold);
         if (application.customer.output >= 100) {
             if (application.log10(application.customer.output) > application.log10(application.customer.output - output)) {
                 application.dao.fetch("Gift", { customer_id: application.customer.id, category: 7 }, { limit: 1 }, function (succeed, gifts) {
@@ -170,6 +193,10 @@ var application;
                 var metal = 1;
             }
             application.buy("Ticket", "ticket", 19, "购买月票", function (order) {
+                var dt = new Date();
+                dt = new Date(dt.getTime() + 1000 * 60 * 60 * 24 * 30);
+                application.customer.ticket = dt.toString();
+                application.customer.vip = 1;
                 application.customer.metal += metal;
                 application.saveCustomer();
             });
@@ -185,6 +212,8 @@ var application;
                 var metal = 3;
             }
             application.buy("VIP", "vip", 49, "购买终身VIP", function (order) {
+                application.customer.ticket = "";
+                application.customer.vip = 2;
                 application.customer.metal += metal;
                 application.saveCustomer();
             });
@@ -196,7 +225,7 @@ var application;
             if (data.share == 1) {
                 var url = application.baseUrl + "headline/index.html";
                 var img_url = application.baseUrl + "headline/resource/art/home/icon.png";
-                nest.share.share({ title: '我来上头条，女神任我挑！', description: '最炫最浪的舞蹈经营类游戏，无需下载，点开即送，多重豪礼等你来拿！', url: url, img_url: img_url, img_title: '我要上头条' }, function (data) {
+                nest.share.share({ title: '我来上头条，女神任我挑！', description: '最炫最浪的舞蹈经营类游戏，无需下载，点开即送，多重豪礼等你来拿！', url: url, img_url: img_url, img_title: '头条关注' }, function (data) {
                     if (data.result == 0) {
                         callback();
                     }

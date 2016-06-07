@@ -18,7 +18,7 @@ var AuctionUI = (function (_super) {
         this.imgFront.y = this.imgThumb.y;
         this.imgFront.width = 0;
         this.addGold = 0;
-        this.bid = { gold: 0, day: today, customer_id: application.customer.id, succeed: 0 };
+        this.bid = { gold: 0, day: today, customer_id: application.customer.id, claimed: 0 };
         this.renderBid(0);
     };
     p.uiCompHandler = function () {
@@ -82,6 +82,7 @@ var AuctionUI = (function (_super) {
         if (self.bid.day == application.bidDay()) {
             self.bid.gold += self.addGold;
             if (self.bid.gold > 0) {
+                self.bid.claimed = 0;
                 application.dao.save("Bid", self.bid);
                 Toast.launch("投标成功");
                 application.bid = self.bid;

@@ -2,6 +2,9 @@ var HomeUI = (function (_super) {
     __extends(HomeUI, _super);
     function HomeUI() {
         _super.call(this);
+        this.gold = 0;
+        this.diamond = 0;
+        this.output = 0;
         this.hit = 0;
         this.addEventListener(eui.UIEvent.COMPLETE, this.uiCompHandler, this);
         this.skinName = "resource/custom_skins/homeUISkin.exml";
@@ -86,51 +89,50 @@ var HomeUI = (function (_super) {
     };
     p.renderTotalHits = function () {
         var self = this;
-        var timer = new egret.Timer(1000 * 60 * 60 * 4, 0);
-        timer.addEventListener(egret.TimerEvent.TIMER, function (event) {
-            application.dao.rest("hits", { customer_id: application.customer.id }, function (succeed, result) {
-                if (succeed) {
-                    application.customer.total_hits = result.hits;
-                    self.lblTotalHits.text = "x" + application.customer.total_hits.toString();
-                }
-            });
+        application.stopwatch.addEventListener("hour", function (event) {
+            if (event.data % 4 == 0) {
+                application.dao.rest("hits", { customer_id: application.customer.id }, function (succeed, result) {
+                    if (succeed) {
+                        application.customer.total_hits = result.hits;
+                        self.lblTotalHits.text = "x" + application.customer.total_hits.toString();
+                    }
+                });
+            }
         }, this);
-        timer.start();
     };
     //中午12点需要刷新拍卖数据
     p.refreshBidAtNoon = function () {
         var self = this;
-        var timer = new egret.Timer(1000 * 60, 0);
-        timer.addEventListener(egret.TimerEvent.TIMER, function (event) {
-            var dt = new Date();
-            if (dt.getHours() == 12 && dt.getMinutes() == 1) {
+        application.stopwatch.addEventListener("minute", function (event) {
+            //如果bidday已经过期了，则重新刷新bid数据
+            if (!(self.bid && application.bidDay() == self.bid.day)) {
                 self.renderBid();
                 application.refreshBid(function (bid) {
                     self.renderCustomer();
                 });
             }
         }, this);
-        timer.start();
     };
     p.renderBid = function () {
         var self = this;
-        //如果显示win ui，则不显示offlinegold ui，否则显示offlinegold ui
         application.dao.fetch("Bid", { succeed: 1 }, { limit: 1, order: 'create_time desc' }, function (succeed, bids) {
             if (succeed && bids.length > 0) {
-                if (application.customer.id == bids[0].customer_id) {
-                    var bidDay = application.bidDay();
-                    if (application.customer.win_day != bidDay && bids[0].day == bidDay) {
-                        application.showUI(new WinUI(bids[0]), this);
+                self.bid = bids[0];
+                //如果显示win ui，则不显示offlinegold ui，否则显示offlinegold ui
+                if (application.customer.id == self.bid.customer_id) {
+                    //已经显示过，就不需要再显示了
+                    if (self.bid.day.claimed == 0) {
+                        application.showUI(new WinUI(self.bid), this);
                     }
                     else {
                         self.renderOfflineGold();
                     }
-                    self.renderBidCustomer(application.customer, bids[0]);
+                    self.renderBidCustomer(application.customer);
                 }
                 else {
-                    application.dao.fetch("Customer", { id: bids[0].customer_id }, { limit: 1 }, function (succeed, customers) {
+                    application.dao.fetch("Customer", { id: self.bid.customer_id }, { limit: 1 }, function (succeed, customers) {
                         if (succeed && customers.length > 0) {
-                            self.renderBidCustomer(customers[0], bids[0]);
+                            self.renderBidCustomer(customers[0]);
                         }
                     });
                     self.renderOfflineGold();
@@ -140,13 +142,12 @@ var HomeUI = (function (_super) {
     };
     p.renderOfflineGold = function () {
         if (application.customer.offline_gold > 0) {
-            var ui = new OfflineGoldUI(application.customer.offline_gold, application.customer.offline_hours.toString(), application.customer.offline_minutes.toString());
-            application.showUI(ui, this);
+            application.showUI(new OfflineGoldUI(), this);
         }
     };
-    p.renderBidCustomer = function (customer, bid) {
+    p.renderBidCustomer = function (customer) {
         this.lblBidName.text = customer.name;
-        this.lblBidGold.text = application.format(bid.gold);
+        this.lblBidGold.text = application.format(this.bid.gold);
         if (customer.hide_winner == 1) {
             this.imgBidAvatar.source = "Ahide_png";
         }
@@ -199,9 +200,8 @@ var HomeUI = (function (_super) {
     };
     p.earnGold = function (second) {
         var gold = this.getOutput() * second;
-        application.customer.gold += gold;
-        application.customer.accumulated_gold += gold;
-        application.saveCustomer();
+        application.earnGold(gold);
+        //显示获得金币的动画
         this.grpAddGold.y = 370;
         this.imgAddGold.visible = true;
         this.lblAddGold.visible = true;
@@ -270,14 +270,17 @@ var HomeUI = (function (_super) {
         timer.start();
     };
     p.renderCustomer = function () {
-        if (this.lblGold.text != application.format(application.usableGold())) {
-            this.animateStep(this.lblGold, 0, application.usableGold());
+        if (this.gold != application.usableGold()) {
+            this.animateStep(this.lblGold, this.gold, application.usableGold());
+            this.gold = application.usableGold();
         }
-        if (this.lblDiamond.text != application.format(application.customer.diamond)) {
-            this.animateStep(this.lblDiamond, 0, application.customer.diamond);
+        if (this.diamond != application.customer.diamond) {
+            this.animateStep(this.lblDiamond, this.diamond, application.customer.diamond);
+            this.diamond = application.customer.diamond;
         }
-        if (this.lblOutput.text != application.format(this.getOutput())) {
-            this.animateStep(this.lblOutput, 0, this.getOutput());
+        if (this.output != this.getOutput()) {
+            this.animateStep(this.lblOutput, this.output, this.getOutput());
+            this.output = this.getOutput();
         }
         this.lblTotalHits.text = "x" + application.customer.total_hits.toString();
         if (application.customer.charge > 0) {
