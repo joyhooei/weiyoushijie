@@ -6,13 +6,21 @@ var Helper = require('./helper');
 
 module.exports.expireTicket = function(request, response) {
     var now = moment();
-    var promises = [];
+    var expiredCustomers = [];
     
     var query = new AV.Query(dao.Customer);
+    
     query.select('objectId', 'ticket');
+    
+    query.equalTo('vip', 0);
+    
     query.startsWith('ticket', '2');
+    
+    var lastday = moment().subtract(24, 'hours');
+    query.lessThan("createdAt", lastday.toDate());
+    
     Helper.findAll(query).then(function(count) {
-		Q.all(promises).then(function(){
+		AV.Object.saveAll(expiredCustomers).then(function(){
 			response.succeed("expireTicket " + promises.length);
 		}, function(error) {
 			console.error(error.message);
@@ -24,7 +32,7 @@ module.exports.expireTicket = function(request, response) {
         _.each(customers, function(customer){
             if (moment(customer.get('ticket')) < now) {
                 customer.set('ticket', '');
-                promises.push(customer.save());
+                expiredCustomers.push(customer);
             }
         });
     });
