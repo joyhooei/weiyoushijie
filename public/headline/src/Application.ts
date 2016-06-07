@@ -46,21 +46,23 @@ module application {
         //从后台获取用户信息
         application.dao.rest("login", {token: data.token}, (succeed: boolean, customer: any) => {
             if (succeed) {
+                application.customer = customer;
+                
                 //首次登录，需要显示引导页面
-                //if (customer.gold == 0) {
+                //if (application.customer.gold == 0) {
                 //    application.guideUI = new GuideUI();
                 //}
                 
                 //检查是否ticket超期了
-                if (customer.ticket && customer.ticket.length > 1) {
-                    var dt  = new Date(customer.ticket);
+                if (application.customer.vip == 1) {
+                    var dt  = new Date(application.customer.ticket);
                     var now = new Date();
                     if (dt.getTime() < now.getTime()) {
-                        customer.ticket = "";
+                        application.customer.ticket = "";
+                        application.customer.vip = 0;
                     }
                 }
                 
-                application.customer = customer;
 				application.refreshBid(function(bid){
                     application.main.dispatchEventWith(GameEvents.EVT_LOGIN_IN_SUCCESS);
                 });
@@ -224,7 +226,8 @@ module application {
 			application.buy("Ticket", "ticket", 19, "购买月票", function(order){
                 var dt = new Date();
 				dt = new Date(dt.getTime() + 1000 * 60 * 60 * 24 * 30);
-				application.customer.ticket = dt.toString();            
+				application.customer.ticket = dt.toString();    
+                application.customer.vip = 1;
 				application.customer.metal += metal;
 				application.saveCustomer();
 			});
@@ -241,7 +244,7 @@ module application {
 			
 			application.buy("VIP", "vip", 49, "购买终身VIP", function(order){
                 application.customer.ticket = "";
-                application.customer.vip = 1;
+                application.customer.vip = 2;
 				application.customer.metal += metal;
 				application.saveCustomer();
 			});
