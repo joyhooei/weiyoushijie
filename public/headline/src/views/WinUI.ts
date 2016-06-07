@@ -10,22 +10,21 @@ class WinUI extends eui.Component{
         this.skinName = "resource/custom_skins/winUISkin.exml";
         
         this.imgBack.addEventListener( egret.TouchEvent.TOUCH_TAP, ()=>{
-			application.customer.gold -= bid.gold;
-			application.customer.metal++;
-			application.customer.diamond += 2000;
+			application.fetch("Bid", {customer_id: application.customer.id, succeed: 1, claimed: 0}, {}, function(succeed, bids){
+				if (succeed) {
+					for(var i = 0; i < bids.length; i++) {
+						application.customer.gold -= bids[i].gold;
+						application.customer.metal++;
+						application.customer.diamond += 2000;
+
+						bids[i].claimed = 1;
+						application.save("Bid", bid);
+					}
+				}
 			
-			application.customer.gold += application.customer.offline_gold;
-			application.customer.accumulated_gold += application.customer.offline_gold;
-			application.customer.offline_gold = 0;
-			application.customer.offline_minutes = 0;
-			application.customer.offline_hours = 0;
-			
-			application.saveCustomer();
-			
-			bid.claimed = 1;
-			application.save("Bid", bid);
-			
-            application.hideUI(this);
+				application.earnGold(application.customer.offline_gold);
+            	application.hideUI(this);
+			});
         }, this );
         
         this.imgHide.addEventListener(egret.TouchEvent.TOUCH_TAP,() => {
