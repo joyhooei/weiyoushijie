@@ -255,14 +255,23 @@ class GiftUI extends eui.Component {
 	private renderTicketGift() {
 		//4、永久会员/月票 300钻。每天领取一次。灰色是点击跳入会员购买页面（参照道具弹出窗口） 月票默认30天，会显示剩余月票天数，如果是永久则显示永久
 		var gift = this.gift(GiftCategory.Ticket);
-		var ticketDay = application.ticketDay();
-		if (ticketDay == 0) {
+		if (application.customer.vip == 0) {
 			this.lblTicketGiftTimeout.text = "";
-		} else if (ticketDay < 0) {
+		} else if (application.customer.vip == 2) {
 			this.lblTicketGiftTimeout.text = "永久";
 		} else {
-			this.lblTicketGiftTimeout.text = ticketDay.toString() + "天";
+            var ticketTimeout = new Date(application.customer.ticket);
+            var now = new Date();;
+
+            var timeDiff = ticketTimeout.getTime() - now.getTime();
+            if (timeDiff < 0) {
+				this.lblTicketGiftTimeout.text = "";
+            } else {
+                var diffDays = Math.ceil(timeDiff / (1000 * 3600 * 24)); 
+                this.lblTicketGiftTimeout.text = diffDays.toString() + "天";
+            }
 		}
+		
 		this.renderGift(gift);
 	}
 	
