@@ -120,8 +120,7 @@ class BuyToolUI extends eui.Component{
     
 	//终身VIP，49元。每天登录可以领取300钻石，离线收益增加至90%，持续12小时。
     private buyVIP() {
-		var ticketDay = application.ticketDay();
-		if (ticketDay >= 0) {
+		if (application.customer.vip == 0) {
 			application.hideUI(this);
 			
 			application.buyVIP();
