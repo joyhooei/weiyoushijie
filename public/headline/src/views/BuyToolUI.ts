@@ -103,24 +103,23 @@ class BuyToolUI extends eui.Component{
     
 	//月票，19元每月(30天）。每天登录可以领取300钻石，离线收益增加至90%，持续12小时。普通情况下离线收益为70%，持续8小时。首次购买获得1个勋章
     private buyTicket() {
-		var ticketDay = application.ticketDay();
-		if (ticketDay >= 0) {
-			application.hideUI(this);
-			
-			application.buyTicket();
+		if (application.customer.vip == 2) {
+			Toast.launch("你已经购买了VIP，终身免费，不需要购买月票");
 		} else {
-			Toast.launch("你已经购买了VIP，不需要购买月票");
+			application.buyTicket();
+			
+			application.hideUI(this);
 		}
     }
     
 	//终身VIP，49元。每天登录可以领取300钻石，离线收益增加至90%，持续12小时。
     private buyVIP() {
-		if (application.customer.vip == 0) {
-			application.hideUI(this);
-			
-			application.buyVIP();
-		} else {
+		if (application.customer.vip == 2) {
 			Toast.launch("你已经购买了VIP，终身免费");
+		} else {
+			application.buyVIP();
+			
+			application.hideUI(this);
 		}			
     }    
 }
