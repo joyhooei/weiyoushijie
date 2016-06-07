@@ -15,11 +15,8 @@ class OfflineGoldUI extends eui.Component{
         this.lblMinute.text = application.customer.offline_minutes;
         
         this.imgOK.addEventListener( egret.TouchEvent.TOUCH_TAP, ()=>{
-            application.customer.offline_gold = 0;
-            application.customer.offline_minutes = 0;
-            application.customer.offline_hours = 0;
             application.earnGold(application.customer.offline_gold);
-			
+            
             application.hideUI(this);
         }, this );	
         
