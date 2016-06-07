@@ -10,13 +10,11 @@ module.exports.expireTicket = function(request, response) {
     
     var query = new AV.Query(dao.Customer);
     
-    query.select('objectId', 'ticket');
+    query.select('objectId', 'vip', 'ticket');
     
-    query.equalTo('vip', 0);
+    query.equalTo('vip', 1);
     
-    query.startsWith('ticket', '2');
-    
-    var lastday = moment().subtract(24, 'hours');
+    var lastday = moment().subtract(48, 'hours');
     query.lessThan("updatedAt", lastday.toDate());
     
     Helper.findAll(query).then(function(count) {
@@ -31,6 +29,7 @@ module.exports.expireTicket = function(request, response) {
     }, function(customers) {
         _.each(customers, function(customer){
             if (moment(customer.get('ticket')) < now) {
+                customer.set('vip', 0);
                 customer.set('ticket', '');
                 expiredCustomers.push(customer);
             }
