@@ -71,10 +71,15 @@ module application {
                 var timer: egret.Timer = new egret.Timer(1000, 0);
 				timer.addEventListener(egret.TimerEvent.TIMER,function(event: egret.TimerEvent) {
                     application.ticks++;
+					
                     application.stopwatch.dispatchEventWith("second", true, application.ticks);
                     
                     if (application.ticks % 60 == 0) {
                         application.stopwatch.dispatchEventWith("miniute", true, application.ticks / 60);
+                        
+                    	if (application.ticks % 3600 == 0) {
+                        	application.stopwatch.dispatchEventWith("hour", true, application.ticks / 3600);
+                    	}
                     }
 				},this);
                 timer.start();
