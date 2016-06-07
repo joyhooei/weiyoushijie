@@ -24,8 +24,4 @@ AV.Cloud.define('expire_ticket', function(request, response) {
 	Customer.expireTicket(request, response);
 });
 
-AV.Cloud.define('lock_picked', function(request, response) {
-	Gift.lockPicked(request, response);
-});
-
 module.exports = AV.Cloud;
