@@ -119,6 +119,22 @@ module application {
         application.dao.save("Customer",application.customer);
     }
     
+    export function earnGold(gold:number):number {
+		//处理大数 + 小数，小数被四舍五入的问题
+        application.earnedGold += gold;
+        
+        var oldGold = application.customer.gold;
+        
+		application.customer.gold += application.earnedGold;
+        if (oldGold != application.customer.gold) {
+			application.earnedGold = 0;
+			
+			application.customer.accumulated_gold += application.earnedGold;
+		}
+        
+        return application.earnedGold;
+    }
+    
     export function usableGold() {
         if (application.bid) {
             return Math.max(0, application.customer.gold - application.bid.gold + application.earnedGold);
