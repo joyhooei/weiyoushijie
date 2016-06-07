@@ -50,6 +50,15 @@ module application {
                 //    application.guideUI = new GuideUI();
                 //}
                 
+                //检查是否ticket超期了
+                if (customer.ticket && customer.ticket.length > 1) {
+                    var dt  = new Date(customer.ticket);
+                    var now = new Date();
+                    if (dt.getTime() < now.getTime()) {
+                        customer.ticket = "";
+                    }
+                }
+                
                 application.customer = customer;
 				application.refreshBid(function(bid){
                     application.main.dispatchEventWith(GameEvents.EVT_LOGIN_IN_SUCCESS);
