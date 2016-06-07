@@ -48,7 +48,7 @@ class AuctionUI extends eui.Component{
         this.imgFront.width = 0;
 		
 		this.addGold = 0;
-		this.bid = { gold: 0,day: today,customer_id: application.customer.id,succeed: 0 };
+		this.bid = { gold: 0, day: today, customer_id: application.customer.id, claimed: 0 };
         this.renderBid(0);
     }
 
@@ -129,6 +129,7 @@ class AuctionUI extends eui.Component{
 		if (self.bid.day == application.bidDay()) {
 			self.bid.gold += self.addGold;
 			if (self.bid.gold > 0) {
+				self.bid.claimed = 0;
 				application.dao.save("Bid", self.bid);
 
 				Toast.launch("投标成功");
