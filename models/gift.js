@@ -4,26 +4,27 @@ var Helper = require('./helper');
 
 //夜里12点将所有已经获取的礼物的状态修改成锁定
 module.exports.lockPicked = function(request, response) {
-	var promises = [];
-	
 	var query = new AV.Query(dao.Gift);
 	query.select('objectId', 'locked');
 	query.equalTo("locked", 2);
     query.notEqualTo("category", 6);
-	Helper.findAll(query).then(function(count){
+    query.limit(1000);
+	query.find().then(function(gifts){
+    	var promises = [];
+		
+		_.each(gifts, function(gift){
+			gift.set("locked", 1);
+			promises.push(gift.save());
+		});	
+        
 		Q.all(promises).then(function(){
-			response.succeed("lockAllPicked " + count);
+			response.succeed("lockAllPicked " + gifts.length);
 		}, function(error) {
 			console.error(error.message);
 			response.error(error.message);		
 		});
 	}, function(error){
 		response.error(error.message);		
-	}, function(gifts) {
-		_.each(gifts, function(gift){
-			gift.set("locked", 1);
-			promises.push(gift.save());
-		});	
 	});
 }
 
