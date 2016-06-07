@@ -10,7 +10,7 @@ module.exports.lockPicked = function(request, response) {
 	query.select('objectId', 'locked');
 	query.equalTo("locked", 2);
     query.notEqualTo("category", 6);
-	Helper.findAll().then(function(count){
+	Helper.findAll(query).then(function(count){
 		Q.all(promises).then(function(){
 			response.succeed("lockAllPicked " + count);
 		}, function(error) {
