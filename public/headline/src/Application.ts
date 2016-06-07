@@ -119,7 +119,7 @@ module application {
         application.dao.save("Customer",application.customer);
     }
     
-    export function earnGold(gold:number):number {
+    export function earnGold(gold:number) {
 		//处理大数 + 小数，小数被四舍五入的问题
         application.earnedGold += gold;
         
@@ -130,9 +130,20 @@ module application {
 			application.earnedGold = 0;
 			
 			application.customer.accumulated_gold += application.earnedGold;
-		}
+        }
         
-        return application.earnedGold;
+        application.saveCustomer();
+    }
+    
+    export function useGold(gold:number) {
+        if (application.earnedGold > gold) {
+            application.earnedGold -= gold;
+        } else {
+            application.customer.gold = application.customer.gold + application.earnedGold - gold;
+            application.earnedGold = 0;
+        }
+        
+        application.saveCustomer();
     }
     
     export function usableGold() {
@@ -148,10 +159,9 @@ module application {
         diamond = Math.abs(diamond);
         output  = Math.abs(output);
         
-        application.customer.gold    -= gold;
         application.customer.diamond -= diamond;	
         application.customer.output  += output;
-        application.saveCustomer();
+        application.useGold(gold);
         
         if (application.customer.output >= 100) {
 			if(application.log10(application.customer.output) > application.log10(application.customer.output - output)) {
