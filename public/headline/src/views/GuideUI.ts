@@ -18,8 +18,6 @@ class GuideUI extends eui.Component {
 	private click: number;
 	
 	private overCallback: Function;
-	
-	private timer: egret.Timer;
     
     public constructor() {
         super();
@@ -32,27 +30,26 @@ class GuideUI extends eui.Component {
 			this.over();
         },this);
 		
-		this.timer = new egret.Timer(1000, 0);
-		this.timer.addEventListener(egret.TimerEvent.TIMER, function(event:egret.TimerEvent){
-			if (((<egret.Timer>event.target).currentCount) % 2 == 0) {
-				if (this.imgFinger.source  == "guideconti_png") {
-					this.imgFinger.y -= 10;
-				} else {
-					this.imgFinger.x -= 10;
-				}
-			} else {
-				if (this.imgFinger.source  == "guideconti_png") {
-					this.imgFinger.y += 10;
-				} else {
-					this.imgFinger.x += 10;
-				}
-			}
-		}, this);
+		application.stopwatch.addEventListener("second", this.animateFinger, this);
 		
-		this.imgBonus.visible = false;
-
-		this.timer.start();		
+		this.imgBonus.visible = false;	
     }
+	
+	private animateFinger(event:egret.Event) {
+		if (event.data % 2 == 0) {
+			if (this.imgFinger.source  == "guideconti_png") {
+				this.imgFinger.y -= 10;
+			} else {
+				this.imgFinger.x -= 10;
+			}
+		} else {
+			if (this.imgFinger.source  == "guideconti_png") {
+				this.imgFinger.y += 10;
+			} else {
+				this.imgFinger.x += 10;
+			}
+		}	
+	}
 	
 	public setOverCallback(ocb: Function) {
         this.overCallback = ocb;
@@ -259,7 +256,7 @@ class GuideUI extends eui.Component {
 		application.hideUI(this);
 		application.guideUI = null;
 		
-		this.timer.stop();
+		application.stopwatch.removeEventListener("second", this.animateFinger, this);
 		
 		if (this.overCallback) {
 			this.overCallback();
