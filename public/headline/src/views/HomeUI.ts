@@ -30,6 +30,7 @@ class HomeUI extends eui.Component{
 	private imgAddGold: eui.Image;
 	private lblAddGold: eui.Label;
     
+	private bid: any;
 	private imgBidAvatar:eui.Image;
     private lblBidName:eui.Label;
     private lblBidGold:eui.Label;
@@ -154,7 +155,6 @@ class HomeUI extends eui.Component{
 		timer.addEventListener(egret.TimerEvent.TIMER, function(event:egret.TimerEvent){
 			this.earnGold(seconds);
 		}, this);
-
 		timer.start();    
     }
     
@@ -170,7 +170,6 @@ class HomeUI extends eui.Component{
 			 	}
 		 	});	
 		}, this);
-
 		timer.start();
     }
 	
@@ -180,8 +179,8 @@ class HomeUI extends eui.Component{
 		
 		var timer: egret.Timer = new egret.Timer(1000 * 60, 0);
 		timer.addEventListener(egret.TimerEvent.TIMER, function(event:egret.TimerEvent){
-			var dt = new Date();
-			if (dt.getHours() == 12 && dt.getMinutes() == 1) {
+			//如果bidday已经过期了，则重新刷新bid数据
+			if (!(self.bid && application.bidDay() == self.bid.day)) {
 				self.renderBid();
 				
 				application.refreshBid(function(bid){
@@ -189,29 +188,30 @@ class HomeUI extends eui.Component{
 				});
 			}
 		}, this);
-
 		timer.start();
 	}
 	
 	private renderBid(): void {
 		var self = this;
 		
-		//如果显示win ui，则不显示offlinegold ui，否则显示offlinegold ui
         application.dao.fetch("Bid",{ succeed: 1}, {limit : 1, order :'create_time desc'}, function(succeed, bids){
             if (succeed && bids.length > 0) {
-				if (application.customer.id == bids[0].customer_id) {
+				self.bid = bids[0];
+				
+				//如果显示win ui，则不显示offlinegold ui，否则显示offlinegold ui
+				if (application.customer.id == self.bid.customer_id) {
 					var bidDay = application.bidDay();
-					if (application.customer.win_day != bidDay && bids[0].day == bidDay) {
-						application.showUI(new WinUI(bids[0]), this);
+					if (application.customer.win_day != bidDay && self.bid.day == bidDay) {
+						application.showUI(new WinUI(self.bid), this);
 					} else {
                     	self.renderOfflineGold();
                     }
 					
-					self.renderBidCustomer(application.customer, bids[0]);
+					self.renderBidCustomer(application.customer);
 				} else {
-					application.dao.fetch("Customer",{ id: bids[0].customer_id },{ limit: 1 },function(succeed, customers) {
+					application.dao.fetch("Customer",{ id: self.bid.customer_id },{ limit: 1 },function(succeed, customers) {
 						if(succeed && customers.length > 0) {
-							self.renderBidCustomer(customers[0], bids[0]);
+							self.renderBidCustomer(customers[0]);
 						}
 					});
 					
@@ -223,14 +223,13 @@ class HomeUI extends eui.Component{
     
     private renderOfflineGold(): void {
         if(application.customer.offline_gold > 0) {
-			var ui = new OfflineGoldUI(application.customer.offline_gold, application.customer.offline_hours.toString(), application.customer.offline_minutes.toString());
-            application.showUI(ui, this);
+            application.showUI(new OfflineGoldUI(), this);
         }
     }
 	
-	private renderBidCustomer(customer:any, bid:any) {
+	private renderBidCustomer(customer:any) {
 		this.lblBidName.text = customer.name;
-		this.lblBidGold.text = application.format(bid.gold);
+		this.lblBidGold.text = application.format(this.bid.gold);
 
 		if (customer.hide_winner == 1) {
 			this.imgBidAvatar.source = "Ahide_png";
@@ -302,6 +301,7 @@ class HomeUI extends eui.Component{
         application.customer.accumulated_gold += gold;
         application.saveCustomer();
         
+		//显示获得金币的动画
         this.grpAddGold.y = 370;
         this.imgAddGold.visible = true;
         this.lblAddGold.visible = true;
@@ -349,7 +349,6 @@ class HomeUI extends eui.Component{
     			self.lblHit.text = "59";
     			self.lblOutput.text = application.format(self.getOutput());
     		}, this);
-    		
     		timer.start();
     	} else {
     	    application.showUI(new BuyToolUI("hit", 100), this);
