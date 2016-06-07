@@ -10,8 +10,6 @@ class WinUI extends eui.Component{
         this.skinName = "resource/custom_skins/winUISkin.exml";
         
         this.imgBack.addEventListener( egret.TouchEvent.TOUCH_TAP, ()=>{
-			application.customer.win_day = bid.day;
-			
 			application.customer.gold -= bid.gold;
 			application.customer.metal++;
 			application.customer.diamond += 2000;
@@ -23,6 +21,9 @@ class WinUI extends eui.Component{
 			application.customer.offline_hours = 0;
 			
 			application.saveCustomer();
+			
+			bid.claimed = 1;
+			application.save("Bid", bid);
 			
             application.hideUI(this);
         }, this );
