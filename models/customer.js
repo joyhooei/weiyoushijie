@@ -21,7 +21,7 @@ module.exports.expireTicket = function(request, response) {
     
     Helper.findAll(query).then(function(count) {
 		AV.Object.saveAll(expiredCustomers).then(function(){
-			response.succeed("expireTicket " + promises.length);
+			response.succeed("expireTicket " + expiredCustomers.length);
 		}, function(error) {
 			console.error(error.message);
 			response.error(error.message);		
@@ -42,7 +42,7 @@ module.exports.offlineGold = function(customer) {
     var now  = moment();
     var last = moment(customer.updatedAt);
     
-    if (customer.get("ticket") && customer.get("ticket").length > 1) {
+    if ((customer.get("ticket") && customer.get("ticket").length > 1) || customer.get("vip") == 1) {
 		var percent = 0.9;
     	var period = 12;
 	} else {
@@ -96,8 +96,9 @@ module.exports.create = function(uid, name, avatar, sex, age) {
     customer.set("age", age);
     
     customer.set("gold", 0);
-    customer.set("diamond", 100);
+    customer.set("diamond", 0);
     customer.set("metal", 0);
+	customer.set("charge", 0);
     
     customer.set("output", 1);
     
@@ -105,6 +106,9 @@ module.exports.create = function(uid, name, avatar, sex, age) {
     customer.set("last_hit", "");
     
     customer.set("ticket", "");
+    customer.set("vip", 0);
+    
+    customer.set("last_login", '');
     
     customer.set("offline_gold", 0);
     customer.set("offline_hours", 0);
