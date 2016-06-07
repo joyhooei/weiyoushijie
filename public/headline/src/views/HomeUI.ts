@@ -297,9 +297,7 @@ class HomeUI extends eui.Component{
 	private earnGold(second:number): void {
 		var gold = this.getOutput() * second;
 		
-        if (application.earnGold(gold) == 0) {
-        	application.saveCustomer();
-		}
+        application.earnGold(gold);
         
 		//显示获得金币的动画
         this.grpAddGold.y = 370;
