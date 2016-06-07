@@ -14,7 +14,7 @@ var GuideUI = (function (_super) {
     var d = __define,c=GuideUI,p=c.prototype;
     p.animateFinger = function (event) {
         if (event.data % 2 == 0) {
-            if (this.imgFinger.source == "guideconti_png") {
+            if (this.imgFinger.source != "guideconti_png") {
                 this.imgFinger.y -= 10;
             }
             else {
@@ -22,7 +22,7 @@ var GuideUI = (function (_super) {
             }
         }
         else {
-            if (this.imgFinger.source == "guideconti_png") {
+            if (this.imgFinger.source != "guideconti_png") {
                 this.imgFinger.y += 10;
             }
             else {
@@ -80,15 +80,18 @@ var GuideUI = (function (_super) {
         this.click = 0;
         this.imgSpeak.source = "G1_png";
         this.imgFocus.source = "highlight1_png";
+        this.imgFinger.source = "guidearr_png";
         this.renderBlock(0, 0, 480, 800);
-        this.imgFinger.x = 345;
+        this.imgFinger.x = 354;
         this.imgFinger.y = 281;
         this.imgFocus.x = 78;
         this.imgFocus.y = 315;
         this.imgSpeak.x = 151;
         this.imgSpeak.y = 607;
         this.imgBg.x = 0;
-        this.imgBg.y = 253;
+        this.imgBg.y = 523;
+        this.touchEnabled = false;
+        this.touchChildren = false;
     };
     //购买运营
     p.renderStep2 = function () {
@@ -98,7 +101,7 @@ var GuideUI = (function (_super) {
         this.imgFinger.x = 308;
         this.imgFinger.y = 377;
         this.imgFocus.x = 206;
-        this.imgFocus.y = 394;
+        this.imgFocus.y = 384;
         this.imgSpeak.x = 140;
         this.imgSpeak.y = 601;
     };
@@ -124,7 +127,7 @@ var GuideUI = (function (_super) {
         this.imgSpeak.source = "G5_png";
         this.imgFinger.x = 44;
         this.imgFinger.y = 300;
-        this.imgFocus.x = -34;
+        this.imgFocus.x = -14;
         this.imgFocus.y = 325;
         this.imgSpeak.x = 138;
         this.imgSpeak.y = 505;
@@ -138,7 +141,7 @@ var GuideUI = (function (_super) {
         this.imgFocus.source = "highlight1_png";
         this.imgFinger.x = 226;
         this.imgFinger.y = 536;
-        this.imgFocus.x = 4;
+        this.imgFocus.x = 64;
         this.imgFocus.y = 537;
         this.imgSpeak.x = 138;
         this.imgSpeak.y = 390;
@@ -157,6 +160,8 @@ var GuideUI = (function (_super) {
         this.imgSpeak.y = 599;
         this.imgBg.x = 0;
         this.imgBg.y = 523;
+        this.touchEnabled = true;
+        this.touchChildren = true;
         this.imgFinger.addEventListener(egret.TouchEvent.TOUCH_BEGIN, function () {
             this.next();
         }, this);
