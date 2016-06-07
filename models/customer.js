@@ -17,7 +17,7 @@ module.exports.expireTicket = function(request, response) {
     query.startsWith('ticket', '2');
     
     var lastday = moment().subtract(24, 'hours');
-    query.lessThan("createdAt", lastday.toDate());
+    query.lessThan("updatedAt", lastday.toDate());
     
     Helper.findAll(query).then(function(count) {
 		AV.Object.saveAll(expiredCustomers).then(function(){
