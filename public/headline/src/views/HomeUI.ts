@@ -161,24 +161,23 @@ class HomeUI extends eui.Component{
     private renderTotalHits(): void {
     	var self = this;
 		
-		var timer: egret.Timer = new egret.Timer(1000 * 60 * 60 * 4, 0);
-		timer.addEventListener(egret.TimerEvent.TIMER, function(event:egret.TimerEvent){
-			application.dao.rest("hits", {customer_id: application.customer.id}, function(succeed, result) {
-			 	if (succeed) {
-				 	application.customer.total_hits = result.hits;
-				 	self.lblTotalHits.text = "x" + application.customer.total_hits.toString();
-			 	}
-		 	});	
-		}, this);
-		timer.start();
+        application.stopwatch.addEventListener("hour", function(event:egret.Event){
+        	if (event.data % 4 == 0) {
+			 	application.dao.rest("hits", {customer_id: application.customer.id}, function(succeed, result) {
+				 	if (succeed) {
+					 	application.customer.total_hits = result.hits;
+					 	self.lblTotalHits.text = "x" + application.customer.total_hits.toString();
+				 	}
+			 	});				
+			}
+        }, this);
     }
 	
 	//中午12点需要刷新拍卖数据
 	private refreshBidAtNoon(): void {
     	var self = this;
 		
-		var timer: egret.Timer = new egret.Timer(1000 * 60, 0);
-		timer.addEventListener(egret.TimerEvent.TIMER, function(event:egret.TimerEvent){
+		application.stopwatch.addEventListener("minute", function(event:egret.Event){
 			//如果bidday已经过期了，则重新刷新bid数据
 			if (!(self.bid && application.bidDay() == self.bid.day)) {
 				self.renderBid();
@@ -188,7 +187,6 @@ class HomeUI extends eui.Component{
 				});
 			}
 		}, this);
-		timer.start();
 	}
 	
 	private renderBid(): void {
@@ -304,6 +302,7 @@ class HomeUI extends eui.Component{
         this.imgAddGold.visible = true;
         this.lblAddGold.visible = true;
         this.lblAddGold.text = "+" + application.format(gold);
+		
         var timer: egret.Timer = new egret.Timer(100,20);
         timer.addEventListener(egret.TimerEvent.TIMER,function(event: egret.TimerEvent) {
             this.grpAddGold.y -= 10;
