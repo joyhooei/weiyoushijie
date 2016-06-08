@@ -41,12 +41,16 @@ class HomeUI extends eui.Component{
     private lblBidGold:eui.Label;
         
     private imgCharge: eui.Image;
+    
     private btnHit: eui.Button;
     private lblHit: eui.Label;
     private lblTotalHits: eui.Label;
+    private imgHit: eui.Image;
 	private hit: number = 0;
 	
     private btnGift: eui.Button;
+    private imgGift: eui.Image;
+    
     private btnHelp: eui.Button;
     
     private btnAddGold: eui.Button;
@@ -92,6 +96,7 @@ class HomeUI extends eui.Component{
         }, this);
                 
         self.btnGift.addEventListener(egret.TouchEvent.TOUCH_BEGIN, function() {
+			this.imgGift.visible = false;
 			application.showUI(new GiftUI(), this);
         }, this);
                 
@@ -127,6 +132,8 @@ class HomeUI extends eui.Component{
         application.dao.addEventListener("Bid",function(ev: egret.Event) {
             this.renderCustomer();
         },this);
+		
+		self.renderGiftDynamically();
         
         /// 首次加载完成首先显示home
         self.gotoHome(); 
@@ -150,15 +157,35 @@ class HomeUI extends eui.Component{
 		 	self.refreshBidAtNoon();
 		}
     }
+	
+	private renderGiftDynamically(): void {
+		this.renderGift();
+		
+		application.stopwatch.addEventListener("hour", function(event:egret.Event){
+			this.renderGift();
+		}, this);
+	}
+	
+	private renderGift(): void {
+		var self = this;
+		
+	 	application.dao.fetch("Gift", {customer_id: application.customer.id, locked: 0}, {limit: 1}, function(succeed, gifts){
+	  		if (succeed && gifts.length >0) {
+	   			self.imgGift.visible = true;
+	  		} else {
+	   			self.imgGift.visible = false;
+	  		}
+	 	});
+	}
     
     private earnGoldDynamically(): void {
 		var seconds = 5;
 		
-		var timer: egret.Timer = new egret.Timer(seconds * 1000, 0);
-		timer.addEventListener(egret.TimerEvent.TIMER, function(event:egret.TimerEvent){
-			this.earnGold(seconds);
-		}, this);
-		timer.start();    
+		application.stopwatch.addEventListener("second", function(event:egret.Event){
+			if (event.data % seconds == 0) {
+				this.earnGold(seconds);
+			}
+		}, this);   
     }
     
     private renderTotalHits(): void {
@@ -334,6 +361,8 @@ class HomeUI extends eui.Component{
     		self.lblOutput.text = application.format(self.getOutput());
             
             Toast.launch("获得10倍收益，持续60秒");
+            
+            self.imgHit.visible = true;
     
     		var timer: egret.Timer = new egret.Timer(1000, 59);
     		timer.addEventListener(egret.TimerEvent.TIMER, function(event:egret.TimerEvent){
@@ -348,6 +377,8 @@ class HomeUI extends eui.Component{
     			self.hit = 0;
     			self.lblHit.text = "59";
     			self.lblOutput.text = application.format(self.getOutput());
+                
+                self.imgHit.visible = false;
     		}, this);
     		timer.start();
     	} else {
