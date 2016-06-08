@@ -124,7 +124,7 @@ class GuideUI extends eui.Component {
 		this.imgFocus.source  = "highlight1_png";
         this.imgFinger.source = "guidearr_png";
 		
-        this.renderBlock(0,0,480,800);
+        this.renderBlock(119,77,298,360);
 		
 		this.imgFinger.x = 354;
 		this.imgFinger.y = 281;
@@ -144,7 +144,7 @@ class GuideUI extends eui.Component {
         this.imgSpeak.source  = "G2_png";
 		this.imgFocus.source  = "highlight2_png";
 		
-        this.renderBlock(0,0,480,800);
+        this.renderBlock(227,409,196,134);
 		
 		this.imgFinger.x = 308;
 		this.imgFinger.y = 377;
@@ -161,7 +161,8 @@ class GuideUI extends eui.Component {
 	
 	//拍卖
 	private renderStep4(): void {
-        this.renderBlock(0,0,480,800);
+        this.renderBlock(95,709,143,91);
+		
         this.imgSpeak.source  = "G4_png";
 		this.imgFocus.source  = "highlight3_png";
 		
@@ -175,7 +176,7 @@ class GuideUI extends eui.Component {
 	
 	//滑动投标金币
 	private renderStep5(): void {
-        this.renderBlock(0,0,480,800);
+        this.renderBlock(0,300,480,173);
         this.imgSpeak.source  = "G5_png";
 		
 		this.imgFinger.x = 44;
@@ -190,7 +191,7 @@ class GuideUI extends eui.Component {
 	
 	//投标
 	private renderStep6(): void {
-        this.renderBlock(0,0,480,800);
+        this.renderBlock(0,540,480,191);
         this.imgSpeak.source  = "G6_png";
 		this.imgFocus.source  = "highlight1_png";
 		
@@ -210,7 +211,7 @@ class GuideUI extends eui.Component {
 		this.imgFinger.source  = "guideconti_png";
 		this.imgFocus.visible = false;
 		
-        this.renderBlock(0,0,480,800);
+        this.renderBlock(0,0,0,0);
 		
 		this.imgFinger.x = 395;
 		this.imgFinger.y = 679;
@@ -233,7 +234,7 @@ class GuideUI extends eui.Component {
 		this.imgFinger.visible = false;
 		this.imgBonus.visible  = true;
 						
-		this.renderBlock(0, 0, 480, 800);
+		this.renderBlock(0, 0, 0, 0);
 		
 		this.imgBonus.x = 376;
 		this.imgBonus.y = 653;
