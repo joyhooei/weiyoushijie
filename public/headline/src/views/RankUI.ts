@@ -52,7 +52,7 @@ class RankUI extends eui.Component {
 				for (var j = 0; j < this.customers.length; j++) {
 					if (this.ranks[i].customer.id == this.customers[j].id) {
 						this.customers[j].metal = this.ranks[i].customer.metal;
-						this.customers[j].gold  = this.ranks[i].customer.gold;
+						this.customers[j].accumulated_gold  = this.ranks[i].customer.accumulated_gold;
 					}
 				}
 			}
