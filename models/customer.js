@@ -6,27 +6,15 @@ var Helper = require('./helper');
 
 module.exports.expireTicket = function(request, response) {
     var now = moment();
-    var expiredCustomers = [];
     
     var query = new AV.Query(dao.Customer);
-    
     query.select('objectId', 'vip', 'ticket');
-    
     query.equalTo('vip', 1);
-    
-    var lastday = moment().subtract(48, 'hours');
-    query.lessThan("updatedAt", lastday.toDate());
-    
-    Helper.findAll(query).then(function(count) {
-		AV.Object.saveAll(expiredCustomers).then(function(){
-			response.succeed("expireTicket " + expiredCustomers.length);
-		}, function(error) {
-			console.error(error.message);
-			response.error(error.message);		
-		});
-    }, function(error) {
-        response.error(error.message);
-    }, function(customers) {
+    query.ascending('updatedAt');
+    query.limit(100);
+    query.find().then(function(customers) {
+        var expiredCustomers = [];
+        
         _.each(customers, function(customer){
             if (moment(customer.get('ticket')) < now) {
                 customer.set('vip', 0);
@@ -34,6 +22,19 @@ module.exports.expireTicket = function(request, response) {
                 expiredCustomers.push(customer);
             }
         });
+        
+        if (expiredCustomers.length > 0) {
+			AV.Object.saveAll(expiredCustomers).then(function(){
+				response.succeed("expireTicket " + expiredCustomers.length);
+			}, function(error) {
+				console.error(error.message);
+				response.error(error.message);
+			});
+		} else {
+			response.succeed("expireTicket " + expiredCustomers.length);
+		}
+    }, function(error) {
+        response.error(error.message);
     });
 }
 
