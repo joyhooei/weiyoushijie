@@ -130,7 +130,7 @@ class GiftUI extends eui.Component {
 		
         if (gift.locked == 0) {
 			//修改下一个可以领取的秒产
-			var nextOutput = parseInt(gift.data) * 10;
+			var nextOutput = 10 * gift.data;
 			gift.data = nextOutput.toString();
 			
 			//如果用户的秒产超过了下一个可以领取的秒产，则仍然保持解锁状态
@@ -278,7 +278,7 @@ class GiftUI extends eui.Component {
 	private renderOutputGift() {
 		//7、秒产每增加一个数量级，就得100个钻石
 		var gift = this.gift(GiftCategory.Output);
-		this.lblOutputGift.text = application.format(parseInt(gift.data));
+		this.lblOutputGift.text = application.format(gift.data);
 		this.renderGift(gift);
 	}
 	
