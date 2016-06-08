@@ -185,7 +185,7 @@ class GiftUI extends eui.Component {
 					if (gifts[i].category != 6 && gifts[i].locked == 2) {
 						var dt  = new Date(gifts[i].update_time);
 						if (Math.floor(now.getTime() / day) > Math.floor(dt.getTime() / day)){
-							gifts.locked = 1;
+							gifts[i].locked = 1;
 						}
 					}
 				}
