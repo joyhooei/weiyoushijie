@@ -62,14 +62,14 @@ router.post('/login', function(req, res, next) {
 	var now = Date.now();
 
 	var sign = "";
-	sign += "appId=90240";
+	sign += "appId=90359";
 	sign += "time=" + now;
 	sign += "token=" + req.body.token;
-	sign += "ULaMnJJTDY8cPf4lCkY46";
+	sign += "qChCyYzHXFacMrO9fPTFQ";
 	sign = crypto.createHash('md5').update(sign).digest('hex');
 
 	var url = "http://api.egret-labs.org/v2/user/getInfo?";
-	url += "appId=90240&";
+	url += "appId=90359&";
 	url += "time=" + now + "&";
 	url += "token=" + req.body.token + "&";
 	url += "sign=" + sign;
