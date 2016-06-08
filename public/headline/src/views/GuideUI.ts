@@ -124,7 +124,7 @@ class GuideUI extends eui.Component {
 		this.imgFocus.source  = "highlight1_png";
         this.imgFinger.source = "guidearr_png";
 		
-        this.renderBlock(119,77,298,360);
+        this.renderBlock(121,77,288,350);
 		
 		this.imgFinger.x = 354;
 		this.imgFinger.y = 281;
@@ -136,7 +136,9 @@ class GuideUI extends eui.Component {
 		this.imgBg.y = 523;		
 		
 		this.touchEnabled = false;
-		this.touchChildren = false;
+		this.imgFocus.touchEnabled = false;
+		this.imgBg.touchEnabled = false;
+		//this.touchChildren = false;
 	}
 
 	//购买运营
@@ -144,7 +146,7 @@ class GuideUI extends eui.Component {
         this.imgSpeak.source  = "G2_png";
 		this.imgFocus.source  = "highlight2_png";
 		
-        this.renderBlock(227,409,196,134);
+        this.renderBlock(247,409,156,104);
 		
 		this.imgFinger.x = 308;
 		this.imgFinger.y = 377;
@@ -172,6 +174,8 @@ class GuideUI extends eui.Component {
 		this.imgFocus.y = 702;
 		this.imgSpeak.x = 139;
 		this.imgSpeak.y = 597;	
+        this.imgBg.x = 0;
+        this.imgBg.y = 518;		
 	}
 	
 	//滑动投标金币
@@ -193,11 +197,11 @@ class GuideUI extends eui.Component {
 	private renderStep6(): void {
         this.renderBlock(0,540,480,191);
         this.imgSpeak.source  = "G6_png";
-		this.imgFocus.source  = "highlight1_png";
+		this.imgFocus.source  = "highlight4_png";
 		
 		this.imgFinger.x = 226;
 		this.imgFinger.y = 536;
-		this.imgFocus.x = 64;
+		this.imgFocus.x = 4;
 		this.imgFocus.y = 537;
 		this.imgSpeak.x = 138;
 		this.imgSpeak.y = 390;
@@ -261,7 +265,7 @@ class GuideUI extends eui.Component {
 		
 		this.rcMiddle.x = 0;
 		this.rcMiddle.y = y;
-		this.rcMiddle.width = y;
+		this.rcMiddle.width = x;
 		this.rcMiddle.height = height;
 		
 		this.rcBottom.x = 0;

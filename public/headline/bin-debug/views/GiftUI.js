@@ -97,7 +97,7 @@ var GiftUI = (function (_super) {
         var gift = this.gift(GiftCategory.Output);
         if (gift.locked == 0) {
             //修改下一个可以领取的秒产
-            var nextOutput = parseInt(gift.data) * 10;
+            var nextOutput = 10 * gift.data;
             gift.data = nextOutput.toString();
             //如果用户的秒产超过了下一个可以领取的秒产，则仍然保持解锁状态
             if (application.log10(application.customer.output) >= application.log10(nextOutput)) {
@@ -142,7 +142,7 @@ var GiftUI = (function (_super) {
                     if (gifts[i].category != 6 && gifts[i].locked == 2) {
                         var dt = new Date(gifts[i].update_time);
                         if (Math.floor(now.getTime() / day) > Math.floor(dt.getTime() / day)) {
-                            gifts.locked = 1;
+                            gifts[i].locked = 1;
                         }
                     }
                 }
@@ -224,7 +224,7 @@ var GiftUI = (function (_super) {
     p.renderOutputGift = function () {
         //7、秒产每增加一个数量级，就得100个钻石
         var gift = this.gift(GiftCategory.Output);
-        this.lblOutputGift.text = application.format(parseInt(gift.data));
+        this.lblOutputGift.text = application.format(gift.data);
         this.renderGift(gift);
     };
     p.gift = function (category) {

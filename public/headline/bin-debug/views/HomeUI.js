@@ -33,6 +33,7 @@ var HomeUI = (function (_super) {
             self.onHit();
         }, this);
         self.btnGift.addEventListener(egret.TouchEvent.TOUCH_BEGIN, function () {
+            this.imgGift.visible = false;
             application.showUI(new GiftUI(), this);
         }, this);
         self.btnHelp.addEventListener(egret.TouchEvent.TOUCH_BEGIN, function () {
@@ -62,6 +63,7 @@ var HomeUI = (function (_super) {
         application.dao.addEventListener("Bid", function (ev) {
             this.renderCustomer();
         }, this);
+        self.renderGiftDynamically();
         /// 首次加载完成首先显示home
         self.gotoHome();
         if (application.guideUI) {
@@ -79,13 +81,30 @@ var HomeUI = (function (_super) {
             self.refreshBidAtNoon();
         }
     };
+    p.renderGiftDynamically = function () {
+        this.renderGift();
+        application.stopwatch.addEventListener("hour", function (event) {
+            this.renderGift();
+        }, this);
+    };
+    p.renderGift = function () {
+        var self = this;
+        application.dao.fetch("Gift", { customer_id: application.customer.id, locked: 0 }, { limit: 1 }, function (succeed, gifts) {
+            if (succeed && gifts.length > 0) {
+                self.imgGift.visible = true;
+            }
+            else {
+                self.imgGift.visible = false;
+            }
+        });
+    };
     p.earnGoldDynamically = function () {
         var seconds = 5;
-        var timer = new egret.Timer(seconds * 1000, 0);
-        timer.addEventListener(egret.TimerEvent.TIMER, function (event) {
-            this.earnGold(seconds);
+        application.stopwatch.addEventListener("second", function (event) {
+            if (event.data % seconds == 0) {
+                this.earnGold(seconds);
+            }
         }, this);
-        timer.start();
     };
     p.renderTotalHits = function () {
         var self = this;
@@ -185,7 +204,7 @@ var HomeUI = (function (_super) {
         self.mcBeauty = new egret.MovieClip(mcFactory.generateMovieClipData(""));
         self.mcBeauty.x = 70;
         self.mcBeauty.y = 90;
-        self.addChildAt(self.mcBeauty, 1);
+        self.addChildAt(self.mcBeauty, 3);
         self.mcBeauty.touchEnabled = true;
         self.mcBeauty.addEventListener(egret.TouchEvent.TOUCH_BEGIN, function () {
             self.onBeauty();
@@ -228,6 +247,7 @@ var HomeUI = (function (_super) {
             self.hit = 59;
             self.lblOutput.text = application.format(self.getOutput());
             Toast.launch("获得10倍收益，持续60秒");
+            self.imgHit.visible = true;
             var timer = new egret.Timer(1000, 59);
             timer.addEventListener(egret.TimerEvent.TIMER, function (event) {
                 self.lblHit.text = self.hit.toString();
@@ -239,6 +259,7 @@ var HomeUI = (function (_super) {
                 self.hit = 0;
                 self.lblHit.text = "59";
                 self.lblOutput.text = application.format(self.getOutput());
+                self.imgHit.visible = false;
             }, this);
             timer.start();
         }

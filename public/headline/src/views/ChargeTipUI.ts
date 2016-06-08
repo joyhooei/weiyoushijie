@@ -1,17 +1,17 @@
 class ChargeTipUI extends eui.Component{
-    private btnCancel:eui.Button;
-    private btnCharge:eui.Button;
+    private imgCancel: eui.Image;
+    private imgCharge:eui.Image;
 
     constructor() {
         super();
 		
         this.skinName = "resource/custom_skins/chargeTipUISkin.exml";
 		
-        this.btnCancel.addEventListener( egret.TouchEvent.TOUCH_TAP, ()=>{
+        this.imgCancel.addEventListener( egret.TouchEvent.TOUCH_TAP, ()=>{
             application.hideUI(this);
         }, this );
         
-        this.btnCharge.addEventListener(egret.TouchEvent.TOUCH_TAP,() => {
+        this.imgCharge.addEventListener(egret.TouchEvent.TOUCH_TAP,() => {
             application.charge();
         },this);        		
     }

@@ -1,6 +1,6 @@
 <?xml version='1.0' encoding='utf-8'?>
 <e:Skin class="winUISkin" width="480" height="560" xmlns:e="http://ns.egret.com/eui" xmlns:w="http://ns.egret.com/wing">
-	<e:Image id="imgAvatar" width="83" height="81" x="26" y="333" fillMode="scale" source="Ahide_png"/>
+	<e:Image id="imgAvatar" width="83" height="84" x="26" y="330" fillMode="scale" source="Ahide_png"/>
 	<e:Image width="480" height="560" x="0" y="0" source="Awin_png" fillMode="clip"/>
 	<e:Image id="imgBack" fillMode="clip" source="helpx_png" x="432" y="1" width="52" height="53"/>
 	<e:Image id="imgHide" width="84" height="35" x="30" y="429" fillMode="clip" source="hidecancel_png"/>

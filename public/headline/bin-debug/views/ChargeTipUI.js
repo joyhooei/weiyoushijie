@@ -4,10 +4,10 @@ var ChargeTipUI = (function (_super) {
         var _this = this;
         _super.call(this);
         this.skinName = "resource/custom_skins/chargeTipUISkin.exml";
-        this.btnCancel.addEventListener(egret.TouchEvent.TOUCH_TAP, function () {
+        this.imgCancel.addEventListener(egret.TouchEvent.TOUCH_TAP, function () {
             application.hideUI(_this);
         }, this);
-        this.btnCharge.addEventListener(egret.TouchEvent.TOUCH_TAP, function () {
+        this.imgCharge.addEventListener(egret.TouchEvent.TOUCH_TAP, function () {
             application.charge();
         }, this);
     }

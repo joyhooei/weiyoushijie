@@ -858,6 +858,11 @@
 					"isFolder":false,
 					"key":"highlight3_png",
 					"name":"highlight3_png"
+				},
+				{
+					"isFolder":false,
+					"key":"highlight4_png",
+					"name":"highlight4_png"
 				}
 			]
 		}

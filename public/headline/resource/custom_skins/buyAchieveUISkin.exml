@@ -7,7 +7,7 @@
 	<e:Label id="lblDiamond" size="24" y="310" text="0" x="254" width="75" height="23" textAlign="center"/>
 	<e:Image id="imgBack" source="helpx_png" x="365" y="-1" fillMode="clip" width="41" height="41"/>
 	<e:Image id="imgIcon" width="217" height="132" x="97" y="64" fillMode="clip" source="b1_png"/>
-	<e:Image id="imgProject" width="81" height="32" x="188" y="198" source="t1_png"/>
+	<e:Image id="imgProject" width="115" height="25" x="170" y="203" source="t1_png"/>
 	<e:Label id="lblLevel" x="52" y="233" text="000000" size="15" textAlign="right" width="121"/>
 	<e:Label id="lblRatio" text="0.00aa" x="324" y="210" size="15" width="45" textAlign="center"/>
 </e:Skin>

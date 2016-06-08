@@ -305,7 +305,7 @@ class HomeUI extends eui.Component{
         self.mcBeauty = new egret.MovieClip( mcFactory.generateMovieClipData("" ) );
         self.mcBeauty.x = 70; 
         self.mcBeauty.y = 90; 
-        self.addChildAt(self.mcBeauty, 1);
+        self.addChildAt(self.mcBeauty, 3);
 		
         self.mcBeauty.touchEnabled = true;
         self.mcBeauty.addEventListener(egret.TouchEvent.TOUCH_BEGIN, function() {
