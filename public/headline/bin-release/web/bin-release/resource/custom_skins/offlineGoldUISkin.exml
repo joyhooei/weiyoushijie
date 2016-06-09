@@ -1,0 +1,10 @@
+<?xml version='1.0' encoding='utf-8'?>
+<e:Skin class="offlineGoldUISkin" width="400" height="400" xmlns:e="http://ns.egret.com/eui" xmlns:w="http://ns.egret.com/wing">
+	<e:Image x="0" y="0" width="400" height="400" source="offlineB_png" fillMode="clip"/>
+    
+	<e:Label id="lblGold" y="189" text="0" width="176" horizontalCenter="0" textAlign="center"/>
+	<e:Label id="lblHour" y="104" text="0" x="154"/>
+	<e:Label id="lblMinute" y="105" text="0" x="239"/>
+    
+	<e:Image id="imgOK" width="137" height="52" x="140" y="327" fillMode="clip" source="offlineok_png"/>
+</e:Skin>

@@ -120,7 +120,12 @@ var AuctionUI = (function (_super) {
     };
     p.onEndChangeBid = function (e) {
         if (application.guideUI) {
-            application.guideUI.next();
+            if (this.bid.gold + this.addGold > 0) {
+                application.guideUI.next();
+            }
+            else {
+                Toast.launch("投标的金币数量不能是0");
+            }
         }
     };
     return AuctionUI;
