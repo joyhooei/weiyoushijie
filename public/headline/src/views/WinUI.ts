@@ -10,8 +10,7 @@ class WinUI extends eui.Component{
         this.skinName = "resource/custom_skins/winUISkin.exml";
         
         this.imgBack.addEventListener( egret.TouchEvent.TOUCH_TAP, ()=>{
-			application.earnBids();			
-			application.earnOfflineGold();
+			application.earnBids();
             application.hideUI(this);
         }, this);
         
