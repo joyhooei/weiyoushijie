@@ -180,11 +180,11 @@ class GiftUI extends eui.Component {
 				
 				//如果到了第二天，将所有已经领取礼物重新修改为可以领取
 				var day = 1000 * 60 * 60 * 24;
-				var now = new Date();
+				var now = Math.floor((new Date()).getTime() / day);
 				for(var i = 0; i < gifts.length; i++) {
 					if (gifts[i].category != 6 && gifts[i].locked == 2) {
-						var dt  = new Date(gifts[i].update_time);
-						if (Math.floor(now.getTime() / day) > Math.floor(dt.getTime() / day)){
+						var dt  = Math.floor((new Date(gifts[i].update_time)).getTime() / day);
+						if (now > dt){
 							gifts[i].locked = 1;
 						}
 					}
