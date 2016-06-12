@@ -392,12 +392,12 @@ module application {
     }
    
     export function format(d:number): string {
-        if (d <= 99999) {
-            return d.toString();
-        }
-        
-		let unit:string  = "";
 		try {
+			if (d <= 99999) {
+				return d.toString();
+			}
+        
+			let unit:string  = "";		
 			for (var i = 0; i < application.units.length; i++) {
 				if (d < 10) {
 					return d.toFixed(2) + unit;
@@ -410,11 +410,13 @@ module application {
 					d = d / 1000;
 				}
 			}
+			
+			return d.toFixed() + unit;
 		} catch (error) {
 			console.error("format " + d.toString() + " error " + error.message);
+			
+			return "0";
 		}
-        
-        return d.toFixed() + unit;
     }
     
     export function log10(d:number):number {
