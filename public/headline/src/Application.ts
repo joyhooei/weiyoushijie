@@ -141,6 +141,12 @@ module application {
         application.dao.save("Customer",application.customer);
     }
     
+    export function earnOfflineGold() {
+        if (application.customer.offline_gold > 0) {
+            application.earnGold(application.customer.offline_gold);
+        }
+    }
+    
     export function earnGold(gold:number) {
 		//处理大数 + 小数，小数被四舍五入的问题
         application.earnedGold += gold;
