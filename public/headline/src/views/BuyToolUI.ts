@@ -20,6 +20,9 @@ class BuyToolUI extends eui.Component{
         this.addEventListener( eui.UIEvent.COMPLETE, this.uiCompHandler, this );
         
         this.skinName = "resource/custom_skins/buyToolUISkin.exml";
+		
+        this.lblGold.touchEnabled = false;
+        this.lblPrice.touchEnabled = false;
     }
 
     private uiCompHandler():void {
