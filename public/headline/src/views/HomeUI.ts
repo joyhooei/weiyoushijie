@@ -230,7 +230,7 @@ class HomeUI extends eui.Component{
 				if (application.customer.id == self.bid.customer_id) {
 					//已经显示过，就不需要再显示了
 					if (self.bid.claimed == 0) {
-						application.showUI(new WinUI(self.bid), this);
+						application.showUI(new WinUI(self.bid), self);
 					} else {
                     	self.renderOfflineGold();
                     }
