@@ -146,7 +146,7 @@ router.post('/rank', function(req, res, next) {
 	query.get(req.body.customer_id).then(function(customer){
 		var q = new AV.Query(dao.Customer);
 		q.equalTo("game", req.query.game);
-		q.greaterThanOrEqualTo("metal", customer.get("metal"));
+		//q.greaterThanOrEqualTo("metal", customer.get("metal"));
 		q.select('objectId', 'name', 'metal', 'accumulated_gold ');
 		q.addDescending("metal");
 		q.addDescending("accumulated_gold");
