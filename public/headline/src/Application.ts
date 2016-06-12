@@ -28,6 +28,9 @@ module application {
         application.dao = new Dao(application.baseUrl + "api/", "headline");
         
         application.projects = Project.createAllProjects();
+        for(var i = 0; i < application.projects.length; i++) {
+            console.log(JSON.stringify(application.projects[i]));
+        }
         
         application.stopwatch = new egret.EventDispatcher();
 		
