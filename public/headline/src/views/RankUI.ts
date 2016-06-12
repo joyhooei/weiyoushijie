@@ -33,7 +33,7 @@ class RankUI extends eui.Component {
 			}
 		});
         
-        application.dao.fetch("Customer", {}, {limit: 8, order: 'metal DESC, accumulated_gold DESC'}, function(succeed, customers){
+        application.dao.fetch("Customer", {}, {limit: 10, order: 'metal DESC, accumulated_gold DESC'}, function(succeed, customers){
             if (succeed) {
 				self.customers = customers;
 				
