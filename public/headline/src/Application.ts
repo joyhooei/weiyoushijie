@@ -117,6 +117,23 @@ module application {
             cb(application.bid);
         })
     }
+    
+    export function earnBids(): void {
+		application.dao.fetch("Bid", {customer_id: application.customer.id, succeed: 1, claimed: 0}, {}, function(succeed, bids){
+			if (succeed && bids.length > 0) {
+				for(var i = 0; i < bids.length; i++) {
+					application.customer.gold -= bids[i].gold;
+					application.customer.metal++;
+					application.customer.diamond += 2000;
+
+					bids[i].claimed = 1;
+					application.dao.save("Bid", bids[i]);
+				}
+				
+				application.dao.saveCustomer();
+			}
+		});
+    }
 
     export function saveCustomer() {
         application.customer.gold = Math.max(0,application.customer.gold);
