@@ -137,11 +137,11 @@ var GiftUI = (function (_super) {
                 self.gifts = gifts;
                 //如果到了第二天，将所有已经领取礼物重新修改为可以领取
 				var day = 1000 * 60 * 60 * 24;
-				var now = Math.floor((new Date()).getTime() / day);
+				var now = (new Date()).getTime() / day;
 				for(var i = 0; i < gifts.length; i++) {
 					if (gifts[i].category != 6 && gifts[i].locked == 2) {
-						var dt  = Math.floor((new Date(gifts[i].update_time)).getTime() / day);
-						if (now > dt){
+						var dt  = (new Date(gifts[i].update_time)).getTime() / day;
+						if (Math.floor(now) > Math.floor(dt)){
 							gifts[i].locked = 1;
 						}
 					}
