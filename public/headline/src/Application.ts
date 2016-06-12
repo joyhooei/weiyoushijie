@@ -95,6 +95,14 @@ module application {
             }
         });
     }
+	
+	export function delay(cb: Function, miniseconds: number) {
+		var timer: egret.Timer = new egret.Timer(miniseconds, 1);
+		timer.addEventListener(egret.TimerEvent.TIMER,function(event: egret.TimerEvent) {
+			cb();
+		},this);
+		timer.start();	
+	}
     
     export function bidDay(): string {
 		//中午12点开标，所以12点之后的投标算明天的
@@ -210,12 +218,6 @@ module application {
             if (succeed) {
 				nest.iap.pay({ goodsId: gid, goodsNumber: "1", serverId: "1",ext: o.id }, function(data) {
 					if(data.result == 0) {
-						//支付成功
-						Toast.launch(title + "成功");
-                        
-                        if (cb) {
-                            cb(order);
-                        }
 					} else if(data.result == -1) {
 						//支付取消
                         o.reason = "用户取消了支付";
@@ -228,10 +230,37 @@ module application {
 						Toast.launch("支付失败");
 					}
 				})
+                
+				application.delay(function(){
+					application.checkOrderPayed(o, 10);
+				}, 1000);
             } else {
                 Toast.launch("保存订单失败，请稍后再试");
             }
         });
+    }
+    
+    export function checkOrderPayed(order: any, timeout: number) {
+		application.dao.fetch("Order", {id: order.id, state: 1}, {}, function(succeed, orders) {
+			if (succeed && orders.length > 0) {
+				//支付成功
+				Toast.launch("支付成功");
+
+				if (cb) {
+					cb(orders[0]);
+				}
+			} else {
+				// fetch again
+				timeout -= 1;
+				if (timeout > 0) {
+					application.delay(function(){
+						application.checkOrderPayed(order, timeout);
+					}, 1000);
+				} else {
+					 Toast.launch("支付超时，请稍后再试");
+				}
+			}
+		}};    
     }
     
     export function charge(): void {
