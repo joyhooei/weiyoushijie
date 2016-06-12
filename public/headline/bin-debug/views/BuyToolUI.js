@@ -6,6 +6,8 @@ var BuyToolUI = (function (_super) {
         this._price = price;
         this.addEventListener(eui.UIEvent.COMPLETE, this.uiCompHandler, this);
         this.skinName = "resource/custom_skins/buyToolUISkin.exml";
+        this.lblGold.touchEnabled = false;
+        this.lblPrice.touchEnabled = false;
     }
     var d = __define,c=BuyToolUI,p=c.prototype;
     p.uiCompHandler = function () {

@@ -142,9 +142,11 @@ var HomeUI = (function (_super) {
                     //已经显示过，就不需要再显示了
                     if (self.bid.claimed == 0) {
                         application.showUI(new WinUI(self.bid), self);
+                        application.earnOfflineGold();
                     }
                     else {
                         self.renderOfflineGold();
+                        application.earnBids();
                     }
                     self.renderBidCustomer(application.customer);
                 }
@@ -155,6 +157,7 @@ var HomeUI = (function (_super) {
                         }
                     });
                     self.renderOfflineGold();
+                    application.earnBids();
                 }
             }
         });

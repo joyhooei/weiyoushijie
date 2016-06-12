@@ -8,7 +8,7 @@ var OfflineGoldUI = (function (_super) {
         this.lblHour.text = application.customer.offline_hours;
         this.lblMinute.text = application.customer.offline_minutes;
         this.imgOK.addEventListener(egret.TouchEvent.TOUCH_TAP, function () {
-            application.earnGold(application.customer.offline_gold);
+            application.earnOfflineGold();
             application.hideUI(_this);
         }, this);
     }

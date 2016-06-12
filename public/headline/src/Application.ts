@@ -138,7 +138,7 @@ module application {
 					application.dao.save("Bid", bids[i]);
 				}
 				
-				application.dao.saveCustomer();
+				application.saveCustomer();
 			}
 		});
     }
@@ -232,7 +232,7 @@ module application {
 				})
                 
 				application.delay(function(){
-					application.checkOrderPayed(o, 10);
+					application.checkOrderPayed(o, 10, cb);
 				}, 1000);
             } else {
                 Toast.launch("保存订单失败，请稍后再试");
@@ -240,7 +240,7 @@ module application {
         });
     }
     
-    export function checkOrderPayed(order: any, timeout: number) {
+    export function checkOrderPayed(order: any, timeout: number, cb:Function) {
 		application.dao.fetch("Order", {id: order.id, state: 1}, {}, function(succeed, orders) {
 			if (succeed && orders.length > 0) {
 				//支付成功
@@ -254,13 +254,13 @@ module application {
 				timeout -= 1;
 				if (timeout > 0) {
 					application.delay(function(){
-						application.checkOrderPayed(order, timeout);
+						application.checkOrderPayed(order, timeout, cb);
 					}, 1000);
 				} else {
 					 Toast.launch("支付超时，请稍后再试");
 				}
 			}
-		}};    
+		});    
     }
     
     export function charge(): void {

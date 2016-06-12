@@ -152,7 +152,7 @@ var Project = (function () {
                 lastLevel = ratio.upperLevel;
             }
         }
-        return Math.round(level * this._priceLevelOne * cumulativePriceRatio);
+        return Math.round(this._priceLevelOne * cumulativePriceRatio);
     };
     //连续升级，从levelFrom到levelTo的价格
     p.price = function (level, step) {

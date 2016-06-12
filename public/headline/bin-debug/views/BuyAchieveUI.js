@@ -11,6 +11,8 @@ var BuyAchieveUI = (function (_super) {
         this.imgProject.source = "t" + (myProject.sequence + 1).toString() + "_png";
         this.lblRatio.text = application.format(project.achieve(achieve).outputRatio);
         this.lblLevel.text = project.achieve(achieve).level.toString();
+        this.lblGold.touchEnabled = false;
+        this.lblDiamond.touchEnabled = false;
     }
     var d = __define,c=BuyAchieveUI,p=c.prototype;
     p.uiCompHandler = function () {

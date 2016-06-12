@@ -8,7 +8,7 @@ var application;
         //application.baseUrl = "http://localhost:3000/";
         application.dao = new Dao(application.baseUrl + "api/", "headline");
         application.projects = Project.createAllProjects();
-                for(var i = 0; i < application.projects.length; i++) {
+        for (var i = 0; i < application.projects.length; i++) {
             console.log(JSON.stringify(application.projects[i]));
         }
         application.stopwatch = new egret.EventDispatcher();
@@ -70,6 +70,14 @@ var application;
         });
     }
     application.onLoginCallback = onLoginCallback;
+    function delay(cb, miniseconds) {
+        var timer = new egret.Timer(miniseconds, 1);
+        timer.addEventListener(egret.TimerEvent.TIMER, function (event) {
+            cb();
+        }, this);
+        timer.start();
+    }
+    application.delay = delay;
     function bidDay() {
         //中午12点开标，所以12点之后的投标算明天的
         var dt = new Date();
@@ -91,12 +99,33 @@ var application;
         });
     }
     application.refreshBid = refreshBid;
+    function earnBids() {
+        application.dao.fetch("Bid", { customer_id: application.customer.id, succeed: 1, claimed: 0 }, {}, function (succeed, bids) {
+            if (succeed && bids.length > 0) {
+                for (var i = 0; i < bids.length; i++) {
+                    application.customer.gold -= bids[i].gold;
+                    application.customer.metal++;
+                    application.customer.diamond += 2000;
+                    bids[i].claimed = 1;
+                    application.dao.save("Bid", bids[i]);
+                }
+                application.saveCustomer();
+            }
+        });
+    }
+    application.earnBids = earnBids;
     function saveCustomer() {
         application.customer.gold = Math.max(0, application.customer.gold);
         application.customer.diamond = Math.max(0, application.customer.diamond);
         application.dao.save("Customer", application.customer);
     }
     application.saveCustomer = saveCustomer;
+    function earnOfflineGold() {
+        if (application.customer.offline_gold > 0) {
+            application.earnGold(application.customer.offline_gold);
+        }
+    }
+    application.earnOfflineGold = earnOfflineGold;
     function earnGold(gold) {
         //处理大数 + 小数，小数被四舍五入的问题
         application.earnedGold += gold;
@@ -155,11 +184,6 @@ var application;
             if (succeed) {
                 nest.iap.pay({ goodsId: gid, goodsNumber: "1", serverId: "1", ext: o.id }, function (data) {
                     if (data.result == 0) {
-                        //支付成功
-                        Toast.launch(title + "成功");
-                        if (cb) {
-                            cb(order);
-                        }
                     }
                     else if (data.result == -1) {
                         //支付取消
@@ -173,6 +197,9 @@ var application;
                         Toast.launch("支付失败");
                     }
                 });
+                application.delay(function () {
+                    application.checkOrderPayed(o, 10, cb);
+                }, 1000);
             }
             else {
                 Toast.launch("保存订单失败，请稍后再试");
@@ -180,6 +207,30 @@ var application;
         });
     }
     application.buy = buy;
+    function checkOrderPayed(order, timeout, cb) {
+        application.dao.fetch("Order", { id: order.id, state: 1 }, {}, function (succeed, orders) {
+            if (succeed && orders.length > 0) {
+                //支付成功
+                Toast.launch("支付成功");
+                if (cb) {
+                    cb(orders[0]);
+                }
+            }
+            else {
+                // fetch again
+                timeout -= 1;
+                if (timeout > 0) {
+                    application.delay(function () {
+                        application.checkOrderPayed(order, timeout, cb);
+                    }, 1000);
+                }
+                else {
+                    Toast.launch("支付超时，请稍后再试");
+                }
+            }
+        });
+    }
+    application.checkOrderPayed = checkOrderPayed;
     function charge() {
         application.buy("Diamond", "diamond", 2, "充值", function (order) {
             application.customer.diamond += 200;
@@ -362,11 +413,11 @@ var application;
     }
     application.hideUI = hideUI;
     function format(d) {
-        if (d <= 99999) {
-            return d.toString();
-        }
-        var unit = "";
         try {
+            if (d <= 99999) {
+                return d.toString();
+            }
+            var unit = "";
             for (var i = 0; i < application.units.length; i++) {
                 if (d < 10) {
                     return d.toFixed(2) + unit;
@@ -382,11 +433,12 @@ var application;
                     d = d / 1000;
                 }
             }
+            return d.toFixed() + unit;
         }
         catch (error) {
             console.error("format " + d.toString() + " error " + error.message);
+            return "0";
         }
-        return d.toFixed() + unit;
     }
     application.format = format;
     function log10(d) {

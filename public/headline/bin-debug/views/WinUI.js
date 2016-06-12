@@ -5,20 +5,8 @@ var WinUI = (function (_super) {
         _super.call(this);
         this.skinName = "resource/custom_skins/winUISkin.exml";
         this.imgBack.addEventListener(egret.TouchEvent.TOUCH_TAP, function () {
-            var self = this;
-            application.dao.fetch("Bid", { customer_id: application.customer.id, succeed: 1, claimed: 0 }, {}, function (succeed, bids) {
-                if (succeed) {
-                    for (var i = 0; i < bids.length; i++) {
-                        application.customer.gold -= bids[i].gold;
-                        application.customer.metal++;
-                        application.customer.diamond += 2000;
-                        bids[i].claimed = 1;
-                        application.dao.save("Bid", bids[i]);
-                    }
-                }
-                application.earnGold(application.customer.offline_gold);
-                application.hideUI(self);
-            });
+            application.earnBids();
+            application.hideUI(_this);
         }, this);
         this.imgHide.addEventListener(egret.TouchEvent.TOUCH_TAP, function () {
             if (application.customer.hide_winner == 1) {
