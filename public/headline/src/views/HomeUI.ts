@@ -229,7 +229,7 @@ class HomeUI extends eui.Component{
 				//如果显示win ui，则不显示offlinegold ui，否则显示offlinegold ui
 				if (application.customer.id == self.bid.customer_id) {
 					//已经显示过，就不需要再显示了
-					if (self.bid.day.claimed == 0) {
+					if (self.bid.claimed == 0) {
 						application.showUI(new WinUI(self.bid), this);
 					} else {
                     	self.renderOfflineGold();
