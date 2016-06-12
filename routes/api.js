@@ -368,8 +368,8 @@ function _decode(avObj) {
 		model.longitude = location.longitude;
 	}
 
-	model.create_time = moment(avObj.createdAt).utc().format("YYYY-MM-DD HH:mm:ss");
-	model.update_time = moment(avObj.updatedAt).utc().format("YYYY-MM-DD HH:mm:ss");
+	model.create_time = moment(avObj.createdAt).format("YYYY-MM-DD HH:mm:ss");
+	model.update_time = moment(avObj.updatedAt).format("YYYY-MM-DD HH:mm:ss");
 	
 	_.each(model, function(v, k){
 		if (_.isNumber(v) && v >= 1000000000000000000000) {
