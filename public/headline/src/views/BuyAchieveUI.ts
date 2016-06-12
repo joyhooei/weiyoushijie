@@ -31,6 +31,9 @@ class BuyAchieveUI extends eui.Component{
         this.imgProject.source = "t" + (myProject.sequence + 1).toString() + "_png";
         this.lblRatio.text = application.format(project.achieve(achieve).outputRatio);
         this.lblLevel.text = project.achieve(achieve).level.toString();
+        
+        this.lblGold.touchEnabled = false;
+        this.lblDiamond.touchEnabled = false;
     }
 
     private uiCompHandler():void {
