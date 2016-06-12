@@ -8,6 +8,9 @@ var application;
         //application.baseUrl = "http://localhost:3000/";
         application.dao = new Dao(application.baseUrl + "api/", "headline");
         application.projects = Project.createAllProjects();
+                for(var i = 0; i < application.projects.length; i++) {
+            console.log(JSON.stringify(application.projects[i]));
+        }
         application.stopwatch = new egret.EventDispatcher();
         application.units = [
             'k', 'm', 'b', 't',
