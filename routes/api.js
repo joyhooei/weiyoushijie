@@ -11,6 +11,8 @@ var Order = require('../models/order');
 var Helper = require('../models/helper');
 
 router.get('/egret_rt', function(req, res, next) {
+	console.log("egret_rt " + JSON.stringify(req.query));
+	
 	var query = new AV.Query(dao.Game);
 	query.equalTo("name", req.query.name);
 	query.addDescending("version");
@@ -38,6 +40,8 @@ router.post('/egret_pay', function(req, res, next) {
 	//ext	是	egret透传参数，此参数在调用渠道支付页面地址时的透传参数，这里是钻石的数量
 	//time	是	时间戳
 	//sign	是	验证签名，签名生成方式详见附录1
+	
+	console.log("egret_pay " + JSON.stringify(req.body));
 	
     var query = new AV.Query(dao.Order);
 	query.get(req.body.ext).then(function(order){
