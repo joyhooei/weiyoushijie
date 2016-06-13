@@ -35,6 +35,7 @@ var application;
         application.dao.rest("login", { token: data.token }, function (succeed, customer) {
             if (succeed) {
                 application.customer = customer;
+                esa.EgretSA.player.init({ egretId: customer.uid, level: 1, serverId: 1, playerName: customer.name });
                 //首次登录，需要显示引导页面
                 if (application.customer.gold == 0) {
                     application.guideUI = new GuideUI();

@@ -28,6 +28,7 @@ var ToolItem = (function (_super) {
             this._myProject.tool_ratio = this.ratio(this._myProject.tool_ratio, step);
             application.buyOutput(0, price, this.output() - oldOutput);
             application.dao.save("Project", this._myProject);
+            esa.EgretSA.onDiamondUse("购买了运营加倍", 1, price);
             Toast.launch("购买成功");
             this.refresh();
         }

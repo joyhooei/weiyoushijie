@@ -30,7 +30,7 @@
 		},
 		{
     		"name": "egretsa",
-    		"path": "../../egret/modules/egretsa/libsrc"
+    		"path": "../../egret/modules/egretsa"
 		}
 	]
 }

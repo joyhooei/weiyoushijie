@@ -65,6 +65,7 @@ var BuyToolUI = (function (_super) {
         if (application.customer.diamond > this._price) {
             application.customer.diamond -= this._price;
             application.earnGold(application.customer.output * 3600 * 48);
+            esa.EgretSA.onDiamondUse("购买了时光沙漏", 1, this._price);
             Toast.launch("购买了时光沙漏");
             application.hideUI(this);
         }
@@ -78,6 +79,7 @@ var BuyToolUI = (function (_super) {
                 application.customer.diamond -= this._price;
                 application.customer.total_hits = 3;
                 application.saveCustomer();
+                esa.EgretSA.onDiamondUse("购买了暴击", 1, this._price);
                 Toast.launch("购买了暴击");
                 application.hideUI(this);
             }

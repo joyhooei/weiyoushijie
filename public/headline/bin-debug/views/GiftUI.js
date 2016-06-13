@@ -255,6 +255,7 @@ var GiftUI = (function (_super) {
         var tip = "";
         if (gift.diamond > 0) {
             tip += "获得" + gift.diamond.toString() + "钻石";
+            esa.EgretSA.onDiamondReward(gift.diamond, "礼物奖励");
         }
         if (gift.gold > 0) {
             if (tip.length > 0) {
