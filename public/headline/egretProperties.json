@@ -27,6 +27,10 @@
 		{
 			"name": "nest",
 			"path": "../../egret/modules/nest/libsrc"
-		}		
+		},
+		{
+    		"name": "egretsa",
+    		"path": "../../egret/modules/egretsa/libsrc"
+		}
 	]
 }
