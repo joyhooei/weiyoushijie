@@ -22,7 +22,7 @@ class Main extends eui.UILayer {
         
         egret.TextField.default_fontFamily = "STXihei";
         
-        esa.EgretSA.init({"gameId":90359,"chanId":egret.getOption("egret.runtime.spid"),"debug":false});
+        esa.EgretSA.init({"gameId":"536E77465847413D","chanId":egret.getOption("egret.runtime.spid"),"debug":false});
         
         //inject the custom material parser
         //注入自定义的素材解析器
