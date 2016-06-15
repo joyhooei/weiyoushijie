@@ -100,6 +100,8 @@ router.post('/login', function(req, res, next) {
 													
 							Gift.unlockLogin(customer);
 						}
+						
+						_adjustBigNumber(customer.attributes, false);
 					} else {
 						var customer = Customer.create(result.data.id, result.data.name, result.data.pic, result.data.sex, result.data.age);
 						customer.set("game", req.query.game);
@@ -375,11 +377,7 @@ function _decode(avObj) {
 	model.create_time = moment(avObj.createdAt).format("YYYY-MM-DD HH:mm:ss");
 	model.update_time = moment(avObj.updatedAt).format("YYYY-MM-DD HH:mm:ss");
 	
-	_.each(model, function(v, k){
-		if (_.isNumber(v) && v >= 1000000000000000000000) {
-			model[k] = v / 100;
-		}
-	});
+	_adjustBigNumber(model, true);
 
 	return model;
 };
@@ -400,15 +398,25 @@ function _encode(model, attrs) {
 	delete attributes.create_time;
 	delete attributes.update_time;
 	
-	_.each(attributes, function(v, k){
-		if (_.isNumber(v) && v >= 10000000000000000000) {
-			attributes[k] = v * 100;
-		}
-	});
+	_adjustBigNumber(attributes, false);
 
 	model.set(attributes);
 	return model;
 };
+
+function _adjustBigNumber(attributes, toActual) {
+	_.each(attributes, function(v, k){
+		if (toActual) {	
+			if (_.isNumber(v) && v >= 1000000000000000000000) {
+				attributes[k] = v / 100;
+			}
+		} else {
+			if (_.isNumber(v) && v >= 10000000000000000000) {
+				attributes[k] = v * 100;
+			}
+		}
+	});	
+}
 
 function _succeed(res, data) {
 	data = data || {};
