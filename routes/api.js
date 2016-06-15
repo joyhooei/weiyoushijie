@@ -112,8 +112,8 @@ router.post('/login', function(req, res, next) {
 						_succeed(res, _decode(customer));
 					}, function(error){
 						console.error("save customer failed " + error.message);
-						_failed(res, error);
-					})				
+						_succeed(res, _decode(customer));
+					})
 				}, function(error){
 					console.error("find customer failed " + error.message);
 					_failed(res, error);
