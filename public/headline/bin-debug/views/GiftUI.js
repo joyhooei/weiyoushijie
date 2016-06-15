@@ -185,7 +185,7 @@ var GiftUI = (function (_super) {
                         this.onlineGiftTimeout -= 1;
                     }
                 }, this);
-                timer.addEventListener(egret.TimerEvent.COMPLETE, function (event) {
+                timer.addEventListener(egret.TimerEvent.TIMER_COMPLETE, function (event) {
                     //时间到了，可以领取了
                     this.lockGift(gift, 0);
                 }, this);

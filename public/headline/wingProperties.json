@@ -863,6 +863,21 @@
 					"isFolder":false,
 					"key":"highlight4_png",
 					"name":"highlight4_png"
+				},
+				{
+					"isFolder":false,
+					"key":"effect_png",
+					"name":"effect_png"
+				},
+				{
+					"isFolder":false,
+					"key":"hiteffect_png",
+					"name":"hiteffect_png"
+				},
+				{
+					"isFolder":false,
+					"key":"red_png",
+					"name":"red_png"
 				}
 			]
 		}

@@ -239,7 +239,7 @@ class GiftUI extends eui.Component {
 						this.onlineGiftTimeout -= 1;
 					}
 				},this);
-				timer.addEventListener(egret.TimerEvent.COMPLETE,function(event: egret.TimerEvent) {
+                timer.addEventListener(egret.TimerEvent.TIMER_COMPLETE,function(event: egret.TimerEvent) {
 					//时间到了，可以领取了
 					this.lockGift(gift, 0);
 				},this);

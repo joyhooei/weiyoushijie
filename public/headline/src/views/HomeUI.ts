@@ -46,6 +46,7 @@ class HomeUI extends eui.Component{
     private lblHit: eui.Label;
     private lblTotalHits: eui.Label;
     private imgHit: eui.Image;
+    private imgHitEffect: eui.Image;
 	private hit: number = 0;
 	
     private btnGift: eui.Button;
@@ -70,6 +71,10 @@ class HomeUI extends eui.Component{
         self.lblAddGold.visible = false;
         self.imgAddGold.visible = false;
         self.lblAddGold.backgroundColor = 0xFFFFFF;
+        
+        self.imgHit.visible = false;
+        self.imgGift.visible = false;
+        self.imgHitEffect.visible = false;
         
         self.btnHome.addEventListener( egret.TouchEvent.TOUCH_TAP, self.btnHandler, self );
         self.btnRank.addEventListener( egret.TouchEvent.TOUCH_TAP, self.btnHandler, self );
@@ -369,7 +374,16 @@ class HomeUI extends eui.Component{
             Toast.launch("获得10倍收益，持续60秒");
             
             self.imgHit.visible = true;
-    
+ 
+            var effectTimer: egret.Timer = new egret.Timer(1000 / 20,59 * 20);
+            effectTimer.addEventListener(egret.TimerEvent.TIMER,function(event: egret.TimerEvent) {
+                self.imgHitEffect.visible = !self.imgHitEffect.visible;
+            },this);
+            effectTimer.addEventListener(egret.TimerEvent.TIMER_COMPLETE,function(event: egret.TimerEvent) {
+                self.imgHitEffect.visible = false;
+            },this);
+            effectTimer.start();
+            
     		var timer: egret.Timer = new egret.Timer(1000, 59);
     		timer.addEventListener(egret.TimerEvent.TIMER, function(event:egret.TimerEvent){
     			self.lblHit.text = self.hit.toString();
@@ -377,8 +391,7 @@ class HomeUI extends eui.Component{
 				if (self.hit > 0) {
     				self.hit = self.hit - 1;
 				}
-    		}, this);
-    
+    		}, this);   
     		timer.addEventListener(egret.TimerEvent.TIMER_COMPLETE, function(event:egret.TimerEvent){
     			self.hit = 0;
     			self.lblHit.text = "59";
