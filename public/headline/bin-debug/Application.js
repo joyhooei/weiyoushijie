@@ -8,9 +8,6 @@ var application;
         //application.baseUrl = "http://localhost:3000/";
         application.dao = new Dao(application.baseUrl + "api/", "headline");
         application.projects = Project.createAllProjects();
-        for (var i = 0; i < application.projects.length; i++) {
-            console.log(JSON.stringify(application.projects[i]));
-        }
         application.stopwatch = new egret.EventDispatcher();
         application.units = [
             'k', 'm', 'b', 't',
@@ -179,7 +176,8 @@ var application;
         }
     }
     application.buyOutput = buyOutput;
-    function buy(product, gid, price, title, cb) {
+    function buy(product, gid, price, title) {
+        var firstCharge = application.customer.charge == 0;
         var order = { customer_id: application.customer.id, product: product, price: price, state: 0 };
         application.dao.save("Order", order, function (succeed, o) {
             if (succeed) {
@@ -198,9 +196,7 @@ var application;
                         Toast.launch("支付失败");
                     }
                 });
-                application.delay(function () {
-                    application.checkOrderPayed(o, 10, cb);
-                }, 1000);
+                application.checkOrderPayed(o, 10, firstCharge);
             }
             else {
                 Toast.launch("保存订单失败，请稍后再试");
@@ -208,71 +204,94 @@ var application;
         });
     }
     application.buy = buy;
-    function checkOrderPayed(order, timeout, cb) {
-        application.dao.fetch("Order", { id: order.id, state: 1 }, {}, function (succeed, orders) {
-            if (succeed && orders.length > 0) {
-                //支付成功
-                Toast.launch("支付成功");
-                if (cb) {
-                    cb(orders[0]);
-                }
-            }
-            else {
-                // fetch again
-                timeout -= 1;
-                if (timeout > 0) {
-                    application.delay(function () {
-                        application.checkOrderPayed(order, timeout, cb);
-                    }, 1000);
+    function checkOrderPayed(order, times, firstCharge) {
+        application.delay(function () {
+            application.dao.fetch("Order", { id: order.id, state: 1 }, {}, function (succeed, orders) {
+                if (succeed && orders.length > 0) {
+                    var o = orders[0];
+                    if (firstCharge) {
+                        application.customer.diamond += 1500;
+                        application.customer.gold += 1000 * 1000;
+                        application.customer.metal += 1;
+                    }
+                    if (o.product == "Diamond") {
+                        if (firstCharge) {
+                            Toast.launch("购买了200钻石,并获得了1500钻，1000k金币和1个奖章的首充奖励");
+                        }
+                        else {
+                            Toast.launch("购买了200钻石");
+                        }
+                        application.customer.diamond += 200;
+                        application.saveCustomer();
+                    }
+                    else {
+                        application.dao.fetch("Order", { customer_id: application.customer.id, "product": "Ticket", state: 1 }, {}, function (succeed, orders) {
+                            if (o.product == "Ticket") {
+                                if (firstCharge) {
+                                    Toast.launch("购买了月票,并获得了1500钻，1000k金币和1个奖章的首充奖励");
+                                }
+                                else {
+                                    Toast.launch("购买了月票");
+                                }
+                                //已经买过月票，不能再获取奖章了
+                                if (succeed && orders.length >= 2) {
+                                    var metal = 0;
+                                }
+                                else {
+                                    var metal = 1;
+                                }
+                                var dt = new Date();
+                                dt = new Date(dt.getTime() + 1000 * 60 * 60 * 24 * 30);
+                                application.customer.ticket = dt.toString();
+                                application.customer.vip = 1;
+                                application.customer.metal += metal;
+                            }
+                            else {
+                                if (firstCharge) {
+                                    Toast.launch("购买了VIP,并获得了1500钻，1000k金币和1个奖章的首充奖励");
+                                }
+                                else {
+                                    Toast.launch("购买了VIP");
+                                }
+                                //已经买过月票，只能再获取2个奖章
+                                if (succeed && orders.length >= 1) {
+                                    var metal = 2;
+                                }
+                                else {
+                                    var metal = 3;
+                                }
+                                application.customer.ticket = "";
+                                application.customer.vip = 2;
+                                application.customer.metal += metal;
+                            }
+                            application.saveCustomer();
+                        });
+                    }
                 }
                 else {
-                    Toast.launch("支付超时，请稍后再试");
+                    // fetch again
+                    times -= 1;
+                    if (times > 0) {
+                        application.checkOrderPayed(order, times, firstCharge);
+                    }
+                    else {
+                        Toast.launch("支付超时，请稍后再试");
+                    }
                 }
-            }
-        });
+            });
+        }, 1000);
     }
     application.checkOrderPayed = checkOrderPayed;
     function charge() {
-        application.buy("Diamond", "diamond", 2, "充值", function (order) {
-            application.customer.diamond += 200;
-            application.saveCustomer();
-        });
+        application.buy("Diamond", "diamond", 2, "充值");
     }
     application.charge = charge;
     function buyTicket() {
-        application.dao.fetch("Order", { customer_id: application.customer.id, "product": "Ticket", state: 1 }, {}, function (succeed, orders) {
-            if (succeed && orders.length > 1) {
-                var metal = 0;
-            }
-            else {
-                var metal = 1;
-            }
-            application.buy("Ticket", "ticket", 19, "购买月票", function (order) {
-                var dt = new Date();
-                dt = new Date(dt.getTime() + 1000 * 60 * 60 * 24 * 30);
-                application.customer.ticket = dt.toString();
-                application.customer.vip = 1;
-                application.customer.metal += metal;
-                application.saveCustomer();
-            });
-        });
+        application.buy("Ticket", "ticket", 19, "购买月票");
     }
     application.buyTicket = buyTicket;
     function buyVIP() {
-        application.dao.fetch("Order", { customer_id: application.customer.id, "product": "Ticket", state: 1 }, {}, function (succeed, orders) {
-            if (succeed && orders.length > 1) {
-                var metal = 2;
-            }
-            else {
-                var metal = 3;
-            }
-            application.buy("VIP", "vip", 49, "购买终身VIP", function (order) {
-                application.customer.ticket = "";
-                application.customer.vip = 2;
-                application.customer.metal += metal;
-                application.saveCustomer();
-            });
-        });
+        application.buy("VIP", "vip", 49, "购买终身VIP");
     }
     application.buyVIP = buyVIP;
     function share(callback) {
