@@ -45,6 +45,15 @@ router.post('/egret_pay', function(req, res, next) {
 	
     var query = new AV.Query(dao.Order);
 	query.get(req.body.ext).then(function(order){
+		order.set("price", req.body.money);
+		if (req.body.money == 2) {
+			order.set("product", "Diamond");
+		} else if (req.body.money == 19) {
+			order.set("product", "Ticket");
+		} else if (req.body.money == 49) {
+			order.set("product", "VIP");
+		}
+		
 		Order.pay(order).then(function(o){
 			order.save().then(function(o){
 				_succeed(res, {code: 0, msg: '支付成功', data: []});
