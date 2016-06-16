@@ -25,13 +25,13 @@ module.exports.expireTicket = function(request, response) {
         
         if (expiredCustomers.length > 0) {
 			AV.Object.saveAll(expiredCustomers).then(function(){
-				response.succeed("expireTicket " + expiredCustomers.length);
+				response.success("expireTicket " + expiredCustomers.length);
 			}, function(error) {
 				console.error(error.message);
 				response.error(error.message);
 			});
 		} else {
-			response.succeed("expireTicket " + expiredCustomers.length);
+			response.success("expireTicket " + expiredCustomers.length);
 		}
     }, function(error) {
         response.error(error.message);
