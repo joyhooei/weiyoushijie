@@ -214,7 +214,7 @@ module application {
 		}
     }
     
-    export function buy(product: string, gid: string, price: number, title: string, cb:Function) {
+    export function buy(product: string, gid: string, price: number, title: string) {
         var order = { customer_id: application.customer.id, product: product, price: price, state: 0};
         application.dao.save("Order", order, function(succeed, o) {
             if (succeed) {
@@ -234,7 +234,7 @@ module application {
 				})
                 
 				application.delay(function(){
-					application.checkOrderPayed(o, 10, cb);
+					application.checkOrderPayed(o, 10);
 				}, 1000);
             } else {
                 Toast.launch("保存订单失败，请稍后再试");
@@ -242,21 +242,55 @@ module application {
         });
     }
     
-    export function checkOrderPayed(order: any, timeout: number, cb:Function) {
+    export function checkOrderPayed(order: any, timeout: number) {
 		application.dao.fetch("Order", {id: order.id, state: 1}, {}, function(succeed, orders) {
 			if (succeed && orders.length > 0) {
-				//支付成功
-				Toast.launch("支付成功");
-
-				if (cb) {
-					cb(orders[0]);
+				if (order.product == "Diamond") {
+					Toast.launch("购买了200钻石");
+				
+            		application.customer.diamond += 200;
+            		application.saveCustomer();                  
+                } else {
+					application.dao.fetch("Order", {customer_id: application.customer.id, "product": "Ticket", state: 1}, {}, function(succeed, orders){
+						if (order.product == "Ticket") {
+							Toast.launch("购买了月票");
+							
+							//已经买过月票，不能再获取奖章了
+							if (succeed && orders.length > 1) {
+								var metal = 0;
+							} else {
+								var metal = 1;
+							}
+						
+							var dt = new Date();
+							dt = new Date(dt.getTime() + 1000 * 60 * 60 * 24 * 30);
+							application.customer.ticket = dt.toString();    
+							application.customer.vip = 1;
+							application.customer.metal += metal;
+						} else if (order.product == "VIP") {
+							Toast.launch("购买了VIP");
+							
+							//已经买过月票，只能再获取2个奖章
+							if (succeed && orders.length >= 1) {
+								var metal = 2;
+							} else {
+								var metal = 3;
+							}
+							
+							application.customer.ticket = "";
+							application.customer.vip = 2;
+							application.customer.metal += metal;
+						}
+						
+						application.saveCustomer();
+					});
 				}
 			} else {
 				// fetch again
 				timeout -= 1;
 				if (timeout > 0) {
 					application.delay(function(){
-						application.checkOrderPayed(order, timeout, cb);
+						application.checkOrderPayed(order, timeout);
 					}, 1000);
 				} else {
 					 Toast.launch("支付超时，请稍后再试");
@@ -266,46 +300,15 @@ module application {
     }
     
     export function charge(): void {
-        application.buy("Diamond", "diamond", 2, "充值", function(order){
-            application.customer.diamond += 200;
-            application.saveCustomer();
-        }); 
+        application.buy("Diamond", "diamond", 2, "充值"); 
     }
     
     export function buyTicket(): void {
-        application.dao.fetch("Order", {customer_id: application.customer.id, "product": "Ticket", state: 1}, {}, function(succeed, orders){
-			if (succeed && orders.length > 1) {
-				var metal = 0;
-			} else {
-				var metal = 1;
-			}
-			
-			application.buy("Ticket", "ticket", 19, "购买月票", function(order){
-                var dt = new Date();
-				dt = new Date(dt.getTime() + 1000 * 60 * 60 * 24 * 30);
-				application.customer.ticket = dt.toString();    
-                application.customer.vip = 1;
-				application.customer.metal += metal;
-				application.saveCustomer();
-			});
-		});
+       	application.buy("Ticket", "ticket", 19, "购买月票");
     }
     
     export function buyVIP(): void {
-        application.dao.fetch("Order", {customer_id: application.customer.id, "product": "Ticket", state: 1}, {}, function(succeed, orders){
-			if (succeed && orders.length > 1) {
-				var metal = 2;
-			} else {
-				var metal = 3;
-			}
-			
-			application.buy("VIP", "vip", 49, "购买终身VIP", function(order){
-                application.customer.ticket = "";
-                application.customer.vip = 2;
-				application.customer.metal += metal;
-				application.saveCustomer();
-			});
-		});			
+        application.buy("VIP", "vip", 49, "购买终身VIP");			
     }
     
     export function share(callback:Function): void {
