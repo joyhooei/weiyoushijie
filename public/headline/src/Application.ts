@@ -233,70 +233,70 @@ module application {
 					}
 				})
                 
-				application.delay(function(){
-					application.checkOrderPayed(o, 10);
-				}, 1000);
+				application.checkOrderPayed(o, 10);
             } else {
                 Toast.launch("保存订单失败，请稍后再试");
             }
         });
     }
     
-    export function checkOrderPayed(order: any, timeout: number) {
-		application.dao.fetch("Order", {id: order.id, state: 1}, {}, function(succeed, orders) {
-			if (succeed && orders.length > 0) {
-				if (order.product == "Diamond") {
-					Toast.launch("购买了200钻石");
-				
-            		application.customer.diamond += 200;
-            		application.saveCustomer();                  
-                } else {
-					application.dao.fetch("Order", {customer_id: application.customer.id, "product": "Ticket", state: 1}, {}, function(succeed, orders){
-						if (order.product == "Ticket") {
-							Toast.launch("购买了月票");
-							
-							//已经买过月票，不能再获取奖章了
-							if (succeed && orders.length > 1) {
-								var metal = 0;
+    export function checkOrderPayed(order: any, times: number) {
+		application.delay(function(){
+			application.dao.fetch("Order", {id: order.id, state: 1}, {}, function(succeed, orders) {
+				if (succeed && orders.length > 0) {
+					var o = orders[0];
+					
+					if (o.product == "Diamond") {
+						Toast.launch("购买了200钻石");
+
+						application.customer.diamond += 200;
+						application.saveCustomer();                  
+					} else {
+						application.dao.fetch("Order", {customer_id: application.customer.id, "product": "Ticket", state: 1}, {}, function(succeed, orders){
+							if (o.product == "Ticket") {
+								Toast.launch("购买了月票");
+
+								//已经买过月票，不能再获取奖章了
+								if (succeed && orders.length >= 2) {
+									var metal = 0;
+								} else {
+									var metal = 1;
+								}
+
+								var dt = new Date();
+								dt = new Date(dt.getTime() + 1000 * 60 * 60 * 24 * 30);
+								application.customer.ticket = dt.toString();    
+								application.customer.vip = 1;
+								application.customer.metal += metal;
 							} else {
-								var metal = 1;
+								Toast.launch("购买了VIP");
+
+								//已经买过月票，只能再获取2个奖章
+								if (succeed && orders.length >= 1) {
+									var metal = 2;
+								} else {
+									var metal = 3;
+								}
+
+								application.customer.ticket = "";
+								application.customer.vip = 2;
+								application.customer.metal += metal;
 							}
-						
-							var dt = new Date();
-							dt = new Date(dt.getTime() + 1000 * 60 * 60 * 24 * 30);
-							application.customer.ticket = dt.toString();    
-							application.customer.vip = 1;
-							application.customer.metal += metal;
-						} else if (order.product == "VIP") {
-							Toast.launch("购买了VIP");
-							
-							//已经买过月票，只能再获取2个奖章
-							if (succeed && orders.length >= 1) {
-								var metal = 2;
-							} else {
-								var metal = 3;
-							}
-							
-							application.customer.ticket = "";
-							application.customer.vip = 2;
-							application.customer.metal += metal;
-						}
-						
-						application.saveCustomer();
-					});
-				}
-			} else {
-				// fetch again
-				timeout -= 1;
-				if (timeout > 0) {
-					application.delay(function(){
-						application.checkOrderPayed(order, timeout);
-					}, 1000);
+
+							application.saveCustomer();
+						});
+					}
 				} else {
-					 Toast.launch("支付超时，请稍后再试");
+					// fetch again
+					times -= 1;
+					if (times > 0) {
+						application.checkOrderPayed(order, times);
+					} else {
+						 Toast.launch("支付超时，请稍后再试");
+					}
 				}
-			}
-		});    
+			}); 
+		}, 1000);
     }
     
     export function charge(): void {
