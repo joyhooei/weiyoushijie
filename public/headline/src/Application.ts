@@ -22,7 +22,7 @@ module application {
     export function init(main:Main) {
 		application.main = main;
 		
-        application.baseUrl = "http://weiyugame.leanapp.cn/";
+        application.baseUrl = "http://www.weiyoushijie.com/";
 		//application.baseUrl = "http://localhost:3000/";
 		
         application.dao = new Dao(application.baseUrl + "api/", "headline");
