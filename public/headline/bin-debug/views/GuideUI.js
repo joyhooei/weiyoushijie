@@ -186,9 +186,6 @@ var GuideUI = (function (_super) {
         this.imgBonus.x = 376;
         this.imgBonus.y = 653;
         this.imgBonus.addEventListener(egret.TouchEvent.TOUCH_BEGIN, function () {
-            application.customer.metal += 1;
-            application.customer.diamond += 500;
-            application.saveCustomer();
             this.over();
         }, this);
     };
@@ -212,6 +209,9 @@ var GuideUI = (function (_super) {
     p.over = function () {
         application.hideUI(this);
         application.guideUI = null;
+        application.customer.metal += 1;
+        application.customer.diamond += 500;
+        application.saveCustomer();
         this.timer.stop();
         if (this.overCallback) {
             this.overCallback();

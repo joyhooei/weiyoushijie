@@ -13,7 +13,7 @@
 	
 	<e:Image x="404" id="imgRet" source="helpx_png" fillMode="scale" y="-2" width="65" height="65"/>
 	
-	<e:Label id="lblOnlineGiftTimeout" text="00:00" x="200" y="143" size="24"/>
-	<e:Label id="lblTicketGiftTimeout" size="24" y="340" text="00" x="298"/>
-	<e:Label id="lblOutputGift" size="24" y="473" text="00.0aa" x="212"/>
+	<e:Label id="lblOnlineGiftTimeout" text="00:00" x="200" y="143" size="20"/>
+	<e:Label id="lblTicketGiftTimeout" size="20" y="301" text="00天" x="271" width="60" height="20"/>
+	<e:Label id="lblOutputGift" size="20" y="473" text="00.0aa" x="212"/>
 </e:Skin>

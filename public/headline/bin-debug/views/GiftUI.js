@@ -211,11 +211,11 @@ var GiftUI = (function (_super) {
             var now = new Date();
             ;
             var timeDiff = ticketTimeout.getTime() - now.getTime();
-            if (timeDiff < 0) {
+            var diffDays = Math.floor(timeDiff / (1000 * 3600 * 24));
+            if (diffDays <= 0) {
                 this.lblTicketGiftTimeout.text = "";
             }
             else {
-                var diffDays = Math.ceil(timeDiff / (1000 * 3600 * 24));
                 this.lblTicketGiftTimeout.text = diffDays.toString() + "天";
             }
         }

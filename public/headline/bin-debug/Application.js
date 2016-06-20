@@ -34,7 +34,7 @@ var application;
                 application.customer = customer;
                 esa.EgretSA.player.init({ egretId: customer.uid, level: 1, serverId: 1, playerName: customer.name });
                 //首次登录，需要显示引导页面
-                if (application.customer.gold == 0) {
+                if (application.customer.metal == 0) {
                     application.guideUI = new GuideUI();
                 }
                 //检查是否ticket超期了
@@ -114,6 +114,7 @@ var application;
     application.earnBids = earnBids;
     function saveCustomer() {
         application.customer.gold = Math.max(0, application.customer.gold);
+        application.customer.accumulated_gold = Math.max(application.customer.accumulated_gold, application.customer.gold);
         application.customer.diamond = Math.max(0, application.customer.diamond);
         application.dao.save("Customer", application.customer);
     }
@@ -130,8 +131,8 @@ var application;
         var oldGold = application.customer.gold;
         application.customer.gold += application.earnedGold;
         if (oldGold != application.customer.gold) {
-            application.earnedGold = 0;
             application.customer.accumulated_gold += application.earnedGold;
+            application.earnedGold = 0;
         }
         application.saveCustomer();
     }
@@ -215,13 +216,29 @@ var application;
                         application.customer.metal += 1;
                     }
                     if (o.product == "Diamond") {
+                        var diamond = 200;
+                        if (o.price == 5) {
+                            diamond = 600;
+                        }
+                        else if (o.price == 10) {
+                            diamond = 1300;
+                        }
+                        else if (o.price == 30) {
+                            diamond = 4500;
+                        }
+                        else if (o.price == 100) {
+                            diamond = 18000;
+                        }
+                        else if (o.price == 500) {
+                            diamond = 100000;
+                        }
                         if (firstCharge) {
-                            Toast.launch("购买了200钻石,并获得了1500钻，1000k金币和1个奖章的首充奖励");
+                            Toast.launch("购买了" + diamond.toString() + "钻石,并获得了1500钻，1000k金币和1个奖章的首充奖励");
                         }
                         else {
-                            Toast.launch("购买了200钻石");
+                            Toast.launch("购买了" + diamond.toString() + "钻石");
                         }
-                        application.customer.diamond += 200;
+                        application.customer.diamond += diamond;
                         application.saveCustomer();
                     }
                     else {
