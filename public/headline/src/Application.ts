@@ -144,6 +144,7 @@ module application {
 
     export function saveCustomer() {
         application.customer.gold = Math.max(0,application.customer.gold);
+        application.customer.accumulated_gold = Math.max(application.customer.accumulated_gold,application.customer.gold);
         application.customer.diamond = Math.max(0,application.customer.diamond);
         application.dao.save("Customer",application.customer);
     }
