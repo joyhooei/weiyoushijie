@@ -100,6 +100,11 @@ router.post('/login', function(req, res, next) {
 					
 					if (customers.length > 0) {
 						var customer = customers[0];
+						customer.set("name", result.data.name);
+						customer.set("avatar", result.data.pic);
+						customer.set("sex", result.data.sex);
+						customer.set("age", result.data.age);
+						
 						Customer.offlineGold(customer);
 						Customer.hits(customer);
 						
