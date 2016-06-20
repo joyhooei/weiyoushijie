@@ -45,12 +45,13 @@ router.post('/egret_pay', function(req, res, next) {
 	
     var query = new AV.Query(dao.Order);
 	query.get(req.body.ext).then(function(order){
-		order.set("price", req.body.money);
-		if (req.body.money == 2) {
+		var price = parseInt(req.body.money);
+		order.set("price", price);
+		if (price == 2) {
 			order.set("product", "Diamond");
-		} else if (req.body.money == 19) {
+		} else if (price == 19) {
 			order.set("product", "Ticket");
-		} else if (req.body.money == 49) {
+		} else {
 			order.set("product", "VIP");
 		}
 		
