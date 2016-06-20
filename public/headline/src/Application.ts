@@ -163,9 +163,9 @@ module application {
         
 		application.customer.gold += application.earnedGold;
         if (oldGold != application.customer.gold) {
-			application.earnedGold = 0;
-			
 			application.customer.accumulated_gold += application.earnedGold;
+            
+			application.earnedGold = 0;			
         }
         
         application.saveCustomer();
