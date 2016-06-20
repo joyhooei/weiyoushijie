@@ -253,13 +253,26 @@ module application {
                     }
                     
 					if (o.product == "Diamond") {
+                        var diamond = 200;
+                        if (o.price == 5) {
+                            diamond = 600;
+                        } else if (o.price == 10) {
+                            diamond = 1300;
+                        } else if (o.price == 30) {
+                            diamond = 4500;
+                        } else if (o.price == 100) {
+                            diamond = 18000;
+                        } else if (o.price == 500) {
+                            diamond = 100000;
+                        }
+                        
                         if (firstCharge) {
-						    Toast.launch("购买了200钻石,并获得了1500钻，1000k金币和1个奖章的首充奖励");
+						    Toast.launch("购买了" + diamond.toString() + "钻石,并获得了1500钻，1000k金币和1个奖章的首充奖励");
                         } else {
-                            Toast.launch("购买了200钻石");
+                            Toast.launch("购买了" + diamond.toString() + "钻石");
                         }
 
-						application.customer.diamond += 200;
+						application.customer.diamond += diamond;
 						application.saveCustomer();                  
 					} else {
 						application.dao.fetch("Order", {customer_id: application.customer.id, "product": "Ticket", state: 1}, {}, function(succeed, orders){
