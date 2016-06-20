@@ -73,6 +73,8 @@ router.post('/egret_pay', function(req, res, next) {
 })
 
 router.post('/login', function(req, res, next) {
+	console.log("login " + JSON.stringify(req.body));
+	
 	var now = Date.now();
 
 	var sign = "";
