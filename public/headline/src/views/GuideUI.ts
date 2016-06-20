@@ -244,11 +244,6 @@ class GuideUI extends eui.Component {
 		this.imgBonus.y = 653;
 		
 		this.imgBonus.addEventListener(egret.TouchEvent.TOUCH_BEGIN, function() {
-			application.customer.metal += 1;
-			application.customer.diamond += 500;
-			
-			application.saveCustomer();
-			
 			this.over();
         }, this);
 	}
@@ -277,6 +272,10 @@ class GuideUI extends eui.Component {
 	private over(): void {
 		application.hideUI(this);
 		application.guideUI = null;
+		
+		application.customer.metal += 1;
+		application.customer.diamond += 500;
+		application.saveCustomer();		
 		
 		this.timer.stop();
 		
