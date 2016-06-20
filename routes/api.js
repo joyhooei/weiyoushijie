@@ -47,12 +47,12 @@ router.post('/egret_pay', function(req, res, next) {
 	query.get(req.body.ext).then(function(order){
 		var price = parseInt(req.body.money);
 		order.set("price", price);
-		if (price == 2) {
-			order.set("product", "Diamond");
+		if (price == 49) {
+			order.set("product", "VIP");
 		} else if (price == 19) {
 			order.set("product", "Ticket");
 		} else {
-			order.set("product", "VIP");
+			order.set("product", "Diamond");
 		}
 		
 		Order.pay(order).then(function(o){
