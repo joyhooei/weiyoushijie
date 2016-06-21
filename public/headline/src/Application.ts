@@ -149,6 +149,10 @@ module application {
         application.dao.save("Customer",application.customer);
     }
     
+    export function giftChanged() {
+        application.dao.dispatchEventWith("Gift", true, null);
+    }
+    
     export function earnOfflineGold() {
         if (application.customer.offline_gold > 0) {
             application.earnGold(application.customer.offline_gold);
