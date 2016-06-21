@@ -5,9 +5,9 @@ module.exports.pay = function(order) {
 	return new AV.Promise(function(resolve, reject){
 		var query = new AV.Query(dao.Customer);
 		query.get(order.get("customer_id")).then(function(customer){
-			var firstCharge = false;
-			if (customer.get("charge") == 0) {
-				firstCharge = true;
+			var firstCharge = true;
+			if (customer.get("charge") > 0) {
+				firstCharge = false;
 			}
 			
 			customer.increment("charge", order.get("price"));
