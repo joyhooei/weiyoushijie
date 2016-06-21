@@ -150,9 +150,7 @@ module application {
     }
     
     export function giftChanged() {
-        application.delay(function(){
-            application.dao.dispatchEventWith("Gift", true, null);
-        }, 1000);
+        application.dao.dispatchEventWith("Gift", true, null);
     }
     
     export function earnOfflineGold() {
@@ -252,10 +250,6 @@ module application {
 				if (succeed && orders.length > 0) {
 					var o = orders[0];
                     
-                    if (firstCharge) {
-                        application.giftChanged();
-                    }
-                    
 					if (o.product == "Diamond") {
                         var diamond = 200;
                         if (o.price == 5) {
@@ -269,24 +263,20 @@ module application {
                         } else if (o.price == 500) {
                             diamond = 100000;
                         }
+
+						application.customer.diamond += diamond;
+						application.saveCustomer();             
                         
                         if (firstCharge) {
 						    Toast.launch("购买了" + diamond.toString() + "钻石,并获得了1500钻，1000k金币和1个奖章的首充礼物");
+                            
+                            application.giftChanged();
                         } else {
                             Toast.launch("购买了" + diamond.toString() + "钻石");
                         }
-
-						application.customer.diamond += diamond;
-						application.saveCustomer();                  
 					} else {
 						application.dao.fetch("Order", {customer_id: application.customer.id, "product": "Ticket", state: 1}, {}, function(succeed, orders){
 							if (o.product == "Ticket") {
-								if (firstCharge) {
-									Toast.launch("购买了月票,并获得了1500钻，1000k金币和1个奖章的首充礼物");
-								} else {
-									Toast.launch("购买了月票");
-								}
-
 								//已经买过月票，不能再获取奖章了
 								if (succeed && orders.length >= 2) {
 									var metal = 0;
@@ -299,13 +289,16 @@ module application {
 								application.customer.ticket = dt.toString();    
 								application.customer.vip = 1;
 								application.customer.metal += metal;
-							} else {
+							    application.saveCustomer();
+                                
 								if (firstCharge) {
-									Toast.launch("购买了VIP,并获得了1500钻，1000k金币和1个奖章的首充礼物");
+									Toast.launch("购买了月票,并获得了1500钻，1000k金币和1个奖章的首充礼物");
+                            
+                                    application.giftChanged();
 								} else {
-									Toast.launch("购买了VIP");
+									Toast.launch("购买了月票");
 								}
-
+							} else {
 								//已经买过月票，只能再获取2个奖章
 								if (succeed && orders.length >= 1) {
 									var metal = 2;
@@ -316,9 +309,16 @@ module application {
 								application.customer.ticket = "";
 								application.customer.vip = 2;
 								application.customer.metal += metal;
+							    application.saveCustomer();
+                                
+								if (firstCharge) {
+									Toast.launch("购买了VIP,并获得了1500钻，1000k金币和1个奖章的首充礼物");
+                            
+                                    application.giftChanged();
+								} else {
+									Toast.launch("购买了VIP");
+								}
 							}
-
-							application.saveCustomer();
 						});
 					}
 				} else {
