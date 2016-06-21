@@ -245,12 +245,6 @@ module application {
 			application.dao.fetch("Order", {id: order.id, state: 1}, {}, function(succeed, orders) {
 				if (succeed && orders.length > 0) {
 					var o = orders[0];
-					
-                    if (firstCharge) {
-                        application.customer.diamond += 1500;
-                        application.customer.gold += 1000 * 1000;
-                        application.customer.metal += 1;
-                    }
                     
 					if (o.product == "Diamond") {
                         var diamond = 200;
@@ -267,7 +261,7 @@ module application {
                         }
                         
                         if (firstCharge) {
-						    Toast.launch("购买了" + diamond.toString() + "钻石,并获得了1500钻，1000k金币和1个奖章的首充奖励");
+						    Toast.launch("购买了" + diamond.toString() + "钻石,并获得了1500钻，1000k金币和1个奖章的首充礼物");
                         } else {
                             Toast.launch("购买了" + diamond.toString() + "钻石");
                         }
@@ -278,7 +272,7 @@ module application {
 						application.dao.fetch("Order", {customer_id: application.customer.id, "product": "Ticket", state: 1}, {}, function(succeed, orders){
 							if (o.product == "Ticket") {
 								if (firstCharge) {
-									Toast.launch("购买了月票,并获得了1500钻，1000k金币和1个奖章的首充奖励");
+									Toast.launch("购买了月票,并获得了1500钻，1000k金币和1个奖章的首充礼物");
 								} else {
 									Toast.launch("购买了月票");
 								}
@@ -297,7 +291,7 @@ module application {
 								application.customer.metal += metal;
 							} else {
 								if (firstCharge) {
-									Toast.launch("购买了VIP,并获得了1500钻，1000k金币和1个奖章的首充奖励");
+									Toast.launch("购买了VIP,并获得了1500钻，1000k金币和1个奖章的首充礼物");
 								} else {
 									Toast.launch("购买了VIP");
 								}
