@@ -20,7 +20,7 @@ class ChargeTipUI extends eui.Component{
         }, this );
         
         this.imgCharge1.addEventListener(egret.TouchEvent.TOUCH_TAP,() => {
-            application.charge('diamond200', 2);
+            application.charge('diamond', 2);
         },this);
         
         this.imgCharge2.addEventListener(egret.TouchEvent.TOUCH_TAP,() => {
