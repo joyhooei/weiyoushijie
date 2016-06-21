@@ -113,14 +113,14 @@ class HomeUI extends eui.Component{
         }, this);
                 
         self.btnAddDiamond.addEventListener(egret.TouchEvent.TOUCH_BEGIN, function() {
-			application.charge();
+			application.showUI(new ChargeTipUI(), this);
         }, this);
 
         self.imgCharge.addEventListener(egret.TouchEvent.TOUCH_BEGIN,function() {
 			if (application.customer.charge == 0) {
 				application.showUI(new FirstChargeBonusUI(), this);
 			} else {
-				application.charge();
+				application.showUI(new ChargeTipUI(), this);
 			}
         },this);
         
