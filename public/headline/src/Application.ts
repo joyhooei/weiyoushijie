@@ -216,7 +216,7 @@ module application {
 		}
     }
     
-    export function buy(product: string, gid: string, price: number, title: string) {
+    export function buy(product: string, gid: string, price: number) {
         var firstCharge = application.customer.charge == 0;
         
         var order = { customer_id: application.customer.id, product: product, price: price, state: 0};
@@ -334,16 +334,16 @@ module application {
 		}, 1000);
     }
     
-    export function charge(): void {
-        application.buy("Diamond", "diamond", 2, "充值"); 
+    export function charge(gid:string, diamond: number): void {
+        application.buy("Diamond", gid, diamond); 
     }
     
     export function buyTicket(): void {
-       	application.buy("Ticket", "ticket", 19, "购买月票");
+       	application.buy("Ticket", "ticket", 19);
     }
     
     export function buyVIP(): void {
-        application.buy("VIP", "vip", 49, "购买终身VIP");			
+        application.buy("VIP", "vip", 49);			
     }
     
     export function share(callback:Function): void {
