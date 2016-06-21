@@ -182,7 +182,8 @@ class GiftUI extends eui.Component {
 				var day = 1000 * 60 * 60 * 24;
 				var now = Math.floor((new Date()).getTime() / day);
 				for(var i = 0; i < gifts.length; i++) {
-					if (gifts[i].category != 6 && gifts[i].locked == 2) {
+					//首充奖励不需要刷新
+					if (gifts[i].category != GiftCategory.Charge && gifts[i].locked == 2) {
 						var dt  = Math.floor((new Date(gifts[i].update_time)).getTime() / day);
 						if (now > dt){
 							gifts[i].locked = 1;
