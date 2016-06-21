@@ -76,7 +76,7 @@ class AuctionUI extends eui.Component{
         }, this);
                 
         this.btnAddDiamond.addEventListener(egret.TouchEvent.TOUCH_BEGIN, function() {
-			application.charge();
+			application.showUI(new ChargeTipUI(), this);
         }, this);
                 
         this.btnHelp.addEventListener(egret.TouchEvent.TOUCH_BEGIN, function() {
