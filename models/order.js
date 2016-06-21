@@ -20,10 +20,12 @@ module.exports.pay = function(order) {
 				order.set("state", 1);
 				resolve(order);
 			}, function(err){
-				reject(new Error("_payForTicket save customer " + err.message));
-			});			
+				console.error("pay save customer " + err.message);
+				reject(new Error("pay save customer " + err.message));
+			});
 		}, function(err){
-			reject(new Error("_payForTicket get customer " + err.message));
+			console.error("pay get customer " + order.get("customer_id") + err.message);
+			reject(new Error("pay get customer " + order.get("customer_id") + err.message));
 		});
 	});
 }
