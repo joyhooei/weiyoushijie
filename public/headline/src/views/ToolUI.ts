@@ -67,7 +67,7 @@ class ToolUI extends eui.Component {
         },this);
 
         this.btnAddDiamond.addEventListener(egret.TouchEvent.TOUCH_BEGIN,function() {
-            application.charge();
+            application.showUI(new ChargeTipUI());
         },this);
         
         this.imgHit.addEventListener(egret.TouchEvent.TOUCH_BEGIN,function() {
