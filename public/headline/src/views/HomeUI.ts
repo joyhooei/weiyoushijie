@@ -137,6 +137,10 @@ class HomeUI extends eui.Component{
         application.dao.addEventListener("Bid",function(ev: egret.Event) {
             this.renderCustomer();
         },this);
+
+        application.dao.addEventListener("Gift",function(ev: egret.Event) {
+            this.renderGift();
+        },this);
 		
 		self.renderGiftDynamically();
         
