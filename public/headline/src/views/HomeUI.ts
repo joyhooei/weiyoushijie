@@ -377,15 +377,6 @@ class HomeUI extends eui.Component{
             Toast.launch("获得10倍收益，持续60秒");
             
             self.imgHit.visible = true;
- 
-            var effectTimer: egret.Timer = new egret.Timer(1000 / 20,59 * 20);
-            effectTimer.addEventListener(egret.TimerEvent.TIMER,function(event: egret.TimerEvent) {
-                self.imgHitEffect.visible = !self.imgHitEffect.visible;
-            },this);
-            effectTimer.addEventListener(egret.TimerEvent.TIMER_COMPLETE,function(event: egret.TimerEvent) {
-                self.imgHitEffect.visible = false;
-            },this);
-            effectTimer.start();
             
     		var timer: egret.Timer = new egret.Timer(1000, 59);
     		timer.addEventListener(egret.TimerEvent.TIMER, function(event:egret.TimerEvent){
