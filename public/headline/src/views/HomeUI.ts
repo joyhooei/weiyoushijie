@@ -101,7 +101,6 @@ class HomeUI extends eui.Component{
         }, this);
                 
         self.btnGift.addEventListener(egret.TouchEvent.TOUCH_BEGIN, function() {
-			this.imgGift.visible = false;
 			application.showUI(new GiftUI(), this);
         }, this);
                 
