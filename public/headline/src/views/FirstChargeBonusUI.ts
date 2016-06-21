@@ -12,7 +12,8 @@ class FirstChargeBonusUI extends eui.Component{
         }, this );
         
         this.btnCharge.addEventListener(egret.TouchEvent.TOUCH_TAP,() => {
-            application.charge();	
+            application.hideUI(this);
+            application.showUI(new ChargeTipUI());
         },this);
     }
 }
