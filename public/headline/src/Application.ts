@@ -150,7 +150,9 @@ module application {
     }
     
     export function giftChanged() {
-        application.dao.dispatchEventWith("Gift", true, null);
+        application.delay(function(){
+            application.dao.dispatchEventWith("Gift", true, null);
+        }, 1000);
     }
     
     export function earnOfflineGold() {
@@ -249,6 +251,10 @@ module application {
 			application.dao.fetch("Order", {id: order.id, state: 1}, {}, function(succeed, orders) {
 				if (succeed && orders.length > 0) {
 					var o = orders[0];
+                    
+                    if (firstCharge) {
+                        application.giftChanged();
+                    }
                     
 					if (o.product == "Diamond") {
                         var diamond = 200;
