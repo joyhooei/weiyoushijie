@@ -14,7 +14,7 @@ module.exports.pay = function(order) {
 			
 			customer.save().then(function(c){
 				if (firstCharge) {
-					Gift.unlockFirstCharge(customer.id);
+					Gift.unlockFirstCharge(order.get("customer_id"));
 				}
 
 				order.set("state", 1);
