@@ -43,7 +43,7 @@ var ToolUI = (function (_super) {
             application.showUI(new BuyToolUI("time", 500));
         }, this);
         this.btnAddDiamond.addEventListener(egret.TouchEvent.TOUCH_BEGIN, function () {
-            application.charge();
+            application.showUI(new ChargeTipUI());
         }, this);
         this.imgHit.addEventListener(egret.TouchEvent.TOUCH_BEGIN, function () {
             application.showUI(new BuyToolUI("hit", 100), this);

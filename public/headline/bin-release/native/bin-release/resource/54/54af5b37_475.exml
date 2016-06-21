@@ -1,6 +1,0 @@
-<?xml version='1.0' encoding='utf-8'?>
-<e:Skin class="chargeTipUISkin" width="375" height="305" xmlns:e="http://ns.egret.com/eui" xmlns:w="http://ns.egret.com/wing">
-	<e:Image width="375" height="305" x="0" y="0" fillMode="clip" source="tipsB_png"/>
-	<e:Image id="imgCharge" width="147" height="58" x="201" y="117" source="topupbutton_png" fillMode="clip"/>
-	<e:Image id="imgCancel" width="115" height="49" x="213" y="187" source="laterbutton_png" fillMode="clip"/>
-</e:Skin>

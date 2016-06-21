@@ -8,7 +8,8 @@ var FirstChargeBonusUI = (function (_super) {
             application.hideUI(_this);
         }, this);
         this.btnCharge.addEventListener(egret.TouchEvent.TOUCH_TAP, function () {
-            application.charge();
+            application.hideUI(_this);
+            application.showUI(new ChargeTipUI());
         }, this);
     }
     var d = __define,c=FirstChargeBonusUI,p=c.prototype;

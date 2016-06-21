@@ -1,6 +1,13 @@
 <?xml version='1.0' encoding='utf-8'?>
-<e:Skin class="chargeTipUISkin" width="375" height="305" xmlns:e="http://ns.egret.com/eui" xmlns:w="http://ns.egret.com/wing">
-	<e:Image width="375" height="305" x="0" y="0" fillMode="clip" source="tipsB_png"/>
-	<e:Image id="imgCharge" width="147" height="58" x="201" y="117" source="topupbutton_png" fillMode="clip"/>
-	<e:Image id="imgCancel" width="115" height="49" x="213" y="187" source="laterbutton_png" fillMode="clip"/>
+<e:Skin class="chargeTipUISkin" width="430" height="670" xmlns:e="http://ns.egret.com/eui" xmlns:w="http://ns.egret.com/wing">
+	<e:Image width="430" height="670" x="0" y="0" fillMode="clip" source="chargeB_png"/>
+	<e:Image id="imgCharge1" width="147" height="58" x="273" y="139" source="topupbutton_png" fillMode="clip"/>
+	<e:Image id="imgCharge2" width="147" height="58" x="273" y="202" source="topupbutton_png" fillMode="clip"/>
+	<e:Image id="imgCharge3" width="147" height="58" x="273" y="271" source="topupbutton_png" fillMode="clip"/>
+	<e:Image id="imgCharge4" width="147" height="58" x="273" y="339" source="topupbutton_png" fillMode="clip"/>
+	<e:Image id="imgCharge5" width="147" height="58" x="273" y="407" source="topupbutton_png" fillMode="clip"/>
+	<e:Image id="imgCharge6" width="147" height="58" x="273" y="475" source="topupbutton_png" fillMode="clip"/>
+	<e:Image id="imgCharge7" width="147" height="58" x="273" y="542" source="topupbutton_png" fillMode="clip"/>
+	<e:Image id="imgCharge8" width="147" height="58" x="273" y="610" source="topupbutton_png" fillMode="clip"/>
+	<e:Image id="imgBack" source="helpx_png" x="390" y="0" width="41" fillMode="clip" height="41"/>
 </e:Skin>

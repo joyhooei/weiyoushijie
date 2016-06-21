@@ -871,13 +871,13 @@
 				},
 				{
 					"isFolder":false,
-					"key":"hiteffect_png",
-					"name":"hiteffect_png"
+					"key":"red_png",
+					"name":"red_png"
 				},
 				{
 					"isFolder":false,
-					"key":"red_png",
-					"name":"red_png"
+					"key":"chargeB_png",
+					"name":"chargeB_png"
 				}
 			]
 		}

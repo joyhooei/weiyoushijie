@@ -78,7 +78,6 @@
 			</e:Skin>
 		</e:skinName>
 	</e:ToggleButton>
-	<e:Image id="imgHitEffect" width="48" height="49" x="421" y="124" source="hiteffect_png" fillMode="clip"/>
 	<e:Label id="lblHit" text="59" x="432" y="140" size="16" width="23" textAlign="center"/>
 	<e:Label id="lblTotalHits" text="x0" x="432" y="181" size="24"/>
 	<e:Image id="imgCharge" width="48" height="54" x="419" y="219" source="MPtopup_png" fillMode="clip"/>
@@ -105,5 +104,4 @@
 	</e:Group>
 	<e:Image id="imgHit" width="53" height="32" x="83" y="281" fillMode="clip" source="effect_png"/>
 	<e:Image id="imgGift" width="20" height="20" x="449" y="287" fillMode="clip" source="red_png"/>
-
 </e:Skin>

@@ -17,7 +17,6 @@ var HomeUI = (function (_super) {
         self.lblAddGold.backgroundColor = 0xFFFFFF;
         self.imgHit.visible = false;
         self.imgGift.visible = false;
-        self.imgHitEffect.visible = false;
         self.btnHome.addEventListener(egret.TouchEvent.TOUCH_TAP, self.btnHandler, self);
         self.btnRank.addEventListener(egret.TouchEvent.TOUCH_TAP, self.btnHandler, self);
         self.btnTool.addEventListener(egret.TouchEvent.TOUCH_TAP, self.btnHandler, self);
@@ -36,7 +35,6 @@ var HomeUI = (function (_super) {
             self.onHit();
         }, this);
         self.btnGift.addEventListener(egret.TouchEvent.TOUCH_BEGIN, function () {
-            this.imgGift.visible = false;
             application.showUI(new GiftUI(), this);
         }, this);
         self.btnHelp.addEventListener(egret.TouchEvent.TOUCH_BEGIN, function () {
@@ -46,14 +44,14 @@ var HomeUI = (function (_super) {
             application.showUI(new BuyToolUI("time", 500));
         }, this);
         self.btnAddDiamond.addEventListener(egret.TouchEvent.TOUCH_BEGIN, function () {
-            application.charge();
+            application.showUI(new ChargeTipUI(), this);
         }, this);
         self.imgCharge.addEventListener(egret.TouchEvent.TOUCH_BEGIN, function () {
             if (application.customer.charge == 0) {
                 application.showUI(new FirstChargeBonusUI(), this);
             }
             else {
-                application.charge();
+                application.showUI(new ChargeTipUI(), this);
             }
         }, this);
         application.dao.addEventListener("Project", function (ev) {
@@ -65,6 +63,9 @@ var HomeUI = (function (_super) {
         }, this);
         application.dao.addEventListener("Bid", function (ev) {
             this.renderCustomer();
+        }, this);
+        application.dao.addEventListener("Gift", function (ev) {
+            this.renderGift();
         }, this);
         self.renderGiftDynamically();
         /// 首次加载完成首先显示home
@@ -254,14 +255,6 @@ var HomeUI = (function (_super) {
             self.lblOutput.text = application.format(self.getOutput());
             Toast.launch("获得10倍收益，持续60秒");
             self.imgHit.visible = true;
-            var effectTimer = new egret.Timer(1000 / 20, 59 * 20);
-            effectTimer.addEventListener(egret.TimerEvent.TIMER, function (event) {
-                self.imgHitEffect.visible = !self.imgHitEffect.visible;
-            }, this);
-            effectTimer.addEventListener(egret.TimerEvent.TIMER_COMPLETE, function (event) {
-                self.imgHitEffect.visible = false;
-            }, this);
-            effectTimer.start();
             var timer = new egret.Timer(1000, 59);
             timer.addEventListener(egret.TimerEvent.TIMER, function (event) {
                 self.lblHit.text = self.hit.toString();

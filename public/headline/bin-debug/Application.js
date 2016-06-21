@@ -119,6 +119,10 @@ var application;
         application.dao.save("Customer", application.customer);
     }
     application.saveCustomer = saveCustomer;
+    function giftChanged() {
+        application.dao.dispatchEventWith("Gift", true, null);
+    }
+    application.giftChanged = giftChanged;
     function earnOfflineGold() {
         if (application.customer.offline_gold > 0) {
             application.earnGold(application.customer.offline_gold);
@@ -177,7 +181,7 @@ var application;
         }
     }
     application.buyOutput = buyOutput;
-    function buy(product, gid, price, title) {
+    function buy(product, gid, price) {
         var firstCharge = application.customer.charge == 0;
         var order = { customer_id: application.customer.id, product: product, price: price, state: 0 };
         application.dao.save("Order", order, function (succeed, o) {
@@ -210,11 +214,6 @@ var application;
             application.dao.fetch("Order", { id: order.id, state: 1 }, {}, function (succeed, orders) {
                 if (succeed && orders.length > 0) {
                     var o = orders[0];
-                    if (firstCharge) {
-                        application.customer.diamond += 1500;
-                        application.customer.gold += 1000 * 1000;
-                        application.customer.metal += 1;
-                    }
                     if (o.product == "Diamond") {
                         var diamond = 200;
                         if (o.price == 5) {
@@ -232,24 +231,19 @@ var application;
                         else if (o.price == 500) {
                             diamond = 100000;
                         }
+                        application.customer.diamond += diamond;
+                        application.saveCustomer();
                         if (firstCharge) {
-                            Toast.launch("购买了" + diamond.toString() + "钻石,并获得了1500钻，1000k金币和1个奖章的首充奖励");
+                            Toast.launch("购买了" + diamond.toString() + "钻石,并获得了1500钻，1000k金币和1个奖章的首充礼物");
+                            application.giftChanged();
                         }
                         else {
                             Toast.launch("购买了" + diamond.toString() + "钻石");
                         }
-                        application.customer.diamond += diamond;
-                        application.saveCustomer();
                     }
                     else {
                         application.dao.fetch("Order", { customer_id: application.customer.id, "product": "Ticket", state: 1 }, {}, function (succeed, orders) {
                             if (o.product == "Ticket") {
-                                if (firstCharge) {
-                                    Toast.launch("购买了月票,并获得了1500钻，1000k金币和1个奖章的首充奖励");
-                                }
-                                else {
-                                    Toast.launch("购买了月票");
-                                }
                                 //已经买过月票，不能再获取奖章了
                                 if (succeed && orders.length >= 2) {
                                     var metal = 0;
@@ -262,14 +256,16 @@ var application;
                                 application.customer.ticket = dt.toString();
                                 application.customer.vip = 1;
                                 application.customer.metal += metal;
-                            }
-                            else {
+                                application.saveCustomer();
                                 if (firstCharge) {
-                                    Toast.launch("购买了VIP,并获得了1500钻，1000k金币和1个奖章的首充奖励");
+                                    Toast.launch("购买了月票,并获得了1500钻，1000k金币和1个奖章的首充礼物");
+                                    application.giftChanged();
                                 }
                                 else {
-                                    Toast.launch("购买了VIP");
+                                    Toast.launch("购买了月票");
                                 }
+                            }
+                            else {
                                 //已经买过月票，只能再获取2个奖章
                                 if (succeed && orders.length >= 1) {
                                     var metal = 2;
@@ -280,8 +276,15 @@ var application;
                                 application.customer.ticket = "";
                                 application.customer.vip = 2;
                                 application.customer.metal += metal;
+                                application.saveCustomer();
+                                if (firstCharge) {
+                                    Toast.launch("购买了VIP,并获得了1500钻，1000k金币和1个奖章的首充礼物");
+                                    application.giftChanged();
+                                }
+                                else {
+                                    Toast.launch("购买了VIP");
+                                }
                             }
-                            application.saveCustomer();
                         });
                     }
                 }
@@ -299,16 +302,16 @@ var application;
         }, 1000);
     }
     application.checkOrderPayed = checkOrderPayed;
-    function charge() {
-        application.buy("Diamond", "diamond", 2, "充值");
+    function charge(gid, diamond) {
+        application.buy("Diamond", gid, diamond);
     }
     application.charge = charge;
     function buyTicket() {
-        application.buy("Ticket", "ticket", 19, "购买月票");
+        application.buy("Ticket", "ticket", 19);
     }
     application.buyTicket = buyTicket;
     function buyVIP() {
-        application.buy("VIP", "vip", 49, "购买终身VIP");
+        application.buy("VIP", "vip", 49);
     }
     application.buyVIP = buyVIP;
     function share(callback) {
@@ -369,9 +372,6 @@ var application;
     application.gotoTool = gotoTool;
     function showHelp(content) {
         if (content.length == 0) {
-            content = "微信帮助平台 Amazing微遇游戏\n";
-            content += "QQ客服 3369182016\n";
-            content += "邮箱 3369182016@qq.com\n";
             content += "玩法\n";
             content += "1. 点击中间舞者可产生金币，金币用来升级运营项目，而运营项目随等级提高从而产生更多的金币。\n";
             content += "2. 金币可以用来参加头条拍卖，每天最高出价者会成为头条，获得头条殊荣，勋章和钻石奖励。\n";
