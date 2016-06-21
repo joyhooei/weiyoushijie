@@ -132,6 +132,8 @@ class AuctionUI extends eui.Component{
 				self.bid.claimed = 0;
 				application.dao.save("Bid", self.bid);
 				
+				application.giftChanged();
+				
 				esa.EgretSA.onJoinActivity("投标");
 
 				Toast.launch("投标成功");
