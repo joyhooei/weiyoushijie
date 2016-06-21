@@ -46,7 +46,6 @@ class HomeUI extends eui.Component{
     private lblHit: eui.Label;
     private lblTotalHits: eui.Label;
     private imgHit: eui.Image;
-    private imgHitEffect: eui.Image;
 	private hit: number = 0;
 	
     private btnGift: eui.Button;
@@ -74,7 +73,6 @@ class HomeUI extends eui.Component{
         
         self.imgHit.visible = false;
         self.imgGift.visible = false;
-        self.imgHitEffect.visible = false;
         
         self.btnHome.addEventListener( egret.TouchEvent.TOUCH_TAP, self.btnHandler, self );
         self.btnRank.addEventListener( egret.TouchEvent.TOUCH_TAP, self.btnHandler, self );
