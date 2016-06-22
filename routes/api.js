@@ -424,11 +424,11 @@ function _encode(model, attrs) {
 function _adjustBigNumber(attributes, toActual) {
 	_.each(attributes, function(v, k){
 		if (toActual) {	
-			if (_.isNumber(v) && v >= 1000000000000000000000) {
+			if (_.isNumber(v) && v >= 922337203685477580700) {
 				attributes[k] = v / 100;
 			}
 		} else {
-			if (_.isNumber(v) && v >= 10000000000000000000) {
+			if (_.isNumber(v) && v >= 9223372036854775807) {
 				attributes[k] = v * 100;
 			}
 		}
