@@ -234,7 +234,7 @@ class HomeUI extends eui.Component{
 	}
 	
 	private refreshCompensationTimely(): void {
-		application.stopwatch.addEventListener("minute", function(event:egret.Event){
+		application.stopwatch.addEventListener("hour", function(event:egret.Event){
 			application.dao.fetch("Compensation",{ customer_id: application.customer.id, state:0}, {limit : 1}, function(succeed, compensations){
 				if (succeed && compensations.length == 1) {
 					var title = "您刚刚获得了";
