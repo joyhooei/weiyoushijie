@@ -9,7 +9,7 @@ module.exports.makeup = function(customer) {
 			customer.increment("gold", compensation.get("gold"));
 			customer.increment("diamond", compensation.get("diamond"));
 			
-			if (compensation.get("vip") > customer.get("vip")) {
+			if (compensation.get("vip") >= customer.get("vip")) {
 				customer.set("vip", compensation.get("vip"));
 				customer.set("ticket", compensation.get("ticket"));
 			}
