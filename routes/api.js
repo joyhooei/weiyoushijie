@@ -9,7 +9,6 @@ var Customer = require('../models/customer');
 var Bid = require('../models/bid');
 var Order = require('../models/order');
 var Helper = require('../models/helper');
-var Compensation = require('../models/compensation');
 
 router.get('/egret_rt', function(req, res, next) {
 	console.log("egret_rt " + JSON.stringify(req.query));
@@ -126,14 +125,12 @@ router.post('/login', function(req, res, next) {
 						customer.set("last_login", now.format());
 					}
 					
-					Compensation.makeup(customer).done(function(c){
-						c.save().then(function(){
-							_succeed(res, _decode(c));
-						}, function(error){
-							console.error("save customer failed " + error.message);
-							_succeed(res, _decode(c));
-						})
-					});
+					customer.save().then(function(){
+						_succeed(res, _decode(customer));
+					}, function(error){
+						console.error("save customer failed " + error.message);
+						_succeed(res, _decode(customer));
+					})
 				}, function(error){
 					console.error("find customer failed " + error.message);
 					_failed(res, error);
