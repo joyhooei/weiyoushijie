@@ -235,7 +235,7 @@ class HomeUI extends eui.Component{
 	
 	private refreshCompensationTimely(): void {
 		application.stopwatch.addEventListener("minute", function(event:egret.Event){
-			application.dao.fetch("Compensation",{ customer_id: application.customer.id}, {limit : 1}, function(succeed, compensations){
+			application.dao.fetch("Compensation",{ customer_id: application.customer.id, state:0}, {limit : 1}, function(succeed, compensations){
 				if (succeed && compensations.length == 1) {
 					var title = "您刚刚获得了";
 					
@@ -259,7 +259,8 @@ class HomeUI extends eui.Component{
 					
 					title += "的额外奖励，谢谢参与";
 					
-					application.dao.destroy(compensations[0]);
+                    compensations[0].state = 1;
+					application.dao.save(compensations[0]);
 					
 					Toast.launch(title);
 				}
