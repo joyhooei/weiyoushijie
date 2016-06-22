@@ -25,8 +25,13 @@ module application {
     export function init(main:Main) {
 		application.main = main;
 		
-        application.baseUrl = "http://www.weiyoushijie.com/";
-		//application.baseUrl = "http://localhost:3000/";
+        if (egret.getOption("test") == "remote") {
+            application.baseUrl = "http://http://stg-weiyugame.leanapp.cn/";
+        } else if (egret.getOption("test") == "local") {
+            application.baseUrl = "http://localhost:3000/";
+        } else {
+            application.baseUrl = "http://www.weiyoushijie.com/";
+		}
 		
         application.dao = new Dao(application.baseUrl + "api/", "headline");
         
