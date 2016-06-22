@@ -26,6 +26,7 @@ class HomeUI extends eui.Component{
     private lblGold:eui.Label;
     private lblDiamond: eui.Label;
     private lblOutput: eui.Label;
+    private lblName: eui.Label;
     
     private gold: number = 0;
     private diamond: number = 0;
@@ -234,40 +235,46 @@ class HomeUI extends eui.Component{
 	}
 	
 	private refreshCompensationTimely(): void {
+        this.refreshCompensation();
+        
 		application.stopwatch.addEventListener("hour", function(event:egret.Event){
-			application.dao.fetch("Compensation",{ customer_id: application.customer.id, state:0}, {limit : 1}, function(succeed, compensations){
-				if (succeed && compensations.length == 1) {
-					var title = "您刚刚获得了";
-					
-					if (compensations[0].gold != 0) {
-						application.customer.gold += compensations[0].gold;
-						
-						title += compensations[0].gold.toString() + "金币";
-					}
-					
-					if (compensations[0].metal != 0) {
-						application.customer.metal += compensations[0].metal;
-						
-						title += compensations[0].metal.toString() + "奖章";
-					}
-					
-					if (compensations[0].diamond != 0) {
-						application.customer.diamond += compensations[0].diamond;
-						
-						title += compensations[0].diamond.toString() + "钻石";
-					}
-					
-					title += "的额外奖励，谢谢参与";
-					
-                    compensations[0].state = 1;
-					application.dao.save(compensations[0]);
-					
-					Toast.launch(title);
-				}
-			});
+            this.refreshCompensation();
 		}, this);	
 	}
-	
+
+    private refreshCompensation(): void {
+        application.dao.fetch("Compensation",{ customer_id: application.customer.id,state: 0 },{ limit: 1 },function(succeed,compensations) {
+            if(succeed && compensations.length == 1) {
+                var title = "您刚刚获得了";
+
+                if(compensations[0].gold != 0) {
+                    application.customer.gold += compensations[0].gold;
+
+                    title += compensations[0].gold.toString() + "金币";
+                }
+
+                if(compensations[0].metal != 0) {
+                    application.customer.metal += compensations[0].metal;
+
+                    title += compensations[0].metal.toString() + "奖章";
+                }
+
+                if(compensations[0].diamond != 0) {
+                    application.customer.diamond += compensations[0].diamond;
+
+                    title += compensations[0].diamond.toString() + "钻石";
+                }
+
+                title += "的额外奖励，谢谢参与";
+
+                compensations[0].state = 1;
+                application.dao.save("Compensation",compensations[0]);
+
+                Toast.launch(title);
+            }
+        });
+    }
+    
 	private renderBid(): void {
 		var self = this;
 		
@@ -491,6 +498,8 @@ class HomeUI extends eui.Component{
         if (application.customer.charge > 0) {
         	this.imgCharge.source = "charge_png";
         }
+        
+        this.lblName.text = application.customer.name;
 	}
 	
 	private renderProject(proj) {

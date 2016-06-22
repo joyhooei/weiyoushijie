@@ -771,11 +771,6 @@
 				},
 				{
 					"isFolder":false,
-					"key":"tipsB_png",
-					"name":"tipsB_png"
-				},
-				{
-					"isFolder":false,
 					"key":"updatedp2_png",
 					"name":"updatedp2_png"
 				},
@@ -878,6 +873,21 @@
 					"isFolder":false,
 					"key":"chargeB_png",
 					"name":"chargeB_png"
+				},
+				{
+					"isFolder":false,
+					"key":"flag_png",
+					"name":"flag_png"
+				},
+				{
+					"isFolder":false,
+					"key":"report_png",
+					"name":"report_png"
+				},
+				{
+					"isFolder":false,
+					"key":"cancel_png",
+					"name":"cancel_png"
 				}
 			]
 		}

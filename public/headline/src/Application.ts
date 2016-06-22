@@ -26,7 +26,7 @@ module application {
 		application.main = main;
 		
         if (egret.getOption("test") == "remote") {
-            application.baseUrl = "http://http://stg-weiyugame.leanapp.cn/";
+            application.baseUrl = "http://stg-weiyugame.leanapp.cn/";
         } else if (egret.getOption("test") == "local") {
             application.baseUrl = "http://localhost:3000/";
         } else {

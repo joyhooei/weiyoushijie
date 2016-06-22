@@ -75,6 +75,7 @@ var HomeUI = (function (_super) {
                 self.earnGoldDynamically();
                 self.renderBid();
                 self.refreshBidAtNoon();
+                self.refreshCompensationTimely();
             });
             this.addChild(application.guideUI);
             application.guideUI.next();
@@ -83,6 +84,7 @@ var HomeUI = (function (_super) {
             self.earnGoldDynamically();
             self.renderBid();
             self.refreshBidAtNoon();
+            self.refreshCompensationTimely();
         }
     };
     p.renderGiftDynamically = function () {
@@ -127,14 +129,46 @@ var HomeUI = (function (_super) {
     p.refreshBidAtNoon = function () {
         var self = this;
         application.stopwatch.addEventListener("minute", function (event) {
+            var bidDay = application.bidDay();
             //如果bidday已经过期了，则重新刷新bid数据
-            if (!(self.bid && application.bidDay() == self.bid.day)) {
+            if (!(self.bid && bidDay == self.bid.day)) {
                 self.renderBid();
+            }
+            if (!(application.bid && bidDay == application.bid.day)) {
                 application.refreshBid(function (bid) {
                     self.renderCustomer();
                 });
             }
         }, this);
+    };
+    p.refreshCompensationTimely = function () {
+        this.refreshCompensation();
+        application.stopwatch.addEventListener("hour", function (event) {
+            this.refreshCompensation();
+        }, this);
+    };
+    p.refreshCompensation = function () {
+        application.dao.fetch("Compensation", { customer_id: application.customer.id, state: 0 }, { limit: 1 }, function (succeed, compensations) {
+            if (succeed && compensations.length == 1) {
+                var title = "您刚刚获得了";
+                if (compensations[0].gold != 0) {
+                    application.customer.gold += compensations[0].gold;
+                    title += compensations[0].gold.toString() + "金币";
+                }
+                if (compensations[0].metal != 0) {
+                    application.customer.metal += compensations[0].metal;
+                    title += compensations[0].metal.toString() + "奖章";
+                }
+                if (compensations[0].diamond != 0) {
+                    application.customer.diamond += compensations[0].diamond;
+                    title += compensations[0].diamond.toString() + "钻石";
+                }
+                title += "的额外奖励，谢谢参与";
+                compensations[0].state = 1;
+                application.dao.save("Compensation", compensations[0]);
+                Toast.launch(title);
+            }
+        });
     };
     p.renderBid = function () {
         var self = this;
@@ -314,6 +348,7 @@ var HomeUI = (function (_super) {
         if (application.customer.charge > 0) {
             this.imgCharge.source = "charge_png";
         }
+        this.lblName.text = application.customer.name;
     };
     p.renderProject = function (proj) {
         if (proj) {

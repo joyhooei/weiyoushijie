@@ -1,11 +1,20 @@
 var application;
 (function (application) {
+    application.saveSeconds = 0;
+    application.updateTimes = 0;
     application.earnedGold = 0;
     application.ticks = 0;
     function init(main) {
         application.main = main;
-        application.baseUrl = "http://www.weiyoushijie.com/";
-        //application.baseUrl = "http://localhost:3000/";
+        if (egret.getOption("test") == "remote") {
+            application.baseUrl = "http://stg-weiyugame.leanapp.cn/";
+        }
+        else if (egret.getOption("test") == "local") {
+            application.baseUrl = "http://localhost:3000/";
+        }
+        else {
+            application.baseUrl = "http://www.weiyoushijie.com/";
+        }
         application.dao = new Dao(application.baseUrl + "api/", "headline");
         application.projects = Project.createAllProjects();
         application.stopwatch = new egret.EventDispatcher();
@@ -113,10 +122,19 @@ var application;
     }
     application.earnBids = earnBids;
     function saveCustomer() {
-        application.customer.gold = Math.max(0, application.customer.gold);
-        application.customer.accumulated_gold = Math.max(application.customer.accumulated_gold, application.customer.gold);
-        application.customer.diamond = Math.max(0, application.customer.diamond);
-        application.dao.save("Customer", application.customer);
+        application.updateTimes++;
+        var now = (new Date()).getTime() / 1000;
+        if (now - application.saveSeconds > 60 || application.updateTimes > 20) {
+            application.updateTimes = 0;
+            application.saveSeconds = now;
+            application.customer.gold = Math.max(0, application.customer.gold);
+            application.customer.accumulated_gold = Math.max(application.customer.accumulated_gold, application.customer.gold);
+            application.customer.diamond = Math.max(0, application.customer.diamond);
+            application.dao.save("Customer", application.customer);
+        }
+        else {
+            application.dao.dispatchEventWith("Customer", true, application.customer);
+        }
     }
     application.saveCustomer = saveCustomer;
     function giftChanged() {
@@ -201,7 +219,7 @@ var application;
                         Toast.launch("支付失败");
                     }
                 });
-                application.checkOrderPayed(o, 10, firstCharge);
+                application.checkOrderPayed(o, 20, firstCharge);
             }
             else {
                 Toast.launch("保存订单失败，请稍后再试");
@@ -242,10 +260,10 @@ var application;
                         }
                     }
                     else {
-                        application.dao.fetch("Order", { customer_id: application.customer.id, "product": "Ticket", state: 1 }, {}, function (succeed, orders) {
+                        application.dao.fetch("Order", { customer_id: application.customer.id, "product": "Ticket", state: 1 }, {}, function (succeed, os) {
                             if (o.product == "Ticket") {
                                 //已经买过月票，不能再获取奖章了
-                                if (succeed && orders.length >= 2) {
+                                if (succeed && os.length >= 2) {
                                     var metal = 0;
                                 }
                                 else {
@@ -267,7 +285,7 @@ var application;
                             }
                             else {
                                 //已经买过月票，只能再获取2个奖章
-                                if (succeed && orders.length >= 1) {
+                                if (succeed && os.length >= 1) {
                                     var metal = 2;
                                 }
                                 else {

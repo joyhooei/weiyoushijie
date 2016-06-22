@@ -1,7 +1,7 @@
 <?xml version='1.0' encoding='utf-8'?>
 <e:Skin class="firstChargeBonusUISkin" width="480" height="610" xmlns:e="http://ns.egret.com/eui" xmlns:w="http://ns.egret.com/wing">
 	<e:Image width="480" height="610" x="0" y="0" source="topup_png" fillMode="clip"/>
-	<e:Button id="btnCharge" x="243" y="410">
+	<e:Button id="btnCharge" x="263" y="424">
 		<e:skinName>
 			<e:Skin states="up,down,disabled">
 				<e:Image width="100%" height="100%" source="topupbutton_png"/>
