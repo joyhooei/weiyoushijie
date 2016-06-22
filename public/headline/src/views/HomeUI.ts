@@ -151,6 +151,8 @@ class HomeUI extends eui.Component{
 				self.renderBid();
 
 			 	self.refreshBidAtNoon();
+				
+				self.refreshCompensationTimely();
 			});
             
         	this.addChild(application.guideUI);
@@ -161,6 +163,8 @@ class HomeUI extends eui.Component{
 			self.renderBid();
 			
 		 	self.refreshBidAtNoon();
+			
+			self.refreshCompensationTimely();
 		}
     }
 	
@@ -214,15 +218,53 @@ class HomeUI extends eui.Component{
     	var self = this;
 		
 		application.stopwatch.addEventListener("minute", function(event:egret.Event){
+        	var bidDay = application.bidDay();
+			
 			//如果bidday已经过期了，则重新刷新bid数据
-			if (!(self.bid && application.bidDay() == self.bid.day)) {
+			if (!(self.bid && bidDay == self.bid.day)) {
 				self.renderBid();
-				
+			}
+            
+            if (!(application.bid && bidDay == application.bid.day)) {
 				application.refreshBid(function(bid){
                     self.renderCustomer();
-				});
+				});			
 			}
 		}, this);
+	}
+	
+	private refreshCompensationTimely(): void {
+		application.stopwatch.addEventListener("minute", function(event:egret.Event){
+			application.dao.fetch("Compensation",{ customer_id: application.customer.id}, {limit : 1}, function(succeed, compensations){
+				if (succeed && compensations.length == 1) {
+					var title = "您刚刚获得了";
+					
+					if (compensations[0].gold != 0) {
+						application.customer.gold += compensations[0].gold;
+						
+						title += compensations[0].gold.toString() + "金币";
+					}
+					
+					if (compensations[0].metal != 0) {
+						application.customer.metal += compensations[0].metal;
+						
+						title += compensations[0].metal.toString() + "奖章";
+					}
+					
+					if (compensations[0].diamond != 0) {
+						application.customer.diamond += compensations[0].diamond;
+						
+						title += compensations[0].diamond.toString() + "钻石";
+					}
+					
+					title += "的额外奖励，谢谢参与";
+					
+					application.dao.destroy(compensations[0]);
+					
+					Toast.launch(title);
+				}
+			});
+		}, this);	
 	}
 	
 	private renderBid(): void {
