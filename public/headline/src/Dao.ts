@@ -24,11 +24,11 @@ class Dao extends egret.EventDispatcher {
     	
         var _cb = function(succeed:number, result: any) {
             if (succeed) {
-                self.dispatchEventWith(model,true, result);
-                
                 data = result;
             }
             
+            self.dispatchEventWith(model,true,data);
+
             if (cb) {
                 cb(succeed, result);
             }

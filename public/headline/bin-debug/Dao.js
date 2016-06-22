@@ -19,9 +19,9 @@ var Dao = (function (_super) {
         var self = this;
         var _cb = function (succeed, result) {
             if (succeed) {
-                self.dispatchEventWith(model, true, result);
                 data = result;
             }
+            self.dispatchEventWith(model, true, data);
             if (cb) {
                 cb(succeed, result);
             }

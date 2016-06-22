@@ -24,9 +24,9 @@ module.exports.pay = function(order) {
 					customer.set("ticket", "");
 
 					if (orders.length >= 1) {
-						customer.increment("metal", 2);
+						customer.increment("metal", 1);
 					} else {
-						customer.increment("metal", 3);
+						customer.increment("metal", 2);
 					}
 				} else if (product == "Ticket") {
 					customer.set("vip", 1);
