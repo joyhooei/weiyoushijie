@@ -29,7 +29,7 @@ module.exports.createAll = function(customer) {
 }
 
 module.exports.unlockLogin = function(customer) {
-	if (customer.ticket && customer.ticket.length > 1) {
+	if (customer.vip > 0) {
 		_lock(customer.id, 4, 0);
 	}
 	
