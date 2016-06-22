@@ -2,7 +2,10 @@ module application {
     export var main: Main;
     export var dao: Dao;
     
+	export var saveSeconds: number = 0;
+    export var updateTimes: number = 0;
     export var customer: any;
+    
     export var bid: any;
     export var earnedGold: number = 0;
     
@@ -143,10 +146,20 @@ module application {
     }
 
     export function saveCustomer() {
-        application.customer.gold = Math.max(0,application.customer.gold);
-        application.customer.accumulated_gold = Math.max(application.customer.accumulated_gold,application.customer.gold);
-        application.customer.diamond = Math.max(0,application.customer.diamond);
-        application.dao.save("Customer",application.customer);
+        application.updateTimes ++; 
+        
+		var now = (new Date()).getTime() / 1000;
+        if (now - application.saveSeconds > 60 || application.updateTimes > 20) {
+			application.updateTimes = 0;
+			application.saveSeconds = now;
+			
+			application.customer.gold = Math.max(0,application.customer.gold);
+			application.customer.accumulated_gold = Math.max(application.customer.accumulated_gold,application.customer.gold);
+			application.customer.diamond = Math.max(0,application.customer.diamond);
+			application.dao.save("Customer",application.customer);
+		} else {
+			application.dao.dispatchEventWith("Customer", true, application.customer);
+		}
     }
     
     export function giftChanged() {
