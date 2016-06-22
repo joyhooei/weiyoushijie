@@ -16,6 +16,10 @@ module.exports.pay = function(order) {
 				if (firstCharge) {
 					Gift.unlockFirstCharge(order.get("customer_id"));
 				}
+				
+				if (order.get("product") != "Diamond") {
+					Gift.unlockTicket(order.get("customer_id"));
+				}
 
 				order.set("state", 1);
 				resolve(order);
