@@ -36,6 +36,10 @@ module.exports.unlockLogin = function(customer) {
     _lock(customer.id, 1, 0);
 }
 
+module.exports.unlockTicket = function(customer) {
+	_lock(customer.id, 4, 0);
+}
+
 module.exports.unlockBid = function(customerId) {
     _lock(customerId, 3, 0);
 }
