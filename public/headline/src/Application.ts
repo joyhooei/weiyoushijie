@@ -237,7 +237,7 @@ module application {
 					}
 				})
                 
-				application.checkOrderPayed(o, 10, firstCharge);
+				application.checkOrderPayed(o, 20, firstCharge);
             } else {
                 Toast.launch("保存订单失败，请稍后再试");
             }
@@ -275,10 +275,10 @@ module application {
                             Toast.launch("购买了" + diamond.toString() + "钻石");
                         }
 					} else {
-						application.dao.fetch("Order", {customer_id: application.customer.id, "product": "Ticket", state: 1}, {}, function(succeed, orders){
+						application.dao.fetch("Order", {customer_id: application.customer.id, "product": "Ticket", state: 1}, {}, function(succeed, os){
 							if (o.product == "Ticket") {
 								//已经买过月票，不能再获取奖章了
-								if (succeed && orders.length >= 2) {
+								if (succeed && os.length >= 2) {
 									var metal = 0;
 								} else {
 									var metal = 1;
@@ -300,7 +300,7 @@ module application {
 								}
 							} else {
 								//已经买过月票，只能再获取2个奖章
-								if (succeed && orders.length >= 1) {
+								if (succeed && os.length >= 1) {
 									var metal = 2;
 								} else {
 									var metal = 3;
