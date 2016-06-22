@@ -154,6 +154,7 @@ module.exports = function() {
 	this.initialize = function(){
 		this.addModel("Bid");
 
+		this.addModel("Compensation");
 		this.addModel("Customer");
 		
 		this.addModel("Game");
@@ -164,6 +165,8 @@ module.exports = function() {
 		this.addModel("Order");
 		
 		this.addModel("Project");
+		
+		this.addModel("Report");
 	};
 	
 	this.addModel = function(className) {
