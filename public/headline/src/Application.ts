@@ -154,7 +154,7 @@ module application {
         application.updateTimes ++; 
         
 		var now = (new Date()).getTime() / 1000;
-        if (now - application.saveSeconds > 60 || application.updateTimes > 20) {
+        if (now - application.saveSeconds >= 180 || application.updateTimes >= 60) {
 			application.updateTimes = 0;
 			application.saveSeconds = now;
 			
