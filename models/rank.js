@@ -32,7 +32,7 @@ function _createRanks(req, res) {
 	Helper.findAll(q).then(function(customers){
 		var ranks = [];
 		for(var i = 0; i < customers.length; i++) {
-			ranks.push(new Rank({customer_id: customers[i].id, rank: i + 1, game: "headline", name: customers[i].name, metal: customers[i].metal, accumulated_gold: customers[i].accumulated_gold, avatar: customers[i].avatar}));
+			ranks.push(new dao.Rank({customer_id: customers[i].id, rank: i + 1, game: "headline", name: customers[i].name, metal: customers[i].metal, accumulated_gold: customers[i].accumulated_gold, avatar: customers[i].avatar}));
 		}
 
 		AV.Object.saveAll(ranks).then(function (avobjs) {
