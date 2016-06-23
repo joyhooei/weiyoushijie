@@ -20,7 +20,7 @@ module.exports.findAll = function(query) {
 				});
 			} else {
 				console.log("resolve " + total);
-				resolve(total);
+				resolve([]);
 			}
 		}, function(error){
 			console.error("Helper findAll count " + error.message);
