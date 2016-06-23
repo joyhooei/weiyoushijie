@@ -1,9 +1,9 @@
 var AV = require('leanengine');
 
 module.exports.rank = function(req, res) {
-	AV.Query.doCloudQuery('delete from Rank').then(function () {
+	AV.Query.doCloudQuery('delete from Rank where game = "headline"').then(function () {
 		var q = new AV.Query(dao.Customer);
-		q.equalTo("game", "headline", );
+		q.equalTo("game", "headline");
 		q.select('objectId', 'name', 'metal', 'accumulated_gold', 'avatar');
 		q.addDescending("metal");
 		q.addDescending("accumulated_gold");
