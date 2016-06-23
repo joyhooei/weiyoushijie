@@ -3,6 +3,7 @@ var AV = require('leanengine');
 var Customer = require('./models/customer.js');
 var Bid = require('./models/bid.js');
 var Gift = require('./models/gift.js');
+var Rank = require('./models/rank.js');
 
 AV.Cloud.afterSave("Customer", function(request, response) {
 	Customer.afterSave(request, response);
@@ -22,6 +23,10 @@ AV.Cloud.define('max_bid', function(request, response) {
 
 AV.Cloud.define('expire_ticket', function(request, response) {
 	Customer.expireTicket(request, response);
+});
+
+AV.Cloud.define('rank', function(request, response) {
+	Rank.rank(request, response);
 });
 
 module.exports = AV.Cloud;
