@@ -163,8 +163,6 @@ router.post('/hits', function(req, res, next) {
 });
 
 router.post('/rank', function(req, res, next) {
-	var all = [];
-	
 	var query = new AV.Query(dao.Customer);
 	query.get(req.body.customer_id).then(function(customer){
 		var q = new AV.Query(dao.Customer);
@@ -173,7 +171,7 @@ router.post('/rank', function(req, res, next) {
 		q.select('objectId', 'name', 'metal', 'accumulated_gold', 'avatar');
 		q.addDescending("metal");
 		q.addDescending("accumulated_gold");
-		Helper.findAll(q).then(function(){
+		Helper.findAll(q).then(function(all){
 			var index = 0;
 			var last = null;
 			var me   = null;
@@ -205,10 +203,6 @@ router.post('/rank', function(req, res, next) {
 			}		
 		}, function(error){
 			_failed(res, error);
-		}, function(customers){
-			for (var i = 0; i < customers.length; i++) {
-				all.push(customers[i]);
-			}	
 		});
 	}, function(error){
 		_failed(res, error);
