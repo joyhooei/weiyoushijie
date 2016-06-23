@@ -18,19 +18,19 @@ module.exports.rank = function(req, res) {
 				var c = customers[i];
 				
 				if (i >= ranks.length) {
-					var r = new dao.Rank({game: "headline", rank: i + 1});
-					newRanks.push(r);
+					newRanks.push(new dao.Rank({game: "headline", rank: i + 1, customer_id: c.id}));
 				} else {
 					var r = ranks[i];
-				}
-				
-				if (r.get("customer_id") != c.id) {
-					r.set("customer_id", c.id);
-					newRanks.push(r);
+					if (r.get("customer_id") != c.id) {
+						r.set("customer_id", c.id);
+						newRanks.push(r);
+					}	
 				}
 			}
 
 			AV.Object.saveAll(newRanks).then(function (avobjs) {
+				console.log("rank " + newRanks.length);
+				
 				res.success("rank succeed");
 			}, function (error) {
 				console.error("rank saveAll " + error.message);
@@ -47,8 +47,4 @@ module.exports.rank = function(req, res) {
 		
 		res.error(error.message);
 	});	
-}
-
-function _createRanks(req, res) {
-
 }
