@@ -162,53 +162,6 @@ router.post('/hits', function(req, res, next) {
 	});
 });
 
-router.post('/rank', function(req, res, next) {
-	var query = new AV.Query(dao.Customer);
-	query.get(req.body.customer_id).then(function(customer){
-		var q = new AV.Query(dao.Customer);
-		q.equalTo("game", req.query.game);
-		//q.greaterThanOrEqualTo("metal", customer.get("metal"));
-		q.select('objectId', 'name', 'metal', 'accumulated_gold', 'avatar');
-		q.addDescending("metal");
-		q.addDescending("accumulated_gold");
-		Helper.findAll(q).then(function(all){
-			var index = 0;
-			var last = null;
-			var me   = null;
-			var next = null;
-
-			for(var i = 0; i < all.length; i++) {
-				if (me) {
-					next = all[i];
-					break;
-				} else {
-					if (all[i].id == req.body.customer_id) {
-						me = all[i];
-
-						index = i + 1;
-					} else {
-						last = all[i];
-					}
-				}
-			}
-
-			if (last && next) {
-				_succeed(res, [{rank: index - 1, customer: _decode(last)}, {rank: index, customer: _decode(me)}, {rank: index + 1, customer: _decode(next)}]);
-			} else if (last) {
-				_succeed(res, [{rank: index - 1, customer: _decode(last)}, {rank: index, customer: _decode(me)}, {rank: index + 1, customer: null}]);						
-			} else if (next) {
-				_succeed(res, [{rank: index - 1, customer: null}, {rank: index, customer: _decode(me)}, {rank: index + 1, customer: _decode(next)}]);
-			} else {
-				_succeed(res, [{rank: index - 1, customer: null}, {rank: index, customer: _decode(me)}, {rank: index + 1, customer: null}]);						
-			}		
-		}, function(error){
-			_failed(res, error);
-		});
-	}, function(error){
-		_failed(res, error);
-	});
-});
-
 router.post('/select/:model', function(req, res, next) {
 	var query = new AV.Query(dao[req.params.model]);
 	
