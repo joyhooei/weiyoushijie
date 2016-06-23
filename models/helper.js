@@ -4,6 +4,7 @@ module.exports.findAll = function(query) {
 	return Q.Promise(function(resolve, reject, notify) {
 		query.count().then(function(total) {
 			if (total <= 0) {
+				console.log("resolve " + total);
 				resolve(total);
 				return;
 			}
@@ -14,9 +15,11 @@ module.exports.findAll = function(query) {
 				query.skip(offset);
 				query.limit(1000);
 				query.find().then(function(models){
+					console.log("notify " + models.length);
 					notify(models);
 					
 					if (offset + models.length >= total) {
+						console.log("resolve " + total);
 						resolve(total);
 					}
 				}, function(error){
