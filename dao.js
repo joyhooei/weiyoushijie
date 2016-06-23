@@ -166,6 +166,7 @@ module.exports = function() {
 		
 		this.addModel("Project");
 		
+		this.addModel("Rank");
 		this.addModel("Report");
 	};
 	
