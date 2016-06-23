@@ -64,11 +64,20 @@ module.exports.max = function(request, response) {
 				
 				maxbid.set("gold", bid.get("gold"));
 				maxbid.set("customer_id", bid.get("customer_id"));
-				maxbid.save().then(function(){
-					response.success();
+				
+				var qry = new AV.Query(dao.Customer);
+				qry.get(bid.get("customer_id")).then(function(c){
+					maxbid.set("name", c.get("name"));
+					maxbid.set("avatar", c.get("avatar"));
+					maxbid.save().then(function(){
+						response.success();
+					}, function(error){
+						console.error("max save bid " + error.message);
+						response.error(error.message);				
+					});
 				}, function(error){
-					console.error(error.message);
-					response.error(error.message);				
+					console.error("max get customer " + error.message);
+					response.error(error.message);
 				});
 			});
     	} else {
@@ -76,7 +85,7 @@ module.exports.max = function(request, response) {
     		response.error();
     	}
     }, function(error){
-		console.error(error.message);
+		console.error("max find bids " + error.message);
     	response.error(error.message);
     });	
 }
