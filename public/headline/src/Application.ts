@@ -85,7 +85,7 @@ module application {
                     application.stopwatch.dispatchEventWith("second", true, application.ticks);
                     
                     if (application.ticks % 60 == 0) {
-                        application.stopwatch.dispatchEventWith("miniute", true, application.ticks / 60);
+                        application.stopwatch.dispatchEventWith("minute", true, application.ticks / 60);
                         
                     	if (application.ticks % 3600 == 0) {
                         	application.stopwatch.dispatchEventWith("hour", true, application.ticks / 3600);
