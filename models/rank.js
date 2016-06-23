@@ -12,18 +12,31 @@ module.exports.rank = function(req, res) {
 		q.addDescending("metal");
 		q.addDescending("accumulated_gold");
 		Helper.findAll(q).then(function(customers){
+			var newRanks = [];
+			
 			for(var i = 0; i < customers.length; i++) {
 				if (i > ranks.length) {
-					var rank = new dao.Rank({game: "headline", rank: i + 1});
-					ranks.push(rank);
+					var r = new dao.Rank({game: "headline", rank: i + 1});
+					ranks.push(r);
 				} else {
-					var rank = ranks[i];
+					var r = ranks[i];
 				}
 				
-				rank.set({customer_id: customers[i].id, name: customers[i].name, metal: customers[i].metal, accumulated_gold: customers[i].accumulated_gold, avatar: customers[i].avatar});
+				var c = customers[i];
+				
+				if (r.get("customer_id") != c.id 
+					|| r.get("name") != c.get("name") 
+					|| r.get("metal") != c.get("metal") 
+					|| r.get("accumulated_gold") != c.get("accumulated_gold") 
+					|| r.get("avatar") != c.get("avatar")) {
+					
+					r.set({customer_id: c.id, name: c.name, metal: c.metal, accumulated_gold: c.accumulated_gold, avatar: c.avatar});
+					
+					newRanks.push(r);
+				}
 			}
 
-			AV.Object.saveAll(ranks).then(function (avobjs) {
+			AV.Object.saveAll(newRanks).then(function (avobjs) {
 				res.success("rank succeed");
 			}, function (error) {
 				console.error("rank saveAll " + error.message);
