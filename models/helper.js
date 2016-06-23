@@ -19,7 +19,6 @@ module.exports.findAll = function(query) {
 					reject(error);
 				});
 			} else {
-				console.log("resolve " + total);
 				resolve([]);
 			}
 		}, function(error){
@@ -34,7 +33,6 @@ function _query(query, offset, total) {
 		query.skip(offset);
 		query.limit(1000);
 		query.find().then(function(models){
-			console.log("notify " + models.length);
 			resolve(models);
 		}, function(error){
 			console.error("Helper findAll find " + error.message);
