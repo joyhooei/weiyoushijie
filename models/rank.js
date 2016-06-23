@@ -1,4 +1,5 @@
 var AV = require('leanengine');
+var Helper = require('./helper');
 
 module.exports.rank = function(req, res) {
 	var query = new AV.Query(dao.Rank);
