@@ -8,30 +8,24 @@ module.exports.rank = function(req, res) {
 	Helper.findAll(query).then(function (ranks) {
 		var q = new AV.Query(dao.Customer);
 		q.equalTo("game", "headline");
-		q.select('objectId', 'name', 'metal', 'accumulated_gold', 'avatar');
+		q.select('objectId');
 		q.addDescending("metal");
 		q.addDescending("accumulated_gold");
 		Helper.findAll(q).then(function(customers){
 			var newRanks = [];
 			
 			for(var i = 0; i < customers.length; i++) {
+				var c = customers[i];
+				
 				if (i > ranks.length) {
 					var r = new dao.Rank({game: "headline", rank: i + 1});
-					ranks.push(r);
+					newRanks.push(r);
 				} else {
 					var r = ranks[i];
 				}
 				
-				var c = customers[i];
-				
-				if (r.get("customer_id") != c.id 
-					|| r.get("name") != c.get("name") 
-					|| r.get("metal") != c.get("metal") 
-					|| r.get("accumulated_gold") != c.get("accumulated_gold") 
-					|| r.get("avatar") != c.get("avatar")) {
-					
-					r.set({customer_id: c.id, name: c.name, metal: c.metal, accumulated_gold: c.accumulated_gold, avatar: c.avatar});
-					
+				if (r.get("customer_id") != c.id) {
+					r.set("customer_id", c.id);
 					newRanks.push(r);
 				}
 			}
