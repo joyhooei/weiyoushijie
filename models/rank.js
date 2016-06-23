@@ -17,7 +17,7 @@ module.exports.rank = function(req, res) {
 			for(var i = 0; i < customers.length; i++) {
 				var c = customers[i];
 				
-				if (i > ranks.length) {
+				if (i >= ranks.length) {
 					var r = new dao.Rank({game: "headline", rank: i + 1});
 					newRanks.push(r);
 				} else {
