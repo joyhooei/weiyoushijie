@@ -30,7 +30,7 @@ class RankUI extends eui.Component {
                 for(var i = 0;i < self.ranks.length;i++) {
                     if(self.ranks[i].customer) {
                         var item = new RankItem(true,self.ranks[i].rank,self.ranks[i].customer);
-                        this.listMyRank.addChild(item);
+                        self.listMyRank.addChild(item);
                     }
                 }
 			}
