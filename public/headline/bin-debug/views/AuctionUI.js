@@ -34,7 +34,6 @@ var AuctionUI = (function (_super) {
         this.grpTrack.touchEnabled = true;
         this.grpTrack.addEventListener(egret.TouchEvent.TOUCH_BEGIN, this.onBeginChangeBid, this);
         this.grpTrack.addEventListener(egret.TouchEvent.TOUCH_MOVE, this.onChangeBid, this);
-        this.grpTrack.addEventListener(egret.TouchEvent.TOUCH_END, this.onEndChangeBid, this);
         this.btnAddGold.addEventListener(egret.TouchEvent.TOUCH_BEGIN, function () {
             application.showUI(new BuyToolUI("time", 500));
         }, this);
@@ -119,14 +118,12 @@ var AuctionUI = (function (_super) {
         this.lblTrack.text = percent.toString() + "%";
         this.renderBid((application.customer.gold - this.bid.gold) * percent / 100);
         this.imgFront.width = this.grpTrack.x - this.imgThumb.x + 20;
+        this.nextStep();
     };
-    p.onEndChangeBid = function (e) {
+    p.nextStep = function () {
         if (application.guideUI) {
             if (this.bid.gold + this.addGold > 0) {
                 application.guideUI.next();
-            }
-            else {
-                Toast.launch("投标的金币数量不能是0");
             }
         }
     };

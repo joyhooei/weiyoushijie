@@ -46,8 +46,8 @@ class RankUI extends eui.Component {
 					self.listMyRank.addChild(new RankItem(true,rank,me));
 					self.listMyRank.addChild(new RankItem(true,rank + 1,next));
 				} else {
-					application.dao.fetch("Rank", {customer_id: application.customer.id}, {limit: 1} function(succeed, myRanks) {
-						if (succeed & ranks.length == 1) {
+					application.dao.fetch("Rank", {customer_id: application.customer.id}, {limit: 1}, function(succeed, myRanks) {
+                        if(succeed && myRanks.length == 1) {
 							application.dao.fetch("Rank", {rank: [myRanks[0].rank -1, myRanks[0].rank, myRanks[0].rank + 1]}, {order: 'rank ASC'}, function(succeed, ranks) {
 								if (succeed && ranks.length > 0) {
 									var ids = [];

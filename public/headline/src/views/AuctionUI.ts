@@ -185,8 +185,6 @@ class AuctionUI extends eui.Component{
 		if (application.guideUI) {
             if(this.bid.gold + this.addGold > 0) {
 		        application.guideUI.next();
-		    } else {
-                Toast.launch("投标的金币数量不能是0");
 		    }
 		}	
 	}

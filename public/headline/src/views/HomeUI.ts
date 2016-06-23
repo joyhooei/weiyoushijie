@@ -229,7 +229,7 @@ class HomeUI extends eui.Component{
             if (!(application.bid && bidDay == application.bid.day)) {
 				application.refreshBid(function(bid){
                     self.renderCustomer();
-				});			
+				});
 			}
 		}, this);
 	}

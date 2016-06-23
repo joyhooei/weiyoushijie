@@ -60,7 +60,7 @@ var application;
                     application.ticks++;
                     application.stopwatch.dispatchEventWith("second", true, application.ticks);
                     if (application.ticks % 60 == 0) {
-                        application.stopwatch.dispatchEventWith("miniute", true, application.ticks / 60);
+                        application.stopwatch.dispatchEventWith("minute", true, application.ticks / 60);
                         if (application.ticks % 3600 == 0) {
                             application.stopwatch.dispatchEventWith("hour", true, application.ticks / 3600);
                         }
@@ -124,7 +124,7 @@ var application;
     function saveCustomer() {
         application.updateTimes++;
         var now = (new Date()).getTime() / 1000;
-        if (now - application.saveSeconds > 60 || application.updateTimes > 20) {
+        if (now - application.saveSeconds >= 180 || application.updateTimes >= 60) {
             application.updateTimes = 0;
             application.saveSeconds = now;
             application.customer.gold = Math.max(0, application.customer.gold);
