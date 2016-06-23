@@ -4,7 +4,7 @@ var Helper = require('./helper');
 module.exports.rank = function(req, res) {
 	var query = new AV.Query(dao.Rank);
 	query.equalTo("game", "headline");
-	q.addAscending("rank");
+	query.addAscending("rank");
 	Helper.findAll(query).then(function (ranks) {
 		var q = new AV.Query(dao.Customer);
 		q.equalTo("game", "headline");
