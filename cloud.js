@@ -9,6 +9,10 @@ AV.Cloud.afterSave("Customer", function(request, response) {
 	Customer.afterSave(request, response);
 });
 
+AV.Cloud.beforeSave("Bid", function(request, response) {
+	Bid.beforeSave(request, response);
+});
+
 AV.Cloud.afterSave("Bid", function(request, response) {
 	Bid.afterSave(request, response);
 });
