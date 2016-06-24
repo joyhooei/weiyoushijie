@@ -122,9 +122,10 @@ module application {
 					var gift = gifts[i];
                     var lastPickDay  = Math.floor((new Date(gift.update_time)).getTime() / day);
 					
-					//首充奖励不需要更新
+					//首充奖励只有一次，不需要更新
+                    //拍卖奖励由后台更新，不需要更新
                     //今天已经领取过了，不能再领取
-                    if (gift.category == GiftCategory.Charge || nowaday == lastPickDay) {
+                    if (gift.category == GiftCategory.Charge || gift.category == GiftCategory.Bid || nowaday == lastPickDay) {
                         continue;
                     }
 					
