@@ -174,44 +174,29 @@ class GiftUI extends eui.Component {
     private uiCompHandler(): void {
         var self = this;
 
-        application.dao.fetch("Gift", {customer_id: application.customer.id}, {order : 'category ASC'}, function(succeed, gifts){
-            if (succeed) {
-				self.gifts = gifts;
-				
-				//如果到了第二天，将所有已经领取礼物重新修改为可以领取
-				var day = 1000 * 60 * 60 * 24;
-				var now = Math.floor((new Date()).getTime() / day);
-				for(var i = 0; i < gifts.length; i++) {
-					//首充奖励不需要刷新
-					if (gifts[i].category != GiftCategory.Charge && gifts[i].locked == 2) {
-						var dt  = Math.floor((new Date(gifts[i].update_time)).getTime() / day);
-						if (now > dt){
-							gifts[i].locked = 1;
-						}
-					}
-				}
+		application.checkGift(function(gifts, hasGift){
+			self.gifts = gifts;
 
-				//1、登录200钻。每天领取一次
-				self.renderGift(self.gift(GiftCategory.Login));
+			//1、登录200钻。每天领取一次
+			self.renderGift(self.gift(GiftCategory.Login));
 
-				self.renderOnlineGift();
+			self.renderOnlineGift();
 
-				//3、拍卖100钻。每天领取一次。灰色点击直接跳去拍卖页面。
-				self.renderGift(self.gift(GiftCategory.Bid));
-				
-				self.renderTicketGift();
+			//3、拍卖100钻。每天领取一次。灰色点击直接跳去拍卖页面。
+			self.renderGift(self.gift(GiftCategory.Bid));
 
-				//5、分享100钻。每天任意在微博，微信等地方分享一次就可以领取。灰色时点击跳入分享页面。
-				self.renderGift(self.gift(GiftCategory.Share));
+			self.renderTicketGift();
 
-				//6、首冲 1500钻+1勋章+1M 金币。 只能领取一次，不再刷新。灰色时点击跳转首冲页面。
-				self.renderGift(self.gift(GiftCategory.Charge));
+			//5、分享100钻。每天任意在微博，微信等地方分享一次就可以领取。灰色时点击跳入分享页面。
+			self.renderGift(self.gift(GiftCategory.Share));
 
-				self.renderOutputGift();
+			//6、首冲 1500钻+1勋章+1M 金币。 只能领取一次，不再刷新。灰色时点击跳转首冲页面。
+			self.renderGift(self.gift(GiftCategory.Charge));
 
-				//8、关注
-				self.renderGift(self.gift(GiftCategory.Attention));
-			}
+			self.renderOutputGift();
+
+			//8、关注
+			self.renderGift(self.gift(GiftCategory.Attention));
         })
     }
 	
@@ -223,34 +208,23 @@ class GiftUI extends eui.Component {
 		this.lblOnlineGiftTimeout.text = "";
 		
 		if(gift.locked == 1) {
-			var lastLogin = new Date(application.customer.last_login);
-			var today     = new Date();
-			var diff      = Math.floor((today.getTime() - lastLogin.getTime()) / 1000);
-			if(diff > 60 * 60) {
-				//已经过了一小时，可以领取了
+			this.onlineGiftTimeout = parseInt(gift.data);
+
+			var timer: egret.Timer = new egret.Timer(1000, this.onlineGiftTimeout);
+			timer.addEventListener(egret.TimerEvent.TIMER,function(event: egret.TimerEvent) {
+				this.lblOnlineGiftTimeout.text = (Math.floor(this.onlineGiftTimeout / 60)).toString() + ":" + (Math.floor(this.onlineGiftTimeout % 60)).toString();
+				if(this.onlineGiftTimeout > 0) {
+					this.onlineGiftTimeout -= 1;
+				}
+			},this);
+			timer.addEventListener(egret.TimerEvent.TIMER_COMPLETE,function(event: egret.TimerEvent) {
+				//时间到了，可以领取了
 				this.lockGift(gift, 0);
-			} else {
-				//在线还不到1个小时，启动定时器
-				this.onlineGiftTimeout = 3600 - diff;
-				
-				var timer: egret.Timer = new egret.Timer(1000, this.onlineGiftTimeout);
-				timer.addEventListener(egret.TimerEvent.TIMER,function(event: egret.TimerEvent) {
-					this.lblOnlineGiftTimeout.text = (Math.floor(this.onlineGiftTimeout / 60)).toString() + ":" + (Math.floor(this.onlineGiftTimeout % 60)).toString();
-                    if(this.onlineGiftTimeout > 0) {
-						this.onlineGiftTimeout -= 1;
-					}
-				},this);
-                timer.addEventListener(egret.TimerEvent.TIMER_COMPLETE,function(event: egret.TimerEvent) {
-					//时间到了，可以领取了
-					this.lockGift(gift, 0);
-				},this);
-				timer.start();
-				
-				this.renderGift(gift);
-			}
-		} else {		
-			this.renderGift(gift);
+			},this);
+			timer.start();
 		}
+		
+		this.renderGift(gift);
 	}
 	
 	private renderTicketGift() {
@@ -258,19 +232,23 @@ class GiftUI extends eui.Component {
 		var gift = this.gift(GiftCategory.Ticket);
 		if (application.customer.vip == 0) {
 			this.lblTicketGiftTimeout.text = "";
-		} else if (application.customer.vip == 2) {
-			this.lblTicketGiftTimeout.text = "永久";
 		} else {
-            var ticketTimeout = new Date(application.customer.ticket);
-            var now = new Date();;
-
-            var timeDiff = ticketTimeout.getTime() - now.getTime();
-            var diffDays = Math.floor(timeDiff / (1000 * 3600 * 24)); 
-            if (diffDays <= 0) {
-				this.lblTicketGiftTimeout.text = "";
-            } else {
-                this.lblTicketGiftTimeout.text = diffDays.toString() + "天";
-            }
+			var now = new Date();
+			
+			if (application.customer.vip == 2) {
+				this.lblTicketGiftTimeout.text = "永久";
+			} else {
+				var ticketTimeout = new Date(application.customer.ticket);
+				var timeDiff = ticketTimeout.getTime() - now.getTime();
+				var diffDays = Math.min(30, Math.floor(timeDiff / (1000 * 3600 * 24))); 
+				if (diffDays <= 0) {
+					this.lblTicketGiftTimeout.text = "";
+					
+					application.resetTicket(0);
+				} else {
+					this.lblTicketGiftTimeout.text = diffDays.toString() + "天";
+				}
+			}
 		}
 		
 		this.renderGift(gift);

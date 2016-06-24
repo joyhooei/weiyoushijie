@@ -54,6 +54,20 @@ module application {
             application.onLoginCallback(<nest.user.LoginCallbackInfo>data);
         }
     }
+	
+	export function resetTicket(vip: number): void {
+		application.customer.vip = vip;
+		
+		if (vip == 0 || vip == 2) {
+			application.customer.ticket = "";
+		} else {
+			var now = new Date();
+			now = new Date(now.getTime() + 1000 * 60 * 60 * 24 * 30);
+			application.customer.ticket = now.toString();
+		}
+		
+		application.saveCustomer();
+	}
 
     export function onLoginCallback(data:nest.user.LoginCallbackInfo):void{
         //从后台获取用户信息
@@ -66,16 +80,6 @@ module application {
                 //首次登录，需要显示引导页面
                 if (application.customer.metal == 0) {
                     application.guideUI = new GuideUI();
-                }
-                
-                //检查是否ticket超期了
-                if (application.customer.vip == 1) {
-                    var dt  = new Date(application.customer.ticket);
-                    var now = new Date();
-                    if (dt.getTime() < now.getTime()) {
-                        application.customer.ticket = "";
-                        application.customer.vip = 0;
-                    }
                 }
                 
                 var timer: egret.Timer = new egret.Timer(1000, 0);
@@ -99,6 +103,76 @@ module application {
                 });
             } else {
                 Toast.launch("获取账号信息失败");
+            }
+        });
+    }
+    
+    export function checkGift(cb: Function) {
+        application.dao.fetch("Gift", {customer_id: application.customer.id}, {order : 'category ASC'}, function(succeed, gifts){
+            if (succeed && gifts.length > 0) {
+				//如果到了第二天，将所有已经领取礼物重新修改为可以领取
+				var day = 1000 * 60 * 60 * 24;
+				
+                var now = new Date();
+				var nowaday = Math.floor(now.getTime() / day);
+					
+				var hasGift = false;
+                
+				for(var i = 0; i < gifts.length; i++) {
+					var gift = gifts[i];
+                    var lastPickDay  = Math.floor((new Date(gift.update_time)).getTime() / day);
+					
+					//首充奖励只有一次，不需要更新
+                    //拍卖奖励由后台更新，不需要更新
+                    //今天已经领取过了，不能再领取
+                    if (gift.category == GiftCategory.Charge || gift.category == GiftCategory.Bid || nowaday == lastPickDay) {
+                        continue;
+                    }
+					
+                    //可以领取的不要更新
+					if (gift.locked == 0) {
+						hasGift = true;
+						continue;
+					}
+
+                    if (gift.category == GiftCategory.Online) {
+						//在线已经过了一小时，可以领取了
+			            var lastLogin = new Date(application.customer.last_login);
+			            var diff      = Math.floor((now.getTime() - lastLogin.getTime()) / 1000);
+			            if(diff >= 3600) {
+				            gift.locked = 0;
+							
+							hasGift = true;
+                        } else {
+                            gift.data = (3600 - diff).toString();
+							gift.locked = 1;
+						}
+                    } else if (gift.category == GiftCategory.Ticket) {
+						//检查是否ticket超期了
+						if (application.customer.vip == 1) {
+							if (application.customer.ticket && application.customer.ticket.length > 1) {
+								var ticketTimeout  = new Date(application.customer.ticket);
+								if (ticketTimeout.getTime() < now.getTime()) {
+									application.resetTicket(0);
+								}
+							} else {
+								application.resetTicket(1);
+							}
+						}
+                        
+						if (application.customer.vip > 0) {
+							gift.locked = 0;
+							
+							hasGift = true;
+						} else {
+							gift.locked = 1;
+						}
+                    } else {                    
+                        gift.locked = 1;
+                    }
+				}
+                
+                cb(gifts, hasGift);
             }
         });
     }
@@ -302,10 +376,8 @@ module application {
 									var metal = 1;
 								}
 
-								var dt = new Date();
-								dt = new Date(dt.getTime() + 1000 * 60 * 60 * 24 * 30);
-								application.customer.ticket = dt.toString();    
-								application.customer.vip = 1;
+								application.resetTicket(1);
+								
 								application.customer.metal += metal;
 							    application.saveCustomer();
                                 
@@ -324,8 +396,7 @@ module application {
 									var metal = 3;
 								}
 
-								application.customer.ticket = "";
-								application.customer.vip = 2;
+								application.resetTicket(2);
 								application.customer.metal += metal;
 							    application.saveCustomer();
                                 

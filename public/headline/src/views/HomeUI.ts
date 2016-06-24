@@ -180,13 +180,9 @@ class HomeUI extends eui.Component{
 	private renderGift(): void {
 		var self = this;
 		
-	 	application.dao.fetch("Gift", {customer_id: application.customer.id, locked: 0}, {limit: 1}, function(succeed, gifts){
-	  		if (succeed && gifts.length >0) {
-	   			self.imgGift.visible = true;
-	  		} else {
-	   			self.imgGift.visible = false;
-	  		}
-	 	});
+        application.checkGift(function(gifts, hasGift){
+            self.imgGift.visible = hasGift;
+        });
 	}
     
     private earnGoldDynamically(): void {
