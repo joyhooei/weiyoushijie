@@ -265,7 +265,7 @@ class GiftUI extends eui.Component {
             var now = new Date();;
 
             var timeDiff = ticketTimeout.getTime() - now.getTime();
-            var diffDays = Math.floor(timeDiff / (1000 * 3600 * 24)); 
+            var diffDays = Math.min(30, Math.floor(timeDiff / (1000 * 3600 * 24))); 
             if (diffDays <= 0) {
 				this.lblTicketGiftTimeout.text = "";
             } else {
