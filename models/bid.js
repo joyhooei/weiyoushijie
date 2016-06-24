@@ -95,3 +95,20 @@ module.exports.afterSave = function(request, response) {
 
 	Gift.unlockBid(bid.get("customer_id"));
 };
+
+module.exports.beforeSave = function(request, response) {
+    var bid = request.object;
+
+    var query = new AV.Query(dao.Blacklist);
+    query.equalTo('customer_id', bid.get("customer_id"));
+	query.limit(1);
+	query.find().then(function(blacks){
+		if (blacks.length == 1) {
+			response.error("对不起，您由于下列原因被封号：" + blacks[0].get("reason") + "。请联系管理员，谢谢！");
+		} else {
+			response.success();
+		}
+	}, function(error){
+		response.success();
+	});
+};
