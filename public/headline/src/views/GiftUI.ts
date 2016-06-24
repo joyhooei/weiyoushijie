@@ -182,11 +182,13 @@ class GiftUI extends eui.Component {
 				var day = 1000 * 60 * 60 * 24;
 				var now = Math.floor((new Date()).getTime() / day);
 				for(var i = 0; i < gifts.length; i++) {
+					var gift = gifts[i];
+					
 					//首充奖励不需要刷新
-					if (gifts[i].category != GiftCategory.Charge && gifts[i].locked == 2) {
-						var dt  = Math.floor((new Date(gifts[i].update_time)).getTime() / day);
+					if (gift.category != GiftCategory.Charge && gift.locked == 2) {
+						var dt  = Math.floor((new Date(gift.update_time)).getTime() / day);
 						if (now > dt){
-							gifts[i].locked = 1;
+							gift.locked = 1;
 						}
 					}
 				}
@@ -258,19 +260,23 @@ class GiftUI extends eui.Component {
 		var gift = this.gift(GiftCategory.Ticket);
 		if (application.customer.vip == 0) {
 			this.lblTicketGiftTimeout.text = "";
-		} else if (application.customer.vip == 2) {
-			this.lblTicketGiftTimeout.text = "永久";
 		} else {
-            var ticketTimeout = new Date(application.customer.ticket);
-            var now = new Date();;
-
-            var timeDiff = ticketTimeout.getTime() - now.getTime();
-            var diffDays = Math.min(30, Math.floor(timeDiff / (1000 * 3600 * 24))); 
-            if (diffDays <= 0) {
-				this.lblTicketGiftTimeout.text = "";
-            } else {
-                this.lblTicketGiftTimeout.text = diffDays.toString() + "天";
-            }
+			var now = new Date();
+			
+			if (application.customer.vip == 2) {
+				this.lblTicketGiftTimeout.text = "永久";
+			} else {
+				var ticketTimeout = new Date(application.customer.ticket);
+				var timeDiff = ticketTimeout.getTime() - now.getTime();
+				var diffDays = Math.min(30, Math.floor(timeDiff / (1000 * 3600 * 24))); 
+				if (diffDays <= 0) {
+					this.lblTicketGiftTimeout.text = "";
+					
+					application.resetTicket(0);
+				} else {
+					this.lblTicketGiftTimeout.text = diffDays.toString() + "天";
+				}
+			}
 		}
 		
 		this.renderGift(gift);
