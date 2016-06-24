@@ -298,33 +298,35 @@ class HomeUI extends eui.Component{
 		
         application.dao.fetch("Bid",{ succeed: 1}, {limit : 1, order :'create_time desc'}, function(succeed, bids){
             if (succeed && bids.length > 0) {
-				self.bid = bids[0];
-				
-				//如果显示win ui，则不显示offlinegold ui，否则显示offlinegold ui
-				if (application.customer.id == self.bid.customer_id) {
-					//已经显示过，就不需要再显示了
-					if (self.bid.claimed == 0) {
-						application.showUI(new WinUI(self.bid), self);
-                        
-                        application.earnOfflineGold();
-					} else {
-                    	self.renderOfflineGold();
+                if (!(self.bid && self.bid.id == bids[0].id)) {
+    				self.bid = bids[0];
+    				
+    				//如果显示win ui，则不显示offlinegold ui，否则显示offlinegold ui
+    				if (application.customer.id == self.bid.customer_id) {
+    					//已经显示过，就不需要再显示了
+    					if (self.bid.claimed == 0) {
+    						application.showUI(new WinUI(self.bid), self);
+                            
+                            application.earnOfflineGold();
+    					} else {
+                        	self.renderOfflineGold();
+                            
+                            application.earnBids();
+                        }
+    					
+    					self.renderBidCustomer(application.customer);
+    				} else {
+    					application.dao.fetch("Customer",{ id: self.bid.customer_id },{ limit: 1 },function(succeed, customers) {
+    						if(succeed && customers.length > 0) {
+    							self.renderBidCustomer(customers[0]);
+    						}
+    					});
+    					
+    					self.renderOfflineGold();
                         
                         application.earnBids();
-                    }
-					
-					self.renderBidCustomer(application.customer);
-				} else {
-					application.dao.fetch("Customer",{ id: self.bid.customer_id },{ limit: 1 },function(succeed, customers) {
-						if(succeed && customers.length > 0) {
-							self.renderBidCustomer(customers[0]);
-						}
-					});
-					
-					self.renderOfflineGold();
-                    
-                    application.earnBids();
-				}
+    				}
+    			}
             }
         })
 	}
