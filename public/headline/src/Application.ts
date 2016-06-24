@@ -169,8 +169,6 @@ module application {
                     } else {                    
                         gift.locked = 1;
                     }
-					
-					application.dao.save("Gift", gift);
 				}
                 
                 cb(gifts, hasGift);
