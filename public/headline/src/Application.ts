@@ -138,11 +138,12 @@ module application {
 						//在线已经过了一小时，可以领取了
 			            var lastLogin = new Date(application.customer.last_login);
 			            var diff      = Math.floor((now.getTime() - lastLogin.getTime()) / 1000);
-			            if(diff > 60 * 60) {
+			            if(diff >= 3600) {
 				            gift.locked = 0;
 							
 							hasGift = true;
                         } else {
+                            gift.data = (3600 - diff).toString();
 							gift.locked = 1;
 						}
                     } else if (gift.category == GiftCategory.Ticket) {
