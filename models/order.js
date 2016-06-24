@@ -22,6 +22,7 @@ module.exports.pay = function(order) {
 				if (product == "VIP") {
 					customer.set("vip", 2);
 					customer.set("ticket", "");
+					customer.increment("diamond", 5000);
 
 					if (orders.length >= 1) {
 						customer.increment("metal", 1);
@@ -34,6 +35,7 @@ module.exports.pay = function(order) {
 					var dt = new Date();
 					dt = new Date(dt.getTime() + 1000 * 60 * 60 * 24 * 30);
 					customer.set("ticket", dt.toString());
+					customer.increment("diamond", 2000);
 
 					if (orders.length >= 1) {
 						customer.increment("metal", 0);
@@ -41,17 +43,17 @@ module.exports.pay = function(order) {
 						customer.increment("metal", 1);
 					}
 				} else {
-					var diamond = 200;
+					var diamond = 400;
 					if (price == 5) {
-						diamond = 600;
+						diamond = 1200;
 					} else if (price == 10) {
-						diamond = 1300;
+						diamond = 2600;
 					} else if (price == 30) {
-						diamond = 4500;
+						diamond = 9000;
 					} else if (price == 100) {
-						diamond = 18000;
+						diamond = 20000;
 					} else if (price == 500) {
-						diamond = 100000;
+						diamond = 200000;
 					}
 
 					customer.increment("diamond", diamond);

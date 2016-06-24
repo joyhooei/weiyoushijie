@@ -7,7 +7,6 @@ module application {
     export var customer: any;
     
     export var bid: any;
-    export var earnedGold: number = 0;
     
     export var projects: Project[];
 	
@@ -75,11 +74,17 @@ module application {
             if (succeed) {
                 application.customer = customer;
                 
+                application.checkTicket();
+                
                 esa.EgretSA.player.init({egretId:customer.uid, level:1, serverId:1, playerName:customer.name})
                 
                 //首次登录，需要显示引导页面
                 if (application.customer.metal == 0) {
                     application.guideUI = new GuideUI();
+                }
+                
+                if(!application.customer.earned_gold) {
+                    application.customer.earned_gold = 0;
                 }
                 
                 var timer: egret.Timer = new egret.Timer(1000, 0);
@@ -120,20 +125,24 @@ module application {
                 
 				for(var i = 0; i < gifts.length; i++) {
 					var gift = gifts[i];
-                    var lastPickDay  = Math.floor((new Date(gift.update_time)).getTime() / day);
-					
-					//首充奖励只有一次，不需要更新
-                    //拍卖奖励由后台更新，不需要更新
-                    //今天已经领取过了，不能再领取
-                    if (gift.category == GiftCategory.Charge || gift.category == GiftCategory.Bid || nowaday == lastPickDay) {
+
+                    //可以领取的不要更新
+                    if(gift.locked == 0) {
+                        hasGift = true;
                         continue;
                     }
 					
-                    //可以领取的不要更新
-					if (gift.locked == 0) {
-						hasGift = true;
-						continue;
-					}
+					if (gift.last_pick_day) {
+                        var lastPickDay = Math.floor((new Date(gift.last_pick_day)).getTime() / day);
+                    } else {
+                        var lastPickDay = Math.floor((new Date()).getTime() / day) - 1;
+                    }
+					
+					//首充奖励只有一次，不需要更新
+                    //今天已经领取过了，不能再领取
+                    if (gift.category == GiftCategory.Charge || nowaday == lastPickDay) {
+                        continue;
+                    }
 
                     if (gift.category == GiftCategory.Online) {
 						//在线已经过了一小时，可以领取了
@@ -147,18 +156,8 @@ module application {
                             gift.data = (3600 - diff).toString();
 							gift.locked = 1;
 						}
-                    } else if (gift.category == GiftCategory.Ticket) {
-						//检查是否ticket超期了
-						if (application.customer.vip == 1) {
-							if (application.customer.ticket && application.customer.ticket.length > 1) {
-								var ticketTimeout  = new Date(application.customer.ticket);
-								if (ticketTimeout.getTime() < now.getTime()) {
-									application.resetTicket(0);
-								}
-							} else {
-								application.resetTicket(1);
-							}
-						}
+                    } else if (gift.category == GiftCategory.Ticket) {						
+                        application.checkTicket();
                         
 						if (application.customer.vip > 0) {
 							gift.locked = 0;
@@ -175,6 +174,22 @@ module application {
                 cb(gifts, hasGift);
             }
         });
+    }
+    
+    //检查是否ticket超期了
+    export function checkTicket(): void {
+        if(application.customer.vip == 1) {
+            if(application.customer.ticket && application.customer.ticket.length > 1) {
+                var ticketTimeout = new Date(application.customer.ticket);
+                var now = new Date();
+                if(ticketTimeout.getTime() < now.getTime()) {
+                    application.resetTicket(0);
+                }
+            } else {
+                application.resetTicket(1);
+            }
+        }
+        
     }
 	
 	export function delay(cb: Function, miniseconds: number) {
@@ -229,16 +244,21 @@ module application {
         
 		var now = (new Date()).getTime() / 1000;
         if (now - application.saveSeconds >= 180 || application.updateTimes >= 60) {
-			application.updateTimes = 0;
-			application.saveSeconds = now;
-			
-			application.customer.gold = Math.max(0,application.customer.gold);
-			application.customer.accumulated_gold = Math.max(application.customer.accumulated_gold,application.customer.gold);
-			application.customer.diamond = Math.max(0,application.customer.diamond);
-			application.dao.save("Customer",application.customer);
+            application.saveCustomerNow();
 		} else {
 			application.dao.dispatchEventWith("Customer", true, application.customer);
 		}
+    }
+
+    export function saveCustomerNow() {
+        application.updateTimes = 0;
+        application.saveSeconds = (new Date()).getTime() / 1000;
+
+        application.customer.gold = Math.max(0,application.customer.gold);
+        application.customer.earned_gold = Math.max(0,application.customer.earned_gold);
+        application.customer.accumulated_gold = Math.max(application.customer.accumulated_gold,application.customer.gold);
+        application.customer.diamond = Math.max(0,application.customer.diamond);
+        application.dao.save("Customer",application.customer);
     }
     
     export function giftChanged() {
@@ -253,36 +273,36 @@ module application {
     
     export function earnGold(gold:number) {
 		//处理大数 + 小数，小数被四舍五入的问题
-        application.earnedGold += gold;
+        application.customer.earned_gold += gold;
         
         var oldGold = application.customer.gold;
         
-		application.customer.gold += application.earnedGold;
+        application.customer.gold += application.customer.earned_gold;
         if (oldGold != application.customer.gold) {
-			application.customer.accumulated_gold += application.earnedGold;
+            application.customer.accumulated_gold += application.customer.earned_gold;
             
-			application.earnedGold = 0;			
+            application.customer.earned_gold = 0;			
         }
         
         application.saveCustomer();
     }
     
     export function useGold(gold:number) {
-        if (application.earnedGold > gold) {
-            application.earnedGold -= gold;
+        if(application.customer.earned_gold > gold) {
+            application.customer.earned_gold -= gold;
         } else {
-            application.customer.gold = application.customer.gold + application.earnedGold - gold;
-            application.earnedGold = 0;
+            application.customer.gold = application.customer.gold + application.customer.earned_gold - gold;
+            application.customer.earned_gold = 0;
         }
         
-        application.saveCustomer();
+        application.saveCustomerNow();
     }
     
     export function usableGold() {
         if (application.bid) {
-            return Math.max(0, application.customer.gold - application.bid.gold + application.earnedGold);
+            return Math.max(0,application.customer.gold - application.bid.gold + application.customer.earned_gold);
         } else {
-            return Math.max(0, application.customer.gold + application.earnedGold);
+            return Math.max(0,application.customer.gold + application.customer.earned_gold);
         }
     }
 
@@ -343,17 +363,17 @@ module application {
 					var o = orders[0];
                     
 					if (o.product == "Diamond") {
-                        var diamond = 200;
+                        var diamond = 400;
                         if (o.price == 5) {
-                            diamond = 600;
+                            diamond = 1200;
                         } else if (o.price == 10) {
-                            diamond = 1300;
+                            diamond = 2600;
                         } else if (o.price == 30) {
-                            diamond = 4500;
+                            diamond = 9000;
                         } else if (o.price == 100) {
-                            diamond = 18000;
+                            diamond = 20000;
                         } else if (o.price == 500) {
-                            diamond = 100000;
+                            diamond = 200000;
                         }
 
 						application.customer.diamond += diamond;
@@ -376,10 +396,9 @@ module application {
 									var metal = 1;
 								}
 
-								application.resetTicket(1);
-								
+                                application.customer.diamond += 2000;
 								application.customer.metal += metal;
-							    application.saveCustomer();
+                                application.resetTicket(1);
                                 
 								if (firstCharge) {
 									Toast.launch("购买了月票,并获得了1500钻，1000k金币和1个奖章的首充礼物");
@@ -396,9 +415,9 @@ module application {
 									var metal = 3;
 								}
 
-								application.resetTicket(2);
+                                application.customer.diamond += 5000;
 								application.customer.metal += metal;
-							    application.saveCustomer();
+                                application.resetTicket(2);
                                 
 								if (firstCharge) {
 									Toast.launch("购买了VIP,并获得了1500钻，1000k金币和1个奖章的首充礼物");

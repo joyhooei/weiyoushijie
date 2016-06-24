@@ -130,7 +130,7 @@ class AuctionUI extends eui.Component{
 			if (self.bid.gold > 0) {
 				application.dao.fetch("Blacklist", {customer_id: application.customer.id}, {limit : 1}, function(succeed, blacks) {
 					if (succeed && blacks.length == 1) {
-						Toast("对不起，您由于下列原因被封号：" + blacks[0].reason + "。请联系管理员，谢谢！");
+						Toast.launch("对不起，您由于下列原因被封号：" + blacks[0].reason + "。请联系管理员，谢谢！");
 					} else {
 						self.bid.claimed = 0;
 						application.dao.save("Bid", self.bid);

@@ -46,6 +46,8 @@ class GiftUI extends eui.Component {
 
         this.imgRet.addEventListener(egret.TouchEvent.TOUCH_BEGIN,function() {
             application.hideUI(this);
+            
+            application.dao.dispatchEventWith("Gift", true, {});
         },this);	
         
         this.imgPick1.addEventListener(egret.TouchEvent.TOUCH_BEGIN, function(ev){
@@ -163,6 +165,10 @@ class GiftUI extends eui.Component {
 	private lockGift(gift: any, lock:number) {
 		gift.locked = lock;
 		this.renderGift(gift);
+		
+		if (lock == 2) {
+		    gift.last_pick_day = (new Date()).toString();
+		}
 		
 		application.dao.save("Gift",gift);
 	}
