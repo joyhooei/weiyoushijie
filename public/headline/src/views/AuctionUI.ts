@@ -181,7 +181,7 @@ class AuctionUI extends eui.Component{
         let percent:number = Math.round(100 * (this.grpTrack.x - this.imgThumb.x)  / (this.imgThumb.width - this.grpTrack.width) );
 		this.lblTrack.text = percent.toString() + "%";
 
-		this.renderBid((application.customer.gold - this.bid.gold) * percent / 100);
+		this.renderBid((Math.max(0, application.customer.gold - this.bid.gold)) * percent / 100);
         this.imgFront.width = this.grpTrack.x - this.imgThumb.x + 20;
 		
 		this.nextStep();
