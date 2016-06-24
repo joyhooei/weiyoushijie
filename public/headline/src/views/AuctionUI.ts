@@ -128,22 +128,28 @@ class AuctionUI extends eui.Component{
 		if (self.bid.day == application.bidDay()) {
 			self.bid.gold += self.addGold;
 			if (self.bid.gold > 0) {
-				self.bid.claimed = 0;
-				application.dao.save("Bid", self.bid);
-				
-				application.giftChanged();
-				
-				esa.EgretSA.onJoinActivity("投标");
+				application.dao.fetch("Blacklist", {customer_id: application.customer.id}, {limit : 1}, function(succeed, blacks) {
+					if (succeed && blacks.length == 1) {
+						Toast("对不起，您由于下列原因被封号：" + blacks[0].reason + "。请联系管理员，谢谢！");
+					} else {
+						self.bid.claimed = 0;
+						application.dao.save("Bid", self.bid);
 
-				Toast.launch("投标成功");
+						application.giftChanged();
 
-				application.bid = self.bid;
-				      
-				if (application.guideUI) {
-					application.guideUI.next();
-				}  				
+						esa.EgretSA.onJoinActivity("投标");
 
-				self.back();
+						Toast.launch("投标成功");
+
+						application.bid = self.bid;
+
+						if (application.guideUI) {
+							application.guideUI.next();
+						}  				
+
+						self.back();
+					}
+				});
 			} else {
 				Toast.launch("投标的金币数量不能是0");
 			}
