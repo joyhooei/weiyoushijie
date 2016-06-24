@@ -153,6 +153,7 @@ function _findModels(claz, query){
 module.exports = function() {
 	this.initialize = function(){
 		this.addModel("Bid");
+		this.addModel("Blacklist");
 
 		this.addModel("Compensation");
 		this.addModel("Customer");
