@@ -29,10 +29,6 @@ module.exports.createAll = function(customer) {
 }
 
 module.exports.unlockLogin = function(customer) {
-	if (customer.vip > 0) {
-		_lock(customer.id, 4, 0);
-	}
-	
     _lock(customer.id, 1, 0);
 }
 
