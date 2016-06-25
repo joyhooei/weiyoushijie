@@ -1,10 +1,12 @@
 class CompensationUI extends eui.Component {
     private imgBack: eui.Button;
 	private imgPick: eui.Button;
+	private imgClear: eui.Button;
     
     private listCompensation:eui.Group;
 	
 	private compensations: any[];
+	private compensationsRead: any[];
 
     constructor() {
         super();
@@ -17,26 +19,60 @@ class CompensationUI extends eui.Component {
     public refresh(): void {
 		var self = this;
 		
-        application.dao.fetch("Compensation",{ customer_id: application.customer.id,state: 0 }, {},function(succeed,compensations) {
+		self.listCompensation.removeChildren();
+		
+		self.imgClear.source = "";
+		
+        application.dao.fetch("Compensation",{ customer_id: application.customer.id,state: 0 }, {order: "create_time DESC"},function(succeed,compensations) {
             if(succeed && compensations.length >= 1) {
-				self.compensations = compensations;
-				
-				for (var i = 0; i < compensations.length; i++) {
-					self.listCompensation.addChild(new CompensationItem(compensations[i]));
-				}
+				self.compensations = compensations;				
+				self.renderCompensations();
 				
 				self.imgPick.source = "";
 			} else {
 				self.imgPick.source = "";
 			}
 		});
+		
+        application.dao.fetch("Compensation",{ customer_id: application.customer.id,state: 1 }, {order: "update_time DESC"},function(succeed,compensations) {
+            if(succeed && compensations.length >= 1) {
+				self.compensationsRead = compensations;
+				self.renderCompensations();
+			}
+		});
     }
+	
+	private renderCompensations(compensations) {
+		for (var i = 0; i < compensations.length; i++) {
+			this.listCompensation.addChild(new CompensationItem(compensations[i]));
+		}
+		
+		this.imgClear.source = "";
+	}
 
     private uiCompHandler():void {
         this.refresh();
 
         this.imgBack.addEventListener(egret.TouchEvent.TOUCH_TAP,() => {
             application.hideUI(this);
+        },this);
+
+        this.imgClear.addEventListener(egret.TouchEvent.TOUCH_TAP,() => {
+			if (this.compensations && this.compensations.length > 0) {
+				for (var i = 0; i < this.compensations.length; i++) {
+					this.compensations[i].state = 2;
+					application.dao.save("Compensation", this.compensations[i]);
+				}
+			}
+			
+			if (this.compensationsRead && this.compensationsRead.length > 0) {
+				for (var i = 0; i < this.compensationsRead.length; i++) {
+					this.compensationsRead[i].state = 2;
+					application.dao.save("Compensation", this.compensationsRead[i]);
+				}
+			}
+			
+            this.refresh();
         },this);
 
         this.imgPick.addEventListener(egret.TouchEvent.TOUCH_TAP,() => {
@@ -104,8 +140,8 @@ class CompensationUI extends eui.Component {
                 Toast.launch(title);
                 
                 application.saveCustomerNow();
-
-				application.hideUI(this);
+				
+				this.refresh();
 			}
         },this);
     } 
