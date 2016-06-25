@@ -368,7 +368,7 @@ module application {
                         } else if (o.price == 30) {
                             diamond = 9000;
                         } else if (o.price == 100) {
-                            diamond = 20000;
+                            diamond = 36000;
                         } else if (o.price == 500) {
                             diamond = 200000;
                         }
