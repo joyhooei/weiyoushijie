@@ -51,7 +51,7 @@ module.exports.pay = function(order) {
 					} else if (price == 30) {
 						diamond = 9000;
 					} else if (price == 100) {
-						diamond = 20000;
+						diamond = 36000;
 					} else if (price == 500) {
 						diamond = 200000;
 					}
