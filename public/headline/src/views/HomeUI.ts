@@ -285,6 +285,8 @@ class HomeUI extends eui.Component{
                 application.dao.save("Compensation",compensations[0]);
 
                 Toast.launch(title);
+                
+                application.saveCustomerNow();
             }
         });
     }
