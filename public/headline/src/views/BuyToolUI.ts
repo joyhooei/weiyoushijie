@@ -93,7 +93,7 @@ class BuyToolUI extends eui.Component{
 			if (application.customer.diamond > this._price) {
 				application.customer.diamond -= this._price;
 				application.customer.total_hits = 3;				
-                application.saveCustomer();
+                application.saveCustomerNow();
 				
 				esa.EgretSA.onDiamondUse("购买了暴击", 1, this._price);
                 
