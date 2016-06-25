@@ -319,6 +319,6 @@ class GiftUI extends eui.Component {
 		application.customer.metal   += gift.metal;
 		application.customer.gold    += gift.gold;
 		application.customer.diamond += gift.diamond;
-		application.saveCustomer();
+		application.saveCustomerNow();
 	}
 }
