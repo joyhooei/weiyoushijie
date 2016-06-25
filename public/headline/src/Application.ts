@@ -3,7 +3,6 @@ module application {
     export var dao: Dao;
     
 	export var saveSeconds: number = 0;
-    export var updateTimes: number = 0;
     export var customer: any;
     
     export var bid: any;
@@ -240,10 +239,8 @@ module application {
     }
 
     export function saveCustomer() {
-        application.updateTimes ++; 
-        
 		var now = (new Date()).getTime() / 1000;
-        if (now - application.saveSeconds >= 180 || application.updateTimes >= 60) {
+        if (now - application.saveSeconds >= 120) {
             application.saveCustomerNow();
 		} else {
 			application.dao.dispatchEventWith("Customer", true, application.customer);
@@ -251,7 +248,6 @@ module application {
     }
 
     export function saveCustomerNow() {
-        application.updateTimes = 0;
         application.saveSeconds = (new Date()).getTime() / 1000;
 
         application.customer.gold = Math.max(0,application.customer.gold);
@@ -268,6 +264,7 @@ module application {
     export function earnOfflineGold() {
         if (application.customer.offline_gold > 0) {
             application.earnGold(application.customer.offline_gold);
+            application.saveCustomerNow();
         }
     }
     
