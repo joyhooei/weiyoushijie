@@ -234,7 +234,7 @@ module application {
 					application.dao.save("Bid", bids[i]);
 				}
 				
-				application.saveCustomer();
+				application.saveCustomerNow();
 			}
 		});
     }
