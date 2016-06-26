@@ -162,6 +162,7 @@ module.exports = function() {
 		this.addModel("Gift");
 		
 		this.addModel("MaxBid");
+		this.addModel("Message");
 		
 		this.addModel("Order");
 		

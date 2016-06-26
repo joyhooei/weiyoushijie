@@ -888,6 +888,56 @@
 					"isFolder":false,
 					"key":"cancel_png",
 					"name":"cancel_png"
+				},
+				{
+					"isFolder":false,
+					"key":"bar_png",
+					"name":"bar_png"
+				},
+				{
+					"isFolder":false,
+					"key":"bargery_png",
+					"name":"bargery_png"
+				},
+				{
+					"isFolder":false,
+					"key":"coin_png",
+					"name":"coin_png"
+				},
+				{
+					"isFolder":false,
+					"key":"del_png",
+					"name":"del_png"
+				},
+				{
+					"isFolder":false,
+					"key":"detailB_png",
+					"name":"detailB_png"
+				},
+				{
+					"isFolder":false,
+					"key":"dia_png",
+					"name":"dia_png"
+				},
+				{
+					"isFolder":false,
+					"key":"get_png",
+					"name":"get_png"
+				},
+				{
+					"isFolder":false,
+					"key":"massageB_png",
+					"name":"massageB_png"
+				},
+				{
+					"isFolder":false,
+					"key":"massage_png",
+					"name":"massage_png"
+				},
+				{
+					"isFolder":false,
+					"key":"metal_png",
+					"name":"metal_png"
 				}
 			]
 		}

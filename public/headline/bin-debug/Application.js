@@ -1,7 +1,6 @@
 var application;
 (function (application) {
     application.saveSeconds = 0;
-    application.updateTimes = 0;
     application.ticks = 0;
     function init(main) {
         application.main = main;
@@ -197,15 +196,14 @@ var application;
                     bids[i].claimed = 1;
                     application.dao.save("Bid", bids[i]);
                 }
-                application.saveCustomer();
+                application.saveCustomerNow();
             }
         });
     }
     application.earnBids = earnBids;
     function saveCustomer() {
-        application.updateTimes++;
         var now = (new Date()).getTime() / 1000;
-        if (now - application.saveSeconds >= 180 || application.updateTimes >= 60) {
+        if (now - application.saveSeconds >= 120) {
             application.saveCustomerNow();
         }
         else {
@@ -214,7 +212,6 @@ var application;
     }
     application.saveCustomer = saveCustomer;
     function saveCustomerNow() {
-        application.updateTimes = 0;
         application.saveSeconds = (new Date()).getTime() / 1000;
         application.customer.gold = Math.max(0, application.customer.gold);
         application.customer.earned_gold = Math.max(0, application.customer.earned_gold);
@@ -230,6 +227,7 @@ var application;
     function earnOfflineGold() {
         if (application.customer.offline_gold > 0) {
             application.earnGold(application.customer.offline_gold);
+            application.saveCustomerNow();
         }
     }
     application.earnOfflineGold = earnOfflineGold;
@@ -330,7 +328,7 @@ var application;
                             diamond = 9000;
                         }
                         else if (o.price == 100) {
-                            diamond = 20000;
+                            diamond = 36000;
                         }
                         else if (o.price == 500) {
                             diamond = 200000;

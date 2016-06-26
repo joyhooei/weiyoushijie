@@ -105,4 +105,6 @@
 	</e:Group>
 	<e:Image id="imgHit" width="53" height="32" x="83" y="281" fillMode="clip" source="effect_png"/>
 	<e:Image id="imgGift" width="20" height="20" x="449" y="287" fillMode="clip" source="red_png"/>
+	<e:Image id="imgMessage" width="117" height="57" x="318" y="66" source="massage_png" fillMode="clip"/>
+	<e:Image id="imgHasMessage" fillMode="clip" source="red_png" x="393" y="76" width="20" height="20"/>
 </e:Skin>

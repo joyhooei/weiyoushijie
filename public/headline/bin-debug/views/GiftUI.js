@@ -16,9 +16,11 @@ var GiftUI = (function (_super) {
         this.addEventListener(eui.UIEvent.COMPLETE, this.uiCompHandler, this);
         this.skinName = "resource/custom_skins/giftUISkin.exml";
         this.imgPicks = [this.imgPick1, this.imgPick2, this.imgPick3, this.imgPick4, this.imgPick5, this.imgPick6, this.imgPick7, this.imgPick8];
+        for (var i = 0; i < this.imgPicks.length; i++) {
+            this.imgPicks[i].visible = false;
+        }
         this.imgRet.addEventListener(egret.TouchEvent.TOUCH_BEGIN, function () {
             application.hideUI(this);
-            application.dao.dispatchEventWith("Gift", true, {});
         }, this);
         this.imgPick1.addEventListener(egret.TouchEvent.TOUCH_BEGIN, function (ev) {
             this.pickGift(this.gift(GiftCategory.Login));
@@ -138,6 +140,9 @@ var GiftUI = (function (_super) {
         var self = this;
         application.checkGift(function (gifts, hasGift) {
             self.gifts = gifts;
+            for (var i = 0; i < self.imgPicks.length; i++) {
+                self.imgPicks[i].visible = true;
+            }
             //1、登录200钻。每天领取一次
             self.renderGift(self.gift(GiftCategory.Login));
             self.renderOnlineGift();
@@ -259,7 +264,7 @@ var GiftUI = (function (_super) {
         application.customer.metal += gift.metal;
         application.customer.gold += gift.gold;
         application.customer.diamond += gift.diamond;
-        application.saveCustomer();
+        application.saveCustomerNow();
     };
     return GiftUI;
 }(eui.Component));

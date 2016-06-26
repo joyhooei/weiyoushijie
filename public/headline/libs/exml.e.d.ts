@@ -22,6 +22,12 @@ declare class loginButtonSkin extends eui.Skin{
 }
 declare class loginTypeUISkin extends eui.Skin{
 }
+declare class messageDetailUISkin extends eui.Skin{
+}
+declare class messageItemSkin extends eui.Skin{
+}
+declare class messageUISkin extends eui.Skin{
+}
 declare class offlineGoldUISkin extends eui.Skin{
 }
 declare class projectListIRSkin extends eui.Skin{

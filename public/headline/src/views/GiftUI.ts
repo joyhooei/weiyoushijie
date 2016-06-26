@@ -43,11 +43,12 @@ class GiftUI extends eui.Component {
         this.skinName = "resource/custom_skins/giftUISkin.exml";
 		
 		this.imgPicks = [this.imgPick1, this.imgPick2, this.imgPick3, this.imgPick4, this.imgPick5, this.imgPick6, this.imgPick7, this.imgPick8];
+		for(var i = 0; i < this.imgPicks.length; i ++){
+		    this.imgPicks[i].visible = false;
+		}
 
         this.imgRet.addEventListener(egret.TouchEvent.TOUCH_BEGIN,function() {
             application.hideUI(this);
-            
-            application.dao.dispatchEventWith("Gift", true, {});
         },this);	
         
         this.imgPick1.addEventListener(egret.TouchEvent.TOUCH_BEGIN, function(ev){
@@ -182,7 +183,10 @@ class GiftUI extends eui.Component {
 
 		application.checkGift(function(gifts, hasGift){
 			self.gifts = gifts;
-
+			
+            for(var i = 0;i < self.imgPicks.length;i++) {
+                self.imgPicks[i].visible = true;
+            }
 			//1、登录200钻。每天领取一次
 			self.renderGift(self.gift(GiftCategory.Login));
 

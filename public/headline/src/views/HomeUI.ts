@@ -57,6 +57,9 @@ class HomeUI extends eui.Component{
     private btnAddGold: eui.Button;
     private btnAddDiamond: eui.Button;
     
+    private imgMessage: eui.Image;
+    private imgHasMessage: eui.Image;
+    
     constructor( ) {
         super();
 		
@@ -74,6 +77,8 @@ class HomeUI extends eui.Component{
         
         self.imgHit.visible = false;
         self.imgGift.visible = false;
+        
+        self.imgHasMessage.visible = false;
         
         self.btnHome.addEventListener( egret.TouchEvent.TOUCH_TAP, self.btnHandler, self );
         self.btnRank.addEventListener( egret.TouchEvent.TOUCH_TAP, self.btnHandler, self );
@@ -102,7 +107,7 @@ class HomeUI extends eui.Component{
         self.btnGift.addEventListener(egret.TouchEvent.TOUCH_BEGIN, function() {
 			application.showUI(new GiftUI(), this);
         }, this);
-                
+
         self.btnHelp.addEventListener(egret.TouchEvent.TOUCH_BEGIN, function() {
 			application.showHelp("");
         }, this);
@@ -122,6 +127,10 @@ class HomeUI extends eui.Component{
 				application.showUI(new ChargeTipUI(), this);
 			}
         },this);
+
+        self.imgMessage.addEventListener(egret.TouchEvent.TOUCH_BEGIN,function() {
+            application.showUI(new MessageUI(),this);
+        },this);
         
         application.dao.addEventListener("Project",function(ev: egret.Event) {
             var myProject = ev.data;
@@ -139,7 +148,11 @@ class HomeUI extends eui.Component{
         application.dao.addEventListener("Gift",function(ev: egret.Event) {
             this.renderGift();
         },this);
-		
+
+        application.dao.addEventListener("Message",function(ev: egret.Event) {
+            this.renderMessage();
+        },this);
+
 		self.renderGiftDynamically();
         
         /// 首次加载完成首先显示home
@@ -153,7 +166,7 @@ class HomeUI extends eui.Component{
 
 			 	self.refreshBidAtNoon();
 				
-				self.refreshCompensationTimely();
+                self.refreshMessageTimely();
 			});
             
         	this.addChild(application.guideUI);
@@ -165,7 +178,7 @@ class HomeUI extends eui.Component{
 			
 		 	self.refreshBidAtNoon();
 			
-			self.refreshCompensationTimely();
+            self.refreshMessageTimely();
 		}
     }
 	
@@ -192,7 +205,7 @@ class HomeUI extends eui.Component{
 			if (event.data % seconds == 0) {
 				this.earnGold(seconds);
 			}
-		}, this);   
+		}, this);
     }
     
     private renderTotalHits(): void {
@@ -230,63 +243,21 @@ class HomeUI extends eui.Component{
 		}, this);
 	}
 	
-	private refreshCompensationTimely(): void {
-        this.refreshCompensation();
+	private refreshMessageTimely(): void {
+        this.renderMessage();
         
 		application.stopwatch.addEventListener("hour", function(event:egret.Event){
-            this.refreshCompensation();
+            this.renderMessage();
 		}, this);	
 	}
 
-    private refreshCompensation(): void {
-        application.dao.fetch("Compensation",{ customer_id: application.customer.id,state: 0 },{ limit: 1 },function(succeed,compensations) {
-            if(succeed && compensations.length == 1) {
-                var title = "您刚刚获得了";
-
-                var bonus = [];
-                if(compensations[0].gold != 0) {
-                    application.customer.gold += compensations[0].gold;
-
-                    bonus.push(compensations[0].gold.toString() + "金币");
-                }
-
-                if(compensations[0].metal != 0) {
-                    application.customer.metal += compensations[0].metal;
-
-                    bonus.push(compensations[0].metal.toString() + "奖章");
-                }
-
-                if(compensations[0].diamond != 0) {
-                    application.customer.diamond += compensations[0].diamond;
-
-                    bonus.push(compensations[0].diamond.toString() + "钻石");
-                }
-
-                if(compensations[0].vip == 1) {
-                    application.customer.vip = 1;
-                    var dt = new Date();
-                    dt = new Date(dt.getTime() + 1000 * 60 * 60 * 24 * 30);
-                    application.customer.ticket = dt.toString(); 
-
-                    bonus.push("价值19元的月票");
-                }
-
-                if(compensations[0].vip == 2) {
-                    application.customer.vip = 2;
-                    application.customer.ticket = "";
-
-                    bonus.push("价值49元的终身VIP");
-                }
-
-                title += bonus.join("，");
-                title += "的额外奖励，谢谢参与";
-
-                compensations[0].state = 1;
-                application.dao.save("Compensation",compensations[0]);
-
-                Toast.launch(title);
-                
-                application.saveCustomerNow();
+    private renderMessage(): void {
+        var self = this;
+        
+        self.imgHasMessage.visible = false;
+        application.dao.fetch("Message",{ customer_id: application.customer.id,state: 0 },{ limit: 1 },function(succeed,messages) {
+            if(succeed && messages.length == 1) {
+                self.imgHasMessage.visible = true;
             }
         });
     }
