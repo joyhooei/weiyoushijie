@@ -136,7 +136,7 @@ router.post('/login', function(req, res, next) {
 					_failed(res, error);
 				})
 			} else {
-				console.error("get info failed " + result.msg);
+				console.error("getInfo failed " + JSON.stringify(result) + " url = " + url);
 				_failed(res, new Error(result.msg));
 			}
 		} else {
