@@ -14,8 +14,18 @@ var MessageItem = (function (_super) {
         }, this);
         this.imgOperate.addEventListener(egret.TouchEvent.TOUCH_BEGIN, function () {
             if (this.imgOperate.source == "get_png") {
+                if (message.attach_category == "diamond") {
+                    application.customer.diamond += message.attach_quantity;
+                }
+                else if (message.attach_category == "gold") {
+                    application.customer.gold += message.attach_quantity;
+                }
+                else {
+                    application.customer.metal += message.attach_quantity;
+                }
                 message.state = 1;
                 application.dao.save("Message", message);
+                application.saveCustomerNow();
                 this.imgOperate.source = "del_png";
             }
             else {
@@ -26,7 +36,12 @@ var MessageItem = (function (_super) {
         }, this);
         application.dao.addEventListener("Message", function (ev) {
             if (ev.data.id == message.id) {
-                this.refresh(message);
+                if (ev.data.state == 2) {
+                    this.parent.removeChild(this);
+                }
+                else {
+                    this.refresh(message);
+                }
             }
         }, this);
     }
@@ -47,6 +62,7 @@ var MessageItem = (function (_super) {
             else {
                 this.imgAttach.source = "metal_png";
             }
+            this.lblAttach.text = "x" + message.attach_quantity;
         }
         else {
             this.imgAttach.visible = false;

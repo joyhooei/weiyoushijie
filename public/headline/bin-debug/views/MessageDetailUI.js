@@ -34,8 +34,18 @@ var MessageDetailUI = (function (_super) {
             }, this);
             this.imgOperate.addEventListener(egret.TouchEvent.TOUCH_TAP, function () {
                 if (_this.imgOperate.source == "get_png") {
+                    if (message.attach_category == "diamond") {
+                        application.customer.diamond += message.attach_quantity;
+                    }
+                    else if (message.attach_category == "gold") {
+                        application.customer.gold += message.attach_quantity;
+                    }
+                    else {
+                        application.customer.metal += message.attach_quantity;
+                    }
                     message.state = 1;
                     application.dao.save("Message", message);
+                    application.saveCustomerNow();
                     _this.imgOperate.source = "del_png";
                 }
                 else {
