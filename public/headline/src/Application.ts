@@ -118,7 +118,7 @@ module application {
 				var day = 1000 * 60 * 60 * 24;
 				
                 var now = new Date();
-				var nowaday = Math.floor(now.getTime() / day);
+                var nowaday = now.getDate();
 					
 				var hasGift = false;
                 
@@ -132,9 +132,11 @@ module application {
                     }
 					
 					if (gift.last_pick_day) {
-                        var lastPickDay = Math.floor((new Date(gift.last_pick_day)).getTime() / day);
+                        var lastPickDay = (new Date(gift.last_pick_day)).getDate();
                     } else {
-                        var lastPickDay = Math.floor((new Date()).getTime() / day) - 1;
+                        var dt = new Date();
+                        dt.setTime(now.getTime() - day);
+                        var lastPickDay = dt.getDate();
                     }
 					
 					//首充奖励只有一次，不需要更新

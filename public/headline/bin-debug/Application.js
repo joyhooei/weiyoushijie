@@ -89,7 +89,7 @@ var application;
                 //如果到了第二天，将所有已经领取礼物重新修改为可以领取
                 var day = 1000 * 60 * 60 * 24;
                 var now = new Date();
-                var nowaday = Math.floor(now.getTime() / day);
+                var nowaday = now.getDate();
                 var hasGift = false;
                 for (var i = 0; i < gifts.length; i++) {
                     var gift = gifts[i];
@@ -99,10 +99,12 @@ var application;
                         continue;
                     }
                     if (gift.last_pick_day) {
-                        var lastPickDay = Math.floor((new Date(gift.last_pick_day)).getTime() / day);
+                        var lastPickDay = (new Date(gift.last_pick_day)).getDate();
                     }
                     else {
-                        var lastPickDay = Math.floor((new Date()).getTime() / day) - 1;
+                        var dt = new Date();
+                        dt.setTime(now.getTime() - day);
+                        var lastPickDay = dt.getDate();
                     }
                     //首充奖励只有一次，不需要更新
                     //今天已经领取过了，不能再领取
