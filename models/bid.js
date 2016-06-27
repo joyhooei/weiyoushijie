@@ -1,17 +1,10 @@
-var AV = require('leanengine');
-
 var Gift = require('./gift');
 
 module.exports.open = function(request, response) {
 	var dt = new Date();
 	var today = dt.getFullYear() + "/" + (dt.getMonth() + 1) + "/" + dt.getDate();
 
-    var query = new AV.Query(dao.Bid);
-    query.equalTo('day', today);
-	query.equalTo('game', 'headline');
-    query.addDescending("gold");
-	query.limit(1);
-    query.find().then(function(bids){
+	dao.find("Bid", {'day': today, 'game': 'headline'}, {'order': 'gold DESC', 'limit': 1}).then(function(bids){
     	if (bids.length > 0) {
 			var bid = bids[0];
 			bid.set("succeed", 1);
@@ -40,20 +33,11 @@ module.exports.max = function(request, response) {
 
 	var today = dt.getFullYear() + "/" + (dt.getMonth() + 1) + "/" + dt.getDate();
 
-    var query = new AV.Query(dao.Bid);
-    query.equalTo('day', today);
-	query.equalTo('game', 'headline');
-    query.addDescending("gold");
-	query.limit(1);
-    query.find().then(function(bids){
+	dao.find("Bid", {'day': today, 'game': 'headline'}, {'order': 'gold DESC', 'limit': 1}).then(function(bids){
     	if (bids.length > 0) {
 			var bid = bids[0];
 			
-			var q = new AV.Query(dao.MaxBid);
-			q.equalTo('day', today);
-			q.equalTo('game', bid.get("game"));
-			q.limit(1);
-			q.find().then(function(mbs){
+			dao.find("MaxBid", {'day': today, 'game': bid.get("game")}, {'limit': 1}).then(function(mbs){
 				if (mbs.length > 0) {
 					var maxbid = mbs[0];
 				} else {
@@ -65,8 +49,7 @@ module.exports.max = function(request, response) {
 				maxbid.set("gold", bid.get("gold"));
 				maxbid.set("customer_id", bid.get("customer_id"));
 				
-				var qry = new AV.Query(dao.Customer);
-				qry.get(bid.get("customer_id")).then(function(c){
+				dao.get("Customer",bid.get("customer_id")).then(function(c){
 					maxbid.set("name", c.get("name"));
 					maxbid.set("avatar", c.get("avatar"));
 					maxbid.save().then(function(){
@@ -99,10 +82,7 @@ module.exports.afterSave = function(request, response) {
 module.exports.beforeSave = function(request, response) {
     var bid = request.object;
 
-    var query = new AV.Query(dao.Blacklist);
-    query.equalTo('customer_id', bid.get("customer_id"));
-	query.limit(1);
-	query.find().then(function(blacks){
+	dao.find("Blacklist", {'customer_id': bid.get("customer_id")}, {'limit': 1}).then(function(blacks){
 		if (blacks.length == 1) {
 			response.error("对不起，您由于下列原因被封号：" + blacks[0].get("reason") + "。请联系管理员，谢谢！");
 		} else {
