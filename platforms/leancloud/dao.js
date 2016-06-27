@@ -220,4 +220,69 @@ module.exports = function() {
 		this[className] = claz;
 		return claz;
 	};
+	
+	this.find = function(className, conditions, filters) {
+		var query = new AV.Query(dao[className]);
+
+		if (filters.limit) {
+			query.limit(filters.limit);
+		} else {
+			query.limit(1000);
+		}
+
+		if (filters.offset) {
+			query.skip(filters.offset);
+		} else {
+			query.skip(0);
+		}
+
+		if (filters.order) {
+			var orders = order.split(",");
+			for(var i = 0; i < orders.length; i++) {
+				var kv = orders[i].trim().split(" ");
+				if (kv.length == 2) {
+					var k = kv[0].trim();
+					var v = kv[1].trim();
+
+					if (k ==  "create_time") {
+						var name = "createdAt";
+					} else if (k == "update_time") {
+						var name = "updatedAt";
+					} else {
+						var name = k;
+					}
+
+					if (v.toUpperCase() == "ASC") {
+						query.addAscending(name);
+					} else {
+						query.addDescending(name);
+					}
+				}
+			}
+		}
+
+		_.each(_.keys(conditions), function(key){
+			var value = conditions[key];
+
+			if (key == 'id') {
+				key = 'objectId';
+			}
+
+			if (_.isArray(value)) {
+				query.containedIn(key, value);
+			} else if (_.isObject(value)) {
+				_.each(value, function(v, k){
+					if (k == "matches"){
+						query.matches(key, v, "-i");
+					} else {
+						query[k](key, v);
+					}
+				});
+			} else {
+				query.equalTo(key, value);
+			}
+		})
+
+		return query.find();
+	}
 };
