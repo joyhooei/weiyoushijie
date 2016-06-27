@@ -1,3 +1,5 @@
+var mongoose = require( 'mongoose' );
+		
 function _value(m, attrName) {
 	if (attrName == "objectId") {
 		return m.id;
@@ -149,8 +151,6 @@ function _findModels(claz, query){
 
 module.exports = function() {
 	this.initialize = function(){
-		var mongoose = require( 'mongoose' );
-		
 		var db = mongoose.connection;
 		db.on('error', console.error.bind(console, 'connection error:'));
 		db.once('open', function() {
@@ -258,15 +258,16 @@ module.exports = function() {
 			});		
 		});
 		
-		mongoose.connect('mongodb://localhost/weiyoushijie');	
+		mongoose.connect('mongodb://$OPENSHIFT_MONGODB_DB_HOST:$OPENSHIFT_MONGODB_DB_PORT/weiyoushijie');	
 	};
 	
 	this.addModel = function(className, schema) {
 		schema.game = String;
 		
-		var claz = mongoose.model(className, new mongoose.Schema(schema, { timestamps: {} }));
+		var claz = {};
 		
-		claz._name = className;
+		claz._class = mongoose.model(className, new mongoose.Schema(schema, { timestamps: {} }));		
+		claz._name  = className;
 		claz._relations = {};
 		
 		claz.get = function(id) {
