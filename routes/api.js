@@ -163,104 +163,13 @@ router.post('/hits', function(req, res, next) {
 });
 
 router.post('/select/:model', function(req, res, next) {
-	var query = new AV.Query(dao[req.params.model]);
-	
-	if (req.body.filters.limit) {
-		query.limit(req.body.filters.limit);
-	} else {
-		query.limit(1000);
-	}
-	
-	if (req.body.filters.offset) {
-		query.skip(req.body.filters.offset);
-	} else {
-		query.skip(0);
-	}
-	
-	if (req.body.filters.order) {
-		var orders = req.body.filters.order.split(",");
-		for(var i = 0; i < orders.length; i++) {
-			var kv = orders[i].trim().split(" ");
-			if (kv.length == 2) {
-				var k = kv[0].trim();
-				var v = kv[1].trim();
-
-				if (k ==  "create_time") {
-					var name = "createdAt";
-				} else if (k == "update_time") {
-					var name = "updatedAt";
-				} else {
-					var name = k;
-				}
-
-				if (v.toUpperCase() == "ASC") {
-					query.addAscending(name);
-				} else {
-					query.addDescending(name);
-				}
-			}
-		}
-	}
-
-	var currentPoint = null;
-	if (req.body.conditions.latitude) {
-		if (req.body.conditions.latitude != 0) {
-			currentPoint = new AV.GeoPoint(req.body.conditions.latitude, req.body.conditions.longitude);
-			query.near("location", currentPoint);
-		}
-
-		delete req.body.conditions.latitude;
-		delete req.body.conditions.longitude;
-	}
-
-	_.each(_.keys(req.body.conditions), function(key){
-		var value = req.body.conditions[key];
-
-		if (key == 'id') {
-			key = 'objectId';
-		}
-
-		if (_.isArray(value)) {
-			query.containedIn(key, value);
-		} else if (_.isObject(value)) {
-			_.each(value, function(v, k){
-				if (k == "matches"){
-					query.matches(key, v, "-i");
-				} else {
-					query[k](key, v);
-				}
-			});
-		} else {
-			query.equalTo(key, value);
-		}
-	})
-
-	query.find().then(function(results){
+	dao.find(req.params.model, req.body.conditions, req.body.filters).then(function(objs) {
 		var models = [];
+
+		for (var i = 0; i < objs; i ++) {
+			models.push(_decode(objs[i]));
+		}
 		
-		_.each(results, function(avObj){
-			var m = _decode(avObj);
-
-			if (req.params.model === 'Media') {
-				if (avObj.get("content")) {
-					if (req.body.conditions.width) {
-						m.url = avObj.get("content").thumbnailURL(req.body.conditions.width, req.body.conditions.height);
-					} else {
-						m.url = avObj.get("content").url();
-					}
-				}
-
-				delete m.content;
-			}
-
-			if (currentPoint) {
-				var newPoint = new AV.GeoPoint(m.get("latitude"), m.get("longitude"));
-				m.distance = parseInt(1000 * currentPoint.kilometersTo(newPoint));
-			}
-
-			models.push(m);
-		})
-
 		_succeed(res, models);
 	}, function(error){
 		_failed(res, error);
