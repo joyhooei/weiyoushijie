@@ -313,4 +313,52 @@ module.exports = function() {
 		
 		return claz;
 	};
+	
+	this.find = function(className, conditions, filters){
+		var clazz = this[className];
+		
+		var query = clazz.find(conditions);
+
+		if (filters.limit) {
+			query.limit(filters.limit);
+		} else {
+			query.limit(1000);
+		}
+
+		if (filters.offset) {
+			query.skip(filters.offset);
+		} else {
+			query.skip(0);
+		}
+		
+		if (filters.order) {
+			var sort = {};
+			var orders = filters.order.split(",");
+			for(var i = 0; i < orders.length; i++) {
+				var kv = orders[i].trim().split(" ");
+				if (kv.length == 2) {
+					var k = kv[0].trim();
+					var v = kv[1].trim();
+
+					if (k ==  "create_time") {
+						var name = "createdAt";
+					} else if (k == "update_time") {
+						var name = "updatedAt";
+					} else {
+						var name = k;
+					}
+
+					if (v.toUpperCase() == "ASC") {
+						sort[name] = 1;
+					} else {
+						sort[name] = -1;
+					}
+				}
+			}
+			
+			query.sort(sort);
+		}
+		
+		return query.exec();
+	}
 };
