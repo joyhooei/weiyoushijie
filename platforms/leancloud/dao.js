@@ -150,6 +150,88 @@ function _findModels(claz, query){
 		});
 };
 
+function _query(query, offset, total) {
+	return Q.Promise(function(resolve, reject, notify) {
+		query.skip(offset);
+		query.limit(1000);
+		query.find().then(function(models){
+			resolve(models);
+		}, function(error){
+			console.error("findAll find " + error.message);
+			reject(error);
+		});
+	});		
+}
+
+function _buildQuery(className, conditions, filters) {
+	var query = new AV.Query(dao[className]);
+
+	if (filters) {
+		if (filters.limit) {
+			query.limit(filters.limit);
+		} else {
+			query.limit(1000);
+		}
+
+		if (filters.offset) {
+			query.skip(filters.offset);
+		} else {
+			query.skip(0);
+		}
+
+		if (filters.order) {
+			var orders = order.split(",");
+			for(var i = 0; i < orders.length; i++) {
+				var kv = orders[i].trim().split(" ");
+				if (kv.length == 2) {
+					var k = kv[0].trim();
+					var v = kv[1].trim();
+
+					if (k ==  "create_time") {
+						var name = "createdAt";
+					} else if (k == "update_time") {
+						var name = "updatedAt";
+					} else {
+						var name = k;
+					}
+
+					if (v.toUpperCase() == "ASC") {
+						query.addAscending(name);
+					} else {
+						query.addDescending(name);
+					}
+				}
+			}
+		}
+	}
+
+	if (conditions) {
+		_.each(_.keys(conditions), function(key){
+			var value = conditions[key];
+
+			if (key == 'id') {
+				key = 'objectId';
+			}
+
+			if (_.isArray(value)) {
+				query.containedIn(key, value);
+			} else if (_.isObject(value)) {
+				_.each(value, function(v, k){
+					if (k == "matches"){
+						query.matches(key, v, "-i");
+					} else {
+						query[k](key, v);
+					}
+				});
+			} else {
+				query.equalTo(key, value);
+			}
+		})
+	}
+
+	return query;
+}
+
 module.exports = function() {
 	this.initialize = function(){
 		this.addModel("Bid");
@@ -221,73 +303,42 @@ module.exports = function() {
 		return claz;
 	};
 	
-	this.getById = function(className, id) {
+	this.get = function(className, id) {
     	var query = new AV.Query(dao[className]);
 		return query.get(id);
 	}
 	
-	this.find = function(className, conditions, filters) {
-		var query = new AV.Query(dao[className]);
+	this.findAll = function(className, conditions, filters) {
+		return Q.Promise(function(resolve, reject, notify) {
+			query._buildQuery(className, conditions, filters);
+			
+			query.count().then(function(total) {
+				var offset  = 0; 
+				var promises = [];
+				while (offset < total) {
+					promises.push(_query(query, offset, total));
 
-		if (filters.limit) {
-			query.limit(filters.limit);
-		} else {
-			query.limit(1000);
-		}
-
-		if (filters.offset) {
-			query.skip(filters.offset);
-		} else {
-			query.skip(0);
-		}
-
-		if (filters.order) {
-			var orders = order.split(",");
-			for(var i = 0; i < orders.length; i++) {
-				var kv = orders[i].trim().split(" ");
-				if (kv.length == 2) {
-					var k = kv[0].trim();
-					var v = kv[1].trim();
-
-					if (k ==  "create_time") {
-						var name = "createdAt";
-					} else if (k == "update_time") {
-						var name = "updatedAt";
-					} else {
-						var name = k;
-					}
-
-					if (v.toUpperCase() == "ASC") {
-						query.addAscending(name);
-					} else {
-						query.addDescending(name);
-					}
+					offset += 1000;
 				}
-			}
-		}
 
-		_.each(_.keys(conditions), function(key){
-			var value = conditions[key];
-
-			if (key == 'id') {
-				key = 'objectId';
-			}
-
-			if (_.isArray(value)) {
-				query.containedIn(key, value);
-			} else if (_.isObject(value)) {
-				_.each(value, function(v, k){
-					if (k == "matches"){
-						query.matches(key, v, "-i");
-					} else {
-						query[k](key, v);
-					}
-				});
-			} else {
-				query.equalTo(key, value);
-			}
-		})
-
-		return query.find();
+				if (promises.length > 0) {
+					Q.all(promises).then(function(results){
+						resolve([].concat.apply([], results));
+					}, function(error){
+						console.error("Helper Q.all " + error.message);
+						reject(error);
+					});
+				} else {
+					resolve([]);
+				}
+			}, function(error){
+				console.error("Helper findAll count " + error.message);
+				reject(error);
+			});
+		});
+	}
+	
+	this.find = function(className, conditions, filters) {
+		return _buildQuery.find();
 	}
 };
