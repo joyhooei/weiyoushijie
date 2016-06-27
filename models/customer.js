@@ -1,5 +1,3 @@
-var AV = require('leanengine');
-
 var Gift = require('./gift');
 var Project = require('./project');
 var Helper = require('./helper');
@@ -7,12 +5,7 @@ var Helper = require('./helper');
 module.exports.expireTicket = function(request, response) {
     var now = moment();
     
-    var query = new AV.Query(dao.Customer);
-    query.select('objectId', 'vip', 'ticket');
-    query.equalTo('vip', 1);
-    query.ascending('updatedAt');
-    query.limit(100);
-    query.find().then(function(customers) {
+    dao.find("Customer", {'vip': 1}, {'select', ['objectId', 'vip', 'ticket'], limit:100, order: 'update_time ASC'}).then(function(customers){
         var expiredCustomers = [];
         
         _.each(customers, function(customer){
