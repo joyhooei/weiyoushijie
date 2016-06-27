@@ -5,7 +5,7 @@ var Helper = require('./helper');
 module.exports.expireTicket = function(request, response) {
     var now = moment();
     
-    dao.find("Customer", {'vip': 1}, {'select', ['objectId', 'vip', 'ticket'], limit:100, order: 'update_time ASC'}).then(function(customers){
+    dao.find("Customer", {'vip': 1}, {'select': ['objectId', 'vip', 'ticket'], limit:100, order: 'update_time ASC'}).then(function(customers){
         var expiredCustomers = [];
         
         _.each(customers, function(customer){
