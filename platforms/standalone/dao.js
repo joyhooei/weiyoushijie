@@ -1,6 +1,3 @@
-var request = require('request');
-var AV = require('leanengine');
-
 function _value(m, attrName) {
 	if (attrName == "objectId") {
 		return m.id;
@@ -152,28 +149,123 @@ function _findModels(claz, query){
 
 module.exports = function() {
 	this.initialize = function(){
-		this.addModel("Bid");
-		this.addModel("Blacklist");
+		var mongoose = require( 'mongoose' );
+		
+		var db = mongoose.connection;
+		db.on('error', console.error.bind(console, 'connection error:'));
+		db.once('open', function() {
+			this.addModel("Bid", {
+				customer_id: String,
+				day: String,
+				gold: Number,
+				succeed: Number,
+				claimed: Number
+			});
+			this.addModel("Blacklist", {
+				customer_id: String,
+				reason: String
+			});
 
-		this.addModel("Compensation");
-		this.addModel("Customer");
+			this.addModel("Customer", {
+				uid: String,
+				name: String,
+				age: Number,
+				sex: Number,
+				avatar: String,
+				
+				metal: Number,
+				gold: Number,
+				earned_gold: Number,
+				accumulated_gold: Number,
+				diamond: Number,
+				
+				ticket: String,
+				vip: Number,
+				charge: Number,
+				
+				hide_winner: Number,
+				
+				offline_hours: Number,
+				offline_minutes: Number,
+				offline_gold: Number,
+				online_seconds: Number,
+				
+				total_hits: Number,
+				last_hit: String,
+				
+				last_login: String,
+				
+				output: Number,
+			});
+
+			this.addModel("Game", {
+				version: String,
+				code_url: String,
+				update_url: String
+			});
+			this.addModel("Gift", {
+				customer_id: String,
+				category: Number,
+				metal: Number,
+				gold: Number,
+				diamond: Number,
+				locked: Number,
+				data: String,
+				last_pick_day: String
+			});
+
+			this.addModel("MaxBid", {
+				customer_id: String,
+				name: String,
+				avatar: String,
+				gold: Number,
+				day: String
+			});
+			this.addModel("Message", {
+				customer_id: String,
+				title: String,
+				content: String,
+				attach_category: String,
+				attach_quantity: Number,
+				state: Number
+			});
+
+			this.addModel("Order", {
+				customer_id: String,
+				product: String,
+				price: Number,
+				state: Number,
+				reason: String
+			});
+
+			this.addModel("Project", {
+				customer_id: String,
+				sequence: Number,
+				level: Number,
+				achieve: Number,
+				tool_ratio: Number,
+				unlocked: Number
+			});
+
+			this.addModel("Rank", {
+				customer_id: String,
+				rank: Number
+			});
+			this.addModel("Report", {
+				customer_id: String,
+				content: String,
+				state: Number
+			});		
+		});
 		
-		this.addModel("Game");
-		this.addModel("Gift");
-		
-		this.addModel("MaxBid");
-		this.addModel("Message");
-		
-		this.addModel("Order");
-		
-		this.addModel("Project");
-		
-		this.addModel("Rank");
-		this.addModel("Report");
+		mongoose.connect('mongodb://localhost/weiyu');	
 	};
 	
-	this.addModel = function(className) {
-		var claz = AV.Object.extend(className);
+	this.addModel = function(className, schema) {
+		schema.game = String;
+		
+		var claz = mongoose.model(className, new mongoose.Schema(schema, { timestamps: {} }));
+		
 		claz._name = className;
 		claz._relations = {};
 		
@@ -218,6 +310,7 @@ module.exports = function() {
 		};
 		
 		this[className] = claz;
+		
 		return claz;
 	};
 };
