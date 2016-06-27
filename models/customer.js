@@ -96,6 +96,7 @@ module.exports.create = function(uid, name, avatar, sex, age) {
     customer.set("age", age);
     
     customer.set("gold", 0);
+    customer.set("earned_gold", 0);
     customer.set("accumulated_gold", 0);
     
     customer.set("diamond", 0);
