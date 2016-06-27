@@ -404,7 +404,7 @@ class HomeUI extends eui.Component{
 		
 		if (application.customer.total_hits > 0) {
             application.customer.total_hits -= 1;
-            application.saveCustomer();
+            application.saveCustomerNow();
             
             self.lblTotalHits.text = "x" + application.customer.total_hits.toString();
             
