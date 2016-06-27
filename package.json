@@ -2,9 +2,9 @@
   "name": "weiyu",
   "version": "1.0.0",
   "description": "",
-  "main": "server.js",
+  "main": "./platforms/leancloud/server.js",
   "scripts": {
-    "start": "node server.js"
+    "start": "node ./platforms/leancloud/server.js"
   },
   "keywords": [
     "node",
