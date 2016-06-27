@@ -1,5 +1,3 @@
-var AV = require('leanengine');
-
 module.exports.create = function(customer) {
     var project = new dao.Project();
     project.set("customer_id", customer.id);
