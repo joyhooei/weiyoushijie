@@ -1,17 +1,6 @@
-var AV = require('leanengine');
-var Helper = require('./helper');
-
 module.exports.rank = function(req, res) {
-	var query = new AV.Query(dao.Rank);
-	query.equalTo("game", "headline");
-	query.addAscending("rank");
-	Helper.findAll(query).then(function (ranks) {
-		var q = new AV.Query(dao.Customer);
-		q.equalTo("game", "headline");
-		q.select('objectId');
-		q.addDescending("metal");
-		q.addDescending("accumulated_gold");
-		Helper.findAll(q).then(function(customers){
+	dao.findAll("Rank", {"game": "headline"}, {"order", "rank ASC"})..then(function (ranks) {
+		dao.findAll("Customer",  {"game": "headline"}, {"order", "metal DESC, accumulated_gold: DESC", 'select': ['objectId']}).findAll(q).then(function(customers){
 			var newRanks = [];
 			
 			for(var i = 0; i < customers.length; i++) {
@@ -28,7 +17,7 @@ module.exports.rank = function(req, res) {
 				}
 			}
 
-			AV.Object.saveAll(newRanks).then(function (avobjs) {
+			dao.saveAll(newRanks).then(function (avobjs) {
 				console.log("rank " + newRanks.length);
 				
 				res.success("rank succeed");
