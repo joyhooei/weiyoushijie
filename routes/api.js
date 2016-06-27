@@ -10,7 +10,7 @@ var Order = require('../models/order');
 router.get('/egret_rt', function(req, res, next) {
 	console.log("egret_rt " + JSON.stringify(req.query));
 	
-	dao.find("Game", {"game" : req.query.name}, {limit: 1}).function(games){
+	dao.find("Game", {"game" : req.query.name}, {limit: 1}).then(function(games){
 		if (games.length > 0) {
 			var game = games[i];
 			
@@ -92,7 +92,7 @@ router.post('/login', function(req, res, next) {
 		if (!error && response.statusCode == 200) {
 			var result = JSON.parse(body);
 			if (result.code == 0) {
-				dao.find("Customer", {uid: result.data.id, "game": req.query.game})..then(function(customers){
+				dao.find("Customer", {uid: result.data.id, "game": req.query.game}).then(function(customers){
 					var now = moment();
 					
 					if (customers.length > 0) {
@@ -217,12 +217,6 @@ function _decode(avObj) {
 	var attributes = _.extend({"id" : avObj.id}, _.omit(avObj.attributes, ["ACL", "location"]));
 	var model = attributes;
 
-	if (_.has(avObj.attributes, 'location')) {
-		var location = avObj.get('location');
-		model.latitude  = location.latitude;
-		model.longitude = location.longitude;
-	}
-
 	model.create_time = moment(avObj.createdAt).format("YYYY-MM-DD HH:mm:ss");
 	model.update_time = moment(avObj.updatedAt).format("YYYY-MM-DD HH:mm:ss");
 	
@@ -233,16 +227,6 @@ function _decode(avObj) {
 
 function _encode(model, attrs) {
 	var attributes = _.clone(attrs);
-	
-	if (!_.isUndefined(attributes.latitude)) {
-		if (attributes.latitude != 0) {
-			var point = new AV.GeoPoint(attributes.latitude, attributes.longitude);
-			model.set("location", point);
-		}
-
-		delete attributes.latitude;
-		delete attributes.longitude;
-	}
 
 	delete attributes.create_time;
 	delete attributes.update_time;
