@@ -273,7 +273,7 @@ var HomeUI = (function (_super) {
         }
         if (application.customer.total_hits > 0) {
             application.customer.total_hits -= 1;
-            application.saveCustomer();
+            application.saveCustomerNow();
             self.lblTotalHits.text = "x" + application.customer.total_hits.toString();
             self.hit = 59;
             self.lblOutput.text = application.format(self.getOutput());

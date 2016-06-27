@@ -55,7 +55,7 @@
     },
     {
       "path": "resource/custom_skins/messageDetailUISkin.exml",
-      "content": "<?xml version='1.0' encoding='utf-8'?>\n<e:Skin class=\"messageDetailUISkin\" width=\"375\" height=\"380\" xmlns:e=\"http://ns.egret.com/eui\" xmlns:w=\"http://ns.egret.com/wing\">\n\t<e:Image width=\"375\" height=\"380\" x=\"0\" y=\"0\" fillMode=\"clip\" source=\"detailB_png\"/>\n\t<e:Image id=\"imgBack\" source=\"helpx_png\" x=\"331\" y=\"2\" fillMode=\"clip\" width=\"41\" height=\"41\"/>\n\t<e:Image id=\"imgOperate\" width=\"119\" height=\"48\" x=\"126\" y=\"321\" source=\"del_png\" fillMode=\"clip\"/>\n\t<e:Label id=\"lblContent\" text=\"标签\" x=\"40\" y=\"71\" width=\"300\" height=\"160\" size=\"24\"/>\n\t<e:Image id=\"imgAttach\" width=\"39\" height=\"34\" x=\"73\" y=\"247\" source=\"dia_png\" fillMode=\"clip\"/>\n\t<e:Label id=\"lblAttach\" text=\"x300\" x=\"122\" y=\"250\" size=\"24\"/>\n</e:Skin>"
+      "content": "<?xml version='1.0' encoding='utf-8'?>\n<e:Skin class=\"messageDetailUISkin\" width=\"375\" height=\"380\" xmlns:e=\"http://ns.egret.com/eui\" xmlns:w=\"http://ns.egret.com/wing\">\n\t<e:Image width=\"375\" height=\"380\" x=\"0\" y=\"0\" fillMode=\"clip\" source=\"detailB_png\"/>\n\t<e:Image id=\"imgBack\" source=\"helpx_png\" x=\"331\" y=\"2\" fillMode=\"clip\" width=\"41\" height=\"41\"/>\n\t<e:Image id=\"imgOperate\" width=\"119\" height=\"48\" x=\"126\" y=\"321\" source=\"del_png\" fillMode=\"clip\"/>\n\t<e:Scroller width=\"300\" height=\"160\" x=\"40\" y=\"71\">\t\n\t\t<e:viewport>\n\t\t\t<e:Group>\n\t\t\t\t<e:Label id=\"lblContent\" x=\"0\" y=\"0\" width=\"300\" size=\"24\" text=\"\"/>\n\t\t\t</e:Group>\n\t\t</e:viewport>\n\t</e:Scroller>\t\n\t<e:Image id=\"imgAttach\" width=\"39\" height=\"34\" x=\"73\" y=\"247\" source=\"dia_png\" fillMode=\"clip\"/>\n\t<e:Label id=\"lblAttach\" text=\"x300\" x=\"122\" y=\"250\" size=\"24\"/>\n</e:Skin>"
     },
     {
       "path": "resource/custom_skins/messageItemSkin.exml",
@@ -63,7 +63,7 @@
     },
     {
       "path": "resource/custom_skins/messageUISkin.exml",
-      "content": "<?xml version='1.0' encoding='utf-8'?>\n<e:Skin class=\"messageUISkin\" width=\"440\" height=\"500\" xmlns:e=\"http://ns.egret.com/eui\">\n\t<e:Image x=\"0\" y=\"0\" width=\"440\" height=\"500\" fillMode=\"clip\" source=\"massageB_png\"/>\n\t<e:Scroller id=\"scrCompensation\" height=\"352\" width=\"395\" x=\"24\" y=\"120\">\n\t\t<e:viewport>\n\t\t\t<e:Group id=\"lstMessage\">\n\t\t\t\t<e:layout> \n\t\t\t\t\t<e:VerticalLayout verticalAlign=\"top\" gap=\"0\"/>\n\t\t\t\t</e:layout>\n\t\t\t</e:Group>\n\t\t</e:viewport>\n\t</e:Scroller>\n\t<e:Image id=\"imgBack\" fillMode=\"clip\" height=\"41\" x=\"400\" y=\"1\" width=\"41\" source=\"helpx_png\"/>    \n</e:Skin>"
+      "content": "<?xml version='1.0' encoding='utf-8'?>\n<e:Skin class=\"messageUISkin\" width=\"440\" height=\"500\" xmlns:e=\"http://ns.egret.com/eui\">\n\t<e:Image x=\"0\" y=\"0\" width=\"440\" height=\"500\" fillMode=\"clip\" source=\"massageB_png\"/>\n\t<e:Scroller id=\"scrCompensation\" height=\"352\" width=\"395\" x=\"29\" y=\"137\">\n\t\t<e:viewport>\n\t\t\t<e:Group id=\"lstMessage\" width=\"372\">\n\t\t\t\t<e:layout> \n\t\t\t\t\t<e:VerticalLayout verticalAlign=\"top\" gap=\"0\"/>\n\t\t\t\t</e:layout>\n\t\t\t</e:Group>\n\t\t</e:viewport>\n\t</e:Scroller>\n\t<e:Image id=\"imgBack\" fillMode=\"clip\" height=\"41\" x=\"403\" y=\"83\" width=\"41\" source=\"helpx_png\"/>    \n</e:Skin>"
     },
     {
       "path": "resource/custom_skins/offlineGoldUISkin.exml",

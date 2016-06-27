@@ -43,8 +43,10 @@ module application {
                 'aa', 'AA', 'cc', 'CC', 'dd', 'DD', 'ee', 'EE', 'ff', 'FF', 'gg', 'GG', 'hh', 'HH', 'ii', 'II', 'jj', 'JJ', 'll', 'LL', 'nn', 'NN', 'oo', 'OO', 'pp', 'PP', 'qq', 'QQ', 'rr', 'RR', 'ss', 'SS', 'uu', 'UU', 'vv', 'VV', 'ww', 'WW', 'xx', 'XX', 'yy', 'YY', 'zz', 'ZZ',
             ];
             
-        window.onbeforeunload = function() {
-            application.saveCustomerNow();
+        window.onunload = function() {
+            if (application.customer) {
+                application.saveCustomerNow();
+            }
         }
     }
 	

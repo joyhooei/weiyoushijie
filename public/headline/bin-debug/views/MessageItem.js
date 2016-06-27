@@ -4,6 +4,8 @@ var MessageItem = (function (_super) {
         _super.call(this);
         this.skinName = "resource/custom_skins/messageItemSkin.exml";
         this.refresh(message);
+        var dt = new Date(message.create_time);
+        this.lblDay.text = dt.getFullYear() + "/" + (dt.getMonth() + 1) + "/" + dt.getDate();
         this.lblDay.touchEnabled = false;
         this.lblTitle.touchEnabled = false;
         this.lblContent.touchEnabled = false;
@@ -31,13 +33,17 @@ var MessageItem = (function (_super) {
             else {
                 message.state = 2;
                 application.dao.save("Message", message);
-                this.parent.removeChild(this);
+                if (this.parent) {
+                    this.parent.removeChild(this);
+                }
             }
         }, this);
         application.dao.addEventListener("Message", function (ev) {
             if (ev.data.id == message.id) {
                 if (ev.data.state == 2) {
-                    this.parent.removeChild(this);
+                    if (this.parent) {
+                        this.parent.removeChild(this);
+                    }
                 }
                 else {
                     this.refresh(message);
@@ -49,8 +55,6 @@ var MessageItem = (function (_super) {
     p.refresh = function (message) {
         this.lblTitle.text = message.title;
         this.lblContent.text = message.content;
-        var now = new Date(message.create_time);
-        this.lblDay.text = now.getFullYear() + "/" + (now.getMonth() + 1) + "/" + now.getDate();
         if (message.attach_quantity > 0) {
             this.imgAttach.visible = true;
             if (message.attach_category == "diamond") {

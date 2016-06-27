@@ -47,14 +47,18 @@ class MessageItem extends eui.Component {
                 message.state = 2;
                 application.dao.save("Message",message);
                 
-                this.parent.removeChild(this);
+                if(this.parent) {
+                    this.parent.removeChild(this);
+                }
             }
         }, this);
         
         application.dao.addEventListener("Message",function(ev: egret.Event) {
             if (ev.data.id == message.id) {
                 if (ev.data.state == 2) {
-                    this.parent.removeChild(this);
+                    if (this.parent) {
+                        this.parent.removeChild(this);
+                    }
                 } else {
                     this.refresh(message);
                 }
