@@ -4,7 +4,7 @@ var express = require('express');
 var path = require('path');
 var cookieParser = require('cookie-parser');
 var bodyParser = require('body-parser');
-var api = require('./routes/api');
+var api = require('../../routes/api');
 var cloud = require('./cloud');
 
 GLOBAL.moment = require("moment");
