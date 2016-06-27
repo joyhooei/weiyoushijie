@@ -1,9 +1,9 @@
 var AV = require('leanengine');
 
-var Customer = require('./models/customer.js');
-var Bid = require('./models/bid.js');
-var Gift = require('./models/gift.js');
-var Rank = require('./models/rank.js');
+var Customer = require('../../models/customer.js');
+var Bid = require('../../models/bid.js');
+var Gift = require('../../models/gift.js');
+var Rank = require('../../models/rank.js');
 
 AV.Cloud.afterSave("Customer", function(request, response) {
 	Customer.afterSave(request, response);
