@@ -1,6 +1,5 @@
 var Gift = require('./gift');
 var Project = require('./project');
-var Helper = require('./helper');
 
 module.exports.expireTicket = function(request, response) {
     var now = moment();
