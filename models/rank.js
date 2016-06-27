@@ -1,6 +1,6 @@
 module.exports.rank = function(req, res) {
-	dao.findAll("Rank", {"game": "headline"}, {"order", "rank ASC"})..then(function (ranks) {
-		dao.findAll("Customer",  {"game": "headline"}, {"order", "metal DESC, accumulated_gold: DESC", 'select': ['objectId']}).findAll(q).then(function(customers){
+	dao.findAll("Rank", {"game":"headline"}, {"order":"rank ASC"}).then(function (ranks){
+		dao.findAll("Customer", {"game":"headline"}, {"order":"metal DESC, accumulated_gold DESC", 'select':['objectId']}).then(function(customers){
 			var newRanks = [];
 			
 			for(var i = 0; i < customers.length; i++) {
@@ -13,27 +13,23 @@ module.exports.rank = function(req, res) {
 					if (r.get("customer_id") != c.id) {
 						r.set("customer_id", c.id);
 						newRanks.push(r);
-					}	
+					}
 				}
 			}
 
 			dao.saveAll(newRanks).then(function (avobjs) {
-				console.log("rank " + newRanks.length);
-				
+				console.log("rank " + newRanks.length);				
 				res.success("rank succeed");
 			}, function (error) {
 				console.error("rank saveAll " + error.message);
-
 				res.error(error.message);
 			});
 		}, function(error){
 			console.error("rank findAll customer " + error.message);
-
 			res.error(error.message);
 		});
   	}, function (error) {
-		console.error("rank findAll rank " + error.message);
-		
+		console.error("rank findAll rank " + error.message);		
 		res.error(error.message);
 	});	
 }
