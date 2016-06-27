@@ -1,15 +1,9 @@
-var AV = require('leanengine');
 var Gift = require('./gift');
 
 module.exports.pay = function(order) {
 	return new AV.Promise(function(resolve, reject){
-		var q = new AV.Query(dao.Order);
-		q.equalTo("customer_id", order.get("customer_id"));
-		q.equalTo("product", "Ticket");
-		q.equalTo("state", 1);
-		q.find().then(function(orders){
-			var query = new AV.Query(dao.Customer);
-			query.get(order.get("customer_id")).then(function(customer){
+		dao.find("Order", {'customer_id': order.get("customer_id"), 'product': "Ticket", 'state': 1}).then(function(orders){
+			dao.get("Customer", order.get("customer_id")).then(function(customer){
 				var firstCharge = true;
 				if (customer.get("charge") > 0) {
 					firstCharge = false;
