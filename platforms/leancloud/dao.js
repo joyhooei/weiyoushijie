@@ -314,8 +314,7 @@ module.exports = function() {
 	
 	this.findAll = function(className, conditions, filters) {
 		return Q.Promise(function(resolve, reject, notify) {
-			query._buildQuery(className, conditions, filters);
-			
+			var query = _buildQuery(className, conditions, filters);
 			query.count().then(function(total) {
 				var offset  = 0; 
 				var promises = [];
@@ -343,7 +342,7 @@ module.exports = function() {
 	}
 	
 	this.find = function(className, conditions, filters) {
-		return _buildQuery.find();
+		return _buildQuery(className, conditions, filters).find();
 	}
 	
 	this.saveAll = function(objs) {
