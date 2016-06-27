@@ -258,7 +258,7 @@ module.exports = function() {
 			});		
 		});
 		
-		mongoose.connect('mongodb://localhost/weiyu');	
+		mongoose.connect('mongodb://localhost/weiyoushijie');	
 	};
 	
 	this.addModel = function(className, schema) {
