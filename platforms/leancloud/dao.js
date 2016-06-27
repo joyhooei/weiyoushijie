@@ -203,6 +203,10 @@ function _buildQuery(className, conditions, filters) {
 				}
 			}
 		}
+		
+		if (filters.select) {
+			query.select(filters.select);
+		}
 	}
 
 	if (conditions) {
@@ -340,5 +344,9 @@ module.exports = function() {
 	
 	this.find = function(className, conditions, filters) {
 		return _buildQuery.find();
+	}
+	
+	this.saveAll = function(objs) {
+		return AV.Object.saveAll(objs);
 	}
 };
