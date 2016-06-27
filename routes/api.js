@@ -14,7 +14,7 @@ router.get('/egret_rt', function(req, res, next) {
 	console.log("egret_rt " + JSON.stringify(req.query));
 	
 	var query = new AV.Query(dao.Game);
-	query.equalTo("name", req.query.name);
+	query.equalTo("game", req.query.name);
 	query.addDescending("version");
 	query.first().then(function(game){
 		var content = {
