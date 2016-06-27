@@ -1,7 +1,3 @@
-var AV = require('leanengine');
-
-var Helper = require('./helper');
-
 module.exports.createAll = function(customer) {
     //登录200钻。每天领取一次
     _create(customer, 1, 200, 0, 0, 0, "");
@@ -58,11 +54,11 @@ function _create(customer, category, diamond, metal, gold, locked, data) {
 }
 
 function _lock(customerId, category, locked) {
-	var query = new AV.Query(dao.Gift);
-	query.equalTo("customer_id", customerId);
-	query.equalTo("category", category);
-	query.first().done(function(gift){
-		gift.set("locked", locked);
-		gift.save();
+    dao.find("Gift", {'customer_id': customerId, 'category': category}).then(function(gifts){
+        if (gifts.length > 0) {
+			var gift = gifts[0];
+			gift.set("locked", locked);
+			gift.save();
+		}
 	});
 }
