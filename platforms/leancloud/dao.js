@@ -221,6 +221,11 @@ module.exports = function() {
 		return claz;
 	};
 	
+	this.getById = function(className, id) {
+    	var query = new AV.Query(dao[className]);
+		return query.get(id);
+	}
+	
 	this.find = function(className, conditions, filters) {
 		var query = new AV.Query(dao[className]);
 
