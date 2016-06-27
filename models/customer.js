@@ -2,7 +2,7 @@ var AV = require('leanengine');
 
 var Gift = require('./gift');
 var Project = require('./project');
-var Helper = require('./helper');
+var Message = require('./message');
 
 module.exports.expireTicket = function(request, response) {
     var now = moment();
@@ -125,5 +125,8 @@ module.exports.afterSave = function(request, response) {
     Project.create(customer);
 
     Gift.createAll(customer);
+    
+    Message.send(customer, "", "", "none", 0);
+    Message.send(customer, "", "", "none", 0);
 };
 
