@@ -2,32 +2,30 @@ var express = require('express');
 var router = express.Router();
 var crypto = require('crypto');
 
-var AV = require('leanengine');
-
 var Gift = require('../models/gift');
 var Customer = require('../models/customer');
 var Bid = require('../models/bid');
 var Order = require('../models/order');
-var Helper = require('../models/helper');
 
 router.get('/egret_rt', function(req, res, next) {
 	console.log("egret_rt " + JSON.stringify(req.query));
 	
-	var query = new AV.Query(dao.Game);
-	query.equalTo("game", req.query.name);
-	query.addDescending("version");
-	query.first().then(function(game){
-		var content = {
-						code_url:game.get("code_url"), 
-						update_url: game.get("update_url"), 
-						customParams: {
-						}};
+	dao.find("Game", {"game" : req.query.name}, {limit: 1}).function(games){
+		if (games.length > 0) {
+			var game = games[i];
+			
+			var content = {
+							code_url:game.get("code_url"), 
+							update_url: game.get("update_url"), 
+							customParams: {
+							}};
 
-		res.setHeader('Content-disposition', 'attachment; filename=runtime.json');
-		res.setHeader('Content-type', 'text/plain');
-		res.charset = 'UTF-8';
-		res.write(JSON.stringify(content));
-		res.end();
+			res.setHeader('Content-disposition', 'attachment; filename=runtime.json');
+			res.setHeader('Content-type', 'text/plain');
+			res.charset = 'UTF-8';
+			res.write(JSON.stringify(content));
+			res.end();
+		}
 	}, function(error){
 		_failed(res, error.message);
 	});
@@ -43,8 +41,7 @@ router.post('/egret_pay', function(req, res, next) {
 	
 	console.log("egret_pay " + JSON.stringify(req.body));
 	
-    var query = new AV.Query(dao.Order);
-	query.get(req.body.ext).then(function(order){
+	dao.get("Order", req.body.ext).then(function(order){
 		var price = parseInt(req.body.money);
 		order.set("price", price);
 		if (price == 49) {
@@ -95,10 +92,7 @@ router.post('/login', function(req, res, next) {
 		if (!error && response.statusCode == 200) {
 			var result = JSON.parse(body);
 			if (result.code == 0) {
-				var query = new AV.Query(dao.Customer);
-				query.equalTo("uid", result.data.id);
-				query.equalTo("game", req.query.game);
-				query.find().then(function(customers){
+				dao.find("Customer", {uid: result.data.id, "game": req.query.game})..then(function(customers){
 					var now = moment();
 					
 					if (customers.length > 0) {
@@ -147,8 +141,7 @@ router.post('/login', function(req, res, next) {
 });
 
 router.post('/hits', function(req, res, next) {
-	var query = new AV.Query(dao.Customer);
-	query.get(req.body.customer_id).then(function(customer){
+	dao.get("Customer", req.body.customer_id).then(function(customer){
 		Customer.hits(customer);
 		customer.save().then(function(c){
 			_succeed(res, c.get("total_hits"));
@@ -181,25 +174,9 @@ router.post('/create/:model', function(req, res, next) {
 });
 
 router.post('/update/:model/:id', function(req, res, next) {
-	var query = new AV.Query(dao[req.params.model]);
-	query.get(req.params.id).then(function(m){
+	dao.get(req.params.model, req.params.id).then(function(m){
 		_saveModel(m, req, res);
 	}, function(error){
-		_failed(res, error);
-	});
-});
-
-router.post('/delete/:model/:id', function(req, res, next) {
-	var query = new AV.Query(dao[req.params.model]);
-	query.get(req.params.id).then(function(m){
-		m.destroy().then(function(){
-			_succeed(res, _decode(m));
-		}, function(error) {
-			_failed(res, error);
-		});
-	}, function(error){
-		console.error("delete model failed " + error.message + " model is " + JSON.stringify(newModel));
-
 		_failed(res, error);
 	});
 });
@@ -224,8 +201,7 @@ function _saveModel(model, req, res) {
 	var newModel = _encode(model, req.body);
 	
 	newModel.save().then(function(m){
-		var query = new AV.Query(dao[req.params.model]);
-		query.get(m.id).then(function(updatedModel){
+		dao.get(req.params.model, m.id).then(function(updatedModel){
 			_succeed(res, _decode(updatedModel));
 		}, function(error){
 			_succeed(res, _decode(m));
