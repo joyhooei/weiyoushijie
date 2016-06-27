@@ -17,6 +17,9 @@ class MessageItem extends eui.Component {
         
         this.refresh(message);
 
+        var dt = new Date(message.create_time);
+        this.lblDay.text = dt.getFullYear() + "/" + (dt.getMonth() + 1) + "/" + dt.getDate();
+
         this.lblDay.touchEnabled = false;
         this.lblTitle.touchEnabled = false;
         this.lblContent.touchEnabled = false;
@@ -62,9 +65,6 @@ class MessageItem extends eui.Component {
     private refresh(message) {
         this.lblTitle.text = message.title;
         this.lblContent.text = message.content;
-
-        var now = new Date(message.create_time);
-        this.lblDay.text = now.getFullYear() + "/" + (now.getMonth() + 1) + "/" + now.getDate();
 
         if(message.attach_quantity > 0) {
             this.imgAttach.visible = true;
