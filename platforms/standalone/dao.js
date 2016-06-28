@@ -258,7 +258,7 @@ module.exports = function() {
 			});		
 		});
 		
-		mongoose.connect('mongodb://$OPENSHIFT_MONGODB_DB_HOST:$OPENSHIFT_MONGODB_DB_PORT/weiyoushijie');	
+		mongoose.connect('mongodb://ff6d0931dc0c4ccd87b2317511f03067:2ac17646a1a640e4ab5b944609079e83@mongo.duapp.com:8908T/NZusBhjryHfltelpWkiL');	
 	};
 	
 	this.addModel = function(className, schema) {
