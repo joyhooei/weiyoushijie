@@ -27,24 +27,21 @@ module.exports.rank = function(req, res) {
 					}	
 				}
 			}
+				
+			res.success("rank succeed " + newRanks.length);
 
 			AV.Object.saveAll(newRanks).then(function (avobjs) {
-				console.log("rank " + newRanks.length);
-				
-				res.success("rank succeed");
+				console.log("rank succeed " + newRanks.length);
 			}, function (error) {
 				console.error("rank saveAll " + error.message);
-
 				res.error(error.message);
 			});
 		}, function(error){
 			console.error("rank findAll customer " + error.message);
-
 			res.error(error.message);
 		});
   	}, function (error) {
 		console.error("rank findAll rank " + error.message);
-		
 		res.error(error.message);
 	});	
 }
