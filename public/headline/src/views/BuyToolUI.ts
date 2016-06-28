@@ -76,7 +76,7 @@ class BuyToolUI extends eui.Component{
 	private buyTime(){
 		if (application.customer.diamond > this._price) {
 			application.customer.diamond -= this._price;
-            application.earnGold(application.customer.output * 3600 * 48);
+            application.earnGold(application.vip.getTime(application.customer.output) * 3600 * 48);
 			application.saveCustomerNow();
             
 			esa.EgretSA.onDiamondUse("购买了时光沙漏", 1, this._price);
