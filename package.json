@@ -2,9 +2,9 @@
   "name": "weiyoushijie",
   "version": "1.0.0",
   "description": "",
-  "main": "./platforms/bae/server.js",
+  "main": "./platforms/standalone/server.js",
   "scripts": {
-    "start": "node ./platforms/bae/server.js"
+    "start": "node ./platforms/standalone/server.js"
   },
   "license": "MIT",
   "dependencies": {
