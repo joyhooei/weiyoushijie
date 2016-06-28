@@ -159,7 +159,7 @@ router.post('/select/:model', function(req, res, next) {
 	dao.find(req.params.model, req.body.conditions, req.body.filters).then(function(objs) {
 		var models = [];
 
-		for (var i = 0; i < objs; i ++) {
+		for (var i = 0; i < objs.length; i++) {
 			models.push(_decode(objs[i]));
 		}
 		
