@@ -151,22 +151,26 @@ function _findModels(claz, query){
 
 module.exports = function() {
 	this.initialize = function(){
+		var self = this;
+
 		var db = mongoose.connection;
 		db.on('error', console.error.bind(console, 'connection error:'));
 		db.once('open', function() {
-			this.addModel("Bid", {
+			console.log("connect mongodb succeed");
+
+			self.addModel("Bid", {
 				customer_id: String,
 				day: String,
 				gold: Number,
 				succeed: Number,
 				claimed: Number
 			});
-			this.addModel("Blacklist", {
+			self.addModel("Blacklist", {
 				customer_id: String,
 				reason: String
 			});
 
-			this.addModel("Customer", {
+			self.addModel("Customer", {
 				uid: String,
 				name: String,
 				age: Number,
@@ -198,12 +202,12 @@ module.exports = function() {
 				output: Number,
 			});
 
-			this.addModel("Game", {
+			self.addModel("Game", {
 				version: String,
 				code_url: String,
 				update_url: String
 			});
-			this.addModel("Gift", {
+			self.addModel("Gift", {
 				customer_id: String,
 				category: Number,
 				metal: Number,
@@ -214,14 +218,14 @@ module.exports = function() {
 				last_pick_day: String
 			});
 
-			this.addModel("MaxBid", {
+			self.addModel("MaxBid", {
 				customer_id: String,
 				name: String,
 				avatar: String,
 				gold: Number,
 				day: String
 			});
-			this.addModel("Message", {
+			self.addModel("Message", {
 				customer_id: String,
 				title: String,
 				content: String,
@@ -230,7 +234,7 @@ module.exports = function() {
 				state: Number
 			});
 
-			this.addModel("Order", {
+			self.addModel("Order", {
 				customer_id: String,
 				product: String,
 				price: Number,
@@ -238,7 +242,7 @@ module.exports = function() {
 				reason: String
 			});
 
-			this.addModel("Project", {
+			self.addModel("Project", {
 				customer_id: String,
 				sequence: Number,
 				level: Number,
@@ -247,18 +251,18 @@ module.exports = function() {
 				unlocked: Number
 			});
 
-			this.addModel("Rank", {
+			self.addModel("Rank", {
 				customer_id: String,
 				rank: Number
 			});
-			this.addModel("Report", {
+			self.addModel("Report", {
 				customer_id: String,
 				content: String,
 				state: Number
 			});		
 		});
 		
-		mongoose.connect('mongodb://ff6d0931dc0c4ccd87b2317511f03067:2ac17646a1a640e4ab5b944609079e83@mongo.duapp.com:8908T/NZusBhjryHfltelpWkiL');	
+		mongoose.connect('mongodb://weiyoushijie:weiyugame@ds023644.mlab.com:23644/weiyoushijie');	
 	};
 	
 	this.addModel = function(className, schema) {
@@ -320,50 +324,65 @@ module.exports = function() {
 	}
 	
 	this.find = function(className, conditions, filters){
-		var clazz = this[className];
+		var clazz = this[className]._class;
 		
-		var query = clazz.find(conditions);
-
-		if (filters.limit) {
-			query.limit(filters.limit);
+		if (conditions) {
+			var query = clazz.find(conditions);
 		} else {
-			query.limit(1000);
+			var query = clazz.find();
 		}
 
-		if (filters.offset) {
-			query.skip(filters.offset);
-		} else {
-			query.skip(0);
-		}
-		
-		if (filters.order) {
-			var sort = {};
-			var orders = filters.order.split(",");
-			for(var i = 0; i < orders.length; i++) {
-				var kv = orders[i].trim().split(" ");
-				if (kv.length == 2) {
-					var k = kv[0].trim();
-					var v = kv[1].trim();
+		if (filters) {
+			if (filters.limit) {
+				query.limit(filters.limit);
+			} else {
+				query.limit(1000);
+			}
 
-					if (k ==  "create_time") {
-						var name = "createdAt";
-					} else if (k == "update_time") {
-						var name = "updatedAt";
-					} else {
-						var name = k;
-					}
-
-					if (v.toUpperCase() == "ASC") {
-						sort[name] = 1;
-					} else {
-						sort[name] = -1;
-					}
-				}
+			if (filters.offset) {
+				query.skip(filters.offset);
+			} else {
+				query.skip(0);
 			}
 			
-			query.sort(sort);
+			if (filters.order) {
+				var sort = {};
+				var orders = filters.order.split(",");
+				for(var i = 0; i < orders.length; i++) {
+					var kv = orders[i].trim().split(" ");
+					if (kv.length == 2) {
+						var k = kv[0].trim();
+						var v = kv[1].trim();
+
+						if (k ==  "create_time") {
+							var name = "createdAt";
+						} else if (k == "update_time") {
+							var name = "updatedAt";
+						} else {
+							var name = k;
+						}
+
+						if (v.toUpperCase() == "ASC") {
+							sort[name] = 1;
+						} else {
+							sort[name] = -1;
+						}
+					}
+				}
+			
+				query.sort(sort);
+			}
 		}
 		
-		return query.exec();
+		return Q.Promise(
+			function(resolve, reject, notify) {
+				query.exec(function(err,objs){
+					if (err) {
+						reject(err);
+					} else {
+						resolve(objs);
+					}
+				});
+			});
 	};
 };

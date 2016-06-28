@@ -6,23 +6,23 @@ var Gift = require('../models/gift');
 var Customer = require('../models/customer');
 var Bid = require('../models/bid');
 var Order = require('../models/order');
-var Rank = require('../../models/rank.js');
+var Rank = require('../models/rank.js');
 
 router.get('/open_bid', function(req, res, next) {
 	Bid.open(req, res);
-}
+})
 
 router.get('/max_bid', function(req, res, next) {
 	Bid.max(req, res);
-}
+})
 
 router.get('/expire_ticket', function(req, res, next) {
 	Customer.expireTicket(req, res);
-}
+})
 
 router.get('/rank', function(req, res, next) {
 	Rank.rank(req, res);
-}
+})
 
 router.get('/egret_rt', function(req, res, next) {
 	console.log("egret_rt " + JSON.stringify(req.query));

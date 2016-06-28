@@ -4,7 +4,7 @@ var express = require('express');
 var path = require('path');
 var cookieParser = require('cookie-parser');
 var bodyParser = require('body-parser');
-var api = require('./routes/api');
+var api = require('../../routes/api');
 
 GLOBAL.moment = require("moment");
 GLOBAL._ = require("underscore");
@@ -13,7 +13,7 @@ GLOBAL.Q = require('q');
 var app = express();
 
 // 设置 view 引擎
-app.set('views', path.join(__dirname, 'views'));
+app.set('views', path.join(__dirname, '../../views'));
 app.set('view engine', 'jade');
 app.use(express.static('public'));
 
