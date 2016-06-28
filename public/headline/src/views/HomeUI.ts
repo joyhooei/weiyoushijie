@@ -335,10 +335,11 @@ class HomeUI extends eui.Component{
                     	output += application.projects[p.sequence].output(p.level, p.achieve, p.tool_ratio);
 					}
                 }
-				
+				output = application.vip.getOutput(output);
+                
 				if (output != application.customer.output) {
 					application.customer.output = output;
-					application.saveCustomer();
+					application.saveCustomerNow();
 					
 					self.lblOutput.text = application.format(self.getOutput());
 				}
@@ -438,9 +439,9 @@ class HomeUI extends eui.Component{
 	
 	private getOutput(): number {
 		if (this.hit > 0) {
-			return application.vip.getHit(application.vip.getOutput(application.customer.output));
+			return application.vip.getHit(application.customer.output);
 		} else {
-			return application.vip.getOutput(application.customer.output);
+			return application.customer.output;
 		}
 	}
 	
