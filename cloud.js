@@ -2,6 +2,7 @@ var AV = require('leanengine');
 
 var Customer = require('./models/customer.js');
 var Bid = require('./models/bid.js');
+var MaxBid = require('./models/maxbid.js');
 var Gift = require('./models/gift.js');
 var Rank = require('./models/rank.js');
 
@@ -22,7 +23,7 @@ AV.Cloud.define('open_bid', function(request, response) {
 });
 
 AV.Cloud.define('max_bid', function(request, response) {
-	Bid.max(request, response);
+	MaxBid.max(request, response);
 });
 
 AV.Cloud.define('expire_ticket', function(request, response) {
