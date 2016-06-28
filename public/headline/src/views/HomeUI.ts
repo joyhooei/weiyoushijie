@@ -438,9 +438,9 @@ class HomeUI extends eui.Component{
 	
 	private getOutput(): number {
 		if (this.hit > 0) {
-			return application.customer.output * 10;
+			return application.vip.getHit(application.vip.getOutput(application.customer.output));
 		} else {
-			return application.customer.output;
+			return application.vip.getOutput(application.customer.output);
 		}
 	}
 	
