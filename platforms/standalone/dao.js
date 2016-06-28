@@ -315,6 +315,10 @@ module.exports = function() {
 		return claz;
 	};
 	
+	this.findAll = function(className, conditions, filters) {
+		this.find(className, conditions. filters);
+	}
+	
 	this.find = function(className, conditions, filters){
 		var clazz = this[className];
 		
@@ -361,5 +365,5 @@ module.exports = function() {
 		}
 		
 		return query.exec();
-	}
+	};
 };
