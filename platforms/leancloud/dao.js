@@ -180,7 +180,7 @@ function _buildQuery(className, conditions, filters) {
 		}
 
 		if (filters.order) {
-			var orders = order.split(",");
+			var orders = filters.order.split(",");
 			for(var i = 0; i < orders.length; i++) {
 				var kv = orders[i].trim().split(" ");
 				if (kv.length == 2) {
