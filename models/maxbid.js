@@ -18,8 +18,23 @@ module.exports.max = function(request, response) {
     query.find().then(function(bids){
     	if (bids.length > 0) {
 			for (var i = 0; i < bids.length; i ++) {
+				var bid = bids[i];
+				
+				var diamond = 500;
 				if (i == 0) {
-					_updateMaxBid(bids[0]);
+					_updateMaxBid(bid);
+					
+					diamond = 2000;
+				} else if (i == 1) {
+					diamond = 1500;
+				} else if (i == 2) {
+					diamond = 1200;
+				} else if (i < 10) {
+					diamond = 1000;
+				}
+				
+				if ((dt.getHours() == 0 && dt.getMinutes() < 5) || (dt.getHours() == 23 && dt.getMinutes() > 55)) {
+					Message.send(bid.get("customer_id"), "拍卖奖励", "到凌晨0点为止，您的拍卖排行是第" + (i + 1).toString() + '名，获得额外奖励，谢谢参与！', "diamond", diamond);
 				}
 			}
     	} else {
