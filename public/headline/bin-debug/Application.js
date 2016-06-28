@@ -48,7 +48,7 @@ var application;
             now = new Date(now.getTime() + 1000 * 60 * 60 * 24 * 30);
             application.customer.ticket = now.toString();
         }
-        application.saveCustomer();
+        application.saveCustomerNow();
     }
     application.resetTicket = resetTicket;
     function onLoginCallback(data) {
@@ -57,6 +57,7 @@ var application;
         application.dao.rest("login", { token: data.token }, function (succeed, customer) {
             if (succeed) {
                 application.customer = customer;
+                application.vip = Vip.createVip(application.customer.charge);
                 application.checkTicket();
                 esa.EgretSA.player.init({ egretId: customer.uid, level: 1, serverId: 1, playerName: customer.name });
                 //首次登录，需要显示引导页面
@@ -224,7 +225,11 @@ var application;
         application.customer.earned_gold = Math.max(0, application.customer.earned_gold);
         application.customer.accumulated_gold = Math.max(application.customer.accumulated_gold, application.customer.gold);
         application.customer.diamond = Math.max(0, application.customer.diamond);
-        application.dao.save("Customer", application.customer);
+        application.dao.save("Customer", application.customer, function (succeed, customer) {
+            if (application.customer.charge != application.vip) {
+                application.vip = Vip.createVip(application.customer.charge);
+            }
+        });
     }
     application.saveCustomerNow = saveCustomerNow;
     function giftChanged() {
@@ -341,7 +346,7 @@ var application;
                             diamond = 200000;
                         }
                         application.customer.diamond += diamond;
-                        application.saveCustomer();
+                        application.saveCustomerNow();
                         if (firstCharge) {
                             Toast.launch("购买了" + diamond.toString() + "钻石,并获得了1500钻，1000k金币和1个奖章的首充礼物");
                             application.giftChanged();

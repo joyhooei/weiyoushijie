@@ -219,9 +219,10 @@ var HomeUI = (function (_super) {
                         output += application.projects[p.sequence].output(p.level, p.achieve, p.tool_ratio);
                     }
                 }
+                output = application.vip.getOutput(output);
                 if (output != application.customer.output) {
                     application.customer.output = output;
-                    application.saveCustomer();
+                    application.saveCustomerNow();
                     self.lblOutput.text = application.format(self.getOutput());
                 }
             }
@@ -300,7 +301,7 @@ var HomeUI = (function (_super) {
     };
     p.getOutput = function () {
         if (this.hit > 0) {
-            return application.customer.output * 10;
+            return application.vip.getHit(application.customer.output);
         }
         else {
             return application.customer.output;

@@ -50,7 +50,7 @@ class Vip {
 			[15, 15000, 10000000, 75, 3.5, 0.99999, 3],
 		];
 		
-		var d = 0;
+		var d = null;
 		for (var i = 0; i < data.length; i ++) {
 			if (charge >= data[i][1]) {
 				d = data[i];
@@ -63,19 +63,19 @@ class Vip {
 		return new Vip(d[0], d[1], d[2], d[3], d[4], d[5], d[6]);
 	}
 	
-	private getOutput(output: number): number {
+	public getOutput(output: number): number {
 		return output * (1 + this._output);
 	}
 	
-	private getHit(gold: number): number {
+    public getHit(gold: number): number {
 		return gold * this._hit;
 	}
 	
-	private getTime(gold: number) : number {
+    public getTime(gold: number) : number {
 		return gold * (1 + this._time);
 	}
 	
-	private getUpgrade(price: number): number {
+    public getUpgrade(price: number): number {
 		return price * (1 - this._upgrade);
 	}
 }
