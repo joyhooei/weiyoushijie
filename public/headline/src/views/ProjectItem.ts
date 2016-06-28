@@ -99,19 +99,19 @@ class ProjectItem extends eui.Component {
             this.imgUpgrade10.source = "upgrade10g_png";
             this.imgUpgrade100.source = "upgrade100g_png";           
         } else {
-            var p = this._project.priceOf(this._myProject.level);
+            var p = application.vip.getUpgrade(this._project.priceOf(this._myProject.level));
 
             this.lblLevel.text = this._myProject.level;
             this.lblOutput.text = application.format(this.output());
             this.lblPrice.text = application.format(p);
 
             if(this._myProject.sequence % 2 == 0) {
-                if(application.usableGold() > this._project.price(this._myProject.level, 10)) {
+                if(application.usableGold() > application.vip.getUpgrade(this._project.price(this._myProject.level, 10))) {
                     this.imgUpgrade10.source = "upgrade10_png";
                 } else {
                     this.imgUpgrade10.source = "upgrade10g_png";
                 }
-                if(application.usableGold() > this._project.price(this._myProject.level,100)) {
+                if(application.usableGold() > application.vip.getUpgrade(this._project.price(this._myProject.level,100))) {
                     this.imgUpgrade100.source = "upgrade100_png";
                 } else {
                     this.imgUpgrade100.source = "upgrade100g_png";
@@ -122,12 +122,12 @@ class ProjectItem extends eui.Component {
                     this.imgUpgrade.source = 'upgradeg2_png';
                 }
             } else {
-                if(application.usableGold() > this._project.price(this._myProject.level,10)) {
+                if(application.usableGold() > application.vip.getUpgrade(this._project.price(this._myProject.level,10))) {
                     this.imgUpgrade10.source = "upgrade10b_png";
                 } else {
                     this.imgUpgrade10.source = "upgrade10g_png";
                 }
-                if(application.usableGold() > this._project.price(this._myProject.level,100)) {
+                if(application.usableGold() > application.vip.getUpgrade(this._project.price(this._myProject.level,100))) {
                     this.imgUpgrade100.source = "upgrade100b_png";
                 } else {
                     this.imgUpgrade100.source = "upgrade100g_png";
@@ -190,7 +190,7 @@ class ProjectItem extends eui.Component {
     private upgrade(step:number): void {
         let self = this;
         
-        let p = this._project.price(this._myProject.level, step);
+        let p = application.vip.getUpgrade(this._project.price(this._myProject.level, step));
         if(application.usableGold() < p) {
 			Toast.launch("没有足够的金币");
 			
