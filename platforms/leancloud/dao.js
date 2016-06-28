@@ -241,7 +241,6 @@ module.exports = function() {
 		this.addModel("Bid");
 		this.addModel("Blacklist");
 
-		this.addModel("Compensation");
 		this.addModel("Customer");
 		
 		this.addModel("Game");
