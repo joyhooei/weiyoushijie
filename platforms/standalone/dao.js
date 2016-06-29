@@ -149,17 +149,36 @@ function _findModels(claz, query){
 		});
 };
 
-var Model = function(className, obj) {
+var Model = function( obj) {
+	self._obj = obj;
+	
+	this.decode();
+};
+
+Model.prototype.decode = function() {
 	var self = this;
 	
-	self.className = className;
-	self.obj = obj;
-	self.attributes = {};
+	self.id = self._obj.id;
+	self.createdAt = self._obj.createdAt;
+	self.updatedAt = self._obj.updatedAt;
 	
-	_.each(self.obj, function(v, k) {
+	self.attributes = {};	
+	_.each(self._obj, function(v, k) {
 		self.attributes[k] = v;
+	});	
+	
+	return self;
+}
+
+Model.prototype.encode = function() {
+	var self = this;
+	
+	_.each(self.attributes, function(v, k) {
+		self._obj[k] = v;
 	});
-};
+	
+	return self._obj;
+}
 
 Model.prototype.get = function(attr) {
 	return this.attributes[attr];
@@ -177,15 +196,11 @@ Model.prototype.save = function() {
 	var self = this;
 	
 	return Q.Promise(function(resolve, reject, notify) {
-		_.each(self.attributes, function(v, k) {
-			self.obj[k] = v;
-		});
-		
-		self.obj.save(function(err, o){
+		self.encode().save(function(err, o){
 			if (err) {
 				reject(err);
 			} else {
-				resolve(self);
+				resolve(self.decode());
 			}
 		});
 	});
@@ -362,7 +377,7 @@ module.exports = function() {
 				if (err) {
 					reject(err);
 				} else {
-					resolve(new Model(className, obj););
+					resolve(new Model(obj););
 				}
 			});
 		});
@@ -430,7 +445,7 @@ module.exports = function() {
 				} else {
 					var models = [];
 					for (var i = 0; i < objs.length; i++) {
-						var m = new Model(className, objs[i]);
+						var m = new Model(objs[i]);
 					}
 					resolve(models);
 				}
