@@ -111,9 +111,7 @@ module.exports.create = function(uid, name, avatar, sex, age) {
     return customer;
 }
 
-module.exports.afterSave = function(request, response) {
-    var customer = request.object;
-
+module.exports.afterSave = function(customer) {
     Project.create(customer);
 
     Gift.createAll(customer);

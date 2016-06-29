@@ -2,8 +2,6 @@ var mongoose = require( 'mongoose' );
 
 var Model = function(attributes) {
 	this.initialize.apply(this, arguments);
-
-	console.log("model created");
 };
 
 Model.extend = function(protoProps, staticProps) {
@@ -48,8 +46,8 @@ _.extend(Model.prototype, {
 			self.updatedAt = self._obj.updatedAt;
 
 			self.attributes = {};
-			_.each(self._obj, function(v, k) {
-				self.attributes[k] = v;
+			_.each(self.getSchema(), function(v, k) {
+				self.attributes[k] = self._obj[k];
 			});
 		} catch (error) {
 			console.error("decode obj failed " + error.message);
@@ -99,21 +97,47 @@ _.extend(Model.prototype, {
 	save: function() {
 		var self = this;
 
-		console.log("save model");
-		
 		return Q.Promise(function(resolve, reject, notify) {
 			try {
-				self._obj.save(function(error){
-					if (error) {
+				if (self._obj.isNew) {
+					self.beforeSave().then(function(){
+						self._obj.save(function(error){
+							if (error) {
+								reject(error);
+							} else {
+								self.afterSave();
+
+								resolve(self.decode(self._obj));
+							}
+						});
+					}, function(error){
 						reject(error);
-					} else {
-						resolve(self.decode(self._obj));
-					}
-				});
+					})
+				} else {
+					self._obj.save(function(error){
+						if (error) {
+							reject(error);
+						} else {
+							self.afterSave();
+
+							resolve(self.decode(self._obj));
+						}
+					});					
+				}
+
 			} catch(error) {
 				reject(error);
 			}
 		});
+	},
+
+	beforeSave: function() {
+		return Q.Promise(function(resolve, reject, notify) {
+			resolve();
+		});
+	},
+
+	afterSave: function() {
 	},
 });
 
@@ -229,7 +253,9 @@ module.exports = function() {
 				customer_id: String,
 				content: String,
 				state: Number
-			});		
+			});
+
+			require('./cloud');
 		});
 		
 		mongoose.connect('mongodb://weiyoushijie:weiyugame@ds023644.mlab.com:23644/weiyoushijie');	
@@ -244,15 +270,22 @@ module.exports = function() {
 			{
 				initialize: function(attributes){
 					this.decode(new M(attributes || {}));
+				},
+
+				getClass: function(){
+					return claz.M;
+				},
+
+				getSchema: function(){
+					return claz.schema;
 				}
 			},
 			{
-				class: M
+				class: M,
+				schema: schema
 			});
 
 			this[className] = claz;
-			
-			console.log("add model " + className + " succeed!");
 
 			return claz;
 		} catch (error) {
@@ -260,6 +293,22 @@ module.exports = function() {
 			
 			return null;
 		}
+	};
+
+	this.beforeSave = function(className, cb) {
+		var claz = this[className];
+
+		claz.prototype.beforeSave = function(){
+			return cb(this);
+		};
+	};
+
+	this.afterSave = function(className, cb) {
+		var claz = this[className];
+
+		claz.prototype.afterSave = function(){
+			cb(this);
+		};
 	};
 	
 	this.get = function(className, id) {
@@ -337,16 +386,23 @@ module.exports = function() {
 				}
 			}
 		
-			query.exec(function(err,objs){
-				if (err) {
-					reject(err);
-				} else {
-					var models = [];
-					for (var i = 0; i < objs.length; i++) {
-						var m = new Model();
-						models.push(m.decode(objs[i]));
+			query.exec(function(err, objs){
+				try {
+					if (err) {
+						reject(err);
+					} else {
+						var models = [];
+
+						for (var i = 0; i < objs.length; i++) {
+							var m = new self[className]();
+							models.push(m.decode(objs[i]));
+						}
+
+						resolve(models);
 					}
-					resolve(models);
+				} catch (err) {
+					console.error("query " + err.message);
+					reject(err);
 				}
 			});
 		});

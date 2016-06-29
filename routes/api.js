@@ -236,15 +236,19 @@ function _saveModel(model, req, res) {
 };
 
 function _decode(avObj) {
-	var attributes = _.extend({"id" : avObj.id}, _.omit(avObj.attributes, ["ACL", "location"]));
-	var model = attributes;
+	try {
+		var attributes = _.extend({"id" : avObj.id}, _.omit(avObj.attributes, ["ACL", "location"]));
+		var model = attributes;
 
-	model.create_time = moment(avObj.createdAt).format("YYYY-MM-DD HH:mm:ss");
-	model.update_time = moment(avObj.updatedAt).format("YYYY-MM-DD HH:mm:ss");
-	
-	_adjustBigNumber(model, true);
+		model.create_time = moment(avObj.createdAt).format("YYYY-MM-DD HH:mm:ss");
+		model.update_time = moment(avObj.updatedAt).format("YYYY-MM-DD HH:mm:ss");
+		
+		_adjustBigNumber(model, true);
 
-	return model;
+		return model;
+	} catch(error) {
+		console.error("_decode failed " + error.message);
+	}
 };
 
 function _encode(model, attrs) {
@@ -275,6 +279,9 @@ function _adjustBigNumber(attributes, toActual) {
 
 function _succeed(res, data) {
 	data = data || {};
+
+	console.log("succeed " + JSON.stringify(data));
+
 	res.status(200).send(data);
 };
 

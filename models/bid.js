@@ -73,22 +73,20 @@ module.exports.max = function(request, response) {
     });	
 }
 
-module.exports.afterSave = function(request, response) {
-    var bid = request.object;
-
+module.exports.afterSave = function(bid) {
 	Gift.unlockBid(bid.get("customer_id"));
 };
 
-module.exports.beforeSave = function(request, response) {
-    var bid = request.object;
-
-	dao.find("Blacklist", {'customer_id': bid.get("customer_id")}, {'limit': 1}).then(function(blacks){
-		if (blacks.length == 1) {
-			response.error("对不起，您由于下列原因被封号：" + blacks[0].get("reason") + "。请联系管理员，谢谢！");
-		} else {
-			response.success();
-		}
-	}, function(error){
-		response.success();
+module.exports.beforeSave = function(bid) {
+	return Q.Promise(function(resolve, reject, notify) {
+		dao.find("Blacklist", {'customer_id': bid.get("customer_id")}, {'limit': 1}).then(function(blacks){
+			if (blacks.length == 1) {
+				reject.error(new Error("对不起，您由于下列原因被封号：" + blacks[0].get("reason") + "。请联系管理员，谢谢！"));
+			} else {
+				resolve();
+			}
+		}, function(error){
+			resolve();
+		});
 	});
 };
