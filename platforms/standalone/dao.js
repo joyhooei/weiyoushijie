@@ -52,7 +52,7 @@ _.extend(Model.prototype, {
 				self.attributes[k] = v;
 			});
 		} catch (error) {
-			console.error("decode obj failed ");
+			console.error("decode obj failed " + error.message);
 		}
 
 		return self;
@@ -66,7 +66,7 @@ _.extend(Model.prototype, {
 				self._obj[k] = v;
 			});
 		} catch (error) {
-			console.error("encode obj failed ");
+			console.error("encode obj failed " + error.message);
 		}
 
 		return self._obj;
@@ -77,13 +77,19 @@ _.extend(Model.prototype, {
 	},
 
 	set:function(attr, val) {
-		if (_.isString(attr)) {
-			this.attributes[attr] = val;
-		} else if (_.isArray(attr)){
-			_.extend(this.attributes, attr);
+		var self = this;
+
+		try {
+			if (_.isString(attr)) {
+				self.attributes[attr] = val;
+			} else if (_.isArray(attr)){
+				_.extend(self.attributes, attr);
+			}
+
+			self.decode(self.encode());
+		} catch (error) {
+			console.error("set failed " + error.message);
 		}
-		
-		this.decode(this.encode());
 	},
 	
 	increment: function(attr, val) {
@@ -93,6 +99,8 @@ _.extend(Model.prototype, {
 	save: function() {
 		var self = this;
 
+		console.log("save model");
+		
 		return Q.Promise(function(resolve, reject, notify) {
 			try {
 				self._obj.save(function(error){
