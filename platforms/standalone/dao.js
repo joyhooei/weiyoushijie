@@ -370,8 +370,10 @@ module.exports = function() {
 	};
 	
 	this.get = function(className, id) {
+		var self = this;
+		
 		return Q.Promise(function(resolve, reject, notify) {
-			var clazz = this[className].class;
+			var clazz = self[className].class;
 		
 			clazz.findOne( {'_id' : id }, function(err, obj){
 				if (err) {
@@ -388,8 +390,10 @@ module.exports = function() {
 	}
 	
 	this.find = function(className, conditions, filters){
+		var self = this;
+		
 		return Q.Promise(function(resolve, reject, notify) {
-			var clazz = this[className].class;
+			var clazz = self[className].class;
 
 			if (conditions) {
 				var query = clazz.find(conditions);
