@@ -88,13 +88,17 @@ _.extend(Model.prototype, {
 		var self = this;
 
 		return Q.Promise(function(resolve, reject, notify) {
-			self.encode().save(function(err, o){
-				if (err) {
-					reject(err);
-				} else {
-					resolve(self.decode(o));
-				}
-			});
+			try {
+				self.encode().save(function(err){
+					if (error) {
+						reject(error);
+					} else {
+						resolve(self.decode(self._obj));
+					}
+				});
+			} catch(error) {
+				reject(error);
+			}
 		});
 	},
 });
