@@ -110,38 +110,43 @@ router.post('/login', function(req, res, next) {
 			var result = JSON.parse(body);
 			if (result.code == 0) {
 				dao.find("Customer", {uid: result.data.id, "game": req.query.game}).then(function(customers){
-					var now = moment();
-					
-					if (customers.length > 0) {
-						var customer = customers[0];
-						customer.set("name", result.data.name);
-						customer.set("avatar", result.data.pic);
-						customer.set("sex", result.data.sex);
-						customer.set("age", result.data.age);
-						
-						Customer.offlineGold(customer);
-						Customer.hits(customer);
-						
-						//一天只会记录一次最早的登录
-						if (!moment(customer.get("last_login")).isSame(now, "day")) {
+					try {
+						var now = moment();
+
+						if (customers.length > 0) {
+							var customer = customers[0];
+							customer.set("name", result.data.name);
+							customer.set("avatar", result.data.pic);
+							customer.set("sex", result.data.sex);
+							customer.set("age", result.data.age);
+
+							Customer.offlineGold(customer);
+							Customer.hits(customer);
+
+							//一天只会记录一次最早的登录
+							if (!moment(customer.get("last_login")).isSame(now, "day")) {
+								customer.set("last_login", now.format());
+
+								Gift.unlockLogin(customer);
+							}
+
+							_adjustBigNumber(customer.attributes, false);
+						} else {
+							var customer = Customer.create(result.data.id, result.data.name, result.data.pic, result.data.sex, result.data.age);
+							customer.set("game", req.query.game);
 							customer.set("last_login", now.format());
-													
-							Gift.unlockLogin(customer);
 						}
-						
-						_adjustBigNumber(customer.attributes, false);
-					} else {
-						var customer = Customer.create(result.data.id, result.data.name, result.data.pic, result.data.sex, result.data.age);
-						customer.set("game", req.query.game);
-						customer.set("last_login", now.format());
+
+						customer.save().then(function(){
+							_succeed(res, _decode(customer));
+						}, function(error){
+							console.error("save customer failed " + error.message);
+							_succeed(res, _decode(customer));
+						})
+					} catch (error) {
+						console.error("login failed " + error.message);
+						_failed(res, error);
 					}
-					
-					customer.save().then(function(){
-						_succeed(res, _decode(customer));
-					}, function(error){
-						console.error("save customer failed " + error.message);
-						_succeed(res, _decode(customer));
-					})
 				}, function(error){
 					console.error("find customer failed " + error.message);
 					_failed(res, error);
