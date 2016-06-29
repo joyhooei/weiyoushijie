@@ -3,7 +3,7 @@ var mongoose = require( 'mongoose' );
 var Model = function(attributes) {
 	this.initialize.apply(this, arguments);
 
-	console.log("model created " + JSON.stringify(this));
+	console.log("model created");
 };
 
 Model.extend = function(protoProps, staticProps) {
@@ -52,7 +52,7 @@ _.extend(Model.prototype, {
 				self.attributes[k] = v;
 			});
 		} catch (error) {
-			console.error("decode obj failed " + JSON.stringify(obj));
+			console.error("decode obj failed ");
 		}
 
 		return self;
@@ -66,7 +66,7 @@ _.extend(Model.prototype, {
 				self._obj[k] = v;
 			});
 		} catch (error) {
-			console.error("encode obj failed " + JSON.stringify(self));
+			console.error("encode obj failed ");
 		}
 
 		return self._obj;
