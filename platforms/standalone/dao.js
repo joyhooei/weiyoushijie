@@ -82,6 +82,8 @@ _.extend(Model.prototype, {
 		} else if (_.isArray(attr)){
 			_.extend(this.attributes, attr);
 		}
+		
+		this.decode(this.encode());
 	},
 
 	save: function() {
@@ -89,7 +91,7 @@ _.extend(Model.prototype, {
 
 		return Q.Promise(function(resolve, reject, notify) {
 			try {
-				self.encode().save(function(error){
+				self._obj.save(function(error){
 					if (error) {
 						reject(error);
 					} else {
