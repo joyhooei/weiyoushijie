@@ -14,7 +14,7 @@ module.exports.max = function(request, response) {
     query.equalTo('day', today);
 	query.equalTo('game', 'headline');
     query.addDescending("gold");
-	query.limit(1);
+	query.limit(100);
     query.find().then(function(bids){
     	if (bids.length > 0) {
 			for (var i = 0; i < bids.length; i ++) {
