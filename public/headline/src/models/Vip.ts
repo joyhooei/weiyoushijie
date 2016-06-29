@@ -71,6 +71,10 @@ class Vip {
 		return gold * this._hit;
 	}
 	
+    public getHitRatio(): number {
+		return this._hit;
+	}
+	
     public getTime(gold: number) : number {
 		return gold * (1 + this._time);
 	}
