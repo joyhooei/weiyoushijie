@@ -85,6 +85,10 @@ _.extend(Model.prototype, {
 		
 		this.decode(this.encode());
 	},
+	
+	increment: function(attr, val) {
+		this.set(attr, this.get(attr) + val);
+	},
 
 	save: function() {
 		var self = this;
