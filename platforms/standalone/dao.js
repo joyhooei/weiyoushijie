@@ -1,7 +1,7 @@
 var mongoose = require( 'mongoose' );
 
 var Model = function(attributes) {
-	this.decode(new Model.class(attributes || {}));
+	this.initialize.apply(this, arguments);
 
 	console.log("model created " + JSON.stringify(this));
 };
@@ -218,13 +218,16 @@ module.exports = function() {
 	this.addModel = function(className, schema) {
 		try {
 			schema.game = String;
-			var model = mongoose.model(className, new mongoose.Schema(schema, { timestamps: {} }));
+			var M = mongoose.model(className, new mongoose.Schema(schema, { timestamps: {} }));
 
 			var claz = Model.extend(
 			{
+				initialize: function(attributes){
+					this.decode(new M(attributes || {}));
+				}
 			},
 			{
-				class: model,
+				class: M
 			});
 
 			this[className] = claz;
