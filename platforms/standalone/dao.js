@@ -408,7 +408,7 @@ module.exports = function() {
 
 			this[className] = claz;
 			
-			console.log("add model" + className + " succeed!"
+			console.log("add model" + className + " succeed!");
 
 			return claz;
 		} catch (error) {
