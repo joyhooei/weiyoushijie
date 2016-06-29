@@ -149,14 +149,45 @@ function _findModels(claz, query){
 		});
 };
 
-var Model = function( obj) {
-	self._obj = obj;
-	
-	this.decode();
+var Model = function() {
+};
+		
+Model.hasOne = function(clazName) {
+	var relationName = clazName.toLowerCase();
+	this._relations[relationName] = {attrName: "objectId", relationClazName : clazName, relationAttrName: this._name.toLowerCase() + "_id", granularity: 1};
+
+	return this;
 };
 
-Model.prototype.decode = function() {
+Model.hasMany = function(clazName) {
+	var relationName = clazName.toLowerCase() + "s";
+	this._relations[relationName] = {attrName: "objectId", relationClazName : clazName, relationAttrName: this._name.toLowerCase() + "_id", granularity: 0};
+
+	return this;
+};
+
+Model.belongsTo = function(clazName) {
+	var relationName = clazName.toLowerCase();
+	this._relations[relationName] = {attrName: relationName + "_id", relationClazName : clazName, relationAttrName: 'objectId', granularity: 1};
+
+	return this;
+};
+
+Model.polymorphism = function(clazNames) {
 	var self = this;
+
+	_.each(clazNames, function(clazName){
+		var relationName = clazName.toLowerCase();
+		self._relations[relationName] = {attrName: 'entity_id', relationClazName : clazName, relationAttrName: 'objectId', granularity: 1, when:{entity_type: clazName}};
+	});
+
+	return self;
+};
+
+Model.prototype.decode = function(obj) {
+	var self = this;
+	
+	self._obj = obj;
 	
 	self.id = self._obj.id;
 	self.createdAt = self._obj.createdAt;
@@ -324,49 +355,27 @@ module.exports = function() {
 	
 	this.addModel = function(className, schema) {
 		schema.game = String;
+		var s = new mongoose.Schema(schema, { timestamps: {} });
+				
+		var parent = Model;
+		var child;		
 		
-		var claz = {};
+		child = function(){ return parent.apply(this, arguments); };
 		
-		var schema = new mongoose.Schema(schema, { timestamps: {} });		
-		claz.class = mongoose.model(className, schema);		
-		claz.name  = className;
-		claz.relations = {};
+		_.extend(child, parent, {
+			class: mongoose.model(className, s),		
+			name: className,
+			_relations: {},
+		});
 		
-		claz.hasOne = function(clazName) {
-			var relationName = clazName.toLowerCase();
-			this._relations[relationName] = {attrName: "objectId", relationClazName : clazName, relationAttrName: this._name.toLowerCase() + "_id", granularity: 1};
-			
-			return this;
-		};
+		child.prototype = _.create(parent.prototype, {});
+    	child.prototype.constructor = child;
 		
-		claz.hasMany = function(clazName) {
-			var relationName = clazName.toLowerCase() + "s";
-			this._relations[relationName] = {attrName: "objectId", relationClazName : clazName, relationAttrName: this._name.toLowerCase() + "_id", granularity: 0};
-			
-			return this;
-		};
+		child.__super__ = parent.prototype;
 		
-		claz.belongsTo = function(clazName) {
-			var relationName = clazName.toLowerCase();
-			this._relations[relationName] = {attrName: relationName + "_id", relationClazName : clazName, relationAttrName: 'objectId', granularity: 1};
-			
-			return this;
-		};
+		this[className] = child;
 		
-		claz.polymorphism = function(clazNames) {
-			var self = this;
-			
-			_.each(clazNames, function(clazName){
-				var relationName = clazName.toLowerCase();
-				self._relations[relationName] = {attrName: 'entity_id', relationClazName : clazName, relationAttrName: 'objectId', granularity: 1, when:{entity_type: clazName}};
-			});
-			
-			return self;
-		};
-		
-		this[className] = claz;
-		
-		return claz;
+		return child;
 	};
 	
 	this.get = function(className, id) {
@@ -449,7 +458,7 @@ module.exports = function() {
 				} else {
 					var models = [];
 					for (var i = 0; i < objs.length; i++) {
-						var m = new Model(objs[i]);
+						models.push(new Model(objs[i]));
 					}
 					resolve(models);
 				}
