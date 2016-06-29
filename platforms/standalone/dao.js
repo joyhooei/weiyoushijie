@@ -215,16 +215,20 @@ Model.polymorphism = function(clazNames) {
 Model.prototype.decode = function(obj) {
 	var self = this;
 	
-	self._obj = obj;
-	
-	self.id = self._obj.id;
-	self.createdAt = self._obj.createdAt;
-	self.updatedAt = self._obj.updatedAt;
-	
-	self.attributes = {};
-	_.each(self._obj, function(v, k) {
-		self.attributes[k] = v;
-	});
+	try {
+		self._obj = obj;
+
+		self.id = self._obj.id;
+		self.createdAt = self._obj.createdAt;
+		self.updatedAt = self._obj.updatedAt;
+
+		self.attributes = {};
+		_.each(self._obj, function(v, k) {
+			self.attributes[k] = v;
+		});
+	} catch (error) {
+		console.error("decode obj failed " + JSON.stringify(obj));
+	}
 	
 	return self;
 }
@@ -232,9 +236,13 @@ Model.prototype.decode = function(obj) {
 Model.prototype.encode = function() {
 	var self = this;
 	
-	_.each(self.attributes, function(v, k) {
-		self._obj[k] = v;
-	});
+	try {
+		_.each(self.attributes, function(v, k) {
+			self._obj[k] = v;
+		});
+	} catch (error) {
+		console.error("encode obj failed " + JSON.stringify(self));
+	}
 	
 	return self._obj;
 }
@@ -382,24 +390,32 @@ module.exports = function() {
 	};
 	
 	this.addModel = function(className, schema) {
-		schema.game = String;
-		var model = mongoose.model(className, new mongoose.Schema(schema, { timestamps: {} }));
-		
-		var claz = Model.extend(
-		{
-			constructor: function(){
-				this.decode(new model());
-			}
-		},
-		{
-			class: model,		
-			_name: className,
-			_relations: {},
-		});
-		
-		this[className] = claz;
-		
-		return claz;
+		try {
+			schema.game = String;
+			var model = mongoose.model(className, new mongoose.Schema(schema, { timestamps: {} }));
+
+			var claz = Model.extend(
+			{
+				constructor: function(){
+					this.decode(new model());
+				}
+			},
+			{
+				class: model,		
+				_name: className,
+				_relations: {},
+			});
+
+			this[className] = claz;
+			
+			console.log("add model" + className + " succeed!"
+
+			return claz;
+		} catch (error) {
+			console.error("add model" + className + " failed " + error.message);
+			
+			return null;
+		}
 	};
 	
 	this.get = function(className, id) {
