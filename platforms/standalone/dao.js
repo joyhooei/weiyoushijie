@@ -377,7 +377,7 @@ module.exports = function() {
 				if (err) {
 					reject(err);
 				} else {
-					resolve(new Model(obj););
+					resolve(new Model(obj));
 				}
 			});
 		});
