@@ -149,6 +149,48 @@ function _findModels(claz, query){
 		});
 };
 
+var Model = function(className, obj) {
+	var self = this;
+	
+	self.className = className;
+	self.obj = obj;
+	self.attributes = {};
+	
+	_.each(self.obj, function(v, k) {
+		self.attributes[k] = v;
+	});
+};
+
+Model.prototype.get = function(attr) {
+	return this.attributes[attr];
+}
+
+Model.prototype.set = function(attr, val) {
+	if (_.isString(attr)) {
+		this.attribute[attr] = val;
+	} else if (_.isArray(attr)){
+		this.attributes = _.extend(this.attributes, attr);
+	}
+}
+
+Model.prototype.save = function() {
+	var self = this;
+	
+	return Q.Promise(function(resolve, reject, notify) {
+		_.each(self.attributes, function(v, k) {
+			self.obj[k] = v;
+		});
+		
+		self.obj.save(function(err, o){
+			if (err) {
+				reject(err);
+			} else {
+				resolve(self);
+			}
+		});
+	});
+};
+
 module.exports = function() {
 	this.initialize = function(){
 		var self = this;
@@ -270,17 +312,10 @@ module.exports = function() {
 		
 		var claz = {};
 		
-		claz._class = mongoose.model(className, new mongoose.Schema(schema, { timestamps: {} }));		
-		claz._name  = className;
-		claz._relations = {};
-		
-		claz.get = function(id) {
-			return _getModel(this, id);
-		};
-		
-		claz.find = function(query) {
-			return _findModels(this, query);
-		};
+		var schema = new mongoose.Schema(schema, { timestamps: {} });		
+		claz.class = mongoose.model(className, schema);		
+		claz.name  = className;
+		claz.relations = {};
 		
 		claz.hasOne = function(clazName) {
 			var relationName = clazName.toLowerCase();
@@ -319,70 +354,97 @@ module.exports = function() {
 		return claz;
 	};
 	
+	this.get = function(className, id) {
+		return Q.Promise(function(resolve, reject, notify) {
+			var clazz = this[className].class;
+		
+			clazz.findOne( {'_id' : id }, function(err, obj){
+				if (err) {
+					reject(err);
+				} else {
+					resolve(new Model(className, obj););
+				}
+			});
+		});
+	}
+	
 	this.findAll = function(className, conditions, filters) {
-		this.find(className, conditions. filters);
+		return this.find(className, conditions. filters);
 	}
 	
 	this.find = function(className, conditions, filters){
-		var clazz = this[className]._class;
-		
-		if (conditions) {
-			var query = clazz.find(conditions);
-		} else {
-			var query = clazz.find();
-		}
+		return Q.Promise(function(resolve, reject, notify) {
+			var clazz = this[className].class;
 
-		if (filters) {
-			if (filters.limit) {
-				query.limit(filters.limit);
+			if (conditions) {
+				var query = clazz.find(conditions);
 			} else {
-				query.limit(1000);
+				var query = clazz.find();
 			}
 
-			if (filters.offset) {
-				query.skip(filters.offset);
-			} else {
-				query.skip(0);
-			}
-			
-			if (filters.order) {
-				var sort = {};
-				var orders = filters.order.split(",");
-				for(var i = 0; i < orders.length; i++) {
-					var kv = orders[i].trim().split(" ");
-					if (kv.length == 2) {
-						var k = kv[0].trim();
-						var v = kv[1].trim();
-
-						if (k ==  "create_time") {
-							var name = "createdAt";
-						} else if (k == "update_time") {
-							var name = "updatedAt";
-						} else {
-							var name = k;
-						}
-
-						if (v.toUpperCase() == "ASC") {
-							sort[name] = 1;
-						} else {
-							sort[name] = -1;
-						}
-					}
+			if (filters) {
+				if (filters.limit) {
+					query.limit(filters.limit);
+				} else {
+					query.limit(1000);
 				}
-			
-				query.sort(sort);
+
+				if (filters.offset) {
+					query.skip(filters.offset);
+				} else {
+					query.skip(0);
+				}
+
+				if (filters.order) {
+					var sort = {};
+					var orders = filters.order.split(",");
+					for(var i = 0; i < orders.length; i++) {
+						var kv = orders[i].trim().split(" ");
+						if (kv.length == 2) {
+							var k = kv[0].trim();
+							var v = kv[1].trim();
+
+							if (k ==  "create_time") {
+								var name = "createdAt";
+							} else if (k == "update_time") {
+								var name = "updatedAt";
+							} else {
+								var name = k;
+							}
+
+							if (v.toUpperCase() == "ASC") {
+								sort[name] = 1;
+							} else {
+								sort[name] = -1;
+							}
+						}
+					}
+
+					query.sort(sort);
+				}
 			}
+		
+			query.exec(function(err,objs){
+				if (err) {
+					reject(err);
+				} else {
+					var models = [];
+					for (var i = 0; i < objs.length; i++) {
+						var m = new Model(className, objs[i]);
+					}
+					resolve(models);
+				}
+			});
+		});
+	};
+	
+	this.saveAll = function(objs) {
+		var promises = [];
+		
+		for(var i = 0; i < objs.length; i++) {
+			promises.push(objs[i].save());
 		}
 		
-		return Q.Promise(
-			function(resolve, reject, notify) {
-				query.exec(function(err,objs){
-					if (err) {
-						reject(err);
-					} else {
-						resolve(objs);
-					}
-				});
-			});
-	};
+		return Q.all(promises);
+	}
 };
