@@ -149,7 +149,17 @@ function _findModels(claz, query){
 		});
 };
 
-var Model = function() {
+var Model = function(attributes) {
+    var attrs = attributes || {};
+    this.attributes = {};
+	
+    var defaults = _.result(this, 'defaults');
+    attrs = _.defaults(_.extend({}, defaults, attrs), defaults);
+	
+    this.set(attrs);
+    this.initialize.apply(this, arguments);
+	
+	console.log("model created " + JSON.stringify(this));
 };
 
 Model.extend = function(protoProps, staticProps) {
@@ -211,6 +221,9 @@ Model.polymorphism = function(clazNames) {
 
 	return self;
 };
+
+Model.prototype.initialize = function(){
+}
 
 Model.prototype.decode = function(obj) {
 	var self = this;
@@ -396,8 +409,8 @@ module.exports = function() {
 
 			var claz = Model.extend(
 			{
-				constructor: function(){
-					this.decode(new model());
+				initialize: function(attributes){
+					this.decode(new model(attributes));
 				}
 			},
 			{
@@ -408,11 +421,11 @@ module.exports = function() {
 
 			this[className] = claz;
 			
-			console.log("add model" + className + " succeed!");
+			console.log("add model " + className + " succeed!");
 
 			return claz;
 		} catch (error) {
-			console.error("add model" + className + " failed " + error.message);
+			console.error("add model " + className + " failed " + error.message);
 			
 			return null;
 		}
