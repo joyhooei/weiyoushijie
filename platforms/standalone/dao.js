@@ -1,164 +1,8 @@
 var mongoose = require( 'mongoose' );
-		
-function _value(m, attrName) {
-	if (attrName == "objectId") {
-		return m.id;
-	} else {
-		return m.get(attrName);
-	}
-};
-
-function _bind(m, relations, k, v) {
-	var r = _.filter(relations, function(relation) { return _value(relation, v.relationAttrName) == _value(m, v.attrName); });
-	
-	if (v.granularity == 1) {
-		if (r.length > 0) {
-			m[k] = r[0];
-		}
-	} else {
-		m[k] = r;
-	}
-};
-
-function _findRelation(m, k, v){
-	return Q.Promise(
-		function(resolve, reject, notify) {
-			try {
-				var query = new AV.Query(dao[v.relationClazName]);
-				if (_.isArray(m)) {
-					query.containedIn(v.relationAttrName, _.map(m, function(d){ return _value(d, v.attrName); }));
-				} else {
-					query.equalTo(v.relationAttrName, _value(m, v.attrName));
-				}
-				query.find().then(
-					function(relations){
-						if(_.isArray(m)) {
-							_.each(m, function(d){
-								_bind(d, relations, k, v)
-							});
-						} else {
-							_bind(m, relations, k, v)
-						}
-
-						resolve(relations);
-					}, function(err){
-						console.error("_findRelation find " +　err.message);
-
-						reject(err);
-					});
-			} catch (err) {
-				console.error("_findRelation " +　err.message);
-
-				reject(err);
-			}					
-		});
-};
-
-function _findRelations(claz, m, deep, deepest) {
-	var promises = [];
-	_.each(claz._relations, function(v, k){
-		var promise = null;
-		
-		if (v.when) {
-			try {
-				var c = _.filter(m, function(obj){ return _.isMatch(obj.attributes, v.when); });
-				if (c.length > 0) {
-					promise = _findRelation(c, k, v);
-				}
-			} catch (err){
-				console.error("_findRelations " +　err.message);
-			}
-		} else {
-			promise = _findRelation(m, k, v);
-		}
-		
-		if (promise) {
-			if (deep < deepest) {
-				var clazRelations = dao[v.relationClazName];
-				var p = Q.Promise(function(resolve, reject, notify) {
-							promise.then(function(relations){
-								var pr = _findRelations(clazRelations, relations, deep + 1, deepest);
-								if (pr) {
-									pr.then(function(){
-										resolve();
-									}, function(error){
-										reject(error);
-									});
-								} else {
-									resolve();
-								}
-							});
-						});
-						
-				promises.push(p);
-			} else {
-				promises.push(promise);
-			}
-		}
-	});
-
-	if (promises.length > 0) {
-		return Q.all(promises);
-	} else {
-		return false;
-	}
-};
-
-function _getModel(claz, id){
-	return Q.Promise(
-		function(resolve, reject, notify) {
-			var query = new AV.Query(claz);
-			query.get(id).then(
-				function(model){
-					var promise = _findRelations(claz, model, 1, 2);
-					if (promise) {
-						promise.fin(
-							function(){
-								resolve(model);
-							});
-					} else {
-						resolve(model);
-					}
-				}, function(err) {
-					console.error("_getModel get " +　err.message);
-
-					reject(err);
-				});
-		});
-};
-
-function _findModels(claz, query){
-	return Q.Promise(
-		function(resolve, reject, notify) {
-			query.find().then(
-				function(model){
-					var promise = _findRelations(claz, model, 1, 2);
-					if (promise) {
-						promise.fin(
-							function(){
-								resolve(model);
-							});
-					} else {
-						resolve(model);
-					}
-				}, function(err) {
-					console.error("_findModels find " +　err.message);
-
-					reject(err);
-				});
-		});
-};
 
 var Model = function(attributes) {
-    var attrs = attributes || {};
-    this.attributes = {};
-	
-    var defaults = _.result(this, 'defaults');
-    attrs = _.defaults(_.extend({}, defaults, attrs), defaults);
-	
-    this.set(attrs);
-    this.initialize.apply(this, arguments);
-	
+	this.decode(new Model.class(attributes || {}));
+
 	console.log("model created " + JSON.stringify(this));
 };
 
@@ -190,101 +34,70 @@ Model.extend = function(protoProps, staticProps) {
     return child;
 };
 
-Model.hasOne = function(clazName) {
-	var relationName = clazName.toLowerCase();
-	this._relations[relationName] = {attrName: "objectId", relationClazName : clazName, relationAttrName: this._name.toLowerCase() + "_id", granularity: 1};
+_.extend(Model.prototype, {
+	initialize:function(){},
 
-	return this;
-};
+	decode:function(obj) {
+		var self = this;
 
-Model.hasMany = function(clazName) {
-	var relationName = clazName.toLowerCase() + "s";
-	this._relations[relationName] = {attrName: "objectId", relationClazName : clazName, relationAttrName: this._name.toLowerCase() + "_id", granularity: 0};
+		try {
+			self._obj = obj;
 
-	return this;
-};
+			self.id = self._obj.id;
+			self.createdAt = self._obj.createdAt;
+			self.updatedAt = self._obj.updatedAt;
 
-Model.belongsTo = function(clazName) {
-	var relationName = clazName.toLowerCase();
-	this._relations[relationName] = {attrName: relationName + "_id", relationClazName : clazName, relationAttrName: 'objectId', granularity: 1};
+			self.attributes = {};
+			_.each(self._obj, function(v, k) {
+				self.attributes[k] = v;
+			});
+		} catch (error) {
+			console.error("decode obj failed " + JSON.stringify(obj));
+		}
 
-	return this;
-};
+		return self;
+	},
 
-Model.polymorphism = function(clazNames) {
-	var self = this;
+	encode: function() {
+		var self = this;
 
-	_.each(clazNames, function(clazName){
-		var relationName = clazName.toLowerCase();
-		self._relations[relationName] = {attrName: 'entity_id', relationClazName : clazName, relationAttrName: 'objectId', granularity: 1, when:{entity_type: clazName}};
-	});
+		try {
+			_.each(self.attributes, function(v, k) {
+				self._obj[k] = v;
+			});
+		} catch (error) {
+			console.error("encode obj failed " + JSON.stringify(self));
+		}
 
-	return self;
-};
+		return self._obj;
+	},
 
-Model.prototype.initialize = function(){
-}
+	get:function(attr) {
+		return this.attributes[attr];
+	},
 
-Model.prototype.decode = function(obj) {
-	var self = this;
-	
-	try {
-		self._obj = obj;
+	set:function(attr, val) {
+		if (_.isString(attr)) {
+			this.attributes[attr] = val;
+		} else if (_.isArray(attr)){
+			_.extend(this.attributes, attr);
+		}
+	},
 
-		self.id = self._obj.id;
-		self.createdAt = self._obj.createdAt;
-		self.updatedAt = self._obj.updatedAt;
+	save: function() {
+		var self = this;
 
-		self.attributes = {};
-		_.each(self._obj, function(v, k) {
-			self.attributes[k] = v;
+		return Q.Promise(function(resolve, reject, notify) {
+			self.encode().save(function(err, o){
+				if (err) {
+					reject(err);
+				} else {
+					resolve(self.decode(o));
+				}
+			});
 		});
-	} catch (error) {
-		console.error("decode obj failed " + JSON.stringify(obj));
-	}
-	
-	return self;
-}
-
-Model.prototype.encode = function() {
-	var self = this;
-	
-	try {
-		_.each(self.attributes, function(v, k) {
-			self._obj[k] = v;
-		});
-	} catch (error) {
-		console.error("encode obj failed " + JSON.stringify(self));
-	}
-	
-	return self._obj;
-}
-
-Model.prototype.get = function(attr) {
-	return this.attributes[attr];
-}
-
-Model.prototype.set = function(attr, val) {
-	if (_.isString(attr)) {
-		this.attribute[attr] = val;
-	} else if (_.isArray(attr)){
-		this.attributes = _.extend(this.attributes, attr);
-	}
-}
-
-Model.prototype.save = function() {
-	var self = this;
-	
-	return Q.Promise(function(resolve, reject, notify) {
-		self.encode().save(function(err, o){
-			if (err) {
-				reject(err);
-			} else {
-				resolve(self.decode());
-			}
-		});
-	});
-};
+	},
+});
 
 module.exports = function() {
 	this.initialize = function(){
@@ -409,14 +222,9 @@ module.exports = function() {
 
 			var claz = Model.extend(
 			{
-				initialize: function(attributes){
-					this.decode(new model(attributes));
-				}
 			},
 			{
-				class: model,		
-				_name: className,
-				_relations: {},
+				class: model,
 			});
 
 			this[className] = claz;
