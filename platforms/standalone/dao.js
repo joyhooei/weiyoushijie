@@ -151,7 +151,35 @@ function _findModels(claz, query){
 
 var Model = function() {
 };
-		
+
+Model.extend = function(protoProps, staticProps) {
+    var parent = this;
+    var child;
+
+    // The constructor function for the new subclass is either defined by you
+    // (the "constructor" property in your `extend` definition), or defaulted
+    // by us to simply call the parent constructor.
+    if (protoProps && _.has(protoProps, 'constructor')) {
+      child = protoProps.constructor;
+    } else {
+      child = function(){ return parent.apply(this, arguments); };
+    }
+
+    // Add static properties to the constructor function, if supplied.
+    _.extend(child, parent, staticProps);
+
+    // Set the prototype chain to inherit from `parent`, without calling
+    // `parent`'s constructor function and add the prototype properties.
+    child.prototype = _.create(parent.prototype, protoProps);
+    child.prototype.constructor = child;
+
+    // Set a convenience property in case the parent's prototype is needed
+    // later.
+    child.__super__ = parent.prototype;
+
+    return child;
+};
+
 Model.hasOne = function(clazName) {
 	var relationName = clazName.toLowerCase();
 	this._relations[relationName] = {attrName: "objectId", relationClazName : clazName, relationAttrName: this._name.toLowerCase() + "_id", granularity: 1};
@@ -193,10 +221,10 @@ Model.prototype.decode = function(obj) {
 	self.createdAt = self._obj.createdAt;
 	self.updatedAt = self._obj.updatedAt;
 	
-	self.attributes = {};	
+	self.attributes = {};
 	_.each(self._obj, function(v, k) {
 		self.attributes[k] = v;
-	});	
+	});
 	
 	return self;
 }
@@ -355,27 +383,23 @@ module.exports = function() {
 	
 	this.addModel = function(className, schema) {
 		schema.game = String;
-		var s = new mongoose.Schema(schema, { timestamps: {} });
-				
-		var parent = Model;
-		var child;		
+		var model = mongoose.model(className, new mongoose.Schema(schema, { timestamps: {} }));
 		
-		child = function(){ return parent.apply(this, arguments); };
-		
-		_.extend(child, parent, {
-			class: mongoose.model(className, s),		
-			name: className,
+		var claz = Model.extend(
+		{
+			constructor: function(){
+				this.decode(new model());
+			}
+		},
+		{
+			class: model,		
+			_name: className,
 			_relations: {},
 		});
 		
-		child.prototype = _.create(parent.prototype, {});
-    	child.prototype.constructor = child;
+		this[className] = claz;
 		
-		child.__super__ = parent.prototype;
-		
-		this[className] = child;
-		
-		return child;
+		return claz;
 	};
 	
 	this.get = function(className, id) {
@@ -388,7 +412,8 @@ module.exports = function() {
 				if (err) {
 					reject(err);
 				} else {
-					resolve(new Model(obj));
+					var m = new Model();
+					resolve(m.decode(obj));
 				}
 			});
 		});
@@ -458,7 +483,8 @@ module.exports = function() {
 				} else {
 					var models = [];
 					for (var i = 0; i < objs.length; i++) {
-						models.push(new Model(objs[i]));
+						var m = new Model();
+						models.push(m.decode(objs[i]));
 					}
 					resolve(models);
 				}
