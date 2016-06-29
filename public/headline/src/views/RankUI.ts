@@ -15,7 +15,9 @@ class RankUI extends eui.Component {
     public refresh(): void {
 		var self = this;
 		
-        application.dao.fetch("Customer", {}, {limit: 12, order: 'metal DESC, accumulated_gold DESC'}, function(succeed, customers){
+		var max = 20;
+		
+        application.dao.fetch("Customer", {}, {limit: max + 2, order: 'metal DESC, accumulated_gold DESC'}, function(succeed, customers){
             if (succeed) {
 				var rank = 0;
 				var last = null;
@@ -23,8 +25,8 @@ class RankUI extends eui.Component {
 				var next = null;
 				
                 self.listRank.removeChildren();
-                for(var i = 0;i < Math.min(11, customers.length);i++) {
-					if (i < 10) {
+                for(var i = 0;i < Math.min(max + 1, customers.length);i++) {
+					if (i < max) {
 						var item = new RankItem(false,i + 1,customers[i]);
 						self.listRank.addChild(item);
 					}
