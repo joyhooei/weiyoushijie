@@ -412,7 +412,7 @@ class HomeUI extends eui.Component{
     		self.hit = 59;
     		self.lblOutput.text = application.format(self.getOutput());
             
-            Toast.launch("获得10倍收益，持续60秒");
+            Toast.launch("获得" + application.vip.getHit() + "倍收益，持续60秒");
             
             self.imgHit.visible = true;
             
