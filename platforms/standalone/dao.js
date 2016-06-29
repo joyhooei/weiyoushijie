@@ -89,7 +89,7 @@ _.extend(Model.prototype, {
 
 		return Q.Promise(function(resolve, reject, notify) {
 			try {
-				self.encode().save(function(err){
+				self.encode().save(function(error){
 					if (error) {
 						reject(error);
 					} else {
