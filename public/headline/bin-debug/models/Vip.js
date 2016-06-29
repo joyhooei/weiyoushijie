@@ -59,6 +59,9 @@ var Vip = (function () {
     p.getHit = function (gold) {
         return gold * this._hit;
     };
+    p.getHitRatio = function () {
+        return this._hit;
+    };
     p.getTime = function (gold) {
         return gold * (1 + this._time);
     };

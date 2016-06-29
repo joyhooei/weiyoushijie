@@ -63,7 +63,7 @@
     },
     {
       "path": "resource/custom_skins/messageUISkin.exml",
-      "content": "<?xml version='1.0' encoding='utf-8'?>\n<e:Skin class=\"messageUISkin\" width=\"440\" height=\"500\" xmlns:e=\"http://ns.egret.com/eui\">\n\t<e:Image x=\"0\" y=\"0\" width=\"440\" height=\"500\" fillMode=\"clip\" source=\"massageB_png\"/>\n\t<e:Scroller id=\"scrCompensation\" height=\"352\" width=\"395\" x=\"29\" y=\"137\">\n\t\t<e:viewport>\n\t\t\t<e:Group id=\"lstMessage\" width=\"372\">\n\t\t\t\t<e:layout> \n\t\t\t\t\t<e:VerticalLayout verticalAlign=\"top\" gap=\"0\"/>\n\t\t\t\t</e:layout>\n\t\t\t</e:Group>\n\t\t</e:viewport>\n\t</e:Scroller>\n\t<e:Image id=\"imgBack\" fillMode=\"clip\" height=\"41\" x=\"403\" y=\"83\" width=\"41\" source=\"helpx_png\"/>    \n</e:Skin>"
+      "content": "<?xml version='1.0' encoding='utf-8'?>\n<e:Skin class=\"messageUISkin\" width=\"440\" height=\"522\" xmlns:e=\"http://ns.egret.com/eui\">\n\t<e:Image x=\"0\" y=\"0\" width=\"440\" height=\"521\" fillMode=\"clip\" source=\"massageB_png\"/>\n\t<e:Scroller id=\"scrCompensation\" height=\"352\" width=\"395\" x=\"29\" y=\"137\">\n\t\t<e:viewport>\n\t\t\t<e:Group id=\"lstMessage\" width=\"372\">\n\t\t\t\t<e:layout> \n\t\t\t\t\t<e:VerticalLayout verticalAlign=\"top\" gap=\"0\"/>\n\t\t\t\t</e:layout>\n\t\t\t</e:Group>\n\t\t</e:viewport>\n\t</e:Scroller>\n\t<e:Image id=\"imgBack\" fillMode=\"clip\" height=\"41\" x=\"403\" y=\"83\" width=\"41\" source=\"helpx_png\"/>    \n</e:Skin>"
     },
     {
       "path": "resource/custom_skins/offlineGoldUISkin.exml",

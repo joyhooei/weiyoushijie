@@ -1,6 +1,6 @@
 <?xml version='1.0' encoding='utf-8'?>
-<e:Skin class="messageUISkin" width="440" height="500" xmlns:e="http://ns.egret.com/eui">
-	<e:Image x="0" y="0" width="440" height="500" fillMode="clip" source="massageB_png"/>
+<e:Skin class="messageUISkin" width="440" height="522" xmlns:e="http://ns.egret.com/eui">
+	<e:Image x="0" y="0" width="440" height="521" fillMode="clip" source="massageB_png"/>
 	<e:Scroller id="scrCompensation" height="352" width="395" x="29" y="137">
 		<e:viewport>
 			<e:Group id="lstMessage" width="372">

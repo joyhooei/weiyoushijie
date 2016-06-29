@@ -278,7 +278,7 @@ var HomeUI = (function (_super) {
             self.lblTotalHits.text = "x" + application.customer.total_hits.toString();
             self.hit = 59;
             self.lblOutput.text = application.format(self.getOutput());
-            Toast.launch("获得10倍收益，持续60秒");
+            Toast.launch("获得" + application.vip.getHitRatio() + "倍收益，持续60秒");
             self.imgHit.visible = true;
             var timer = new egret.Timer(1000, 59);
             timer.addEventListener(egret.TimerEvent.TIMER, function (event) {
