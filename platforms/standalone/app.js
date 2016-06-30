@@ -10,6 +10,8 @@ var bodyParser = require('body-parser');
 var api = require('../../routes/api');
 var om = require('../../routes/om');
 
+var cloud = require('../leancloud/cloud');
+
 GLOBAL.moment = require("moment");
 GLOBAL._ = require("underscore");
 GLOBAL.Q = require('q');
@@ -21,7 +23,8 @@ app.set('views', path.join(__dirname, '../../views'));
 app.set('view engine', 'jade');
 app.use(express.static('public'));
 
-app.use(AV.Cloud);
+app.use(cloud);
+//app.use(AV.Cloud);
 
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
