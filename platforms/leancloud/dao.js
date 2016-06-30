@@ -84,6 +84,8 @@ function _buildQuery(className, conditions, filters) {
 			}
 		})
 	}
+	
+	console.log(JSON.stringify(query));
 
 	return query;
 }
