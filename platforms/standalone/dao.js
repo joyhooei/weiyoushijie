@@ -103,19 +103,27 @@ _.extend(Model.prototype, {
 					self.beforeSave().then(function(){
 						self._obj.save(function(error){
 							if (error) {
+								console.error("save obj failed " + error.message());
+								
 								reject(error);
 							} else {
-								self.afterSave();
+								try {
+									self.afterSave();
+								} catch (error) {
+									console.error("afterSave obj failed " + error.message());
+								}
 
 								resolve(self.decode(self._obj));
 							}
 						});
 					}, function(error){
+						console.error("beforeSave obj failed " + error.message());
 						reject(error);
 					})
 				} else {
 					self._obj.save(function(error){
 						if (error) {
+							console.error("save obj failed " + error.message());
 							reject(error);
 						} else {
 							resolve(self.decode(self._obj));
@@ -124,6 +132,7 @@ _.extend(Model.prototype, {
 				}
 
 			} catch(error) {
+				console.error("save model failed " + error.message());
 				reject(error);
 			}
 		});
@@ -283,11 +292,11 @@ module.exports = function() {
 			var claz = Model.extend(
 			{
 				initialize: function(attributes){
-					this.decode(new M(attributes || {}));
+					this.decode(new claz.class(attributes || {}));
 				},
 
 				getClass: function(){
-					return claz.M;
+					return claz.class;
 				},
 
 				getSchema: function(){
