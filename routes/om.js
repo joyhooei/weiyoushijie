@@ -60,11 +60,11 @@ router.get('/multicast', function(req, res, next) {
 		Q.all(promises).then(function(){
 			res.status(200).send(html);
 		}, function(error){
-			console.error(error.message);			
+			console.error("send message failed " + error.message);			
 			_failed(res, error);
 		});	
 	}, function(error){
-		console.error(error.message);			
+		console.error("find customer failed " + error.message);			
 		_failed(res, error);	
 	});
 })
