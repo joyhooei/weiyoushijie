@@ -16,7 +16,7 @@ function _query(query, offset, total) {
 function _buildQuery(className, conditions, filters) {
 	var query = new AV.Query(dao[className]);
 	
-	console.log("build query " + className + "conditions = " + JSON.stringify(conditions) + "filters = " + JSON.stringify(filters));
+	console.log("build query " + className + " conditions = " + JSON.stringify(conditions) + " filters = " + JSON.stringify(filters));
 
 	if (filters) {
 		if (filters.limit) {
@@ -138,14 +138,14 @@ module.exports = function() {
 					Q.all(promises).then(function(results){
 						resolve([].concat.apply([], results));
 					}, function(error){
-						console.error("Helper Q.all " + error.message);
+						console.error("findAll Q.all " + error.message);
 						reject(error);
 					});
 				} else {
 					resolve([]);
 				}
 			}, function(error){
-				console.error("Helper findAll count " + error.message);
+				console.error("findAll count " + error.message);
 				reject(error);
 			});
 		});
