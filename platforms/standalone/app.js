@@ -10,8 +10,6 @@ var bodyParser = require('body-parser');
 var api = require('../../routes/api');
 var om = require('../../routes/om');
 
-var cloud = require('../leancloud/cloud');
-
 GLOBAL.moment = require("moment");
 GLOBAL._ = require("underscore");
 GLOBAL.Q = require('q');
@@ -23,8 +21,13 @@ app.set('views', path.join(__dirname, '../../views'));
 app.set('view engine', 'jade');
 app.use(express.static('public'));
 
-app.use(cloud);
-//app.use(AV.Cloud);
+var DAO = require('./dao');
+GLOBAL.dao = new DAO();
+GLOBAL.dao.initialize();
+
+var LDAO = require('../leancloud/dao');
+GLOBAL.ldao = new LDAO();
+GLOBAL.ldao.initialize(app);
 
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
@@ -92,13 +95,5 @@ app.use(function(err, req, res, next) { // jshint ignore:line
     error: {}
   });
 });
-
-var DAO = require('./dao');
-GLOBAL.dao = new DAO();
-GLOBAL.dao.initialize();
-
-var LDAO = require('../leancloud/dao');
-GLOBAL.ldao = new LDAO();
-GLOBAL.ldao.initialize();
 
 module.exports = app;
