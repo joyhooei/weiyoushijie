@@ -70,8 +70,7 @@ router.get('/clear/:model', function(req, res, next) {
 	dao.clear(req.params.model).then(function(p){
 		_succeed(res, "clear " + req.params.model + " number is " + p);
 	}, function(error){
-		console.error(error.message);
-			
+		console.error(error.message);			
 		_failed(res, error);
 	});
 })
@@ -90,7 +89,10 @@ router.get('/transfer/:model', function(req, res, next) {
 		}, function(error){
 			_failed(res, error);
 		});
-    });
+	}, function(error){
+		console.error("find " + req.params.model + " failed " + error.message);			
+		_failed(res, error);
+	});
 })
 
 function _succeed(res, data) {
