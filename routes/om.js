@@ -1,10 +1,5 @@
 var express = require('express');
 var router = express.Router();
-
-var AV = require('leanengine');
-var LDAO = require('../platforms/leancloud/dao');
-var ldao = new LDAO();
-ldao.initialize();
 	
 router.get('/multicast', function(req, res, next) {
 	console.log("multicast " + JSON.stringify(req.query));
