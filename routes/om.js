@@ -83,6 +83,7 @@ router.get('/transfer/:model', function(req, res, next) {
     var AV = require('leanengine');
 	var LDAO = require('../platforms/leancloud/dao');
 	var ldao = new LDAO();
+	ldao.initialize();
     
     ldao.findAll(req.params.model).then(function(objs){
 		var promises = [];
