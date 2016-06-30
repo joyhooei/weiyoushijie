@@ -1,13 +1,36 @@
 var express = require('express');
 var router = express.Router();
 
+var Message = require('../models/rank.js');
+
+router.get('/broadcast', function(req, res, next) {
+    var AV = require('leanengine');
+    var leanDAO = require('../platforms/leancloud/dao');
+    
+	leanDAO.findAll('Customer').then(function(){
+		var promises = [];
+		
+        _.each(objs, function(o){
+			promises.push(Message.send(o.id, '系统公告', req.query.title, "none", 0));
+        });
+		
+		Q.all(promises).then(function(){
+			res.status(200).send("broadcast succeed");
+		}, function(error){
+			console.error(error.message);			
+			_failed(res, error.message);
+		});	
+	}, function(error){
+	});
+})
+
 router.get('/clear/:model', function(req, res, next) {
 	dao.clear(req.params.model).then(function(p){
-		res.status(200).send("clear " + req.params.model + " number is " + p);
+		_succeed(res, "clear " + req.params.model + " number is " + p);
 	}, function(error){
 		console.error(error.message);
 			
-		res.status(500).send(error.message);	
+		_failed(res, error.message);
 	});
 })
 
@@ -24,13 +47,21 @@ router.get('/transfer/:model', function(req, res, next) {
         });
 		
 		Q.all(promises).then(function(){
-			res.status(200).send("transfer " + req.params.model + " number is " + promises.length);
+			_succeed(res, "transfer " + req.params.model + " number is " + promises.length);
 		}, function(error){
-			console.error(error.message);
-			
-			res.status(500).send(error.message);
+			_failed(res, error.message);
 		});
     });
 })
+
+function _succeed(res, data) {
+	data = data || {};
+	res.status(200).send(data);
+};
+
+function _failed(res, error, status) {
+	status = status || 500;
+	res.status(status).send(error.message);
+};
 
 module.exports = router;
