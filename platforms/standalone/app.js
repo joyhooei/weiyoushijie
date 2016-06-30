@@ -94,4 +94,8 @@ var DAO = require('./dao');
 GLOBAL.dao = new DAO();
 GLOBAL.dao.initialize();
 
+var LDAO = require('../leancloud/dao');
+GLOBAL.ldao = new LDAO();
+GLOBAL.ldao.initialize();
+
 module.exports = app;
