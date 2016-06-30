@@ -21,7 +21,6 @@ var DAO = require('./dao');
 GLOBAL.dao = new DAO();
 GLOBAL.dao.initialize(app);
 
-
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(cookieParser());
