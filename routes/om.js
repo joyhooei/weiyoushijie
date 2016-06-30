@@ -5,14 +5,27 @@ router.get('/multicast', function(req, res, next) {
     var AV = require('leanengine');
     var leanDAO = require('../platforms/leancloud/dao');
 	
+	if (!req.query.content) {
+		_failed(res, "<p>没有内容参数</>");
+		
+		return;
+	}
+	
 	var conditions = {};
 	_.each(req.query, function(v, k) {
-		if (k != title && k != attach && k != quantity && k != test){
+		if (k != "title" && k != "attach" && k != "quantity" && k != "test"){
 			conditions[k] = v;
 		}
 	});
     
-	leanDAO.findAll('Customer', conditions, {}).then(function(objs){
+	var filters = {};
+	filters.limit  = req.query.limit || 100;
+	filters.offset = req.query.offset || 0;
+	filters.order  = "update_time DESC";
+	
+	var quantity = parseInt(req.query.quantity || 0);
+	var attach = req.query.attach || "attach";
+	leanDAO.find('Customer', conditions, filters).then(function(objs){
 		var promises = [];
 		
 		var html = "<h1>Multicast to: <h1>";
@@ -24,7 +37,7 @@ router.get('/multicast', function(req, res, next) {
 			} else {
 				var Message = require('../models/message');
 
-				promises.push(Message.send(o.id, '系统公告', req.query.title, req.query.attach, req.query.quantity));
+				promises.push(Message.send(o.id, '系统公告', req.query.content, req.query.attach, quantity));
 			}
 			
 			html += "<p>" + o.get("name") + "</p>";
