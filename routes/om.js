@@ -96,7 +96,12 @@ router.get('/clear/:model', function(req, res, next) {
 })
 
 router.get('/transfer/:model', function(req, res, next) {
-	_query(res, "http://www.weiyoushiejie.com/api/select/" + req.params.model, {conditions: {}, filters: {limit: 500, offset: 0}});
+	dao.clear(req.params.model).then(function(p){
+		_query(
+			res, 
+			"http://www.weiyoushiejie.com/api/select/" + req.params.model, 
+			{conditions: {}, filters: {limit: 500, offset: 0}});
+	});
 })
 
 function _query(res, url, data) {
