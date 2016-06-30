@@ -345,11 +345,14 @@ module.exports = function() {
 		return Q.Promise(function(resolve, reject, notify) {
 			var clazz = self[className];
 		
-			clazz.class.findOne( {'_id' : id }, function(err, obj){
+			clazz.class.findById(id, function(err, obj){
 				if (err) {
+					console.error("findById " + id + " failed " + err.message);
 					reject(err);
 				} else {
-					resolve(self.new(className).decode(obj));
+					var m = self.new(className).decode(obj);
+					console.log("findById " + id + " " + JSON.stringify(m));
+					resolve(m);
 				}
 			});
 		});
