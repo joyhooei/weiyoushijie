@@ -20,7 +20,11 @@ router.get('/multicast', function(req, res, next) {
 	var conditions = {};
 	_.each(req.query, function(v, k) {
 		if (k != "content" && k != "attach" && k != "quantity" && k != "test"){
-			conditions[k] = v;
+			if (_.isNumber(v)) {
+				conditions[k] = parseInt(v);
+			} else {
+				conditions[k] = v;
+			}
 		}
 	});
     
@@ -35,7 +39,7 @@ router.get('/multicast', function(req, res, next) {
 		var promises = [];
 		
 		var html = "<h1>Multicast to: <h1>";
-		html += "<table>";
+		html += "<table><th><td>name</td><td>objectId</td><td>charge</td></th>";
         _.each(objs, function(o){
 			html += "<tr>";
 			
