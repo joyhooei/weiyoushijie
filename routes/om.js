@@ -32,3 +32,5 @@ router.get('/transfer/:model', function(req, res, next) {
 		});
     });
 })
+
+module.exports = router;
