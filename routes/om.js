@@ -61,11 +61,11 @@ router.get('/multicast', function(req, res, next) {
 			res.status(200).send(html);
 		}, function(error){
 			console.error(error.message);			
-			_failed(res, error.message);
+			_failed(res, error);
 		});	
 	}, function(error){
 		console.error(error.message);			
-		_failed(res, error.message);	
+		_failed(res, error);	
 	});
 })
 
@@ -75,7 +75,7 @@ router.get('/clear/:model', function(req, res, next) {
 	}, function(error){
 		console.error(error.message);
 			
-		_failed(res, error.message);
+		_failed(res, error);
 	});
 })
 
@@ -96,7 +96,7 @@ router.get('/transfer/:model', function(req, res, next) {
 		Q.all(promises).then(function(){
 			_succeed(res, "transfer " + req.params.model + " number is " + promises.length);
 		}, function(error){
-			_failed(res, error.message);
+			_failed(res, error);
 		});
     });
 })
