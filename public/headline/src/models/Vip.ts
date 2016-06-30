@@ -82,4 +82,8 @@ class Vip {
     public getUpgrade(price: number): number {
 		return price * (1 - this._upgrade);
 	}
+	
+	public getLevel(): number {
+	    return this._level;
+	}
 }

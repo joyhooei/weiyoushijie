@@ -68,6 +68,9 @@ var Vip = (function () {
     p.getUpgrade = function (price) {
         return price * (1 - this._upgrade);
     };
+    p.getLevel = function () {
+        return this._level;
+    };
     return Vip;
 }());
 egret.registerClass(Vip,'Vip');

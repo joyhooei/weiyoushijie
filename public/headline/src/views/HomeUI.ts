@@ -49,6 +49,8 @@ class HomeUI extends eui.Component{
     private imgHit: eui.Image;
 	private hit: number = 0;
 	
+	private imgVip: eui.Image;
+	
     private btnGift: eui.Button;
     private imgGift: eui.Image;
     
@@ -79,6 +81,8 @@ class HomeUI extends eui.Component{
         self.imgGift.visible = false;
         
         self.imgHasMessage.visible = false;
+        
+        self.imgVip.source = "VIP" + application.vip.getLevel().toString() + "_png";
         
         self.btnHome.addEventListener( egret.TouchEvent.TOUCH_TAP, self.btnHandler, self );
         self.btnRank.addEventListener( egret.TouchEvent.TOUCH_TAP, self.btnHandler, self );
@@ -131,7 +135,11 @@ class HomeUI extends eui.Component{
         self.imgMessage.addEventListener(egret.TouchEvent.TOUCH_BEGIN,function() {
             application.showUI(new MessageUI(),this);
         },this);
-        
+
+        self.imgVip.addEventListener(egret.TouchEvent.TOUCH_BEGIN,function() {
+            application.showUI(new VipUI(),this);
+        },this);
+       
         application.dao.addEventListener("Project",function(ev: egret.Event) {
             var myProject = ev.data;
             this.renderProject(myProject);

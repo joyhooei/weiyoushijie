@@ -42,6 +42,8 @@ declare class toolItemSkin extends eui.Skin{
 }
 declare class toolUISkin extends eui.Skin{
 }
+declare class vipUISkin extends eui.Skin{
+}
 declare class winUISkin extends eui.Skin{
 }
 declare module skins{
