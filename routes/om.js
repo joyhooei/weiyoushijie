@@ -67,8 +67,8 @@ router.get('/multicast', function(req, res, next) {
 			_failed(res, error);
 		});	
 	}, function(error){
-		console.error("find customer failed " + error.message);			
-		_failed(res, error);	
+		console.error("find customer failed " + JSON.stringify(error));			
+		_failed(res, error);
 	});
 })
 
