@@ -13,11 +13,7 @@ function _query(query, offset, total) {
 	});		
 }
 
-function _buildQuery(className, conditions, filters) {
-	var query = new AV.Query(dao[className]);
-	
-	console.log("build query " + className + " conditions = " + JSON.stringify(conditions) + " filters = " + JSON.stringify(filters));
-
+function _buildQuery(query, conditions, filters) {
 	if (filters) {
 		if (filters.limit) {
 			query.limit(filters.limit);
@@ -84,8 +80,6 @@ function _buildQuery(className, conditions, filters) {
 			}
 		})
 	}
-	
-	console.log(JSON.stringify(query));
 
 	return query;
 }
@@ -125,8 +119,9 @@ module.exports = function() {
 	}
 	
 	this.findAll = function(className, conditions, filters) {
+		var query = new AV.Query(this[className]);
 		return Q.Promise(function(resolve, reject, notify) {
-			var query = _buildQuery(className, conditions, filters);
+			 _buildQuery(query, conditions, filters);
 			query.count().then(function(total) {
 				var offset  = 0; 
 				var promises = [];
@@ -154,7 +149,8 @@ module.exports = function() {
 	}
 	
 	this.find = function(className, conditions, filters) {
-		return _buildQuery(className, conditions, filters).find();
+		var query = new AV.Query(this[className]);
+		return _buildQuery(query, conditions, filters).find();
 	}
 	
 	this.saveAll = function(objs) {
