@@ -1,4 +1,3 @@
-var request = require('request');
 var AV = require('leanengine');
 
 function _query(query, offset, total) {
