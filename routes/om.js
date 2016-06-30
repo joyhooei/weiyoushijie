@@ -1,5 +1,6 @@
 var express = require('express');
 var router = express.Router();
+var request = require('request');
 
 var Message = require('../models/message');
 	
@@ -37,7 +38,7 @@ router.get('/multicast', function(req, res, next) {
 	var quantity = parseInt(req.query.quantity || 0);
 	var attach = req.query.attach || "none";
 	
-	ldao.find('Customer', conditions, filters).then(function(objs){
+	dao.find('Customer', conditions, filters).then(function(objs){
 		var promises = [];
 		
 		var html = "<p>消息内容：" + req.query.content + "</p>";
@@ -51,7 +52,7 @@ router.get('/multicast', function(req, res, next) {
 							resolve();
 						});
 			} else {
-				var p = Message.sendWith(new ldao.Message(), o.id, '系统公告', req.query.content, attach, quantity);
+				var p = Message.send(o.id, '系统公告', req.query.content, attach, quantity);
 			}
 			promises.push(p);
 			
@@ -95,24 +96,44 @@ router.get('/clear/:model', function(req, res, next) {
 })
 
 router.get('/transfer/:model', function(req, res, next) {
-    ldao.findAll(req.params.model).then(function(objs){
-		var promises = [];
-        _.each(objs, function(o){
-            var m = dao.new(req.params.model);
-			m.set(o.attributes);
-			promises.push(m.save());
-        });
-		
-		Q.all(promises).then(function(){
-			_succeed(res, "transfer " + req.params.model + " number is " + promises.length);
-		}, function(error){
-			_failed(res, error);
-		});
-	}, function(error){
-		console.error("find " + req.params.model + " failed " + error.message);			
-		_failed(res, error);
-	});
+	_query(res, "http://www.weiyoushiejie.com/api/select/" + req.params.model, {conditions: {}, filters: {limit: 500, offset: 0}});
 })
+
+function _query(res, url, data) {
+	var promise = Q.Promise(function(resolve, reject, notify) {
+		request.post({url:url, data:data}, function (error, response, body) {
+			if (!error && response.statusCode == 200) {
+				var objs = JSON.parse(body);
+
+				_.each(objs, function(o){
+					var m = dao.new(req.params.model);
+					m.set(o);
+					promises.push(m.save());
+				});
+
+				Q.all(promises).then(function(){
+					resolve(promises.length);
+				}, function(error){
+					reject(error);
+				});
+			} else {
+				reject(error);
+			}
+		});
+	});
+	
+	promise.then(function(length){
+		if (length == data.filters.limit) {
+			data.filters.offset += data.filters.limit;
+			_query(res, url, data);
+		} else {
+			res.status(200).send(data.filters.offset + length);
+		}
+	}, function(error){
+		console.error(error.message);			
+		_failed(res, error);		
+	});
+}
 
 function _succeed(res, data) {
 	data = data || {};
