@@ -40,9 +40,8 @@ router.get('/multicast', function(req, res, next) {
 		
 		var html = "<h1>Multicast to: <h1>";
 		html += "<table><th><td>name</td><td>objectId</td><td>charge</td></th>";
+		var first = true;
         _.each(objs, function(o){
-			html += "<tr>";
-			
 			if (req.query.test) {
 				promises.push(Q.Promise(function(resolve, reject, notify) {
 					resolve();
@@ -53,7 +52,18 @@ router.get('/multicast', function(req, res, next) {
 				promises.push(Message.send(o.id, '系统公告', req.query.content, attach, quantity));
 			}
 			
-			html += "<td>" + o.get("name") + "</td>" + "<td>" + o.id + "</td>" + "<td>" + o.get("charge") + "</td>";
+			html += "<th>";			
+			if (first) {
+				_.each(o.attributes, function(v, k) {
+					html += "<td>" + k + "</td>";
+				});
+				
+				first = false;
+			}
+			html += "</th><tr>";
+			_.each(o.attributes, function(v, k) {
+				html += "<td>" + v + "</td>";
+			});
 			html += "</tr>";
         });
 		html += "</table>";
