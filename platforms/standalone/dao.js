@@ -74,14 +74,14 @@ _.extend(Model.prototype, {
 		return this.attributes[attr];
 	},
 
-	set:function(attr, val) {
+	set:function(key, val) {
 		var self = this;
 
 		try {
-			if (_.isString(attr)) {
-				self.attributes[attr] = val;
-			} else if (_.isArray(attr)){
-				_.extend(self.attributes, attr);
+			if (typeof key === 'object') {
+				_.extend(self.attributes, key);
+			} else {
+				self.attributes[key] = val;
 			}
 
 			self.decode(self.encode());
