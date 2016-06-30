@@ -32,11 +32,12 @@ router.get('/multicast', function(req, res, next) {
 	filters.order  = "update_time DESC";
 	
 	var quantity = parseInt(req.query.quantity || 0);
-	var attach = req.query.attach || "attach";
+	var attach = req.query.attach || "none";
 	ldao.find('Customer', conditions, filters).then(function(objs){
 		var promises = [];
 		
 		var html = "<h1>Multicast to: <h1>";
+		
         _.each(objs, function(o){
 			if (req.query.test) {
 				promises.push(Q.Promise(function(resolve, reject, notify) {
