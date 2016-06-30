@@ -40,7 +40,10 @@ router.get('/multicast', function(req, res, next) {
 	ldao.find('Customer', conditions, filters).then(function(objs){
 		var promises = [];
 		
-		var html = "<table border='1'>";
+		var html = "<p>消息内容：" + req.query.content + "</p>";
+		html += "<p>消息附件：" + attach + "</p>";
+		html += "<p>附件数量：" + quantity + "</p>";
+		html += "<table border='1'>";
 		var first = true;
         _.each(objs, function(o){
 			if (req.query.test) {
