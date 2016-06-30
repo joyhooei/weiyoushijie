@@ -5,6 +5,7 @@ router.get('/multicast', function(req, res, next) {
 	var AV = require('leanengine');
 	var LDAO = require('../platforms/leancloud/dao');
 	var ldao = new LDAO();
+	ldao.initialize();
 	
 	var usage = "<h1>使用帮助</h1>";
 	usage += "<p>http://stg-weiyugame.leanapp.cn/om/multicast?test=true&quantity=0&attach=none&content='消息内容'&limit=100&offset=0&vip=2</p>";
