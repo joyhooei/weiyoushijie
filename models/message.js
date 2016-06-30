@@ -11,6 +11,7 @@ module.exports.send = function(customerId, title, content, attach, quantity) {
 		message.save().then(function(m){
 			resolve(m);
 		}, function(error){
+			console.error("send message " + JSON.stringify(message) + " failed " + error.message);
 			reject(error);
 		});
 	});
