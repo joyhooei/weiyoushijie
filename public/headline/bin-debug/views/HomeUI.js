@@ -18,6 +18,7 @@ var HomeUI = (function (_super) {
         self.imgHit.visible = false;
         self.imgGift.visible = false;
         self.imgHasMessage.visible = false;
+        self.imgVip.source = "VIP" + application.vip.getLevel().toString() + "_png";
         self.btnHome.addEventListener(egret.TouchEvent.TOUCH_TAP, self.btnHandler, self);
         self.btnRank.addEventListener(egret.TouchEvent.TOUCH_TAP, self.btnHandler, self);
         self.btnTool.addEventListener(egret.TouchEvent.TOUCH_TAP, self.btnHandler, self);
@@ -57,6 +58,9 @@ var HomeUI = (function (_super) {
         }, this);
         self.imgMessage.addEventListener(egret.TouchEvent.TOUCH_BEGIN, function () {
             application.showUI(new MessageUI(), this);
+        }, this);
+        self.imgVip.addEventListener(egret.TouchEvent.TOUCH_BEGIN, function () {
+            application.showUI(new VipUI(), this);
         }, this);
         application.dao.addEventListener("Project", function (ev) {
             var myProject = ev.data;
@@ -219,9 +223,10 @@ var HomeUI = (function (_super) {
                         output += application.projects[p.sequence].output(p.level, p.achieve, p.tool_ratio);
                     }
                 }
+                output = application.vip.getOutput(output);
                 if (output != application.customer.output) {
                     application.customer.output = output;
-                    application.saveCustomer();
+                    application.saveCustomerNow();
                     self.lblOutput.text = application.format(self.getOutput());
                 }
             }
@@ -273,11 +278,11 @@ var HomeUI = (function (_super) {
         }
         if (application.customer.total_hits > 0) {
             application.customer.total_hits -= 1;
-            application.saveCustomer();
+            application.saveCustomerNow();
             self.lblTotalHits.text = "x" + application.customer.total_hits.toString();
             self.hit = 59;
             self.lblOutput.text = application.format(self.getOutput());
-            Toast.launch("获得10倍收益，持续60秒");
+            Toast.launch("获得" + application.vip.getHitRatio() + "倍收益，持续60秒");
             self.imgHit.visible = true;
             var timer = new egret.Timer(1000, 59);
             timer.addEventListener(egret.TimerEvent.TIMER, function (event) {
@@ -300,7 +305,7 @@ var HomeUI = (function (_super) {
     };
     p.getOutput = function () {
         if (this.hit > 0) {
-            return application.customer.output * 10;
+            return application.vip.getHit(application.customer.output);
         }
         else {
             return application.customer.output;

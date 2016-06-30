@@ -90,48 +90,74 @@ class Project {
 		];
 
 		for (var i = 0; i < data.length; i++) {
-			projects.push(Project.createProject(data[i][0], data[i][1], data[i][2], data[i][3], achievePrices[i]));
+			let project = new Project(data[i][0], data[i][1]);
+		
+			Project.addProjectLevelRatio(project, i + 1);
+			Project.addProjectAchieves(project, data[i][2], data[i][3], achievePrices[i]);
+			
+			projects.push(project);
 		}
 		
 		return projects;
 	}
 	
-	static createProject(priceLevelOne: number, outputLevelOne: number, achieve1OutputRatio:number, achieve5OutputRatio:number, achievePrices:any[]): Project {
-		let project = new Project(priceLevelOne, outputLevelOne);
+	static addProjectLevelRatio(project: Project, projectLevel: number) {
+		var data = [
+			//projectLowLevel, projectUpperLevel, lowerLevel: number, upperLevel: number,priceRatio: number, outputRatio: number
+			[[2,   99],		[1, 20, 1.05,    1]],
+			[[100, 199],  	[1, 20, 1.05,    1]],
+			[[200, 299],  	[1, 20, 1.03,    1]],
+			[[300, 399],  	[1, 20, 1.03,    1]],
+			[[400, 499],  	[1, 20, 1.03,    1]],
+			[[500, 599],   	[1, 20, 1.05, 1.01]],
+			[[600, 699],   	[1, 20, 1.03, 1.01]],
+			
+			[[700, 799],   	[1, 17, 1.02, 1.01],	[18, 18, 1.04, 1.01],	[19, 20, 1.05, 1.01]],
+			[[800, 899],   	[1, 17, 1.02, 1.01],   	[18, 18, 1.04, 1.01],	[19, 20, 1.05, 1.01]],
+			[[900, 999],   	[1, 17, 1.02, 1.01],   	[18, 18, 1.04, 1.01],	[19, 20, 1.05, 1.01]],
+			
+			[[1000, 1199], 	[1, 17, 1.03, 1.005],	[18, 18, 1.04, 1.005],	[19, 20, 1.05, 1.005]],
+			
+			[[1200, 1399], 	[1, 17, 1.02, 1.005],	[18, 18, 1.04, 1.005],	[19, 20, 1.05, 1.005]],
+			[[1400, 1599], 	[1, 17, 1.02, 1.005],	[18, 18, 1.04, 1.005],	[19, 20, 1.05, 1.005]],
+			[[1600, 1799], 	[1, 17, 1.02, 1.005],	[18, 18, 1.04, 1.005],	[19, 20, 1.05, 1.005]],
+			[[1800, 1999], 	[1, 17, 1.02, 1.005],	[18, 18, 1.04, 1.005],	[19, 20, 1.05, 1.005]],
+			
+			[[2000, 2499], 	[1, 9 , 1.01, 1.005],	[10, 17, 1.03, 1.005],	[18, 18, 1.04, 1.005],	[19, 20, 1.05, 1.005]],
+			
+			[[2500, 2999], 	[1, 17, 1.02, 1.005],	[18, 18, 1.04, 1.005],	[19, 20, 1.05, 1.005]],
+			
+			[[3000, 3499], 	[1, 9 , 1.01, 1.005],	[10, 17, 1.03, 1.005],	[18, 18, 1.04, 1.005],	[19, 20, 1.05, 1.005]],
+			[[3500, 3999], 	[1, 9 , 1.01, 1.005],	[10, 17, 1.03, 1.005],	[18, 18, 1.04, 1.005],	[19, 20, 1.05, 1.005]],
+			
+			[[4000, 4499], 	[1, 13, 1.01, 1.005],	[14, 17, 1.03, 1.005],	[18, 18, 1.04, 1.005],	[19, 20, 1.05, 1.005]],
+			[[4500, 4999], 	[1, 13, 1.01, 1.005],	[14, 17, 1.03, 1.005],	[18, 18, 1.04, 1.005],	[19, 20, 1.05, 1.005]],
+			
+			[[5000, 5999], 	[1, 14, 1.01, 1.005],	[15, 17, 1.03, 1.005],	[18, 18, 1.04, 1.005],	[19, 20, 1.05, 1.005]],
+			
+			[[6000, 6999], 	[1, 17, 1.01, 1.005],	[18, 18, 1.04, 1.005],	[19, 20, 1.05, 1.005]],
+			
+			[[7000, 7999], 	[1, 17, 1.007, 1.005],	[18, 18, 1.04, 1.005],	[19, 20, 1.05, 1.005]],
+			
+			[[8000, 8999], 	[1, 17, 1.007, 1.003],	[18, 18, 1.04, 1.003],	[19, 20, 1.05, 1.003]],
+			[[9000, 9999], 	[1, 17, 1.007, 1.003],	[18, 18, 1.04, 1.003],	[19, 20, 1.05, 1.003]],
+			
+			[[10000, 99999],[1, 17, 1.003, 1.002],	[18, 20, 1.01, 1.002]],
+		];
 		
-		//lowerLevel: number, upperLevel: number, priceRatio: number, outputRatio: number
-		project.addLevelRatio(2, 99, 1.05, 1);
-		project.addLevelRatio(100, 199, 1.05, 1);
-		
-		project.addLevelRatio(200, 299, 1.03, 1);
-		project.addLevelRatio(300, 399, 1.03, 1);
-		project.addLevelRatio(400, 499, 1.03, 1);
-		
-		project.addLevelRatio(500, 599, 1.05, 1.01);
-		project.addLevelRatio(600, 699, 1.03, 1.01);
-		project.addLevelRatio(700, 799, 1.02, 1.01);
-		project.addLevelRatio(800, 899, 1.02, 1.01);
-		project.addLevelRatio(900, 999, 1.02, 1.01);
-		
-		project.addLevelRatio(1000, 1199, 1.03, 1.005);
-		project.addLevelRatio(1200, 1399, 1.02, 1.005);
-		project.addLevelRatio(1400, 1599, 1.02, 1.005);
-		project.addLevelRatio(1600, 1799, 1.02, 1.005);
-		project.addLevelRatio(1800, 1999, 1.02, 1.005);
-		project.addLevelRatio(2000, 2499, 1.01, 1.005);
-		project.addLevelRatio(2500, 2999, 1.02, 1.005);
-		project.addLevelRatio(3000, 3499, 1.01, 1.005);
-		project.addLevelRatio(3500, 3999, 1.01, 1.005);
-		project.addLevelRatio(4000, 4499, 1.01, 1.005);
-		project.addLevelRatio(4500, 4999, 1.01, 1.005);
-		
-		project.addLevelRatio(5000, 5999, 1.01, 1.005);
-		project.addLevelRatio(6000, 6999, 1.01, 1.005);
-		project.addLevelRatio(7000, 7999, 1.007, 1.005);
-		project.addLevelRatio(8000, 8999, 1.007, 1.003);
-		project.addLevelRatio(9000, 9999, 1.007, 1.003);
-		project.addLevelRatio(10000, 99999, 1.003, 1.002);
-		
+		for (var i = 0; i < data.length; i++) {
+			var d = data[i];
+			
+			for (var j = 1; j < d.length; j++) {
+				if (d[j][0] <= projectLevel && d[j][1] >= projectLevel) {
+					project.addLevelRatio(d[0][0], d[0][1], d[j][2], d[j][3]);
+					break;
+				}
+			}
+		}
+	}
+	
+	static addProjectAchieves(project:Project, achieve1OutputRatio:number, achieve5OutputRatio:number, achievePrices:any[]) {
 		//level: number, outputRatio: number, priceUseDiamond: number, prieUseGold: number
 		project.addAchieve(50, 		achieve1OutputRatio, 		100, 	achievePrices[0]);
 		project.addAchieve(100, 	achieve1OutputRatio * 2, 	100, 	achievePrices[1]);
@@ -143,8 +169,6 @@ class Project {
 		project.addAchieve(5000, 	10000, 		 				4000, 	achievePrices[7]);
 		project.addAchieve(10000, 	1000000, 	 				5000, 	achievePrices[8]);
 		project.addAchieve(100000, 	10000000000, 				10000,	achievePrices[8]);
-		
-		return project;
 	}
 	
 	//根据级别、成就和道具个数计算本项目的秒产

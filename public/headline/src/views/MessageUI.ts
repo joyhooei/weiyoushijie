@@ -19,7 +19,7 @@ class MessageUI extends eui.Component {
 		
         self.lstMessage.removeChildren();
 		
-        application.dao.fetch("Message",{ customer_id: application.customer.id,state: 0 },{ order: "create_time DESC" },function(succeed,messages) {
+        application.dao.fetch("Message",{ customer_id: application.customer.id,state: 0 },{ order: "create_time ASC" },function(succeed,messages) {
             if(succeed && messages.length >= 1) {
                 self.messages = messages;				
                 self.renderMessages(messages);

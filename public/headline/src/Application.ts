@@ -19,6 +19,8 @@ module application {
     
     export var ticks: number = 0;
     export var stopwatch: egret.EventDispatcher;
+    
+    export var vip: Vip;
 
     export function init(main:Main) {
 		application.main = main;
@@ -42,6 +44,12 @@ module application {
                 'a', 'A', 'c', 'C', 'd', 'D', 'e', 'E', 'f', 'F', 'g', 'G', 'h', 'H', 'i', 'I', 'j', 'J', 'l', 'L', 'n', 'N', 'o', 'O', 'p', 'P', 'q', 'Q', 'r', 'R', 's', 'S', 'u', 'U', 'v', 'V', 'w', 'W', 'x', 'X', 'y', 'Y', 'z', 'Z',
                 'aa', 'AA', 'cc', 'CC', 'dd', 'DD', 'ee', 'EE', 'ff', 'FF', 'gg', 'GG', 'hh', 'HH', 'ii', 'II', 'jj', 'JJ', 'll', 'LL', 'nn', 'NN', 'oo', 'OO', 'pp', 'PP', 'qq', 'QQ', 'rr', 'RR', 'ss', 'SS', 'uu', 'UU', 'vv', 'VV', 'ww', 'WW', 'xx', 'XX', 'yy', 'YY', 'zz', 'ZZ',
             ];
+            
+        window.onunload = function() {
+            if (application.customer) {
+                application.saveCustomerNow();
+            }
+        }
     }
 	
     export function login(data?:string|nest.user.LoginCallbackInfo):void {
@@ -64,7 +72,7 @@ module application {
 			application.customer.ticket = now.toString();
 		}
 		
-		application.saveCustomer();
+		application.saveCustomerNow();
 	}
 
     export function onLoginCallback(data:nest.user.LoginCallbackInfo):void{
@@ -72,6 +80,8 @@ module application {
         application.dao.rest("login", {token: data.token}, (succeed: boolean, customer: any) => {
             if (succeed) {
                 application.customer = customer;
+                
+                application.vip = Vip.createVip(application.customer.charge);
                 
                 application.checkTicket();
                 
@@ -256,7 +266,11 @@ module application {
         application.customer.earned_gold = Math.max(0,application.customer.earned_gold);
         application.customer.accumulated_gold = Math.max(application.customer.accumulated_gold,application.customer.gold);
         application.customer.diamond = Math.max(0,application.customer.diamond);
-        application.dao.save("Customer",application.customer);
+        application.dao.save("Customer",application.customer, function(succeed, customer){
+            if (application.customer.charge != application.vip) {
+                application.vip = Vip.createVip(application.customer.charge);
+            }
+        });
     }
     
     export function giftChanged() {
@@ -376,7 +390,7 @@ module application {
                         }
 
 						application.customer.diamond += diamond;
-						application.saveCustomer();             
+						application.saveCustomerNow();             
                         
                         if (firstCharge) {
 						    Toast.launch("购买了" + diamond.toString() + "钻石,并获得了1500钻，1000k金币和1个奖章的首充礼物");
@@ -398,7 +412,7 @@ module application {
                                 application.customer.diamond += 2000;
 								application.customer.metal += metal;
                                 application.resetTicket(1);
-                                
+                                 
 								if (firstCharge) {
 									Toast.launch("购买了月票,并获得了1500钻，1000k金币和1个奖章的首充礼物");
                             

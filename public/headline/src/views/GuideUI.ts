@@ -275,7 +275,7 @@ class GuideUI extends eui.Component {
 		
 		application.customer.metal += 1;
 		application.customer.diamond += 500;
-		application.saveCustomer();		
+		application.saveCustomerNow();		
 		
 		this.timer.stop();
 		
