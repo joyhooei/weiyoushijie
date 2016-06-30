@@ -1,5 +1,7 @@
 var express = require('express');
 var router = express.Router();
+
+var Message = require('../models/message');
 	
 router.get('/multicast', function(req, res, next) {
 	console.log("multicast " + JSON.stringify(req.query));
@@ -31,7 +33,7 @@ router.get('/multicast', function(req, res, next) {
 	var filters = {};
 	filters.limit  = parseInt(req.query.limit || 100);
 	filters.offset = parseInt(req.query.offset || 0);
-	filters.select = ['name', 'id', 'charge', 'metal', 'vip', 'gold', 'output'];
+	filters.select = ['name', 'objectId', 'charge', 'metal', 'vip', 'gold', 'output'];
 	
 	var quantity = parseInt(req.query.quantity || 0);
 	var attach = req.query.attach || "none";
@@ -39,26 +41,24 @@ router.get('/multicast', function(req, res, next) {
 	ldao.find('Customer', conditions, filters).then(function(objs){
 		var promises = [];
 		
-		var html = "<h1>Multicast to: <h1>";
-		html += "<table>";
+		var html = "<table border='1'>";
 		var first = true;
         _.each(objs, function(o){
 			if (req.query.test) {
-				promises.push(Q.Promise(function(resolve, reject, notify) {
-					resolve();
-				}));
+				var p = Q.Promise(function(resolve, reject, notify) {
+							resolve();
+						});
 			} else {
-				var Message = require('../models/message');
-
-				promises.push(Message.send(o.id, '系统公告', req.query.content, attach, quantity));
+				var p = Message.send(o.id, '系统公告', req.query.content, attach, quantity);
 			}
+			promises.push(p);
 			
 			if (first) {
-				html += "<th>";			
+				html += "<tr>";			
 				_.each(o.attributes, function(v, k) {
-					html += "<td>" + k + "</td>";
+					html += "<th>" + k + "</th>";
 				});
-				html += "</th>";
+				html += "</tr>";
 				
 				first = false;
 			}
