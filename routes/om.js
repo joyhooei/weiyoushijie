@@ -1,21 +1,37 @@
 var express = require('express');
 var router = express.Router();
 
-var Message = require('../models/rank.js');
-
-router.get('/broadcast', function(req, res, next) {
+router.get('/multicast', function(req, res, next) {
     var AV = require('leanengine');
     var leanDAO = require('../platforms/leancloud/dao');
+	
+	var conditions = {};
+	_.each(function(req.query, function(v, k) {
+		if (k != title && k != attach && k != quantity && k != test){
+			conditions[k] = v;
+		}
+	});
     
-	leanDAO.findAll('Customer').then(function(){
+	leanDAO.findAll('Customer', conditions, {}).then(function(objs){
 		var promises = [];
 		
+		var html = "<h1>Multicast to: <h1>";
         _.each(objs, function(o){
-			promises.push(Message.send(o.id, '系统公告', req.query.title, "none", 0));
+			if (req.query.test) {
+				promises.push(Q.Promise(function(resolve, reject, notify) {
+					resolve();
+				}));
+			} else {
+				var Message = require('../models/message');
+
+				promises.push(Message.send(o.id, '系统公告', req.query.title, req.query.attach, req.query.quantity));
+			}
+			
+			html += "<p>" + o.get("name") + "</p>";
         });
 		
 		Q.all(promises).then(function(){
-			res.status(200).send("broadcast succeed");
+			res.status(200).send(html);
 		}, function(error){
 			console.error(error.message);			
 			_failed(res, error.message);
