@@ -15,6 +15,8 @@ function _query(query, offset, total) {
 
 function _buildQuery(className, conditions, filters) {
 	var query = new AV.Query(dao[className]);
+	
+	console.log("build query " + className + "conditions = " + JSON.stringify(conditions) + "filters = " + JSON.stringify(filters));
 
 	if (filters) {
 		if (filters.limit) {
@@ -105,6 +107,8 @@ module.exports = function() {
 		
 		this.addModel("Rank");
 		this.addModel("Report");
+		
+		console.log("leancloud model created");
 	};
 	
 	this.addModel = function(className) {
