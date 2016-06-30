@@ -114,7 +114,7 @@ module.exports = function() {
 	};
 	
 	this.get = function(className, id) {
-    	var query = new AV.Query(dao[className]);
+    	var query = new AV.Query(this[className]);
 		return query.get(id);
 	}
 	
