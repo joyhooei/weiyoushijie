@@ -259,21 +259,26 @@ module.exports = function() {
 		});
 		
 		mongoose.connect('mongodb://weiyoushijie:weiyugame@ds023644.mlab.com:23644/weiyoushijie');	
-	};
+	}
+	
+	this.clear = function(className) {
+		var claz = this[className];
+		
+		return Q.Promise(function(resolve, reject, notify) {
+			claz.class.remove(function(err, p){
+				if(err){ 
+					reject(err);
+				} else{
+					resolve(p);
+				}
+			});
+		});
+	}
 	
 	this.addModel = function(className, schema) {
 		try {
 			schema.game = String;
 			var M = mongoose.model(className, new mongoose.Schema(schema, { timestamps: {} }));
-			
-			//for debug only
-			M.remove(function(err, p){
-				if(err){ 
-					console.error('delete ' + className + ' failed ' + err.message);;
-				} else{
-					console.log('No Of ' + className + ' Documents deleted:' + p);
-				}
-			});
 			
 			var claz = Model.extend(
 			{
