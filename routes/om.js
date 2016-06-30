@@ -31,6 +31,7 @@ router.get('/multicast', function(req, res, next) {
 	var filters = {};
 	filters.limit  = parseInt(req.query.limit || 100);
 	filters.offset = parseInt(req.query.offset || 0);
+	filters.select = ['name', 'id', 'charge', 'metal', 'vip', 'gold', 'output'];
 	
 	var quantity = parseInt(req.query.quantity || 0);
 	var attach = req.query.attach || "none";
