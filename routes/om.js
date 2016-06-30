@@ -52,15 +52,17 @@ router.get('/multicast', function(req, res, next) {
 				promises.push(Message.send(o.id, '系统公告', req.query.content, attach, quantity));
 			}
 			
-			html += "<th>";			
 			if (first) {
+				html += "<th>";			
 				_.each(o.attributes, function(v, k) {
 					html += "<td>" + k + "</td>";
 				});
+				html += "</th>";
 				
 				first = false;
 			}
-			html += "</th><tr>";
+			
+			html += "<tr>";
 			_.each(o.attributes, function(v, k) {
 				html += "<td>" + v + "</td>";
 			});
