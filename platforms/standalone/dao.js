@@ -30,7 +30,7 @@ Model.extend = function(protoProps, staticProps) {
     child.__super__ = parent.prototype;
 
     return child;
-};
+}
 
 _.extend(Model.prototype, {
 	initialize:function(){},
@@ -118,8 +118,6 @@ _.extend(Model.prototype, {
 						if (error) {
 							reject(error);
 						} else {
-							self.afterSave();
-
 							resolve(self.decode(self._obj));
 						}
 					});					
@@ -131,12 +129,14 @@ _.extend(Model.prototype, {
 		});
 	},
 
+	//创建对象前调用
 	beforeSave: function() {
 		return Q.Promise(function(resolve, reject, notify) {
 			resolve();
 		});
 	},
 
+	//创建对象后调用
 	afterSave: function() {
 	},
 });
@@ -265,7 +265,16 @@ module.exports = function() {
 		try {
 			schema.game = String;
 			var M = mongoose.model(className, new mongoose.Schema(schema, { timestamps: {} }));
-
+			
+			//for debug only
+			M.remove(function(err, p){
+				if(err){ 
+					console.error('delete ' + className + ' failed ' + err.message);;
+				} else{
+					console.log('No Of ' + className + ' Documents deleted:' + p);
+				}
+			});
+			
 			var claz = Model.extend(
 			{
 				initialize: function(attributes){
@@ -301,7 +310,7 @@ module.exports = function() {
 		claz.prototype.beforeSave = function(){
 			return cb(this);
 		};
-	};
+	}
 
 	this.afterSave = function(className, cb) {
 		var claz = this[className];
@@ -309,20 +318,24 @@ module.exports = function() {
 		claz.prototype.afterSave = function(){
 			cb(this);
 		};
-	};
+	}
+	
+	this.new = function(className) {
+		var clazz = this[className];
+		return new clazz();
+	}
 	
 	this.get = function(className, id) {
 		var self = this;
 		
 		return Q.Promise(function(resolve, reject, notify) {
-			var clazz = self[className].class;
+			var clazz = self[className];
 		
-			clazz.findOne( {'_id' : id }, function(err, obj){
+			clazz.class.findOne( {'_id' : id }, function(err, obj){
 				if (err) {
 					reject(err);
 				} else {
-					var m = new Model();
-					resolve(m.decode(obj));
+					resolve(self.new(className).decode(obj));
 				}
 			});
 		});
@@ -394,8 +407,7 @@ module.exports = function() {
 						var models = [];
 
 						for (var i = 0; i < objs.length; i++) {
-							var m = new self[className]();
-							models.push(m.decode(objs[i]));
+							models.push(self.new(className).decode(objs[i]));
 						}
 
 						resolve(models);
