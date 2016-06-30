@@ -279,9 +279,6 @@ function _adjustBigNumber(attributes, toActual) {
 
 function _succeed(res, data) {
 	data = data || {};
-
-	console.log("succeed " + JSON.stringify(data));
-
 	res.status(200).send(data);
 };
 
