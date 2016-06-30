@@ -6,8 +6,15 @@ router.get('/multicast', function(req, res, next) {
 	var LDAO = require('../platforms/leancloud/dao');
 	var ldao = new LDAO();
 	
+	var usage = "<h1>使用帮助</h1>";
+	usage += "<p>http://stg-weiyugame.leanapp.cn/om/multicast?test=true&quantity=0&attach=none&content='消息内容'&limit=100&offset=0&vip=2</p>";
+	usage += "<p>test=true：表示不发送，只是看一下哪些玩家会被发送消息</p>";
+	usage += "<p>attach=none&content='消息内容'：消息Message表中的内容和附件</p>";
+	usage += "<p>limit=100&offset=0：从第几个玩家开始，最多多少玩家</p>";
+	usage += "<p>vip=2：指定查询玩家的条件，可以指定Customer表中的字段</p>";
+	
 	if (!req.query.content) {
-		_failed(res, "<p>没有内容参数</>");
+		_failed(res, "<p>没有内容参数</>" + usage);
 		
 		return;
 	}
