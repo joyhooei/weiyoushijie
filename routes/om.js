@@ -1,7 +1,7 @@
 var express = require('express');
 var router = express.Router();
 
-router.post('/clear/:model', function(req, res, next) {
+router.get('/clear/:model', function(req, res, next) {
 	dao.clear(req.params.model).then(function(p){
 		res.status(200).send("clear " + req.params.model + " number is " + p);
 	}, function(error){
@@ -11,7 +11,7 @@ router.post('/clear/:model', function(req, res, next) {
 	});
 })
 
-router.post('/transfer/:model', function(req, res, next) {
+router.get('/transfer/:model', function(req, res, next) {
     var AV = require('leanengine');
     var leanDAO = require('../platforms/leancloud/dao');
     
