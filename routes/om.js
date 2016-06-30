@@ -48,7 +48,7 @@ router.get('/multicast', function(req, res, next) {
 							resolve();
 						});
 			} else {
-				var p = Message.send(o.id, '系统公告', req.query.content, attach, quantity);
+				var p = Message.sendWith(new ldao.Message(), o.id, '系统公告', req.query.content, attach, quantity);
 			}
 			promises.push(p);
 			
