@@ -5,7 +5,6 @@ var path = require('path');
 var cookieParser = require('cookie-parser');
 var bodyParser = require('body-parser');
 var api = require('../../routes/api');
-var cloud = require('./cloud');
 
 GLOBAL.moment = require("moment");
 GLOBAL._ = require("underscore");
@@ -18,12 +17,10 @@ app.set('views', path.join(__dirname, '../../views'));
 app.set('view engine', 'jade');
 app.use(express.static('public'));
 
-// 加载云代码方法
-app.use(cloud);
+var DAO = require('./dao');
+GLOBAL.dao = new DAO();
+GLOBAL.dao.initialize(app);
 
-// 使用 LeanEngine 中间件
-// （如果没有加载云代码方法请使用此方法，否则会导致部署失败，详细请阅读 LeanEngine 文档。）
-// app.use(AV.Cloud);
 
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
@@ -90,9 +87,5 @@ app.use(function(err, req, res, next) { // jshint ignore:line
     error: {}
   });
 });
-
-var DAO = require('./dao');
-GLOBAL.dao = new DAO();
-GLOBAL.dao.initialize();
 
 module.exports = app;
