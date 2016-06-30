@@ -17,7 +17,7 @@ router.get('/multicast', function(req, res, next) {
 		usage += "<p>limit=100&offset=0：从第几个玩家开始，最多多少玩家</p>";
 		usage += "<p>vip=2：指定查询玩家的条件，可以指定Customer表中的字段</p>";
 	
-		_failed(res, "<p>没有内容参数</>" + usage);
+		_failed(res, new Error("<p>没有内容参数</>" + usage));
 		
 		return;
 	}
