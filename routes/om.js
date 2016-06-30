@@ -21,14 +21,14 @@ router.get('/multicast', function(req, res, next) {
 	
 	var conditions = {};
 	_.each(req.query, function(v, k) {
-		if (k != "title" && k != "attach" && k != "quantity" && k != "test"){
+		if (k != "content" && k != "attach" && k != "quantity" && k != "test"){
 			conditions[k] = v;
 		}
 	});
     
 	var filters = {};
-	filters.limit  = req.query.limit || 100;
-	filters.offset = req.query.offset || 0;
+	filters.limit  = parseInt(req.query.limit || 100);
+	filters.offset = parseInt(req.query.offset || 0);
 	filters.order  = "update_time DESC";
 	
 	var quantity = parseInt(req.query.quantity || 0);
@@ -37,8 +37,10 @@ router.get('/multicast', function(req, res, next) {
 		var promises = [];
 		
 		var html = "<h1>Multicast to: <h1>";
-		
+		html += "<table>";
         _.each(objs, function(o){
+			html += "<tr>";
+			
 			if (req.query.test) {
 				promises.push(Q.Promise(function(resolve, reject, notify) {
 					resolve();
@@ -49,8 +51,10 @@ router.get('/multicast', function(req, res, next) {
 				promises.push(Message.send(o.id, '系统公告', req.query.content, req.query.attach, quantity));
 			}
 			
-			html += "<p>" + o.get("name") + "</p>";
+			html += "<td>" + o.get("name") + "</td>" + "<td>" + o.id + "</td>" + "<td>" + o.get("charge") + "</td>";
+			html += "</tr>";
         });
+		html += "</table>";
 		
 		Q.all(promises).then(function(){
 			res.status(200).send(html);
@@ -59,6 +63,8 @@ router.get('/multicast', function(req, res, next) {
 			_failed(res, error.message);
 		});	
 	}, function(error){
+		console.error(error.message);			
+		_failed(res, error.message);	
 	});
 })
 
