@@ -1,4 +1,5 @@
 var AV = require('leanengine');
+var Cloud = require('./cloud');
 
 function _query(query, offset, total) {
 	return Q.Promise(function(resolve, reject, notify) {
@@ -85,7 +86,10 @@ function _buildQuery(query, conditions, filters) {
 }
 
 module.exports = function() {
-	this.initialize = function(){
+	this.initialize = function(app){
+		app.use(Cloud);
+		//app.use(AV.Cloud);
+		
 		this.addModel("Bid");
 		this.addModel("Blacklist");
 
