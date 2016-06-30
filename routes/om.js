@@ -1,9 +1,10 @@
 var express = require('express');
 var router = express.Router();
-
+	
 router.get('/multicast', function(req, res, next) {
-    var AV = require('leanengine');
-    var leanDAO = require('../platforms/leancloud/dao');
+	var AV = require('leanengine');
+	var LDAO = require('../platforms/leancloud/dao');
+	var ldao = new LDAO();
 	
 	if (!req.query.content) {
 		_failed(res, "<p>没有内容参数</>");
@@ -25,7 +26,7 @@ router.get('/multicast', function(req, res, next) {
 	
 	var quantity = parseInt(req.query.quantity || 0);
 	var attach = req.query.attach || "attach";
-	leanDAO.find('Customer', conditions, filters).then(function(objs){
+	ldao.find('Customer', conditions, filters).then(function(objs){
 		var promises = [];
 		
 		var html = "<h1>Multicast to: <h1>";
@@ -65,9 +66,10 @@ router.get('/clear/:model', function(req, res, next) {
 
 router.get('/transfer/:model', function(req, res, next) {
     var AV = require('leanengine');
-    var leanDAO = require('../platforms/leancloud/dao');
+	var LDAO = require('../platforms/leancloud/dao');
+	var ldao = new LDAO();
     
-    leanDAO.findAll(req.params.model).then(function(objs){
+    ldao.findAll(req.params.model).then(function(objs){
 		var promises = [];
         _.each(objs, function(o){
             var m = dao.new(req.params.model);
