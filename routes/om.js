@@ -6,7 +6,7 @@ router.get('/multicast', function(req, res, next) {
     var leanDAO = require('../platforms/leancloud/dao');
 	
 	var conditions = {};
-	_.each(function(req.query, function(v, k) {
+	_.each(req.query, function(v, k) {
 		if (k != title && k != attach && k != quantity && k != test){
 			conditions[k] = v;
 		}
