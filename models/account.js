@@ -28,10 +28,14 @@ module.exports.check = function(customer_id, token) {
             if (accounts.length > 0) {
                 var account = accounts[0];
 				
-				if (account.get("token") != token) {
-					reject(new Error("错误的token"));
+				if (token) {
+					if (account.get("token") != token) {
+						reject(new Error("错误的token"));
+					} else {
+						resolve(account);
+					}
 				} else {
-					resolve(account);
+					_updateToken(account, resolve, reject);
 				}
             } else {
 				var account = new dao.Account();
