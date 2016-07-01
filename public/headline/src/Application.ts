@@ -21,6 +21,8 @@ module application {
     export var stopwatch: egret.EventDispatcher;
     
     export var vip: Vip;
+    
+    export var version: string = '1.5.1';
 
     export function init(main:Main) {
 		application.main = main;
@@ -262,6 +264,7 @@ module application {
     export function saveCustomerNow() {
         application.saveSeconds = (new Date()).getTime() / 1000;
 
+        application.customer.version = application.version;
         application.customer.gold = Math.max(0,application.customer.gold);
         application.customer.earned_gold = Math.max(0,application.customer.earned_gold);
         application.customer.accumulated_gold = Math.max(application.customer.accumulated_gold,application.customer.gold);
