@@ -1,8 +1,12 @@
 module.exports.send = function(customerId, title, content, attach, quantity) {
-    return sendWith(new dao.Message(), customerId, title, content, attach, quantity);
+    return _send(new dao.Message(), customerId, title, content, attach, quantity);
 }
 
 module.exports.sendWith = function(message, customerId, title, content, attach, quantity) {
+	return _send(message, customerId, title, content, attach, quantity);
+}
+
+function _send(message, customerId, title, content, attach, quantity) {
     return Q.Promise(function(resolve, reject, notify) {
 		message.set("customer_id", customerId);
 		message.set("title", title);
