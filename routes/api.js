@@ -130,7 +130,6 @@ router.post('/login', function(req, res, next) {
 					customer.set("client_ip", ip);
 					customer.save().then(function(c){
 						Account.update(c.id).then(function(a){
-							res.cookie('token', a.get("token"), {maxAge: 600 * 1000});
 							_succeed(res, _decode(c));
 						}, function(error){
 							console.error("update token failed " + error.message);
@@ -312,7 +311,7 @@ function _saveModel(model, req, res) {
 	}
 	
 	if (customer_id && customer_id.length > 1) {
-		Account.check(customer_id, req.cookies.token).then(function(a){
+		Account.check(customer_id, req.query.token).then(function(a){
 			res.cookie('token', a.get("token"), {maxAge: 600 * 1000});
 			
 			_filterAttributes(req);
