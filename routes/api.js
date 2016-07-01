@@ -131,11 +131,12 @@ router.post('/login', function(req, res, next) {
 						_succeed(res, _decode(customer));
 					}, function(error){
 						console.error("save customer failed " + error.message);
+						
 						_succeed(res, _decode(customer));
 					})
 				}, function(error){
 					console.error("find customer failed " + error.message);
-					_failed(res, error);
+					_failed(res, new Error("玩家信息不存在，请重新登录"));
 				})
 			} else {
 				console.error("getInfo failed " + JSON.stringify(result) + " url = " + url);
@@ -143,7 +144,7 @@ router.post('/login', function(req, res, next) {
 			}
 		} else {
 			console.error("post request failed " + error.message);
-			_failed(res, error);
+			_failed(res, new Error("系统内部错误，请稍后再试"));
 		}
 	});
 });
@@ -156,11 +157,11 @@ router.post('/hits', function(req, res, next) {
 			_succeed(res, c.get("total_hits"));
 		}, function(error){
 			console.log("hits customer = " + req.body.customer_id + " failed " + error.message);
-			_failed(res, new Error('修改用户信息失败'));
+			_failed(res, new Error('修改玩家信息失败，请稍后再试'));
 		});
 	}, function(error) {
 		console.log("hits customer = " + req.body.customer_id + " failed " + error.message);
-		_failed(res, new Error('用户信息不存在'));
+		_failed(res, new Error('玩家信息不存在，请重新登录'));
 	});
 });
 
@@ -282,21 +283,6 @@ router.post('/update/:model/:id', function(req, res, next) {
 	});
 });
 
-router.post('/delete/:model/:id', function(req, res, next) {
-	var query = new AV.Query(dao[req.params.model]);
-	query.get(req.params.id).then(function(m){
-		m.destroy().then(function(){
-			_succeed(res, _decode(m));
-		}, function(error) {
-			_failed(res, error);
-		});
-	}, function(error){
-		console.error("delete model failed " + error.message + " model is " + JSON.stringify(newModel));
-
-		_failed(res, error);
-	});
-});
-
 function _filterAttributes(req) {
 	var forbiddenAttributes = {
 		"Customer": ["charge", "last_login"],
@@ -312,22 +298,49 @@ function _filterAttributes(req) {
 };
 
 function _saveModel(model, req, res) {
-	_filterAttributes(req);
+	if (req.params.model == "Customer") {
+		var customer_id = model.id;
+	} else {
+		var customer_id = req.body.customer_id;
+	}
 	
-	var newModel = _encode(model, req.body);
-	
-	newModel.save().then(function(m){
-		var query = new AV.Query(dao[req.params.model]);
-		query.get(m.id).then(function(updatedModel){
-			_succeed(res, _decode(updatedModel));
-		}, function(error){
-			_succeed(res, _decode(m));
-		});
-	}, function(error){
-		console.error("_saveModel failed " + error.message + " model is " + JSON.stringify(newModel));
+	if (customer_id && customer_id.length > 1) {
+		var q = new AV.Query(dao.Customer);
+		q.get(customer_id).then(function(c){
+			var ip = req.headers['X-Real-IP'] || req.connection.remoteAddress;
+			if (c.get("client_ip") && c.get("client_ip") != ip) {
+				console.error("_saveModel client ip is valid " + c.get("client_ip") + " != " + ip);
 
-		_failed(res, error);
-	});
+				_failed(res, new Error("您已经在另外一台终端上登录，请下线！"));
+			} else {	
+				_filterAttributes(req);
+
+				var newModel = _encode(model, req.body);
+
+				newModel.save().then(function(m){
+					var query = new AV.Query(dao[req.params.model]);
+					query.get(m.id).then(function(updatedModel){
+						_succeed(res, _decode(updatedModel));
+					}, function(error){
+						console.error("_saveModel get model failed " + error.message + " model is " + JSON.stringify(m));
+						_succeed(res, _decode(m));
+					});
+				}, function(error){
+					console.error("_saveModel save failed " + error.message + " model is " + JSON.stringify(newModel));
+
+					_failed(res, new Error("保存数据失败，请重新登录"));
+				});		
+			}
+		}, function(error){
+			console.error("_saveModel get customer failed " + error.message + " id is " + customer_id);
+
+			_failed(res, new Error("玩家信息不存在，请重新登录"));
+		});
+	} else {
+		console.error("_saveModel customer_id is empty " + error.message);
+
+		_failed(res, new Error("玩家信息不存在，请重新登录"));	
+	}
 };
 
 function _decode(avObj) {
