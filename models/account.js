@@ -10,6 +10,7 @@ module.exports.update = function(customer_id) {
                 var account = accounts[0];
             } else {
                 var account = new dao.Account();
+				account.set("customer_id", customer_id);
             }
             
 			_updateToken(account, resolve, reject);
