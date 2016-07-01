@@ -25,6 +25,8 @@ class Dao extends egret.EventDispatcher {
         var _cb = function(succeed:number, result: any) {
             if (succeed) {
                 data = result;
+            } else {
+                Toast.launch(result);
             }
             
             self.dispatchEventWith(model,true,data);
