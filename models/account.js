@@ -10,9 +10,9 @@ module.exports.update = function(customer_id) {
                 var account = accounts[0];
             } else {
                 var account = new dao.Account();
-				account.set("customer_id", customer_id);
             }
             
+			account.set("customer_id", customer_id);
 			_updateToken(account, resolve, reject);
         }, function(error){
 			console.error("find account failed " + error.message);
@@ -36,11 +36,11 @@ module.exports.check = function(customer_id, token) {
 						resolve(account);
 					}
 				} else {
+					account.set("customer_id", customer_id);
 					_updateToken(account, resolve, reject);
 				}
             } else {
 				var account = new dao.Account();
-				account.set("customer_id", customer_id);
 				_updateToken(account, resolve, reject);
 			}
         }, function(error){
