@@ -50,7 +50,7 @@ class Dao extends egret.EventDispatcher {
 		request.responseType = egret.HttpResponseType.TEXT;
 		
 		//设置为 POST 请求
-		request.open(this._baseUrl + method + "?game=" + this._gameName, egret.HttpMethod.POST);
+		request.open(this._baseUrl + method + "?game=" + this._gameName + "&token=" + application.token, egret.HttpMethod.POST);
 		request.setRequestHeader("Content-Type", "application/json");
 
         request.addEventListener(egret.Event.COMPLETE, (evt: egret.Event) => {
