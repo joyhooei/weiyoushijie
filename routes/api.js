@@ -130,6 +130,7 @@ router.post('/login', function(req, res, next) {
 					customer.set("client_ip", ip);
 					customer.save().then(function(c){
 						Account.update(c.id).then(function(a){
+							res.cookie('token', a.get("token"));
 							_succeed(res, _decode(c));
 						}, function(error){
 							console.error("update token failed " + error.message);
