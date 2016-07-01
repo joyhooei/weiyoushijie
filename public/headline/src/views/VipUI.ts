@@ -47,9 +47,8 @@ class VipUI extends eui.Component {
             this.imgLast.visible   = false;
             this.imgNext.visible   = true;
         } else {
-			this.lblCharge.text = application.customer.charge;
 			this.lblCharge.visible = true;
-			this.imgLast.visible = true;
+			this.imgLast.visible   = true;
 
 			if (this.level == 15) {
 				this.imgNext.visible = false;
@@ -57,7 +56,7 @@ class VipUI extends eui.Component {
 				this.imgNext.visible = true;
 			}
 		}
-        
+		this.lblCharge.text = application.customer.charge;        
         this.imgTitle.source = "vt" + this.level + "_png";
     }
 }
