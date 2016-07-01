@@ -8,6 +8,7 @@ var Gift = require('../models/gift');
 var Customer = require('../models/customer');
 var Bid = require('../models/bid');
 var Order = require('../models/order');
+var Account = require('../models/account');
 var Helper = require('../models/helper');
 
 router.get('/egret_rt', function(req, res, next) {
@@ -127,8 +128,14 @@ router.post('/login', function(req, res, next) {
 					
 					var ip = req.headers['X-Real-IP'] || req.connection.remoteAddress;
 					customer.set("client_ip", ip);
-					customer.save().then(function(){
-						_succeed(res, _decode(customer));
+					customer.save().then(function(c){
+						Account.update(c.id).then(function(a){
+							res.cookie('token', a.get("token"), {maxAge: 600 * 1000});
+							_succeed(res, _decode(c));
+						}, function(error){
+							console.error("update token failed " + error.message);
+							_succeed(res, _decode(c));
+						});
 					}, function(error){
 						console.error("save customer failed " + error.message);
 						
@@ -305,36 +312,30 @@ function _saveModel(model, req, res) {
 	}
 	
 	if (customer_id && customer_id.length > 1) {
-		var q = new AV.Query(dao.Customer);
-		q.get(customer_id).then(function(c){
-			var ip = req.headers['X-Real-IP'] || req.connection.remoteAddress;
-			if (c.get("client_ip") && c.get("client_ip") != ip) {
-				console.error("_saveModel client ip is valid " + c.get("client_ip") + " != " + ip);
+		Account.check(customer_id, req.cookies.token).then(function(a){
+			res.cookie('token', a.get("token"), {maxAge: 600 * 1000});
+			
+			_filterAttributes(req);
 
-				_failed(res, new Error("您已经在另外一台终端上登录，请下线！"));
-			} else {	
-				_filterAttributes(req);
+			var newModel = _encode(model, req.body);
 
-				var newModel = _encode(model, req.body);
-
-				newModel.save().then(function(m){
-					var query = new AV.Query(dao[req.params.model]);
-					query.get(m.id).then(function(updatedModel){
-						_succeed(res, _decode(updatedModel));
-					}, function(error){
-						console.error("_saveModel get model failed " + error.message + " model is " + JSON.stringify(m));
-						_succeed(res, _decode(m));
-					});
+			newModel.save().then(function(m){
+				var query = new AV.Query(dao[req.params.model]);
+				query.get(m.id).then(function(updatedModel){
+					_succeed(res, _decode(updatedModel));
 				}, function(error){
-					console.error("_saveModel save failed " + error.message + " model is " + JSON.stringify(newModel));
+					console.error("_saveModel get model failed " + error.message + " model is " + JSON.stringify(m));
+					_succeed(res, _decode(m));
+				});
+			}, function(error){
+				console.error("_saveModel save failed " + error.message + " model is " + JSON.stringify(newModel));
 
-					_failed(res, new Error("保存数据失败，请重新登录"));
-				});		
-			}
+				_failed(res, new Error("保存数据失败，请重新登录"));
+			});				
 		}, function(error){
-			console.error("_saveModel get customer failed " + error.message + " id is " + customer_id);
+			console.error("_saveModel token is valid " + req.cookies.token + " != " + a.get("token"));
 
-			_failed(res, new Error("玩家信息不存在，请重新登录"));
+			_failed(res, new Error("您已经在另外一台终端上登录，请下线！"));
 		});
 	} else {
 		console.error("_saveModel customer_id is empty " + error.message);
