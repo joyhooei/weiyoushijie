@@ -22,7 +22,9 @@ module application {
     
     export var vip: Vip;
     
-    export var version: string = '1.5.1';
+    export var version: string = '1.5.2';
+    
+    export var token: string = "";
 
     export function init(main:Main) {
 		application.main = main;
