@@ -53,10 +53,10 @@ function _updateToken(account, resolve, reject) {
 	var account = new dao.Account();
 	crypto.randomBytes(64, function(error, token) {
 		if (error) {
-			console.error("check new token failed " + error.message);
+			console.error("new token failed " + error.message);
 			reject(error);
 		} else {			
-			account.set("token", token);
+			account.set("token", token.toString('hex'));
 			account.save().then(function(a){
 				resolve(a);
 			}, function(error){
