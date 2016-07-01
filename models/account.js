@@ -22,7 +22,7 @@ module.exports.update = function(customer_id) {
 }
 
 module.exports.check = function(customer_id, token) {
-	return Q.Promise(function(resolve, reject, notify) {
+	return Q.Promise(function(resolve, reject, notify) {	
         var query = new AV.Query(dao.Account);
         query.equalTo("customer_id", customer_id);
         query.find().then(function(accounts){

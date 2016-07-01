@@ -1,6 +1,13 @@
 module.exports.send = function(customerId, title, content, attach, quantity) {
+	return _send(new dao.Message(), customerId, title, content, attach, quantity);
+}
+
+module.exports.sendWith = function(message, customerId, title, content, attach, quantity) {
+	return _send(message, customerId, title, content, attach, quantity);
+}
+
+function _send(message, customerId, title, content, attach, quantity) {
     return Q.Promise(function(resolve, reject, notify) {
-		var message = new dao.Message();
 		message.set("customer_id", customerId);
 		message.set("title", title);
 		message.set("content", content);
@@ -11,7 +18,8 @@ module.exports.send = function(customerId, title, content, attach, quantity) {
 		message.save().then(function(m){
 			resolve(m);
 		}, function(error){
+			console.error("send message " + JSON.stringify(message) + " failed " + error.message);
 			reject(error);
 		});
-	});
+	});	
 }

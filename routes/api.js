@@ -126,20 +126,22 @@ router.post('/login', function(req, res, next) {
 						customer.set("last_login", now.format());
 					}
 					
-					var ip = req.headers['X-Real-IP'] || req.connection.remoteAddress;
-					customer.set("client_ip", ip);
 					customer.save().then(function(c){
 						Account.update(c.id).then(function(a){
-							res.cookie('token', a.get("token"));
-							_succeed(res, _decode(c));
+							_succeed(res, _decode(a));
 						}, function(error){
 							console.error("update token failed " + error.message);
-							_succeed(res, _decode(c));
+							_failed(res, error);
 						});
 					}, function(error){
-						console.error("save customer failed " + error.message);
-						
-						_succeed(res, _decode(customer));
+						console.error("save customer failed " + error.message + " customer is " + JSON.stringify(customer));
+
+						Account.update(customer.id).then(function(a){
+							_succeed(res, _decode(a));
+						}, function(error){
+							console.error("update token failed " + error.message);
+							_failed(res, error);
+						});
 					})
 				}, function(error){
 					console.error("find customer failed " + error.message);
@@ -310,11 +312,9 @@ function _saveModel(model, req, res) {
 	} else {
 		var customer_id = req.body.customer_id;
 	}
-	
+
 	if (customer_id && customer_id.length > 1) {
 		Account.check(customer_id, req.query.token).then(function(a){
-			res.cookie('token', a.get("token"), {maxAge: 600 * 1000});
-			
 			_filterAttributes(req);
 
 			var newModel = _encode(model, req.body);
@@ -333,12 +333,10 @@ function _saveModel(model, req, res) {
 				_failed(res, new Error("保存数据失败，请重新登录"));
 			});				
 		}, function(error){
-			console.error("_saveModel token is valid " + req.cookies.token + " != " + a.get("token"));
-
 			_failed(res, new Error("您已经在另外一台终端上登录，请下线！"));
 		});
 	} else {
-		console.error("_saveModel customer_id is empty " + error.message);
+		console.error("_saveModel customer_id is empty ");
 
 		_failed(res, new Error("玩家信息不存在，请重新登录"));	
 	}

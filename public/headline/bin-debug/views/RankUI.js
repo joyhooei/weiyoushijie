@@ -22,12 +22,14 @@ var RankUI = (function (_super) {
                         self.listRank.addChild(item);
                     }
                     if (application.customer.id == customers[i].id) {
-                        rank = i + 1;
                         me = application.customer;
+                        rank = i + 1;
+                        //如果我是第一名就没有last
+                        if (i > 0) {
+                            last = customers[i - 1];
+                        }
+                        //下一名肯定是有的，因为多取了2条记录
                         next = customers[i + 1];
-                    }
-                    else {
-                        last = customers[i];
                     }
                 }
                 if (me) {

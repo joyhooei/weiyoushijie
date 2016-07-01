@@ -10,4 +10,5 @@
 			</e:Group>
 		</e:viewport>
 	</e:Scroller>
+	<e:Label id="lblVersion" text="1.5.2" x="323" y="598" width="95" textAlign="center" size="24"/>
 </e:Skin>

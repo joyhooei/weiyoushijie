@@ -1103,6 +1103,16 @@
 					"isFolder":false,
 					"key":"vt9_png",
 					"name":"vt9_png"
+				},
+				{
+					"isFolder":false,
+					"key":"left_png",
+					"name":"left_png"
+				},
+				{
+					"isFolder":false,
+					"key":"right_png",
+					"name":"right_png"
 				}
 			]
 		}

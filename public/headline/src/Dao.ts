@@ -26,7 +26,7 @@ class Dao extends egret.EventDispatcher {
             if (succeed) {
                 data = result;
             } else {
-                Toast.launch(result);
+                Toast.launch(result.$target.response);
             }
             
             self.dispatchEventWith(model,true,data);
@@ -64,7 +64,7 @@ class Dao extends egret.EventDispatcher {
             
         request.addEventListener(egret.IOErrorEvent.IO_ERROR,(evt: egret.IOErrorEvent) => {
             if(cb) {
-                cb(false,event);
+                cb(false,evt);
             }       
         }, this);
         

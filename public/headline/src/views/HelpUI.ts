@@ -3,6 +3,7 @@ class HelpUI extends eui.Component{
     private imgReport:eui.Image;
     
     private lblContent:eui.Label;
+    private lblVersion: eui.Label;
     
     constructor(content:string) {
         super();
@@ -10,6 +11,8 @@ class HelpUI extends eui.Component{
         this.skinName = "resource/custom_skins/helpUISkin.exml";
         
         this.lblContent.text = content;
+        
+        this.lblVersion.text = application.version;
         
         this.imgReport.addEventListener( egret.TouchEvent.TOUCH_TAP, ()=>{
             application.hideUI(this);
