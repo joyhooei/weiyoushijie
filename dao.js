@@ -152,6 +152,8 @@ function _findModels(claz, query){
 
 module.exports = function() {
 	this.initialize = function(){
+		this.addModel("Account");
+		
 		this.addModel("Bid");
 		this.addModel("Blacklist");
 
