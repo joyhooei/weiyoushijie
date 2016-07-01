@@ -125,6 +125,8 @@ router.post('/login', function(req, res, next) {
 						customer.set("last_login", now.format());
 					}
 					
+					var ip = req.headers['X-Real-IP'] || req.connection.remoteAddress;
+					customer.set("client_ip", ip);
 					customer.save().then(function(){
 						_succeed(res, _decode(customer));
 					}, function(error){
