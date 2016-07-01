@@ -79,7 +79,7 @@
 	<!--game_files_end-->
 </head>
 <body>
-    <div style="margin: auto;width: 100%;height: 100%;" class="egret-player" id="egret-player"
+    <div style="margin: auto;height: 100%;" class="egret-player" id="egret-player"
          data-entry-class="Main"
          data-orientation="portrait"
          data-scale-mode="showAll"
@@ -93,7 +93,7 @@
     </div>
     <script>
 		var element = document.getElementById('egret-player');		
-		element.style.width= (Math.min(element.style.height, element.style.width) - 1) + "px";
+		element.style.width = (Math.min(element.style.height, element.style.width) - 1) + "px";
 		
         egret.runEgret();
     </script>
