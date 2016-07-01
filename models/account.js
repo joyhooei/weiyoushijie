@@ -10,9 +10,9 @@ module.exports.update = function(customer_id) {
                 var account = accounts[0];
             } else {
                 var account = new dao.Account();
+				account.set("customer_id", customer_id);
             }
             
-			account.set("customer_id", customer_id);
 			_updateToken(account, resolve, reject);
         }, function(error){
 			console.error("find account failed " + error.message);
@@ -51,7 +51,6 @@ module.exports.check = function(customer_id, token) {
 }
 
 function _updateToken(account, resolve, reject) {
-	var account = new dao.Account();
 	crypto.randomBytes(64, function(error, token) {
 		if (error) {
 			console.error("new token failed " + error.message);
