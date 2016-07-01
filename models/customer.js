@@ -118,7 +118,6 @@ module.exports.create = function(uid, name, avatar, sex, age) {
     customer.set("offline_minutes", 0);
     
     customer.set("version", "");
-    customer.set("client_ip", "");
     
     return customer;
 }
