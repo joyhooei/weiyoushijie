@@ -5,4 +5,6 @@
 	<e:Image id="imgTitle" width="301" height="330" x="50" y="21" fillMode="clip" source="vt0_png"/>
 	<e:Image id="imgCharge" width="102" height="42" x="227" y="308" source="topupbutton_png" fillMode="clip"/>
 	<e:Label id="lblCharge" text="0" x="131" y="312" width="89" height="18" size="20"/>
+	<e:Image id="imgLast" width="63" height="54" x="-16" y="173" source="left_png" fillMode="clip"/>
+	<e:Image id="imgNext" width="47" height="48" x="344" y="173" source="right_png" fillMode="clip"/>
 </e:Skin>

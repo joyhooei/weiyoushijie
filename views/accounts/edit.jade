@@ -1,0 +1,64 @@
+extends ../layout
+
+block main
+	ul.breadcrumb
+		li
+			i.icon-home
+		li
+			i.icon-angle-right
+		li
+			a(href="/") 面板
+		li
+			i.icon-angle-right
+		li
+			a(href="/users") 账号
+
+	div(class="row-fluid sortable")
+		div(class="box span12")
+			div(class="box-header", data-original-title)
+				h2
+					i(class="halflings-icon user")
+					span.break
+					| 账号
+			div.box-content
+				if user.id
+					- var action = "/users/" + user.id
+				else
+					- var action = "/users/"
+				form(class="form-horizontal", action="#{action}", method="post")
+					fieldset
+						div.control-group
+							label(class="control-label", for="username") 账号
+							div.controls
+								input(class="input-xlarge focused validate[required]", id="username", name="username", type="text", value="#{user.get('username')}")
+								<p class="help-block"></p>
+
+						div.control-group
+							label(class="control-label", for="password") 密码
+							div.controls
+								input(class="input-xlarge focused validate[required]", id="password", name="password", type="password")
+								<p class="help-block"></p>
+
+						div.control-group
+							label(class="control-label", for="verified_password") 验证密码
+							div.controls
+								input(class="input-xlarge focused validate[required,equals[password]]", id="verified_password", name="verified_password", type="password")
+								<p class="help-block"></p>
+								
+						div.control-group
+							label(class="control-label", for="mobile") 电话号码
+							div.controls
+								input(class="input-xlarge focused validate[required,custom[phone]]", id="mobile", name="mobile", type="tel", value="#{user.get('mobile')}")
+								<p class="help-block"></p>
+
+						div.control-group
+							label(class="control-label", for="email") 电子邮箱
+							div.controls
+								input(class="input-xlarge focused validate[required,custom[email]]", id="email", name="email", type="email", value="#{user.get('email')}")
+								<p class="help-block"></p>
+
+									
+						div.form-actions
+							button(type="submit", class="btn btn-primary") 保存
+							button.btn 
+								a(href="/users") 取消

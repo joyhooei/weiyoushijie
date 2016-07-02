@@ -1,0 +1,41 @@
+extends ./base_layout
+
+block header
+	div
+	
+block content
+	div.login-box
+		div.icons
+			a(href="")
+				i(class="halflings-icon home")
+
+		h2 登录您的账号
+		form(class="form-horizontal" action="/login" method="post")
+			fieldset
+				div(class="input-prepend", title="Username")
+					span.add-on
+						i(class="halflings-icon user")
+					input(class="input-large span10", name="username", id="username", type="text", placeholder="用户名")
+
+				div.clearfix
+
+				div(class="input-prepend" title="Password")
+					span.add-on
+						i(class="halflings-icon lock")
+					input(class="input-large span10", name="password", id="password", type="password", placeholder="密码")
+
+				div.clearfix
+
+				label(class="remember", for="remember")
+					div(class="checker", id="uniform-remember")
+						span
+							input(type="checkbox", id="remember")
+					span 记住我
+
+				div.button-login
+					button(type="submit", class="btn btn-primary") 登录
+
+				div.clearfix
+				
+block footer
+	div

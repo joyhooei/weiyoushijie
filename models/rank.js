@@ -16,10 +16,11 @@ module.exports.rank = function(req, res) {
 					}
 				}
 			}
+				
+			res.success("rank succeed " + newRanks.length);
 
 			dao.saveAll(newRanks).then(function (avobjs) {
 				console.log("rank " + newRanks.length);				
-				res.success("rank succeed");
 			}, function (error) {
 				console.error("rank saveAll " + error.message);
 				res.error(error.message);

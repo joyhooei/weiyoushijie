@@ -1,0 +1,101 @@
+extends ../layout
+
+block main
+	ul.breadcrumb
+		li
+			i.icon-home
+		li
+			i.icon-angle-right
+		li
+			a(href="/") 面板
+		li
+			i.icon-angle-right
+		li
+			a(href="/customers") 用户
+
+	div(class="row-fluid sortable")
+		div(class="box span12")
+			div(class="box-header", data-original-title)
+				h2
+					i(class="halflings-icon user")
+					span.break
+					| 用户
+			div.box-content
+				if customer.id
+					- var action = "/customers/" + customer.id
+				else
+					- var action = "/customers/"
+				form(class="form-horizontal", action="#{action}", method="post", enctype="multipart/form-data")
+					fieldset
+						div.control-group
+							label(class="control-label", for="name") 昵称
+							div.controls
+								input(class="input-xlarge focused validate[required]", id="name", name="name", type="text", value="#{customer.get('name')}")
+								<p class="help-block"></p>
+
+						div.control-group
+							label(class="control-label", for="birthday") 生日
+							div.controls
+								input(class="input-xlarge focused", id="birthday", name="birthday", type="date", value="#{moment(customer.get('birthday')).format('YYYY-MM-DD')}")
+								<p class="help-block"></p>
+
+						div.control-group
+							label(class="control-label", for="gender") 性别
+							div.controls
+								select(id="gender", name="gender")
+									option(selected=customer.get('gender') == 1, value=1) 男
+									option(selected=customer.get('gender') == 2, value=2) 女
+									
+						div.control-group
+							label(class="control-label", for="money") 现金
+							div.controls
+								input(class="input-xlarge focused", id="money", name="money", type="number", value="#{customer.get('money')}")
+								<p class="help-block"></p>
+
+						div.control-group
+							label(class="control-label", for="total_tickets_free") 免费选票
+							div.controls
+								input(class="input-xlarge focused", id="total_tickets_free", name="total_tickets_free", type="number", value="#{customer.get('total_tickets_free')}")
+								<p class="help-block"></p>
+
+						div.control-group
+							label(class="control-label", for="total_tickets_task") 任务选票
+							div.controls
+								input(class="input-xlarge focused", id="total_tickets_task", name="total_tickets_task", type="number", value="#{customer.get('total_tickets_task')}")
+								<p class="help-block"></p>
+
+						div.control-group
+							label(class="control-label", for="total_tickets_bought") 购买选票
+							div.controls
+								input(class="input-xlarge focused", id="total_tickets_bought", name="total_tickets_bought", type="number", value="#{customer.get('total_tickets_bought')}")
+								<p class="help-block"></p>
+
+						div.control-group
+							label(class="control-label", for="mobile") 电话
+							div.controls
+								input(class="input-xlarge focused validate[[custom[phone]] text-input", id="mobile", name="mobile", type="tel", value="#{customer.get('mobile')}")
+								<p class="help-block"></p>
+
+						div.control-group
+							label(class="control-label", for="wechat") 微信
+							div.controls
+								input(class="input-xlarge focused", id="wechat", name="wechat", type="text", value="#{customer.get('wechat')}")
+								<p class="help-block"></p>
+
+						div.control-group
+							label(class="control-label", for="blocked") 状态
+							div.controls
+								select(id="blocked", name="blocked")
+									option(selected=customer.get('blocked') == 0, value=0) 激活
+									option(selected=customer.get('blocked') == 1, value=1) 禁止
+
+						div.control-group
+							label(class="control-label", for="avatar_id") 头像
+							div.controls
+								input(class="input-xlarge focused", id="avatar_id", name="avatar_id", type="file")
+								<p class="help-block"></p>
+
+						div.form-actions
+							button(type="submit", class="btn btn-primary") 保存
+							button.btn 
+								a(href="/customers/#{customer.id}") 取消

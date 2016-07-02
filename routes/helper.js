@@ -1,0 +1,296 @@
+var AV = require('leanengine');
+var fs = require('fs');
+var sizeOf = require('image-size');
+var crypto = require('crypto');
+var multer  = require('multer');
+
+var Audit = require("../models/audit");
+var Media = require("../models/media");
+
+function _createMedia(model, attr, file, resolve, reject) {
+	Media.create(new dao.Media(), file, function(m){
+		if (m) {
+			model.set(attr, m.id);
+		}
+
+		resolve(m);
+	}, function(err){
+		reject(err);
+	});
+};
+
+function _saveMedia(model, attr, file, resolve, reject) {
+	if (model.has(attr) && model.get(attr).length > 0) {
+		var query = new AV.Query(dao.Media);
+		query.get(model.get(attr)).then( function(m){
+			Media.create(m, file, function(m){
+				resolve(m);
+			}, function(err){
+				reject(err);
+			});
+		}, function(err){
+			_createMedia(model, attr, file, resolve, reject);
+		});
+	} else {
+		_createMedia(model, attr, file, resolve, reject);
+	}
+}
+
+module.exports.saveMedia = function (model, attr, file, resolve, reject) {
+	_saveMedia(model, attr, file, resolve, reject);
+};
+
+module.exports.redirect = function (restfulName, req, res) {
+	_redirect(restfulName, req, res);
+};
+
+module.exports.render = function (view, req, res, options) {
+	_render(view, req, res, options);
+};
+
+function _redirect(restfulName, req, res) {
+	var paras = [];
+	_.each(req.query, function(value, key){
+		paras.push(key + "=" + value);
+	});
+	
+	if (paras.length > 0) {
+		res.redirect('/' + restfulName + '?' + paras.join("&"));
+	} else {
+		res.redirect('/' + restfulName);
+	}
+};
+
+function _render(view, req, res, options) {
+	if (options) {
+		_.extend(options, req.query);
+	} else {
+		options = req.query;
+	}
+	
+	res.render(view, options);
+};
+
+function _renderIndex(model, modelName, restfulName, req, res) {
+	var options = {};
+	options[modelName] = model;
+	_render(restfulName + '/index', req, res, options);
+};
+
+function _renderView(model, modelName, restfulName, req, res) {
+	var options = model.attributes;
+	options[modelName] = model;
+	_render(restfulName + '/view', req, res, options);
+};
+
+function _renderEdit(model, modelName, restfulName,  req, res, options) {
+	if (options) {
+		_.extend(options, model.attributes);
+	} else {
+		options = model.attributes;
+	}
+	
+	options[modelName] = model;
+	_render(restfulName + '/edit', req, res, options);
+};
+
+function _queryModel(modelClass, query, modelName, restfulName, req, res){
+	if (modelClass.find) {
+		var p = modelClass.find(query);
+	} else {
+		var p = query.find();
+	}
+	p.then(
+		function(models){
+			_renderIndex(models, modelName, restfulName, req, res);
+		}, function(err){
+			req.flash('errors', { msg: err.message });
+			
+			_renderIndex([], modelName, restfulName, req, res);
+		});
+};
+
+module.exports.queryModel = function(modelClass, query, modelName, restfulName, req, res){
+	_queryModel(modelClass, query, modelName, restfulName, req, res);
+};
+
+module.exports.listModel = function(modelClass, modelName, restfulName, req, res){
+	var query = new AV.Query(modelClass);
+	query.limit(1000);
+	query.ascending("updated_at");
+	
+	_queryModel(modelClass, query, modelName, restfulName, req, res);
+};
+
+module.exports.viewModel = function(modelClass, modelName, restfulName, req, res){
+	if (modelClass.get) {
+		var p = modelClass.get(req.params.id);
+	} else {
+		var p = query.get(req.params.id);
+	}
+	p.then(
+		function(model){
+			_renderView(model, modelName, restfulName, req, res);
+		}, function(err){
+			req.flash('errors', { msg: err.message });
+
+			_redirect(restfulName, req, res);
+		});
+};
+
+module.exports.newModel = function(model, modelName, restfulName, req, res, options){
+	_renderEdit(model, modelName, restfulName, req, res, options);
+};
+
+module.exports.editModel = function(modelClass, modelName, restfulName, req, res, options){
+	var query = new AV.Query(modelClass);
+	query.get(req.params.id).then(
+		function(model){
+			_renderEdit(model, modelName, restfulName, req, res, options);
+		}, function(err){
+			req.flash('errors', { msg: err.message });
+
+			_redirect(restfulName, req, res);	
+		});
+};
+
+function _saveModel(model, modelName, restfulName, req, res, options) {
+	if (model.id) {
+		var operator = "update";
+	} else {
+		var operator = "create";
+	}	
+	
+	_.each(model.attributes, function(value, key) {
+		if (_.isNumber(value)) {
+			if (_.has(req.body, key)) {
+				model.set(key, parseInt(req.body[key]));
+			}
+		} else if (_.isString(value)) {
+			if (_.has(req.body, key)) {
+				model.set(key, req.body[key]);
+			} else {
+				if (key.indexOf("_id") == -1){
+					model.set(key, "");
+				}
+			}
+		} else {
+			console.error(modelName + " " + key + " has unused data type " + value);
+		}
+	});
+	
+	//防止req.body中有model中不存在的字段
+	_.each(req.body, function(value, key){
+		if (_.has(model.attributes, key) && _.isNumber(model.get(key))) {
+			model.set(key, parseInt(value));
+		} else {
+			model.set(key, value);
+		}
+	});
+	
+	model.save().then(function(m) {
+		Audit.succeed(req.user, operator, restfulName, model);
+
+		_redirect(restfulName, req, res);
+	}, function(err){
+		Audit.failed(req.user, operator, restfulName, model, err.message);
+
+		req.flash('errors', { msg: err.message });
+
+		_renderEdit(model, modelName, restfulName, req, res, options);
+	});
+};
+
+function _saveModelWithMedia(model, modelName, restfulName, req, res, options) {
+	if (model.id) {
+		var operator = "update";
+	} else {
+		var operator = "create";
+	}	
+
+	if (req.files && req.files.length > 0) {
+		var f = req.files[0];
+		_saveMedia(model, f.fieldname, f,
+			function(m){
+				_saveModel(model, modelName, restfulName, req, res, options);
+			}, function(err) {
+				Audit.failed(req.user, operator, restfulName, model, err.message);
+					
+				req.flash('errors', { msg: err.message });
+
+				_renderEdit(model, modelName, restfulName, req, res, options);
+			});
+	} else {
+		_saveModel(model, modelName, restfulName, req, res, options);
+	}
+};
+
+module.exports.createModel = function(model, modelName, restfulName, req, res, options){
+	_saveModelWithMedia(model, modelName, restfulName, req, res, options);
+};
+
+module.exports.updateModel = function(modelClass, modelName, restfulName, req, res, options){
+	var query = new AV.Query(modelClass);
+	query.get(req.params.id).then(
+		function(model){
+			_saveModelWithMedia(model, modelName, restfulName, req, res, options);
+		}, function(err){
+			Audit.failed(req.user, 'update', restfulName, req.params.id, err.message);
+					
+			req.flash('errors', { msg: err.message });
+
+			_redirect(restfulName, req, res);
+		});	
+};
+
+module.exports.deleteModel = function(modelClass, restfulName, flash, req, res){
+	var query = new AV.Query(modelClass);
+	query.get(req.params.id).then(
+		function(model){
+			model.destroy().then(
+				function(c){
+					Audit.succeed(req.user, 'delete', restfulName, model);
+					
+					req.flash('success', { msg: flash });
+
+					_redirect(restfulName, req, res);
+				}, function(err){
+					Audit.failed(req.user, 'delete', restfulName, model, err.message);
+					
+					req.flash('errors', { msg: err.message });
+
+					_redirect(restfulName, req, res);
+				});
+		}, function(err){
+			Audit.failed(req.user, 'delete', restfulName, req.params.id, err.message);
+					
+			req.flash('errors', { msg: err.message });
+
+			_redirect(restfulName, req, res);
+		});
+};
+
+module.exports.ensureAuthenticated = function (req, res, next) {
+   	if (req.isAuthenticated()) { 
+		  return next(); 
+	 }
+
+  	 res.redirect('/login');
+};
+
+module.exports.upload = function (req, res, next) {
+	var storage = multer.diskStorage({
+		filename: function (req, file, cb) {
+			cb(null, Date.now() + "-" + file.originalname)
+	  	}
+	});
+	
+	return multer({ storage: storage }).any();
+};
+
+module.exports.md5 = function (str) {
+	var md5sum = crypto.createHash('md5');
+	md5sum.update(str);
+	str = md5sum.digest('hex');
+	return str;
+};

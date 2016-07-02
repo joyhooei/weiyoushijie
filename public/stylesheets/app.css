@@ -1,0 +1,25 @@
+.container-artlist{
+  margin-top: 3px;
+}
+
+.container-artlist .row{
+  /*margin: 0 0 6px 0;*/
+  margin-bottom: 6px;
+}
+
+.container-artlist .row .col-xs-12{
+  padding: 0 3px 0 3px;
+}
+
+.container-artlist .row .col-xs-6{
+  padding: 0 3px 0 3px;
+}
+
+.container-artlist .row .col-xs-4{
+  padding: 0 3px 0 3px;
+}
+
+.container-artlist .row .art-content img{
+  display: block;
+  border-radius: 4px;
+}

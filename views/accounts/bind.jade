@@ -1,0 +1,45 @@
+extends ../layout
+
+block main
+	ul.breadcrumb
+		li
+			i.icon-home
+		li
+			i.icon-angle-right
+		li
+			a(href="/") 面板
+		li
+			i.icon-angle-right
+		li
+			a(href="/users") 账号
+
+	div(class="row-fluid sortable")
+		div(class="box span12")
+			div(class="box-header", data-original-title)
+				h2
+					i(class="halflings-icon user")
+					span.break
+					| 账号
+			div.box-content
+				if user.id
+					- var action = "/users/" + user.id + "/bind"
+				else
+					- var action = "/users/bind"
+				form(class="form-horizontal", action="#{action}", method="post")
+					fieldset
+						div.control-group
+							label(class="control-label", for="name") 用户名
+							div.controls
+								input(class="input-xlarge focused ", id="username", name="name", type="text")
+								<p class="help-block"></p>
+									
+						div.control-group
+							label(class="control-label", for="identity") 用户编号
+							div.controls
+								input(class="input-xlarge focused ", id="identity", name="identity", type="text")
+								<p class="help-block"></p>
+									
+						div.form-actions
+							button(type="submit", class="btn btn-primary") 绑定
+							button.btn 
+								a(href="/users") 取消

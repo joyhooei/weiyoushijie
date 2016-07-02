@@ -32,16 +32,22 @@ class RankUI extends eui.Component {
 					}
 				
 					if (application.customer.id == customers[i].id) {
+						me   = application.customer;					
 						rank = i + 1;
-						me = application.customer;
 						
+						//如果我是第一名就没有last
+						if (i > 0) {
+							last = customers[i - 1];
+						}
+						
+						//下一名肯定是有的，因为多取了2条记录
 						next = customers[i + 1];
-					} else {
-						last = customers[i];
 					}
                 }
 				
 				if (me) {
+                    self.listMyRank.removeChildren();
+                    
 					if (last) {
 						self.listMyRank.addChild(new RankItem(true,rank - 1,last));
 					}

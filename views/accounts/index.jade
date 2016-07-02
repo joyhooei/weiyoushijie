@@ -1,0 +1,43 @@
+extends ../layout
+
+block main
+	ul.breadcrumb
+		li
+			i.icon-home
+		li
+			i.icon-angle-right
+		li
+			a(href="/") 面板
+
+
+	div(class="row-fluid sortable")
+		div(class="box span12")
+			div(class="box-header", data-original-title)
+				h2
+					i(class="halflings-icon user")
+					span.break
+					| 账号
+				div.box-icon
+					a(href="/users/new" class="btn-setting")
+						i(class="halflings-icon plus")
+
+			div.box-content
+				table(class="table table-striped table-bordered bootstrap-datatable datatable")
+					thead
+						tr
+							th 账号
+							th 电话
+							th 电子邮箱
+							th 用户
+							th
+					tbody
+						- each user in users
+							tr
+								td= user.get('username')
+								td= user.get('mobile')
+								td= user.get('email')
+								td
+									if user.customer
+										a(href="/customers/#{user.customer.id}") #{user.customer.get('name')}【#{user.customer.get('identity')}】
+								td
+									a(href="/users/#{user.id}/bind", class="btn btn-primary") 绑定用户

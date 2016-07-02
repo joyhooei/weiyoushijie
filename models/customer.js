@@ -34,7 +34,7 @@ module.exports.offlineGold = function(customer) {
     var now  = moment();
     var last = moment(customer.updatedAt);
     
-    if ((customer.get("ticket") && customer.get("ticket").length > 1) || customer.get("vip") == 1) {
+    if (customer.get("vip") > 0) {
 		var percent = 0.9;
     	var period = 12;
 	} else {
@@ -108,6 +108,8 @@ module.exports.create = function(uid, name, avatar, sex, age) {
     customer.set("offline_gold", 0);
     customer.set("offline_hours", 0);
     customer.set("offline_minutes", 0);
+    
+    customer.set("version", "");
     
     return customer;
 }

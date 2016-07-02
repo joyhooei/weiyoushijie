@@ -137,19 +137,26 @@ router.post('/login', function(req, res, next) {
 							customer.set("last_login", now.format());
 						}
 
-						customer.save().then(function(){
-							_succeed(res, _decode(customer));
+					customer.save().then(function(c){
+						Account.update(c.id).then(function(a){
+							_succeed(res, _decode(a));
 						}, function(error){
-							console.error("save customer failed " + error.message);
-							_succeed(res, _decode(customer));
-						})
-					} catch (error) {
-						console.error("login failed " + error.message);
-						_failed(res, error);
-					}
+							console.error("update token failed " + error.message);
+							_failed(res, error);
+						});
+					}, function(error){
+						console.error("save customer failed " + error.message + " customer is " + JSON.stringify(customer));
+
+						Account.update(customer.id).then(function(a){
+							_succeed(res, _decode(a));
+						}, function(error){
+							console.error("update token failed " + error.message);
+							_failed(res, error);
+						});
+					})
 				}, function(error){
 					console.error("find customer failed " + error.message);
-					_failed(res, error);
+					_failed(res, new Error("玩家信息不存在，请重新登录"));
 				})
 			} else {
 				console.error("getInfo failed " + JSON.stringify(result) + " url = " + url);
@@ -157,7 +164,7 @@ router.post('/login', function(req, res, next) {
 			}
 		} else {
 			console.error("post request failed " + error.message);
-			_failed(res, error);
+			_failed(res, new Error("系统内部错误，请稍后再试"));
 		}
 	});
 });
@@ -169,11 +176,11 @@ router.post('/hits', function(req, res, next) {
 			_succeed(res, c.get("total_hits"));
 		}, function(error){
 			console.log("hits customer = " + req.body.customer_id + " failed " + error.message);
-			_failed(res, new Error('修改用户信息失败'));
+			_failed(res, new Error('修改玩家信息失败，请稍后再试'));
 		});
 	}, function(error) {
 		console.log("hits customer = " + req.body.customer_id + " failed " + error.message);
-		_failed(res, new Error('用户信息不存在'));
+		_failed(res, new Error('玩家信息不存在，请重新登录'));
 	});
 });
 
@@ -218,21 +225,38 @@ function _filterAttributes(req) {
 };
 
 function _saveModel(model, req, res) {
-	_filterAttributes(req);
-	
-	var newModel = _encode(model, req.body);
-	
-	newModel.save().then(function(m){
-		dao.get(req.params.model, m.id).then(function(updatedModel){
-			_succeed(res, _decode(updatedModel));
-		}, function(error){
-			_succeed(res, _decode(m));
-		});
-	}, function(error){
-		console.error("_saveModel failed " + error.message + " model is " + JSON.stringify(newModel));
+	if (req.params.model == "Customer") {
+		var customer_id = model.id;
+	} else {
+		var customer_id = req.body.customer_id;
+	}
 
-		_failed(res, error);
-	});
+	if (customer_id && customer_id.length > 1) {
+		Account.check(customer_id, req.query.token).then(function(a){
+			_filterAttributes(req);
+
+			var newModel = _encode(model, req.body);
+
+			newModel.save().then(function(m){
+		dao.get(req.params.model, m.id).then(function(updatedModel){
+					_succeed(res, _decode(updatedModel));
+				}, function(error){
+					console.error("_saveModel get model failed " + error.message + " model is " + JSON.stringify(m));
+					_succeed(res, _decode(m));
+				});
+			}, function(error){
+				console.error("_saveModel save failed " + error.message + " model is " + JSON.stringify(newModel));
+
+				_failed(res, new Error("保存数据失败，请重新登录"));
+			});				
+		}, function(error){
+			_failed(res, new Error("您已经在另外一台终端上登录，请下线！"));
+		});
+	} else {
+		console.error("_saveModel customer_id is empty ");
+
+		_failed(res, new Error("玩家信息不存在，请重新登录"));	
+	}
 };
 
 function _decode(avObj) {

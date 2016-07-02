@@ -1,0 +1,74 @@
+doctype html
+html(lang='zh-CN')
+	head
+	meta(charset='utf-8')
+	
+	meta(name='viewport', content='width=device-width, initial-scale=1, user-scalable=no')
+	
+	link(rel='stylesheet', href='/stylesheets/libs/bootstrap.min.css')
+	link(rel='stylesheet', href='/stylesheets/libs/bootstrap-responsive.min.css')
+	link(rel='stylesheet', href='/stylesheets/libs/style.css')
+	link(rel='stylesheet', href='/stylesheets/libs/style-responsive.css')
+	link(rel='stylesheet', href='//cdn.datatables.net/1.10.7/css/jquery.dataTables.min.css')
+	link(rel='stylesheet', href='//cdn.bootcss.com/jQuery-Validation-Engine/2.6.4/validationEngine.jquery.min.css')
+	link(rel='stylesheet', href='//cdn.bootcss.com/jquery-datetimepicker/2.4.5/jquery.datetimepicker.min.css')
+	
+	link(rel='shortcut icon', href='img/favicon.ico')
+
+	title 造星工场
+
+	body
+		div.navbar
+			div.navbar-inner
+				div.container-fluid
+					block header
+		
+		div.clearfix
+							
+		div(class="container-fluid-full", style="min-height: 600px;")
+			div.row-fluid
+				if messages && messages.errors
+					.alert.alert-danger.fade.in
+						button.close(type='button', data-dismiss='alert')
+							span.ion-close-circled
+						for error in messages.errors
+							div= error.msg
+				if messages && messages.info
+					.alert.alert-info.fade.in
+						button.close(type='button', data-dismiss='alert')
+							i.fa.fa-times-circle-o
+						for info in messages.info
+							div= info.msg
+				if messages && messages.success
+					.alert.alert-success.fade.in
+						button.close(type='button', data-dismiss='alert')
+							i.fa.fa-times-circle-o
+						for success in messages.success
+							div= success.msg
+
+			div.row-fluid
+				block content
+
+		div.clearfix
+		
+		footer()
+			block footer
+	
+		script(src='/javascripts/libs/jquery-1.9.1.min.js')
+		script(src='/javascripts/libs/jquery-ui-1.10.0.custom.min.js')
+		script(src='/javascripts/libs/jquery.ui.touch-punch.js')
+		script(src='/javascripts/libs/modernizr.js')
+		script(src='/javascripts/libs/bootstrap.min.js')
+		script(src='//cdn.datatables.net/1.10.7/js/jquery.dataTables.min.js')
+		script(src='/javascripts/libs/jquery.uniform.min.js')
+		script(src='/javascripts/libs/jquery.noty.js')
+		script(src='/javascripts/libs/jquery.restfulizer.js')
+		script(src='//cdn.bootcss.com/jQuery-Validation-Engine/2.6.4/jquery.validationEngine.min.js')
+		script(src='//cdn.bootcss.com/jQuery-Validation-Engine/2.6.4/languages/jquery.validationEngine-zh_CN.min.js')
+		script(src='//cdn.bootcss.com/jquery-datetimepicker/2.4.5/jquery.datetimepicker.min.js')
+		script(src='/javascripts/libs/custom.js')
+		
+		block js
+			script.
+				$(document).ready(function(){
+				});

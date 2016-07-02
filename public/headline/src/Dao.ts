@@ -25,6 +25,8 @@ class Dao extends egret.EventDispatcher {
         var _cb = function(succeed:number, result: any) {
             if (succeed) {
                 data = result;
+            } else {
+                Toast.launch(result.$target.response);
             }
             
             self.dispatchEventWith(model,true,data);
@@ -48,7 +50,7 @@ class Dao extends egret.EventDispatcher {
 		request.responseType = egret.HttpResponseType.TEXT;
 		
 		//设置为 POST 请求
-		request.open(this._baseUrl + method + "?game=" + this._gameName, egret.HttpMethod.POST);
+		request.open(this._baseUrl + method + "?game=" + this._gameName + "&token=" + application.token, egret.HttpMethod.POST);
 		request.setRequestHeader("Content-Type", "application/json");
 
         request.addEventListener(egret.Event.COMPLETE, (evt: egret.Event) => {
@@ -62,7 +64,7 @@ class Dao extends egret.EventDispatcher {
             
         request.addEventListener(egret.IOErrorEvent.IO_ERROR,(evt: egret.IOErrorEvent) => {
             if(cb) {
-                cb(false,event);
+                cb(false,evt);
             }       
         }, this);
         

@@ -1,0 +1,70 @@
+extends ../layout
+
+block main
+	ul.breadcrumb
+		li
+			i.icon-home
+		li
+			i.icon-angle-right
+		li
+			a(href="/") 面板
+		li
+			i.icon-angle-right
+		li
+			a(href="/posters") 广告
+
+	div(class="row-fluid sortable")
+		div(class="box span12")
+			div(class="box-header", data-original-title)
+				h2
+					i(class="halflings-icon user")
+					span.break
+					| 广告
+			div.box-content
+				if poster.id
+					- var action = "/posters/" + poster.id
+				else
+					- var action = "/posters/"
+				form(class="form-horizontal", action="#{action}", method="post", enctype="multipart/form-data")
+					fieldset
+						div.control-group
+							label(class="control-label", for="title") 标题
+							div.controls
+								input(class="input-xlarge focused", id="title", name="title", type="text", value="#{poster.get('title')}")
+								<p class="help-block"></p>
+
+						div.control-group
+							label(class="control-label", for="internal_url") 链接
+							div.controls
+								input(class="input-xlarge focused", id="internal_url", name="internal_url", type="text", value="#{poster.get('internal_url')}")
+								<p class="help-block"></p>
+
+						div.control-group
+							label(class="control-label", for="state") 是否显示
+							div.controls
+								select(id="state", name="state")
+									option(selected=poster.get('state') == 0, value=0) 不显示
+									option(selected=poster.get('state') == 1, value=1) 显示
+
+						div.control-group
+							label(class="control-label", for="category") 显示分类
+							div.controls
+								input(class="input-xlarge focused", id="category", name="category", type="number", value="#{poster.get('category')}")
+								<p class="help-block"></p>
+
+						div.control-group
+							label(class="control-label", for="sequence") 显示顺序
+							div.controls
+								input(class="input-xlarge focused", id="sequence", name="sequence", type="number", value="#{poster.get('sequence')}")
+								<p class="help-block"></p>
+
+						div.control-group
+							label(class="control-label", for="media_id") 图片
+							div.controls
+								input(class="input-xlarge focused", id="media_id", name="media_id", type="file")
+								<p class="help-block"></p>
+
+						div.form-actions
+							button(type="submit", class="btn btn-primary") 保存
+							button.btn 
+								a(href="/posters") 取消

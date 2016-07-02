@@ -21,6 +21,10 @@ module application {
     export var stopwatch: egret.EventDispatcher;
     
     export var vip: Vip;
+    
+    export var version: string = '1.5.2';
+    
+    export var token: string = "";
 
     export function init(main:Main) {
 		application.main = main;
@@ -73,48 +77,57 @@ module application {
 		}
 		
 		application.saveCustomerNow();
-	}
+	} 
 
     export function onLoginCallback(data:nest.user.LoginCallbackInfo):void{
         //从后台获取用户信息
-        application.dao.rest("login", {token: data.token}, (succeed: boolean, customer: any) => {
+        application.dao.rest("login", {token: data.token}, (succeed: boolean, account: any) => {
             if (succeed) {
-                application.customer = customer;
-                
-                application.vip = Vip.createVip(application.customer.charge);
-                
-                application.checkTicket();
-                
-                esa.EgretSA.player.init({egretId:customer.uid, level:1, serverId:1, playerName:customer.name})
-                
-                //首次登录，需要显示引导页面
-                if (application.customer.metal == 0) {
-                    application.guideUI = new GuideUI();
-                }
-                
-                if(!application.customer.earned_gold) {
-                    application.customer.earned_gold = 0;
-                }
-                
-                var timer: egret.Timer = new egret.Timer(1000, 0);
-				timer.addEventListener(egret.TimerEvent.TIMER,function(event: egret.TimerEvent) {
-                    application.ticks++;
-					
-                    application.stopwatch.dispatchEventWith("second", true, application.ticks);
-                    
-                    if (application.ticks % 60 == 0) {
-                        application.stopwatch.dispatchEventWith("minute", true, application.ticks / 60);
-                        
-                    	if (application.ticks % 3600 == 0) {
-                        	application.stopwatch.dispatchEventWith("hour", true, application.ticks / 3600);
-                    	}
+                application.token = account.token;
+
+                application.dao.fetch("Customer", {id: account.customer_id}, {limit: 1}, function(succeed, customers){
+                    if (succeed && customers.length > 0) {
+                        var customer = customers[0];
+                        application.customer = customer;
+
+                        application.vip = Vip.createVip(application.customer.charge);
+
+                        application.checkTicket();
+
+                        esa.EgretSA.player.init({ egretId: customer.uid,level: 1,serverId: 1,playerName: customer.name })
+
+                        //首次登录，需要显示引导页面
+                        if(application.customer.metal == 0) {
+                            application.guideUI = new GuideUI();
+                        }
+
+                        if(!application.customer.earned_gold) {
+                            application.customer.earned_gold = 0;
+                        }
+
+                        var timer: egret.Timer = new egret.Timer(1000,0);
+                        timer.addEventListener(egret.TimerEvent.TIMER,function(event: egret.TimerEvent) {
+                            application.ticks++;
+
+                            application.stopwatch.dispatchEventWith("second",true,application.ticks);
+
+                            if(application.ticks % 60 == 0) {
+                                application.stopwatch.dispatchEventWith("minute",true,application.ticks / 60);
+
+                                if(application.ticks % 3600 == 0) {
+                                    application.stopwatch.dispatchEventWith("hour",true,application.ticks / 3600);
+                                }
+                            }
+                        },this);
+                        timer.start();
+
+                        application.refreshBid(function(bid) {
+                            application.main.dispatchEventWith(GameEvents.EVT_LOGIN_IN_SUCCESS);
+                        });                          
+                    } else {
+                        Toast.launch("获取账号信息失败");
                     }
-				},this);
-                timer.start();
-                
-				application.refreshBid(function(bid){
-                    application.main.dispatchEventWith(GameEvents.EVT_LOGIN_IN_SUCCESS);
-                });
+                })
             } else {
                 Toast.launch("获取账号信息失败");
             }
@@ -262,6 +275,7 @@ module application {
     export function saveCustomerNow() {
         application.saveSeconds = (new Date()).getTime() / 1000;
 
+        application.customer.version = application.version;
         application.customer.gold = Math.max(0,application.customer.gold);
         application.customer.earned_gold = Math.max(0,application.customer.earned_gold);
         application.customer.accumulated_gold = Math.max(application.customer.accumulated_gold,application.customer.gold);

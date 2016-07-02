@@ -21,6 +21,9 @@ var Dao = (function (_super) {
             if (succeed) {
                 data = result;
             }
+            else {
+                Toast.launch(result.$target.response);
+            }
             self.dispatchEventWith(model, true, data);
             if (cb) {
                 cb(succeed, result);
@@ -38,7 +41,7 @@ var Dao = (function (_super) {
         var request = new egret.HttpRequest();
         request.responseType = egret.HttpResponseType.TEXT;
         //设置为 POST 请求
-        request.open(this._baseUrl + method + "?game=" + this._gameName, egret.HttpMethod.POST);
+        request.open(this._baseUrl + method + "?game=" + this._gameName + "&token=" + application.token, egret.HttpMethod.POST);
         request.setRequestHeader("Content-Type", "application/json");
         request.addEventListener(egret.Event.COMPLETE, function (evt) {
             var request = evt.currentTarget;
@@ -49,7 +52,7 @@ var Dao = (function (_super) {
         }, this);
         request.addEventListener(egret.IOErrorEvent.IO_ERROR, function (evt) {
             if (cb) {
-                cb(false, event);
+                cb(false, evt);
             }
         }, this);
         request.addEventListener(egret.ProgressEvent.PROGRESS, function (evt) {
