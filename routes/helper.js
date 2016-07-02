@@ -1,44 +1,7 @@
-var AV = require('leanengine');
 var fs = require('fs');
 var sizeOf = require('image-size');
 var crypto = require('crypto');
 var multer  = require('multer');
-
-var Audit = require("../models/audit");
-var Media = require("../models/media");
-
-function _createMedia(model, attr, file, resolve, reject) {
-	Media.create(new dao.Media(), file, function(m){
-		if (m) {
-			model.set(attr, m.id);
-		}
-
-		resolve(m);
-	}, function(err){
-		reject(err);
-	});
-};
-
-function _saveMedia(model, attr, file, resolve, reject) {
-	if (model.has(attr) && model.get(attr).length > 0) {
-		var query = new AV.Query(dao.Media);
-		query.get(model.get(attr)).then( function(m){
-			Media.create(m, file, function(m){
-				resolve(m);
-			}, function(err){
-				reject(err);
-			});
-		}, function(err){
-			_createMedia(model, attr, file, resolve, reject);
-		});
-	} else {
-		_createMedia(model, attr, file, resolve, reject);
-	}
-}
-
-module.exports.saveMedia = function (model, attr, file, resolve, reject) {
-	_saveMedia(model, attr, file, resolve, reject);
-};
 
 module.exports.redirect = function (restfulName, req, res) {
 	_redirect(restfulName, req, res);
@@ -94,41 +57,19 @@ function _renderEdit(model, modelName, restfulName,  req, res, options) {
 	_render(restfulName + '/edit', req, res, options);
 };
 
-function _queryModel(modelClass, query, modelName, restfulName, req, res){
-	if (modelClass.find) {
-		var p = modelClass.find(query);
-	} else {
-		var p = query.find();
-	}
-	p.then(
+module.exports.listModel = function(modelClass, modelName, restfulName, req, res){
+	dao.find(modelClass, {}, {order: 'update_time ASC'}).then(
 		function(models){
 			_renderIndex(models, modelName, restfulName, req, res);
 		}, function(err){
 			req.flash('errors', { msg: err.message });
 			
 			_renderIndex([], modelName, restfulName, req, res);
-		});
-};
-
-module.exports.queryModel = function(modelClass, query, modelName, restfulName, req, res){
-	_queryModel(modelClass, query, modelName, restfulName, req, res);
-};
-
-module.exports.listModel = function(modelClass, modelName, restfulName, req, res){
-	var query = new AV.Query(modelClass);
-	query.limit(1000);
-	query.ascending("updated_at");
-	
-	_queryModel(modelClass, query, modelName, restfulName, req, res);
+		});	
 };
 
 module.exports.viewModel = function(modelClass, modelName, restfulName, req, res){
-	if (modelClass.get) {
-		var p = modelClass.get(req.params.id);
-	} else {
-		var p = query.get(req.params.id);
-	}
-	p.then(
+	dao.get(modelClass, req.params.id).then(
 		function(model){
 			_renderView(model, modelName, restfulName, req, res);
 		}, function(err){
@@ -143,8 +84,7 @@ module.exports.newModel = function(model, modelName, restfulName, req, res, opti
 };
 
 module.exports.editModel = function(modelClass, modelName, restfulName, req, res, options){
-	var query = new AV.Query(modelClass);
-	query.get(req.params.id).then(
+	dao.get(modelClass, req.params.id).then(
 		function(model){
 			_renderEdit(model, modelName, restfulName, req, res, options);
 		}, function(err){
@@ -193,50 +133,21 @@ function _saveModel(model, modelName, restfulName, req, res, options) {
 
 		_redirect(restfulName, req, res);
 	}, function(err){
-		Audit.failed(req.user, operator, restfulName, model, err.message);
-
 		req.flash('errors', { msg: err.message });
 
 		_renderEdit(model, modelName, restfulName, req, res, options);
 	});
 };
 
-function _saveModelWithMedia(model, modelName, restfulName, req, res, options) {
-	if (model.id) {
-		var operator = "update";
-	} else {
-		var operator = "create";
-	}	
-
-	if (req.files && req.files.length > 0) {
-		var f = req.files[0];
-		_saveMedia(model, f.fieldname, f,
-			function(m){
-				_saveModel(model, modelName, restfulName, req, res, options);
-			}, function(err) {
-				Audit.failed(req.user, operator, restfulName, model, err.message);
-					
-				req.flash('errors', { msg: err.message });
-
-				_renderEdit(model, modelName, restfulName, req, res, options);
-			});
-	} else {
-		_saveModel(model, modelName, restfulName, req, res, options);
-	}
-};
-
 module.exports.createModel = function(model, modelName, restfulName, req, res, options){
-	_saveModelWithMedia(model, modelName, restfulName, req, res, options);
+	_saveModel(model, modelName, restfulName, req, res, options);
 };
 
 module.exports.updateModel = function(modelClass, modelName, restfulName, req, res, options){
-	var query = new AV.Query(modelClass);
-	query.get(req.params.id).then(
+	dao.get(modelClass, req.params.id).then(
 		function(model){
-			_saveModelWithMedia(model, modelName, restfulName, req, res, options);
+			_saveModel(model, modelName, restfulName, req, res, options);
 		}, function(err){
-			Audit.failed(req.user, 'update', restfulName, req.params.id, err.message);
-					
 			req.flash('errors', { msg: err.message });
 
 			_redirect(restfulName, req, res);
@@ -244,19 +155,14 @@ module.exports.updateModel = function(modelClass, modelName, restfulName, req, r
 };
 
 module.exports.deleteModel = function(modelClass, restfulName, flash, req, res){
-	var query = new AV.Query(modelClass);
-	query.get(req.params.id).then(
+	dao.get(modelClass, req.params.id).then(
 		function(model){
 			model.destroy().then(
 				function(c){
-					Audit.succeed(req.user, 'delete', restfulName, model);
-					
 					req.flash('success', { msg: flash });
 
 					_redirect(restfulName, req, res);
 				}, function(err){
-					Audit.failed(req.user, 'delete', restfulName, model, err.message);
-					
 					req.flash('errors', { msg: err.message });
 
 					_redirect(restfulName, req, res);

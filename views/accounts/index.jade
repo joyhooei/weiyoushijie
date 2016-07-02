@@ -26,18 +26,12 @@ block main
 					thead
 						tr
 							th 账号
-							th 电话
-							th 电子邮箱
 							th 用户
 							th
 					tbody
-						- each user in users
+						- each account in accounts
 							tr
-								td= user.get('username')
-								td= user.get('mobile')
-								td= user.get('email')
+								td= account.get('username')
 								td
-									if user.customer
-										a(href="/customers/#{user.customer.id}") #{user.customer.get('name')}【#{user.customer.get('identity')}】
-								td
-									a(href="/users/#{user.id}/bind", class="btn btn-primary") 绑定用户
+									if account.customer
+										a(href="/customers/#{account.customer.id}") #{account.customer.get('name')}

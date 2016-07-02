@@ -4,11 +4,21 @@ var AV = require('leanengine');
 var domain = require('domain');
 var express = require('express');
 var path = require('path');
+var favicon = require('serve-favicon');
+var morgan = require('morgan');
 var cookieParser = require('cookie-parser');
 var bodyParser = require('body-parser');
+var passport = require('passport');
+var LocalStrategy = require('passport-local');
+var methodOverride = require('method-override');
+var session = require('express-session');
+var flash = require('express-flash');
 
+var home = require('../../routes/index');
 var api = require('../../routes/api');
 var om = require('../../routes/om');
+var accounts = require('../../routes/accounts');
+var customers = require('../../routes/customers');
 
 GLOBAL.moment = require("moment");
 GLOBAL._ = require("underscore");
@@ -29,9 +39,14 @@ var LDAO = require('../leancloud/dao');
 GLOBAL.ldao = new LDAO();
 GLOBAL.ldao.initialize(app);
 
-app.use(bodyParser.json());
-app.use(bodyParser.urlencoded({ extended: false }));
 app.use(cookieParser());
+app.use(bodyParser.urlencoded({ extended: false }));
+app.use(bodyParser.json());
+app.use(methodOverride('_method'));
+app.use(session({secret: 'supernova', saveUninitialized: true, resave: true}));
+app.use(passport.initialize());
+app.use(passport.session());
+app.use(flash());
 
 // 未处理异常捕获 middleware
 app.use(function(req, res, next) {
@@ -59,8 +74,45 @@ app.get('/', function(req, res) {
 });
 
 // 可以将一类的路由单独保存在一个文件中
+app.use('/', home);
 app.use('/api', api);
 app.use('/om', om);
+app.use('/customers', customers);
+app.use('/accounts', accounts);
+
+// Passport session setup.
+passport.serializeUser(function(user, done) {
+    done(null, user);
+});
+
+passport.deserializeUser(function(obj, done) {
+    done(null, obj);
+});
+
+// Use the LocalStrategy within Passport to login users.
+passport.use('local-login', new LocalStrategy(
+    {passReqToCallback : true}, //allows us to pass back the request to the callback
+    function(req, username, password, done) {
+      var Account = require("../../models/account");
+      var Helper = require("../../routes/helper");
+
+      Account.login(new dao.Account({username:username, password:Helper.md5(password)}), true).then(function(account) {
+        if (account.get("role") == 0) {
+            app.locals.username = username;
+            
+            done(null, account);
+        } else {
+            req.flash('errors', { msg: '只有管理员才能够登录' });
+            
+            done(null, false, '只有管理员才能够登录');
+        }
+      }, function (err){
+        req.flash('errors', { msg: err.message });
+            
+        done(null, false, err.message);
+      });
+    }
+));
 
 // 如果任何路由都没匹配到，则认为 404
 // 生成一个异常让后面的 err handler 捕获

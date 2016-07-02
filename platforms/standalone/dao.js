@@ -159,7 +159,14 @@ module.exports = function() {
 		var db = mongoose.connection;
 		db.on('error', console.error.bind(console, 'connection error:'));
 		db.once('open', function() {
-			console.log("connect mongodb succeed");
+			self.addModel("Account", {
+				username: String,
+				password: String,
+				salt: String,
+				token: String,
+				role: Number,
+				customer_id: String,
+			});
 
 			self.addModel("Bid", {
 				customer_id: String,
@@ -265,6 +272,8 @@ module.exports = function() {
 			});
 
 			require('./cloud');
+
+			console.log("connect mongodb succeed");
 		});
 		
 		mongoose.connect('mongodb://weiyoushijie:weiyugame@ds023644.mlab.com:23644/weiyoushijie');	
@@ -309,6 +318,8 @@ module.exports = function() {
 			});
 
 			this[className] = claz;
+
+			console.log("add model " + className);
 
 			return claz;
 		} catch (error) {
