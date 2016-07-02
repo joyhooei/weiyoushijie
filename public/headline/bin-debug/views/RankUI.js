@@ -33,6 +33,7 @@ var RankUI = (function (_super) {
                     }
                 }
                 if (me) {
+                    self.listMyRank.removeChildren();
                     if (last) {
                         self.listMyRank.addChild(new RankItem(true, rank - 1, last));
                     }

@@ -46,6 +46,8 @@ class RankUI extends eui.Component {
                 }
 				
 				if (me) {
+                    self.listMyRank.removeChildren();
+                    
 					if (last) {
 						self.listMyRank.addChild(new RankItem(true,rank - 1,last));
 					}
