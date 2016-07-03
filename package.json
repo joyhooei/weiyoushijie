@@ -27,6 +27,7 @@
     "express-flash": "^0.0.2",
     "q":"1.4.1",
     "mongodb": "2.0.46",
+    "leanengine": "^0.1.4",
     "mongoose": "*"
   },
   "engines": {

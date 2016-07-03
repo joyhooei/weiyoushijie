@@ -1,5 +1,4 @@
 'use strict';
-var AV = require('leanengine');
 
 var domain = require('domain');
 var express = require('express');

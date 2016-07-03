@@ -1,5 +1,3 @@
-var AV = require('leanengine');
-
 var crypto = require('crypto');
 
 function _hashPassword(password, salt) {
