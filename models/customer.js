@@ -1,5 +1,6 @@
 var Gift = require('./gift');
 var Project = require('./project');
+var Message = require('./message');
 
 module.exports.expireTicket = function(request, response) {
     var now = moment();

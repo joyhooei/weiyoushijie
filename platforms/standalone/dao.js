@@ -80,6 +80,9 @@ _.extend(Model.prototype, {
 		try {
 			if (typeof key === 'object') {
 				_.extend(self.attributes, key);
+				if (key.id) {
+					self._obj._id = key.id;
+				}
 			} else {
 				self.attributes[key] = val;
 			}
@@ -103,27 +106,27 @@ _.extend(Model.prototype, {
 					self.beforeSave().then(function(){
 						self._obj.save(function(error){
 							if (error) {
-								console.error("save obj failed " + error.message());
+								console.error("save obj failed " + error.message);
 								
 								reject(error);
 							} else {
 								try {
 									self.afterSave();
 								} catch (error) {
-									console.error("afterSave obj failed " + error.message());
+									console.error("afterSave obj failed " + error.message);
 								}
 
 								resolve(self.decode(self._obj));
 							}
 						});
 					}, function(error){
-						console.error("beforeSave obj failed " + error.message());
+						console.error("beforeSave obj failed " + error.message);
 						reject(error);
 					})
 				} else {
 					self._obj.save(function(error){
 						if (error) {
-							console.error("save obj failed " + error.message());
+							console.error("save obj failed " + error.message);
 							reject(error);
 						} else {
 							resolve(self.decode(self._obj));
@@ -132,7 +135,7 @@ _.extend(Model.prototype, {
 				}
 
 			} catch(error) {
-				console.error("save model failed " + error.message());
+				console.error("save model failed " + error.message);
 				reject(error);
 			}
 		});
@@ -276,7 +279,8 @@ module.exports = function() {
 			console.log("connect mongodb succeed");
 		});
 		
-		mongoose.connect('mongodb://weiyoushijie:weiyugame@ds023644.mlab.com:23644/weiyoushijie');	
+		//mongoose.connect('mongodb://weiyoushijie:weiyugame@ds023644.mlab.com:23644/weiyoushijie');	
+		mongoose.connect('mongodb://mongo.duapp.com:8908/NZusBhjryHfltelpWkiL')
 	}
 	
 	this.clear = function(className) {

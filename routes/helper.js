@@ -177,11 +177,11 @@ module.exports.deleteModel = function(modelClass, restfulName, flash, req, res){
 };
 
 module.exports.ensureAuthenticated = function (req, res, next) {
-   	if (req.isAuthenticated()) { 
+   	//if (req.isAuthenticated()) { 
 		  return next(); 
-	 }
+	//}
 
-  	 res.redirect('/login');
+  	//res.redirect('/login');
 };
 
 module.exports.upload = function (req, res, next) {

@@ -96,47 +96,85 @@ router.get('/clear/:model', function(req, res, next) {
 })
 
 router.get('/transfer/:model', function(req, res, next) {
+	var offset = parseInt(req.query.offset || 0);
+	var limit  = parseInt(req.query.limit  || 1000);
 	dao.clear(req.params.model).then(function(p){
 		_query(
+			req,
 			res, 
-			"http://www.weiyoushiejie.com/api/select/" + req.params.model, 
-			{conditions: {}, filters: {limit: 500, offset: 0}});
+			limit,
+			"http://weiyugame.leanapp.cn/api/select/" + req.params.model, 
+			{conditions: {game: "headline"}, filters: {limit: 100, offset: offset, order: 'create_time ASC'}});
 	});
 })
 
-function _query(res, url, data) {
-	var promise = Q.Promise(function(resolve, reject, notify) {
-		request.post({url:url, data:data}, function (error, response, body) {
-			if (!error && response.statusCode == 200) {
-				var objs = JSON.parse(body);
+function _post(url, data) {
+	return Q.Promise(function(resolve, reject, notify) { 
+		var options = {
+		    url: url,
+		    method: 'POST',
+		    json:true,
+		    body: data
+		};
 
-				_.each(objs, function(o){
+		function callback(error, response, data) {
+		    if (!error && response.statusCode == 200) {
+		        resolve(data);
+		    } else {
+		    	reject(new Error(response.statusCode));
+		    }
+		}
+
+		request(options, callback);
+	});	
+}
+
+function _query(req, res, limit, url, data) {
+	console.log("_query " + JSON.stringify(data));
+
+	var promise = Q.Promise(function(resolve, reject, notify) {
+		_post(url, data).then(function(body){
+			try {
+				var promises = [];
+
+				_.each(body, function(obj){
 					var m = dao.new(req.params.model);
-					m.set(o);
+					m.set(obj);
+
 					promises.push(m.save());
 				});
 
-				Q.all(promises).then(function(){
-					resolve(promises.length);
-				}, function(error){
-					reject(error);
-				});
-			} else {
+				if (promises.length > 0) {
+					Q.all(promises).then(function(){
+						console.log("Transfering " + req.params.model + " " + promises.length);
+						resolve(promises.length);
+					}, function(error){
+						console.error("save failed " + error.message);
+						reject(error);
+					});
+				} else {
+					resolve(0);
+				}
+			} catch (error) {
+				console.error("failed " + error.message);
 				reject(error);
 			}
+		}, function(error){
+			console.error("post " + url + " with " + JSON.stringify(data) + " failed " + error);
+			reject(error);
 		});
 	});
 	
 	promise.then(function(length){
-		if (length == data.filters.limit) {
-			data.filters.offset += data.filters.limit;
-			_query(res, url, data);
+		if (length < limit && length > 0) {
+			data.filters.offset += length;
+			_query(req, res, limit, url, data);
 		} else {
-			res.status(200).send(data.filters.offset + length);
+			res.status(200).send("Transfer " + req.params.model + " " + limit + " succeed!");
 		}
 	}, function(error){
 		console.error(error.message);			
-		_failed(res, error);		
+		_failed(res, error);
 	});
 }
 

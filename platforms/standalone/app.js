@@ -35,10 +35,6 @@ var DAO = require('./dao');
 GLOBAL.dao = new DAO();
 GLOBAL.dao.initialize();
 
-var LDAO = require('../leancloud/dao');
-GLOBAL.ldao = new LDAO();
-GLOBAL.ldao.initialize(app);
-
 app.use(cookieParser());
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
