@@ -22,7 +22,7 @@ module.exports.max = function(request, response) {
 				
 				var diamond = 500;
 				if (i == 0) {
-					_updateMaxBid(bid);
+					_updateMaxBid(bid, response);
 					
 					diamond = 2000;
 				} else if (i == 1) {
