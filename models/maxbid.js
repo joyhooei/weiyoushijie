@@ -47,7 +47,7 @@ module.exports.max = function(request, response) {
     });	
 }
 
-function _updateMaxBid(bid) {
+function _updateMaxBid(bid, response) {
 	var q = new AV.Query(dao.MaxBid);
 	q.equalTo('day', bid.get("day"));
 	q.equalTo('game', bid.get("game"));
