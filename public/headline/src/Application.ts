@@ -34,7 +34,7 @@ module application {
         } else if (egret.getOption("test") == "local") {
             application.baseUrl = "http://localhost:3000/";
         } else {
-            application.baseUrl = "http://www.weiyoushijie.com/";
+            application.baseUrl = "http://weiyoushijie.bceapp.com/";
 		}
 		
         application.dao = new Dao(application.baseUrl + "api/", "headline");
