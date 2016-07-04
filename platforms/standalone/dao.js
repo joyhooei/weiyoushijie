@@ -280,7 +280,7 @@ module.exports = function() {
 		});
 		
 		//mongoose.connect('mongodb://weiyoushijie:weiyugame@ds023644.mlab.com:23644/weiyoushijie');	
-		mongoose.connect('mongodb://221d9f35214c3bc7e42b8dc1e2738566:0566fbb81ffe13cac56acf420214522e@mongo.duapp.com:8908/NZusBhjryHfltelpWkiL', {db: {w: 1}})
+		mongoose.connect('mongodb://9b18dc67c08b4434bdf68b0c3ff45477:d35f2aa56b1b4806b9934950c3d89bea@mongo.bce.duapp.com:8908/gmkSqUizKEatLnvxuIcZ', {db: {w: 1}})
 	}
 	
 	this.clear = function(className) {
