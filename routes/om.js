@@ -97,12 +97,9 @@ router.get('/clear/:model', function(req, res, next) {
 
 router.get('/transfer/:model', function(req, res, next) {
 	var offset = parseInt(req.query.offset || 0);
-	var limit  = parseInt(req.query.limit  || 1000);
+	var total  = parseInt(req.query.limit  || 1000);
 	dao.clear(req.params.model).then(function(p){
-		_query(
-			req,
-			res, 
-			limit,
+		_query(req, res,  total,
 			"http://weiyugame.leanapp.cn/api/select/" + req.params.model, 
 			{conditions: {game: "headline"}, filters: {limit: 100, offset: offset, order: 'create_time ASC'}});
 	});
@@ -129,7 +126,7 @@ function _post(url, data) {
 	});	
 }
 
-function _query(req, res, limit, url, data) {
+function _query(req, res, total, url, data) {
 	console.log("_query " + JSON.stringify(data));
 
 	var promise = Q.Promise(function(resolve, reject, notify) {
@@ -146,31 +143,31 @@ function _query(req, res, limit, url, data) {
 
 				if (promises.length > 0) {
 					Q.all(promises).then(function(){
-						console.log("Transfering " + req.params.model + " " + promises.length);
+						console.log("Transferred " + req.params.model + " size is " + promises.length);
 						resolve(promises.length);
 					}, function(error){
-						console.error("save failed " + error.message);
+						console.error("Transfer failed when save objs " + error.message);
 						reject(error);
 					});
 				} else {
 					resolve(0);
 				}
 			} catch (error) {
-				console.error("failed " + error.message);
+				console.error("Transfer failed " + error.message);
 				reject(error);
 			}
 		}, function(error){
-			console.error("post " + url + " with " + JSON.stringify(data) + " failed " + error);
+			console.error("Post " + url + " with " + JSON.stringify(data) + " failed " + error.message);
 			reject(error);
 		});
 	});
 	
 	promise.then(function(length){
-		if (length < limit && length > 0) {
-			data.filters.offset += length;
-			_query(req, res, limit, url, data);
+		data.filters.offset += length;
+		if (data.filters.offset < total && length > 0) {
+			_query(req, res, total, url, data);
 		} else {
-			res.status(200).send("Transfer " + req.params.model + " " + limit + " succeed!");
+			res.status(200).send("Transfer " + req.params.model + " " + total + " succeed!");
 		}
 	}, function(error){
 		console.error(error.message);			
