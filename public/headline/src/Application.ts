@@ -190,6 +190,22 @@ module application {
 						} else {
 							gift.locked = 1;
 						}
+                    } else if (gift.category == GiftCategory.Output) {
+						let nextOutput:number = +gift.data;
+						let nextOutputLog: number = application.log10(nextOutput);
+                        let outputLog: number = application.log10(application.customer.output);
+                        
+						//如果用户的秒产超过了下一个可以领取的秒产，则仍然保持解锁状态
+						if (outputLog >= nextOutputLog) {
+							gift.locked = 0;
+						}
+                        
+                        //修正一下9.9999999e+25的问题
+                        nextOutput = 1;
+                        for (var i = 0; i < nextOutputLog; i++) {
+                            nextOutput = nextOutput * 10;
+                        }
+                        gift.data = nextOutput.toString();                        
                     } else {                    
                         gift.locked = 1;
                     }
@@ -650,7 +666,8 @@ module application {
     export function log10(d:number):number {
         let result:number = 0;
         
-        while(d >= 10) {
+        //可能出现9.9999999e+25的情况
+        while(d >= 9) {
             result += 1;
             d = d / 10;
         }
