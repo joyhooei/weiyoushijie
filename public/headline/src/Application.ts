@@ -190,6 +190,13 @@ module application {
 						} else {
 							gift.locked = 1;
 						}
+                    } else if (gift.category == GiftCategory.Output) {
+						var nextOutput = parseInt(gift.data);
+						
+						//如果用户的秒产超过了下一个可以领取的秒产，则仍然保持解锁状态
+						if (application.log10(application.customer.output) >= application.log10(nextOutput)) {
+							gift.locked = 0;
+						}
                     } else {                    
                         gift.locked = 1;
                     }
