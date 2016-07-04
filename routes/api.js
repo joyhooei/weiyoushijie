@@ -9,14 +9,20 @@ var Order = require('../models/order');
 var Rank = require('../models/rank.js');
 
 router.get('/open_bid', function(req, res, next) {
+	console.log("open_bid " + JSON.stringify(req.query));
+	
 	Bid.open(req, res);
 })
 
 router.get('/max_bid', function(req, res, next) {
+	console.log("max_bid " + JSON.stringify(req.query));
+	
 	Bid.max(req, res);
 })
 
 router.get('/expire_ticket', function(req, res, next) {
+	console.log("expire_ticket " + JSON.stringify(req.query));
+	
 	Customer.expireTicket(req, res);
 })
 
