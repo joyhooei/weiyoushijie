@@ -2,7 +2,7 @@ var application;
 (function (application) {
     application.saveSeconds = 0;
     application.ticks = 0;
-    application.version = '1.5.2';
+    application.version = '1.5.4';
     application.token = "";
     function init(main) {
         application.main = main;
@@ -148,6 +148,15 @@ var application;
                         }
                         else {
                             gift.locked = 1;
+                        }
+                    }
+                    else if (gift.category == GiftCategory.Output) {
+                        var nextOutput = +gift.data;
+                        var nextOutputLog = application.log10(nextOutput);
+                        var outputLog = application.log10(application.customer.output);
+                        //如果用户的秒产超过了下一个可以领取的秒产，则解锁
+                        if (outputLog >= nextOutputLog) {
+                            gift.locked = 0;
                         }
                     }
                     else {
@@ -438,7 +447,7 @@ var application;
     function share(callback) {
         nest.share.isSupport({}, function (data) {
             if (data.share == 1) {
-                var url = application.baseUrl + "headline/index.html";
+                var url = application.baseUrl + "headline/index.html?platInfo=open_90359_9166&appId=90359&egret.runtime.spid=9166&appId=90359&channelId=9166&isNewApi=1&egretSdkDomain=http://api.egret-labs.org/v2&egretServerDomain=http://api.egret-labs.org/v2&egretRv=669";
                 var img_url = application.baseUrl + "headline/resource/art/home/icon.png";
                 nest.share.share({ title: '我来上头条，女神任我挑！', description: '最炫最浪的舞蹈经营类游戏，无需下载，点开即送，多重豪礼等你来拿！', url: url, img_url: img_url, img_title: '头条关注' }, function (data) {
                     if (data.result == 0) {
@@ -493,9 +502,7 @@ var application;
     application.gotoTool = gotoTool;
     function showHelp(content) {
         if (content.length == 0) {
-            content = "微信帮助平台 Amazing微遇游戏\n";
-            content += "QQ客服 3369182016\n";
-            content += "邮箱 3369182016@qq.com\n";
+            content = "QQ客服 3369182016\n";
             content += "玩法\n";
             content += "1. 点击中间舞者可产生金币，金币用来升级运营项目，而运营项目随等级提高从而产生更多的金币。\n";
             content += "2. 金币可以用来参加头条拍卖，每天最高出价者会成为头条，获得头条殊荣，勋章和钻石奖励。\n";
@@ -604,7 +611,8 @@ var application;
     application.format = format;
     function log10(d) {
         var result = 0;
-        while (d >= 10) {
+        //可能出现9.9999999e+25的情况
+        while (d >= 9) {
             result += 1;
             d = d / 10;
         }

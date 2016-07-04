@@ -108,7 +108,7 @@ class ProjectItem extends eui.Component {
             this.lblPrice.text = application.format(p);
 
             if(this._myProject.sequence % 2 == 0) {
-                if(application.usableGold() > p10)) {
+                if(application.usableGold() > p10) {
                     this.imgUpgrade10.source = "upgrade10_png";
                 } else {
                     this.imgUpgrade10.source = "upgrade10g_png";

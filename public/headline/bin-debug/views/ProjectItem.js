@@ -52,7 +52,7 @@ var ProjectItem = (function (_super) {
         }
     };
     p.output = function () {
-        return this._project.output(this._myProject.level, this._myProject.achieve, this._myProject.tool_ratio);
+        return application.vip.getOutput(this._project.output(this._myProject.level, this._myProject.achieve, this._myProject.tool_ratio));
     };
     p.renderProject = function () {
         if (this._myProject.unlocked == 1) {
@@ -70,18 +70,20 @@ var ProjectItem = (function (_super) {
             this.imgUpgrade100.source = "upgrade100g_png";
         }
         else {
-            var p = this._project.priceOf(this._myProject.level);
+            var p = application.vip.getUpgrade(this._project.priceOf(this._myProject.level));
+            var p10 = application.vip.getUpgrade(this._project.price(this._myProject.level, 10));
+            var p100 = application.vip.getUpgrade(this._project.price(this._myProject.level, 100));
             this.lblLevel.text = this._myProject.level;
             this.lblOutput.text = application.format(this.output());
             this.lblPrice.text = application.format(p);
             if (this._myProject.sequence % 2 == 0) {
-                if (application.usableGold() > this._project.price(this._myProject.level, 10)) {
+                if (application.usableGold() > p10) {
                     this.imgUpgrade10.source = "upgrade10_png";
                 }
                 else {
                     this.imgUpgrade10.source = "upgrade10g_png";
                 }
-                if (application.usableGold() > this._project.price(this._myProject.level, 100)) {
+                if (application.usableGold() > p100) {
                     this.imgUpgrade100.source = "upgrade100_png";
                 }
                 else {
@@ -95,13 +97,13 @@ var ProjectItem = (function (_super) {
                 }
             }
             else {
-                if (application.usableGold() > this._project.price(this._myProject.level, 10)) {
+                if (application.usableGold() > p10) {
                     this.imgUpgrade10.source = "upgrade10b_png";
                 }
                 else {
                     this.imgUpgrade10.source = "upgrade10g_png";
                 }
-                if (application.usableGold() > this._project.price(this._myProject.level, 100)) {
+                if (application.usableGold() > p100) {
                     this.imgUpgrade100.source = "upgrade100b_png";
                 }
                 else {
@@ -156,7 +158,7 @@ var ProjectItem = (function (_super) {
     };
     p.upgrade = function (step) {
         var self = this;
-        var p = this._project.price(this._myProject.level, step);
+        var p = application.vip.getUpgrade(this._project.price(this._myProject.level, step));
         if (application.usableGold() < p) {
             Toast.launch("没有足够的金币");
             return;

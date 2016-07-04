@@ -195,17 +195,10 @@ module application {
 						let nextOutputLog: number = application.log10(nextOutput);
                         let outputLog: number = application.log10(application.customer.output);
                         
-						//如果用户的秒产超过了下一个可以领取的秒产，则仍然保持解锁状态
+						//如果用户的秒产超过了下一个可以领取的秒产，则解锁
 						if (outputLog >= nextOutputLog) {
 							gift.locked = 0;
-						}
-                        
-                        //修正一下9.9999999e+25的问题
-                        nextOutput = 1;
-                        for (var i = 0; i < nextOutputLog; i++) {
-                            nextOutput = nextOutput * 10;
-                        }
-                        gift.data = nextOutput.toString();                        
+						}                     
                     } else {                    
                         gift.locked = 1;
                     }

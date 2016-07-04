@@ -55,16 +55,12 @@
          data-show-fps="false" data-show-log="false"
          data-log-filter="" data-show-fps-style="x:0,y:0,size:30,textColor:0x00c200,bgAlpha:0.9">
     </div>
+	<img src="resource/art/icon.jpg" width="0" height="0" />
     <script>
-		var width = window.innerWidth
-		|| document.documentElement.clientWidth
-		|| document.body.clientWidth;
-
-		var height = window.innerHeight
-		|| document.documentElement.clientHeight
-		|| document.body.clientHeight;
+		var width = window.innerWidth || document.documentElement.clientWidth || document.body.clientWidth;
+		var height = window.innerHeight || document.documentElement.clientHeight || document.body.clientHeight;
 		
-		var element = document.getElementById('egret-player');		
+		var element = document.getElementById('egret-player');
 		element.style.width = (Math.min(width, height) - 1) + "px";
 		
         egret.runEgret();
