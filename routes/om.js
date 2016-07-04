@@ -9,7 +9,7 @@ router.get('/multicast', function(req, res, next) {
 	
 	if (!req.query.content){
 		var usage = "<h1>使用帮助</h1>";
-		usage += "<p>http://stg-weiyugame.leanapp.cn/om/multicast?test=true&quantity=0&attach=none&content='消息内容'&limit=100&offset=0&vip=2</p>";
+		usage += "<p>http://www.weiyoushijie.com/om/multicast?test=true&quantity=0&attach=none&content='消息内容'&limit=100&offset=0&vip=2</p>";
 		usage += "<p>test=true：表示不发送，只是看一下哪些玩家会被发送消息</p>";
 		usage += "<p>attach=none&content='消息内容'：消息Message表中的内容和附件</p>";
 		usage += "<p>limit=100&offset=0：从第几个玩家开始，最多多少玩家</p>";
@@ -101,7 +101,7 @@ router.get('/transfer/:model', function(req, res, next) {
 	dao.clear(req.params.model).then(function(p){
 		_query(req, res,  total,
 			"http://weiyugame.leanapp.cn/api/select/" + req.params.model, 
-			{conditions: {game: "headline"}, filters: {limit: 100, offset: offset, order: 'create_time ASC'}});
+			{conditions: {}, filters: {limit: 100, offset: offset, order: 'create_time ASC'}});
 	});
 })
 
@@ -167,7 +167,7 @@ function _query(req, res, total, url, data) {
 		if (data.filters.offset < total && length > 0) {
 			_query(req, res, total, url, data);
 		} else {
-			res.status(200).send("Transfer " + req.params.model + " " + total + " succeed!");
+			res.status(200).send("Transfer " + req.params.model + " " + data.filters.offset + " succeed!");
 		}
 	}, function(error){
 		console.error(error.message);			

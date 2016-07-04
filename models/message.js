@@ -21,5 +21,5 @@ function _send(message, customerId, title, content, attach, quantity) {
 			console.error("send message " + JSON.stringify(message) + " failed " + error.message);
 			reject(error);
 		});
-	});
+	});	
 }

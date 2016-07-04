@@ -1,5 +1,4 @@
 var fs = require('fs');
-var sizeOf = require('image-size');
 var crypto = require('crypto');
 var multer  = require('multer');
 

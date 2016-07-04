@@ -22,7 +22,7 @@ module.exports.max = function(request, response) {
 				
 				var diamond = 500;
 				if (i == 0) {
-					_updateMaxBid(bid);
+					_updateMaxBid(bid, response);
 					
 					diamond = 2000;
 				} else if (i == 1) {
@@ -34,7 +34,7 @@ module.exports.max = function(request, response) {
 				}
 				
 				if ((dt.getHours() == 0 && dt.getMinutes() < 5) || (dt.getHours() == 23 && dt.getMinutes() > 55)) {
-					Message.send(bid.get("customer_id"), "拍卖奖励", "到凌晨0点为止，您的拍卖排行是第" + (i + 1).toString() + '名，获得额外奖励，谢谢参与！', "diamond", diamond);
+					Message.send(bid.get("customer_id"), "拍卖奖励", today + "凌晨0点，您的拍卖排行是第" + (i + 1).toString() + '名，获得额外奖励，谢谢参与！', "diamond", diamond);
 				}
 			}
     	} else {
@@ -47,7 +47,7 @@ module.exports.max = function(request, response) {
     });	
 }
 
-function _updateMaxBid(bid) {
+function _updateMaxBid(bid, response) {
 	var q = new AV.Query(dao.MaxBid);
 	q.equalTo('day', bid.get("day"));
 	q.equalTo('game', bid.get("game"));
