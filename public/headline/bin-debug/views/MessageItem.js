@@ -55,25 +55,23 @@ var MessageItem = (function (_super) {
     p.refresh = function (message) {
         this.lblTitle.text = message.title;
         this.lblContent.text = message.content;
-        if (message.attach_quantity > 0) {
-            this.imgAttach.visible = true;
-            if (message.attach_category == "diamond") {
-                this.imgAttach.source = "dia_png";
-            }
-            else if (message.attach_category == "gold") {
-                this.imgAttach.source = "coin_png";
-            }
-            else {
-                this.imgAttach.source = "metal_png";
-            }
-            this.lblAttach.text = "x" + message.attach_quantity;
-        }
-        else {
-            this.imgAttach.visible = false;
-        }
+        this.imgAttach.visible = false;
+        this.lblAttach.visible = false;
         if (message.state == 0) {
             if (message.attach_quantity > 0) {
                 this.imgOperate.source = "get_png";
+                this.imgAttach.visible = true;
+                this.lblAttach.visible = true;
+                if (message.attach_category == "diamond") {
+                    this.imgAttach.source = "dia_png";
+                }
+                else if (message.attach_category == "gold") {
+                    this.imgAttach.source = "coin_png";
+                }
+                else {
+                    this.imgAttach.source = "metal_png";
+                }
+                this.lblAttach.text = "x" + message.attach_quantity;
             }
             else {
                 this.imgOperate.source = "del_png";
