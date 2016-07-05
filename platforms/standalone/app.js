@@ -18,6 +18,7 @@ var api = require('../../routes/api');
 var om = require('../../routes/om');
 var accounts = require('../../routes/accounts');
 var customers = require('../../routes/customers');
+var messages = require('../../routes/messages');
 
 GLOBAL.moment = require("moment");
 GLOBAL._ = require("underscore");
@@ -74,6 +75,7 @@ app.use('/api', api);
 app.use('/om', om);
 app.use('/customers', customers);
 app.use('/accounts', accounts);
+app.use('/messages', messages);
 
 // Passport session setup.
 passport.serializeUser(function(user, done) {
