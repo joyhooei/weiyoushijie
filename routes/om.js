@@ -2,109 +2,16 @@ var express = require('express');
 var router = express.Router();
 var request = require('request');
 
-var Message = require('../models/message');
-	
-router.get('/multicast', function(req, res, next) {
-	console.log("multicast " + JSON.stringify(req.query));
-	
-	if (!req.query.content){
-		var usage = "<h1>使用帮助</h1>";
-		usage += "<p>http://www.weiyoushijie.com/om/multicast?test=true&quantity=0&attach=none&content='消息内容'&limit=100&offset=0&vip=2</p>";
-		usage += "<p>test=true：表示不发送，只是看一下哪些玩家会被发送消息</p>";
-		usage += "<p>attach=none&content='消息内容'：消息Message表中的内容和附件</p>";
-		usage += "<p>limit=100&offset=0：从第几个玩家开始，最多多少玩家</p>";
-		usage += "<p>vip=2：指定查询玩家的条件，可以指定Customer表中的字段</p>";
-	
-		_failed(res, new Error("<p>没有内容参数</>" + usage));
-		
-		return;
-	}
-	
-	var conditions = {};
-	_.each(req.query, function(v, k) {
-		if (k != "content" && k != "attach" && k != "quantity" && k != "test"){
-			if (!isNaN(v)) {
-				conditions[k] = +v;
-			} else {
-				conditions[k] = v;
-			}
-		}
-	});
-    
-	var filters = {};
-	filters.limit  = parseInt(req.query.limit || 100);
-	filters.offset = parseInt(req.query.offset || 0);
-	
-	var quantity = parseInt(req.query.quantity || 0);
-	var attach = req.query.attach || "none";
-	
-	dao.find('Customer', conditions, filters).then(function(objs){
-		var promises = [];
-		
-		var html = "<p>消息内容：" + req.query.content + "</p>";
-		html += "<p>消息附件：" + attach + "</p>";
-		html += "<p>附件数量：" + quantity + "</p>";
-		html += "<table border='1'>";
-		var first = true;
-        _.each(objs, function(o){
-			if (req.query.test) {
-				var p = Q.Promise(function(resolve, reject, notify) {
-							resolve();
-						});
-			} else {
-				var p = Message.send(o.id, '系统公告', req.query.content, attach, quantity);
-			}
-			promises.push(p);
-			
-			if (first) {
-				html += "<tr>";			
-				_.each(o.attributes, function(v, k) {
-					html += "<th>" + k + "</th>";
-				});
-				html += "</tr>";
-				
-				first = false;
-			}
-			
-			html += "<tr>";
-			_.each(o.attributes, function(v, k) {
-				html += "<td>" + v + "</td>";
-			});
-			html += "</tr>";
-        });
-		html += "</table>";
-		
-		Q.all(promises).then(function(){
-			res.status(200).send(html);
-		}, function(error){
-			console.error("send message failed " + error.message);			
-			_failed(res, error);
-		});	
-	}, function(error){
-		console.error("find customer failed " + error.message);			
-		_failed(res, error);
-	});
-})
-
-router.get('/clear/:model', function(req, res, next) {
-	dao.clear(req.params.model).then(function(p){
-		_succeed(res, "clear " + req.params.model + " number is " + p);
-	}, function(error){
-		console.error(error.message);			
-		_failed(res, error);
-	});
-})
-
 router.get('/transfer_all', function(req, res, next) {
 	var modelNames = ['Account', 'Bid', 'MaxBid', 'Blacklist', 'Customer', 'Message', 'Gift', 'Report', 'Project', 'Game', 'Order', 'Rank'];
 	
 	var promises = [];
-	for (var i = 0; i < modelNames; i++) {
-		promises.push(_transfer(modelNames[i]);
+	for (var i = 0; i < modelNames.length; i++) {
+		promises.push(_transfer(modelNames[i]));
 	}
 	
-	Q.all(promises).then(function(actualTotal){
-		_succeed(res, "Transfer all succeed!");
+	Q.all(promises).then(function(results){
+		_succeed(res, "Transfer all succeed! " + JSON.stringify(results));
 	}, function(error){
 		_failed(res, error);
 	});
@@ -123,7 +30,7 @@ function _transfer(modelName) {
 	var url = "http://weiyugame.leanapp.cn/api/select/" + modelName;
 	return Q.Promise(function(resolve, reject, notify) { 
 		dao.clear().then(function(p){
-			_query(100000, url, {conditions: {}, filters: {limit: 100, offset: 0, order: 'update_time DESC'}}).then(function(actualTotal){
+			_queryTotal(100000, url, {conditions: {}, filters: {limit: 100, offset: 0, order: 'update_time DESC'}}).then(function(actualTotal){
 				resolve(actualTotal);
 			}, function(error){
 				reject(error);
@@ -171,7 +78,6 @@ function _queryOneBulk(url, data) {
 
 				if (promises.length > 0) {
 					Q.all(promises).then(function(){
-						console.log("Transferred " + req.params.model + " size is " + promises.length);
 						resolve(promises.length);
 					}, function(error){
 						console.error("Transfer failed when save objs " + error.message);
