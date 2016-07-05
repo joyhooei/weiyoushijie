@@ -169,6 +169,7 @@ module.exports = function() {
 				token: String,
 				role: Number,
 				customer_id: String,
+				game: String
 			});
 
 			self.addModel("Bid", {
@@ -218,7 +219,8 @@ module.exports = function() {
 			self.addModel("Game", {
 				version: String,
 				code_url: String,
-				update_url: String
+				update_url: String,
+				game: String
 			});
 			self.addModel("Gift", {
 				customer_id: String,
