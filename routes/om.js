@@ -95,15 +95,45 @@ router.get('/clear/:model', function(req, res, next) {
 	});
 })
 
-router.get('/transfer/:model', function(req, res, next) {
-	var offset = parseInt(req.query.offset || 0);
-	var total  = parseInt(req.query.limit  || 1000);
-	dao.clear(req.params.model).then(function(p){
-		_query(req, res,  total,
-			"http://weiyugame.leanapp.cn/api/select/" + req.params.model, 
-			{conditions: {}, filters: {limit: 100, offset: offset, order: 'create_time ASC'}});
+router.get('/transfer_all', function(req, res, next) {
+	var modelNames = ['Account', 'Bid', 'MaxBid', 'Blacklist', 'Customer', 'Message', 'Gift', 'Report', 'Project', 'Game', 'Order', 'Rank'];
+	
+	var promises = [];
+	for (var i = 0; i < modelNames; i++) {
+		promises.push(_transfer(modelNames[i]);
+	}
+	
+	Q.all(promises).then(function(actualTotal){
+		_succeed(res, "Transfer all succeed!");
+	}, function(error){
+		_failed(res, error);
 	});
 })
+
+router.get('/transfer/:model', function(req, res, next) {
+	var modelName = req.params.model;
+	_transfer(modelName).then(function(actualTotal){
+		_succeed(res, "Transfer " + modelName + " " + actualTotal + " succeed!");
+	}, function(error){
+		_failed(res, error);
+	});
+})
+
+function _transfer(modelName) {
+	var url = "http://weiyugame.leanapp.cn/api/select/" + modelName;
+	return Q.Promise(function(resolve, reject, notify) { 
+		dao.clear().then(function(p){
+			_query(100000, url, {conditions: {}, filters: {limit: 100, offset: 0, order: 'update_time DESC'}}).then(function(actualTotal){
+				resolve(actualTotal);
+			}, function(error){
+				reject(error);
+			});
+		}, function(error){
+			console.error("clear " + modelName + " failed " + error.message);
+			reject(error);
+		});
+	});
+}
 
 function _post(url, data) {
 	return Q.Promise(function(resolve, reject, notify) { 
@@ -126,10 +156,8 @@ function _post(url, data) {
 	});	
 }
 
-function _query(req, res, total, url, data) {
-	console.log("_query " + JSON.stringify(data));
-
-	var promise = Q.Promise(function(resolve, reject, notify) {
+function _queryOneBulk(url, data) {
+	return Q.Promise(function(resolve, reject, notify) {
 		_post(url, data).then(function(body){
 			try {
 				var promises = [];
@@ -161,17 +189,23 @@ function _query(req, res, total, url, data) {
 			reject(error);
 		});
 	});
-	
-	promise.then(function(length){
-		data.filters.offset += length;
-		if (data.filters.offset < total && length > 0) {
-			_query(req, res, total, url, data);
-		} else {
-			res.status(200).send("Transfer " + req.params.model + " " + data.filters.offset + " succeed!");
-		}
-	}, function(error){
-		console.error(error.message);			
-		_failed(res, error);
+}
+
+function _queryTotal(total, url, data) {
+	console.log("_queryTotal " + JSON.stringify(data));
+
+	return Q.Promise(function(resolve, reject, notify) { 
+		_queryOneBulk(url, data).then(function(length){
+			data.filters.offset += length;
+			
+			if (data.filters.offset < total && length > 0) {
+				_queryTotal(total, url, data);
+			} else {
+				resolve(data.filters.offset);
+			}
+		}, function(error){		
+			reject(error);
+		});
 	});
 }
 
