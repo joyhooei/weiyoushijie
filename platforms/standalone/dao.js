@@ -177,11 +177,13 @@ module.exports = function() {
 				day: String,
 				gold: Number,
 				succeed: Number,
-				claimed: Number
+				claimed: Number,
+				game: String
 			});
 			self.addModel("Blacklist", {
 				customer_id: String,
-				reason: String
+				reason: String,
+				game: String
 			});
 
 			self.addModel("Customer", {
@@ -214,6 +216,8 @@ module.exports = function() {
 				last_login: String,
 				
 				output: Number,
+				
+				game: String
 			});
 
 			self.addModel("Game", {
@@ -230,7 +234,8 @@ module.exports = function() {
 				diamond: Number,
 				locked: Number,
 				data: String,
-				last_pick_day: String
+				last_pick_day: String,
+				game: String
 			});
 
 			self.addModel("MaxBid", {
@@ -238,7 +243,8 @@ module.exports = function() {
 				name: String,
 				avatar: String,
 				gold: Number,
-				day: String
+				day: String,
+				game: String
 			});
 			self.addModel("Message", {
 				customer_id: String,
@@ -246,7 +252,8 @@ module.exports = function() {
 				content: String,
 				attach_category: String,
 				attach_quantity: Number,
-				state: Number
+				state: Number,
+				game: String
 			});
 
 			self.addModel("Order", {
@@ -254,7 +261,8 @@ module.exports = function() {
 				product: String,
 				price: Number,
 				state: Number,
-				reason: String
+				reason: String,
+				game: String
 			});
 
 			self.addModel("Project", {
@@ -263,17 +271,20 @@ module.exports = function() {
 				level: Number,
 				achieve: Number,
 				tool_ratio: Number,
-				unlocked: Number
+				unlocked: Number,
+				game: String
 			});
 
 			self.addModel("Rank", {
 				customer_id: String,
-				rank: Number
+				rank: Number,
+				game: String
 			});
 			self.addModel("Report", {
 				customer_id: String,
 				content: String,
-				state: Number
+				state: Number,
+				game: String
 			});
 
 			require('./cloud');
