@@ -272,6 +272,7 @@ module.exports = function() {
 				achieve: Number,
 				tool_ratio: Number,
 				unlocked: Number,
+				channel:String,
 				game: String
 			});
 
