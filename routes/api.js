@@ -27,6 +27,8 @@ router.get('/expire_ticket', function(req, res, next) {
 })
 
 router.get('/rank', function(req, res, next) {
+	console.log("rank " + JSON.stringify(req.query));
+	
 	Rank.rank(req, res);
 })
 
