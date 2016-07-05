@@ -143,10 +143,13 @@ module.exports.check = function(customer_id, token) {
 					}
 				} else {
 					account.set("customer_id", customer_id);
+					account.set("game", "headline");
 					_updateToken(account, resolve, reject);
 				}
             } else {
 				var account = new dao.Account();
+				account.set("customer_id", customer_id);
+				account.set("game", "headline");
 				_updateToken(account, resolve, reject);
 			}
         }, function(error){

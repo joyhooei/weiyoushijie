@@ -116,7 +116,11 @@ _.extend(Model.prototype, {
 									console.error("afterSave obj failed " + error.message);
 								}
 
-								resolve(self.decode(self._obj));
+								var newModel = self.decode(self._obj);
+
+								console.log("save model " + JSON.stringify(newModel));
+								
+								resolve(newModel);
 							}
 						});
 					}, function(error){
@@ -384,6 +388,11 @@ module.exports = function() {
 			var clazz = self[className].class;
 
 			if (conditions) {
+				if (conditions.id) {
+					conditions._id = conditions.id;
+					delete conditions.id;
+				}
+				
 				var query = clazz.find(conditions);
 			} else {
 				var query = clazz.find();

@@ -7,6 +7,7 @@ var Customer = require('../models/customer');
 var Bid = require('../models/bid');
 var Order = require('../models/order');
 var Rank = require('../models/rank.js');
+var Account = require('../models/account.js');
 
 router.get('/open_bid', function(req, res, next) {
 	console.log("open_bid " + JSON.stringify(req.query));

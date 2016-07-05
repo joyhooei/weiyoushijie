@@ -29,12 +29,8 @@ router.get('/transfer/:model', function(req, res, next) {
 function _transfer(modelName) {
 	var url = "http://weiyugame.leanapp.cn/api/select/" + modelName;
 	return Q.Promise(function(resolve, reject, notify) { 
-		dao.clear().then(function(p){
-			_queryTotal(100000, url, {conditions: {}, filters: {limit: 100, offset: 0, order: 'update_time DESC'}}).then(function(actualTotal){
-				resolve(actualTotal);
-			}, function(error){
-				reject(error);
-			});
+		dao.clear(modelName).then(function(p){
+			_queryTotal(modelName, 100000, url, {conditions: {}, filters: {limit: 100, offset: 0, order: 'update_time DESC'}}, resolve, reject);
 		}, function(error){
 			console.error("clear " + modelName + " failed " + error.message);
 			reject(error);
@@ -63,14 +59,14 @@ function _post(url, data) {
 	});	
 }
 
-function _queryOneBulk(url, data) {
+function _queryOneBulk(modelName, url, data) {
 	return Q.Promise(function(resolve, reject, notify) {
 		_post(url, data).then(function(body){
 			try {
 				var promises = [];
 
 				_.each(body, function(obj){
-					var m = dao.new(req.params.model);
+					var m = dao.new(modelName);
 					m.set(obj);
 
 					promises.push(m.save());
@@ -97,21 +93,19 @@ function _queryOneBulk(url, data) {
 	});
 }
 
-function _queryTotal(total, url, data) {
+function _queryTotal(modelName, total, url, data, resolve, reject) {
 	console.log("_queryTotal " + JSON.stringify(data));
 
-	return Q.Promise(function(resolve, reject, notify) { 
-		_queryOneBulk(url, data).then(function(length){
-			data.filters.offset += length;
-			
-			if (data.filters.offset < total && length > 0) {
-				_queryTotal(total, url, data);
-			} else {
-				resolve(data.filters.offset);
-			}
-		}, function(error){		
-			reject(error);
-		});
+	_queryOneBulk(modelName, url, data).then(function(length){
+		data.filters.offset += length;
+		
+		if (data.filters.offset < total && length > 0 && length == data.filters.limit) {
+			_queryTotal(modelName, total, url, data, resolve, reject);
+		} else {
+			resolve(data.filters.offset);
+		}
+	}, function(error){		
+		reject(error);
 	});
 }
 
