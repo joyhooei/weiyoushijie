@@ -67,6 +67,7 @@ router.post('/egret_pay', function(req, res, next) {
 	dao.get("Order", req.body.ext).then(function(order){
 		var price = parseInt(req.body.money);
 		order.set("price", price);
+		order.set("channel", "egret");
 		if (price == 49) {
 			order.set("product", "VIP");
 		} else if (price == 19) {
