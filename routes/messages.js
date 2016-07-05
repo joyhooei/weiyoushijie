@@ -48,12 +48,10 @@ router.get('/multicast', function(req, res, next) {
 		html += "<table border='1'>";
 		var first = true;
         _.each(objs, function(o){
-			if (req.query.test) {
-				var p = Q.Promise(function(resolve, reject, notify) {
-							resolve();
-						});
-			} else {
+			if (req.query.test && req.query.test === 'false') {
 				var p = Message.send(o.id, '系统公告', req.query.content, attach, quantity);
+			} else {
+				var p = Q.Promise(function(resolve, reject, notify) {resolve();});
 			}
 			promises.push(p);
 			
