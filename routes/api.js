@@ -134,14 +134,25 @@ router.post('/login', function(req, res, next) {
 							_failed(res, error);
 						});
 					}, function(error){
-						console.error("save customer failed " + error.message + " customer is " + JSON.stringify(customer));
-
-						Account.update(customer.id).then(function(a){
-							_succeed(res, _decode(a));
-						}, function(error){
-							console.error("update token failed " + error.message);
-							_failed(res, error);
-						});
+						console.error("login save customer failed " + error.message + " customer is " + JSON.stringify(customer));
+						
+						if (customer.id && customer.id.length > 1) {
+							var customer_id = customer.id;
+						} else {
+							var customer_id = customer.get("objectId");
+						}
+						
+						if (customer_id && customer_id.length > 1) {
+							Account.update(customer.id).then(function(a){
+								_succeed(res, _decode(a));
+							}, function(error){
+								console.error("update token failed " + error.message);
+								_failed(res, error);
+							});
+						} else {
+							console.error("customer id is null " + JSON.stringify(customer));
+							_failed(res, new Error("内部错误"));
+						}
 					})
 				}, function(error){
 					console.error("find customer failed " + error.message);
