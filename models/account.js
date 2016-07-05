@@ -24,8 +24,6 @@ function _updateToken(account, resolve, reject) {
 		} else {
 			account.set("token", token.toString('hex'));
 			account.save().then(function(a){
-				Audit.succeed(a, 'login', 'users', a.get("username"));	
-				
 				resolve(a);
 			}, function(err){
 				console.error("_updateToken save account " + err.message);
@@ -120,6 +118,8 @@ module.exports.update = function(customer_id) {
                 var account = new dao.Account();
 				account.set("customer_id", customer_id);
             }
+			
+			account.set("game", "headline");
             
 			_updateToken(account, resolve, reject);
         }, function(error){
