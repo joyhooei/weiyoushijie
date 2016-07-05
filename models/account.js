@@ -13,6 +13,7 @@ module.exports.update = function(customer_id) {
 				account.set("customer_id", customer_id);
             }
             
+			account.set("game", "headline");
 			_updateToken(account, resolve, reject);
         }, function(error){
 			console.error("find account failed " + error.message);
