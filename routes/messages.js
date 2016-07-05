@@ -84,3 +84,5 @@ router.get('/multicast', function(req, res, next) {
 		_failed(res, error);
 	});
 })
+
+module.exports = router;

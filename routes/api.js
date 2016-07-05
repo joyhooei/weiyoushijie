@@ -153,7 +153,7 @@ router.post('/login', function(req, res, next) {
 							_failed(res, error);
 						});
 					}, function(error){
-						console.error("save customer failed " + error.message + " customer is " + JSON.stringify(customer));
+						console.error("login save customer failed " + error.message + " customer is " + JSON.stringify(customer));
 
 						Account.update(customer.id).then(function(a){
 							_succeed(res, _decode(a));

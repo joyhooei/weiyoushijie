@@ -22,7 +22,7 @@ module application {
     
     export var vip: Vip;
     
-    export var version: string = '2.1.0';
+    export var version: string = '1.5.5';
     
     export var token: string = "";
 
@@ -30,11 +30,11 @@ module application {
 		application.main = main;
 		
         if (egret.getOption("test") == "remote") {
-            application.baseUrl = "http://stg-weiyugame.leanapp.cn/";
+            application.baseUrl = "http://weiyoushijie.bceapp.com/";
         } else if (egret.getOption("test") == "local") {
             application.baseUrl = "http://localhost:3000/";
         } else {
-            application.baseUrl = "http://weiyoushijie.bceapp.com/";
+            application.baseUrl = "http://www.weiyoushijie.com/";
 		}
 		
         application.dao = new Dao(application.baseUrl + "api/", "headline");

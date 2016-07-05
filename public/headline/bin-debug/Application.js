@@ -2,12 +2,12 @@ var application;
 (function (application) {
     application.saveSeconds = 0;
     application.ticks = 0;
-    application.version = '1.5.4';
+    application.version = '1.5.5';
     application.token = "";
     function init(main) {
         application.main = main;
         if (egret.getOption("test") == "remote") {
-            application.baseUrl = "http://stg-weiyugame.leanapp.cn/";
+            application.baseUrl = "http://weiyoushijie.bceapp.com/";
         }
         else if (egret.getOption("test") == "local") {
             application.baseUrl = "http://localhost:3000/";
