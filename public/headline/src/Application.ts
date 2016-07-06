@@ -29,12 +29,9 @@ module application {
     export function init(main:Main) {
 		application.main = main;
 		
-        if (egret.getOption("test") == "bae") {
-            application.baseUrl = "http://weiyoushijie.bceapp.com/";
-        } else if (egret.getOption("test") == "leancloud") {
-            application.baseUrl = "http://stg-weiyugame.leanapp.cn//";
-        } else if (egret.getOption("test") == "local") {
-            application.baseUrl = "http://localhost:3000/";
+        var url = egret.getOption("wysj_server");
+        if (url && url.length > 1) {
+            application.baseUrl = url;
         } else {
             application.baseUrl = "http://www.weiyoushijie.com/";
 		}
