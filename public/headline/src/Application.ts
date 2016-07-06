@@ -29,12 +29,11 @@ module application {
     export function init(main:Main) {
 		application.main = main;
 		
-        if (egret.getOption("test") == "remote") {
-            application.baseUrl = "http://weiyoushijie.bceapp.com/";
-        } else if (egret.getOption("test") == "local") {
-            application.baseUrl = "http://localhost:3000/";
+        var url = egret.getOption("wysj_server");
+        if (url && url.length > 1) {
+            application.baseUrl = url;
         } else {
-            application.baseUrl = "http://www.weiyoushijie.com/";
+            application.baseUrl = window.location.protocol + "//" + window.location.hostname + (window.location.port ? ':' + window.location.port: '') + "/";
 		}
 		
         application.dao = new Dao(application.baseUrl + "api/", "headline");
