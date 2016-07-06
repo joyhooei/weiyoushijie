@@ -21,60 +21,35 @@ block main
 					i(class="halflings-icon user")
 					span.break
 					| 用户
-				div.box-icon
-					a(href="/customers/#{customer.id}/edit" class="btn-setting")
-						i(class="halflings-icon edit")
 
 			div.box-content
 				table(class="table table-striped table-bordered bootstrap-datatable")
 					tbody
-						- var genders = ['男', '女'];
-						- var states = ['激活', '静止'];
-						- var levels = ["预备艺人", "普通艺人", "签约艺人", "明星艺人"];
-							tr
-								td 头像
-								td
-									img(src="/medias/#{customer.get('avatar_id')}", width=50, height=50)
-							tr
-								td 姓名
-								td= customer.get('name')
-							tr
-								td 编号
-								td= customer.get('identity')
-							tr
-								td 性别
-								td= genders[customer.get('gender') - 1]
-							tr
-								td 生日
-								td= moment(customer.get('birthday')).format('YYYY-MM-DD')
-							tr
-								td 上次签到时间
-								td= moment(customer.get('lastest_checkin')).format('YYYY-MM-DD HH')
-							tr
-								td 选票
-								td= customer.get('total_tickets_free') + "," + customer.get('total_tickets_task') + "," + customer.get('total_tickets_bought')
-							tr
-								td 电话
-								td= customer.get('mobile')
-							tr
-								td 微信
-								td= customer.get('wechat')
-							tr
-								td 现金
-								td= customer.get('money')
-							tr
-								td 状态
-								td= states[customer.get('blocked')]
-							if customer.beauty
-								tr
-									td 艺人
-									td
-										a(href="/beauties/#{customer.beauty.id}/edit") #{customer.get("name")}
-				
+						tr
+							td 头像
+							td
+								img(src="#{customer.get('avatar')}", width=50, height=50)
+						tr
+							td 姓名
+							td= customer.get('name')
+						tr
+							td 奖章
+							td= customer.get('metal')
+						tr
+							td 充值
+							td= customer.get('charge')
+						tr
+							td VIP
+							td= customer.get('vip')
+						tr
+							td 秒产
+							td= customer.get('output')
+						tr
+							td 累计金币
+							td= customer.get('acculumated_gold')
 				div.btn-group
-					if !customer.beauty
-						a(class="rest", href="/customers/apply/#{customer.id}", data-method="POST" class="btn btn-primary") 成为艺人
-					a(href="/players/new?customer_id=#{customer.id}", class="btn btn-primary") 参加比赛
-					a(href="/crowdfunds/new?customer_id=#{customer.id}", class="btn btn-primary") 发起众筹
-					a(href="/events/new?customer_id=#{customer.id}&category=3&category_id=", class="btn btn-primary") 发布事件
-					a(href="/taggeds?entity_id=#{customer.id}&entity_type=Customer", class="btn btn-primary") 标签
+					a(href="/projects?customer_id=#{customer.id}", class="btn btn-primary") 项目
+					a(href="/gifts?customer_id=#{customer.id}", class="btn btn-primary") 礼物
+					a(href="/bids?customer_id=#{customer.id}", class="btn btn-primary") 投标
+					a(href="/messages/new?customer_id=#{customer.id}", class="btn btn-primary") 发消息
+					a(href="/blacklists/new?customer_id=#{customer.id}", class="btn btn-primary") 加入黑名单
