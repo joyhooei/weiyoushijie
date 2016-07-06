@@ -16,35 +16,27 @@ block main
 				h2
 					i(class="halflings-icon user")
 					span.break
-					| 广告
-				div.box-icon
-					a(href="/posters/new", class="btn-setting")
-						i(class="halflings-icon plus")
+					| 消息
 
 			div.box-content
 				table(class="table table-striped table-bordered bootstrap-datatable datatable")
 					thead
 						tr
-							th
+							th 接收人
 							th 标题
 							th 链接
-							th 是否显示
-							th 显示分类
-							th 显示顺序
+							th 附件
+							th 数量
+							th 状态
 							th 
 					tbody
-						- var states = ["不显示", "显示"]
-						- each poster in posters
+						- var states = ['未读', '已经领取', '已经删除'];
+						- each message in posters
 							tr
-								td
-									img(src="/medias/#{poster.get('media_id')}", width=50, height=50)
-								td= poster.get('title')
-								td= poster.get('internal_url')
-								td= states[poster.get('state')]
-								td= poster.get('category')
-								td= poster.get('sequence')
-								td.center
-									a(class="btn btn-info", href="/posters/#{poster.id}/edit")
-										i(class="halflings-icon white edit")
-									a(class="rest btn btn-danger", href="/posters/#{poster.id}", data-method="DELETE")
-										i(class="halflings-icon white trash")
+								- if (message.customer)
+									td= message.customer.get('name')
+								td= message.get('title')
+								td= message.get('content')
+								td= message.get('attach_category')
+								td= message.get('attach_quantity')
+								td= states[message.get('state')]
