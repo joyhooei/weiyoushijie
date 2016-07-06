@@ -179,11 +179,11 @@ module.exports = function() {
 		db.on('error', console.error.bind(console, 'connection error:'));
 		db.once('open', function() {
 			self.addModel("Account", {
-				username: String,
-				password: String,
-				salt: String,
-				token: String,
-				role: Number,
+				username: {type: String, default: ""},
+				password: {type: String, default: ""},
+				salt: {type: String, default: ""},
+				token: {type: String, default: ""},
+				role: {type: Number, default: 1},
 				customer_id: String,
 			}, {
 				customer_id: 1
@@ -193,8 +193,8 @@ module.exports = function() {
 				customer_id: String,
 				day: String,
 				gold: Number,
-				succeed: Number,
-				claimed: Number
+				succeed: {type: Number, default: 0},
+				claimed: {type: Number, default: 0}
 			}, {
 				day: 1,
 				customer_id: 1
@@ -202,7 +202,7 @@ module.exports = function() {
 			
 			self.addModel("Blacklist", {
 				customer_id: String,
-				reason: String
+				reason: {type: String, default: ""},
 			}, {
 				customer_id: 1
 			});
@@ -212,31 +212,31 @@ module.exports = function() {
 				name: String,
 				age: Number,
 				sex: Number,
-				avatar: String,
+				avatar: {type: String, default: ""},
 				
-				metal: Number,
-				gold: Number,
-				earned_gold: Number,
-				accumulated_gold: Number,
-				diamond: Number,
+				metal: {type: Number, default: 0},
+				gold: {type: Number, default: 0},
+				earned_gold: {type: Number, default: 0},
+				accumulated_gold: {type: Number, default: 0},
+				diamond: {type: Number, default: 0},
 				
 				ticket: String,
-				vip: Number,
-				charge: Number,
+				vip: {type: Number, default: 0},
+				charge: {type: Number, default: 0},
 				
-				hide_winner: Number,
+				hide_winner: {type: Number, default: 0},
 				
-				offline_hours: Number,
-				offline_minutes: Number,
-				offline_gold: Number,
-				online_seconds: Number,
+				offline_hours: {type: Number, default: 0},
+				offline_minutes: {type: Number, default: 0},
+				offline_gold: {type: Number, default: 0},
+				online_seconds: {type: Number, default: 0},
 				
-				total_hits: Number,
+				total_hits: {type: Number, default: 3},
 				last_hit: String,
 				
 				last_login: String,
 				
-				output: Number,
+				output: {type: Number, default: 1},
 			}, {
 				uid: 1
 			});
@@ -246,13 +246,14 @@ module.exports = function() {
 				code_url: String,
 				update_url: String
 			});
+			
 			self.addModel("Gift", {
 				customer_id: String,
 				category: Number,
 				metal: Number,
 				gold: Number,
 				diamond: Number,
-				locked: Number,
+				locked:  {type: Number, default: 1},
 				data: String,
 				last_pick_day: String
 			}, {
@@ -269,30 +270,31 @@ module.exports = function() {
 			}, {
 				day: 1
 			});
+			
 			self.addModel("Message", {
 				customer_id: String,
 				title: String,
 				content: String,
-				attach_category: String,
-				attach_quantity: Number,
-				state: Number
+				attach_category:  {type: String, default: "none"},
+				attach_quantity:  {type: Number, default: 0},
+				state:  {type: Number, default: 0}
 			});
 
 			self.addModel("Order", {
 				customer_id: String,
 				product: String,
 				price: Number,
-				state: Number,
+				state:  {type: Number, default: 0},
 				reason: String
 			});
 
 			self.addModel("Project", {
 				customer_id: String,
 				sequence: Number,
-				level: Number,
-				achieve: Number,
-				tool_ratio: Number,
-				unlocked: Number
+				level: {type: Number, default: 1},
+				achieve: {type: Number, default: 0},
+				tool_ratio: {type: Number, default: 1},
+				unlocked: {type: Number, default: 0}
 			}, {
 				customer_id: 1,
 				sequence: 1
@@ -305,7 +307,7 @@ module.exports = function() {
 			self.addModel("Report", {
 				customer_id: String,
 				content: String,
-				state: Number
+				state:  {type: Number, default: 0}
 			});
 
 			require('./cloud');
