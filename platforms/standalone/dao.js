@@ -47,7 +47,7 @@ _.extend(Model.prototype, {
 	
 	isNew: function() {
 		return this._isNew;
-	}
+	},
 
 	decode:function(obj) {
 		var self = this;
