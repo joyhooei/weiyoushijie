@@ -9,9 +9,10 @@ var application;
         var url = egret.getOption("wysj_server");
         if (url && url.length > 1) {
             application.baseUrl = url;
-        } else {
-            application.baseUrl = window.location.protocol + "//" + window.location.hostname + (window.location.port ? ':' + window.location.port: '') + "/";
-		}
+        }
+        else {
+            application.baseUrl = window.location.protocol + "//" + window.location.hostname + (window.location.port ? ':' + window.location.port : '') + "/";
+        }
         application.dao = new Dao(application.baseUrl + "api/", "headline");
         application.projects = Project.createAllProjects();
         application.stopwatch = new egret.EventDispatcher();

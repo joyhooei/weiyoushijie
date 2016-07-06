@@ -5,25 +5,26 @@ var MessageDetailUI = (function (_super) {
         this.addEventListener(eui.UIEvent.COMPLETE, function () {
             var _this = this;
             this.lblContent.text = message.content;
-            if (message.state == 0) {
-                if (message.attach_quantity > 0) {
-                    if (message.attach_category == "diamond") {
-                        this.imgAttach.source = "dia_png";
-                    }
-                    else if (message.attach_category == "gold") {
-                        this.imgAttach.source = "coin_png";
-                    }
-                    else {
-                        this.imgAttach.source = "metal_png";
-                    }
-                    this.lblAttach.text = "x" + message.attach_quantity;
-                    this.imgOperate.source = "get_png";
+            if (message.attach_quantity > 0) {
+                this.imgAttach.visible = true;
+                this.lblAttach.visible = true;
+                if (message.attach_category == "diamond") {
+                    this.imgAttach.source = "dia_png";
+                }
+                else if (message.attach_category == "gold") {
+                    this.imgAttach.source = "coin_png";
                 }
                 else {
-                    this.imgAttach.visible = false;
-                    this.lblAttach.visible = false;
-                    this.imgOperate.source = "del_png";
+                    this.imgAttach.source = "metal_png";
                 }
+                this.lblAttach.text = "x" + message.attach_quantity;
+            }
+            else {
+                this.imgAttach.visible = false;
+                this.lblAttach.visible = false;
+            }
+            if (message.state == 0 && message.attach_quantity > 0) {
+                this.imgOperate.source = "get_png";
             }
             else {
                 this.imgOperate.source = "del_png";
