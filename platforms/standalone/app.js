@@ -33,7 +33,7 @@ app.use(express.static('public'));
 
 var DAO = require('./dao');
 GLOBAL.dao = new DAO();
-GLOBAL.dao.initialize();
+GLOBAL.dao.initialize(app);
 
 app.use(cookieParser());
 app.use(bodyParser.urlencoded({ extended: false }));
