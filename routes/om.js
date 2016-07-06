@@ -3,7 +3,7 @@ var router = express.Router();
 var request = require('request');
 
 router.get('/transfer_all', function(req, res, next) {
-	var modelNames = ['Account', 'Bid', 'MaxBid', 'Blacklist', 'Customer', 'Message', 'Gift', 'Report', 'Project', 'Game', 'Order', 'Rank'];
+	var modelNames = ['Bid', 'MaxBid', 'Blacklist', 'Customer', 'Message', 'Gift', 'Report', 'Project', 'Game', 'Order'];
 	
 	var promises = [];
 	for (var i = 0; i < modelNames.length; i++) {
