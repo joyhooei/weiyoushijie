@@ -33,7 +33,7 @@ module application {
         if (url && url.length > 1) {
             application.baseUrl = url;
         } else {
-            application.baseUrl = "http://www.weiyoushijie.com/";
+            application.baseUrl = window.location.protocol + "//" + window.location.hostname + (window.location.port ? ':' + window.location.port: '') + "/";
 		}
 		
         application.dao = new Dao(application.baseUrl + "api/", "headline");
