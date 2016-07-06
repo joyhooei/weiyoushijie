@@ -170,7 +170,7 @@ _.extend(Model.prototype, {
 });
 
 module.exports = function() {
-	this.initialize = function(){
+	this.initialize = function(app){
 		var self = this;
 
 		//mongoose.set('debug', true);
@@ -310,7 +310,12 @@ module.exports = function() {
 				state:  {type: Number, default: 0}
 			});
 
-			require('./cloud');
+			var Cloud = require('./cloud');
+			
+			if (process.env.LC_APP_ID) {
+				var AV = require('leanengine');
+				app.use(AV.Cloud);
+			}
 
 			console.log("connect mongodb succeed");
 		});
