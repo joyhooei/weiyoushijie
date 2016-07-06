@@ -90,6 +90,8 @@ module.exports = function() {
 		app.use(Cloud);
 		//app.use(AV.Cloud);
 		
+		this.addModel("Account");
+		
 		this.addModel("Bid");
 		this.addModel("Blacklist");
 
