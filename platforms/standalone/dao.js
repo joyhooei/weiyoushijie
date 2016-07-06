@@ -116,11 +116,7 @@ _.extend(Model.prototype, {
 									console.error("afterSave obj failed " + error.message);
 								}
 
-								var newModel = self.decode(self._obj);
-
-								console.log("save model " + JSON.stringify(newModel));
-								
-								resolve(newModel);
+								resolve(self.decode(self._obj));
 							}
 						});
 					}, function(error){
@@ -173,6 +169,8 @@ module.exports = function() {
 				token: String,
 				role: Number,
 				customer_id: String,
+			}, {
+				customer_id: 1
 			});
 
 			self.addModel("Bid", {
@@ -181,10 +179,16 @@ module.exports = function() {
 				gold: Number,
 				succeed: Number,
 				claimed: Number
+			}, {
+				day: 1,
+				customer_id: 1
 			});
+			
 			self.addModel("Blacklist", {
 				customer_id: String,
 				reason: String
+			}, {
+				customer_id: 1
 			});
 
 			self.addModel("Customer", {
@@ -217,6 +221,8 @@ module.exports = function() {
 				last_login: String,
 				
 				output: Number,
+			}, {
+				uid: 1
 			});
 
 			self.addModel("Game", {
@@ -233,6 +239,9 @@ module.exports = function() {
 				locked: Number,
 				data: String,
 				last_pick_day: String
+			}, {
+				customer_id: 1,
+				category: 1
 			});
 
 			self.addModel("MaxBid", {
@@ -241,6 +250,8 @@ module.exports = function() {
 				avatar: String,
 				gold: Number,
 				day: String
+			}, {
+				day: 1
 			});
 			self.addModel("Message", {
 				customer_id: String,
@@ -266,6 +277,9 @@ module.exports = function() {
 				achieve: Number,
 				tool_ratio: Number,
 				unlocked: Number
+			}, {
+				customer_id: 1,
+				sequence: 1
 			});
 
 			self.addModel("Rank", {
@@ -287,24 +301,17 @@ module.exports = function() {
 		mongoose.connect('mongodb://9b18dc67c08b4434bdf68b0c3ff45477:d35f2aa56b1b4806b9934950c3d89bea@mongo.bce.duapp.com:8908/gmkSqUizKEatLnvxuIcZ', {db: {w: 1}})
 	}
 	
-	this.clear = function(className) {
-		var claz = this[className];
-		
-		return Q.Promise(function(resolve, reject, notify) {
-			claz.class.remove(function(err, p){
-				if(err){ 
-					reject(err);
-				} else{
-					resolve(p);
-				}
-			});
-		});
-	}
-	
-	this.addModel = function(className, schema) {
+	this.addModel = function(className, schema, uniques) {
 		try {
-			schema.game = String;
-			var M = mongoose.model(className, new mongoose.Schema(schema, { timestamps: {} }));
+			schema.game = String;				
+			
+			var ModelSchema = new mongoose.Schema(schema, { timestamps: {} });			
+			if (uniques) {
+				uniques.game = 1;
+				ModelSchema.index(uniques, { unique: true })
+			}
+			
+			var ModelClass = mongoose.model(className, ModelSchema);
 			
 			var claz = Model.extend(
 			{
@@ -321,7 +328,7 @@ module.exports = function() {
 				}
 			},
 			{
-				class: M,
+				class: ModelClass,
 				schema: schema
 			});
 
@@ -370,7 +377,6 @@ module.exports = function() {
 					reject(err);
 				} else {
 					var m = self.new(className).decode(obj);
-					console.log("findById " + id + " " + JSON.stringify(m));
 					resolve(m);
 				}
 			});
@@ -469,5 +475,20 @@ module.exports = function() {
 		}
 		
 		return Q.all(promises);
+	};
+	
+	this.clear = function(className) {
+		var claz = this[className];
+		
+		return Q.Promise(function(resolve, reject, notify) {
+			claz.class.remove(function(err, p){
+				if(err){ 
+					reject(err);
+				} else{
+					resolve(p);
+				}
+			});
+		});
 	}
+
 };
