@@ -33,7 +33,21 @@ Model.extend = function(protoProps, staticProps) {
 }
 
 _.extend(Model.prototype, {
-	initialize:function(){},
+	_isNew: true,
+	
+	initialize:function(){
+		this.setNew(true);
+	},
+	
+	setNew: function(isNew){
+		this._isNew = isNew;
+		
+		return this;
+	},
+	
+	isNew: function() {
+		return this._isNew;
+	}
 
 	decode:function(obj) {
 		var self = this;
@@ -82,6 +96,8 @@ _.extend(Model.prototype, {
 				_.extend(self.attributes, key);
 				if (key.id) {
 					self._obj._id = key.id;
+					
+					self.setNew(false);
 				}
 			} else {
 				self.attributes[key] = val;
@@ -102,7 +118,7 @@ _.extend(Model.prototype, {
 
 		return Q.Promise(function(resolve, reject, notify) {
 			try {
-				if (self._obj.isNew) {
+				if (self.isNew()) {
 					self.beforeSave().then(function(){
 						self._obj.save(function(error){
 							if (error) {
@@ -116,7 +132,7 @@ _.extend(Model.prototype, {
 									console.error("afterSave obj failed " + error.message);
 								}
 
-								resolve(self.decode(self._obj));
+								resolve(self.decode(self._obj).setNew(false));
 							}
 						});
 					}, function(error){
@@ -129,9 +145,9 @@ _.extend(Model.prototype, {
 							console.error("save obj failed " + error.message);
 							reject(error);
 						} else {
-							resolve(self.decode(self._obj));
+							resolve(self.decode(self._obj).setNew(false));
 						}
-					});					
+					});	
 				}
 
 			} catch(error) {
@@ -376,8 +392,7 @@ module.exports = function() {
 					console.error("findById " + id + " failed " + err.message);
 					reject(err);
 				} else {
-					var m = self.new(className).decode(obj);
-					resolve(m);
+					resolve(self.new(className).decode(obj).setNew(false));
 				}
 			});
 		});
@@ -454,7 +469,7 @@ module.exports = function() {
 						var models = [];
 
 						for (var i = 0; i < objs.length; i++) {
-							models.push(self.new(className).decode(objs[i]));
+							models.push(self.new(className).decode(objs[i]).setNew(false));
 						}
 
 						resolve(models);
