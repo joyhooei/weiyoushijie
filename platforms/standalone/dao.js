@@ -315,8 +315,11 @@ module.exports = function() {
 			console.log("connect mongodb succeed");
 		});
 		
-		//mongoose.connect('mongodb://weiyoushijie:weiyugame@ds023644.mlab.com:23644/weiyoushijie');	
-		mongoose.connect('mongodb://9b18dc67c08b4434bdf68b0c3ff45477:d35f2aa56b1b4806b9934950c3d89bea@mongo.bce.duapp.com:8908/gmkSqUizKEatLnvxuIcZ', {db: {w: 1}})
+		if (process.env.LC_APP_ID) {
+			mongoose.connect('mongodb://weiyoushijie:weiyugame@ds023644.mlab.com:23644/weiyoushijie');
+		} else {
+			mongoose.connect('mongodb://9b18dc67c08b4434bdf68b0c3ff45477:d35f2aa56b1b4806b9934950c3d89bea@mongo.bce.duapp.com:8908/gmkSqUizKEatLnvxuIcZ', {db: {w: 1}})
+		}
 	}
 	
 	this.addModel = function(className, schema, uniques) {
