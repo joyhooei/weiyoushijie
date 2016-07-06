@@ -29,8 +29,10 @@ module application {
     export function init(main:Main) {
 		application.main = main;
 		
-        if (egret.getOption("test") == "remote") {
+        if (egret.getOption("test") == "bae") {
             application.baseUrl = "http://weiyoushijie.bceapp.com/";
+        } else if (egret.getOption("test") == "leancloud") {
+            application.baseUrl = "http://stg-weiyugame.leanapp.cn//";
         } else if (egret.getOption("test") == "local") {
             application.baseUrl = "http://localhost:3000/";
         } else {
