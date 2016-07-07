@@ -18,18 +18,51 @@ class Channel {
     }
 	
 	public function login(options:any): Q.Promise<any> {
+		let self = this;
+		
 		let deferred = Q.defer<any>();
 		
-        if (options == null || typeof options == "string") {
-            var loginInfo: nest.user.LoginInfo = options ? {"loginType":<string>options} : {};
-            nest.user.login(loginInfo, function(data:nest.user.LoginCallbackInfo){
-				deferred.resolve(data);
-			});
-        } else {
-            deferred.resolve(<nest.user.LoginCallbackInfo>options);
-        }
+		nest.easyuser.startup({ egretAppId: 90359,version: 2,debug: true },function(resultInfo: nest.core.ResultCallbackInfo) {
+			if(resultInfo.result == 0) {
+				var loginTypes: Array<nest.easyuser.ILoginType> = nest.easyuser.getLoginTypes();
+				if (loginTypes.length > 0) {
+					//需要显示对应的登录按钮
+					var loginView: LoginUI = new LoginUI(loginTypes,function(logType: nest.easyuser.ILoginType) {
+						nest.easyuser.login(logType, function (data:nest.user.LoginCallbackInfo) {
+							if (data.result == 0) {
+								self._login(data, deferred);
+							} else {
+								deferred.reject("登录失败");
+							}
+						});
+					});
+
+					application.showUI(loginView);
+				} else {
+					//不需要登录按钮，直接调用登录进游戏
+					nest.easyuser.login({}, function (data:nest.user.LoginCallbackInfo) {
+						if (data.result == 0) {
+							self._login(data, deferred);
+						} else {
+							deferred.reject("登录失败");
+						}
+					});
+				}
+			}
+		});
 		
 		return deferred.promise;
+	}
+	
+	private function _login(data?:string|nest.user.LoginCallbackInfo, deferred:Q.defer<any>):void {
+		if (data == null || typeof data == "string") {
+			var loginInfo: nest.user.LoginInfo = data ? {"loginType":<string>data} : {};
+			nest.user.login(loginInfo, function(d:nest.user.LoginCallbackInfo){
+				deferred.resolve(d);
+			});
+		} else {
+			deferred.resolve(<nest.user.LoginCallbackInfo>data);
+		}	
 	}
 	
 	public function pay(options:any): Q.Promise<any> {
