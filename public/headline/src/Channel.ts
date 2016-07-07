@@ -1,14 +1,15 @@
-enum ChannelId {
-	CHANNEL_DEFAULT,
-    CHANNEL_1758,
-    CHANNEL_7K7K,
-}
+const CHANNEL_1758    = "";
+const CHANNEL_7K7K    = "";
 
 class Channel {
-	static create(channelId:ChannelId): Channel {
-		if (channelId === ChannelId.CHANNEL_1758) {
+	static create(): Channel {
+		var cid = egret.getOption("channelId");
+		
+		if (cid === CHANNEL_1758) {
+			console.info("using channel 1758");
 			return new Channel1758();
 		} else {
+			console.info("using default channel");
 			return new Channel();
 		}
 	}
