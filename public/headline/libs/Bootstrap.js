@@ -4,6 +4,8 @@ require.config({
     paths: {
 		'isMobile': ['//cdn.bootcss.com/ismobilejs/0.4.0/isMobile.min.js'],
 		'q':		['//cdn.bootcss.com/q.js/2.0.3/q.min.js'],
+		
+		'hlmy1758' : ['http://wx.1758.com/static/common/js/hlmy1758.js'],
     },
 
     shim: {
