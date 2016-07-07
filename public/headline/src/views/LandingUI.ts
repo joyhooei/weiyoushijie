@@ -13,7 +13,8 @@ class LandingUI extends eui.Component {
         var self = this;
         
         self.btnLogin.addEventListener(egret.TouchEvent.TOUCH_TAP,() => {
-            application.channel.login().then(function(){
+            application.channel.login().then(function(data:any){
+                application.logined(data.token);
 				application.hideUI(self);
 			}, function(error){
 				Toast.launch(error);
