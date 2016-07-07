@@ -13,40 +13,11 @@ class LandingUI extends eui.Component {
         var self = this;
         
         self.btnLogin.addEventListener(egret.TouchEvent.TOUCH_TAP,() => {
-            nest.easyuser.startup({ egretAppId: 90359,version: 2,debug: true },function(resultInfo: nest.core.ResultCallbackInfo) {
-                if(resultInfo.result == 0) {
-					self.login();
-				}
-            });
-        },self);
+            application.channel.login().then(function(){
+				application.hideUI(self);
+			}, function(error){
+				Toast.launch(error);
+			});
+        }, self);
     }
-	
-	private login(): void {
-		application.hideUI(this);
-		
-        var loginTypes: Array<nest.easyuser.ILoginType> = nest.easyuser.getLoginTypes();
-		if (loginTypes.length > 0) {
-			//需要显示对应的登录按钮
-            var loginView: LoginUI = new LoginUI(loginTypes,function(logType: nest.easyuser.ILoginType) {
-                nest.easyuser.login(logType, function (data:nest.user.LoginCallbackInfo) {
-					if (data.result == 0) {
-						application.login(data);
-					} else {
-						egret.log("log Fail");
-					}
-				});
-			});
-			
-			application.showUI(loginView);
-		} else {
-			//不需要登录按钮，直接调用登录进游戏
-            nest.easyuser.login({}, function (data:nest.user.LoginCallbackInfo) {
-				if (data.result == 0) {
-					application.login(data);
-				} else {
-					egret.log("log Fail");
-				}
-			});
-		}
-	}
 }
