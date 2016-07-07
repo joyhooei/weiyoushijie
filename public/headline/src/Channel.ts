@@ -3,7 +3,7 @@ const CHANNEL_7K7K    = "";
 
 class Channel {
 	static create(): Channel {
-		var cid = egret.getOption("channelId");
+		let cid = egret.getOption("channelId");
 		
 		if (cid === CHANNEL_1758) {
 			console.info("using channel 1758");
@@ -18,7 +18,7 @@ class Channel {
     }
 	
 	public function login(options:any): Q.Promise<any> {
-		var deferred = Q.defer<any>();
+		let deferred = Q.defer<any>();
 		
         if (options == null || typeof options == "string") {
             var loginInfo: nest.user.LoginInfo = options ? {"loginType":<string>options} : {};
@@ -33,7 +33,7 @@ class Channel {
 	}
 	
 	public function pay(options:any): Q.Promise<any> {
-		var deferred = Q.defer<any>();
+		let deferred = Q.defer<any>();
 		
 		nest.iap.pay(options}, function(data) {
 			if(data.result == 0) {
@@ -49,7 +49,7 @@ class Channel {
 	}
 	
     public function share(options:any): Q.Promise<any> {
-        var deferred = Q.defer<any>();
+        let deferred = Q.defer<any>();
 		
         nest.share.isSupport({}, function (data) {
 			if (data.share == 1) {
@@ -71,7 +71,7 @@ class Channel {
     }
     
     public function attention(options:any): Q.Promise<any> {
-        var deferred = Q.defer<any>();
+        let deferred = Q.defer<any>();
 		
         nest.app.isSupport({}, function (data) {
 			if (data.attention == 1) {
