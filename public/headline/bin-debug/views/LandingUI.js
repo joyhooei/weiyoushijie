@@ -9,41 +9,13 @@ var LandingUI = (function (_super) {
     p.uiCompHandler = function () {
         var self = this;
         self.btnLogin.addEventListener(egret.TouchEvent.TOUCH_TAP, function () {
-            nest.easyuser.startup({ egretAppId: 90359, version: 2, debug: true }, function (resultInfo) {
-                if (resultInfo.result == 0) {
-                    self.login();
-                }
+            application.channel.login().then(function (data) {
+                application.logined(data.token);
+                application.hideUI(self);
+            }, function (error) {
+                Toast.launch(error);
             });
         }, self);
-    };
-    p.login = function () {
-        application.hideUI(this);
-        var loginTypes = nest.easyuser.getLoginTypes();
-        if (loginTypes.length > 0) {
-            //需要显示对应的登录按钮
-            var loginView = new LoginUI(loginTypes, function (logType) {
-                nest.easyuser.login(logType, function (data) {
-                    if (data.result == 0) {
-                        application.login(data);
-                    }
-                    else {
-                        egret.log("log Fail");
-                    }
-                });
-            });
-            application.showUI(loginView);
-        }
-        else {
-            //不需要登录按钮，直接调用登录进游戏
-            nest.easyuser.login({}, function (data) {
-                if (data.result == 0) {
-                    application.login(data);
-                }
-                else {
-                    egret.log("log Fail");
-                }
-            });
-        }
     };
     return LandingUI;
 }(eui.Component));

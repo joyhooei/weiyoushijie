@@ -478,7 +478,7 @@ module application {
         let img_url = application.baseUrl + "headline/resource/art/home/icon.png";
         let options = { title: '我来上头条，女神任我挑！',description: '最炫最浪的舞蹈经营类游戏，无需下载，点开即送，多重豪礼等你来拿！',url: url, img_url: img_url,img_title:'头条关注'};
         application.channel.share(options).then(function(){
-            cb();
+            callback();
         }, function(error){
             Toast.launch(error);
         });
@@ -486,7 +486,7 @@ module application {
     
     export function attention(callback:Function): void {
         application.channel.attention({}).then(function(){
-            cb();
+            callback();
         }, function(error){
             Toast.launch(error);
         });

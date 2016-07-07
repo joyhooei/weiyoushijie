@@ -35,16 +35,19 @@
 
     <!--这个标签为不通过egret提供的第三方库的方式使用的 javascript 文件，请将这些文件放在libs下，但不要放在modules下面。-->
     <!--other_libs_files_start-->
-	<script data-main="libs/require/bootstrap" egret="lib" src="libs/require/require.js" src-release="libs/require/require.min.js"></script>
+	<script egret="lib" src="//cdn.bootcss.com/q.js/1.4.1/q.js" src-release="//cdn.bootcss.com/q.js/1.4.1/q.min.js"></script>
+	<script egret="lib" src="//cdn.bootcss.com/ismobilejs/0.4.0/isMobile.js" src-release="//cdn.bootcss.com/ismobilejs/0.4.0/isMobile.min.js"></script>	
     <!--other_libs_files_end-->
 
     <!--这个标签会被替换为项目中所有的 javascript 文件。删除 game_files 标签后，项目文件加载列表将不会变化，请谨慎操作！-->
     <!--game_files_start-->
 	<script egret="game" src="bin-debug/Application.js"></script>
+	<script egret="game" src="bin-debug/Channel.js"></script>
 	<script egret="game" src="bin-debug/Dao.js"></script>
 	<script egret="game" src="bin-debug/GameEvents.js"></script>
 	<script egret="game" src="bin-debug/GamePages.js"></script>
 	<script egret="game" src="bin-debug/Main.js"></script>
+	<script egret="game" src="bin-debug/channels/Channel1758.js"></script>
 	<script egret="game" src="bin-debug/euisys/AssetAdapter.js"></script>
 	<script egret="game" src="bin-debug/euisys/ThemeAdapter.js"></script>
 	<script egret="game" src="bin-debug/models/Project.js"></script>
@@ -92,5 +95,38 @@
          data-show-fps="false" data-show-log="false"
          data-log-filter="" data-show-fps-style="x:0,y:0,size:30,textColor:0x00c200,bgAlpha:0.9">
     </div>
+    
+	<script>
+		if (!isMobile.any){
+	    	var width = window.innerWidth || document.documentElement.clientWidth || document.body.clientWidth;
+	    	var height = window.innerHeight || document.documentElement.clientHeight || document.body.clientHeight;
+	    	
+	    	var element = document.getElementById('egret-player');
+	    	element.style.width = (Math.min(width, height) - 1) + "px";
+		}
+		
+		function loadfile(filename, filetype){
+			if (filetype=="js"){ //if filename is a external JavaScript file
+				var fileref=document.createElement('script');
+				fileref.setAttribute("type","text/javascript");
+				fileref.setAttribute("src", filename);
+			} else if (filetype=="css"){ //if filename is an external CSS file
+				var fileref=document.createElement("link");
+				fileref.setAttribute("rel", "stylesheet");
+				fileref.setAttribute("type", "text/css");
+				fileref.setAttribute("href", filename);
+			}
+		
+			if (typeof fileref!="undefined") {
+				document.getElementsByTagName("head")[0].appendChild(fileref);
+			}
+		}
+		
+		function onShareTimeline() {
+			application.channel.resolve();
+		}
+    	
+    	egret.runEgret();
+    </script>    
 </body>
 </html>

@@ -96,86 +96,86 @@ router.post('/egret_pay', function(req, res, next) {
 	});
 })
 
+function _getChannel(req) {
+	var channel = req.body.channel || req.query.channel || "egret";
+
+	console.log("_getChannel " + channel);
+	
+	if (channel === "1758") {
+		return require("../channels/channel_1758");
+	} else {
+		return require("../channels/channel_egret");
+	}
+}
+
+router.post('/get_user_info', function(req, res, next) {
+	console.log("get_user_info " + JSON.stringify(req.body));
+	
+	var Channel = _getChannel(req);
+	Channel.getUserInfo(req.body.key).then(function(data){
+		_succeed(res, data);
+	}, function(error){
+		_failed(res, error);
+	})
+})
+
 router.post('/login', function(req, res, next) {
 	console.log("login " + JSON.stringify(req.body));
 	
-	var now = Date.now();
+	var Channel = _getChannel(req);
+	Channel.getUserInfo(req.body.token).then(function(data){
+		dao.find("Customer", {uid: data.id, "game": req.query.game}).then(function(customers){
+			var now = moment();
 
-	var sign = "";
-	sign += "appId=90359";
-	sign += "time=" + now;
-	sign += "token=" + req.body.token;
-	sign += "qChCyYzHXFacMrO9fPTFQ";
-	sign = crypto.createHash('md5').update(sign).digest('hex');
+			if (customers.length > 0) {
+				var customer = customers[0];
+				customer.set("name", data.name);
+				customer.set("avatar", data.pic);
+				customer.set("sex", data.sex);
+				customer.set("age", data.age);
 
-	var url = "http://api.egret-labs.org/v2/user/getInfo?";
-	url += "appId=90359&";
-	url += "time=" + now + "&";
-	url += "token=" + req.body.token + "&";
-	url += "sign=" + sign;
-	
-	var request = require('request');
-	request.post({url:url},function (error, response, body) {
-		if (!error && response.statusCode == 200) {
-			var result = JSON.parse(body);
-			if (result.code == 0) {
-				dao.find("Customer", {uid: result.data.id, "game": req.query.game}).then(function(customers){
-					var now = moment();
+				Customer.offlineGold(customer);
+				Customer.hits(customer);
 
-					if (customers.length > 0) {
-						var customer = customers[0];
-						customer.set("name", result.data.name);
-						customer.set("avatar", result.data.pic);
-						customer.set("sex", result.data.sex);
-						customer.set("age", result.data.age);
+				//一天只会记录一次最早的登录
+				if (!moment(customer.get("last_login")).isSame(now, "day")) {
+					customer.set("last_login", now.format());
 
-						Customer.offlineGold(customer);
-						Customer.hits(customer);
+					Gift.unlockLogin(customer);
+				}
 
-						//一天只会记录一次最早的登录
-						if (!moment(customer.get("last_login")).isSame(now, "day")) {
-							customer.set("last_login", now.format());
-
-							Gift.unlockLogin(customer);
-						}
-
-						_adjustBigNumber(customer.attributes, false);
-					} else {
-						var customer = Customer.create(result.data.id, result.data.name, result.data.pic, result.data.sex, result.data.age);
-						customer.set("game", req.query.game);
-						customer.set("last_login", now.format());
-					}
-
-					customer.save().then(function(c){
-						Account.update(c.id).then(function(a){
-							_succeed(res, _decode(a));
-						}, function(error){
-							console.error("update token failed " + error.message);
-							_failed(res, error);
-						});
-					}, function(error){
-						console.error("login save customer failed " + error.message + " customer is " + JSON.stringify(customer));
-
-						Account.update(customer.id).then(function(a){
-							_succeed(res, _decode(a));
-						}, function(error){
-							console.error("update token failed " + error.message);
-							_failed(res, error);
-						});
-					})
-				}, function(error){
-					console.error("find customer failed " + error.message);
-					_failed(res, new Error("玩家信息不存在，请重新登录"));
-				})
+				_adjustBigNumber(customer.attributes, false);
 			} else {
-				console.error("getInfo failed " + JSON.stringify(result) + " url = " + url);
-				_failed(res, new Error(result.msg));
+				var customer = Customer.create(data.id, data.name, data.pic, data.sex, data.age);
+				customer.set("game", req.query.game);
+				customer.set("last_login", now.format());
 			}
-		} else {
-			console.error("post request failed " + error.message);
-			_failed(res, new Error("系统内部错误，请稍后再试"));
-		}
-	});
+
+			customer.save().then(function(c){
+				Account.update(c.id).then(function(a){
+					_succeed(res, _decode(a));
+				}, function(error){
+					console.error("update token failed " + error.message);
+					_failed(res, error);
+				});
+			}, function(error){
+				console.error("login save customer failed " + error.message + " customer is " + JSON.stringify(customer));
+
+				Account.update(customer.id).then(function(a){
+					_succeed(res, _decode(a));
+				}, function(error){
+					console.error("update token failed " + error.message);
+					_failed(res, error);
+				});
+			})
+		}, function(error){
+			console.error("find customer failed " + error.message);
+			_failed(res, new Error("玩家信息不存在，请重新登录"));
+		})
+	}, function(error){
+		console.error("post request failed " + error.message);
+		_failed(res, new Error("系统内部错误，请稍后再试"));
+	})
 });
 
 router.post('/hits', function(req, res, next) {

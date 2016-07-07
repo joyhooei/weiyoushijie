@@ -14,6 +14,7 @@ var application;
             application.baseUrl = window.location.protocol + "//" + window.location.hostname + (window.location.port ? ':' + window.location.port : '') + "/";
         }
         application.dao = new Dao(application.baseUrl + "api/", "headline");
+        application.channel = Channel.create();
         application.projects = Project.createAllProjects();
         application.stopwatch = new egret.EventDispatcher();
         application.units = [
@@ -28,32 +29,8 @@ var application;
         };
     }
     application.init = init;
-    function login(data) {
-        if (data == null || typeof data == "string") {
-            var loginInfo = data ? { "loginType": data } : {};
-            nest.user.login(loginInfo, application.onLoginCallback);
-        }
-        else {
-            application.onLoginCallback(data);
-        }
-    }
-    application.login = login;
-    function resetTicket(vip) {
-        application.customer.vip = vip;
-        if (vip == 0 || vip == 2) {
-            application.customer.ticket = "";
-        }
-        else {
-            var now = new Date();
-            now = new Date(now.getTime() + 1000 * 60 * 60 * 24 * 30);
-            application.customer.ticket = now.toString();
-        }
-        application.saveCustomerNow();
-    }
-    application.resetTicket = resetTicket;
-    function onLoginCallback(data) {
-        //从后台获取用户信息
-        application.dao.rest("login", { token: data.token }, function (succeed, account) {
+    function logined(token) {
+        application.dao.rest("login", { token: token }, function (succeed, account) {
             if (succeed) {
                 application.token = account.token;
                 application.dao.fetch("Customer", { id: account.customer_id }, { limit: 1 }, function (succeed, customers) {
@@ -96,7 +73,20 @@ var application;
             }
         });
     }
-    application.onLoginCallback = onLoginCallback;
+    application.logined = logined;
+    function resetTicket(vip) {
+        application.customer.vip = vip;
+        if (vip == 0 || vip == 2) {
+            application.customer.ticket = "";
+        }
+        else {
+            var now = new Date();
+            now = new Date(now.getTime() + 1000 * 60 * 60 * 24 * 30);
+            application.customer.ticket = now.toString();
+        }
+        application.saveCustomerNow();
+    }
+    application.resetTicket = resetTicket;
     function checkGift(cb) {
         application.dao.fetch("Gift", { customer_id: application.customer.id }, { order: 'category ASC' }, function (succeed, gifts) {
             if (succeed && gifts.length > 0) {
@@ -318,20 +308,9 @@ var application;
         var order = { customer_id: application.customer.id, product: product, price: price, state: 0 };
         application.dao.save("Order", order, function (succeed, o) {
             if (succeed) {
-                nest.iap.pay({ goodsId: gid, goodsNumber: "1", serverId: "1", ext: o.id }, function (data) {
-                    if (data.result == 0) {
-                    }
-                    else if (data.result == -1) {
-                        //支付取消
-                        o.reason = "用户取消了支付";
-                        application.dao.save("Order", o);
-                    }
-                    else {
-                        //支付失败
-                        o.reason = JSON.stringify(data);
-                        application.dao.save("Order", o);
-                        Toast.launch("支付失败");
-                    }
+                application.channel.pay({ goodsId: gid, goodsNumber: "1", serverId: "1", ext: o.id }).then(function (data) {
+                }, function (error) {
+                    Toast.launch(error);
                 });
                 application.checkOrderPayed(o, 20, firstCharge);
             }
@@ -443,46 +422,21 @@ var application;
     }
     application.buyVIP = buyVIP;
     function share(callback) {
-        nest.share.isSupport({}, function (data) {
-            if (data.share == 1) {
-                var url = application.baseUrl + "headline/index.html?platInfo=open_90359_9166&appId=90359&egret.runtime.spid=9166&appId=90359&channelId=9166&isNewApi=1&egretSdkDomain=http://api.egret-labs.org/v2&egretServerDomain=http://api.egret-labs.org/v2&egretRv=669";
-                var img_url = application.baseUrl + "headline/resource/art/home/icon.png";
-                nest.share.share({ title: '我来上头条，女神任我挑！', description: '最炫最浪的舞蹈经营类游戏，无需下载，点开即送，多重豪礼等你来拿！', url: url, img_url: img_url, img_title: '头条关注' }, function (data) {
-                    if (data.result == 0) {
-                        callback();
-                    }
-                    else if (data.result == -1) {
-                        Toast.launch("取消了分享");
-                    }
-                    else {
-                        Toast.launch("分享失败");
-                    }
-                });
-            }
-            else {
-                Toast.launch("当前平台不支持分享");
-            }
+        var url = application.baseUrl + "headline/index.html?platInfo=open_90359_9166&appId=90359&egret.runtime.spid=9166&appId=90359&channelId=9166&isNewApi=1&egretSdkDomain=http://api.egret-labs.org/v2&egretServerDomain=http://api.egret-labs.org/v2&egretRv=669";
+        var img_url = application.baseUrl + "headline/resource/art/home/icon.png";
+        var options = { title: '我来上头条，女神任我挑！', description: '最炫最浪的舞蹈经营类游戏，无需下载，点开即送，多重豪礼等你来拿！', url: url, img_url: img_url, img_title: '头条关注' };
+        application.channel.share(options).then(function () {
+            callback();
+        }, function (error) {
+            Toast.launch(error);
         });
     }
     application.share = share;
     function attention(callback) {
-        nest.app.isSupport({}, function (data) {
-            if (data.attention == 1) {
-                nest.app.attention({}, function (data) {
-                    if (data.result == 0) {
-                        callback();
-                    }
-                    else if (data.result == -1) {
-                        Toast.launch("取消了关注");
-                    }
-                    else {
-                        Toast.launch("关注失败");
-                    }
-                });
-            }
-            else {
-                Toast.launch("当前平台不支持关注");
-            }
+        application.channel.attention({}).then(function () {
+            callback();
+        }, function (error) {
+            Toast.launch(error);
         });
     }
     application.attention = attention;

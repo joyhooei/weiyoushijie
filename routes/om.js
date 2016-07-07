@@ -1,6 +1,6 @@
 var express = require('express');
 var router = express.Router();
-var request = require('request');
+var Helper = require('../channels/helper');
 
 router.get('/transfer_all', function(req, res, next) {
 	var modelNames = ['Bid', 'MaxBid', 'Blacklist', 'Customer', 'Message', 'Gift', 'Report', 'Project', 'Game', 'Order'];
@@ -38,30 +38,9 @@ function _transfer(modelName) {
 	});
 }
 
-function _post(url, data) {
-	return Q.Promise(function(resolve, reject, notify) { 
-		var options = {
-		    url: url,
-		    method: 'POST',
-		    json:true,
-		    body: data
-		};
-
-		function callback(error, response, data) {
-		    if (!error && response.statusCode == 200) {
-		        resolve(data);
-		    } else {
-		    	reject(new Error(response.statusCode));
-		    }
-		}
-
-		request(options, callback);
-	});	
-}
-
 function _queryOneBulk(modelName, url, data) {
 	return Q.Promise(function(resolve, reject, notify) {
-		_post(url, data).then(function(body){
+		Helper.post(url, data).then(function(body){
 			try {
 				var promises = [];
 
