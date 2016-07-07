@@ -363,22 +363,12 @@ module application {
         var order = { customer_id: application.customer.id, product: product, price: price, state: 0};
         application.dao.save("Order", order, function(succeed, o) {
             if (succeed) {
-				nest.iap.pay({ goodsId: gid, goodsNumber: "1", serverId: "1",ext: o.id }, function(data) {
-					if(data.result == 0) {
-					} else if(data.result == -1) {
-						//支付取消
-                        o.reason = "用户取消了支付";
-						application.dao.save("Order", o);
-					} else {
-						//支付失败
-                        o.reason = JSON.stringify(data);
-						application.dao.save("Order", o);
-						
-						Toast.launch("支付失败");
-					}
-				})
-                
-				application.checkOrderPayed(o, 20, firstCharge);
+                application.channel.pay({ goodsId: gid, goodsNumber: "1", serverId: "1",ext: o.id }).then(function(data){
+                }, function(error){
+                    Toast.launch(error);
+                });
+                    
+                application.checkOrderPayed(o, 20, firstCharge);
             } else {
                 Toast.launch("保存订单失败，请稍后再试");
             }
