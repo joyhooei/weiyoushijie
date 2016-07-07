@@ -26,10 +26,20 @@ var ChargeTipUI = (function (_super) {
             application.charge('diamond100000', 500);
         }, this);
         this.imgCharge7.addEventListener(egret.TouchEvent.TOUCH_TAP, function () {
-            application.buyTicket();
+            if (application.customer.vip == 2) {
+                Toast.launch("你已经购买了VIP，终身免费，不需要购买月票");
+            }
+            else {
+                application.buyTicket();
+            }
         }, this);
         this.imgCharge8.addEventListener(egret.TouchEvent.TOUCH_TAP, function () {
-            application.buyVIP();
+            if (application.customer.vip == 2) {
+                Toast.launch("你已经购买了VIP，终身免费");
+            }
+            else {
+                application.buyVIP();
+            }
         }, this);
     }
     var d = __define,c=ChargeTipUI,p=c.prototype;
