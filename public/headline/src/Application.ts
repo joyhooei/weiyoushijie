@@ -2,6 +2,8 @@ module application {
     export var main: Main;
     export var dao: Dao;
     
+    export var channel: Channel;
+    
 	export var saveSeconds: number = 0;
     export var customer: any;
     
@@ -38,6 +40,8 @@ module application {
 		
         application.dao = new Dao(application.baseUrl + "api/", "headline");
         
+        application.channel = Channel.create();
+        
         application.projects = Project.createAllProjects();
         
         application.stopwatch = new egret.EventDispatcher();
@@ -55,7 +59,62 @@ module application {
         }
     }
 	
-    export function login(data?:string|nest.user.LoginCallbackInfo):void {
+    export function login(d?:string|nest.user.LoginCallbackInfo):void {
+        application.channel.login(d).done(function(data){
+			//从后台获取用户信息
+			application.dao.rest("login", {token: data.token}, (succeed: boolean, account: any) => {
+				if (succeed) {
+					application.token = account.token;
+
+					application.dao.fetch("Customer", {id: account.customer_id}, {limit: 1}, function(succeed, customers){
+						if (succeed && customers.length > 0) {
+							var customer = customers[0];
+							application.customer = customer;
+
+							application.vip = Vip.createVip(application.customer.charge);
+
+							application.checkTicket();
+
+							esa.EgretSA.player.init({ egretId: customer.uid,level: 1,serverId: 1,playerName: customer.name })
+
+							//首次登录，需要显示引导页面
+							if(application.customer.metal == 0) {
+								application.guideUI = new GuideUI();
+							}
+
+							if(!application.customer.earned_gold) {
+								application.customer.earned_gold = 0;
+							}
+
+							var timer: egret.Timer = new egret.Timer(1000,0);
+							timer.addEventListener(egret.TimerEvent.TIMER,function(event: egret.TimerEvent) {
+								application.ticks++;
+
+								application.stopwatch.dispatchEventWith("second",true,application.ticks);
+
+								if(application.ticks % 60 == 0) {
+									application.stopwatch.dispatchEventWith("minute",true,application.ticks / 60);
+
+									if(application.ticks % 3600 == 0) {
+										application.stopwatch.dispatchEventWith("hour",true,application.ticks / 3600);
+									}
+								}
+							},this);
+							timer.start();
+
+							application.refreshBid(function(bid) {
+								application.main.dispatchEventWith(GameEvents.EVT_LOGIN_IN_SUCCESS);
+							});                          
+						} else {
+							Toast.launch("获取账号信息失败");
+						}
+					})
+				} else {
+					Toast.launch("获取账号信息失败");
+				}
+			});        
+        });
+        
         if (data == null || typeof data == "string") {
             var loginInfo: nest.user.LoginInfo = data ? {"loginType":<string>data} : {};
             nest.user.login(loginInfo, application.onLoginCallback);
@@ -77,61 +136,6 @@ module application {
 		
 		application.saveCustomerNow();
 	} 
-
-    export function onLoginCallback(data:nest.user.LoginCallbackInfo):void{
-        //从后台获取用户信息
-        application.dao.rest("login", {token: data.token}, (succeed: boolean, account: any) => {
-            if (succeed) {
-                application.token = account.token;
-
-                application.dao.fetch("Customer", {id: account.customer_id}, {limit: 1}, function(succeed, customers){
-                    if (succeed && customers.length > 0) {
-                        var customer = customers[0];
-                        application.customer = customer;
-
-                        application.vip = Vip.createVip(application.customer.charge);
-
-                        application.checkTicket();
-
-                        esa.EgretSA.player.init({ egretId: customer.uid,level: 1,serverId: 1,playerName: customer.name })
-
-                        //首次登录，需要显示引导页面
-                        if(application.customer.metal == 0) {
-                            application.guideUI = new GuideUI();
-                        }
-
-                        if(!application.customer.earned_gold) {
-                            application.customer.earned_gold = 0;
-                        }
-
-                        var timer: egret.Timer = new egret.Timer(1000,0);
-                        timer.addEventListener(egret.TimerEvent.TIMER,function(event: egret.TimerEvent) {
-                            application.ticks++;
-
-                            application.stopwatch.dispatchEventWith("second",true,application.ticks);
-
-                            if(application.ticks % 60 == 0) {
-                                application.stopwatch.dispatchEventWith("minute",true,application.ticks / 60);
-
-                                if(application.ticks % 3600 == 0) {
-                                    application.stopwatch.dispatchEventWith("hour",true,application.ticks / 3600);
-                                }
-                            }
-                        },this);
-                        timer.start();
-
-                        application.refreshBid(function(bid) {
-                            application.main.dispatchEventWith(GameEvents.EVT_LOGIN_IN_SUCCESS);
-                        });                          
-                    } else {
-                        Toast.launch("获取账号信息失败");
-                    }
-                })
-            } else {
-                Toast.launch("获取账号信息失败");
-            }
-        });
-    }
     
     export function checkGift(cb: Function) {
         application.dao.fetch("Gift", {customer_id: application.customer.id}, {order : 'category ASC'}, function(succeed, gifts){
@@ -490,41 +494,22 @@ module application {
     }
     
     export function share(callback:Function): void {
-        nest.share.isSupport({}, function (data) {
-			if (data.share == 1) {
-				var url     = application.baseUrl + "headline/index.html?platInfo=open_90359_9166&appId=90359&egret.runtime.spid=9166&appId=90359&channelId=9166&isNewApi=1&egretSdkDomain=http://api.egret-labs.org/v2&egretServerDomain=http://api.egret-labs.org/v2&egretRv=669";
-				var img_url = application.baseUrl + "headline/resource/art/home/icon.png";
-				nest.share.share({ title: '我来上头条，女神任我挑！',description: '最炫最浪的舞蹈经营类游戏，无需下载，点开即送，多重豪礼等你来拿！',url: url, img_url: img_url,img_title:'头条关注'}, function (data) {
-					if(data.result == 0) {
-						callback();
-					} else if(data.result == -1) {
-						Toast.launch("取消了分享");
-					} else {
-						Toast.launch("分享失败");
-					}
-				})
-			} else {
-				Toast.launch("当前平台不支持分享");
-			}
-		});
+        let url     = application.baseUrl + "headline/index.html?platInfo=open_90359_9166&appId=90359&egret.runtime.spid=9166&appId=90359&channelId=9166&isNewApi=1&egretSdkDomain=http://api.egret-labs.org/v2&egretServerDomain=http://api.egret-labs.org/v2&egretRv=669";
+        let img_url = application.baseUrl + "headline/resource/art/home/icon.png";
+        let options = { title: '我来上头条，女神任我挑！',description: '最炫最浪的舞蹈经营类游戏，无需下载，点开即送，多重豪礼等你来拿！',url: url, img_url: img_url,img_title:'头条关注'};
+        application.channel.share(options).then(function(){
+            cb();
+        }, function(error){
+            Toast.launch(error);
+        });
     }
     
     export function attention(callback:Function): void {
-        nest.app.isSupport({}, function (data) {
-			if (data.attention == 1) {
-                nest.app.attention({}, function (data) {
-					if(data.result == 0) {
-						callback();
-					} else if(data.result == -1) {
-						Toast.launch("取消了关注");
-					} else {
-						Toast.launch("关注失败");
-					}
-				})
-			} else {
-				Toast.launch("当前平台不支持关注");
-			}
-		});
+        application.channel.attention({}).then(function(){
+            cb();
+        }, function(error){
+            Toast.launch(error);
+        });
     }
 
     export function gotoHome(): void {
