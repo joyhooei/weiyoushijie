@@ -59,68 +59,58 @@ module application {
         }
     }
 	
-    export function login(d?:string|nest.user.LoginCallbackInfo):void {
-        application.channel.login(d).done(function(data){
-			//从后台获取用户信息
-			application.dao.rest("login", {token: data.token}, (succeed: boolean, account: any) => {
-				if (succeed) {
-					application.token = account.token;
+    export function logined(token:string):void {
+		application.dao.rest("login", {token: token}, (succeed: boolean, account: any) => {
+			if (succeed) {
+				application.token = account.token;
 
-					application.dao.fetch("Customer", {id: account.customer_id}, {limit: 1}, function(succeed, customers){
-						if (succeed && customers.length > 0) {
-							var customer = customers[0];
-							application.customer = customer;
+				application.dao.fetch("Customer", {id: account.customer_id}, {limit: 1}, function(succeed, customers){
+					if (succeed && customers.length > 0) {
+						var customer = customers[0];
+						application.customer = customer;
 
-							application.vip = Vip.createVip(application.customer.charge);
+						application.vip = Vip.createVip(application.customer.charge);
 
-							application.checkTicket();
+						application.checkTicket();
 
-							esa.EgretSA.player.init({ egretId: customer.uid,level: 1,serverId: 1,playerName: customer.name })
+						esa.EgretSA.player.init({ egretId: customer.uid,level: 1,serverId: 1,playerName: customer.name })
 
-							//首次登录，需要显示引导页面
-							if(application.customer.metal == 0) {
-								application.guideUI = new GuideUI();
-							}
-
-							if(!application.customer.earned_gold) {
-								application.customer.earned_gold = 0;
-							}
-
-							var timer: egret.Timer = new egret.Timer(1000,0);
-							timer.addEventListener(egret.TimerEvent.TIMER,function(event: egret.TimerEvent) {
-								application.ticks++;
-
-								application.stopwatch.dispatchEventWith("second",true,application.ticks);
-
-								if(application.ticks % 60 == 0) {
-									application.stopwatch.dispatchEventWith("minute",true,application.ticks / 60);
-
-									if(application.ticks % 3600 == 0) {
-										application.stopwatch.dispatchEventWith("hour",true,application.ticks / 3600);
-									}
-								}
-							},this);
-							timer.start();
-
-							application.refreshBid(function(bid) {
-								application.main.dispatchEventWith(GameEvents.EVT_LOGIN_IN_SUCCESS);
-							});                          
-						} else {
-							Toast.launch("获取账号信息失败");
+						//首次登录，需要显示引导页面
+						if(application.customer.metal == 0) {
+							application.guideUI = new GuideUI();
 						}
-					})
-				} else {
-					Toast.launch("获取账号信息失败");
-				}
-			});        
-        });
-        
-        if (data == null || typeof data == "string") {
-            var loginInfo: nest.user.LoginInfo = data ? {"loginType":<string>data} : {};
-            nest.user.login(loginInfo, application.onLoginCallback);
-        } else {
-            application.onLoginCallback(<nest.user.LoginCallbackInfo>data);
-        }
+
+						if(!application.customer.earned_gold) {
+							application.customer.earned_gold = 0;
+						}
+
+						var timer: egret.Timer = new egret.Timer(1000,0);
+						timer.addEventListener(egret.TimerEvent.TIMER,function(event: egret.TimerEvent) {
+							application.ticks++;
+
+							application.stopwatch.dispatchEventWith("second",true,application.ticks);
+
+							if(application.ticks % 60 == 0) {
+								application.stopwatch.dispatchEventWith("minute",true,application.ticks / 60);
+
+								if(application.ticks % 3600 == 0) {
+									application.stopwatch.dispatchEventWith("hour",true,application.ticks / 3600);
+								}
+							}
+						},this);
+						timer.start();
+
+						application.refreshBid(function(bid) {
+							application.main.dispatchEventWith(GameEvents.EVT_LOGIN_IN_SUCCESS);
+						});                          
+					} else {
+						Toast.launch("获取账号信息失败");
+					}
+				})
+			} else {
+				Toast.launch("获取账号信息失败");
+			}
+		});
     }
 	
 	export function resetTicket(vip: number): void {
