@@ -13,12 +13,12 @@ var methodOverride = require('method-override');
 var session = require('express-session');
 var flash = require('express-flash');
 
-var home = require('../../routes/index');
-var api = require('../../routes/api');
-var om = require('../../routes/om');
-var accounts = require('../../routes/accounts');
-var customers = require('../../routes/customers');
-var messages = require('../../routes/messages');
+var home = require('./routes/index');
+var api = require('./routes/api');
+var om = require('./routes/om');
+var accounts = require('./routes/accounts');
+var customers = require('./routes/customers');
+var messages = require('./routes/messages');
 
 GLOBAL.moment = require("moment");
 GLOBAL._ = require("underscore");
@@ -27,7 +27,7 @@ GLOBAL.Q = require('q');
 var app = express();
 
 // 设置 view 引擎
-app.set('views', path.join(__dirname, '../../views'));
+app.set('views', path.join(__dirname, './views'));
 app.set('view engine', 'jade');
 app.use(express.static('public'));
 
@@ -94,8 +94,8 @@ passport.deserializeUser(function(obj, done) {
 passport.use('local-login', new LocalStrategy(
     {passReqToCallback : true}, //allows us to pass back the request to the callback
     function(req, username, password, done) {
-      var Account = require("../../models/account");
-      var Helper = require("../../routes/helper");
+      var Account = require("./models/account");
+      var Helper = require("./routes/helper");
 
       Account.login(new dao.Account({username:username, password:Helper.md5(password)}), true).then(function(account) {
         if (account.get("role") == 0) {

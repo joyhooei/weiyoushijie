@@ -55,15 +55,37 @@
          data-show-fps="false" data-show-log="false"
          data-log-filter="" data-show-fps-style="x:0,y:0,size:30,textColor:0x00c200,bgAlpha:0.9">
     </div>
-	<img src="resource/art/icon.jpg" width="0" height="0" />
-    <script>
-		var width = window.innerWidth || document.documentElement.clientWidth || document.body.clientWidth;
-		var height = window.innerHeight || document.documentElement.clientHeight || document.body.clientHeight;
+    
+	<script>
+		function loadfile(filename, filetype){
+			if (filetype=="js"){ //if filename is a external JavaScript file
+				var fileref=document.createElement('script');
+				fileref.setAttribute("type","text/javascript");
+				fileref.setAttribute("src", filename);
+			} else if (filetype=="css"){ //if filename is an external CSS file
+				var fileref=document.createElement("link");
+				fileref.setAttribute("rel", "stylesheet");
+				fileref.setAttribute("type", "text/css");
+				fileref.setAttribute("href", filename);
+			}
 		
-		var element = document.getElementById('egret-player');
-		element.style.width = (Math.min(width, height) - 1) + "px";
+			if (typeof fileref!="undefined") {
+				document.getElementsByTagName("head")[0].appendChild(fileref);
+			}
+		}
 		
-        egret.runEgret();
-    </script>
+		loadfile("//cdn.bootcss.com/q.js/1.4.1/q.min.js", "js");
+		loadfile("//cdn.bootcss.com/ismobilejs/0.4.0/isMobile.min.js", "js");
+    	
+ 		if (!isMobile.any){
+			var width = window.innerWidth || document.documentElement.clientWidth || document.body.clientWidth;
+			var height = window.innerHeight || document.documentElement.clientHeight || document.body.clientHeight;
+			
+			var element = document.getElementById('egret-player');
+			element.style.width = (Math.min(width, height) - 1) + "px";
+		}
+		
+   		egret.runEgret();
+    </script>    
 </body>
 </html>

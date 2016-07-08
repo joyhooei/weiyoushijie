@@ -32,7 +32,7 @@ class Channel {
     
     public promise() {
         if (this._deferred) {
-            this._deferred.reject(new Error("操作超时"));
+            this._deferred.reject("操作超时");
         }
         
         this._deferred = Q.defer<any>();

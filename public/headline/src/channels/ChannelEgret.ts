@@ -1,4 +1,4 @@
-class ChannelEgret {
+class ChannelEgret extends Channel{
 	constructor() {
         super("egret");
     }

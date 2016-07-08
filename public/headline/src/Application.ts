@@ -24,7 +24,7 @@ module application {
     
     export var vip: Vip;
     
-    export var version: string = '1.5.5';
+    export var version: string = '1.5.6';
     
     export var token: string = "";
 
@@ -155,9 +155,10 @@ module application {
                         var lastPickDay = dt.getDate();
                     }
 					
-					//首充奖励只有一次，不需要更新
-                    //今天已经领取过了，不能再领取
-                    if (gift.category == GiftCategory.Charge || nowaday == lastPickDay) {
+					//首充奖励只有一次
+                    //关注只有一次
+                    //今天已经领取过了
+                    if(gift.category == GiftCategory.Charge || gift.category == GiftCategory.Attention || nowaday == lastPickDay) {
                         continue;
                     }
 

@@ -2,7 +2,7 @@ var application;
 (function (application) {
     application.saveSeconds = 0;
     application.ticks = 0;
-    application.version = '1.5.5';
+    application.version = '1.5.6';
     application.token = "";
     function init(main) {
         application.main = main;
@@ -30,7 +30,7 @@ var application;
     }
     application.init = init;
     function logined(token) {
-        application.dao.rest("login", { token: token }, function (succeed, account) {
+        application.dao.rest("login", { token: token, wysj_channel: application.channel.name }, function (succeed, account) {
             if (succeed) {
                 application.token = account.token;
                 application.dao.fetch("Customer", { id: account.customer_id }, { limit: 1 }, function (succeed, customers) {
@@ -110,9 +110,10 @@ var application;
                         dt.setTime(now.getTime() - day);
                         var lastPickDay = dt.getDate();
                     }
-                    //首充奖励只有一次，不需要更新
-                    //今天已经领取过了，不能再领取
-                    if (gift.category == GiftCategory.Charge || nowaday == lastPickDay) {
+                    //首充奖励只有一次
+                    //关注只有一次
+                    //今天已经领取过了
+                    if (gift.category == GiftCategory.Charge || gift.category == GiftCategory.Attention || nowaday == lastPickDay) {
                         continue;
                     }
                     if (gift.category == GiftCategory.Online) {
@@ -421,25 +422,6 @@ var application;
         application.buy("VIP", "vip", 49);
     }
     application.buyVIP = buyVIP;
-    function share(callback) {
-        var url = application.baseUrl + "headline/index.html?platInfo=open_90359_9166&appId=90359&egret.runtime.spid=9166&appId=90359&channelId=9166&isNewApi=1&egretSdkDomain=http://api.egret-labs.org/v2&egretServerDomain=http://api.egret-labs.org/v2&egretRv=669";
-        var img_url = application.baseUrl + "headline/resource/art/home/icon.png";
-        var options = { title: '我来上头条，女神任我挑！', description: '最炫最浪的舞蹈经营类游戏，无需下载，点开即送，多重豪礼等你来拿！', url: url, img_url: img_url, img_title: '头条关注' };
-        application.channel.share(options).then(function () {
-            callback();
-        }, function (error) {
-            Toast.launch(error);
-        });
-    }
-    application.share = share;
-    function attention(callback) {
-        application.channel.attention({}).then(function () {
-            callback();
-        }, function (error) {
-            Toast.launch(error);
-        });
-    }
-    application.attention = attention;
     function gotoHome() {
         application.main.homeUI.gotoPage(GamePages.HOME, true);
     }

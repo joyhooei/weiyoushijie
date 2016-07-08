@@ -9,7 +9,7 @@ class Channel1758 extends ChannelEgret {
         this.loadjs("http://wx.1758.com/static/common/js/hlmy1758.js");
 	}
     
-    public login(options: any): Q.Promise<any> {
+    public login(): Q.Promise<any> {
         let self = this;
 
         application.delay(function(){
