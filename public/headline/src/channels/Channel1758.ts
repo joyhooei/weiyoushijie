@@ -2,7 +2,9 @@ declare var hlmy;
 
 class Channel1758 extends ChannelEgret {
 	public constructor() {
-        super("1758");
+        super();
+        
+        this.name = "1758";
         
         this.loadjs("http://wx.1758.com/static/common/js/hlmy1758.js");
 	}
