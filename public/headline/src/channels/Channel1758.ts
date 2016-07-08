@@ -8,7 +8,7 @@ declare var hlmy;
 
 class Channel1758 extends Channel {
 	public constructor() {
-        super();
+        super("1758");
         
         this.loadjs("http://wx.1758.com/static/common/js/hlmy1758.js");
 	}
