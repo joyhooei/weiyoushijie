@@ -68,12 +68,8 @@ module.exports.pay = function(options) {
 				order.set("price", parseInt(options.totalFee));
 				order.set("channel", "1758");
 				Order.pay(order).then(function(o){
-					order.save().then(function(o){
-						resolve('succeed');
-					}, function(error){
-						reject(error);
-					});
-				}, function(error) {
+					resolve('succeed');
+				}, function(error){
 					reject(error);
 				});
 			} else {
