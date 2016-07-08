@@ -12,6 +12,33 @@ class Channel1758 extends Channel {
         
         this.loadjs("http://wx.1758.com/static/common/js/hlmy1758.js");
 	}
+    
+    public login(options: any): Q.Promise<any> {
+        let self = this;
+
+        application.delay(function(){
+            var token = egret.getOption("userToken");
+            if (token) {            
+                self.resolve(token);
+            } else {
+                self.reject("授权失败");
+            }
+        }, 100);
+        
+        return self.promise();
+    }
+
+    public pay(options: any): Q.Promise<any> {
+        let self = this;
+
+		hlmy.pay({
+			itemCode:options.goodsId, //必填， 道具计费代码, 由 1758 分配，在 1758 开放平台中查看, CP 的不同充值项（或道具商品）需与此一一对应
+			txId:options.ext,//可选. CP 产生的此次交易唯一 ID
+			state:options.ext //可选. CP 自定义参数 , 1758 平台会在支付结果通知接口中, 把该参数透传给 CP 游戏服务器
+		});
+		
+        return self.promise();
+    }
 	
     public share(options: any): Q.Promise<any> {
         let self = this;
