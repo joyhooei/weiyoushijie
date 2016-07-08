@@ -60,7 +60,7 @@ module application {
     }
 	
     export function logined(token:string):void {
-		application.dao.rest("login", {token: token}, (succeed: boolean, account: any) => {
+		application.dao.rest("login", {token: token, wysj_channel:application.channel.name}, (succeed: boolean, account: any) => {
 			if (succeed) {
 				application.token = account.token;
 
