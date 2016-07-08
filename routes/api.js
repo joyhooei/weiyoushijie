@@ -57,47 +57,8 @@ router.get('/egret_rt', function(req, res, next) {
 	});
 })
 
-router.post('/egret_pay', function(req, res, next) {
-	//orderId	是	渠道订单id
-	//userId	是	玩家在渠道的用户Id
-	//money	是	玩家在渠道上的实际充值金额（大陆统一为人民币元 float类型）
-	//ext	是	egret透传参数，此参数在调用渠道支付页面地址时的透传参数，这里是钻石的数量
-	//time	是	时间戳
-	//sign	是	验证签名，签名生成方式详见附录1
-	
-	console.log("egret_pay " + JSON.stringify(req.body));
-	
-	dao.get("Order", req.body.ext).then(function(order){
-		var price = parseInt(req.body.money);
-		order.set("price", price);
-		order.set("channel", "egret");
-		if (price == 49) {
-			order.set("product", "VIP");
-		} else if (price == 19) {
-			order.set("product", "Ticket");
-		} else {
-			order.set("product", "Diamond");
-		}
-		
-		Order.pay(order).then(function(o){
-			order.save().then(function(o){
-				_succeed(res, {code: 0, msg: '支付成功', data: []});
-			}, function(error){
-				console.error(error.message);
-				_failed(res, {code: 1013, msg: '支付失败', data: []});
-			});
-		}, function(error) {
-			console.error(error.message);
-			_failed(res, {code: 1013, msg: '支付失败', data: []});
-		});
-	}, function(error){
-		console.error(error.message);
-		_failed(res, {code: 1013, msg: '订单不存在', data: []});
-	});
-})
-
 function _getChannel(req) {
-	var channel = req.body.channel || req.query.channel || "egret";
+	var channel = req.body.wysj_channel || req.query.wysj_channel || "egret";
 
 	console.log("_getChannel " + channel);
 	
@@ -107,6 +68,16 @@ function _getChannel(req) {
 		return require("../channels/channel_egret");
 	}
 }
+
+router.post(['/egret_pay', '/pay'], function(req, res, next) {
+	console.log("egret_pay " + JSON.stringify(req.body));
+	
+	_getChannel(req).pay(req.body).then(function(data){
+		_succeed(res, result);
+	}, function(data){
+		_failed(res, new Error(data));
+	});
+})
 
 router.post('/get_user_info', function(req, res, next) {
 	console.log("get_user_info " + JSON.stringify(req.body));
@@ -122,8 +93,7 @@ router.post('/get_user_info', function(req, res, next) {
 router.post('/login', function(req, res, next) {
 	console.log("login " + JSON.stringify(req.body));
 	
-	var Channel = _getChannel(req);
-	Channel.getUserInfo(req.body.token).then(function(data){
+	_getChannel(req).login(req.body.token).then(function(data){
 		dao.find("Customer", {uid: data.id, "game": req.query.game}).then(function(customers){
 			var now = moment();
 
