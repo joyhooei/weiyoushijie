@@ -79,14 +79,14 @@ module.exports.hits = function(customer) {
 	return {"total_hits": totalHits};
 }
 
-module.exports.create = function(uid, name, avatar, sex, age) {
+module.exports.create = function() {
     var customer = new dao.Customer();
     
-    customer.set("uid", uid);
-    customer.set("name", name);
-    customer.set("avatar", avatar);
-    customer.set("sex", sex);
-    customer.set("age", age);
+    customer.set("uid", "");
+    customer.set("name", "");
+    customer.set("avatar", "");
+    customer.set("sex", 0);
+    customer.set("age", 0);
     
     customer.set("gold", 0);
     customer.set("earned_gold", 0);
@@ -111,6 +111,7 @@ module.exports.create = function(uid, name, avatar, sex, age) {
     customer.set("offline_minutes", 0);
     
     customer.set("version", "");
+    customer.set("channel_data", "");
     
     return customer;
 }
