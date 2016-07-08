@@ -20,7 +20,15 @@ module.exports.login = function(token) {
 		url += "sign=" + sign;
 
 		Helper.post(url, {}).then(function(body){
-			resolve(body.data);
+			var user = {
+				name: body.data.name, 
+				uid:body.data.id, 
+				avatar:body.data.pic, 
+				sex:body.data.sex, 
+				age:body.data.age, 
+				channel_data: ""
+			};		
+			resolve(user);
 		}, function(error){
 			reject(error);
 		})
