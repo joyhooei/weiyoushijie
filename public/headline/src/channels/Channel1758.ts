@@ -43,6 +43,10 @@ class Channel1758 extends Channel {
             reward: ['100'] //（当 tipInfo 为 true 时，必填。数组，为奖励的内容，格式：’元宝 X10’；数组的每项内容在显示时会单独占一行）
         });
         
+        window['onShareTimeline'] = function(){
+            self.resolve();
+        }
+        
         return self.promise();
     }
 
