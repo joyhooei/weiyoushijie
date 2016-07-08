@@ -1,4 +1,4 @@
-
+var crypto = require('crypto');
 var request = require('request');
 
 module.exports.post = function(url, data) {
@@ -22,4 +22,8 @@ module.exports.post = function(url, data) {
 
 		request(options, callback);
 	});	
+}
+
+module.exports.crypto = function(data) {
+	return crypto.createHash('md5').update(data).digest('hex');
 }
