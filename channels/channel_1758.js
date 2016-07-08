@@ -1,4 +1,3 @@
-
 var Helper = require('./helper');
 
 module.exports.getUserInfo = function(gid) {
@@ -8,12 +7,12 @@ module.exports.getUserInfo = function(gid) {
 		var sign = "";
 		sign += "appKey=9d5c0edbaddd4d4f2e5f6524ba8f026a";
 		sign += "&gid=" + gid;
-		sign = "&" + crypto.createHash('md5').update(sign).digest('hex');
+		sign = Helper.crypto(sign);
 
 		var url = "http://wx.1758.com/game/platform/v1.0/user/query";
 
 		var data = {
-			appKey: '',
+			appKey: '9d5c0edbaddd4d4f2e5f6524ba8f026a',
 			gid: gid,
 			sign: sign
 		};
