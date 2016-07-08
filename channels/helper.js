@@ -1,7 +1,7 @@
 
 var request = require('request');
 
-module.exports.post = (url, data) {
+module.exports.post = function(url, data) {
 	console.log(url + " " + JSON.stringify(data));
 
 	return Q.Promise(function(resolve, reject, notify) { 
