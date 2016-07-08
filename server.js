@@ -15,14 +15,11 @@ if (process.env.LC_APP_ID) {
 	AV.Cloud.useMasterKey();
 
 	var port = parseInt(process.env.LC_APP_PORT || '3000');
-    
-    var app = require('./platforms/leancloud/app');
 } else {
 	var port = 18080;
-    
-    var app = require('./platforms/standalone/app');
 }
 
+var app = require('./app');
 app.listen(port, function () {
   console.log('Node app is running, port:', port);
 });
