@@ -41,7 +41,7 @@ class Channel1758 extends Channel {
                             if(result.subscribe == 0) {
                                 window.location.href = "http://mp.weixin.qq.com/s?__biz=MjM5MjQyOTg3MA==&mid=207867528&idx=1&sn=19c7b9";
                             } else {
-                                self.resolve(gift);
+                                self.resolve();
                             }
                         } else {
                             self.reject("找不到玩家信息");
