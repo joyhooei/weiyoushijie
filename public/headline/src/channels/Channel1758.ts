@@ -1,6 +1,6 @@
 declare var hlmy;
 
-class Channel1758 extends Channel {
+class Channel1758 extends ChannelEgret {
 	public constructor() {
         super("1758");
         
