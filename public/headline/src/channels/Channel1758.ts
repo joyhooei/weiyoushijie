@@ -1,9 +1,3 @@
-/**
- *
- * @author 
- *
- */
-
 declare var hlmy;
 
 class Channel1758 extends Channel {
@@ -62,17 +56,11 @@ class Channel1758 extends Channel {
                 if(gift.locked  == 2) {
                     self.reject(new Error("已经领取过礼物"));
                 } else {
-                    application.dao.rest("get_user_info",{ channel: '1758',key: application.customer.uid },function(succeed,result) {
-                        if(succeed) {
-                            if(result.subscribe == 0) {
-                                window.location.href = "http://mp.weixin.qq.com/s?__biz=MjM5MjQyOTg3MA==&mid=207867528&idx=1&sn=19c7b9";
-                            } else {
-                                self.resolve();
-                            }
-                        } else {
-                            self.reject("找不到玩家信息");
-                        }
-                    });
+                    if (parseInt(application.customer.channel_data) == 0){
+                        window.location.href = "http://mp.weixin.qq.com/s?__biz=MjM5MjQyOTg3MA==&mid=207867528&idx=1&sn=19c7b9";
+                    } else {
+                        self.resolve();
+                    }
                 }
             } else {
                 self.reject("内部错误");
