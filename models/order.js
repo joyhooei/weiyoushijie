@@ -10,6 +10,14 @@ module.exports.pay = function(order) {
 				}
 
 				var price = order.get("price");
+				if (price == 49) {
+					order.set("product", "VIP");
+				} else if (price == 19) {
+					order.set("product", "Ticket");
+				} else {
+					order.set("product", "Diamond");
+				}
+				
 				customer.increment("charge", price);
 
 				var product = order.get("product");
@@ -63,7 +71,12 @@ module.exports.pay = function(order) {
 					}
 
 					order.set("state", 1);
-					resolve(order);
+					order.save().then(function(o){
+						resolve(o);
+					}, function(err){
+						console.error("save order failed " + err.message);
+						reject(err);
+					});
 				}, function(err){
 					console.error("pay save customer " + err.message);
 					reject(new Error("pay save customer " + err.message));
