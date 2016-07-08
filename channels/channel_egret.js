@@ -34,15 +34,15 @@ module.exports.pay = function(options) {
 				order.set("price", parseInt(options.money));
 				order.set("channel", "egret");
 				Order.pay(order).then(function(o){
-					resolve('succeed');
+					resolve({code: 0, msg: '支付成功', data: []});
 				}, function(error) {
-					reject(error);
+					reject({code: 1013, msg: '支付失败', data: []});
 				});
 			} else {
-				resolve('success_already');
+				resolve({code: 0, msg: '支付成功', data: []});
 			}
 		}, function(error){
-			reject(error);
+			reject({code: 1013, msg: '支付失败', data: []});
 		});
 	});
 }
