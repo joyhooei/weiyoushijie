@@ -61,7 +61,7 @@ class Channel {
 					var loginView: LoginUI = new LoginUI(loginTypes,function(logType: nest.easyuser.ILoginType) {
 						nest.easyuser.login(logType, function (data:nest.user.LoginCallbackInfo) {
 							if (data.result == 0) {
-                                self.resolve(data);
+                                self.resolve(data.token);
 							} else {
                                 self.reject("登录失败");
 							}
@@ -73,7 +73,7 @@ class Channel {
 					//不需要登录按钮，直接调用登录进游戏
 					nest.easyuser.login({}, function (data:nest.user.LoginCallbackInfo) {
 						if (data.result == 0) {
-                            self.resolve(data);
+                            self.resolve(data.token);
 						} else {
                             self.reject("登录失败");
 						}
