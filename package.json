@@ -2,9 +2,9 @@
   "name": "weiyoushijie",
   "version": "1.0.0",
   "description": "weiyoushijie",
-  "main": "./platforms/standalone/server.js",
+  "main": "./server.js",
   "scripts": {
-    "start": "node ./platforms/standalone/server.js"
+    "start": "node ./server.js"
   },
   "license": "MIT",
   "repository" : { 
