@@ -1,6 +1,6 @@
 var Helper = require('./helper');
 
-module.exports.getUserInfo = function(token) {
+module.exports.login = function(token) {
 	var self = this;
 	
 	return Q.Promise(function(resolve, reject, notify) {
@@ -25,4 +25,24 @@ module.exports.getUserInfo = function(token) {
 			reject(error);
 		})
 	});    	
+}
+
+module.exports.pay = function(options) {
+	return Q.Promise(function(resolve, reject, notify) {
+		dao.get("Order", options.ext).then(function(order){
+			if (order.get("state") != 1) {
+				order.set("price", parseInt(options.money));
+				order.set("channel", "egret");
+				Order.pay(order).then(function(o){
+					resolve('succeed');
+				}, function(error) {
+					reject(error);
+				});
+			} else {
+				resolve('success_already');
+			}
+		}, function(error){
+			reject(error);
+		});
+	});
 }
