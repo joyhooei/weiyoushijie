@@ -6,7 +6,7 @@ module.exports.getUserInfo = function(gid) {
 	
 	return Q.Promise(function(resolve, reject, notify) {
 		var sign = "";
-		sign += "appKey=90359";
+		sign += "appKey=9d5c0edbaddd4d4f2e5f6524ba8f026a";
 		sign += "&gid=" + gid;
 		sign = "&" + crypto.createHash('md5').update(sign).digest('hex');
 
