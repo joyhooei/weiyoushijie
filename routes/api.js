@@ -79,17 +79,6 @@ router.post(['/egret_pay', '/pay'], function(req, res, next) {
 	});
 })
 
-router.post('/get_user_info', function(req, res, next) {
-	console.log("get_user_info " + JSON.stringify(req.body));
-	
-	var Channel = _getChannel(req);
-	Channel.getUserInfo(req.body.key).then(function(data){
-		_succeed(res, data);
-	}, function(error){
-		_failed(res, error);
-	})
-})
-
 router.post('/login', function(req, res, next) {
 	console.log("login " + JSON.stringify(req.body));
 	
