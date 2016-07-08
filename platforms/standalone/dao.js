@@ -237,6 +237,8 @@ module.exports = function() {
 				last_login: String,
 				
 				output: {type: Number, default: 1},
+				
+				channel_data: String,
 			}, {
 				uid: 1
 			});
