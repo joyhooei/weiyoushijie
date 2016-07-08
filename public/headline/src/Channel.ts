@@ -1,6 +1,8 @@
 const CHANNEL_1758    = "10016";
 const CHANNEL_7K7K    = "";
 
+declare var loadfile;
+
 class Channel {
 	static create(): Channel {
 		let cid = egret.getOption("channelId");
@@ -18,6 +20,10 @@ class Channel {
 	
 	constructor() {
     }
+	
+	public loadjs(url:string) {
+		loadfile(url, "js");
+	}
     
     public promise() {
         if (this._deferred) {
