@@ -1,7 +1,7 @@
 
 var Helper = require('./helper');
 
-module.exports.getUserInfo = function(data) {
+module.exports.getUserInfo = function(token) {
 	var self = this;
 	
 	return Q.Promise(function(resolve, reject, notify) {
@@ -10,14 +10,14 @@ module.exports.getUserInfo = function(data) {
 		var sign = "";
 		sign += "appId=90359";
 		sign += "time=" + now;
-		sign += "token=" + req.body.token;
+		sign += "token=" + token;
 		sign += "qChCyYzHXFacMrO9fPTFQ";
 		sign = crypto.createHash('md5').update(sign).digest('hex');
 
 		var url = "http://api.egret-labs.org/v2/user/getInfo?";
 		url += "appId=90359&";
 		url += "time=" + now + "&";
-		url += "token=" + req.body.token + "&";
+		url += "token=" + token + "&";
 		url += "sign=" + sign;
 
 		Helper.post(url, {}).then(function(body){
