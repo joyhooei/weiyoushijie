@@ -1,4 +1,3 @@
-
 var Helper = require('./helper');
 
 module.exports.getUserInfo = function(token) {
@@ -12,7 +11,7 @@ module.exports.getUserInfo = function(token) {
 		sign += "time=" + now;
 		sign += "token=" + token;
 		sign += "qChCyYzHXFacMrO9fPTFQ";
-		sign = crypto.createHash('md5').update(sign).digest('hex');
+		sign = Helper.crypto(sign);
 
 		var url = "http://api.egret-labs.org/v2/user/getInfo?";
 		url += "appId=90359&";
