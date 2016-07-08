@@ -4,14 +4,13 @@
  *
  */
 
-declare var loadfile;
 declare var hlmy;
 
 class Channel1758 extends Channel {
 	public constructor() {
         super();
         
-        loadfile("http://wx.1758.com/static/common/js/hlmy1758.js", "js");
+        this.loadjs("http://wx.1758.com/static/common/js/hlmy1758.js");
 	}
 	
     public share(options: any): Q.Promise<any> {
