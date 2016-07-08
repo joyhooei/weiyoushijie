@@ -5,7 +5,7 @@ declare var loadfile;
 
 class Channel {
 	static create(): Channel {
-		let cid = egret.getOption("channelId");
+		let cid = egret.getOption("channelId") || egret.getOption("wysj_channel");
 		
 		if (cid === CHANNEL_1758) {
 			console.info("using channel 1758");
