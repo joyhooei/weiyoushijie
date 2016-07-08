@@ -70,13 +70,14 @@ module.exports.pay = function(options) {
 				Order.pay(order).then(function(o){
 					resolve('succeed');
 				}, function(error){
-					reject(error);
+					reject(error.message);
 				});
 			} else {
 				resolve('success_already');
 			}
 		}, function(error){
-			reject(error);
+			console.error("order does not existed " + JSON.stringify(options));
+			reject(error.message);
 		});
 	});
 }
