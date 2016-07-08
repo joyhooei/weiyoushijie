@@ -4,22 +4,39 @@ class Channel1758 extends ChannelEgret {
 	public constructor() {
         super();
         
-        this.name = "1758";
-        
         this.loadjs("http://wx.1758.com/static/common/js/hlmy1758.js");
 	}
+    
+    public share(options: any): Q.Promise<any> {
+        let self = this;
+
+        hlmy.setShareInfo();
+        
+        window['onShareTimeline'] = function(){
+            self.resolve();
+        }
+        
+        return self.promise();
+    }
     
     public login(): Q.Promise<any> {
         let self = this;
 
-        application.delay(function(){
-            var token = egret.getOption("userToken");
-            if (token) {            
-                self.resolve(token);
-            } else {
+        
+        var token = egret.getOption("userToken");
+        if (token) {
+            application.dao.rest("login",{ token: token,wysj_channel: "10016" },(succeed: boolean,account: any) => {
+                if(succeed) {
+                    self.resolve(account);
+                } else {
+                    self.reject("登录失败");
+                }
+            });
+        } else {
+            application.delay(function(){
                 self.reject("授权失败");
-            }
-        }, 100);
+            }, 100);
+        }
         
         return self.promise();
     }
@@ -33,18 +50,6 @@ class Channel1758 extends ChannelEgret {
 			state:options.ext //可选. CP 自定义参数 , 1758 平台会在支付结果通知接口中, 把该参数透传给 CP 游戏服务器
 		});
 		
-        return self.promise();
-    }
-	
-    public share(options: any): Q.Promise<any> {
-        let self = this;
-
-        hlmy.setShareInfo();
-        
-        window['onShareTimeline'] = function(){
-            self.resolve();
-        }
-        
         return self.promise();
     }
 

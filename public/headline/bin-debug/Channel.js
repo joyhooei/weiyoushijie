@@ -1,15 +1,13 @@
-var CHANNEL_EGRET = "egret";
-var CHANNEL_1758 = "1758";
+var CHANNEL_1758_IN_EGRET = "10016";
 var CHANNEL_7K7K = "";
 var Channel = (function () {
-    function Channel(name) {
-        this.name = name;
+    function Channel() {
         this._deferred = null;
     }
     var d = __define,c=Channel,p=c.prototype;
     Channel.create = function () {
         var cid = egret.getOption("channelId") || egret.getOption("wysj_channel") || "egret";
-        if (cid === CHANNEL_1758) {
+        if (cid === CHANNEL_1758_IN_EGRET) {
             console.info("using channel 1758");
             return new Channel1758();
         }

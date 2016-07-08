@@ -2,21 +2,35 @@ var Channel1758 = (function (_super) {
     __extends(Channel1758, _super);
     function Channel1758() {
         _super.call(this);
-        this.name = "1758";
         this.loadjs("http://wx.1758.com/static/common/js/hlmy1758.js");
     }
     var d = __define,c=Channel1758,p=c.prototype;
+    p.share = function (options) {
+        var self = this;
+        hlmy.setShareInfo();
+        window['onShareTimeline'] = function () {
+            self.resolve();
+        };
+        return self.promise();
+    };
     p.login = function () {
         var self = this;
-        application.delay(function () {
-            var token = egret.getOption("userToken");
-            if (token) {
-                self.resolve(token);
-            }
-            else {
+        var token = egret.getOption("userToken");
+        if (token) {
+            application.dao.rest("login", { token: token, wysj_channel: "10016" }, function (succeed, account) {
+                if (succeed) {
+                    self.resolve(account);
+                }
+                else {
+                    self.reject("登录失败");
+                }
+            });
+        }
+        else {
+            application.delay(function () {
                 self.reject("授权失败");
-            }
-        }, 100);
+            }, 100);
+        }
         return self.promise();
     };
     p.pay = function (options) {
@@ -26,14 +40,6 @@ var Channel1758 = (function (_super) {
             txId: options.ext,
             state: options.ext //可选. CP 自定义参数 , 1758 平台会在支付结果通知接口中, 把该参数透传给 CP 游戏服务器
         });
-        return self.promise();
-    };
-    p.share = function (options) {
-        var self = this;
-        hlmy.setShareInfo();
-        window['onShareTimeline'] = function () {
-            self.resolve();
-        };
         return self.promise();
     };
     p.attention = function (options) {

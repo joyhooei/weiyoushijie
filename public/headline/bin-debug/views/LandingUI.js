@@ -9,8 +9,8 @@ var LandingUI = (function (_super) {
     p.uiCompHandler = function () {
         var self = this;
         self.btnLogin.addEventListener(egret.TouchEvent.TOUCH_TAP, function () {
-            application.channel.login().then(function (token) {
-                application.logined(token);
+            application.channel.login().then(function (account) {
+                application.logined(account);
                 application.hideUI(self);
             }, function (error) {
                 Toast.launch(error);

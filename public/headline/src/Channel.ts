@@ -1,6 +1,5 @@
-const CHANNEL_EGRET   = "egret";
-const CHANNEL_1758    = "1758";
-const CHANNEL_7K7K    = "";
+const CHANNEL_1758_IN_EGRET = "10016";
+const CHANNEL_7K7K = "";
 
 declare var loadfile;
 
@@ -8,7 +7,7 @@ class Channel {
 	static create(): Channel {
 		let cid = egret.getOption("channelId") || egret.getOption("wysj_channel") || "egret";
 		
-		if (cid === CHANNEL_1758) {
+        if(cid === CHANNEL_1758_IN_EGRET) {
 			console.info("using channel 1758");
 			return new Channel1758();
 		} else {
@@ -19,10 +18,7 @@ class Channel {
 	
     private _deferred: Q.Deferred<any>;
 	
-	public name: string;
-	
-	constructor(name:string) {
-		this.name = name;
+	constructor() {
 		this._deferred = null;
     }
 	

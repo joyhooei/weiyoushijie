@@ -1,7 +1,7 @@
 var ChannelEgret = (function (_super) {
     __extends(ChannelEgret, _super);
     function ChannelEgret() {
-        _super.call(this, "egret");
+        _super.call(this);
     }
     var d = __define,c=ChannelEgret,p=c.prototype;
     p.login = function () {
@@ -14,7 +14,14 @@ var ChannelEgret = (function (_super) {
                     var loginView = new LoginUI(loginTypes, function (logType) {
                         nest.easyuser.login(logType, function (data) {
                             if (data.result == 0) {
-                                self.resolve(data.token);
+                                application.dao.rest("login", { token: data.token, wysj_channel: "egret" }, function (succeed, account) {
+                                    if (succeed) {
+                                        self.resolve(account);
+                                    }
+                                    else {
+                                        self.reject("登录失败");
+                                    }
+                                });
                             }
                             else {
                                 self.reject("登录失败");
@@ -27,7 +34,14 @@ var ChannelEgret = (function (_super) {
                     //不需要登录按钮，直接调用登录进游戏
                     nest.easyuser.login({}, function (data) {
                         if (data.result == 0) {
-                            self.resolve(data.token);
+                            application.dao.rest("login", { token: data.token, wysj_channel: "egret" }, function (succeed, account) {
+                                if (succeed) {
+                                    self.resolve(account);
+                                }
+                                else {
+                                    self.reject("登录失败");
+                                }
+                            });
                         }
                         else {
                             self.reject("登录失败");
