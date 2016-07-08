@@ -103,7 +103,7 @@ class GiftUI extends eui.Component {
             application.gotoTool();
         }
 	}
-    
+
     private pickShareGift() {
 		var self = this;
 		
@@ -111,9 +111,14 @@ class GiftUI extends eui.Component {
         if (gift.locked == 0) {
             self.pickGift(gift);
         } else if (gift.locked == 1) {
-            application.share(function () {
-                self.lockGift(gift, 0);
-			})
+			let url     = application.baseUrl + "headline/bin-release/web/bin-release/index.html?platInfo=open_90359_9166&appId=90359&egret.runtime.spid=9166&appId=90359&channelId=9166&isNewApi=1&egretSdkDomain=http://api.egret-labs.org/v2&egretServerDomain=http://api.egret-labs.org/v2&egretRv=669";
+			let img_url = application.baseUrl + "headline/resource/art/home/icon.png";
+			let options = { title: '我来上头条，女神任我挑！',description: '最炫最浪的舞蹈经营类游戏，无需下载，点开即送，多重豪礼等你来拿！',url: url, img_url: img_url,img_title:'头条关注'};
+			application.channel.share(options).then(function(){
+				 self.lockGift(gift, 0);
+			}, function(error){
+				Toast.launch(error);
+			});
         }
     }
     
@@ -157,9 +162,11 @@ class GiftUI extends eui.Component {
         if (gift.locked == 0) {
             self.pickGift(gift);
         } else if (gift.locked == 1) {
-            application.attention(function () {
-				self.lockGift(gift, 0);
-			})
+			application.channel.attention({}).then(function(){
+				 self.lockGift(gift, 0);
+			}, function(error){
+				Toast.launch(error);
+			});
         }
 	}
 	
