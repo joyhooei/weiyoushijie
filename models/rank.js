@@ -1,6 +1,6 @@
 module.exports.rank = function(req, res) {
 	dao.findAll("Rank", {"game":"headline"}, {"order":"rank ASC"}).then(function (ranks){
-		dao.findAll("Customer", {"game":"headline"}, {"order":"metal DESC, accumulated_gold DESC", 'select':['objectId']}).then(function(customers){
+		dao.findAll("Customer", {"game":"headline"}, {"order":"metal DESC, accumulated_gold DESC", 'select':'objectId'}).then(function(customers){
 			var newRanks = [];
 			
 			for(var i = 0; i < customers.length; i++) {

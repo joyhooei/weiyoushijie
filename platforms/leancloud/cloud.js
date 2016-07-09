@@ -6,15 +6,19 @@ var Gift = require('../../models/gift.js');
 var Rank = require('../../models/rank.js');
 
 AV.Cloud.afterSave("Customer", function(request, response) {
-	Customer.afterSave(request, response);
+	Customer.afterSave(request.object);
 });
 
 AV.Cloud.beforeSave("Bid", function(request, response) {
-	Bid.beforeSave(request, response);
+	Bid.beforeSave(request.object).then(function(){
+		response.success();
+	}, function(error){
+		response.error(error.message);
+	});
 });
 
 AV.Cloud.afterSave("Bid", function(request, response) {
-	Bid.afterSave(request, response);
+	Bid.afterSave(request.object);
 });
 
 AV.Cloud.define('open_bid', function(request, response) {
