@@ -33,6 +33,14 @@ class ToolItem extends eui.Component {
 		this.imgReset.addEventListener(egret.TouchEvent.TOUCH_TAP,() => {
 			this.reset();
 		}, this);
+		
+		application.dao.addEventListener("Project", function(ev:egret.Event){
+            var myProject = ev.data;
+            if(myProject.id == this.myProject.id) {
+                this.myProject = myProject;                
+                this.refresh();
+    		}
+    	}, this);		
 
         this.imgIcon.source  = iconName;
         this.imgTitle.source = titleName;
