@@ -39,13 +39,12 @@ class ChannelHuHuH5 extends Channel{
         };
         
         var data = {
-            gameId: '',
-            goodsId: options.goodsId,
-            goodsName: options.goodsId,
-            orderId: options.orderId,
-            money: options.price,
-            goodsNum: '1'
-        };        
+            goodsId:   options.goodsId,
+            goodsName: options.goodsName,
+            goodsNum:  options.goodsNumber,
+            money:     options.money,
+            orderId:   options.orderId,
+        };
         h5Game.pay(data, 'payCallBcak')
 		
         return self.promise();
