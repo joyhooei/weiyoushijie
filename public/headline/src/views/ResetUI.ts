@@ -13,7 +13,7 @@ class ResetUI extends eui.Component{
         
         this.diamond = diamond;
         this.myProject = myProject;
-         this.project = project;
+        this.project = project;
        
         this.addEventListener( eui.UIEvent.COMPLETE, this.uiCompHandler, this );
         
@@ -31,10 +31,11 @@ class ResetUI extends eui.Component{
             this.myProject.tool_ratio = 1;
             application.dao.save("Project",this.myProject);
             
-            application.buyOutput(0, -diamond, this.output() - oldOutput);
-            
+            application.customer.diamond += this.diamond;
+            application.customer.output  += this.output() - oldOutput;
+            application.saveCustomerNow();
 			
-			esa.EgretSA.onDiamondUse("重置了金手指", 1, -diamond);
+            esa.EgretSA.onDiamondReward(this.diamond, "重置了金手指");
             
             Toast.launch("成功重置了金手指");
             

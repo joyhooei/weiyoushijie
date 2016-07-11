@@ -1113,6 +1113,21 @@
 					"isFolder":false,
 					"key":"right_png",
 					"name":"right_png"
+				},
+				{
+					"isFolder":false,
+					"key":"reset_png",
+					"name":"reset_png"
+				},
+				{
+					"isFolder":false,
+					"key":"reset_title_png",
+					"name":"reset_title_png"
+				},
+				{
+					"isFolder":false,
+					"key":"ok_png",
+					"name":"ok_png"
 				}
 			]
 		}

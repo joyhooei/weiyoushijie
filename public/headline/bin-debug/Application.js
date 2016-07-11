@@ -120,9 +120,10 @@ var application;
                         dt.setTime(now.getTime() - day);
                         var lastPickDay = dt.getDate();
                     }
-                    //首充奖励只有一次，不需要更新
-                    //今天已经领取过了，不能再领取
-                    if (gift.category == GiftCategory.Charge || nowaday == lastPickDay) {
+                    //首充奖励只有一次
+                    //关注只有一次
+                    //今天已经领取过了
+                    if (gift.category == GiftCategory.Charge || gift.category == GiftCategory.Attention || nowaday == lastPickDay) {
                         continue;
                     }
                     if (gift.category == GiftCategory.Online) {
@@ -500,8 +501,7 @@ var application;
     application.gotoTool = gotoTool;
     function showHelp(content) {
         if (content.length == 0) {
-            content = "QQ客服 3369182016\n";
-            content += "玩法\n";
+            content = "玩法\n";
             content += "1. 点击中间舞者可产生金币，金币用来升级运营项目，而运营项目随等级提高从而产生更多的金币。\n";
             content += "2. 金币可以用来参加头条拍卖，每天最高出价者会成为头条，获得头条殊荣，勋章和钻石奖励。\n";
             content += "3. 道具可以帮助玩家快速获得大量金币和永久提高运营项目的每秒产量。\n";
@@ -581,7 +581,7 @@ var application;
     function format(d) {
         try {
             if (d <= 99999) {
-                return d.toString();
+                return d.toFixed();
             }
             var unit = "";
             for (var i = 0; i < application.units.length; i++) {

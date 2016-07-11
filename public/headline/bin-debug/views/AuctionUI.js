@@ -71,9 +71,13 @@ var AuctionUI = (function (_super) {
         application.dao.fetch("MaxBid", { day: today }, { limit: 1 }, function (succeed, bids) {
             if (succeed && bids.length > 0) {
                 self.lblMaxBid.text = application.format(bids[0].gold);
+                self.lblMaxBidName.text = bids[0].name;
+                self.imgMaxBidAvatar.source = bids[0].avatar;
             }
             else {
                 self.lblMaxBid.text = "0";
+                self.lblMaxBidName.text = "";
+                self.imgMaxBidAvatar.source = "";
             }
         });
     };

@@ -36,11 +36,11 @@ class ToolItem extends eui.Component {
 		
 		application.dao.addEventListener("Project", function(ev:egret.Event){
             var myProject = ev.data;
-            if(myProject.id == this.myProject.id) {
+            if(myProject.id == this._myProject.id) {
                 this.myProject = myProject;                
                 this.refresh();
     		}
-    	}, this);		
+    	}, this);	
 
         this.imgIcon.source  = iconName;
         this.imgTitle.source = titleName;
@@ -56,10 +56,10 @@ class ToolItem extends eui.Component {
 	
 	private reset(): void {
 		if (this._myProject.tool_ratio > 1) {
-			var diamond = this.ratio(1, this._myProject.tool_ratio - 1) * 0.7;
+			var diamond = (this._myProject.tool_ratio - 1) * 70;
 			application.showUI(new ResetUI(this._myProject, this._project, diamond));
 		} else {
-			Toast.launch('还没有购买过金手指');
+			Toast.launch('还没有购买过金手指，不能重置');
 		}
 	}
 	

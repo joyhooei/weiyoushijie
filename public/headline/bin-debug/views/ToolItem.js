@@ -12,6 +12,16 @@ var ToolItem = (function (_super) {
         this.img900.addEventListener(egret.TouchEvent.TOUCH_TAP, function () {
             _this.buy(900, 10);
         }, this);
+        this.imgReset.addEventListener(egret.TouchEvent.TOUCH_TAP, function () {
+            _this.reset();
+        }, this);
+        application.dao.addEventListener("Project", function (ev) {
+            var myProject = ev.data;
+            if (myProject.id == this._myProject.id) {
+                this.myProject = myProject;
+                this.refresh();
+            }
+        }, this);
         this.imgIcon.source = iconName;
         this.imgTitle.source = titleName;
         this.refresh();
@@ -22,14 +32,23 @@ var ToolItem = (function (_super) {
         this.lbl100.text = application.format(this.ratio(this._myProject.tool_ratio, 1));
         this.lbl900.text = application.format(this.ratio(this._myProject.tool_ratio, 10));
     };
+    p.reset = function () {
+        if (this._myProject.tool_ratio > 1) {
+            var diamond = (this._myProject.tool_ratio - 1) * 70;
+            application.showUI(new ResetUI(this._myProject, this._project, diamond));
+        }
+        else {
+            Toast.launch('还没有购买过金手指，不能重置');
+        }
+    };
     p.buy = function (price, step) {
         if (application.customer.diamond >= price) {
             var oldOutput = this.output();
             this._myProject.tool_ratio = this.ratio(this._myProject.tool_ratio, step);
             application.buyOutput(0, price, this.output() - oldOutput);
             application.dao.save("Project", this._myProject);
-            esa.EgretSA.onDiamondUse("购买了运营加倍", 1, price);
-            Toast.launch("购买成功");
+            esa.EgretSA.onDiamondUse("购买了金手指", 1, price);
+            Toast.launch("成功购买了金手指");
             this.refresh();
         }
         else {
