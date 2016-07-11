@@ -2,7 +2,7 @@ var application;
 (function (application) {
     application.saveSeconds = 0;
     application.ticks = 0;
-    application.version = '1.5.6';
+    application.version = '1.6.1';
     application.token = "";
     function init(main) {
         application.main = main;
