@@ -482,8 +482,7 @@ module application {
     
     export function showHelp(content:string): egret.DisplayObjectContainer {
         if (content.length == 0) {
-            content = "QQ客服 3369182016\n"
-            content += "玩法\n"
+            content = "玩法\n"
             content += "1. 点击中间舞者可产生金币，金币用来升级运营项目，而运营项目随等级提高从而产生更多的金币。\n"
             content += "2. 金币可以用来参加头条拍卖，每天最高出价者会成为头条，获得头条殊荣，勋章和钻石奖励。\n"
             content += "3. 道具可以帮助玩家快速获得大量金币和永久提高运营项目的每秒产量。\n"
@@ -571,26 +570,26 @@ module application {
     export function format(d:number): string {
 		try {
 			if (d <= 99999) {
-				return d.toString();
+				return new Number(d).toFixed();
 			}
         
 			let unit:string  = "";		
 			for (var i = 0; i < application.units.length; i++) {
 				if (d < 10) {
-					return d.toFixed(2) + unit;
+                    return new Number(d).toFixed(2) + unit;
 				} else if (d < 100) {
-					return d.toFixed(1) + unit;
+                    return new Number(d).toFixed(1) + unit;
 				} else if (d < 1000) {
-						return d.toFixed() + unit;
+                    return new Number(d).toFixed() + unit;
 				} else {
 					unit = application.units[i];
 					d = d / 1000;
 				}
 			}
 			
-			return d.toFixed() + unit;
+            return new Number(d).toFixed() + unit;
 		} catch (error) {
-			console.error("format " + d.toString() + " error " + error.message);
+            console.error("format " + d + " error " + error.message);
 			
 			return "0";
 		}
