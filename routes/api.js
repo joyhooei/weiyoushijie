@@ -64,6 +64,10 @@ function _getChannel(req) {
 	
 	if (channel === "1758") {
 		return require("../channels/channel_1758");
+	} else if (channel === "huhuh5") {
+		return require("../channels/channel_huhuh5");
+	} else if (channel === "51h5") {
+		return require("../channels/channel_51h5");
 	} else {
 		return require("../channels/channel_egret");
 	}
@@ -82,7 +86,7 @@ router.post(['/egret_pay', '/pay'], function(req, res, next) {
 router.post('/login', function(req, res, next) {
 	console.log("login " + JSON.stringify(req.body));
 	
-	_getChannel(req).login(req.body.token).then(function(user){
+	_getChannel(req).login(req.body).then(function(user){
 		dao.find("Customer", {uid: user.uid, "game": req.query.game}).then(function(customers){
 			var now = moment();
 
