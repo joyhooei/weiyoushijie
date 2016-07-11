@@ -55,7 +55,13 @@ class ChannelEgret extends Channel{
     public pay(options: any): Q.Promise<any> {
         let self = this;
 		
-		nest.iap.pay(options, function(data) {
+		var data = {
+			goodsId: 		options.goodsId, 
+			goodsNumber: 	options.goodsNumber, 
+			serverId: 		"1",
+			ext: 			options.orderId
+		}
+		nest.iap.pay(data, function(data) {
 			if(data.result == 0) {
                 self.resolve(data);
 			} else if(data.result == -1) {
