@@ -358,7 +358,7 @@ module application {
         var order = { customer_id: application.customer.id, product: product, price: price, state: 0};
         application.dao.save("Order", order, function(succeed, o) {
             if (succeed) {
-                application.channel.pay({ goodsId: gid, goodsNumber: "1", serverId: "1",ext: o.id }).then(function(data){
+                application.channel.pay({ goodsId: gid, goodsName: gid, goodsNumber: "1", money: price, orderId: o.id }).then(function(data){
                 }, function(error){
                     Toast.launch(error);
                 });
