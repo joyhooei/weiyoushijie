@@ -16,8 +16,9 @@ module.exports.login = function(options) {
 					avatar:options.userImage, 
 					sex:0, 
 					age:0, 
-					channel_data: options.userPosition
+					channel_data: JSON.stringify(options)
 				};
+				
 				resolve(user);
 			} else {
 				reject(new Error(body.message));
@@ -29,23 +30,10 @@ module.exports.login = function(options) {
 }
 
 module.exports.pay = function(options) {
-	var self = this;
-	
 	return Q.Promise(function(resolve, reject, notify) {
-		dao.get("Order", options.orderId).then(function(order){
-			if (order.get("state") != 1) {
-				order.set("price", parseInt(options.money));
-				order.set("channel", "huhuh5");
-				Order.pay(order).then(function(o){
-					resolve('succeed');
-				}, function(error){
-					reject("fail");
-				});
-			} else {
-				resolve('succeed');
-			}
-		}, function(error){
-			console.error("order does not existed " + JSON.stringify(options));
+		Helper.pay("huhuh5", options.orderId, options.money).then(function(message){
+			resolve('succeed');
+		}, function(message){
 			reject("fail");
 		});
 	});
