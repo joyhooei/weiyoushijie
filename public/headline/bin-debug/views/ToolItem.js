@@ -34,7 +34,13 @@ var ToolItem = (function (_super) {
     };
     p.reset = function () {
         if (this._myProject.tool_ratio > 1) {
-            var diamond = (this._myProject.tool_ratio - 1) * 70;
+            var boughts = 0;
+            var ratio = 1;
+            while (ratio < this._myProject.tool_ratio) {
+                boughts++;
+                ratio = this.ratio(1, boughts);
+            }
+            var diamond = 630 * Math.floor(boughts / 10) + 70 * (boughts % 10);
             application.showUI(new ResetUI(this._myProject, this._project, diamond));
         }
         else {
