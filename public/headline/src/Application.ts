@@ -631,7 +631,7 @@ module application {
     export function format(d:number): string {
 		try {
 			if (d <= 99999) {
-				return d.toString();
+				return d.toFixed();
 			}
         
 			let unit:string  = "";		
