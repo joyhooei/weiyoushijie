@@ -47,8 +47,12 @@ class ToolItem extends eui.Component {
 	}
 	
 	private reset(): void {
-		var diamond = this.ratio(1, this._myProject.tool_ratio - 1);
-		application.showUI(new ResetUI(diamond));
+		if (this._myProject.tool_ratio > 1) {
+			var diamond = this.ratio(1, this._myProject.tool_ratio - 1) * 0.7;
+			application.showUI(new ResetUI(this._myProject, this._project, diamond));
+		} else {
+			Toast.launch('还没有购买过金手指');
+		}
 	}
 	
 	private buy(price: number, step: number): void {
