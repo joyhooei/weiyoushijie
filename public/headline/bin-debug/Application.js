@@ -581,28 +581,28 @@ var application;
     function format(d) {
         try {
             if (d <= 99999) {
-                return d.toFixed();
+                return new Number(d).toFixed();
             }
             var unit = "";
             for (var i = 0; i < application.units.length; i++) {
                 if (d < 10) {
-                    return d.toFixed(2) + unit;
+                    return new Number(d).toFixed(2) + unit;
                 }
                 else if (d < 100) {
-                    return d.toFixed(1) + unit;
+                    return new Number(d).toFixed(1) + unit;
                 }
                 else if (d < 1000) {
-                    return d.toFixed() + unit;
+                    return new Number(d).toFixed() + unit;
                 }
                 else {
                     unit = application.units[i];
                     d = d / 1000;
                 }
             }
-            return d.toFixed() + unit;
+            return new Number(d).toFixed() + unit;
         }
         catch (error) {
-            console.error("format " + d.toString() + " error " + error.message);
+            console.error("format " + d + " error " + error.message);
             return "0";
         }
     }
