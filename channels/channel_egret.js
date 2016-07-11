@@ -37,19 +37,9 @@ module.exports.login = function(options) {
 
 module.exports.pay = function(options) {
 	return Q.Promise(function(resolve, reject, notify) {
-		dao.get("Order", options.ext).then(function(order){
-			if (order.get("state") != 1) {
-				order.set("price", parseInt(options.money));
-				order.set("channel", "egret");
-				Order.pay(order).then(function(o){
-					resolve({code: 0, msg: '支付成功', data: []});
-				}, function(error) {
-					reject({code: 1013, msg: '支付失败', data: []});
-				});
-			} else {
-				resolve({code: 0, msg: '支付成功', data: []});
-			}
-		}, function(error){
+		Helper.pay("egret", options.ext, options.money).then(function(message){
+			resolve({code: 0, msg: '支付成功', data: []});
+		}, function(message){
 			reject({code: 1013, msg: '支付失败', data: []});
 		});
 	});
