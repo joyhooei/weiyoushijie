@@ -8,6 +8,8 @@ class ToolItem extends eui.Component {
 	private img100: eui.Image;
 	private img900: eui.Image;
 	
+	private imgReset: eui.Image;
+	
 	private lbl100: eui.Label;
 	private lbl900: eui.Label;
 	private lbl1: eui.Label;
@@ -26,7 +28,11 @@ class ToolItem extends eui.Component {
 		
 		this.img900.addEventListener(egret.TouchEvent.TOUCH_TAP,() => {
 			this.buy(900, 10);
-		}, this);		
+		}, this);
+		
+		this.imgReset.addEventListener(egret.TouchEvent.TOUCH_TAP,() => {
+			this.reset();
+		}, this);
 
         this.imgIcon.source  = iconName;
         this.imgTitle.source = titleName;
@@ -40,6 +46,11 @@ class ToolItem extends eui.Component {
 		this.lbl900.text = application.format(this.ratio(this._myProject.tool_ratio, 10));
 	}
 	
+	private reset(): void {
+		var diamond = this.ratio(1, this._myProject.tool_ratio - 1);
+		application.showUI(new ResetUI(diamond));
+	}
+	
 	private buy(price: number, step: number): void {
         if (application.customer.diamond >= price) {
 			let oldOutput = this.output();
@@ -47,9 +58,9 @@ class ToolItem extends eui.Component {
             application.buyOutput(0,price,this.output() - oldOutput);
             application.dao.save("Project",this._myProject);
 			
-			esa.EgretSA.onDiamondUse("购买了运营加倍", 1, price);
+			esa.EgretSA.onDiamondUse("购买了金手指", 1, price);
             
-            Toast.launch("购买成功");
+            Toast.launch("成功购买了金手指");
             this.refresh();
 		} else {
 			application.showUI(new ChargeTipUI());
