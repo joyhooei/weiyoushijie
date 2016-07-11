@@ -1,10 +1,26 @@
+delclare h5Game;
+
 class ChannelHuHuH5 extends Channel{
 	constructor() {
         super();
+        
+        this.loadjs('http://server.huhuh5.com:8081/3HGame/jsFile/h5Game.js');
     }
     
     public login(): Q.Promise<any> {
         let self = this;
+
+        window['loginCallBcak'] = function(userId, userName, userImage, userPosition, token){
+            application.dao.rest("login",{ token: data.token, wysj_channel: "huhuh5", userId: userId, userName: userName, userImage: userImage, userPosition: userPosition},(succeed: boolean,account: any) => {
+                if (succeed) {
+                    self.resolve(account);
+                } else {
+                    self.reject("登录失败");
+                }
+            });
+        };
+        
+        h5Game.login('loginCallBcak')
 		
         return self.promise();
 	}
@@ -12,6 +28,25 @@ class ChannelHuHuH5 extends Channel{
     public pay(options: any): Q.Promise<any> {
         let self = this;
 		
+        window['payCallBcak'] = function(orderId, status){
+            if (status == 'SUCCESS') {
+                self.resolve();
+			} else if(status == 'CANCEL') {
+                self.reject("取消了支付");
+			} else {
+                self.reject("支付失败");
+			}
+        };
+        
+        var data = {
+            gameId: '',
+            goodsId: options.goodsId,
+            goodsName: options.goodsId,
+            orderId: options.orderId,
+            money: options.price,
+            goodsNum: '1'
+        };        
+        h5Game.pay(data, 'payCallBcak')
 		
         return self.promise();
 	}
@@ -19,14 +54,12 @@ class ChannelHuHuH5 extends Channel{
     public share(options:any): Q.Promise<any> {
         let self = this;
 
+        window['shareCallBcak'] = function(){
+            self.resolve();
+        };
+        
+        h5Game.share("shareCallBcak");
 		
         return self.promise();
     }
-    
-    public attention(options:any): Q.Promise<any> {
-        let self = this;
-		
-		
-        return self.promise();
-	}
 }
