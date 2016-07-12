@@ -35,7 +35,8 @@ block main
 						- var states = ['未读', '已经领取', '已经删除'];
 						- each message in messages
 							tr
-								td= message.get('customer_id')
+								td
+									a(href="/customers/#{message.get('customer_id')}") #{message.get('customer_id')}
 								td= message.get('title')
 								td= message.get('content')
 								td= message.get('attach_category')
