@@ -11,7 +11,7 @@ block main
 		li
 			i.icon-angle-right
 		li
-			a(href="/customers") 用户
+			a(href="/customers") 玩家
 
 
 	div(class="row-fluid sortable")
@@ -20,7 +20,7 @@ block main
 				h2
 					i(class="halflings-icon user")
 					span.break
-					| 用户
+					| 玩家
 
 			div.box-content
 				table(class="table table-striped table-bordered bootstrap-datatable")
@@ -46,10 +46,4 @@ block main
 							td= customer.get('output')
 						tr
 							td 累计金币
-							td= customer.get('acculumated_gold')
-				div.btn-group
-					a(href="/projects?customer_id=#{customer.id}", class="btn btn-primary") 项目
-					a(href="/gifts?customer_id=#{customer.id}", class="btn btn-primary") 礼物
-					a(href="/bids?customer_id=#{customer.id}", class="btn btn-primary") 投标
-					a(href="/messages/new?customer_id=#{customer.id}", class="btn btn-primary") 发消息
-					a(href="/blacklists/new?customer_id=#{customer.id}", class="btn btn-primary") 加入黑名单
+							td= customer.get('accumulated_gold')
