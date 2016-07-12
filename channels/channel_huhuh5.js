@@ -15,8 +15,7 @@ module.exports.login = function(options) {
 					uid:   options.userId, 
 					avatar:options.userImage, 
 					sex:0, 
-					age:0, 
-					channel_data: JSON.stringify(options)
+					age:0
 				};
 				
 				resolve(user);
