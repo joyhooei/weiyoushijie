@@ -22,7 +22,7 @@ class Main extends eui.UILayer {
         
         egret.TextField.default_fontFamily = "STXihei";
         
-        esa.EgretSA.init({"gameId":"536E77465847413D","chanId":egret.getOption("egret.runtime.spid"),"debug":false});
+        application.init(this);
         
         //inject the custom material parser
         //注入自定义的素材解析器
@@ -34,7 +34,7 @@ class Main extends eui.UILayer {
         this._loadingUI = new LoadingUI();
         this.stage.addChild(this._loadingUI);
         
-        esa.EgretSA.loadingSet(1, "开始加载配置文件");
+        application.channel.track(TRACK_CATEGORY_RESOURCE, TRACK_ACTION_LOAD, "开始加载配置文件", 1);
       
         // initialize the Resource loading library
         //初始化Resource资源加载库
@@ -47,7 +47,7 @@ class Main extends eui.UILayer {
      * Loading of configuration file is complete, start to pre-load the theme configuration file and the preload resource group
      */
     private onConfigComplete(event:RES.ResourceEvent):void {
-        esa.EgretSA.loadingSet(2, "开始加载皮肤主题资源");
+        application.channel.track(TRACK_CATEGORY_RESOURCE, TRACK_ACTION_LOAD, "开始加载皮肤主题资源", 2);
         
         RES.removeEventListener(RES.ResourceEvent.CONFIG_COMPLETE, this.onConfigComplete, this);
       
@@ -85,13 +85,11 @@ class Main extends eui.UILayer {
                     this._loadingUI.parent.removeChild( this._loadingUI );
                 }
         
-                application.init(this);
-            
                 Toast.init( this, RES.getRes( "toast-bg_png" ) ); 
                 
                 this._trueLoadingUI = new TrueLoadingUI();
                 
-                esa.EgretSA.loadingSet(3, "开始加载着陆页面");
+                application.channel.track(TRACK_CATEGORY_RESOURCE, TRACK_ACTION_LOAD, "开始加载着陆页面", 3);
                 this.loadPage("landing");
                 break;
                 
