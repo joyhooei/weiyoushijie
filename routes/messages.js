@@ -11,7 +11,7 @@ router.get('/', helper.ensureAuthenticated, function(req, res, next) {
 });
 
 router.get('/multicast', helper.ensureAuthenticated, function(req, res, next) {
-	helper.newModel(new dao.Message({title:'', content:'', attach:'none', quantity:0, limit:100, offset:0}), "mesage", _restfulName, req, res);
+	helper.newModel(new dao.Message({title:'', content:'', attach_category:'none', attach_quantity:0, limit:500, offset:0}), "mesage", _restfulName, req, res);
 });
 
 router.post('/multicast', helper.ensureAuthenticated, function(req, res, next) {
@@ -19,7 +19,7 @@ router.post('/multicast', helper.ensureAuthenticated, function(req, res, next) {
 	
 	var conditions = {};
 	_.each(req.body, function(v, k) {
-		if (k != "content" && k != "attach" && k != "quantity"){
+		if (k != "content" && k != "title" && k != "attach_category" && k != "attach_quantity" && k != "limit" && k != "offset"){
 			if (!isNaN(v)) {
 				conditions[k] = +v;
 			} else {
@@ -29,12 +29,12 @@ router.post('/multicast', helper.ensureAuthenticated, function(req, res, next) {
 	});
     
 	var filters = {};
-	filters.limit  = parseInt(req.body.limit || '100');
+	filters.limit  = parseInt(req.body.limit || '500');
 	filters.offset = parseInt(req.body.offset || '0');
 	filters.order = 'update_time DESC';
 	
-	var quantity = parseInt(req.body.quantity || '0');
-	var attach = req.body.attach || "none";
+	var quantity = parseInt(req.body.attach_quantity || '0');
+	var attach = req.body.attach_category || "none";
 	
 	dao.find('Customer', conditions, filters).then(function(objs){
 		var promises = [];
@@ -46,7 +46,7 @@ router.post('/multicast', helper.ensureAuthenticated, function(req, res, next) {
 		Q.all(promises).then(function(){
 			Helper.redirect(_restfulName, req, res);
 		}, function(error){
-			req.flash('errors', { msg: err.message });	
+			req.flash('errors', { msg: err.message });
 			Helper.render(_restfulName + '/edit', req, res);
 		});	
 	}, function(error){
