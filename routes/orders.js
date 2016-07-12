@@ -6,7 +6,8 @@ var helper = require("./helper");
 var _restfulName  = "orders";
 
 router.get('/', helper.ensureAuthenticated, function(req, res, next) {
-	helper.listModel("Order", "orders", _restfulName, req, res);		
+	var query = dao.find("Order", {state: 1}, {order: 'update_time DESC'});
+	helper.queryModel(query, "orders", _restfulName, req, res);
 });
 
 module.exports = router;
