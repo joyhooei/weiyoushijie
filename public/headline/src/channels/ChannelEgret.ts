@@ -120,7 +120,7 @@ class ChannelEgret extends Channel{
         return self.promise();
 	}
 	
-    public track(category:string, action:string, opt_label:string, opt_value:number) {
+    public track(category:string, action?:string, opt_label?:string, opt_value?:number) {
 		switch(category) {
 			case TRACK_CATEGORY_PLAYER:
 				if (action == TRACK_ACTION_ENTER){
