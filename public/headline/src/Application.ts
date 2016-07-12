@@ -71,7 +71,7 @@ module application {
 
                 application.checkTicket();
 
-                esa.EgretSA.player.init({ egretId: customer.uid,level: 1,serverId: 1,playerName: customer.name })
+                application.channel.track(TRACK_CATEGORY_PLAYER, TRACK_ACTION_ENTER); 
 
                 //首次登录，需要显示引导页面
                 if(application.customer.metal == 0) {
@@ -253,6 +253,8 @@ module application {
 
 					bids[i].claimed = 1;
 					application.dao.save("Bid", bids[i]);
+                    
+                    application.channel.track(TRACK_CATEGORY_DIAMOND, TRACK_ACTION_INC, "拍卖头名", message.2000); 
 				}
 				
 				application.saveCustomerNow();
