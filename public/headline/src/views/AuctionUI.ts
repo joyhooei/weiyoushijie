@@ -150,7 +150,7 @@ class AuctionUI extends eui.Component{
 
 						application.giftChanged();
 
-						esa.EgretSA.onJoinActivity("投标");
+						application.channel.track(TRACK_CATEGORY_ACTIVITY, TRACK_ACTION_JOIN, "投标"); 
 
 						Toast.launch("投标成功");
 
