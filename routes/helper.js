@@ -56,15 +56,23 @@ function _renderEdit(model, modelName, restfulName,  req, res, options) {
 	_render(restfulName + '/edit', req, res, options);
 };
 
+function _queryModel(query, modelName, restfulName, req, res){
+	query.then(function(models){
+		_renderIndex(models, modelName, restfulName, req, res);
+	}, function(err){
+		req.flash('errors', { msg: err.message });
+
+		_renderIndex([], modelName, restfulName, req, res);
+	});	
+}
+
+module.exports.queryModel = function(query, modelName, restfulName, req, res){
+	_queryModel(query, modelName, restfulName, req, res);
+};
+
 module.exports.listModel = function(modelClass, modelName, restfulName, req, res){
-	dao.find(modelClass, {}, {order: 'update_time ASC'}).then(
-		function(models){
-			_renderIndex(models, modelName, restfulName, req, res);
-		}, function(err){
-			req.flash('errors', { msg: err.message });
-			
-			_renderIndex([], modelName, restfulName, req, res);
-		});	
+	var query = dao.find(modelClass, {}, {order: 'update_time ASC'})
+	_queryModel(query, modelName, restfulName, req, res);
 };
 
 module.exports.viewModel = function(modelClass, modelName, restfulName, req, res){
