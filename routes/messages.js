@@ -11,7 +11,7 @@ router.get('/', helper.ensureAuthenticated, function(req, res, next) {
 });
 
 router.get('/multicast', helper.ensureAuthenticated, function(req, res, next) {
-	helper.newModel(new dao.Message({title:'', content:'', attach_category:'none', attach_quantity:0, limit:500, offset:0}), "message", _restfulName, req, res);
+	helper.newModel(new dao.Message({title:'', description:'', attach_category:'none', attach_quantity:0, limit:500, offset:0}), "message", _restfulName, req, res);
 });
 
 router.post('/multicast', helper.ensureAuthenticated, function(req, res, next) {
@@ -19,7 +19,7 @@ router.post('/multicast', helper.ensureAuthenticated, function(req, res, next) {
 	
 	var conditions = {};
 	_.each(req.body, function(v, k) {
-		if (k != "content" && k != "title" && k != "attach_category" && k != "attach_quantity" && k != "limit" && k != "offset"){
+		if (k != "description" && k != "title" && k != "attach_category" && k != "attach_quantity" && k != "limit" && k != "offset"){
 			if (!isNaN(v)) {
 				conditions[k] = +v;
 			} else {
@@ -40,7 +40,7 @@ router.post('/multicast', helper.ensureAuthenticated, function(req, res, next) {
 		var promises = [];
 		
         _.each(objs, function(o){
-			promises.push(Message.send(o.id, req.body.title, req.body.content, attach, quantity));
+			promises.push(Message.send(o.id, req.body.title, req.body.description, attach, quantity));
         });
 		
 		Q.all(promises).then(function(){
