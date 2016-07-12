@@ -44,13 +44,14 @@ router.post('/multicast', helper.ensureAuthenticated, function(req, res, next) {
         });
 		
 		Q.all(promises).then(function(){
+			req.flash('info', { msg: '给' + promises.length + '个玩家发送了消息' });
 			Helper.redirect(_restfulName, req, res);
 		}, function(error){
-			req.flash('errors', { msg: err.message });
+			req.flash('errors', { msg: error.message });
 			Helper.render(_restfulName + '/edit', req, res);
 		});	
 	}, function(error){
-		req.flash('errors', { msg: err.message });			
+		req.flash('errors', { msg: error.message });			
 		Helper.render(_restfulName + '/edit', req, res);
 	});
 })
