@@ -19,6 +19,7 @@ var om = require('./routes/om');
 var accounts = require('./routes/accounts');
 var customers = require('./routes/customers');
 var messages = require('./routes/messages');
+var orders = require('./routes/orders');
 
 GLOBAL.moment = require("moment");
 GLOBAL._ = require("underscore");
@@ -80,6 +81,7 @@ app.use('/om', om);
 app.use('/customers', customers);
 app.use('/accounts', accounts);
 app.use('/messages', messages);
+app.use('/orders', orders);
 
 // Passport session setup.
 passport.serializeUser(function(user, done) {
