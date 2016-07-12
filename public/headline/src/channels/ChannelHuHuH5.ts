@@ -1,8 +1,8 @@
 delclare h5Game;
 
 class ChannelHuHuH5 extends Channel{
-	constructor() {
-        super();
+	constructor(standalone:boolean) {
+        super(standalone);
         
         this.loadjs('http://server.huhuh5.com:8081/3HGame/jsFile/h5Game.js');
     }
