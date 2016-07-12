@@ -14,6 +14,7 @@ var session = require('express-session');
 var flash = require('express-flash');
 
 var home = require('./routes/index');
+var admin = require('./routes/admin');
 var api = require('./routes/api');
 var om = require('./routes/om');
 var accounts = require('./routes/accounts');
@@ -76,12 +77,15 @@ app.get('/', function(req, res) {
 
 // 可以将一类的路由单独保存在一个文件中
 app.use('/', home);
-app.use('/api', api);
-app.use('/om', om);
+
+app.use('/admin', admin);
 app.use('/customers', customers);
 app.use('/accounts', accounts);
 app.use('/messages', messages);
 app.use('/orders', orders);
+
+app.use('/api', api);
+app.use('/om', om);
 
 // Passport session setup.
 passport.serializeUser(function(user, done) {
