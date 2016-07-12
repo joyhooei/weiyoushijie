@@ -6,7 +6,8 @@ var helper = require("./helper");
 var _restfulName  = "customers";
 
 router.get('/', helper.ensureAuthenticated, function(req, res, next) {
-	helper.listModel("Customer", "customers", _restfulName, req, res);		
+	var query = dao.find("Customer", {}, {order: 'metal DESC, accumulated_gold DESC'});
+	helper.queryModel(query, "customers", _restfulName, req, res);
 });
 
 router.get('/new', helper.ensureAuthenticated, function(req, res, next) {
