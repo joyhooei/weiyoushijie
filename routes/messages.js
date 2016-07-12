@@ -4,14 +4,14 @@ var router = express.Router();
 var helper = require("./helper");
 var Message = require("../models/message");
 
-var _restfulName  = "mesages";
+var _restfulName  = "messages";
 
 router.get('/', helper.ensureAuthenticated, function(req, res, next) {
-	helper.listModel("Message", "mesages", _restfulName, req, res);		
+	helper.listModel("Message", "messages", _restfulName, req, res);		
 });
 
 router.get('/multicast', helper.ensureAuthenticated, function(req, res, next) {
-	helper.newModel(new dao.Message({title:'', content:'', attach_category:'none', attach_quantity:0, limit:500, offset:0}), "mesage", _restfulName, req, res);
+	helper.newModel(new dao.Message({title:'', content:'', attach_category:'none', attach_quantity:0, limit:500, offset:0}), "message", _restfulName, req, res);
 });
 
 router.post('/multicast', helper.ensureAuthenticated, function(req, res, next) {
