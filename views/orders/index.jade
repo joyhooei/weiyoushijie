@@ -16,30 +16,23 @@ block main
 				h2
 					i(class="halflings-icon user")
 					span.break
-					| 直播
+					| 订单
 
 			div.box-content
 				table(class="table table-striped table-bordered bootstrap-datatable datatable")
 					thead
 						tr
-							th 表演者
-							th 名称
-							th 在线人数
-							th 观看人数
-							th 打赏人数
-							th 在线
+							th 玩家
+							th 现金
+							th 商品
+							th 状态
 							th 
 					tbody
-						- var lives = ['否', '是'];
-						- each telecast in telecasts
+						- var states = ['未成交', '已成交'];
+						- each order in orders
 							tr
 								td
-									a(href="/customers/#{telecast.customer.id}") #{telecast.customer.get('name')}
-								td= telecast.get('name')
-								td= telecast.get('total_members')
-								td= telecast.get('total_viewers')
-								td= telecast.get('total_rewards')
-								td= lives[telecast.get('live')]
-								td.center
-									a(class="rest btn btn-danger", href="/telecasts/#{telecast.id}", data-method="DELETE")
-										i(class="halflings-icon white trash")
+									a(href="/customers/#{order.get('customer_id')}") #{order.get('customer_id')}
+								td= order.get('price')
+								td= order.get('product')
+								td= states[order.get('state')]
