@@ -1,6 +1,8 @@
 class ChannelEgret extends Channel{
 	constructor(standalone:boolean) {
         super(standalone);
+		
+		esa.EgretSA.init({"gameId":"536E77465847413D","chanId":egret.getOption("egret.runtime.spid"),"debug":false});
     }
     
     public login(): Q.Promise<any> {
@@ -117,4 +119,44 @@ class ChannelEgret extends Channel{
 		
         return self.promise();
 	}
+	
+    public track(category:string, action:string, opt_label:string, opt_value:number) {
+		switch(category) {
+			case TRACK_CATEGORY_PLAYER:
+				if (action == TRACK_ACTION_ENTER){
+					esa.EgretSA.player.init({ egretId: application.customer.uid,level: 1,serverId: 1,playerName: application.customer.name })
+				} else {
+					esa.EgretSA.onLeave();
+				}
+				return;
+				
+			case TRACK_CATEGORY_DIAMOND:
+				if (action == TRACK_ACTION_INC){
+					esa.EgretSA.onDiamondReward(opt_value, opt_label);
+				} else {
+					esa.EgretSA.onDiamondUse(opt_label, 1, opt_value);
+				}
+				return;
+				
+			case TRACK_CATEGORY_GOLD:
+				if (action == TRACK_ACTION_INC){
+					esa.EgretSA.onGoldOutput(opt_value, opt_value);
+				} else {
+					esa.EgretSA.onGoldUse(opt_label, 1, opt_value);
+				}
+				return;
+				
+			case TRACK_CATEGORY_ACTIVITY:
+				esa.EgretSA.onJoinActivity(opt_label);
+				return;
+				
+			case TRACK_CATEGORY_GUIDE:
+				esa.EgretSA.newUsersGuideSet(opt_value, opt_label); 
+				return;
+				
+			case TRACK_CATEGORY_RESOURCE:
+				esa.EgretSA.loadingSet(opt_value, opt_label);
+				return;
+		}
+    }		
 }
