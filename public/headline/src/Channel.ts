@@ -24,9 +24,15 @@ class Channel {
 	}
 	
     private _deferred: Q.Deferred<any>;
+    private _standalone: boolean;
 	
-	constructor() {
+	constructor(standalone:boolean) {
 		this._deferred = null;
+        this._standalone = standalone;
+    }
+    
+    public standalone():boolean {
+        return this._standalone;
     }
 	
 	public loadjs(url:string) {
