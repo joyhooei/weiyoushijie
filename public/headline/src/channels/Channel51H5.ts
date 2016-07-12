@@ -1,6 +1,6 @@
 class Channel51H5 extends Channel{
-	constructor() {
-        super();
+	constructor(standalone:boolean) {
+        super(standalone);
     }
     
     public login(): Q.Promise<any> {
