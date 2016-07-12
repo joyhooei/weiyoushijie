@@ -24,7 +24,7 @@ block main
 				if message.id
 					- var action = "/messages/" + message.id
 				else
-					- var action = "/messages/"
+					- var action = "/messages/multicast"
 				form(class="form-horizontal", action="#{action}", method="post")
 					fieldset
 						div.control-group
