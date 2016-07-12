@@ -80,7 +80,7 @@ class BuyAchieveUI extends eui.Component{
                 this.imgBuyUseDiamond.addEventListener( egret.TouchEvent.TOUCH_TAP, ()=>{
                     this._buy(0, priceUseDiamond);
                     
-                    esa.EgretSA.onDiamondUse("购买了成就", 1, priceUseDiamond);
+                    application.channel.track(TRACK_CATEGORY_DIAMOND, TRACK_ACTION_DEC, "购买了成就", priceUseDiamond); 
     			}, this );
     		}
     	}
