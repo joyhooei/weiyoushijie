@@ -31,7 +31,7 @@ router.post('/multicast', helper.ensureAuthenticated, function(req, res, next) {
 	var filters = {};
 	filters.limit  = parseInt(req.body.limit || '500');
 	filters.offset = parseInt(req.body.offset || '0');
-	filters.order = 'update_time DESC';
+	filters.order = 'metal DESC, accumulated_gold DESC';
 	
 	var quantity = parseInt(req.body.attach_quantity || '0');
 	var attach = req.body.attach_category || "none";
