@@ -66,7 +66,13 @@ block main
 								input(class="input-xlarge focused", id="limit", name="limit", type="number", value="#{message.get('limit')}")
 								<p class="help-block"></p>
 
+						div.control-group
+							label(class="control-label", for="name") 玩家名字
+							div.controls
+								input(class="input-xlarge focused", id="name", name="name", type="name", value="")
+								<p class="help-block"></p>
+
 						div.form-actions
-							button(type="submit", class="btn btn-primary") 广播
+							button(type="submit", class="btn btn-primary") 发送
 							button.btn 
 								a(href="/messages") 取消
