@@ -2,6 +2,22 @@ const CHANNEL_1758_IN_EGRET = "10016";
 const CHANNEL_HUHUH5 = "HUHUH5";
 const CHANNEL_51H5 = "HUHUH5";
 
+const TRACK_CATEGORY_GAME     = "game";
+const TRACK_CATEGORY_PLAYER   = "player";
+const TRACK_CATEGORY_DIAMOND  = "diamond";
+const TRACK_CATEGORY_GOLD     = "gold";
+const TRACK_CATEGORY_ACTIVITY = "activity";
+const TRACK_CATEGORY_GUIDE    = "guide";
+const TRACK_CATEGORY_RESOURCE = "resource";
+
+const TRACK_ACTION_DEC    = "dec";
+const TRACK_ACTION_INC    = "inc";
+const TRACK_ACTION_JOIN   = "join";
+const TRACK_ACTION_LEAVE  = "leave";
+const TRACK_ACTION_START  = "start";
+const TRACK_ACTION_STOP   = "stop";
+const TRACK_ACTION_LOAD   = "load";
+
 declare var loadfile;
 
 class Channel {
