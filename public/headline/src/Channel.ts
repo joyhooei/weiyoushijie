@@ -2,7 +2,6 @@ const CHANNEL_1758_IN_EGRET = "10016";
 const CHANNEL_HUHUH5 = "HUHUH5";
 const CHANNEL_51H5 = "51H5";
 
-const TRACK_CATEGORY_GAME     = "game";
 const TRACK_CATEGORY_PLAYER   = "player";
 const TRACK_CATEGORY_DIAMOND  = "diamond";
 const TRACK_CATEGORY_GOLD     = "gold";
@@ -13,9 +12,8 @@ const TRACK_CATEGORY_RESOURCE = "resource";
 const TRACK_ACTION_DEC    = "dec";
 const TRACK_ACTION_INC    = "inc";
 const TRACK_ACTION_JOIN   = "join";
+const TRACK_ACTION_ENTER  = "enter";
 const TRACK_ACTION_LEAVE  = "leave";
-const TRACK_ACTION_START  = "start";
-const TRACK_ACTION_STOP   = "stop";
 const TRACK_ACTION_LOAD   = "load";
 
 declare var loadfile;
@@ -108,14 +106,8 @@ class Channel {
         return this.rejectedPromise();
 	}
     
-    public track(category:string, action:string, opt_label:string, opt_value:number) {
+    public track(category:string, action?:string, opt_label?:string, opt_value?:number) {
 		switch(category) {
-			case TRACK_CATEGORY_GAME:
-				if (action == TRACK_ACTION_START){
-				} else {
-				}
-				return;
-				
 			case TRACK_CATEGORY_PLAYER:
 				if (action == TRACK_ACTION_ENTER){
 				} else {
