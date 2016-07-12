@@ -10,13 +10,13 @@ class Channel {
 		
         if(cid === CHANNEL_1758_IN_EGRET) {
 			console.info("using channel 1758");
-			return new Channel1758(true);
+			return new Channel1758(false);
         } else if(cid === CHANNEL_HUHUH5) {
 			console.info("using channel huhuh5");
-			return new ChannelHuHuH5(false);
+			return new ChannelHuHuH5(true);
         } else if(cid === CHANNEL_51H5) {
 			console.info("using channel huhuh5");
-			return new Channel51H5(false);
+			return new Channel51H5(true);
 		} else {
 			console.info("using default channel");
             return new ChannelEgret(true);
