@@ -1,15 +1,22 @@
 const CHANNEL_1758_IN_EGRET = "10016";
-const CHANNEL_7K7K = "";
+const CHANNEL_HUHUH5 = "HUHUH5";
+const CHANNEL_51H5 = "HUHUH5";
 
 declare var loadfile;
 
 class Channel {
 	static create(): Channel {
-		let cid = egret.getOption("channelId") || egret.getOption("wysj_channel") || "egret";
+		let cid = egret.getOption("channelId") || egret.getOption("egret.runtime.spid") || egret.getOption("wysj_channel") || "egret";
 		
         if(cid === CHANNEL_1758_IN_EGRET) {
 			console.info("using channel 1758");
-			return new Channel1758();
+			return new Channel1758(true);
+        } else if(cid === CHANNEL_HUHUH5) {
+			console.info("using channel huhuh5");
+			return new ChannelHuhuh5(false);
+        } else if(cid === CHANNEL_51H5) {
+			console.info("using channel huhuh5");
+			return new Channel51h5(false);
 		} else {
 			console.info("using default channel");
             return new ChannelEgret();
@@ -78,4 +85,7 @@ class Channel {
     public attention(options:any): Q.Promise<any> {
         return this.rejectedPromise();
 	}
+    
+    public track(category:string, action:string, opt_label:string, opt_value:number) {
+    }
 }
