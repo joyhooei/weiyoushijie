@@ -23,8 +23,8 @@ block main
 					thead
 						tr
 							th 玩家
-							th
 					tbody
 						- each account in accounts
 							tr
-								td= account.get('customer_id')
+								td
+									a(href="/customers/#{account.get('customer_id')}") #{account.get('customer_id')}
