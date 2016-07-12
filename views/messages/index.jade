@@ -24,17 +24,16 @@ block main
 						tr
 							th 接收人
 							th 标题
-							th 链接
+							th 内容
 							th 附件
 							th 数量
 							th 状态
 							th 
 					tbody
 						- var states = ['未读', '已经领取', '已经删除'];
-						- each message in posters
+						- each message in messages
 							tr
-								- if (message.customer)
-									td= message.customer.get('name')
+								td= message.get('customer_id')
 								td= message.get('title')
 								td= message.get('content')
 								td= message.get('attach_category')
