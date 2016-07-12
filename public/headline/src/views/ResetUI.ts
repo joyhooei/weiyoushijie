@@ -35,7 +35,7 @@ class ResetUI extends eui.Component{
             application.customer.output  += this.output() - oldOutput;
             application.saveCustomerNow();
 			
-            esa.EgretSA.onDiamondReward(this.diamond, "重置了金手指");
+			application.channel.track(TRACK_CATEGORY_DIAMOND, TRACK_ACTION_INC, "重置了金手指", this.diamond); 
             
             Toast.launch("成功重置了金手指");
             
