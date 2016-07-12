@@ -61,4 +61,7 @@ class ChannelHuHuH5 extends Channel{
 		
         return self.promise();
     }
+    
+    public track(category:string, action:string, opt_label:string, opt_value:number) {
+    }
 }
