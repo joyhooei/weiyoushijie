@@ -5,10 +5,6 @@ var helper = require("./helper");
 var passport = require('passport');
 var Account = require('../models/account');
 
-router.get('/', function(req, res, next) {
-	res.render('index');
-});
-
 router.get('/login', function(req, res, next) {
 	res.render("login");
 });

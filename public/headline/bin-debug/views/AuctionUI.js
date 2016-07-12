@@ -71,9 +71,13 @@ var AuctionUI = (function (_super) {
         application.dao.fetch("MaxBid", { day: today }, { limit: 1 }, function (succeed, bids) {
             if (succeed && bids.length > 0) {
                 self.lblMaxBid.text = application.format(bids[0].gold);
+                self.lblMaxBidName.text = bids[0].name;
+                self.imgMaxBidAvatar.source = bids[0].avatar;
             }
             else {
                 self.lblMaxBid.text = "0";
+                self.lblMaxBidName.text = "";
+                self.imgMaxBidAvatar.source = "";
             }
         });
     };
@@ -89,13 +93,13 @@ var AuctionUI = (function (_super) {
             if (self.bid.gold > 0) {
                 application.dao.fetch("Blacklist", { customer_id: application.customer.id }, { limit: 1 }, function (succeed, blacks) {
                     if (succeed && blacks.length == 1) {
-                        Toast.launch("对不起，您由于下列原因被封号：" + blacks[0].reason + "。请联系管理员，谢谢！");
+                        Toast.launch("对不起，您由于下列原因被封号：" + blacks[0].reason + "。");
                     }
                     else {
                         self.bid.claimed = 0;
                         application.dao.save("Bid", self.bid);
                         application.giftChanged();
-                        esa.EgretSA.onJoinActivity("投标");
+                        application.channel.track(TRACK_CATEGORY_ACTIVITY, TRACK_ACTION_JOIN, "投标");
                         Toast.launch("投标成功");
                         application.bid = self.bid;
                         if (application.guideUI) {

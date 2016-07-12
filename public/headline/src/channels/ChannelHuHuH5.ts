@@ -1,4 +1,4 @@
-delclare h5Game;
+declare var h5Game;
 
 class ChannelHuHuH5 extends Channel{
 	constructor(standalone:boolean) {
@@ -11,7 +11,7 @@ class ChannelHuHuH5 extends Channel{
         let self = this;
 
         window['loginCallBcak'] = function(userId, userName, userImage, userPosition, token){
-            application.dao.rest("login",{ token: data.token, wysj_channel: "huhuh5", userId: userId, userName: userName, userImage: userImage, userPosition: userPosition},(succeed: boolean,account: any) => {
+            application.dao.rest("login",{ token: token, wysj_channel: "huhuh5", userId: userId, userName: userName, userImage: userImage, userPosition: userPosition},(succeed: boolean,account: any) => {
                 if (succeed) {
                     self.resolve(account);
                 } else {
@@ -62,6 +62,36 @@ class ChannelHuHuH5 extends Channel{
         return self.promise();
     }
     
-    public track(category:string, action:string, opt_label:string, opt_value:number) {
+    public track(category: string,action?: string,opt_label?: string,opt_value?: number) {
+        super.track(category,action,opt_label,opt_value);
+        
+        switch(category) {
+            case TRACK_CATEGORY_PLAYER:
+                if(action == TRACK_ACTION_ENTER) {
+                } else {
+                }
+                return;
+
+            case TRACK_CATEGORY_DIAMOND:
+                if(action == TRACK_ACTION_INC) {
+                } else {
+                }
+                return;
+
+            case TRACK_CATEGORY_GOLD:
+                if(action == TRACK_ACTION_INC) {
+                } else {
+                }
+                return;
+
+            case TRACK_CATEGORY_ACTIVITY:
+                return;
+
+            case TRACK_CATEGORY_GUIDE:
+                return;
+
+            case TRACK_CATEGORY_RESOURCE:
+                return;
+        }
     }
 }

@@ -79,7 +79,7 @@ class BuyToolUI extends eui.Component{
             application.earnGold(application.customer.output * 3600 * 48);
 			application.saveCustomerNow();
             
-			application.channel.track(TRACK_CATEGORY_DIAMOND, TRACK_ACTION_USE, "购买了时光沙漏", this._price); 
+			application.channel.track(TRACK_CATEGORY_DIAMOND, TRACK_ACTION_DEC, "购买了时光沙漏", this._price); 
 			
             Toast.launch("购买了时光沙漏");
 
@@ -96,7 +96,7 @@ class BuyToolUI extends eui.Component{
 				application.customer.total_hits = 3;				
                 application.saveCustomerNow();
 				
-				application.channel.track(TRACK_CATEGORY_DIAMOND, TRACK_ACTION_USE, "购买了暴击", this._price); 
+				application.channel.track(TRACK_CATEGORY_DIAMOND, TRACK_ACTION_DEC, "购买了暴击", this._price); 
                 
                 Toast.launch("购买了暴击");
 

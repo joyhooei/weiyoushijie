@@ -56,7 +56,7 @@ var BuyAchieveUI = (function (_super) {
             else {
                 this.imgBuyUseDiamond.addEventListener(egret.TouchEvent.TOUCH_TAP, function () {
                     _this._buy(0, priceUseDiamond_1);
-                    esa.EgretSA.onDiamondUse("购买了成就", 1, priceUseDiamond_1);
+                    application.channel.track(TRACK_CATEGORY_DIAMOND, TRACK_ACTION_DEC, "购买了成就", priceUseDiamond_1);
                 }, this);
             }
         }

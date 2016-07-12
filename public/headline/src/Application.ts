@@ -254,7 +254,7 @@ module application {
 					bids[i].claimed = 1;
 					application.dao.save("Bid", bids[i]);
                     
-                    application.channel.track(TRACK_CATEGORY_DIAMOND, TRACK_ACTION_INC, "拍卖头名", message.2000); 
+                    application.channel.track(TRACK_CATEGORY_DIAMOND, TRACK_ACTION_INC, "拍卖头名", 2000); 
 				}
 				
 				application.saveCustomerNow();

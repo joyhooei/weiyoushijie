@@ -2,7 +2,7 @@ var application;
 (function (application) {
     application.saveSeconds = 0;
     application.ticks = 0;
-    application.version = '1.5.6';
+    application.version = '1.6.1';
     application.token = "";
     function init(main) {
         application.main = main;
@@ -37,7 +37,7 @@ var application;
                 application.customer = customer;
                 application.vip = Vip.createVip(application.customer.charge);
                 application.checkTicket();
-                esa.EgretSA.player.init({ egretId: customer.uid, level: 1, serverId: 1, playerName: customer.name });
+                application.channel.track(TRACK_CATEGORY_PLAYER, TRACK_ACTION_ENTER);
                 //首次登录，需要显示引导页面
                 if (application.customer.metal == 0) {
                     application.guideUI = new GuideUI();
@@ -204,6 +204,7 @@ var application;
                     application.customer.diamond += 2000;
                     bids[i].claimed = 1;
                     application.dao.save("Bid", bids[i]);
+                    application.channel.track(TRACK_CATEGORY_DIAMOND, TRACK_ACTION_INC, "拍卖头名", 2000);
                 }
                 application.saveCustomerNow();
             }
@@ -302,7 +303,7 @@ var application;
         var order = { customer_id: application.customer.id, product: product, price: price, state: 0 };
         application.dao.save("Order", order, function (succeed, o) {
             if (succeed) {
-                application.channel.pay({ goodsId: gid, goodsNumber: "1", serverId: "1", ext: o.id }).then(function (data) {
+                application.channel.pay({ goodsId: gid, goodsName: gid, goodsNumber: "1", money: price, orderId: o.id }).then(function (data) {
                 }, function (error) {
                     Toast.launch(error);
                 });
@@ -429,8 +430,7 @@ var application;
     application.gotoTool = gotoTool;
     function showHelp(content) {
         if (content.length == 0) {
-            content = "QQ客服 3369182016\n";
-            content += "玩法\n";
+            content = "玩法\n";
             content += "1. 点击中间舞者可产生金币，金币用来升级运营项目，而运营项目随等级提高从而产生更多的金币。\n";
             content += "2. 金币可以用来参加头条拍卖，每天最高出价者会成为头条，获得头条殊荣，勋章和钻石奖励。\n";
             content += "3. 道具可以帮助玩家快速获得大量金币和永久提高运营项目的每秒产量。\n";
@@ -510,28 +510,28 @@ var application;
     function format(d) {
         try {
             if (d <= 99999) {
-                return d.toString();
+                return new Number(d).toFixed();
             }
             var unit = "";
             for (var i = 0; i < application.units.length; i++) {
                 if (d < 10) {
-                    return d.toFixed(2) + unit;
+                    return new Number(d).toFixed(2) + unit;
                 }
                 else if (d < 100) {
-                    return d.toFixed(1) + unit;
+                    return new Number(d).toFixed(1) + unit;
                 }
                 else if (d < 1000) {
-                    return d.toFixed() + unit;
+                    return new Number(d).toFixed() + unit;
                 }
                 else {
                     unit = application.units[i];
                     d = d / 1000;
                 }
             }
-            return d.toFixed() + unit;
+            return new Number(d).toFixed() + unit;
         }
         catch (error) {
-            console.error("format " + d.toString() + " error " + error.message);
+            console.error("format " + d + " error " + error.message);
             return "0";
         }
     }

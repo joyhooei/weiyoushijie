@@ -66,7 +66,7 @@ var BuyToolUI = (function (_super) {
             application.customer.diamond -= this._price;
             application.earnGold(application.customer.output * 3600 * 48);
             application.saveCustomerNow();
-            esa.EgretSA.onDiamondUse("购买了时光沙漏", 1, this._price);
+            application.channel.track(TRACK_CATEGORY_DIAMOND, TRACK_ACTION_DEC, "购买了时光沙漏", this._price);
             Toast.launch("购买了时光沙漏");
             application.hideUI(this);
         }
@@ -80,7 +80,7 @@ var BuyToolUI = (function (_super) {
                 application.customer.diamond -= this._price;
                 application.customer.total_hits = 3;
                 application.saveCustomerNow();
-                esa.EgretSA.onDiamondUse("购买了暴击", 1, this._price);
+                application.channel.track(TRACK_CATEGORY_DIAMOND, TRACK_ACTION_DEC, "购买了暴击", this._price);
                 Toast.launch("购买了暴击");
                 application.hideUI(this);
             }

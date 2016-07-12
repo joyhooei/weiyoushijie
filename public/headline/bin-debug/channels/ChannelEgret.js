@@ -1,7 +1,8 @@
 var ChannelEgret = (function (_super) {
     __extends(ChannelEgret, _super);
-    function ChannelEgret() {
-        _super.call(this);
+    function ChannelEgret(standalone) {
+        _super.call(this, standalone);
+        esa.EgretSA.init({ "gameId": "536E77465847413D", "chanId": egret.getOption("egret.runtime.spid"), "debug": false });
     }
     var d = __define,c=ChannelEgret,p=c.prototype;
     p.login = function () {
@@ -57,7 +58,13 @@ var ChannelEgret = (function (_super) {
     };
     p.pay = function (options) {
         var self = this;
-        nest.iap.pay(options, function (data) {
+        var data = {
+            goodsId: options.goodsId,
+            goodsNumber: options.goodsNumber,
+            serverId: "1",
+            ext: options.orderId
+        };
+        nest.iap.pay(data, function (data) {
             if (data.result == 0) {
                 self.resolve(data);
             }
@@ -113,6 +120,44 @@ var ChannelEgret = (function (_super) {
             }
         });
         return self.promise();
+    };
+    p.track = function (category, action, opt_label, opt_value) {
+        _super.prototype.track.call(this, category, action, opt_label, opt_value);
+        switch (category) {
+            case TRACK_CATEGORY_PLAYER:
+                if (action == TRACK_ACTION_ENTER) {
+                    esa.EgretSA.player.init({ egretId: application.customer.uid, level: 1, serverId: 1, playerName: application.customer.name });
+                }
+                else {
+                    esa.EgretSA.onLeave();
+                }
+                return;
+            case TRACK_CATEGORY_DIAMOND:
+                if (action == TRACK_ACTION_INC) {
+                    esa.EgretSA.onDiamondReward(opt_value, opt_label);
+                }
+                else {
+                    esa.EgretSA.onDiamondUse(opt_label, 1, opt_value);
+                }
+                return;
+            case TRACK_CATEGORY_GOLD:
+                if (action == TRACK_ACTION_INC) {
+                    esa.EgretSA.onGoldOutput(opt_value, opt_label);
+                }
+                else {
+                    esa.EgretSA.onGoldUse(opt_label, 1, opt_value);
+                }
+                return;
+            case TRACK_CATEGORY_ACTIVITY:
+                esa.EgretSA.onJoinActivity(opt_label);
+                return;
+            case TRACK_CATEGORY_GUIDE:
+                esa.EgretSA.newUsersGuideSet(opt_value, opt_label);
+                return;
+            case TRACK_CATEGORY_RESOURCE:
+                esa.EgretSA.loadingSet(opt_value, opt_label);
+                return;
+        }
     };
     return ChannelEgret;
 }(Channel));

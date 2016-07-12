@@ -78,7 +78,7 @@ class ToolItem extends eui.Component {
             application.buyOutput(0,price,this.output() - oldOutput);
             application.dao.save("Project",this._myProject);
 			
-			application.channel.track(TRACK_CATEGORY_DIAMOND, TRACK_ACTION_USE, "购买了金手指", price); 
+			application.channel.track(TRACK_CATEGORY_DIAMOND, TRACK_ACTION_DEC, "购买了金手指", price); 
             
             Toast.launch("成功购买了金手指");
             this.refresh();

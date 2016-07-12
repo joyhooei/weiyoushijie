@@ -121,6 +121,8 @@ class ChannelEgret extends Channel{
 	}
 	
     public track(category:string, action?:string, opt_label?:string, opt_value?:number) {
+        super.track(category,action,opt_label,opt_value);
+        
 		switch(category) {
 			case TRACK_CATEGORY_PLAYER:
 				if (action == TRACK_ACTION_ENTER){
@@ -140,7 +142,7 @@ class ChannelEgret extends Channel{
 				
 			case TRACK_CATEGORY_GOLD:
 				if (action == TRACK_ACTION_INC){
-					esa.EgretSA.onGoldOutput(opt_value, opt_value);
+                    esa.EgretSA.onGoldOutput(opt_value,opt_label);
 				} else {
 					esa.EgretSA.onGoldUse(opt_label, 1, opt_value);
 				}
