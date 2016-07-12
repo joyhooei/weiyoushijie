@@ -4,25 +4,22 @@ var router = express.Router();
 var helper = require("./helper");
 var Message = require("../models/message");
 
-router.get('/multicast', function(req, res, next) {
-	console.log("multicast " + JSON.stringify(req.query));
-	
-	if (!req.query.content){
-		var usage = "<h1>使用帮助</h1>";
-		usage += "<p>http://www.weiyoushijie.com/om/multicast?test=true&quantity=0&attach=none&content='消息内容'&limit=100&offset=0&vip=2</p>";
-		usage += "<p>test=true：表示不发送，只是看一下哪些玩家会被发送消息</p>";
-		usage += "<p>attach=none&content='消息内容'：消息Message表中的内容和附件</p>";
-		usage += "<p>limit=100&offset=0：从第几个玩家开始，最多多少玩家</p>";
-		usage += "<p>vip=2：指定查询玩家的条件，可以指定Customer表中的字段</p>";
-	
-		_failed(res, new Error("<p>没有内容参数</>" + usage));
-		
-		return;
-	}
+var _restfulName  = "mesages";
+
+router.get('/', helper.ensureAuthenticated, function(req, res, next) {
+	helper.listModel("Message", "mesages", _restfulName, req, res);		
+});
+
+router.get('/multicast', helper.ensureAuthenticated, function(req, res, next) {
+	helper.newModel(new dao.Message({title:'', content:'', attach:'none', quantity:0, limit:100, offset:0}), "mesage", _restfulName, req, res);
+});
+
+router.post('/multicast', helper.ensureAuthenticated, function(req, res, next) {
+	console.log("multicast " + JSON.stringify(req.body));
 	
 	var conditions = {};
-	_.each(req.query, function(v, k) {
-		if (k != "content" && k != "attach" && k != "quantity" && k != "test"){
+	_.each(req.body, function(v, k) {
+		if (k != "content" && k != "attach" && k != "quantity"){
 			if (!isNaN(v)) {
 				conditions[k] = +v;
 			} else {
@@ -32,56 +29,29 @@ router.get('/multicast', function(req, res, next) {
 	});
     
 	var filters = {};
-	filters.limit  = parseInt(req.query.limit || 100);
-	filters.offset = parseInt(req.query.offset || 0);
+	filters.limit  = parseInt(req.body.limit || '100');
+	filters.offset = parseInt(req.body.offset || '0');
 	filters.order = 'update_time DESC';
 	
-	var quantity = parseInt(req.query.quantity || 0);
-	var attach = req.query.attach || "none";
+	var quantity = parseInt(req.body.quantity || '0');
+	var attach = req.body.attach || "none";
 	
 	dao.find('Customer', conditions, filters).then(function(objs){
 		var promises = [];
 		
-		var html = "<p>消息内容：" + req.query.content + "</p>";
-		html += "<p>消息附件：" + attach + "</p>";
-		html += "<p>附件数量：" + quantity + "</p>";
-		html += "<table border='1'>";
-		var first = true;
         _.each(objs, function(o){
-			if (req.query.test && req.query.test === 'false') {
-				var p = Message.send(o.id, '系统公告', req.query.content, attach, quantity);
-			} else {
-				var p = Q.Promise(function(resolve, reject, notify) {resolve();});
-			}
-			promises.push(p);
-			
-			if (first) {
-				html += "<tr>";			
-				_.each(o.attributes, function(v, k) {
-					html += "<th>" + k + "</th>";
-				});
-				html += "</tr>";
-				
-				first = false;
-			}
-			
-			html += "<tr>";
-			_.each(o.attributes, function(v, k) {
-				html += "<td>" + v + "</td>";
-			});
-			html += "</tr>";
+			promises.push(Message.send(o.id, req.body.title, req.body.content, attach, quantity));
         });
-		html += "</table>";
 		
 		Q.all(promises).then(function(){
-			res.status(200).send(html);
+			Helper.redirect(_restfulName, req, res);
 		}, function(error){
-			console.error("send message failed " + error.message);			
-			_failed(res, error);
+			req.flash('errors', { msg: err.message });	
+			Helper.render(_restfulName + '/edit', req, res);
 		});	
 	}, function(error){
-		console.error("find customer failed " + error.message);			
-		_failed(res, error);
+		req.flash('errors', { msg: err.message });			
+		Helper.render(_restfulName + '/edit', req, res);
 	});
 })
 
