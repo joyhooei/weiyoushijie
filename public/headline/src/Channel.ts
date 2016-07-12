@@ -109,5 +109,39 @@ class Channel {
 	}
     
     public track(category:string, action:string, opt_label:string, opt_value:number) {
-    }
+		switch(category) {
+			case TRACK_CATEGORY_GAME:
+				if (action == TRACK_ACTION_START){
+				} else {
+				}
+				return;
+				
+			case TRACK_CATEGORY_PLAYER:
+				if (action == TRACK_ACTION_ENTER){
+				} else {
+				}
+				return;
+				
+			case TRACK_CATEGORY_DIAMOND:
+				if (action == TRACK_ACTION_INC){
+				} else {
+				}
+				return;
+				
+			case TRACK_CATEGORY_GOLD:
+				if (action == TRACK_ACTION_INC){
+				} else {
+				}
+				return;
+				
+			case TRACK_CATEGORY_ACTIVITY:
+				return;
+				
+			case TRACK_CATEGORY_GUIDE:
+				return;
+				
+			case TRACK_CATEGORY_RESOURCE:
+				return;
+		}
+    }	
 }
