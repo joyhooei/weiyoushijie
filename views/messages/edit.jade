@@ -11,7 +11,7 @@ block main
 		li
 			i.icon-angle-right
 		li
-			a(href="/posters") 广告
+			a(href="/messages") 消息
 
 	div(class="row-fluid sortable")
 		div(class="box span12")
@@ -19,52 +19,54 @@ block main
 				h2
 					i(class="halflings-icon user")
 					span.break
-					| 广告
+					| 消息
 			div.box-content
-				if poster.id
-					- var action = "/posters/" + poster.id
+				if message.id
+					- var action = "/messages/" + message.id
 				else
-					- var action = "/posters/"
-				form(class="form-horizontal", action="#{action}", method="post", enctype="multipart/form-data")
+					- var action = "/messages/"
+				form(class="form-horizontal", action="#{action}", method="post")
 					fieldset
 						div.control-group
 							label(class="control-label", for="title") 标题
 							div.controls
-								input(class="input-xlarge focused", id="title", name="title", type="text", value="#{poster.get('title')}")
+								input(class="input-xlarge focused", id="title", name="title", type="text", value="#{message.get('title')}")
 								<p class="help-block"></p>
 
 						div.control-group
-							label(class="control-label", for="internal_url") 链接
+							label(class="control-label", for="content") 内容
 							div.controls
-								input(class="input-xlarge focused", id="internal_url", name="internal_url", type="text", value="#{poster.get('internal_url')}")
+								input(class="input-xlarge focused", id="content", name="content", type="text", value="#{message.get('content')}")
 								<p class="help-block"></p>
 
 						div.control-group
-							label(class="control-label", for="state") 是否显示
+							label(class="control-label", for="attach_category") 附件
 							div.controls
-								select(id="state", name="state")
-									option(selected=poster.get('state') == 0, value=0) 不显示
-									option(selected=poster.get('state') == 1, value=1) 显示
+								select(id="attach_category", name="attach_category")
+									option(selected=message.get('attach_category') == 'none', value='none') 无附件
+									option(selected=message.get('attach_category') == 'diamond', value='diamond') 钻石
+									option(selected=message.get('attach_category') == 'gold', value='gold') 金币
+									option(selected=message.get('attach_category') == 'metal', value='metal') 勋章
 
 						div.control-group
-							label(class="control-label", for="category") 显示分类
+							label(class="control-label", for="attach_quantity") 附件数量
 							div.controls
-								input(class="input-xlarge focused", id="category", name="category", type="number", value="#{poster.get('category')}")
+								input(class="input-xlarge focused", id="attach_quantity", name="attach_quantity", type="number", value="#{message.get('attach_quantity')}")
 								<p class="help-block"></p>
 
 						div.control-group
-							label(class="control-label", for="sequence") 显示顺序
+							label(class="control-label", for="offset") 起始
 							div.controls
-								input(class="input-xlarge focused", id="sequence", name="sequence", type="number", value="#{poster.get('sequence')}")
+								input(class="input-xlarge focused", id="offset", name="offset", type="number", value="#{message.get('offset')}")
 								<p class="help-block"></p>
 
 						div.control-group
-							label(class="control-label", for="media_id") 图片
+							label(class="control-label", for="limit") 人数
 							div.controls
-								input(class="input-xlarge focused", id="media_id", name="media_id", type="file")
+								input(class="input-xlarge focused", id="limit", name="limit", type="number", value="#{message.get('limit')}")
 								<p class="help-block"></p>
 
 						div.form-actions
-							button(type="submit", class="btn btn-primary") 保存
+							button(type="submit", class="btn btn-primary") 广播
 							button.btn 
-								a(href="/posters") 取消
+								a(href="/messages") 取消
