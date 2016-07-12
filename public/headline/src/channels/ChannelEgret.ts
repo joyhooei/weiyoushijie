@@ -1,6 +1,6 @@
 class ChannelEgret extends Channel{
-	constructor() {
-        super();
+	constructor(standalone:boolean) {
+        super(standalone);
     }
     
     public login(): Q.Promise<any> {
