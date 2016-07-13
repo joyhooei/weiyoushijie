@@ -10,7 +10,7 @@ router.get('/', helper.ensureAuthenticated, function(req, res, next) {
 });
 
 router.get('/new', helper.ensureAuthenticated, function(req, res, next) {
-	helper.newModel(new dao.Blacklist({reason:'', customer_id:req.query.customer_id}), , "black", _restfulName, req, res);
+	helper.newModel(new dao.Blacklist({reason:'', customer_id:req.query.customer_id}), "black", _restfulName, req, res);
 });
 
 router.post('/', helper.ensureAuthenticated, function(req, res, next) {
