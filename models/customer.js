@@ -2,33 +2,35 @@ var Gift = require('./gift');
 var Project = require('./project');
 var Message = require('./message');
 
-module.exports.expireTicket = function(request, response) {
-    var now = moment();
-    
-    dao.find("Customer", {'vip': 1}, {order: 'update_time ASC'}).then(function(customers){
-        var expiredCustomers = [];
-        
-        _.each(customers, function(customer){
-            if (moment(customer.get('ticket')) < now) {
-                customer.set('vip', 0);
-                customer.set('ticket', '');
-                expiredCustomers.push(customer);
-            }
-        });
-        
-        if (expiredCustomers.length > 0) {
-			AV.Object.saveAll(expiredCustomers).then(function(){
-				response.success("expireTicket " + expiredCustomers.length);
-			}, function(error) {
-				console.error(error.message);
-				response.error(error.message);
-			});
-		} else {
-			response.success("expireTicket " + expiredCustomers.length);
-		}
-    }, function(error) {
-        response.error(error.message);
-    });
+module.exports.expireTicket = function() {
+	return Q.Promise(function(resolve, reject, notify) {
+	    var now = moment();
+	    
+	    dao.find("Customer", {'vip': 1}, {order: 'update_time ASC'}).then(function(customers){
+	        var expiredCustomers = [];
+	        
+	        _.each(customers, function(customer){
+	            if (moment(customer.get('ticket')) < now) {
+	                customer.set('vip', 0);
+	                customer.set('ticket', '');
+	                expiredCustomers.push(customer);
+	            }
+	        });
+	        
+	        if (expiredCustomers.length > 0) {
+				AV.Object.saveAll(expiredCustomers).then(function(){
+					resolve("expireTicket " + expiredCustomers.length);
+				}, function(error) {
+					console.error(error.message);
+					reject(error.message);
+				});
+			} else {
+				reject("expireTicket " + expiredCustomers.length);
+			}
+	    }, function(error) {
+	        reject(error.message);
+	    });
+	});
 }
 
 module.exports.offlineGold = function(customer) {
