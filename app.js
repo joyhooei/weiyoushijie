@@ -31,6 +31,8 @@ app.set('views', path.join(__dirname, './views'));
 app.set('view engine', 'jade');
 app.use(express.static('public'));
 
+app.use(favicon(__dirname + '/public/favicon.ico'));
+
 app.use(cookieParser());
 
 if (process.env.LC_APP_ID) {
