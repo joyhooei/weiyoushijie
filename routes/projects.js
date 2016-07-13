@@ -6,7 +6,8 @@ var helper = require("./helper");
 var _restfulName  = "projects";
 
 router.get('/', helper.ensureAuthenticated, function(req, res, next) {
-	helper.listModel("Project", "projects", _restfulName, req, res);
+	var query = dao.find("Project", {customer_id: req.query.customer_id}, {order: 'sequence ASC'});
+	helper.queryModel(query, "projects", _restfulName, req, res);
 });
 
 module.exports = router;
