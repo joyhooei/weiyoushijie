@@ -30,6 +30,7 @@ block main
 							th 内容
 							th 附件
 							th 数量
+							th 时间
 							th 状态
 					tbody
 						- var states = ['未读', '已经领取', '已经删除'];
@@ -41,4 +42,5 @@ block main
 								td= message.get('content')
 								td= message.get('attach_category')
 								td= message.get('attach_quantity')
+								td= message.get('update_time')
 								td= states[message.get('state')]
