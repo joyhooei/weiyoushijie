@@ -19,6 +19,9 @@ var accounts = require('./routes/accounts');
 var customers = require('./routes/customers');
 var messages = require('./routes/messages');
 var orders = require('./routes/orders');
+var blacks = require('./routes/blacks');
+var projects = require('./routes/projects');
+var gifts = require('./routes/gifts');
 
 GLOBAL.moment = require("moment");
 GLOBAL._ = require("underscore");
@@ -79,6 +82,9 @@ app.use('/customers', customers);
 app.use('/accounts', accounts);
 app.use('/messages', messages);
 app.use('/orders', orders);
+app.use('/blacks', blacks);
+app.use('/gifts', gifts);
+app.use('/projects', projects);
 
 app.use('/api', api);
 
