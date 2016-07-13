@@ -10,7 +10,6 @@ var bodyParser = require('body-parser');
 var passport = require('passport');
 var LocalStrategy = require('passport-local');
 var methodOverride = require('method-override');
-var session = require('express-session');
 var flash = require('express-flash');
 
 var home = require('./routes/index');
@@ -33,6 +32,8 @@ app.set('views', path.join(__dirname, './views'));
 app.set('view engine', 'jade');
 app.use(express.static('public'));
 
+app.use(cookieParser());
+
 if (process.env.LC_APP_ID) {
     var DAO = require('./platforms/leancloud/dao');
 } else {
@@ -41,11 +42,9 @@ if (process.env.LC_APP_ID) {
 GLOBAL.dao = new DAO();
 GLOBAL.dao.initialize(app);
 
-app.use(cookieParser());
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
 app.use(methodOverride('_method'));
-app.use(session({secret: 'supernova', saveUninitialized: true, resave: true}));
 app.use(passport.initialize());
 app.use(passport.session());
 app.use(flash());
