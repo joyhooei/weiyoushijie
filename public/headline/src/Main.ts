@@ -1,10 +1,4 @@
 class Main extends eui.UILayer {
-    /**
-     * 加载进度界面
-     * loading process interface
-     */
-    private _loadingUI: LoadingUI;
-
     private _isThemeLoadEnd: boolean = false;
 
     private _isResourceLoadEnd: boolean = false;
@@ -22,18 +16,14 @@ class Main extends eui.UILayer {
         
         egret.TextField.default_fontFamily = "STXihei";
         
-        application.init(this);
-        
         //inject the custom material parser
         //注入自定义的素材解析器
         this.stage.registerImplementation("eui.IAssetAdapter",new AssetAdapter());
         this.stage.registerImplementation("eui.IThemeAdapter",new ThemeAdapter());
       
-        //Config loading process interface
-        //设置加载进度界面
-        this._loadingUI = new LoadingUI();
-        this.stage.addChild(this._loadingUI);
-        
+        application.init(this);
+        application.channel.openScreen(this.stage);
+
         application.channel.track(TRACK_CATEGORY_RESOURCE, TRACK_ACTION_LOAD, "开始加载配置文件", 1);
       
         // initialize the Resource loading library
@@ -81,10 +71,6 @@ class Main extends eui.UILayer {
         
         switch (event.groupName ) {
             case "loading":
-                if( this._loadingUI.parent ){
-                    this._loadingUI.parent.removeChild( this._loadingUI );
-                }
-        
                 Toast.init( this, RES.getRes( "toast-bg_png" ) ); 
                 
                 this._trueLoadingUI = new TrueLoadingUI();
@@ -154,7 +140,7 @@ class Main extends eui.UILayer {
     private onResourceProgress(event:RES.ResourceEvent):void {
         switch (event.groupName) {
             case "loading":
-                this._loadingUI.setProgress(event.itemsLoaded, event.itemsTotal);
+                application.channel.setOpenScreenProgress(event.itemsLoaded, event.itemsTotal, '');
                 break;
             
             default :
