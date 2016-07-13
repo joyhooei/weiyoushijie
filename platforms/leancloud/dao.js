@@ -90,6 +90,9 @@ module.exports = function() {
 		app.use(Cloud);
 		//app.use(AV.Cloud);
 		
+		var session = require('express-session');
+		app.use(session({secret: 'supernova', saveUninitialized: true, resave: true}));
+		
 		this.addModel("Account");
 		
 		this.addModel("Bid");
