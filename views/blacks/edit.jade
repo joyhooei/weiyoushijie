@@ -1,0 +1,45 @@
+extends ../layout
+
+block main
+	ul.breadcrumb
+		li
+			i.icon-home
+		li
+			i.icon-angle-right
+		li
+			a(href="/") 面板
+		li
+			i.icon-angle-right
+		li
+			a(href="/blacks") 黑名单
+
+	div(class="row-fluid sortable")
+		div(class="box span12")
+			div(class="box-header", data-original-title)
+				h2
+					i(class="halflings-icon user")
+					span.break
+					| 黑名单
+			div.box-content
+				if message.id
+					- var action = "/blacks/" + message.id
+				else
+					- var action = "/blacks/edit"
+				form(class="form-horizontal", action="#{action}", method="post")
+					fieldset
+						div(class="control-group", style="display:none")
+							label(class="control-label", for="customer_id") 玩家
+							div.controls
+								input(class="input-xlarge focused", id="customer_id" name="customer_id", type="text", value="#{black.get('customer_id')}")
+								<p class="help-block"></p>
+					
+						div.control-group
+							label(class="control-label", for="reason") 原因
+							div.controls
+								input(class="input-xlarge focused", id="reason", name="reason", type="text", value="#{black.get('reason')}")
+								<p class="help-block"></p>
+
+						div.form-actions
+							button(type="submit", class="btn btn-primary") 保存
+							button.btn 
+								a(href="/messages") 取消
