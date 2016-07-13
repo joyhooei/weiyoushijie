@@ -439,6 +439,10 @@ module.exports = function() {
 				if (filters.offset) {
 					query.skip(filters.offset);
 				}
+				
+				if (filters.select) {
+					query.select(filters.select);
+				}
 
 				if (filters.order) {
 					var sort = {};
