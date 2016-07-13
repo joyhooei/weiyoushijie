@@ -36,6 +36,12 @@ block main
 							td 奖章
 							td= customer.get('metal')
 						tr
+							td 钻石
+							td= customer.get('diamond')	
+						tr
+							td 金币
+							td= customer.get('gold')								
+						tr
 							td 充值
 							td= customer.get('charge')
 						tr
@@ -47,3 +53,10 @@ block main
 						tr
 							td 累计金币
 							td= customer.get('accumulated_gold')
+						tr
+							td 上次登录
+							td= customer.get('last_login')
+						
+				div.btn-group
+					a(href="/blacks/new?customer_id=#{customer.id}", class="btn btn-primary") 加入黑名单
+
