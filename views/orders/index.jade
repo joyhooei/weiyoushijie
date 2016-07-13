@@ -25,13 +25,12 @@ block main
 							th 玩家
 							th 现金
 							th 商品
-							th 状态
+							th 时间
 					tbody
-						- var states = ['未成交', '已成交'];
 						- each order in orders
 							tr
 								td
 									a(href="/customers/#{order.get('customer_id')}") #{order.get('customer_id')}
 								td= order.get('price')
 								td= order.get('product')
-								td= states[order.get('state')]
+								td= order.get('update_time')
