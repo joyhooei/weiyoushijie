@@ -7,7 +7,7 @@ class ChannelHuHuH5 extends Channel{
         this.loadjs('http://server.huhuh5.com:8081/3HGame/jsFile/h5Game.js');
     }
     
-    public openScreen(): void {
+    public openScreen(stage:egret.Stage): void {
     	h5Game.openScreen (false);
     }
     
