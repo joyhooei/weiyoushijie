@@ -15,7 +15,6 @@ var flash = require('express-flash');
 var home = require('./routes/index');
 var admin = require('./routes/admin');
 var api = require('./routes/api');
-var om = require('./routes/om');
 var accounts = require('./routes/accounts');
 var customers = require('./routes/customers');
 var messages = require('./routes/messages');
@@ -70,10 +69,6 @@ app.use(function(req, res, next) {
   d.run(next);
 });
 
-app.get('/', function(req, res) {
-  res.render('index', { currentTime: new Date() });
-});
-
 // 可以将一类的路由单独保存在一个文件中
 app.use('/', home);
 
@@ -84,7 +79,11 @@ app.use('/messages', messages);
 app.use('/orders', orders);
 
 app.use('/api', api);
-app.use('/om', om);
+
+if (!process.env.LC_APP_ID) {
+    var om = require('./routes/om');
+    app.use('/om', om);
+}
 
 // Passport session setup.
 passport.serializeUser(function(user, done) {
