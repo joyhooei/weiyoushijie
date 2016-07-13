@@ -76,7 +76,9 @@ class ChannelHuHuH5 extends Channel{
         switch(category) {
             case TRACK_CATEGORY_PLAYER:
                 if(action == TRACK_ACTION_ENTER) {
+                	h5Game.gameStart();
                 } else {
+                	h5Game.setGameStatus();
                 }
                 return;
 
