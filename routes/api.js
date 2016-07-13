@@ -12,25 +12,41 @@ var Account = require('../models/account.js');
 router.get('/open_bid', function(req, res, next) {
 	console.log("open_bid " + JSON.stringify(req.query));
 	
-	Bid.open(req, res);
+	Bid.open().then(function(result){
+		_succeed(res, result);
+	}, function(error){
+		_failed(res, error);
+	})
 })
 
 router.get('/max_bid', function(req, res, next) {
 	console.log("max_bid " + JSON.stringify(req.query));
 	
-	Bid.max(req, res);
+	Bid.max().then(function(result){
+		_succeed(res, result);
+	}, function(error){
+		_failed(res, error);
+	})
 })
 
 router.get('/expire_ticket', function(req, res, next) {
 	console.log("expire_ticket " + JSON.stringify(req.query));
 	
-	Customer.expireTicket(req, res);
+	Customer.expireTicket().then(function(result){
+		_succeed(res, result);
+	}, function(error){
+		_failed(res, error);
+	})
 })
 
 router.get('/rank', function(req, res, next) {
 	console.log("rank " + JSON.stringify(req.query));
 	
-	Rank.rank(req, res);
+	Rank.rank().then(function(result){
+		_succeed(res, result);
+	}, function(error){
+		_failed(res, error);
+	})
 })
 
 router.get('/egret_rt', function(req, res, next) {
