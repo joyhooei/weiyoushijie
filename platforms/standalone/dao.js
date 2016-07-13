@@ -427,14 +427,10 @@ module.exports = function() {
 			if (filters) {
 				if (filters.limit) {
 					query.limit(filters.limit);
-				} else {
-					query.limit(1000);
 				}
 
 				if (filters.offset) {
 					query.skip(filters.offset);
-				} else {
-					query.skip(0);
 				}
 
 				if (filters.order) {
