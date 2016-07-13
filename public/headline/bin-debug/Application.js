@@ -2,7 +2,7 @@ var application;
 (function (application) {
     application.saveSeconds = 0;
     application.ticks = 0;
-    application.version = '1.6.1';
+    application.version = '1.6.2';
     application.token = "";
     function init(main) {
         application.main = main;
@@ -303,6 +303,7 @@ var application;
         var order = { customer_id: application.customer.id, product: product, price: price, state: 0 };
         application.dao.save("Order", order, function (succeed, o) {
             if (succeed) {
+                application.saveCustomerNow();
                 application.channel.pay({ goodsId: gid, goodsName: gid, goodsNumber: "1", money: price, orderId: o.id }).then(function (data) {
                 }, function (error) {
                     Toast.launch(error);

@@ -5,6 +5,12 @@ var ChannelHuHuH5 = (function (_super) {
         this.loadjs('http://server.huhuh5.com:8081/3HGame/jsFile/h5Game.js');
     }
     var d = __define,c=ChannelHuHuH5,p=c.prototype;
+    p.openScreen = function (stage) {
+        h5Game.openScreen(false);
+    };
+    p.setOpenScreenProgress = function (progress, total, title) {
+        h5Game.progress(progress, total, title);
+    };
     p.login = function () {
         var self = this;
         window['loginCallBcak'] = function (userId, userName, userImage, userPosition, token) {
@@ -56,8 +62,10 @@ var ChannelHuHuH5 = (function (_super) {
         switch (category) {
             case TRACK_CATEGORY_PLAYER:
                 if (action == TRACK_ACTION_ENTER) {
+                    h5Game.gameStart();
                 }
                 else {
+                    h5Game.setGameStatus();
                 }
                 return;
             case TRACK_CATEGORY_DIAMOND:

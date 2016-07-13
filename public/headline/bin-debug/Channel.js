@@ -73,6 +73,18 @@ var Channel = (function () {
         }
         this._deferred = null;
     };
+    p.openScreen = function (stage) {
+        this._loadingUI = new LoadingUI();
+        stage.addChild(this._loadingUI);
+    };
+    p.setOpenScreenProgress = function (progress, total, title) {
+        this._loadingUI.setProgress(progress, total);
+        if (progress == total) {
+            if (this._loadingUI.parent) {
+                this._loadingUI.parent.removeChild(this._loadingUI);
+            }
+        }
+    };
     p.login = function () {
         return this.rejectedPromise();
     };

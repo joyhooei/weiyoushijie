@@ -11,7 +11,7 @@ module.exports.open = function() {
 				bid.set("succeed", 1);
 				bid.save().then(function(b) {
 					console.log(b.get("customer_id") + "获得了" + today + "的头条");
-					resolve();
+					resolve(b.get("customer_id") + "获得了" + today + "的头条");
 				}, function(error){
 					console.error(error.message);
 					reject(error.message);

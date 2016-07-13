@@ -10,7 +10,7 @@ module.exports.expireTicket = function() {
 	        var expiredCustomers = [];
 	        
 	        _.each(customers, function(customer){
-	            if (moment(customer.get('ticket')) < now) {
+	            if (moment(new Date(customer.get('ticket'))) < now) {
 	                customer.set('vip', 0);
 	                customer.set('ticket', '');
 	                expiredCustomers.push(customer);
@@ -19,15 +19,17 @@ module.exports.expireTicket = function() {
 	        
 	        if (expiredCustomers.length > 0) {
 				AV.Object.saveAll(expiredCustomers).then(function(){
-					resolve("expireTicket " + expiredCustomers.length);
+					resolve(expiredCustomers.length);
 				}, function(error) {
 					console.error(error.message);
 					reject(error.message);
 				});
 			} else {
+				console.error("expireTicket " + expiredCustomers.length);
 				reject("expireTicket " + expiredCustomers.length);
 			}
 	    }, function(error) {
+	    	console.error(error.message);
 	        reject(error.message);
 	    });
 	});

@@ -8,12 +8,13 @@ var Bid = require('../models/bid');
 var Order = require('../models/order');
 var Rank = require('../models/rank.js');
 var Account = require('../models/account.js');
+var Maxbid = require('../models/maxbid.js');
 
 router.get('/open_bid', function(req, res, next) {
 	console.log("open_bid " + JSON.stringify(req.query));
 	
 	Bid.open().then(function(result){
-		_succeed(res, result);
+		_succeed(res, "open_bid succeed " + result);
 	}, function(error){
 		_failed(res, error);
 	})
@@ -22,8 +23,8 @@ router.get('/open_bid', function(req, res, next) {
 router.get('/max_bid', function(req, res, next) {
 	console.log("max_bid " + JSON.stringify(req.query));
 	
-	Bid.max().then(function(result){
-		_succeed(res, result);
+	Maxbid.max().then(function(result){
+		_succeed(res, "max_bid succeed " + result);
 	}, function(error){
 		_failed(res, error);
 	})
@@ -33,7 +34,7 @@ router.get('/expire_ticket', function(req, res, next) {
 	console.log("expire_ticket " + JSON.stringify(req.query));
 	
 	Customer.expireTicket().then(function(result){
-		_succeed(res, result);
+		_succeed(res, "expire_ticket succeed " + result);
 	}, function(error){
 		_failed(res, error);
 	})
@@ -43,7 +44,7 @@ router.get('/rank', function(req, res, next) {
 	console.log("rank " + JSON.stringify(req.query));
 	
 	Rank.rank().then(function(result){
-		_succeed(res, result);
+		_succeed(res, "rank succeed " + result);
 	}, function(error){
 		_failed(res, error);
 	})

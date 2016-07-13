@@ -185,7 +185,9 @@ module.exports = function() {
 				token: {type: String, default: ""},
 				role: {type: Number, default: 1},
 				customer_id: String,
+				game: String
 			}, {
+				game: 1,
 				customer_id: 1
 			});
 
@@ -194,8 +196,10 @@ module.exports = function() {
 				day: String,
 				gold: Number,
 				succeed: {type: Number, default: 0},
-				claimed: {type: Number, default: 0}
+				claimed: {type: Number, default: 0},
+				game: String
 			}, {
+				game: 1,
 				day: 1,
 				customer_id: 1
 			});
@@ -203,7 +207,9 @@ module.exports = function() {
 			self.addModel("Blacklist", {
 				customer_id: String,
 				reason: {type: String, default: ""},
+				game: String
 			}, {
+				game: 1,
 				customer_id: 1
 			});
 
@@ -239,14 +245,18 @@ module.exports = function() {
 				output: {type: Number, default: 1},
 				
 				channel_data: String,
+
+				game: String
 			}, {
+				game: 1,
 				uid: 1
 			});
 
 			self.addModel("Game", {
 				version: String,
 				code_url: String,
-				update_url: String
+				update_url: String,
+				game: String
 			});
 			
 			self.addModel("Gift", {
@@ -257,8 +267,10 @@ module.exports = function() {
 				diamond: Number,
 				locked:  {type: Number, default: 1},
 				data: String,
-				last_pick_day: String
+				last_pick_day: String,
+				game: String
 			}, {
+				game: 1,
 				customer_id: 1,
 				category: 1
 			});
@@ -268,8 +280,10 @@ module.exports = function() {
 				name: String,
 				avatar: String,
 				gold: Number,
-				day: String
+				day: String,
+				game: String
 			}, {
+				game: 1,
 				day: 1
 			});
 			
@@ -279,7 +293,8 @@ module.exports = function() {
 				content: String,
 				attach_category:  {type: String, default: "none"},
 				attach_quantity:  {type: Number, default: 0},
-				state:  {type: Number, default: 0}
+				state:  {type: Number, default: 0},
+				game: String
 			});
 
 			self.addModel("Order", {
@@ -287,7 +302,8 @@ module.exports = function() {
 				product: String,
 				price: Number,
 				state:  {type: Number, default: 0},
-				reason: String
+				reason: String,
+				game: String
 			});
 
 			self.addModel("Project", {
@@ -296,20 +312,29 @@ module.exports = function() {
 				level: {type: Number, default: 1},
 				achieve: {type: Number, default: 0},
 				tool_ratio: {type: Number, default: 1},
-				unlocked: {type: Number, default: 0}
+				unlocked: {type: Number, default: 0},
+				game: String
 			}, {
+				game: 1,
 				customer_id: 1,
 				sequence: 1
 			});
 
 			self.addModel("Rank", {
 				customer_id: String,
-				rank: Number
+				rank: Number,
+				game: String
+			}, {
+				game: 1,
+				customer_id: 1,
+				rank: 1
 			});
+
 			self.addModel("Report", {
 				customer_id: String,
 				content: String,
-				state:  {type: Number, default: 0}
+				state:  {type: Number, default: 0},
+				game: String
 			});
 
 			require('./cloud');
@@ -331,8 +356,6 @@ module.exports = function() {
 	
 	this.addModel = function(className, schema, uniques) {
 		try {
-			schema.game = String;				
-			
 			var ModelSchema = new mongoose.Schema(schema, { timestamps: {} });			
 			if (uniques) {
 				uniques.game = 1;
@@ -425,6 +448,13 @@ module.exports = function() {
 					conditions._id = conditions.id;
 					delete conditions.id;
 				}
+
+				_.each(conditions, function(v, k){
+					if (_.isArray(v)) {
+
+						conditions[k] = { $in: v };
+					}
+				})
 				
 				var query = clazz.find(conditions);
 			} else {
