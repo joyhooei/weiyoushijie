@@ -29,6 +29,7 @@ block main
 							th 充值
 							th vip
 							th 秒产
+							th 上次登录
 					tbody
 						- each customer in customers
 							tr
@@ -41,3 +42,4 @@ block main
 								td= customer.get('charge')
 								td= customer.get('vip')
 								td= customer.get('output')
+								td= customer.get('last_login')
