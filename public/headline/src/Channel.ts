@@ -39,6 +39,8 @@ class Channel {
 	
     private _deferred: Q.Deferred<any>;
     private _standalone: boolean;
+    
+    private _loadingUI: LoadingUI;
 	
 	constructor(standalone:boolean) {
 		this._deferred = null;
@@ -88,6 +90,21 @@ class Channel {
         }
 
         this._deferred = null;
+    }
+    
+    public openScreen(stage:egret.Stage): void {
+    	this._loadingUI = new LoadingUI();
+        stage.addChild(this._loadingUI);
+    }
+    
+    public setOpenScreenProgress(progress:number, total:number, title:string): void {
+    	this._loadingUI.setProgress(progress, total);
+    	
+    	if (progress == total) {
+    		if( this._loadingUI.parent ){
+                this._loadingUI.parent.removeChild( this._loadingUI );
+            }
+    	}
     }
     
     public login(): Q.Promise<any> {
