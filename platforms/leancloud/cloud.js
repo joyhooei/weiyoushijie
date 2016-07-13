@@ -22,19 +22,35 @@ AV.Cloud.afterSave("Bid", function(request, response) {
 });
 
 AV.Cloud.define('open_bid', function(request, response) {
-	Bid.open(request, response);
+	Bid.open().then(function(result){
+		response.success(result);
+	}, function(error){
+		response.error(error);
+	});
 });
 
 AV.Cloud.define('max_bid', function(request, response) {
-	Bid.max(request, response);
+	Bid.max().then(function(result){
+		response.success(result);
+	}, function(error){
+		response.error(error);
+	});
 });
 
 AV.Cloud.define('expire_ticket', function(request, response) {
-	Customer.expireTicket(request, response);
+	Customer.expireTicket().then(function(result){
+		response.success(result);
+	}, function(error){
+		response.error(error);
+	});
 });
 
 AV.Cloud.define('rank', function(request, response) {
-	Rank.rank(request, response);
+	Rank.rank().then(function(result){
+		response.success(result);
+	}, function(error){
+		response.error(error);
+	});
 });
 
 module.exports = AV.Cloud;
