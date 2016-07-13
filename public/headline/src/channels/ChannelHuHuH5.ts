@@ -7,6 +7,14 @@ class ChannelHuHuH5 extends Channel{
         this.loadjs('http://server.huhuh5.com:8081/3HGame/jsFile/h5Game.js');
     }
     
+    public openScreen(): void {
+    	h5Game.openScreen (false);
+    }
+    
+    public setOpenScreenProgress(progress:number, total:number, title:string): void {
+    	h5Game.progress(progress, total, title);
+    }
+    
     public login(): Q.Promise<any> {
         let self = this;
 
