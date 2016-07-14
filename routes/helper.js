@@ -71,7 +71,7 @@ module.exports.queryModel = function(query, modelName, restfulName, req, res){
 };
 
 module.exports.listModel = function(modelClass, modelName, restfulName, req, res){
-	var query = dao.find(modelClass, {}, {order: 'update_time DESC'});
+	var query = dao.find(modelClass, {game: req.query.game}, {order: 'update_time DESC'});
 	_queryModel(query, modelName, restfulName, req, res);
 };
 
