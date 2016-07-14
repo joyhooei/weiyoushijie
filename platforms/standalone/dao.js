@@ -350,7 +350,9 @@ module.exports = function() {
 		const MongoStore = require('connect-mongo')(session);
 		app.use(session({
 		    secret: 'supernova',
-		    store: new MongoStore({ mongooseConnection: mongoose.connection })
+		    store: new MongoStore({ mongooseConnection: mongoose.connection }),
+		    resave: true, 
+		    saveUninitialized: true
 		}));
 	}
 	
