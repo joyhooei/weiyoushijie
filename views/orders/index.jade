@@ -33,4 +33,4 @@ block main
 									a(href="/customers/#{order.get('customer_id')}") #{order.get('customer_id')}
 								td= order.get('price')
 								td= order.get('product')
-								td= order.get('update_time')
+								td= order.updatedAt
