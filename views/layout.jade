@@ -1,72 +1,72 @@
 extends ./base_layout.jade
 
 block header
-  a(class="btn btn-navbar", data-toggle="collapse", data-target=".top-nav.nav-collapse,.sidebar-nav.nav-collapse")
-    span.icon-bar
-    span.icon-bar
-    span.icon-bar
+    a(class="btn btn-navbar", data-toggle="collapse", data-target=".top-nav.nav-collapse,.sidebar-nav.nav-collapse")
+        span.icon-bar
+        span.icon-bar
+        span.icon-bar
 
-  a(class="brand", href="/")
-    | 微游世界
+    a(class="brand", href="/")
+        | 微游世界
 
-  div(class="nav-no-collapse header-nav")
-    ul(class="nav pull-right")
-      li(class="dropdown")
-        a(class="btn dropdown-toggle", data-toggle="dropdown", href="#")
-          i(class="halflings-icon white user")
-          span= locals.username
-          span.caret
+    div(class="nav-no-collapse header-nav")
+        ul(class="nav pull-right")
+            li(class="dropdown")
+                a(class="btn dropdown-toggle", data-toggle="dropdown", href="#")
+                    i(class="halflings-icon white user")
+                    span= locals.username
+                    span.caret
         ul.dropdown-menu
-          li.dropdown-menu-title
-            span 账号
-          li
-            a(href="/pass")
-              i(class="halflings-icon change")
-              |  修改密码
-          li
-            a(href="/logout")
-              i(class="halflings-icon off")
-              |  注销
+            li.dropdown-menu-title
+                span 账号
+            li
+                a(href="/pass")
+                    i(class="halflings-icon change")
+                    |  修改密码
+            li
+                a(href="/logout")
+                    i(class="halflings-icon off")
+                    |  注销
 
 block content 
-  <!-- start: Main Menu -->
-  div#sidebar-left.span2
-    div(class="nav-collapse sidebar-nav")
-      ul(class="nav nav-tabs nav-stacked main-menu")
-        li
-          a(href="/")
-            i.icon-bar-chart
-            span.hidden-tablet 面板
-        li
-            a(class="dropmenu", href="#")
-                i.icon-folder-close-alt
-                span.hidden-tablet 头条关注
-            ul(style="display: none;")
-                li
-                  a(href="/customers?game=headline")
+    <!-- start: Main Menu -->
+    div#sidebar-left.span2
+        div(class="nav-collapse sidebar-nav")
+          ul(class="nav nav-tabs nav-stacked main-menu")
+            li
+                a(href="/")
                     i.icon-bar-chart
-                    span.hidden-tablet 玩家
-                li
-                  a(href="/orders?game=headline")
-                    i.icon-bar-chart
-                    span.hidden-tablet 订单
-                li
-                  a(href="/messages?game=headline")
-                    i.icon-bar-chart
-                    span.hidden-tablet 消息
-                li
-                  a(href="/blacks?game=headline")
-                    i.icon-bar-chart
-                    span.hidden-tablet 黑名单
+                    span.hidden-tablet 面板
+            li
+                a(class="dropmenu", href="#")
+                    i.icon-folder-close-alt
+                    span.hidden-tablet 头条关注
+                ul(style="display: none;")
+                    li
+                        a(href="/customers?game=headline")
+                            i.icon-bar-chart
+                            span.hidden-tablet 玩家
+                    li
+                        a(href="/orders?game=headline")
+                            i.icon-bar-chart
+                            span.hidden-tablet 订单
+                    li
+                        a(href="/messages?game=headline")
+                            i.icon-bar-chart
+                            span.hidden-tablet 消息
+                    li
+                        a(href="/blacks?game=headline")
+                            i.icon-bar-chart
+                            span.hidden-tablet 黑名单
             
-  <!-- end: Main Menu -->
+    <!-- end: Main Menu -->
       
-  <!-- start: Content -->
-  div#content.span10
-    block main
-  <!-- start: Content -->
+    <!-- start: Content -->
+    div#content.span10
+        block main
+    <!-- start: Content -->
   
 block footer
-  p
-    span(style={"text-align":left,float:left}) 版权 2015 
-    a(href="", alt="") 微游世界
+    p
+        span(style={"text-align":left,float:left}) 版权 2015 
+        a(href="", alt="") 微游世界
