@@ -10,7 +10,7 @@ module.exports.open = function() {
 	    	if (bids.length > 0) {
 	    		var promises = [];
 	    		for(var i = 0; i < bids.length; i++) {
-	    			let r = i + 1;
+	    			var r = i + 1;
 	    			
 					var bid = bids[i];
 					bid.set("succeed", r);
