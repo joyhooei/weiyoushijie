@@ -17,11 +17,7 @@ class LandingUI extends eui.Component {
         	if (notifications.length > 0) {
         		let notification = notifications[0];
         		application.showUI(new NotificationUI(notification, function(){
-        			if (notification.reboot) {
-        				window.location.reload(false); 
-        			} else {
-        				self.btnLogin.visible = true;
-        			}
+        			self.btnLogin.visible = true;
         		}), self);	
         	} else {
         		self.btnLogin.visible = true;
