@@ -1,17 +1,37 @@
 var Gift = require('./gift');
+var Message = require('./message');
 
 module.exports.open = function() {
 	return Q.Promise(function(resolve, reject, notify) {
 		var dt = new Date();
 		var today = dt.getFullYear() + "/" + (dt.getMonth() + 1) + "/" + dt.getDate();
 	
-		dao.find("Bid", {'day': today, 'game': 'headline'}, {'order': 'gold DESC', 'limit': 1}).then(function(bids){
+		dao.find("Bid", {'day': today, 'game': 'headline'}, {'order': 'gold DESC', 'limit': 10}).then(function(bids){
 	    	if (bids.length > 0) {
-				var bid = bids[0];
-				bid.set("succeed", 1);
-				bid.save().then(function(b) {
-					console.log(b.get("customer_id") + "获得了" + today + "的头条");
-					resolve(b.get("customer_id") + "获得了" + today + "的头条");
+	    		var promises = [];
+	    		for(var i = 0; i < bids.length; i++) {
+	    			let r = i + 1;
+	    			
+					var bid = bids[i];
+					bid.set("succeed", r);
+					promises.push(bid.save());
+					
+					if (r == 1) {
+						var metal = 1;
+					} else if (r == 2) {
+						var metal = 0.5;
+					} else if (r == 3) {
+						var metal = 0.4;
+					} else if (r == 4) {
+						var metal = 0.3;
+					} else {
+						var metal = 0.2;
+					}
+					promises.push(Message.send(bid.get("customer_id"), "拍卖奖励", today + "拍卖，您是第" + r.toString() + '名，请领取勋章奖励，谢谢参与！', "metal", metal));
+	    		}
+	    		
+	    		Q.all(promises).then(function(results) {
+					resolve();
 				}, function(error){
 					console.error(error.message);
 					reject(error.message);
