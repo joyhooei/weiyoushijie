@@ -106,6 +106,8 @@ module.exports = function() {
 		this.addModel("MaxBid");
 		this.addModel("Message");
 		
+		this.addModel("Notification");
+		
 		this.addModel("Order");
 		
 		this.addModel("Project");
@@ -165,4 +167,8 @@ module.exports = function() {
 	this.saveAll = function(objs) {
 		return AV.Object.saveAll(objs);
 	}
+	
+	this.destroyAll = function(objs) {
+		return AV.Object.destroyAll(objs);
+	}	
 };
