@@ -236,16 +236,17 @@ module application {
     }
     
     export function earnBids(): void {
-		application.dao.fetch("Bid", {customer_id: application.customer.id, succeed: 1, claimed: 0}, {}, function(succeed, bids){
+		application.dao.fetch("Bid", {customer_id: application.customer.id, succeed: {$gte:1}, claimed: 0}, {}, function(succeed, bids){
 			if (succeed && bids.length > 0) {
 				for(var i = 0; i < bids.length; i++) {
 					application.customer.gold -= bids[i].gold;
-					application.customer.diamond += 2000;
+					if (bids[i].rank == 1) {
+						application.customer.diamond += 2000;
+						application.channel.track(TRACK_CATEGORY_DIAMOND, TRACK_ACTION_INC, "拍卖头名", 2000); 
+					}
 
 					bids[i].claimed = 1;
 					application.dao.save("Bid", bids[i]);
-                    
-                    application.channel.track(TRACK_CATEGORY_DIAMOND, TRACK_ACTION_INC, "拍卖头名", 2000); 
 				}
 				
 				application.saveCustomerNow();
