@@ -212,15 +212,7 @@ module application {
         }
         
     }
-	
-	export function delay(cb: Function, miniseconds: number) {
-		var timer: egret.Timer = new egret.Timer(miniseconds, 1);
-		timer.addEventListener(egret.TimerEvent.TIMER,function(event: egret.TimerEvent) {
-			cb();
-		},this);
-		timer.start();	
-	}
-    
+
     export function bidDay(): string {
 		//中午12点开标，所以12点之后的投标算明天的
 		var dt = new Date();
@@ -248,7 +240,6 @@ module application {
 			if (succeed && bids.length > 0) {
 				for(var i = 0; i < bids.length; i++) {
 					application.customer.gold -= bids[i].gold;
-					application.customer.metal++;
 					application.customer.diamond += 2000;
 
 					bids[i].claimed = 1;
@@ -568,46 +559,6 @@ module application {
         }
         
         return ui;
-    }
-   
-    export function format(d:number): string {
-		try {
-			if (d <= 99999) {
-				return new Number(d).toFixed();
-			}
-        
-			let unit:string  = "";		
-			for (var i = 0; i < application.units.length; i++) {
-				if (d < 10) {
-                    return new Number(d).toFixed(2) + unit;
-				} else if (d < 100) {
-                    return new Number(d).toFixed(1) + unit;
-				} else if (d < 1000) {
-                    return new Number(d).toFixed() + unit;
-				} else {
-					unit = application.units[i];
-					d = d / 1000;
-				}
-			}
-			
-            return new Number(d).toFixed() + unit;
-		} catch (error) {
-            console.error("format " + d + " error " + error.message);
-			
-			return "0";
-		}
-    }
-    
-    export function log10(d:number):number {
-        let result:number = 0;
-        
-        //可能出现9.9999999e+25的情况
-        while(d >= 9) {
-            result += 1;
-            d = d / 10;
-        }
-        
-        return result;
     }
 	
 	export function avatarUrl(customer: any): string {
