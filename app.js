@@ -39,14 +39,10 @@ app.use(favicon(__dirname + '/public/favicon.ico'));
 app.use(cookieParser());
 
 if (process.env.LC_APP_ID) {
-    var AV = require('leanengine');
-    app.use(AV.Cloud);
-}
-
-//    var DAO = require('./platforms/leancloud/dao');
-//} else {
+    var DAO = require('./platforms/leancloud/dao');
+} else {
     var DAO = require('./platforms/standalone/dao');
-//}
+}
 GLOBAL.dao = new DAO();
 GLOBAL.dao.initialize(app);
 
@@ -92,10 +88,10 @@ app.use('/projects', projects);
 
 app.use('/api', api);
 
-//if (!process.env.LC_APP_ID) {
+if (!process.env.LC_APP_ID) {
     var om = require('./routes/om');
     app.use('/om', om);
-//}
+}
 
 // Passport session setup.
 passport.serializeUser(function(user, done) {
