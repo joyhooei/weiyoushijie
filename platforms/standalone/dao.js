@@ -156,6 +156,14 @@ _.extend(Model.prototype, {
 			}
 		});
 	},
+	
+	destroy: function() {
+		var self = this;
+
+		return Q.Promise(function(resolve, reject, notify) {
+			self._obj.remove();
+		});
+	},
 
 	//创建对象前调用
 	beforeSave: function() {
@@ -542,7 +550,17 @@ module.exports = function() {
 		
 		return Q.all(promises);
 	};
-	
+
+	this.destroyAll = function(objs) {
+		var promises = [];
+		
+		for(var i = 0; i < objs.length; i++) {
+			promises.push(objs[i].destroy());
+		}
+		
+		return Q.all(promises);
+	};
+
 	this.clear = function(className) {
 		var claz = this[className];
 		
