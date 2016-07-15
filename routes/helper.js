@@ -175,8 +175,6 @@ module.exports.deleteModel = function(modelClass, restfulName, flash, req, res){
 					_redirect(restfulName, req, res);
 				});
 		}, function(err){
-			Audit.failed(req.user, 'delete', restfulName, req.params.id, err.message);
-					
 			req.flash('errors', { msg: err.message });
 
 			_redirect(restfulName, req, res);
