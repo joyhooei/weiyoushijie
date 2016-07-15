@@ -18,7 +18,7 @@ module.exports.expireTicket = function() {
 	        });
 	        
 	        if (expiredCustomers.length > 0) {
-				AV.Object.saveAll(expiredCustomers).then(function(){
+				dao.saveAll(expiredCustomers).then(function(){
 					resolve(expiredCustomers.length);
 				}, function(error) {
 					console.error(error.message);
