@@ -25,9 +25,14 @@ block main
 							th 内容
 							th 期限
 							th 动作
+							th
 					tbody
+						- var actions = ["继续", "重启动"]
 						- each notification in notifications
 							tr
 								td= notification.get('content')
 								td= notification.get('deadline')
-								td= notification.get('action')
+								td= actions[notification.get('action')]
+								td.center
+									a(class="rest btn btn-danger", href="/notifications/#{notification.id}", data-method="DELETE")
+										i(class="halflings-icon white trash")
