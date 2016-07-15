@@ -1,7 +1,7 @@
 var Gift = require('./gift');
 
 module.exports.pay = function(order) {
-	return new AV.Promise(function(resolve, reject){
+	return Q.Promise(function(resolve, reject, notify) {
 		dao.find("Order", {'customer_id': order.get("customer_id"), 'product': "Ticket", 'state': 1}).then(function(orders){
 			dao.get("Customer", order.get("customer_id")).then(function(customer){
 				var firstCharge = true;
