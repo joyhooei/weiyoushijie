@@ -92,10 +92,10 @@ app.use('/projects', projects);
 
 app.use('/api', api);
 
-if (!process.env.LC_APP_ID) {
+//if (!process.env.LC_APP_ID) {
     var om = require('./routes/om');
     app.use('/om', om);
-}
+//}
 
 // Passport session setup.
 passport.serializeUser(function(user, done) {
