@@ -2,7 +2,7 @@ class MessageDetailUI extends eui.Component {
     private imgOk: eui.Image;
     private lblContent: eui.Label;
 
-    constructor(notification:any, cb:Function) {
+    constructor(notification:any, cb?:Function) {
         super();
 
         this.addEventListener(eui.UIEvent.COMPLETE,function(){
@@ -11,9 +11,13 @@ class MessageDetailUI extends eui.Component {
             this.imgOk.addEventListener(egret.TouchEvent.TOUCH_TAP,() => {
                 application.hideUI(this);
                 
-                if (cb) {
-                    cb();
-                }
+                if (notification.action == 1) {
+        			window.location.reload(false);
+        		} else {
+                    if (cb) {
+                        cb();
+                    }
+        		}
             },this);
         },this);
         
