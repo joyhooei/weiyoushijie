@@ -21,18 +21,9 @@ block main
 					span.break
 					| 消息
 			div.box-content
-				if message.isNew()
-					- var action = "/messages?game=" + game
-				else
-					- var action = "/messages/" + message.id + "?game=" + game
+				- var action = "/messages/multicast?game=" + game
 				form(class="form-horizontal", action="#{action}", method="post")
 					fieldset
-						div(class="control-group", style="display:none")
-							label(class="control-label", for="customer_id") 玩家
-							div.controls
-								input(class="input-xlarge focused", id="customer_id" name="customer_id", type="text", value="#{message.get('customer_id')}")
-								<p class="help-block"></p>
-					
 						div.control-group
 							label(class="control-label", for="title") 标题
 							div.controls
@@ -61,7 +52,25 @@ block main
 								input(class="input-xlarge focused", id="attach_quantity", name="attach_quantity", type="number", value="#{message.get('attach_quantity')}")
 								<p class="help-block"></p>
 
+						div.control-group
+							label(class="control-label", for="offset") 起始
+							div.controls
+								input(class="input-xlarge focused", id="offset", name="offset", type="number", value="#{message.get('offset')}")
+								<p class="help-block"></p>
+
+						div.control-group
+							label(class="control-label", for="limit") 人数
+							div.controls
+								input(class="input-xlarge focused", id="limit", name="limit", type="number", value="#{message.get('limit')}")
+								<p class="help-block"></p>
+
+						div.control-group
+							label(class="control-label", for="name") 玩家名字
+							div.controls
+								input(class="input-xlarge focused", id="name", name="name", type="name", value="")
+								<p class="help-block"></p>
+
 						div.form-actions
 							button(type="submit", class="btn btn-primary") 发送
 							button.btn 
-								a(href="/messages?game=" + game) 取消
+								a(href="/messages") 取消

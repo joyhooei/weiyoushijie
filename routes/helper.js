@@ -102,12 +102,6 @@ module.exports.editModel = function(modelClass, modelName, restfulName, req, res
 };
 
 function _saveModel(model, modelName, restfulName, req, res, options) {
-	if (model.id) {
-		var operator = "update";
-	} else {
-		var operator = "create";
-	}	
-	
 	_.each(model.attributes, function(value, key) {
 		if (_.isNumber(value)) {
 			if (_.has(req.body, key)) {
@@ -125,7 +119,7 @@ function _saveModel(model, modelName, restfulName, req, res, options) {
 			console.error(modelName + " " + key + " has unused data type " + value);
 		}
 	});
-	
+
 	//防止req.body中有model中不存在的字段
 	_.each(req.body, function(value, key){
 		if (_.has(model.attributes, key) && _.isNumber(model.get(key))) {
@@ -134,10 +128,9 @@ function _saveModel(model, modelName, restfulName, req, res, options) {
 			model.set(key, value);
 		}
 	});
-	
-	model.save().then(function(m) {
-		Audit.succeed(req.user, operator, restfulName, model);
 
+	model.set("game", req.query.game);
+	model.save().then(function(m) {
 		_redirect(restfulName, req, res);
 	}, function(err){
 		req.flash('errors', { msg: err.message });
