@@ -274,6 +274,7 @@ function _encode(model, attrs) {
 };
 
 function _adjustBigNumber(attributes, toActual) {
+	/*
 	_.each(attributes, function(v, k){
 		if (toActual) {	
 			if (_.isNumber(v) && v >= 922337203685477580700) {
@@ -285,6 +286,7 @@ function _adjustBigNumber(attributes, toActual) {
 			}
 		}
 	});	
+	*/
 }
 
 function _succeed(res, data) {

@@ -24,7 +24,7 @@ module application {
     
     export var vip: Vip;
     
-    export var version: string = '1.6.2';
+    export var version: string = '2.1.1';
     
     export var token: string = "";
 

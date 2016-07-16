@@ -324,10 +324,6 @@ module.exports = function() {
 				customer_id: String,
 				rank: Number,
 				game: String
-			}, {
-				game: 1,
-				customer_id: 1,
-				rank: 1
 			});
 
 			self.addModel("Report", {
