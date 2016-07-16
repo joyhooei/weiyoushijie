@@ -1,5 +1,6 @@
 var crypto = require('crypto');
 var request = require('request');
+var Order = require('../models/order');
 
 module.exports.post = function(url, data) {
 	console.log("POST " + url + " " + JSON.stringify(data));
