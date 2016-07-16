@@ -170,7 +170,25 @@ router.post('/hits', function(req, res, next) {
 	});
 });
 
+router.post('/select_all/:model', function(req, res, next) {
+	console.log("select_all " + JSON.stringify(req.body));
+	
+	dao.findAll(req.params.model, req.body.conditions, req.body.filters).then(function(objs) {
+		var models = [];
+
+		for (var i = 0; i < objs.length; i++) {
+			models.push(_decode(objs[i]));
+		}
+		
+		_succeed(res, models);
+	}, function(error){
+		_failed(res, error);
+	});
+});
+
 router.post('/select/:model', function(req, res, next) {
+	console.log("select " + JSON.stringify(req.body));
+	
 	dao.find(req.params.model, req.body.conditions, req.body.filters).then(function(objs) {
 		var models = [];
 

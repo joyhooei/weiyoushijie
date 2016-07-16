@@ -169,85 +169,90 @@ _.extend(Model.prototype, {
 	},
 });
 
-function _query(query, offset, total) {
+function _query(query, offset, batch) {
 	return Q.Promise(function(resolve, reject, notify) {
 		query.skip(offset);
-		query.limit(1000);
+		query.limit(batch);
 		query.exec(function(err, objs){
-			try {
-				resolve(objs);
-			} catch (err) {
-				console.error("_query " + err.message);
+			if (err) {
+				console.error("_query failed " + err.message);
 				reject(err);
+			} else {
+				console.log("_query result " + objs.length);
+				resolve(objs);
 			}
 		});
 	});		
 }
 
 function _buildQuery(clazz, conditions, filters) {
-	if (conditions) {
-		if (conditions.id) {
-			conditions._id = conditions.id;
-			delete conditions.id;
-		}
-
-		_.each(conditions, function(v, k){
-			if (_.isArray(v)) {
-
-				conditions[k] = { $in: v };
+	try {
+		if (conditions) {
+			if (conditions.id) {
+				conditions._id = conditions.id;
+				delete conditions.id;
 			}
-		})
-		
-		var query = clazz.find(conditions);
-	} else {
-		var query = clazz.find();
-	}
 
-	if (filters) {
-		if (filters.limit) {
-			query.limit(filters.limit);
-		}
+			_.each(conditions, function(v, k){
+				if (_.isArray(v)) {
 
-		if (filters.offset) {
-			query.skip(filters.offset);
+					conditions[k] = { $in: v };
+				}
+			})
+			
+			var query = clazz.find(conditions);
 		} else {
-			query.skip(0);
-		}
-		
-		if (filters.select) {
-			query.select(filters.select);
+			var query = clazz.find();
 		}
 
-		if (filters.order) {
-			var sort = {};
-			var orders = filters.order.split(",");
-			for(var i = 0; i < orders.length; i++) {
-				var kv = orders[i].trim().split(" ");
-				if (kv.length == 2) {
-					var k = kv[0].trim();
-					var v = kv[1].trim();
+		if (filters) {
+			if (filters.limit) {
+				query.limit(filters.limit);
+			}
 
-					if (k ==  "create_time") {
-						var name = "createdAt";
-					} else if (k == "update_time") {
-						var name = "updatedAt";
-					} else {
-						var name = k;
-					}
+			if (filters.offset) {
+				query.skip(filters.offset);
+			} else {
+				query.skip(0);
+			}
+			
+			if (filters.select) {
+				query.select(filters.select);
+			}
 
-					if (v.toUpperCase() == "ASC") {
-						sort[name] = 1;
-					} else {
-						sort[name] = -1;
+			if (filters.order) {
+				var sort = {};
+				var orders = filters.order.split(",");
+				for(var i = 0; i < orders.length; i++) {
+					var kv = orders[i].trim().split(" ");
+					if (kv.length == 2) {
+						var k = kv[0].trim();
+						var v = kv[1].trim();
+
+						if (k ==  "create_time") {
+							var name = "createdAt";
+						} else if (k == "update_time") {
+							var name = "updatedAt";
+						} else {
+							var name = k;
+						}
+
+						if (v.toUpperCase() == "ASC") {
+							sort[name] = 1;
+						} else {
+							sort[name] = -1;
+						}
 					}
 				}
+
+				query.sort(sort);
 			}
-
-			query.sort(sort);
 		}
-	}
 
-	return query;
+		return query;
+	} catch (error) {
+		console.error(error.message);
+	}
 }
 
 module.exports = function() {
@@ -422,7 +427,7 @@ module.exports = function() {
 		if (process.env.LC_APP_ID) {
 			var AV = require('leanengine');
 			app.use(AV.Cloud);
-			
+
 			var url = 'mongodb://weiyoushijie:weiyugame@ds023644.mlab.com:23644/weiyoushijie';
 		} else {
 			var url = 'mongodb://9b18dc67c08b4434bdf68b0c3ff45477:d35f2aa56b1b4806b9934950c3d89bea@mongo.bce.duapp.com:8908/gmkSqUizKEatLnvxuIcZ';
@@ -531,18 +536,20 @@ module.exports = function() {
 					console.error("findAll count failed " + error.message);
 					reject(error);					
 				} else {
-					var offset  = 0; 
+					var offset   = 0; 
+					var batch    = 1000;
 					var promises = [];
 					while (offset < total) {
-						promises.push(_query(query, offset, total));
+						var q = _buildQuery(clazz, conditions, filters);
+						promises.push(_query(q, offset, batch));
 
-						offset += 1000;
+						offset += batch;
 					}
 
 					if (promises.length > 0) {
 						Q.all(promises).then(function(results){
 							var objs = ([].concat.apply([], results));
-							resolve(self.decodeAll(objs));
+							resolve(self.decodeAll(className, objs));
 						}, function(error){
 							console.error("findAll Q.all failed " + error.message);
 							reject(error);
@@ -555,19 +562,19 @@ module.exports = function() {
 		});
 	}
 
-	this.decodeAll = function(objs) {
+	this.decodeAll = function(className, objs) {
 		var models = [];
 
 		for (var i = 0; i < objs.length; i++) {
 			models.push(this.new(className).decode(objs[i]).setNew(false));
-		}
-
+		} 
+ 
 		return models;
 	}
 	
 	this.find = function(className, conditions, filters){
 		var self = this;
-		
+
 		return Q.Promise(function(resolve, reject, notify) {
 			var clazz = self[className].class;
 			var query = _buildQuery(clazz, conditions, filters);
@@ -578,7 +585,7 @@ module.exports = function() {
 						console.error("query exec failed " + err.message);
 						reject(err);
 					} else {
-						resolve(self.decodeAll(objs));
+						resolve(self.decodeAll(className, objs));
 					}
 				} catch (err) {
 					console.error("query unkonw error " + err.message);
