@@ -169,6 +169,87 @@ _.extend(Model.prototype, {
 	},
 });
 
+function _query(query, offset, total) {
+	return Q.Promise(function(resolve, reject, notify) {
+		query.skip(offset);
+		query.limit(1000);
+		query.exec(function(err, objs){
+			try {
+				resolve(objs);
+			} catch (err) {
+				console.error("_query " + err.message);
+				reject(err);
+			}
+		});
+	});		
+}
+
+function _buildQuery(clazz, conditions, filters) {
+	if (conditions) {
+		if (conditions.id) {
+			conditions._id = conditions.id;
+			delete conditions.id;
+		}
+
+		_.each(conditions, function(v, k){
+			if (_.isArray(v)) {
+
+				conditions[k] = { $in: v };
+			}
+		})
+		
+		var query = clazz.find(conditions);
+	} else {
+		var query = clazz.find();
+	}
+
+	if (filters) {
+		if (filters.limit) {
+			query.limit(filters.limit);
+		}
+
+		if (filters.offset) {
+			query.skip(filters.offset);
+		} else {
+			query.skip(0);
+		}
+		
+		if (filters.select) {
+			query.select(filters.select);
+		}
+
+		if (filters.order) {
+			var sort = {};
+			var orders = filters.order.split(",");
+			for(var i = 0; i < orders.length; i++) {
+				var kv = orders[i].trim().split(" ");
+				if (kv.length == 2) {
+					var k = kv[0].trim();
+					var v = kv[1].trim();
+
+					if (k ==  "create_time") {
+						var name = "createdAt";
+					} else if (k == "update_time") {
+						var name = "updatedAt";
+					} else {
+						var name = k;
+					}
+
+					if (v.toUpperCase() == "ASC") {
+						sort[name] = 1;
+					} else {
+						sort[name] = -1;
+					}
+				}
+			}
+
+			query.sort(sort);
+		}
+	}
+
+	return query;
+}
+
 module.exports = function() {
 	this.initialize = function(app){
 		var self = this;
@@ -338,8 +419,12 @@ module.exports = function() {
 			console.log("connect mongodb succeed");
 		});
 		
-		//var url = 'mongodb://weiyoushijie:weiyugame@ds023644.mlab.com:23644/weiyoushijie';
-		var url = 'mongodb://9b18dc67c08b4434bdf68b0c3ff45477:d35f2aa56b1b4806b9934950c3d89bea@mongo.bce.duapp.com:8908/gmkSqUizKEatLnvxuIcZ';
+		if (process.env.LC_APP_ID) {
+			var url = 'mongodb://weiyoushijie:weiyugame@ds023644.mlab.com:23644/weiyoushijie';
+		} else {
+			var url = 'mongodb://9b18dc67c08b4434bdf68b0c3ff45477:d35f2aa56b1b4806b9934950c3d89bea@mongo.bce.duapp.com:8908/gmkSqUizKEatLnvxuIcZ';
+		}
+		
 		mongoose.connect(url, {db: {w: 1}});
 		
 		const session    = require('express-session');
@@ -432,7 +517,49 @@ module.exports = function() {
 	}
 	
 	this.findAll = function(className, conditions, filters) {
-		return this.find(className, conditions. filters);
+		var self = this;
+		
+		return Q.Promise(function(resolve, reject, notify) {
+			var clazz = self[className].class;
+
+			var query = _buildQuery(clazz, conditions, filters);
+			query.count(function(error, total) {
+				if (error) {
+					console.error("findAll count failed " + error.message);
+					reject(error);					
+				} else {
+					var offset  = 0; 
+					var promises = [];
+					while (offset < total) {
+						promises.push(_query(query, offset, total));
+
+						offset += 1000;
+					}
+
+					if (promises.length > 0) {
+						Q.all(promises).then(function(results){
+							var objs = ([].concat.apply([], results));
+							resolve(self.decodeAll(objs));
+						}, function(error){
+							console.error("findAll Q.all failed " + error.message);
+							reject(error);
+						});
+					} else {
+						resolve([]);
+					}
+				}
+			});
+		});
+	}
+
+	this.decodeAll = function(objs) {
+		var models = [];
+
+		for (var i = 0; i < objs.length; i++) {
+			models.push(this.new(className).decode(objs[i]).setNew(false));
+		}
+
+		return models;
 	}
 	
 	this.find = function(className, conditions, filters){
@@ -440,82 +567,18 @@ module.exports = function() {
 		
 		return Q.Promise(function(resolve, reject, notify) {
 			var clazz = self[className].class;
-
-			if (conditions) {
-				if (conditions.id) {
-					conditions._id = conditions.id;
-					delete conditions.id;
-				}
-
-				_.each(conditions, function(v, k){
-					if (_.isArray(v)) {
-
-						conditions[k] = { $in: v };
-					}
-				})
-				
-				var query = clazz.find(conditions);
-			} else {
-				var query = clazz.find();
-			}
-
-			if (filters) {
-				if (filters.limit) {
-					query.limit(filters.limit);
-				}
-
-				if (filters.offset) {
-					query.skip(filters.offset);
-				}
-				
-				if (filters.select) {
-					query.select(filters.select);
-				}
-
-				if (filters.order) {
-					var sort = {};
-					var orders = filters.order.split(",");
-					for(var i = 0; i < orders.length; i++) {
-						var kv = orders[i].trim().split(" ");
-						if (kv.length == 2) {
-							var k = kv[0].trim();
-							var v = kv[1].trim();
-
-							if (k ==  "create_time") {
-								var name = "createdAt";
-							} else if (k == "update_time") {
-								var name = "updatedAt";
-							} else {
-								var name = k;
-							}
-
-							if (v.toUpperCase() == "ASC") {
-								sort[name] = 1;
-							} else {
-								sort[name] = -1;
-							}
-						}
-					}
-
-					query.sort(sort);
-				}
-			}
+			var query = _buildQuery(clazz, conditions, filters);
 		
 			query.exec(function(err, objs){
 				try {
 					if (err) {
+						console.error("query exec failed " + err.message);
 						reject(err);
 					} else {
-						var models = [];
-
-						for (var i = 0; i < objs.length; i++) {
-							models.push(self.new(className).decode(objs[i]).setNew(false));
-						}
-
-						resolve(models);
+						resolve(self.decodeAll(objs));
 					}
 				} catch (err) {
-					console.error("query " + err.message);
+					console.error("query unkonw error " + err.message);
 					reject(err);
 				}
 			});
