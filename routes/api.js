@@ -94,7 +94,7 @@ router.post(['/egret_pay', '/pay'], function(req, res, next) {
 	console.log("egret_pay " + JSON.stringify(req.body));
 	
 	_getChannel(req).pay(req.body).then(function(data){
-		_succeed(res, result);
+		_succeed(res, data);
 	}, function(data){
 		_failed(res, new Error(data));
 	});
