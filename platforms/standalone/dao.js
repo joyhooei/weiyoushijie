@@ -178,7 +178,6 @@ function _query(query, offset, batch) {
 				console.error("_query failed " + err.message);
 				reject(err);
 			} else {
-				console.log("_query result " + objs.length);
 				resolve(objs);
 			}
 		});
