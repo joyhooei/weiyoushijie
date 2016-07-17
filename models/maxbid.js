@@ -35,13 +35,13 @@ module.exports.max = function() {
 					
 					if (promises.length > 0) {
 						Q.all(promises).then(function(){
-							resolve(promises.length);
+							resolve(today);
 						}, function(error){
 							console.error("max " + error.message);
 					    	reject(error.message);							
 						})
 					} else {
-						resolve(0);
+						resolve(today);
 					}
 				}
 	    	} else {

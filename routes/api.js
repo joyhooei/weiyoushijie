@@ -41,8 +41,6 @@ router.get('/expire_ticket', function(req, res, next) {
 })
 
 router.get('/rank', function(req, res, next) {
-	console.log("rank " + JSON.stringify(req.query));
-	
 	Rank.rank().then(function(result){
 		_succeed(res, "rank succeed " + result);
 	}, function(error){
@@ -101,8 +99,6 @@ router.post(['/egret_pay', '/pay'], function(req, res, next) {
 })
 
 router.post('/login', function(req, res, next) {
-	console.log("login " + JSON.stringify(req.body));
-	
 	_getChannel(req).login(req.body).then(function(user){
 		dao.find("Customer", {uid: user.uid, "game": req.query.game}).then(function(customers){
 			var now = moment();
@@ -171,8 +167,6 @@ router.post('/hits', function(req, res, next) {
 });
 
 router.post('/select_all/:model', function(req, res, next) {
-	console.log("select_all " + JSON.stringify(req.body));
-	
 	dao.findAll(req.params.model, req.body.conditions, req.body.filters).then(function(objs) {
 		var models = [];
 
@@ -187,8 +181,6 @@ router.post('/select_all/:model', function(req, res, next) {
 });
 
 router.post('/select/:model', function(req, res, next) {
-	console.log("select " + JSON.stringify(req.body));
-	
 	dao.find(req.params.model, req.body.conditions, req.body.filters).then(function(objs) {
 		var models = [];
 
@@ -309,6 +301,9 @@ function _adjustBigNumber(attributes, toActual) {
 
 function _succeed(res, data) {
 	data = data || {};
+	if (_.isNumber(data)) {
+		data = data.toString();
+	}
 	res.status(200).send(data);
 };
 

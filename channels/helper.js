@@ -3,8 +3,6 @@ var request = require('request');
 var Order = require('../models/order');
 
 module.exports.post = function(url, data) {
-	console.log("POST " + url + " " + JSON.stringify(data));
-
 	return Q.Promise(function(resolve, reject, notify) { 
 		var options = {
 		    url: url,
@@ -14,11 +12,11 @@ module.exports.post = function(url, data) {
 		};
 
 		function callback(error, response, body) {
-			console.log("POST " + url + " " + error + " " + response.statusCode + " " + JSON.stringify(body));
-			
 		    if (!error && response.statusCode == 200) {
 		        resolve(body);
 		    } else {
+				console.error("POST " + url + " " + error + " " + response.statusCode + " " + JSON.stringify(body));
+			
 		    	reject(new Error(response.statusCode));
 		    }
 		}
@@ -28,8 +26,6 @@ module.exports.post = function(url, data) {
 }
 
 module.exports.get = function(url) {
-	console.log("GET " + url + " " + JSON.stringify(data));
-
 	return Q.Promise(function(resolve, reject, notify) { 
 		var options = {
 		    url: url,
@@ -38,11 +34,11 @@ module.exports.get = function(url) {
 		};
 
 		function callback(error, response, body) {
-			console.log("GET " + url + " " + error + " " + response.statusCode + " " + JSON.stringify(body));
-			
 		    if (!error && response.statusCode == 200) {
 		        resolve(body);
 		    } else {
+				console.error("GET " + url + " " + error + " " + response.statusCode + " " + JSON.stringify(body));
+			
 		    	reject(new Error(response.statusCode));
 		    }
 		}
