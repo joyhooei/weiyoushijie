@@ -443,7 +443,7 @@ module.exports = function() {
 			{
 				initialize: function(attributes){
 					var obj = new claz.class(attributes || {});
-					self.decodeOne(className, obj, true);
+					this.decode(obj).setNew(true);
 				},
 
 				getClass: function(){
