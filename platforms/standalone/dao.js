@@ -427,7 +427,8 @@ module.exports = function() {
 		    secret: 'supernova',
 		    store: new MongoStore({ mongooseConnection: mongoose.connection }),
 		    resave: true, 
-		    saveUninitialized: true
+		    saveUninitialized: true,
+		    expires: new Date(Date.now() + (86400 * 1000))
 		}));
 	}
 	
