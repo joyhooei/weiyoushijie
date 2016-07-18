@@ -3,11 +3,11 @@ var Project = require('./project');
 var Message = require('./message');
 var Rank = require('./rank');
 
-module.exports.expireTicket = function() {
+module.exports.expireTicket = function(game) {
 	return Q.Promise(function(resolve, reject, notify) {
 	    var now = moment();
 	    
-	    dao.find("Customer", {'vip': 1}, {order: 'update_time ASC'}).then(function(customers){
+	    dao.find("Customer", {'vip': 1, game:game}, {order: 'update_time ASC'}).then(function(customers){
 	        var expiredCustomers = [];
 	        
 	        _.each(customers, function(customer){
