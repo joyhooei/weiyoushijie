@@ -97,8 +97,8 @@ _.extend(Model.prototype, {
 
 		return Q.Promise(function(resolve, reject, notify) {
 			try {
-				_.each(self.attributes, function(v, k) {
-					self._obj[k] = v;
+				_.each(self.getSchema(), function(v, k) {
+					self._obj[k] = self.attributes[k];
 				});
 			
 				if (self.isNew()) {
