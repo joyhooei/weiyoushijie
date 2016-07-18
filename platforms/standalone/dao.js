@@ -70,6 +70,8 @@ _.extend(Model.prototype, {
 
 	set:function(key, val) {
 		var self = this;
+		
+		console.log(JSON.stringify(self.getSchema()));
 
 		try {
 			if (typeof key === 'object') {
