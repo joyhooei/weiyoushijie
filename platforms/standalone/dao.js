@@ -241,8 +241,6 @@ module.exports = function() {
 	this.initialize = function(app){
 		var self = this;
 
-		//mongoose.set('debug', true);
-		
 		var db = mongoose.connection;
 		db.on('error', console.error.bind(console, 'connection error:'));
 		db.once('open', function() {
@@ -411,6 +409,8 @@ module.exports = function() {
 			app.use(AV.Cloud);
 
 			var url = 'mongodb://weiyoushijie:weiyugame@ds023644.mlab.com:23644/weiyoushijie';
+			
+			mongoose.set('debug', true);
 		} else {
 			var url = 'mongodb://9b18dc67c08b4434bdf68b0c3ff45477:d35f2aa56b1b4806b9934950c3d89bea@mongo.bce.duapp.com:8908/gmkSqUizKEatLnvxuIcZ';
 		}
