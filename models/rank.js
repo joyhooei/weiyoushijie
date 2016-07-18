@@ -35,3 +35,12 @@ module.exports.rank = function() {
 		});	
 	});
 }
+
+module.exports.create = function(customer) {
+	dao.count("Customer", {}, {}),then(function(count){
+		var rank = new dao.Rank();
+		rank.set("customer_id", customer.id);
+		rank.set("rank", count);
+		rank.save();
+	})
+}
