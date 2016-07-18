@@ -4,6 +4,8 @@ module.exports.open = function(game, today) {
 	return Q.Promise(function(resolve, reject, notify) {
 		var dt = new Date();
 		today = today || (dt.getFullYear() + "/" + (dt.getMonth() + 1) + "/" + dt.getDate());
+		
+		console.log("open bid " + game + " " + today);
 	
 		dao.find("Bid", {'day': today, 'game': game}, {'order': 'gold DESC', 'limit': 1}).then(function(bids){
 	    	if (bids.length > 0) {
