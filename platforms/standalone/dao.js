@@ -106,36 +106,35 @@ _.extend(Model.prototype, {
 					self.beforeSave().then(function(){
 						self._obj.save(function(error){
 							if (error) {
-								console.error("save obj failed " + error.message);
+								console.error("save obj " + JSON.stringify(self.attributes) + " failed " + error.message);
 								
 								reject(error);
 							} else {
 								try {
 									self.afterSave();
 								} catch (error) {
-									console.error("afterSave obj failed " + error.message);
+									console.error("afterSave obj " + JSON.stringify(self.attributes) + " failed " + error.message);
 								}
 
 								resolve(self.decode(self._obj).setNew(false));
 							}
 						});
 					}, function(error){
-						console.error("beforeSave obj failed " + error.message);
+						console.error("beforeSave obj " + JSON.stringify(self.attributes) + " failed " + error.message);
 						reject(error);
 					})
 				} else {
 					self._obj.save(function(error){
 						if (error) {
-							console.error("save obj failed " + error.message);
+							console.error("save obj " + JSON.stringify(self.attributes) + " failed " + error.message);
 							reject(error);
 						} else {
 							resolve(self.decode(self._obj).setNew(false));
 						}
 					});	
 				}
-
 			} catch(error) {
-				console.error("save model failed " + error.message);
+				console.error("save model " + JSON.stringify(self.attributes) + " failed " + error.message);
 				reject(error);
 			}
 		});
@@ -402,7 +401,7 @@ module.exports = function() {
 
 			require('./cloud');
 
-			console.log("connect mongodb succeed");
+			console.log("connect mongodb succeed " + url);
 		});
 		
 		if (process.env.LC_APP_ID) {

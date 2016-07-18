@@ -1,4 +1,6 @@
 module.exports.rank = function(game) {
+	console.log("rank " + game);
+
 	return Q.Promise(function(resolve, reject, notify) {
 		dao.findAll("Rank", {"game":game}, {"order":"rank ASC"}).then(function (ranks){
 			dao.findAll("Customer", {"game":game}, {"order":"metal DESC, accumulated_gold DESC"}).then(function(customers){
@@ -37,7 +39,7 @@ module.exports.rank = function(game) {
 }
 
 module.exports.create = function(customer) {
-	dao.count("Customer", {}, {}),then(function(count){
+	dao.count("Customer", {}, {}).then(function(count){
 		var rank = new dao.Rank();
 		rank.set("customer_id", customer.id);
 		rank.set("rank", count);
