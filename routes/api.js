@@ -11,9 +11,9 @@ var Account = require('../models/account.js');
 var Maxbid = require('../models/maxbid.js');
 
 router.get('/open_bid', function(req, res, next) {
-	console.log("open_bid " + JSON.stringify(req.query));
+	var game = req.query.game || "headline";
 	
-	Bid.open().then(function(result){
+	Bid.open(game).then(function(result){
 		_succeed(res, "open_bid succeed " + result);
 	}, function(error){
 		_failed(res, error);
@@ -21,9 +21,9 @@ router.get('/open_bid', function(req, res, next) {
 })
 
 router.get('/max_bid', function(req, res, next) {
-	console.log("max_bid " + JSON.stringify(req.query));
-	
-	Maxbid.max().then(function(result){
+	var game  = req.query.game || "headline";
+	var today = req.query.today;
+	Maxbid.max(game, today).then(function(result){
 		_succeed(res, "max_bid succeed " + result);
 	}, function(error){
 		_failed(res, error);
@@ -31,9 +31,9 @@ router.get('/max_bid', function(req, res, next) {
 })
 
 router.get('/max_midnight', function(req, res, next) {
-	console.log("max_midnight " + JSON.stringify(req.query));
-	
-	Maxbid.midnight().then(function(result){
+	var game  = req.query.game || "headline";
+	var today = req.query.today;
+	Maxbid.midnight(game, today).then(function(result){
 		_succeed(res, "max_midnight succeed " + result);
 	}, function(error){
 		_failed(res, error);
@@ -41,9 +41,8 @@ router.get('/max_midnight', function(req, res, next) {
 })
 
 router.get('/expire_ticket', function(req, res, next) {
-	console.log("expire_ticket " + JSON.stringify(req.query));
-	
-	Customer.expireTicket().then(function(result){
+	var game = req.query.game || "headline";
+	Customer.expireTicket(game).then(function(result){
 		_succeed(res, "expire_ticket succeed " + result);
 	}, function(error){
 		_failed(res, error);
@@ -51,7 +50,8 @@ router.get('/expire_ticket', function(req, res, next) {
 })
 
 router.get('/rank', function(req, res, next) {
-	Rank.rank().then(function(result){
+	var game = req.query.game || "headline";
+	Rank.rank(game).then(function(result){
 		_succeed(res, "rank succeed " + result);
 	}, function(error){
 		_failed(res, error);
