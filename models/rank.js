@@ -41,6 +41,7 @@ module.exports.create = function(customer) {
 		var rank = new dao.Rank();
 		rank.set("customer_id", customer.id);
 		rank.set("rank", count);
+		rank.set("game", customer.get("game"));
 		rank.save();
 	})
 }
