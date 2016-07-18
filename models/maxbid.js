@@ -2,24 +2,40 @@ var Message = require('./message');
 
 module.exports.max = function() {
 	return Q.Promise(function(resolve, reject, notify) {
-		var dt = new Date();
-		if (dt.getHours() >= 12) {
-			dt = new Date(dt.getTime() + 24 * 60 * 60 * 1000);
-		}
+		var today = _today();
 	
-		var today = dt.getFullYear() + "/" + (dt.getMonth() + 1) + "/" + dt.getDate();
+		dao.find("Bid", {day: today, game: 'headline'}, {limit: 1, order: 'gold DESC'}).then(function(bids){
+	    	if (bids.length > 0) {
+	    		_updateMaxBid(bids[0]).then(function(){
+					resolve(today);
+				}, function(error){
+					console.error("max " + error.message);
+			    	reject(error.message);
+				})
+				}
+	    	} else {
+				console.log(today + "没有投标");
+	    		resolve(today + "没有投标");
+	    	}
+	    }, function(error){
+			console.error("max find bids " + error.message);
+	    	reject(error.message);
+	    });	
+	});
+}
+
+module.exports.midnight = function() {
+	return Q.Promise(function(resolve, reject, notify) {
+		var today = _today();
 	
 		dao.find("Bid", {day: today, game: 'headline'}, {limit: 100, order: 'gold DESC'}).then(function(bids){
-	    	if (bids.length > 0) {
+				var promises = [];
+					
 				for (var i = 0; i < bids.length; i ++) {
 					var bid = bids[i];
 					
-					var promises = [];
-					
 					var diamond = 500;
 					if (i == 0) {
-						promises.push(_updateMaxBid(bid));
-						
 						diamond = 2000;
 					} else if (i == 1) {
 						diamond = 1500;
@@ -29,30 +45,33 @@ module.exports.max = function() {
 						diamond = 1000;
 					}
 					
-					if ((dt.getHours() == 0 && dt.getMinutes() < 5) || (dt.getHours() == 23 && dt.getMinutes() > 55)) {
-						promises.push(Message.send(bid.get("customer_id"), "拍卖奖励", today + "凌晨0点，您的拍卖排行是第" + (i + 1).toString() + '名，获得额外奖励，谢谢参与！', "diamond", diamond));
-					}
-					
-					if (promises.length > 0) {
-						Q.all(promises).then(function(){
-							resolve(today);
-						}, function(error){
-							console.error("max " + error.message);
-					    	reject(error.message);							
-						})
-					} else {
-						resolve(today);
-					}
+					promises.push(Message.send(bid.get("customer_id"), "拍卖奖励", "凌晨0点，您的拍卖排行是第" + (i + 1).toString() + '名，获得额外奖励，谢谢参与！', "diamond", diamond));
 				}
-	    	} else {
-				console.error("没有投标");
-	    		reject("没有投标");
-	    	}
+				
+				if (promises.length > 0) {
+					Q.all(promises).then(function(){
+						resolve("midnight " + today + "=>" + promises.length);
+					}, function(error){
+						console.error("midnight send message failed " + error.message);
+				    	reject(error.message);
+					})
+				} else {
+					resolve("midnight " + today + "=>0");
+				}
 	    }, function(error){
-			console.error("max find bids " + error.message);
+			console.error("midnight find bids " + error.message);
 	    	reject(error.message);
 	    });	
 	});
+}
+
+function _today() {
+	var dt = new Date();
+	if (dt.getHours() >= 12) {
+		dt = new Date(dt.getTime() + 24 * 60 * 60 * 1000);
+	}
+
+	return dt.getFullYear() + "/" + (dt.getMonth() + 1) + "/" + dt.getDate();
 }
 
 function _updateMaxBid(bid) {
@@ -75,11 +94,11 @@ function _updateMaxBid(bid) {
 				maxbid.save().then(function(){
 					resolve();
 				}, function(error){
-					console.error("max save bid " + error.message);
+					console.error("_updateMaxBid save bid " + error.message);
 					reject(error.message);
 				});
 			}, function(error){
-				console.error("max get customer " + error.message);
+				console.error("_updateMaxBid get customer " + error.message);
 				reject(error.message);
 			});
 		});
