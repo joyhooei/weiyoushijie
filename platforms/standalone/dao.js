@@ -523,6 +523,24 @@ module.exports = function() {
 		});
 	}
 	
+	this.count = function(className, conditions, filters) {
+		var self = this;
+		
+		return Q.Promise(function(resolve, reject, notify) {
+			var clazz = self[className].class;
+
+			var query = _buildQuery(clazz, conditions, filters);
+			query.count(function(error, total) {
+				if (error) {
+					console.error("findAll count failed " + error.message);
+					reject(error);					
+				} else {
+					resolve(total);
+				}
+			});
+		});
+	}
+	
 	this.findAll = function(className, conditions, filters) {
 		var self = this;
 		
