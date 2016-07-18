@@ -74,8 +74,9 @@ _.extend(Model.prototype, {
 		try {
 			if (typeof key === 'object') {
 				_.each(self.getSchema(), function(v, k) {
-					console.log(k + "=" + key[k]);
-					self.attributes[k] = key[k];
+					if (_.has(key, k)) {
+						self.attributes[k] = key[k];
+					}
 				});
 				
 				console.log(JSON.stringify(self.attributes));
@@ -97,8 +98,9 @@ _.extend(Model.prototype, {
 		return Q.Promise(function(resolve, reject, notify) {
 			try {
 				_.each(self.getSchema(), function(v, k) {
-					console.log(k + "=" + v);
-					self._obj[k] = self.attributes[k];
+					if (_.has(self.attributes, k)) {
+						self._obj[k] = self.attributes[k];
+					}
 				});				
 			
 				if (self.isNew()) {
