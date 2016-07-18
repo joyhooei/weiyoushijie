@@ -1,17 +1,39 @@
 var Message = require('./message');
 
-module.exports.max = function() {
+module.exports.max = function(game, today) {
 	return Q.Promise(function(resolve, reject, notify) {
-		var today = _today();
+		today = today || _today();
 	
-		dao.find("Bid", {day: today, game: 'headline'}, {limit: 1, order: 'gold DESC'}).then(function(bids){
+		dao.find("Bid", {day: today, game: game}, {limit: 1, order: 'gold DESC'}).then(function(bids){
 	    	if (bids.length > 0) {
-	    		_updateMaxBid(bids[0]).then(function(){
-					resolve(today);
-				}, function(error){
-					console.error("max " + error.message);
-			    	reject(error.message);
-				})
+	    		var bid = bids[0];
+	    		
+				dao.find("MaxBid", {day: today, game:game}, {limit: 1}).then(function(mbs){
+					if (mbs.length > 0) {
+						var maxbid = mbs[0];
+					} else {
+						var maxbid = new dao.MaxBid();
+						maxbid.set("day",  today);
+						maxbid.set("game", game);
+					}
+			
+					maxbid.set("gold", bid.get("gold"));
+					maxbid.set("customer_id", bid.get("customer_id"));
+			
+					dao.get("Customer", bid.get("customer_id")).then(function(c){
+						maxbid.set("name", c.get("name"));
+						maxbid.set("avatar", c.get("avatar"));
+						maxbid.save().then(function(){
+							resolve(today + " max is " + JSON.stringify(c));
+						}, function(error){
+							console.error("max save maxbid failed " + error.message);
+							reject(error.message);
+						});
+					}, function(error){
+						console.error("max get customer " + error.message);
+						reject(error.message);
+					});
+				});
 	    	} else {
 				console.log(today + "没有投标");
 	    		resolve(today + "没有投标");
@@ -23,11 +45,11 @@ module.exports.max = function() {
 	});
 }
 
-module.exports.midnight = function() {
+module.exports.midnight = function(game, today) {
 	return Q.Promise(function(resolve, reject, notify) {
-		var today = _today();
+		today = today || _today();
 	
-		dao.find("Bid", {day: today, game: 'headline'}, {limit: 100, order: 'gold DESC'}).then(function(bids){
+		dao.find("Bid", {day: today, game: game}, {limit: 100, order: 'gold DESC'}).then(function(bids){
 				var promises = [];
 					
 				for (var i = 0; i < bids.length; i ++) {
@@ -71,35 +93,4 @@ function _today() {
 	}
 
 	return dt.getFullYear() + "/" + (dt.getMonth() + 1) + "/" + dt.getDate();
-}
-
-function _updateMaxBid(bid) {
-	return Q.Promise(function(resolve, reject, notify) {
-		dao.find("MaxBid", {day: bid.get("day"), game:bid.get("game")}, {limit: 1}).then(function(mbs){
-			if (mbs.length > 0) {
-				var maxbid = mbs[0];
-			} else {
-				var maxbid = new dao.MaxBid();
-				maxbid.set("day", bid.get("day"));
-				maxbid.set("game", bid.get("game"));
-			}
-	
-			maxbid.set("gold", bid.get("gold"));
-			maxbid.set("customer_id", bid.get("customer_id"));
-	
-			dao.get("Customer", bid.get("customer_id")).then(function(c){
-				maxbid.set("name", c.get("name"));
-				maxbid.set("avatar", c.get("avatar"));
-				maxbid.save().then(function(){
-					resolve();
-				}, function(error){
-					console.error("_updateMaxBid save bid " + error.message);
-					reject(error.message);
-				});
-			}, function(error){
-				console.error("_updateMaxBid get customer " + error.message);
-				reject(error.message);
-			});
-		});
-	});
 }
