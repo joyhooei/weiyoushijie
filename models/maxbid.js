@@ -12,7 +12,6 @@ module.exports.max = function() {
 					console.error("max " + error.message);
 			    	reject(error.message);
 				})
-				}
 	    	} else {
 				console.log(today + "没有投标");
 	    		resolve(today + "没有投标");
