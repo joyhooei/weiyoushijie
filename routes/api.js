@@ -75,8 +75,6 @@ router.get('/egret_rt', function(req, res, next) {
 function _getChannel(req) {
 	var channel = req.body.wysj_channel || req.query.wysj_channel || "egret";
 
-	console.log("_getChannel " + channel);
-	
 	if (channel === "1758") {
 		return require("../channels/channel_1758");
 	} else if (channel === "huhuh5") {
