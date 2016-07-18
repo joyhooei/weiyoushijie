@@ -7,7 +7,7 @@ module.exports.expireTicket = function(game) {
 	return Q.Promise(function(resolve, reject, notify) {
 	    var now = moment();
 		
-		console.log("expire iicket " + game + " " + now);
+		console.log("expire iicket " + game + " " + now.format());
 	    
 	    dao.find("Customer", {'vip': 1, game:game}, {order: 'update_time ASC'}).then(function(customers){
 	        var expiredCustomers = [];
@@ -22,18 +22,17 @@ module.exports.expireTicket = function(game) {
 	        
 	        if (expiredCustomers.length > 0) {
 				dao.saveAll(expiredCustomers).then(function(){
-					resolve(expiredCustomers.length);
+					resolve("expireTicket " + expiredCustomers.length);
 				}, function(error) {
-					console.error(error.message);
-					reject(error.message);
+					console.error("expireTicket save " + error.message);
+					reject("expireTicket save " + error.message);
 				});
 			} else {
-				console.error("expireTicket " + expiredCustomers.length);
-				reject("expireTicket " + expiredCustomers.length);
+				resolve("expireTicket " + 0);
 			}
 	    }, function(error) {
-	    	console.error(error.message);
-	        reject(error.message);
+	    	console.error("expireTicket find " + error.message);
+	        reject("expireTicket find " + error.message);
 	    });
 	});
 }
