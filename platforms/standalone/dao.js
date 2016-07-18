@@ -54,9 +54,7 @@ _.extend(Model.prototype, {
 			self.updatedAt = obj.updatedAt;
 
 			self.attributes = {};
-			_.each(self.getSchema(), function(v, k) {
-				self.attributes[k] = obj[k];
-			});
+			self.set(obj);
 			
 			self._obj = obj;
 		} catch (error) {
@@ -75,11 +73,11 @@ _.extend(Model.prototype, {
 
 		try {
 			if (typeof key === 'object') {
-				_.each(key, function(v, k){
-					if (k != 'id') {
-						self.attributes[k] = v;
+				_.each(self.getSchema(), function(v, k) {
+					if (_.has(key, k)) {
+						self.attributes[k] = key[k];
 					}
-				})
+				});
 			} else {
 				self.attributes[key] = val;
 			}
