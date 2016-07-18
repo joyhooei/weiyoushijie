@@ -100,7 +100,7 @@ var ToolItem = (function (_super) {
         return oldRatio;
     };
     p.output = function () {
-        return this._project.output(this._myProject.level, this._myProject.achieve, this._myProject.tool_ratio);
+        return application.vip.getOutput(this._project.output(this._myProject.level, this._myProject.achieve, this._myProject.tool_ratio));
     };
     return ToolItem;
 }(eui.Component));
