@@ -30,11 +30,11 @@ router.get('/max_bid', function(req, res, next) {
 	})
 })
 
-router.get('/midnight_bid', function(req, res, next) {
-	console.log("midnight_bid " + JSON.stringify(req.query));
+router.get('/max_midnight', function(req, res, next) {
+	console.log("max_midnight " + JSON.stringify(req.query));
 	
 	Maxbid.midnight().then(function(result){
-		_succeed(res, "midnight_bid succeed " + result);
+		_succeed(res, "max_midnight succeed " + result);
 	}, function(error){
 		_failed(res, error);
 	})
