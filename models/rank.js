@@ -1,7 +1,7 @@
-module.exports.rank = function() {
+module.exports.rank = function(game) {
 	return Q.Promise(function(resolve, reject, notify) {
-		dao.findAll("Rank", {"game":"headline"}, {"order":"rank ASC"}).then(function (ranks){
-			dao.findAll("Customer", {"game":"headline"}, {"order":"metal DESC, accumulated_gold DESC"}).then(function(customers){
+		dao.findAll("Rank", {"game":game}, {"order":"rank ASC"}).then(function (ranks){
+			dao.findAll("Customer", {"game":game}, {"order":"metal DESC, accumulated_gold DESC"}).then(function(customers){
 				var newRanks = [];
 				
 				for(var i = 0; i < customers.length; i++) {
