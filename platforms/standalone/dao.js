@@ -74,9 +74,7 @@ _.extend(Model.prototype, {
 		try {
 			if (typeof key === 'object') {
 				_.each(self.getSchema(), function(v, k) {
-					if (_.has(key, k)) {
-						self.attributes[k] = key[k];
-					}
+					self.attributes[k] = key[k];
 				});
 				
 				console.log(JSON.stringify(self.attributes));
