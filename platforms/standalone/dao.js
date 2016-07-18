@@ -74,10 +74,11 @@ _.extend(Model.prototype, {
 		try {
 			if (typeof key === 'object') {
 				_.each(self.getSchema(), function(v, k) {
-					self.attributes[k] = key[k];
+					var d = key[k];
+					if (!_.isUndefined(d)) {
+						self.attributes[k] = d;
+					}
 				});
-				
-				console.log(JSON.stringify(self.attributes));
 			} else {
 				self.attributes[key] = val;
 			}
