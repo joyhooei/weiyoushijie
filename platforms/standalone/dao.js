@@ -73,9 +73,9 @@ _.extend(Model.prototype, {
 
 		try {
 			if (typeof key === 'object') {
-				_.each(self.getSchema(), function(v, k) {
-					if (_.has(key, k)) {
-						self.attributes[k] = key[k];
+				_.each(key, function(v, k) {
+					if (k !== "id" && k !== "_id") {
+						self.attributes[k] = v;
 					}
 				});
 			} else {
@@ -95,8 +95,8 @@ _.extend(Model.prototype, {
 
 		return Q.Promise(function(resolve, reject, notify) {
 			try {
-				_.each(self.getSchema(), function(v, k) {
-					self._obj[k] = self.attributes[k];
+				_.each(self.attributes, function(v, k) {
+					self._obj[k] = v;
 				});
 			
 				if (self.isNew()) {
@@ -429,16 +429,12 @@ module.exports = function() {
 		var self = this;
 		
 		try {
-			console.log(JSON.stringify(schema));
-			
 			var ModelSchema = new mongoose.Schema(schema, { timestamps: {} });			
 			if (uniques) {
 				uniques.game = 1;
 				ModelSchema.index(uniques, { unique: true })
 			}
-			
-			console.log(JSON.stringify(schema));
-			
+
 			var ModelClass = mongoose.model(className, ModelSchema);
 			
 			var claz = Model.extend(
