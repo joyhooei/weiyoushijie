@@ -35,10 +35,6 @@ Model.extend = function(protoProps, staticProps) {
 _.extend(Model.prototype, {
 	_isNew: true,
 	
-	initialize:function(){
-		this.setNew(true);
-	},
-	
 	setNew: function(isNew){
 		this._isNew = isNew;
 		
@@ -53,35 +49,21 @@ _.extend(Model.prototype, {
 		var self = this;
 
 		try {
-			self._obj = obj;
-
-			self.id = self._obj.id;
-			self.createdAt = self._obj.createdAt;
-			self.updatedAt = self._obj.updatedAt;
+			self.id = obj.id;
+			self.createdAt = obj.createdAt;
+			self.updatedAt = obj.updatedAt;
 
 			self.attributes = {};
 			_.each(self.getSchema(), function(v, k) {
-				self.attributes[k] = self._obj[k];
+				self.attributes[k] = obj[k];
 			});
+			
+			self._obj = obj;
 		} catch (error) {
 			console.error("decode obj failed " + error.message);
 		}
 
 		return self;
-	},
-
-	encode: function() {
-		var self = this;
-
-		try {
-			_.each(self.attributes, function(v, k) {
-				self._obj[k] = v;
-			});
-		} catch (error) {
-			console.error("encode obj failed " + error.message);
-		}
-
-		return self._obj;
 	},
 
 	get:function(attr) {
@@ -93,17 +75,14 @@ _.extend(Model.prototype, {
 
 		try {
 			if (typeof key === 'object') {
-				_.extend(self.attributes, key);
-				if (key.id) {
-					self._obj._id = key.id;
-					
-					self.setNew(false);
-				}
+				_.each(key, function(v, k){
+					if (k != id) {
+						self.attributes[k] = v;
+					}
+				})
 			} else {
 				self.attributes[key] = val;
 			}
-
-			self.decode(self.encode());
 		} catch (error) {
 			console.error("set failed " + error.message);
 		}
@@ -118,6 +97,10 @@ _.extend(Model.prototype, {
 
 		return Q.Promise(function(resolve, reject, notify) {
 			try {
+				_.each(self.attributes, function(v, k) {
+					self._obj[k] = v;
+				});
+			
 				if (self.isNew()) {
 					self.beforeSave().then(function(){
 						self._obj.save(function(error){
@@ -445,6 +428,8 @@ module.exports = function() {
 	}
 	
 	this.addModel = function(className, schema, uniques) {
+		var self = this;
+		
 		try {
 			var ModelSchema = new mongoose.Schema(schema, { timestamps: {} });			
 			if (uniques) {
@@ -457,7 +442,8 @@ module.exports = function() {
 			var claz = Model.extend(
 			{
 				initialize: function(attributes){
-					this.decode(new claz.class(attributes || {}));
+					var obj = new claz.class(attributes || {});
+					self.decode(className, obj, true);
 				},
 
 				getClass: function(){
@@ -505,6 +491,20 @@ module.exports = function() {
 		var clazz = this[className];
 		return new clazz();
 	}
+
+	this.decodeAll = function(className, objs, isNew) {
+		var models = [];
+
+		for (var i = 0; i < objs.length; i++) {
+			models.push(this.decode(className, objs[i], isNew));
+		}
+ 
+		return models;
+	}
+	
+	this.decode = function(className, obj, isNew) {
+		return this.new(className).decode(obj).setNew(isNew);
+	}
 	
 	this.get = function(className, id) {
 		var self = this;
@@ -517,7 +517,7 @@ module.exports = function() {
 					console.error("findById " + id + " failed " + err.message);
 					reject(err);
 				} else {
-					resolve(self.new(className).decode(obj).setNew(false));
+					resolve(self.decode(className, obj, false));
 				}
 			});
 		});
@@ -548,7 +548,7 @@ module.exports = function() {
 					if (promises.length > 0) {
 						Q.all(promises).then(function(results){
 							var objs = ([].concat.apply([], results));
-							resolve(self.decodeAll(className, objs));
+							resolve(self.decodeAll(className, objs, false));
 						}, function(error){
 							console.error("findAll Q.all failed " + error.message);
 							reject(error);
@@ -559,16 +559,6 @@ module.exports = function() {
 				}
 			});
 		});
-	}
-
-	this.decodeAll = function(className, objs) {
-		var models = [];
-
-		for (var i = 0; i < objs.length; i++) {
-			models.push(this.new(className).decode(objs[i]).setNew(false));
-		} 
- 
-		return models;
 	}
 	
 	this.find = function(className, conditions, filters){
@@ -584,7 +574,7 @@ module.exports = function() {
 						console.error("query exec failed " + err.message);
 						reject(err);
 					} else {
-						resolve(self.decodeAll(className, objs));
+						resolve(self.decodeAll(className, objs, false));
 					}
 				} catch (err) {
 					console.error("query unkonw error " + err.message);
@@ -609,7 +599,7 @@ module.exports = function() {
 		
 		return Q.Promise(function(resolve, reject, notify) {
 			claz.class.remove(function(err, p){
-				if(err){ 
+				if(err){
 					reject(err);
 				} else{
 					resolve(p);
