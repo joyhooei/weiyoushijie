@@ -410,7 +410,7 @@ module.exports = function() {
 
 			var url = 'mongodb://weiyoushijie:weiyugame@ds023644.mlab.com:23644/weiyoushijie';
 			
-			mongoose.set('debug', true);
+			//mongoose.set('debug', true);
 		} else {
 			var url = 'mongodb://9b18dc67c08b4434bdf68b0c3ff45477:d35f2aa56b1b4806b9934950c3d89bea@mongo.bce.duapp.com:8908/gmkSqUizKEatLnvxuIcZ';
 		}
@@ -443,7 +443,7 @@ module.exports = function() {
 			{
 				initialize: function(attributes){
 					var obj = new claz.class(attributes || {});
-					self.decode(className, obj, true);
+					self.decodeOne(className, obj, true);
 				},
 
 				getClass: function(){
@@ -496,13 +496,13 @@ module.exports = function() {
 		var models = [];
 
 		for (var i = 0; i < objs.length; i++) {
-			models.push(this.decode(className, objs[i], isNew));
+			models.push(this.decodeOne(className, objs[i], isNew));
 		}
  
 		return models;
 	}
 	
-	this.decode = function(className, obj, isNew) {
+	this.decodeOne = function(className, obj, isNew) {
 		return this.new(className).decode(obj).setNew(isNew);
 	}
 	
@@ -517,7 +517,7 @@ module.exports = function() {
 					console.error("findById " + id + " failed " + err.message);
 					reject(err);
 				} else {
-					resolve(self.decode(className, obj, false));
+					resolve(self.decodeOne(className, obj, false));
 				}
 			});
 		});
