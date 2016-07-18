@@ -6,6 +6,8 @@ var Rank = require('./rank');
 module.exports.expireTicket = function(game) {
 	return Q.Promise(function(resolve, reject, notify) {
 	    var now = moment();
+		
+		console.log("expire iicket " + game + " " + now);
 	    
 	    dao.find("Customer", {'vip': 1, game:game}, {order: 'update_time ASC'}).then(function(customers){
 	        var expiredCustomers = [];
