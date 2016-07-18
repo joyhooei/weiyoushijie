@@ -70,8 +70,6 @@ _.extend(Model.prototype, {
 
 	set:function(key, val) {
 		var self = this;
-		
-		console.log(JSON.stringify(self.getSchema()));
 
 		try {
 			if (typeof key === 'object') {
@@ -431,11 +429,15 @@ module.exports = function() {
 		var self = this;
 		
 		try {
+			console.log(JSON.stringify(schema));
+			
 			var ModelSchema = new mongoose.Schema(schema, { timestamps: {} });			
 			if (uniques) {
 				uniques.game = 1;
 				ModelSchema.index(uniques, { unique: true })
 			}
+			
+			console.log(JSON.stringify(schema));
 			
 			var ModelClass = mongoose.model(className, ModelSchema);
 			
