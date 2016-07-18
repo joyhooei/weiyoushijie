@@ -76,7 +76,7 @@ _.extend(Model.prototype, {
 		try {
 			if (typeof key === 'object') {
 				_.each(key, function(v, k){
-					if (k != id) {
+					if (k != 'id') {
 						self.attributes[k] = v;
 					}
 				})
