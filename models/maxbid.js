@@ -4,6 +4,8 @@ module.exports.max = function(game, today) {
 	return Q.Promise(function(resolve, reject, notify) {
 		today = today || _today();
 	
+		console.log("max " + game + " " + today);
+		
 		dao.find("Bid", {day: today, game: game}, {limit: 1, order: 'gold DESC'}).then(function(bids){
 	    	if (bids.length > 0) {
 	    		var bid = bids[0];
@@ -49,6 +51,8 @@ module.exports.midnight = function(game, today) {
 	return Q.Promise(function(resolve, reject, notify) {
 		today = today || _today();
 	
+		console.log("midnight " + game + " " + today);
+		
 		dao.find("Bid", {day: today, game: game}, {limit: 100, order: 'gold DESC'}).then(function(bids){
 				var promises = [];
 					
