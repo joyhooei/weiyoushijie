@@ -28,7 +28,7 @@ var ResetUI = (function (_super) {
         this.lblDiamond.text = application.format(this.diamond);
     };
     p.output = function () {
-        return this.project.output(this.myProject.level, this.myProject.achieve, this.myProject.tool_ratio);
+        return application.vip.getOutput(this.project.output(this.myProject.level, this.myProject.achieve, this.myProject.tool_ratio));
     };
     return ResetUI;
 }(eui.Component));

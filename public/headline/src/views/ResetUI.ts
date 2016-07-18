@@ -46,6 +46,6 @@ class ResetUI extends eui.Component{
     }
     
     private output(): number {
-        return this.project.output(this.myProject.level, this.myProject.achieve, this.myProject.tool_ratio);
+        return application.vip.getOutput(this.project.output(this.myProject.level, this.myProject.achieve, this.myProject.tool_ratio));
     }
 }

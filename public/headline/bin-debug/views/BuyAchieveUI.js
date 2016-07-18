@@ -62,8 +62,8 @@ var BuyAchieveUI = (function (_super) {
         }
     };
     p._buy = function (gold, diamond) {
-        var newOutput = this._project.output(this._myProject.level, this._achieve, this._myProject.tool_ratio);
-        var oldOutput = this._project.output(this._myProject.level, this._myProject.achieve, this._myProject.tool_ratio);
+        var newOutput = application.vip.getOutput(this._project.output(this._myProject.level, this._achieve, this._myProject.tool_ratio));
+        var oldOutput = application.vip.getOutput(this._project.output(this._myProject.level, this._myProject.achieve, this._myProject.tool_ratio));
         this._myProject.achieve = this._achieve;
         application.buyOutput(gold, diamond, newOutput - oldOutput);
         Toast.launch("获得成就成功");
