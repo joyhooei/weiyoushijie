@@ -70,14 +70,18 @@ _.extend(Model.prototype, {
 
 	set:function(key, val) {
 		var self = this;
-
+		
 		try {
 			if (typeof key === 'object') {
+				console.log(JSON.stringify(key));
+				
 				_.each(key, function(v, k) {
 					if (k != "id" && k != "_id") {
 						self.attributes[k] = v;
 					}
 				});
+				
+				console.log(JSON.stringify(self.attributes));
 			} else {
 				self.attributes[key] = val;
 			}
