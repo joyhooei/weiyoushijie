@@ -131,13 +131,13 @@ class GiftUI extends eui.Component {
 			gift.data = nextOutput.toString();
 			
 			//如果用户的秒产超过了下一个可以领取的秒产，则仍然保持解锁状态
-			if (application.log10(application.customer.output) >= application.log10(nextOutput)) {
+			if (Utility.log10(application.customer.me.output) >= Utility.log10(nextOutput)) {
 				this.lockGift(gift, 0);
 			} else {
 				this.lockGift(gift, 2);
 			}
 			
-			this.lblOutputGift.text = application.format(nextOutput);
+			this.lblOutputGift.text = Utility.format(nextOutput);
 			
             this.updateCustomer(gift);
         }
@@ -236,15 +236,15 @@ class GiftUI extends eui.Component {
 	private renderTicketGift() {
 		//4、永久会员/月票 300钻。每天领取一次。灰色是点击跳入会员购买页面（参照道具弹出窗口） 月票默认30天，会显示剩余月票天数，如果是永久则显示永久
 		var gift = this.gift(GiftCategory.Ticket);
-		if (application.customer.vip == 0) {
+		if (application.customer.me.vip == 0) {
 			this.lblTicketGiftTimeout.text = "";
 		} else {
 			var now = new Date();
 			
-			if (application.customer.vip == 2) {
+			if (application.customer.me.vip == 2) {
 				this.lblTicketGiftTimeout.text = "永久";
 			} else {
-				var ticketTimeout = new Date(application.customer.ticket);
+				var ticketTimeout = new Date(application.customer.me.ticket);
 				var timeDiff = ticketTimeout.getTime() - now.getTime();
 				var diffDays = Math.min(30, Math.floor(timeDiff / (1000 * 3600 * 24))); 
 				if (diffDays <= 0) {
@@ -316,9 +316,9 @@ class GiftUI extends eui.Component {
 		}
 		Toast.launch(tip);
 		
-		application.customer.metal   += gift.metal;
-		application.customer.gold    += gift.gold;
-		application.customer.diamond += gift.diamond;
-		application.saveCustomerNow();
+		application.customer.me.metal   += gift.metal;
+		application.customer.me.gold    += gift.gold;
+		application.customer.me.diamond += gift.diamond;
+		application.customer.saveNow();
 	}
 }
