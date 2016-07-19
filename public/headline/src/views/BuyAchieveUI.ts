@@ -58,7 +58,7 @@ class BuyAchieveUI extends eui.Component{
             let priceUseDiamond = this._project.achieve(this._achieve).priceUseDiamond;
             this.lblDiamond.text = priceUseDiamond;
 
-            if(application.customer.usableGold() < priceUseGold) {
+            if(application.me.usableGold() < priceUseGold) {
                 this.imgBuyUseGold.source = "buttoncoinno_png";
                 
                 this.imgBuyUseGold.addEventListener( egret.TouchEvent.TOUCH_TAP, ()=>{
@@ -70,7 +70,7 @@ class BuyAchieveUI extends eui.Component{
     			}, this );
     		}
 
-            if(application.customer.attrs.diamond < priceUseDiamond) {
+            if(application.me.attrs.diamond < priceUseDiamond) {
                 this.imgBuyUseDiamond.source = "buttondiano_png";
                 
                 this.imgBuyUseDiamond.addEventListener( egret.TouchEvent.TOUCH_TAP, ()=>{
