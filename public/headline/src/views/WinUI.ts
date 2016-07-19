@@ -10,15 +10,15 @@ class WinUI extends eui.Component{
         this.skinName = "resource/custom_skins/winUISkin.exml";
         
         this.imgBack.addEventListener( egret.TouchEvent.TOUCH_TAP, ()=>{
-			Bid.earn(application.customer);
+			Bid.earn(application.me);
             application.hideUI(this);
         }, this);
         
         this.imgHide.addEventListener(egret.TouchEvent.TOUCH_TAP,() => {
-			if (application.customer.me.hide_winner == 1) {
-            	application.customer.me.hide_winner = 0;
+			if (application.me.attrs.hide_winner == 1) {
+            	application.me.attrs.hide_winner = 0;
 			} else {
-				application.customer.me.hide_winner = 1;
+				application.me.attrs.hide_winner = 1;
 			}
 			
 			this.renderAvatar();
@@ -28,14 +28,14 @@ class WinUI extends eui.Component{
     }
 	
     private renderAvatar(): void {
-		if (application.customer.me.hide_winner == 1) {
+		if (application.me.attrs.hide_winner == 1) {
 			this.imgHide.source = "hidecancel_png";
 			
 			this.imgAvatar.source = "Ahide_png"
 		} else {
 			this.imgHide.source = "Awinhide_png";
 			
-            this.imgAvatar.source = Customer.avatarUrl(application.customer.me);
+            this.imgAvatar.source = Customer.avatarUrl(application.me.attrs);
 		}
 	}
 }
