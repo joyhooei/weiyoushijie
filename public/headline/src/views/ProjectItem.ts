@@ -89,9 +89,9 @@ class ProjectItem extends eui.Component {
 
             this.lblLevel.text = "0";
             this.lblOutput.text = "0";
-            this.lblPrice.text = application.format(p);
+            this.lblPrice.text = Utility.format(p);
 
-            if(application.usableGold() > p) {
+            if(application.me.usableGold() > p) {
                 this.imgUpgrade.source = "updatedp2_png";
             } else {
                 this.imgUpgrade.source = 'upgradeg_png';
@@ -108,33 +108,33 @@ class ProjectItem extends eui.Component {
             this.lblPrice.text = Utility.format(p);
 
             if(this._myProject.sequence % 2 == 0) {
-                if(application.usableGold() > p10) {
+                if(application.me.usableGold() > p10) {
                     this.imgUpgrade10.source = "upgrade10_png";
                 } else {
                     this.imgUpgrade10.source = "upgrade10g_png";
                 }
-                if(application.usableGold() > p100) {
+                if(application.me.usableGold() > p100) {
                     this.imgUpgrade100.source = "upgrade100_png";
                 } else {
                     this.imgUpgrade100.source = "upgrade100g_png";
                 }
-                if(application.usableGold() > p) {
+                if(application.me.usableGold() > p) {
                     this.imgUpgrade.source = 'upgrade_png';
                 } else {
                     this.imgUpgrade.source = 'upgradeg2_png';
                 }
             } else {
-                if(application.usableGold() > p10) {
+                if(application.me.usableGold() > p10) {
                     this.imgUpgrade10.source = "upgrade10b_png";
                 } else {
                     this.imgUpgrade10.source = "upgrade10g_png";
                 }
-                if(application.usableGold() > p100) {
+                if(application.me.usableGold() > p100) {
                     this.imgUpgrade100.source = "upgrade100b_png";
                 } else {
                     this.imgUpgrade100.source = "upgrade100g_png";
                 }
-                if(application.usableGold() > p) {
+                if(application.me.usableGold() > p) {
                     this.imgUpgrade.source = 'upgradeb_png';
                 } else {
                     this.imgUpgrade.source = 'upgradeg2_png';
@@ -202,7 +202,7 @@ class ProjectItem extends eui.Component {
         let oldOutput = this.output();
 		this._myProject.level += step;
 		application.dao.save("Project",self._myProject);
-        application.buyOutput(p, 0, self.output() - oldOutput);
+        application.me.buyOutput(p, 0, self.output() - oldOutput);
         
 		if (application.guideUI) {
 		    application.guideUI.next();
