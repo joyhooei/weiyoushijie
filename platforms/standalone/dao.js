@@ -362,6 +362,13 @@ module.exports = function() {
 				state:  {type: Number, default: 0},
 				game: String
 			});
+			
+			self.addModel("Notification", {
+				content: String,
+				deadline:  type: String,
+				action:  {type: Number, default: 0},
+				game: String
+			});
 
 			self.addModel("Order", {
 				customer_id: String,

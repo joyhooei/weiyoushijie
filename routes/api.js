@@ -9,6 +9,7 @@ var Order = require('../models/order');
 var Rank = require('../models/rank.js');
 var Account = require('../models/account.js');
 var Maxbid = require('../models/maxbid.js');
+var Nofitication = require('../models/notification.js');
 
 router.get('/open_bid', function(req, res, next) {
 	var game = req.query.game || "headline";
@@ -44,6 +45,16 @@ router.get('/expire_ticket', function(req, res, next) {
 	var game = req.query.game || "headline";
 	Customer.expireTicket(game).then(function(result){
 		_succeed(res, "expire_ticket succeed " + result);
+	}, function(error){
+		_failed(res, error);
+	})
+})
+
+router.get('/expire_notification', function(req, res, next) {
+	console.log("expire_notification " + JSON.stringify(req.query));
+	
+	Nofitication.expire().then(function(result){
+		_succeed(res, "expire_notification succeed " + result);
 	}, function(error){
 		_failed(res, error);
 	})

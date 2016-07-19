@@ -40,7 +40,7 @@ var HomeUI = (function (_super) {
             application.showUI(new GiftUI(), this);
         }, this);
         self.btnHelp.addEventListener(egret.TouchEvent.TOUCH_BEGIN, function () {
-            application.showHelp("");
+            HelpUI.showMainHelp();
         }, this);
         self.btnAddGold.addEventListener(egret.TouchEvent.TOUCH_BEGIN, function () {
             application.showUI(new BuyToolUI("time", 500));

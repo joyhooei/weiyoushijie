@@ -18,7 +18,7 @@ var AuctionUI = (function (_super) {
         this.imgFront.y = this.imgThumb.y;
         this.imgFront.width = 0;
         this.addGold = 0;
-        this.bid = { gold: 0, day: today, customer_id: application.customer.id, claimed: 0 };
+        this.bid = { gold: 0, day: today, customer_id: application.customer.id, claimed: 0, succeed: 0 };
         this.renderBid(0);
     };
     p.uiCompHandler = function () {
@@ -41,19 +41,7 @@ var AuctionUI = (function (_super) {
             application.showUI(new ChargeTipUI());
         }, this);
         this.btnHelp.addEventListener(egret.TouchEvent.TOUCH_BEGIN, function () {
-            var content = "1： 拍卖每天中午12点结束。\n";
-            content += "2： 出价最高者成为今日头条，获得勋章一枚和2000钻石的奖励。\n";
-            content += "3： 前100名将获得钻石奖励，未中标玩家的拍卖金币自动返还。\n";
-            content += "4： 拍卖期间，系统显示截至上个小时的最高出价，为新出价的玩家提供参考。\n";
-            content += "5： 玩家在拍卖结束前可以反复加价，每次加价最高为当前拥有的所有金币。\n";
-            content += "6： 每天首次参加拍卖可以在礼物页面中领取100钻石奖励。（每天00:00刷新）\n";
-            content += "－－－－拍卖排名榜奖励 －－－－\n";
-            content += "第1名 2000钻\n";
-            content += "第2名 1500钻\n";
-            content += "第3名 1200钻\n";
-            content += "第4-10名 1000钻\n";
-            content += "第11-100名 500钻\n";
-            application.showHelp(content);
+            HelpUI.showAuctionHelp();
         }, this);
     };
     p.renderLastBid = function (today) {
