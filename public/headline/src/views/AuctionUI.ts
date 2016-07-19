@@ -36,8 +36,8 @@ class AuctionUI extends eui.Component{
     }
     
     public refresh(): void {
-        this.lblGold.text = application.format(application.customer.usableGold());
-        this.lblDiamond.text = application.format(application.customer.me.diamond);
+        this.lblGold.text = Utility.format(application.customer.usableGold());
+        this.lblDiamond.text = Utility.format(application.customer.attrs.diamond);
 		
         var today = Bid.day();
 		this.renderLastBid(today);
@@ -51,7 +51,7 @@ class AuctionUI extends eui.Component{
         this.imgFront.width = 0;
 		
 		this.addGold = 0;
-		this.bid = { gold: 0, day: today, customer_id: application.customer.id, claimed: 0 };
+		this.bid = { gold: 0, day: today, customer_id: application.customer.attrs.id, claimed: 0 };
         this.renderBid(0);
     }
 
@@ -63,8 +63,8 @@ class AuctionUI extends eui.Component{
         },this);
         
         application.dao.addEventListener("Customer",function(evt:egret.Event){
-            this.lblGold.text = application.format(application.customer.usableGold());
-            this.lblDiamond.text = application.format(application.customer.me.diamond);
+            this.lblGold.text = Utility.format(application.customer.usableGold());
+            this.lblDiamond.text = Utility.format(application.customer.attrs.diamond);
         }, this);
 
         this.imgBid.addEventListener(egret.TouchEvent.TOUCH_BEGIN, this.onBid, this);
@@ -93,7 +93,7 @@ class AuctionUI extends eui.Component{
             if (bids.length > 0) {
 				self.bid = bids[0];
 				
-				application.bid.current = self.bid;
+				application.customer.bid.attrs = self.bid;
 				
 				self.renderBid(self.addGold);
 			}
@@ -119,8 +119,8 @@ class AuctionUI extends eui.Component{
 	private renderBid(gold: number): void {
 		this.addGold = Math.floor(gold);
 		
-		this.lblCurrentBid.text = application.format(this.addGold);
-		this.lblLastBid.text = application.format(this.addGold + this.bid.gold);
+		this.lblCurrentBid.text = Utility.format(this.addGold);
+		this.lblLastBid.text    = Utility.format(this.addGold + this.bid.gold);
 	}
 	
 	private onBid(): void {
@@ -129,20 +129,20 @@ class AuctionUI extends eui.Component{
 		if (self.bid.day == Bid.day()) {
 			self.bid.gold += self.addGold;
 			if (self.bid.gold > 0) {
-				application.dao.fetch("Blacklist", {customer_id: application.customer.me.id}, {limit : 1}, function(succeed, blacks) {
-					if (succeed && blacks.length == 1) {
+				application.dao.fetch("Blacklist", {customer_id: application.customer.attrs.id}, {limit : 1}).then(function(blacks) {
+					if (blacks.length == 1) {
 						Toast.launch("对不起，您由于下列原因被封号：" + blacks[0].reason + "。");
 					} else {
 						self.bid.claimed = 0;
 						application.dao.save("Bid", self.bid);
 
-						application.giftChanged();
+						Gift.notify();
 
 						application.channel.track(TRACK_CATEGORY_ACTIVITY, TRACK_ACTION_JOIN, "投标"); 
 
 						Toast.launch("投标成功");
 
-						application.bid.current = self.bid;
+						application.me.bid.attrs = self.bid;
 
 						if (application.guideUI) {
 							application.guideUI.next();
@@ -157,7 +157,7 @@ class AuctionUI extends eui.Component{
 		} else {
 			Toast.launch("今天投标已经结束");
 			
-			application.bid.current = null;
+			application.me.bid.attrs = null;
 			
 			self.refresh();
 		}
