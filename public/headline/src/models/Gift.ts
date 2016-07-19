@@ -1,3 +1,14 @@
+enum GiftCategory {
+    Login = 1,
+    Online,
+    Bid,
+    Ticket,
+	Share,
+	Charge,
+	Output,
+	Attention
+}
+
 class Gift {
     public static notify() {
         application.dao.dispatchEventWith("Gift", true, null);
