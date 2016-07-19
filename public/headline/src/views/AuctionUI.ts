@@ -36,8 +36,8 @@ class AuctionUI extends eui.Component{
     }
     
     public refresh(): void {
-        this.lblGold.text = Utility.format(application.customer.usableGold());
-        this.lblDiamond.text = Utility.format(application.customer.attrs.diamond);
+        this.lblGold.text = Utility.format(application.me.usableGold());
+        this.lblDiamond.text = Utility.format(application.me.attrs.diamond);
 		
         var today = Bid.day();
 		this.renderLastBid(today);
@@ -51,7 +51,7 @@ class AuctionUI extends eui.Component{
         this.imgFront.width = 0;
 		
 		this.addGold = 0;
-		this.bid = { gold: 0, day: today, customer_id: application.customer.attrs.id, claimed: 0 };
+		this.bid = { gold: 0, day: today, customer_id: application.me.attrs.id, claimed: 0 };
         this.renderBid(0);
     }
 
@@ -63,8 +63,8 @@ class AuctionUI extends eui.Component{
         },this);
         
         application.dao.addEventListener("Customer",function(evt:egret.Event){
-            this.lblGold.text = Utility.format(application.customer.usableGold());
-            this.lblDiamond.text = Utility.format(application.customer.attrs.diamond);
+            this.lblGold.text = Utility.format(application.me.usableGold());
+            this.lblDiamond.text = Utility.format(application.me.attrs.diamond);
         }, this);
 
         this.imgBid.addEventListener(egret.TouchEvent.TOUCH_BEGIN, this.onBid, this);
@@ -89,11 +89,11 @@ class AuctionUI extends eui.Component{
 	private renderLastBid(today:string): void {
 		var self = this;
 		
-        application.dao.fetch("Bid",{ succeed: 0, day :today, customer_id: application.customer.me.id}, {limit : 1}).then(function(bids){
+        application.dao.fetch("Bid",{ succeed: 0, day :today, customer_id: application.me.attrs.id}, {limit : 1}).then(function(bids){
             if (bids.length > 0) {
 				self.bid = bids[0];
 				
-				application.customer.bid.attrs = self.bid;
+				application.me.bid.attrs = self.bid;
 				
 				self.renderBid(self.addGold);
 			}
@@ -105,7 +105,7 @@ class AuctionUI extends eui.Component{
 		
         application.dao.fetch("MaxBid",{ day :today }, {limit : 1}).then(function(bids){
             if (bids.length > 0) {
-				self.lblMaxBid.text = application.format(bids[0].gold);			
+				self.lblMaxBid.text = Utility.format(bids[0].gold);			
 				self.lblMaxBidName.text = bids[0].name;
 				self.imgMaxBidAvatar.source = bids[0].avatar;
             } else {
@@ -129,7 +129,7 @@ class AuctionUI extends eui.Component{
 		if (self.bid.day == Bid.day()) {
 			self.bid.gold += self.addGold;
 			if (self.bid.gold > 0) {
-				application.dao.fetch("Blacklist", {customer_id: application.customer.attrs.id}, {limit : 1}).then(function(blacks) {
+				application.dao.fetch("Blacklist", {customer_id: application.me.attrs.id}, {limit : 1}).then(function(blacks) {
 					if (blacks.length == 1) {
 						Toast.launch("对不起，您由于下列原因被封号：" + blacks[0].reason + "。");
 					} else {
@@ -182,7 +182,7 @@ class AuctionUI extends eui.Component{
         let percent:number = Math.round(100 * (this.grpTrack.x - this.imgThumb.x)  / (this.imgThumb.width - this.grpTrack.width) );
 		this.lblTrack.text = percent.toString() + "%";
 
-		this.renderBid((Math.max(0, application.customer.gold - this.bid.gold)) * percent / 100);
+		this.renderBid((Math.max(0, application.me.attrs.gold - this.bid.gold)) * percent / 100);
         this.imgFront.width = this.grpTrack.x - this.imgThumb.x + 20;
 		
 		this.nextStep();
