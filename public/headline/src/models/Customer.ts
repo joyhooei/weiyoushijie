@@ -11,6 +11,8 @@ class Customer {
         if(!this.me.earned_gold) {
             this.me.earned_gold = 0;
         }
+        
+        this.checkTicket();
     }
 
 	public resetTicket(vip: number): void {
