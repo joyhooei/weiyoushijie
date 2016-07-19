@@ -1,10 +1,11 @@
 class Order {
     public static buy(customer:Customer, product: string, gid: string, price: number) {
-        var firstCharge = customer.me.charge == 0;
+        var firstCharge = customer.attrs.charge == 0;
         
-        var order = { customer_id: customer.me.id, product: product, price: price, state: 0};
+        var order = { customer_id: customer.attrs.id, product: product, price: price, state: 0};
         application.dao.save("Order", order).then(function(o) {
             customer.saveNow();
+            
             application.channel.pay({ goodsId: gid, goodsName: gid, goodsNumber: "1", money: price, orderId: o.id }).then(function(data){
             }, function(error){
                 Toast.launch(error);
@@ -36,7 +37,7 @@ class Order {
                             diamond = 200000;
                         }
 
-						customer.me.diamond += diamond;
+						customer.attrs.diamond += diamond;
 						customer.saveNow();             
                         
                         if (firstCharge) {
@@ -56,8 +57,8 @@ class Order {
 									var metal = 1;
 								}
 
-                                customer.me.diamond += 2000;
-								customer.me.metal += metal;
+                                customer.attrs.diamond += 2000;
+								customer.attrs.metal += metal;
                                 customer.resetTicket(1);
                                  
 								if (firstCharge) {
@@ -75,8 +76,8 @@ class Order {
 									var metal = 3;
 								}
 
-                                customer.me.diamond += 5000;
-								customer.me.metal += metal;
+                                customer.attrs.diamond += 5000;
+								customer.attrs.metal += metal;
                                 customer.resetTicket(2);
                                 
 								if (firstCharge) {
