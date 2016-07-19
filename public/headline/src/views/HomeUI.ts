@@ -94,7 +94,7 @@ class HomeUI extends eui.Component{
 		self.imgAvatar.source = Customer.avatarUrl(application.me.attrs);
         self.renderCustomer();
         
-		self.lblTotalHits.text = "x" + application.customer.attrs.total_hits.toString();
+		self.lblTotalHits.text = "x" + application.me.attrs.total_hits.toString();
         self.renderTotalHits();
             
         self.renderProjects();
@@ -299,7 +299,7 @@ class HomeUI extends eui.Component{
     					
     					self.renderOfflineGold();
                         
-                        application.me.bid.earn(application.me);
+                        Bid.earn(application.me);
     				}
     			}
             }
