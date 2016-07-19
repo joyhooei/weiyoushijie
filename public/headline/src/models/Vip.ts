@@ -30,7 +30,7 @@ class Vip {
 		this._patch = patch;
     }
 	
-	static createVip(charge: number): Vip {
+	static create(charge: number): Vip {
 		let data = [
 			[0, 0, 0, 10, 0, 0, 0],
 			[1, 2, 0.2, 10, 0, 0, 0],
@@ -58,7 +58,6 @@ class Vip {
 				break;
 			}
 		}
-		
 		
 		return new Vip(d[0], d[1], d[2], d[3], d[4], d[5], d[6]);
 	}
