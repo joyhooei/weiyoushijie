@@ -14,7 +14,7 @@ class VipUI extends eui.Component {
     constructor() {
         super();
         
-        this.level = application.vip.getLevel();
+        this.level = application.me.vip.getLevel();
 
         this.skinName = "resource/custom_skins/vipUISkin.exml";
         
@@ -56,7 +56,7 @@ class VipUI extends eui.Component {
 				this.imgNext.visible = true;
 			}
 		}
-		this.lblCharge.text = application.customer.charge;        
+		this.lblCharge.text = application.me.attrs.charge;        
         this.imgTitle.source = "vt" + this.level + "_png";
     }
 }
