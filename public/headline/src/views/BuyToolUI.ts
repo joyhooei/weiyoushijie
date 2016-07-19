@@ -37,7 +37,7 @@ class BuyToolUI extends eui.Component{
 		this.lblGold.text = "";
         if(this._name == "time") {
             this.imgIcon.source = "timeh_png";
-			this.lblGold.text = application.format(application.customer.me.output * 3600 * 48);
+			this.lblGold.text = Utility.format(application.me.attrs.output * 3600 * 48);
         } else if (this._name == "hit") {
             this.imgIcon.source = "hith_png";
         } else if (this._name == "ticket") {
@@ -47,7 +47,7 @@ class BuyToolUI extends eui.Component{
         } 
         		
 		if (this._name == "time" || this._name == "hit") {
-			if (application.customer.me.diamond < this._price) {
+			if (application.me.attrs.diamond < this._price) {
 				this.imgBuy.source = "buttondiano_png";
 			} else {
 				this.imgBuy.source = "buttondia_png";
@@ -74,10 +74,10 @@ class BuyToolUI extends eui.Component{
 	}
 	
 	private buyTime(){
-		if (application.customer.me.diamond > this._price) {
-			application.customer.me.diamond -= this._price;
-            application.customer.earnGold(application.customer.me.output * 3600 * 48);
-			application.customer.saveNow();
+		if (application.me.attrs.diamond > this._price) {
+			application.me.attrs.diamond -= this._price;
+            application.me.earnGold(application.me.attrs.output * 3600 * 48);
+			application.me.saveNow();
             
 			application.channel.track(TRACK_CATEGORY_DIAMOND, TRACK_ACTION_DEC, "购买了时光沙漏", this._price); 
 			
@@ -90,11 +90,11 @@ class BuyToolUI extends eui.Component{
 	}
 	
 	private buyHit() {
-        if (application.customer.me.total_hits == 0) {
-			if (application.customer.me.diamond > this._price) {
-				application.customer.me.me.diamond -= this._price;
-				application.customer.me.total_hits = 3;				
-                application.customer.saveNow();
+        if (application.me.attrs.total_hits == 0) {
+			if (application.me.attrs.diamond > this._price) {
+				application.me.attrs.diamond -= this._price;
+				application.me.attrs.total_hits = 3;				
+                application.me.saveNow();
 				
 				application.channel.track(TRACK_CATEGORY_DIAMOND, TRACK_ACTION_DEC, "购买了暴击", this._price); 
                 
@@ -111,7 +111,7 @@ class BuyToolUI extends eui.Component{
     
 	//月票，19元每月(30天）。每天登录可以领取300钻石，离线收益增加至90%，持续12小时。普通情况下离线收益为70%，持续8小时。首次购买获得1个勋章
     private buyTicket() {
-		if (application.customer.me.vip == 2) {
+		if (application.me.attrs.vip == 2) {
 			Toast.launch("你已经购买了VIP，终身免费，不需要购买月票");
 		} else {
 			Order.buyTicket();
@@ -122,7 +122,7 @@ class BuyToolUI extends eui.Component{
     
 	//终身VIP，49元。每天登录可以领取300钻石，离线收益增加至90%，持续12小时。
     private buyVIP() {
-		if (application.customer.me.vip == 2) {
+		if (application.me.attrs.vip == 2) {
 			Toast.launch("你已经购买了VIP，终身免费");
 		} else {
 			Order.buyVIP();
