@@ -36,7 +36,7 @@ class Project {
 		this._achieves.push({level: level, outputRatio: outputRatio, priceUseGold: priceUseGold, priceUseDiamond: priceUseDiamond});
 	}
 	
-    static createAllProjects(): Array<Project> {
+    static createAll(): Array<Project> {
 		let projects = new Array<Project>();
 		
 		let data = [
