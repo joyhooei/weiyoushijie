@@ -85,4 +85,49 @@ class Customer {
         
         Customer.saveNow();
     }
+
+    public static usableGold() {
+        if (application.bid) {
+            return Math.max(0,application.customer.gold - application.bid.gold + application.customer.earned_gold);
+        } else {
+            return Math.max(0,application.customer.gold + application.customer.earned_gold);
+        }
+    }
+    
+    public static buyOutput(gold:number, diamond: number, output:number): void {
+        gold    = Math.abs(gold);
+        diamond = Math.abs(diamond);
+        output  = Math.abs(output);
+        
+        application.customer.diamond -= diamond;	
+        application.customer.output  += output;
+        Customer.useGold(gold);
+        
+        if (application.customer.output >= 100) {
+			if(application.log10(application.customer.output) > application.log10(application.customer.output - output)) {
+				application.dao.fetch("Gift", {customer_id: application.customer.id, category: 7}, {limit: 1}).then(function(gifts){
+					if (gifts.length > 0) {
+						var gift = gifts[0];
+						gift.locked = 0;
+						application.dao.save("Gift", gift);
+					}
+				});
+			}
+		}
+    }
+    
+	public static avatarUrl(customer: any): string {
+		if (customer.avatar && customer.avatar.length > 1) {
+			return customer.avatar;
+		} else {
+            var url = application.baseUrl + "headline/resource/art/";
+			if (customer.sex == 1) {
+				return url + "headM.png";
+			} else if (customer.sex == 2) {
+				return url + "headF.png";
+			} else {
+                return url + "head.png";
+            }
+		}
+	}    
 }
