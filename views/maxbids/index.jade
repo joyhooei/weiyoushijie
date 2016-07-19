@@ -30,5 +30,5 @@ block main
 							tr
 								td= maxbid.get('day')
 								td
-									a(href="/customers/#{maxbid.get('customer_id')}") #{maxbid.get('name')}
+									a(href="/customers/#{maxbid.get('customer_id')}") #{maxbid.get('name') || maxbid.get('customer_id')}
 								td= maxbid.get('gold')
