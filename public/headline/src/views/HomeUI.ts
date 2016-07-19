@@ -82,7 +82,7 @@ class HomeUI extends eui.Component{
         
         self.imgHasMessage.visible = false;
         
-        self.imgVip.source = "VIP" + application.vip.getLevel().toString() + "_png";
+        self.imgVip.source = "VIP" + application.me.vip.getLevel().toString() + "_png";
         
         self.btnHome.addEventListener( egret.TouchEvent.TOUCH_TAP, self.btnHandler, self );
         self.btnRank.addEventListener( egret.TouchEvent.TOUCH_TAP, self.btnHandler, self );
@@ -91,10 +91,10 @@ class HomeUI extends eui.Component{
         
         self.btns = [self.btnHome,self.btnRank,self.btnTool,self.btnAuction ];
         
-		self.imgAvatar.source = application.avatarUrl(application.customer);
+		self.imgAvatar.source = Customer.avatarUrl(application.me.attrs);
         self.renderCustomer();
         
-		self.lblTotalHits.text = "x" + application.customer.total_hits.toString();
+		self.lblTotalHits.text = "x" + application.customer.attrs.total_hits.toString();
         self.renderTotalHits();
             
         self.renderProjects();
@@ -125,7 +125,7 @@ class HomeUI extends eui.Component{
         }, this);
 
         self.imgCharge.addEventListener(egret.TouchEvent.TOUCH_BEGIN,function() {
-			if (application.customer.charge == 0) {
+			if (application.me.attrs.charge == 0) {
 				application.showUI(new FirstChargeBonusUI(), this);
 			} else {
 				application.showUI(new ChargeTipUI(), this);
@@ -201,8 +201,8 @@ class HomeUI extends eui.Component{
 	private renderGift(): void {
 		var self = this;
 		
-        application.checkGift(function(gifts, hasGift){
-            self.imgGift.visible = hasGift;
+        Gift.check(application.me).then(function(gifts){
+            self.imgGift.visible = Gift.hasGift(gifts);
         });
 	}
     
@@ -221,10 +221,10 @@ class HomeUI extends eui.Component{
 		
         application.stopwatch.addEventListener("hour", function(event:egret.Event){
         	if (event.data % 4 == 0) {
-			 	application.dao.rest("hits", {customer_id: application.customer.id}, function(succeed, result) {
+			 	application.dao.rest("hits", {customer_id: application.me.attrs.id}, function(succeed, result) {
 				 	if (succeed) {
-					 	application.customer.total_hits = result.hits;
-					 	self.lblTotalHits.text = "x" + application.customer.total_hits.toString();
+					 	application.me.attrs.total_hits = result.hits;
+					 	self.lblTotalHits.text = "x" + application.me.attrs.total_hits.toString();
 				 	}
 			 	});				
 			}
@@ -236,15 +236,15 @@ class HomeUI extends eui.Component{
     	var self = this;
 		
 		application.stopwatch.addEventListener("minute", function(event:egret.Event){
-        	var bidDay = application.bidDay();
+        	var bidDay = Bid.day();
 			
 			//如果bidday已经过期了，则重新刷新bid数据
 			if (!(self.bid && bidDay == self.bid.day)) {
 				self.renderBid();
 			}
             
-            if (!(application.bid && bidDay == application.bid.day)) {
-				application.refreshBid(function(bid){
+            if (!(application.me.bid.attrs && bidDay == application.me.bid.attrs.day)) {
+				Bid.refresh(application.me).then(function(bid){
                     self.renderCustomer();
 				});
 			}
@@ -263,8 +263,8 @@ class HomeUI extends eui.Component{
         var self = this;
         
         self.imgHasMessage.visible = false;
-        application.dao.fetch("Message",{ customer_id: application.customer.id,state: 0 },{ limit: 1 },function(succeed,messages) {
-            if(succeed && messages.length == 1) {
+        application.dao.fetch("Message",{ customer_id: application.me.attrs.id,state: 0 },{ limit: 1 }).then(function(messages) {
+            if(messages.length == 1) {
                 self.imgHasMessage.visible = true;
             }
         });
@@ -273,25 +273,25 @@ class HomeUI extends eui.Component{
 	private renderBid(): void {
 		var self = this;
 		
-        application.dao.fetch("Bid",{ succeed: 1}, {limit : 1, order :'create_time desc'}, function(succeed, bids){
-            if (succeed && bids.length > 0) {
+        application.dao.fetch("Bid",{ succeed: 1}, {limit : 1, order :'create_time desc'}).then(function(bids){
+            if (bids.length > 0) {
                 if (!(self.bid && self.bid.id == bids[0].id)) {
     				self.bid = bids[0];
     				
     				//如果显示win ui，则不显示offlinegold ui，否则显示offlinegold ui
-    				if (application.customer.id == self.bid.customer_id) {
+    				if (application.me.attrs.id == self.bid.customer_id) {
     					//已经显示过，就不需要再显示了
     					if (self.bid.claimed == 0) {
     						application.showUI(new WinUI(self.bid), self);
                             
-                            application.earnOfflineGold();
+                            application.me.earnOfflineGold();
     					} else {
                         	self.renderOfflineGold();
                             
-                            application.earnBids();
+                            Bid.earn(application.me);
                         }
     					
-    					self.renderBidCustomer(application.customer);
+    					self.renderBidCustomer(application.me.attrs);
     				} else {
     					application.dao.fetch("Customer",{ id: self.bid.customer_id },{ limit: 1 },function(succeed, customers) {
     						if(succeed && customers.length > 0) {
@@ -321,7 +321,7 @@ class HomeUI extends eui.Component{
 		if (customer.hide_winner == 1) {
 			this.imgBidAvatar.source = "Ahide_png";
 		} else {
-            this.imgBidAvatar.source = application.avatarUrl(customer);
+            this.imgBidAvatar.source = Customer.avatarUrl(customer);
         }
 	}
 	
@@ -331,8 +331,8 @@ class HomeUI extends eui.Component{
         self.projectItems = new Array<ProjectItem>();
 		
         self.grpProject.removeChildren();
-        application.dao.fetch("Project",{ customer_id: application.customer.id },{ order: 'sequence asc' },function(succeed, projects) {
-            if(succeed && projects.length > 0) {
+        application.dao.fetch("Project",{ customer_id: application.me.attrs.id },{ order: 'sequence asc' }).then(function(projects) {
+            if(projects.length > 0) {
               	var output = 1;
                 for(var i = 0; i < projects.length; i ++){
 					var p = projects[i];
@@ -343,13 +343,13 @@ class HomeUI extends eui.Component{
                     	output += application.projects[p.sequence].output(p.level, p.achieve, p.tool_ratio);
 					}
                 }
-				output = application.vip.getOutput(output);
+				output = application.me.vip.getOutput(output);
                 
-				if (output != application.customer.output) {
-					application.customer.output = output;
-					application.saveCustomerNow();
+				if (output != application.me.attrs.output) {
+					application.me.attrs.output = output;
+					application.me.saveNow();
 					
-					self.lblOutput.text = application.format(self.getOutput());
+					self.lblOutput.text = Utility.format(self.getOutput());
 				}
             }
         });
@@ -385,13 +385,13 @@ class HomeUI extends eui.Component{
 	private earnGold(second:number): void {
 		var gold = this.getOutput() * second;
 		
-        application.earnGold(gold);
+        application.me.earnGold(gold);
         
 		//显示获得金币的动画
         this.grpAddGold.y = 370;
         this.imgAddGold.visible = true;
         this.lblAddGold.visible = true;
-        this.lblAddGold.text = "+" + application.format(gold);
+        this.lblAddGold.text = "+" + Utility.format(gold);
 		
         var timer: egret.Timer = new egret.Timer(100,20);
         timer.addEventListener(egret.TimerEvent.TIMER,function(event: egret.TimerEvent) {
@@ -411,16 +411,16 @@ class HomeUI extends eui.Component{
         	return;
 		}
 		
-		if (application.customer.total_hits > 0) {
-            application.customer.total_hits -= 1;
-            application.saveCustomerNow();
+		if (application.me.attrs.total_hits > 0) {
+            application.me.attrs.total_hits -= 1;
+            application.me.saveNow();
             
-            self.lblTotalHits.text = "x" + application.customer.total_hits.toString();
+            self.lblTotalHits.text = "x" + application.me.attrs.total_hits.toString();
             
     		self.hit = 59;
-    		self.lblOutput.text = application.format(self.getOutput());
+    		self.lblOutput.text = Utility.format(self.getOutput());
             
-            Toast.launch("获得" + application.vip.getHitRatio() + "倍收益，持续60秒");
+            Toast.launch("获得" + application.me.vip.getHitRatio() + "倍收益，持续60秒");
             
             self.imgHit.visible = true;
             
@@ -435,7 +435,7 @@ class HomeUI extends eui.Component{
     		timer.addEventListener(egret.TimerEvent.TIMER_COMPLETE, function(event:egret.TimerEvent){
     			self.hit = 0;
     			self.lblHit.text = "59";
-    			self.lblOutput.text = application.format(self.getOutput());
+    			self.lblOutput.text = Utility.format(self.getOutput());
                 
                 self.imgHit.visible = false;
     		}, this);
@@ -447,9 +447,9 @@ class HomeUI extends eui.Component{
 	
 	private getOutput(): number {
 		if (this.hit > 0) {
-			return application.vip.getHit(application.customer.output);
+			return application.me.vip.getHit(application.me.attrs.output);
 		} else {
-			return application.customer.output;
+			return application.me.attrs.output;
 		}
 	}
 	
@@ -462,27 +462,27 @@ class HomeUI extends eui.Component{
 		var delta = (to - from) / step;
 		var timer: egret.Timer = new egret.Timer(50, step);
         timer.addEventListener(egret.TimerEvent.TIMER, function(event:egret.TimerEvent){
-			lbl.text = application.format(Math.round(from + delta * (<egret.Timer>event.target).currentCount));
+			lbl.text = Utility.format(Math.round(from + delta * (<egret.Timer>event.target).currentCount));
 		}, this);
 		
         timer.addEventListener(egret.TimerEvent.TIMER_COMPLETE, function(event:egret.TimerEvent){
-			lbl.text = application.format(to);
+			lbl.text = Utility.format(to);
 		}, this);
 
         timer.start();
 	}
 	
     public renderCustomer():void {
-        if(this.gold != application.usableGold()) {
-        	this.animateStep(this.lblGold, this.gold, application.usableGold());
+        if(this.gold != application.me.usableGold()) {
+        	this.animateStep(this.lblGold, this.gold, application.me.usableGold());
             
-            this.gold = application.usableGold();
+            this.gold = application.me.usableGold();
 		}
 		
-        if(this.diamond != application.customer.diamond) {
-        	this.animateStep(this.lblDiamond, this.diamond, application.customer.diamond);
+        if(this.diamond != application.me.attrs.diamond) {
+        	this.animateStep(this.lblDiamond, this.diamond, application.me.attrs.diamond);
             
-            this.diamond = application.customer.diamond;
+            this.diamond = application.me.attrs.diamond;
 		}
 		
         if(this.output != this.getOutput()) {
@@ -491,13 +491,13 @@ class HomeUI extends eui.Component{
             this.output = this.getOutput();
 		}
 		
-        this.lblTotalHits.text = "x" + application.customer.total_hits.toString();
+        this.lblTotalHits.text = "x" + application.me.attrs.total_hits.toString();
         
-        if (application.customer.charge > 0) {
+        if (application.me.attrs.charge > 0) {
         	this.imgCharge.source = "charge_png";
         }
         
-        this.lblName.text = application.customer.name;
+        this.lblName.text = application.me.attrs.name;
 	}
 	
 	private renderProject(proj) {
