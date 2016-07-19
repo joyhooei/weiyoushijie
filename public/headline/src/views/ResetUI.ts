@@ -31,9 +31,9 @@ class ResetUI extends eui.Component{
             this.myProject.tool_ratio = 1;
             application.dao.save("Project",this.myProject);
             
-            application.customer.diamond += this.diamond;
-            application.customer.output  += this.output() - oldOutput;
-            application.saveCustomerNow();
+            application.me.attrs.diamond += this.diamond;
+            application.me.attrs.output  += this.output() - oldOutput;
+            application.me.saveNow();
 			
 			application.channel.track(TRACK_CATEGORY_DIAMOND, TRACK_ACTION_INC, "重置了金手指", this.diamond); 
             
@@ -42,7 +42,7 @@ class ResetUI extends eui.Component{
             application.hideUI(this);
         }, this );
         
-        this.lblDiamond.text = application.format(this.diamond);
+        this.lblDiamond.text = Utility.format(this.diamond);
     }
     
     private output(): number {
