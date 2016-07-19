@@ -8,8 +8,6 @@ class Customer {
 	private saveSeconds: number = 0;
 	
 	constructor(attrs: any) {
-        super();
-        
         this.attrs = attrs;
 
         if(!this.attrs.earned_gold) {
@@ -58,7 +56,7 @@ class Customer {
         if (now - this.saveSeconds >= 120) {
             this.saveNow();
 		} else {
-			application.dao.dispatchEventWith("Customer", true, this.me);
+			application.dao.dispatchEventWith("Customer", true, this.attrs);
 		}
     }
 
@@ -104,7 +102,7 @@ class Customer {
         this.save();
     }
     
-    public static useGold(gold:number) {
+    public useGold(gold:number) {
         if(this.attrs.earned_gold > gold) {
             this.attrs.earned_gold -= gold;
         } else {
@@ -134,7 +132,7 @@ class Customer {
         
         if (this.attrs.output >= 100) {
 			if(Utility.log10(this.attrs.output) > Utility.log10(this.attrs.output - output)) {
-				application.dao.fetch("Gift", {customer_id: application.customer.id, category: 7}, {limit: 1}).then(function(gifts){
+				application.dao.fetch("Gift", {customer_id: this.attrs.id, category: 7}, {limit: 1}).then(function(gifts){
 					if (gifts.length > 0) {
 						var gift = gifts[0];
 						gift.locked = 0;
