@@ -41,8 +41,8 @@ class ToolUI extends eui.Component {
         this.grpProject.layout = tLayout;    /// 网格布局
         
         self.grpProject.removeChildren();
-        application.dao.fetch("Project",{ customer_id: application.me.attrs.id },{ order: 'sequence asc' },function(succeed, projects) {
-            if(succeed && projects.length > 0) {
+        application.dao.fetch("Project",{ customer_id: application.me.attrs.id },{ order: 'sequence asc' }).then(function(projects) {
+            if(projects.length > 0) {
                 for(var i = 0; i < projects.length; i ++){                    
                     self.addProject(projects[i]);
                 }
@@ -58,8 +58,8 @@ class ToolUI extends eui.Component {
         },this);
 
         application.dao.addEventListener("Customer",function(evt: egret.Event) {
-            this.lblGold.text = Utility.format(application.usableGold());
-            this.lblDiamond.text = Utility.format(application.customer.diamond);
+            this.lblGold.text = Utility.format(application.me.usableGold());
+            this.lblDiamond.text = Utility.format(application.me.attrs.diamond);
         },this);
 
         this.btnAddGold.addEventListener(egret.TouchEvent.TOUCH_BEGIN,function() {
