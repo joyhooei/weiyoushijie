@@ -1,6 +1,8 @@
 class Customer {
 	public me: any;
 	
+	putlic vip: any;
+	
 	private saveSeconds: number = 0;
 	
 	constructor(me: any) {
@@ -11,6 +13,8 @@ class Customer {
         if(!this.me.earned_gold) {
             this.me.earned_gold = 0;
         }
+        
+        this.vip = Vip.createVip(this.me.charge);
         
         this.checkTicket();
     }
