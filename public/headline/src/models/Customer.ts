@@ -1,96 +1,108 @@
 class Customer {
-	public static resetTicket(vip: number): void {
-		application.customer.vip = vip;
+	public me: any;
+	
+	private saveSeconds: number = 0;
+	
+	constructor(me: any) {
+        super();
+        
+        this.me = me;
+    }
+
+	public resetTicket(vip: number): void {
+		this.me.vip = vip;
 		
 		if (vip == 0 || vip == 2) {
-			application.customer.ticket = "";
+			this.me.ticket = "";
 		} else {
 			var now = new Date();
 			now = new Date(now.getTime() + 1000 * 60 * 60 * 24 * 30);
-			application.customer.ticket = now.toString();
+			this.me.ticket = now.toString();
 		}
 		
-		Customer.saveNow();
+		this.saveNow();
 	} 
 
     //检查是否ticket超期了
-    public static checkTicket(): void {
-        if(application.customer.vip == 1) {
-            if(application.customer.ticket && application.customer.ticket.length > 1) {
-                var ticketTimeout = new Date(application.customer.ticket);
+    public checkTicket(): void {
+        if(this.me.vip == 1) {
+            if(this.me.ticket && this.me.ticket.length > 1) {
+                var ticketTimeout = new Date(this.me.ticket);
                 var now = new Date();
                 if(ticketTimeout.getTime() < now.getTime()) {
-                    Customer.resetTicket(0);
+                    this.resetTicket(0);
                 }
             } else {
-                Customer.resetTicket(1);
+                this.resetTicket(1);
             }
         }
     }
     
-    public static save() {
+    public save() {
 		var now = (new Date()).getTime() / 1000;
-        if (now - application.saveSeconds >= 120) {
-            Customer.saveNow();
+        if (now - this.saveSeconds >= 120) {
+            this.saveNow();
 		} else {
-			application.dao.dispatchEventWith("Customer", true, application.customer);
+			application.dao.dispatchEventWith("Customer", true, this.me);
 		}
     }
 
-    public static saveNow() {
-        application.saveSeconds = (new Date()).getTime() / 1000;
+    public saveNow() {
+    	var self = this;
+    	
+        self.saveSeconds = (new Date()).getTime() / 1000;
 
-        application.customer.version = application.version;
-        application.customer.gold = Math.max(0,application.customer.gold);
-        application.customer.earned_gold = Math.max(0,application.customer.earned_gold);
-        application.customer.accumulated_gold = Math.max(application.customer.accumulated_gold,application.customer.gold);
-        application.customer.diamond = Math.max(0,application.customer.diamond);
-        application.dao.save("Customer",application.customer, function(succeed, customer){
-            if (application.customer.charge != application.vip) {
-                application.vip = Vip.createVip(application.customer.charge);
+        self.me.version = application.version;
+        self.me.gold = Math.max(0,self.me.gold);
+        self.me.earned_gold = Math.max(0,self.me.earned_gold);
+        self.me.accumulated_gold = Math.max(self.me.accumulated_gold, self.me.gold);
+        self.me.diamond = Math.max(0, self.me.diamond);
+        application.dao.save("Customer",self.me).then(function(customer){
+            if (self.me.charge != application.vip) {
+                application.vip = Vip.createVip(self.me.charge);
             }
         });
     }
 
-    public static earnOfflineGold() {
-        if (application.customer.offline_gold > 0) {
-            application.earnGold(application.customer.offline_gold);
-            Customer.saveNow();
+    public earnOfflineGold() {
+        if (this.me.offline_gold > 0) {
+            this.earnGold(this.me.offline_gold);
+            this.saveNow();
         }
     }
     
-    public static earnGold(gold:number) {
+    public earnGold(gold:number) {
 		//处理大数 + 小数，小数被四舍五入的问题
-        application.customer.earned_gold += gold;
+        this.me.earned_gold += gold;
         
-        var oldGold = application.customer.gold;
+        var oldGold = this.me.gold;
         
-        application.customer.gold += application.customer.earned_gold;
-        if (oldGold != application.customer.gold) {
-            application.customer.accumulated_gold += application.customer.earned_gold;
+        this.me.gold += this.me.earned_gold;
+        if (oldGold != this.me.gold) {
+            this.me.accumulated_gold += this.me.earned_gold;
             
-            application.customer.earned_gold = 0;			
+            this.me.earned_gold = 0;			
         }
         
-        Customer.save();
+        this.save();
     }
     
     public static useGold(gold:number) {
-        if(application.customer.earned_gold > gold) {
-            application.customer.earned_gold -= gold;
+        if(this.me.earned_gold > gold) {
+            this.me.earned_gold -= gold;
         } else {
-            application.customer.gold = application.customer.gold + application.customer.earned_gold - gold;
-            application.customer.earned_gold = 0;
+            this.me.gold = this.me.gold + this.me.earned_gold - gold;
+            this.me.earned_gold = 0;
         }
         
-        Customer.saveNow();
+        this.saveNow();
     }
 
-    public static usableGold() {
+    public usableGold() {
         if (application.bid) {
-            return Math.max(0,application.customer.gold - application.bid.gold + application.customer.earned_gold);
+            return Math.max(0,this.me.gold + this.me.earned_gold - application.bid.current.gold);
         } else {
-            return Math.max(0,application.customer.gold + application.customer.earned_gold);
+            return Math.max(0,this.me.gold + this.me.earned_gold);
         }
     }
     
@@ -99,12 +111,12 @@ class Customer {
         diamond = Math.abs(diamond);
         output  = Math.abs(output);
         
-        application.customer.diamond -= diamond;	
-        application.customer.output  += output;
-        Customer.useGold(gold);
+        this.me.diamond -= diamond;	
+        this.me.output  += output;
+        this.useGold(gold);
         
-        if (application.customer.output >= 100) {
-			if(application.log10(application.customer.output) > application.log10(application.customer.output - output)) {
+        if (this.me.output >= 100) {
+			if(Utility.log10(this.me.output) > Utility.log10(this.me.output - output)) {
 				application.dao.fetch("Gift", {customer_id: application.customer.id, category: 7}, {limit: 1}).then(function(gifts){
 					if (gifts.length > 0) {
 						var gift = gifts[0];
