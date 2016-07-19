@@ -59,7 +59,7 @@ module application {
                     application.guideUI = new GuideUI();
                 }
                 
-                application.me.bid.refresh().then(function(attrs){
+                application.me.bid.refresh(application.me).then(function(attrs){
                 	application.main.dispatchEventWith(GameEvents.EVT_LOGIN_IN_SUCCESS);
                 })
 
