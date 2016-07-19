@@ -26,7 +26,7 @@ class HelpUI extends eui.Component{
     }
     
     
-    public static showAuctionHelp(): HelpUI {
+    public static showAuctionHelp() {
 		let content = "1： 拍卖每天中午12点结束。\n";
 		content += "2： 出价最高者成为今日头条，获得勋章一枚和2000钻石的奖励。\n";
         content += "3： 前100名将获得钻石奖励，未中标玩家的拍卖金币自动返还。\n";
@@ -42,7 +42,7 @@ class HelpUI extends eui.Component{
 		application.showUI(new HelpUI(content));
     }
     
-    public static showMainHelp(): HelpUI {
+    public static showMainHelp() {
         let content = "玩法\n"
         content += "1. 点击中间舞者可产生金币，金币用来升级运营项目，而运营项目随等级提高从而产生更多的金币。\n"
         content += "2. 金币可以用来参加头条拍卖，每天最高出价者会成为头条，获得头条殊荣，勋章和钻石奖励。\n"
