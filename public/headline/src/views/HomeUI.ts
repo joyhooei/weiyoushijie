@@ -113,7 +113,7 @@ class HomeUI extends eui.Component{
         }, this);
 
         self.btnHelp.addEventListener(egret.TouchEvent.TOUCH_BEGIN, function() {
-			application.showHelp("");
+        	HelpUI.showMainHelp();
         }, this);
                 
         self.btnAddGold.addEventListener(egret.TouchEvent.TOUCH_BEGIN, function() {
