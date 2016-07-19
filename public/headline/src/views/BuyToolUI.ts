@@ -114,7 +114,7 @@ class BuyToolUI extends eui.Component{
 		if (application.me.attrs.vip == 2) {
 			Toast.launch("你已经购买了VIP，终身免费，不需要购买月票");
 		} else {
-			Order.buyTicket();
+			Order.buyTicket(application.me);
 			
 			application.hideUI(this);
 		}
@@ -125,7 +125,7 @@ class BuyToolUI extends eui.Component{
 		if (application.me.attrs.vip == 2) {
 			Toast.launch("你已经购买了VIP，终身免费");
 		} else {
-			Order.buyVIP();
+			Order.buyVIP(application.me);
 			
 			application.hideUI(this);
 		}			
