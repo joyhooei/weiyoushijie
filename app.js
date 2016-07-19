@@ -86,6 +86,8 @@ app.use('/maxbids', maxbids);
 
 app.use('/api', api);
 
+process.setMaxListeners(0);
+
 // Passport session setup.
 passport.serializeUser(function(user, done) {
     done(null, user);
