@@ -14,7 +14,7 @@ class Gift {
         application.dao.dispatchEventWith("Gift", true, null);
     }
     
-    public static hasGift(gifts:[]):boolean {
+    public static hasGift(gifts:any[]):boolean {
     	for(let i = 0; i < gifts.length; i++) {
     		if (gifts[i].locked == 0 ) {
     			return true;
@@ -24,8 +24,8 @@ class Gift {
     	return false;
     }
     
-    public static check(customer) {
-        return Q.Promise(function(resolve, reject, notify) {
+    public static check(customer): Q.Promise<any[]> {
+        return Q.Promise<any[]>(function(resolve, reject, notify) {
             application.dao.fetch("Gift", {customer_id: customer.attrs.id}, {order : 'category ASC'}).then(function(gifts){
                 if (gifts.length > 0) {
     				//如果到了第二天，将所有已经领取礼物重新修改为可以领取
