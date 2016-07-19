@@ -221,11 +221,9 @@ class HomeUI extends eui.Component{
 		
         application.stopwatch.addEventListener("hour", function(event:egret.Event){
         	if (event.data % 4 == 0) {
-			 	application.dao.rest("hits", {customer_id: application.me.attrs.id}, function(succeed, result) {
-				 	if (succeed) {
-					 	application.me.attrs.total_hits = result.hits;
-					 	self.lblTotalHits.text = "x" + application.me.attrs.total_hits.toString();
-				 	}
+			 	application.dao.rest("hits", {customer_id: application.me.attrs.id}).then(function(result) {
+				 	application.me.attrs.total_hits = result.hits;
+				 	self.lblTotalHits.text = "x" + application.me.attrs.total_hits.toString();
 			 	});				
 			}
         }, this);
@@ -244,7 +242,7 @@ class HomeUI extends eui.Component{
 			}
             
             if (!(application.me.bid.attrs && bidDay == application.me.bid.attrs.day)) {
-				Bid.refresh(application.me).then(function(bid){
+				application.me.bid.refresh(application.me).then(function(bid){
                     self.renderCustomer();
 				});
 			}
@@ -293,15 +291,15 @@ class HomeUI extends eui.Component{
     					
     					self.renderBidCustomer(application.me.attrs);
     				} else {
-    					application.dao.fetch("Customer",{ id: self.bid.customer_id },{ limit: 1 },function(succeed, customers) {
-    						if(succeed && customers.length > 0) {
+    					application.dao.fetch("Customer",{ id: self.bid.customer_id },{ limit: 1 }).then(function(customers) {
+    						if(customers.length > 0) {
     							self.renderBidCustomer(customers[0]);
     						}
     					});
     					
     					self.renderOfflineGold();
                         
-                        application.earnBids();
+                        application.me.bid.earn(application.me);
     				}
     			}
             }
@@ -309,14 +307,14 @@ class HomeUI extends eui.Component{
 	}
     
     private renderOfflineGold(): void {
-        if(application.customer.offline_gold > 0) {
+        if(application.me.attrs.offline_gold > 0) {
             application.showUI(new OfflineGoldUI(), this);
         }
     }
 	
 	private renderBidCustomer(customer:any) {
 		this.lblBidName.text = customer.name;
-		this.lblBidGold.text = application.format(this.bid.gold);
+		this.lblBidGold.text = Utility.format(this.bid.gold);
 
 		if (customer.hide_winner == 1) {
 			this.imgBidAvatar.source = "Ahide_png";
