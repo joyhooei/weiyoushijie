@@ -70,7 +70,7 @@ module.exports.midnight = function(game, today) {
 						diamond = 1000;
 					}
 					
-					promises.push(Message.send(bid.get("customer_id"), "拍卖奖励", "凌晨0点，您的拍卖排行是第" + (i + 1).toString() + '名，获得额外奖励，谢谢参与！', "diamond", diamond));
+					promises.push(Message.send(bid.get("customer_id"), "拍卖奖励", today + "凌晨0点，您的拍卖排行是第" + (i + 1).toString() + '名，获得额外奖励，谢谢参与！', "diamond", diamond, game));
 				}
 				
 				if (promises.length > 0) {
