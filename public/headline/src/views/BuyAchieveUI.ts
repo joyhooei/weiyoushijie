@@ -91,7 +91,7 @@ class BuyAchieveUI extends eui.Component{
         let oldOutput = this._project.output(this._myProject.level,this._myProject.achieve,this._myProject.tool_ratio);							
 
         this._myProject.achieve = this._achieve;
-		application.customer.buyOutput(gold, diamond, newOutput - oldOutput);
+		application.me.buyOutput(gold, diamond, newOutput - oldOutput);
         Toast.launch("获得成就成功");
 
         application.dao.save("Project",this._myProject);
