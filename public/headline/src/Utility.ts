@@ -1,5 +1,5 @@
 class Utility {
-    static function log10(d:number):number {
+    public static log10(d:number):number {
         let result:number = 0;
         
         //可能出现9.9999999e+25的情况
@@ -11,7 +11,7 @@ class Utility {
         return result;
     }
     
-    static function format(d:number): string {
+    public static format(d:number): string {
 		try {
 			if (d <= 99999) {
 				return new Number(d).toFixed();
@@ -39,7 +39,7 @@ class Utility {
 		}
     }
     
-	static function delay(cb: Function, miniseconds: number) {
+	public static delay(cb: Function, miniseconds: number) {
 		var timer: egret.Timer = new egret.Timer(miniseconds, 1);
 		timer.addEventListener(egret.TimerEvent.TIMER,function(event: egret.TimerEvent) {
 			cb();
