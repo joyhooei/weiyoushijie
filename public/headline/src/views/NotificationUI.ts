@@ -1,4 +1,4 @@
-class MessageDetailUI extends eui.Component {
+class NotificationUI extends eui.Component {
     private imgOk: eui.Image;
     private lblContent: eui.Label;
 
