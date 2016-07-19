@@ -42,10 +42,8 @@ class ToolUI extends eui.Component {
         
         self.grpProject.removeChildren();
         application.dao.fetch("Project",{ customer_id: application.me.attrs.id },{ order: 'sequence asc' }).then(function(projects) {
-            if(projects.length > 0) {
-                for(var i = 0; i < projects.length; i ++){                    
-                    self.addProject(projects[i]);
-                }
+            for(var i = 0; i < projects.length; i ++){                    
+                self.addProject(projects[i]);
             }
         });
     }
