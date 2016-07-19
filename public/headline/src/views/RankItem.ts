@@ -20,7 +20,7 @@ class RankItem extends eui.Component {
 				return;
 			} else {
 				this.lblRank.text = rank.toString();
-				if (customer.id == application.customer.id) {
+				if (customer.id == application.me.attrs.id) {
                     this.imgBg.source = "RY_png";
 				} else {
                     this.imgBg.source = "RG_png";
@@ -39,9 +39,9 @@ class RankItem extends eui.Component {
 			}
 		}
 		
-        this.imgAvatar.source = application.avatarUrl(customer);
+        this.imgAvatar.source = Customer.avatarUrl(customer);
         this.lblName.text  = customer.name;
         this.lblMetal.text = customer.metal;
-        this.lblGold.text  = application.format(customer.accumulated_gold);
+        this.lblGold.text  = Utility.format(customer.accumulated_gold);
     }
 }
