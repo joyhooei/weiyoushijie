@@ -177,7 +177,7 @@ class GiftUI extends eui.Component {
     private uiCompHandler(): void {
         var self = this;
 
-		application.checkGift(function(gifts, hasGift){
+		Gift.check(application.me).then(function(gifts){
 			self.gifts = gifts;
 			
             for(var i = 0;i < self.imgPicks.length;i++) {
