@@ -90,10 +90,7 @@ app.use('/notifications', notifications);
 
 app.use('/api', api);
 
-if (!process.env.LC_APP_ID) {
-    var om = require('./routes/om');
-    app.use('/om', om);
-}
+process.setMaxListeners(0);
 
 // Passport session setup.
 passport.serializeUser(function(user, done) {
