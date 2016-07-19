@@ -51,7 +51,7 @@ class AuctionUI extends eui.Component{
         this.imgFront.width = 0;
 		
 		this.addGold = 0;
-		this.bid = { gold: 0, day: today, customer_id: application.customer.id, claimed: 0 };
+		this.bid = { gold: 0, day: today, customer_id: application.customer.id, claimed: 0, succeed: 0 };
         this.renderBid(0);
     }
 
