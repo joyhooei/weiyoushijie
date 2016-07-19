@@ -129,6 +129,6 @@ class ToolItem extends eui.Component {
 	}
 	
 	private output(): number {
-        return this._project.output(this._myProject.level, this._myProject.achieve, this._myProject.tool_ratio);
+        return application.me.vip.getOutput(this._project.output(this._myProject.level, this._myProject.achieve, this._myProject.tool_ratio));
     }
 }

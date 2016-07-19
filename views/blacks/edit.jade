@@ -21,10 +21,10 @@ block main
 					span.break
 					| 黑名单
 			div.box-content
-				if message.id
-					- var action = "/blacks/" + message.id
+				if black.isNew()
+					- var action = "/blacks?game=" + game
 				else
-					- var action = "/blacks/edit"
+					- var action = "/blacks/" + black.id + "?game=" + game
 				form(class="form-horizontal", action="#{action}", method="post")
 					fieldset
 						div(class="control-group", style="display:none")
@@ -42,4 +42,4 @@ block main
 						div.form-actions
 							button(type="submit", class="btn btn-primary") 保存
 							button.btn 
-								a(href="/messages") 取消
+								a(href="/blacks?game=#{game}") 取消

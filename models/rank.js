@@ -1,9 +1,9 @@
-module.exports.rank = function() {
-	return Q.Promise(function(resolve, reject, notify) {
-		dao.findAll("Rank", {"game":"headline"}, {"order":"rank ASC"}).then(function (ranks){
-			dao.findAll("Customer", {"game":"headline"}, {"order":"metal DESC, accumulated_gold DESC"}).then(function(customers){
-				console.log("ranks " + ranks.length + " customers " + customers.length);
+module.exports.rank = function(game) {
+	console.log("rank " + game);
 
+	return Q.Promise(function(resolve, reject, notify) {
+		dao.findAll("Rank", {"game":game}, {"order":"rank ASC"}).then(function (ranks){
+			dao.findAll("Customer", {"game":game}, {"order":"metal DESC, accumulated_gold DESC"}).then(function(customers){
 				var newRanks = [];
 				
 				for(var i = 0; i < customers.length; i++) {
@@ -20,8 +20,6 @@ module.exports.rank = function() {
 					}
 				}
 
-				console.log("new ranks " + newRanks.length);	
-	
 				dao.saveAll(newRanks).then(function (avobjs) {
 					console.log("rank " + newRanks.length);	
 					resolve(newRanks.length);
@@ -38,4 +36,14 @@ module.exports.rank = function() {
 			reject(error.message);
 		});	
 	});
+}
+
+module.exports.create = function(customer) {
+	dao.count("Customer", {}, {}).then(function(count){
+		var rank = new dao.Rank();
+		rank.set("customer_id", customer.id);
+		rank.set("rank", count);
+		rank.set("game", customer.get("game"));
+		rank.save();
+	})
 }

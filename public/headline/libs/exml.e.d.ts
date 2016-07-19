@@ -28,6 +28,8 @@ declare class messageItemSkin extends eui.Skin{
 }
 declare class messageUISkin extends eui.Skin{
 }
+declare class notificationUISkin extends eui.Skin{
+}
 declare class offlineGoldUISkin extends eui.Skin{
 }
 declare class projectListIRSkin extends eui.Skin{

@@ -8,8 +8,8 @@ var ToolUI = (function (_super) {
     var d = __define,c=ToolUI,p=c.prototype;
     p.refresh = function () {
         var self = this;
-        this.lblGold.text = application.format(application.usableGold());
-        this.lblDiamond.text = application.format(application.customer.diamond);
+        this.lblGold.text = Utility.format(application.me.usableGold());
+        this.lblDiamond.text = Utility.format(application.me.attrs.diamond);
         var tLayout = new eui.TileLayout();
         tLayout.horizontalGap = 0;
         tLayout.verticalGap = 0;
@@ -22,11 +22,9 @@ var ToolUI = (function (_super) {
         tLayout.requestedColumnCount = 2; /// 设置两列显示
         this.grpProject.layout = tLayout; /// 网格布局
         self.grpProject.removeChildren();
-        application.dao.fetch("Project", { customer_id: application.customer.id }, { order: 'sequence asc' }, function (succeed, projects) {
-            if (succeed && projects.length > 0) {
-                for (var i = 0; i < projects.length; i++) {
-                    self.addProject(projects[i]);
-                }
+        application.dao.fetch("Project", { customer_id: application.me.attrs.id }, { order: 'sequence asc' }).then(function (projects) {
+            for (var i = 0; i < projects.length; i++) {
+                self.addProject(projects[i]);
             }
         });
     };
@@ -36,8 +34,8 @@ var ToolUI = (function (_super) {
             application.gotoHome();
         }, this);
         application.dao.addEventListener("Customer", function (evt) {
-            this.lblGold.text = application.format(application.usableGold());
-            this.lblDiamond.text = application.format(application.customer.diamond);
+            this.lblGold.text = Utility.format(application.me.usableGold());
+            this.lblDiamond.text = Utility.format(application.me.attrs.diamond);
         }, this);
         this.btnAddGold.addEventListener(egret.TouchEvent.TOUCH_BEGIN, function () {
             application.showUI(new BuyToolUI("time", 500));

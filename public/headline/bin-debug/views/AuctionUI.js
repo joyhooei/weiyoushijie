@@ -7,9 +7,9 @@ var AuctionUI = (function (_super) {
     }
     var d = __define,c=AuctionUI,p=c.prototype;
     p.refresh = function () {
-        this.lblGold.text = application.format(application.usableGold());
-        this.lblDiamond.text = application.format(application.customer.diamond);
-        var today = application.bidDay();
+        this.lblGold.text = Utility.format(application.me.usableGold());
+        this.lblDiamond.text = Utility.format(application.me.attrs.diamond);
+        var today = Bid.day();
         this.renderLastBid(today);
         this.renderMaxBid(today);
         this.grpTrack.x = this.imgThumb.x;
@@ -18,7 +18,7 @@ var AuctionUI = (function (_super) {
         this.imgFront.y = this.imgThumb.y;
         this.imgFront.width = 0;
         this.addGold = 0;
-        this.bid = { gold: 0, day: today, customer_id: application.customer.id, claimed: 0 };
+        this.bid = { gold: 0, day: today, customer_id: application.me.attrs.id, claimed: 0 };
         this.renderBid(0);
     };
     p.uiCompHandler = function () {
@@ -27,8 +27,8 @@ var AuctionUI = (function (_super) {
             application.gotoHome();
         }, this);
         application.dao.addEventListener("Customer", function (evt) {
-            this.lblGold.text = application.format(application.usableGold());
-            this.lblDiamond.text = application.format(application.customer.diamond);
+            this.lblGold.text = Utility.format(application.me.usableGold());
+            this.lblDiamond.text = Utility.format(application.me.attrs.diamond);
         }, this);
         this.imgBid.addEventListener(egret.TouchEvent.TOUCH_BEGIN, this.onBid, this);
         this.grpTrack.touchEnabled = true;
@@ -41,36 +41,24 @@ var AuctionUI = (function (_super) {
             application.showUI(new ChargeTipUI());
         }, this);
         this.btnHelp.addEventListener(egret.TouchEvent.TOUCH_BEGIN, function () {
-            var content = "1： 拍卖每天中午12点结束。\n";
-            content += "2： 出价最高者成为今日头条，获得勋章一枚和2000钻石的奖励。\n";
-            content += "3： 前100名将获得钻石奖励，未中标玩家的拍卖金币自动返还。\n";
-            content += "4： 拍卖期间，系统显示截至上个小时的最高出价，为新出价的玩家提供参考。\n";
-            content += "5： 玩家在拍卖结束前可以反复加价，每次加价最高为当前拥有的所有金币。\n";
-            content += "6： 每天首次参加拍卖可以在礼物页面中领取100钻石奖励。（每天00:00刷新）\n";
-            content += "－－－－拍卖排名榜奖励 －－－－\n";
-            content += "第1名 2000钻\n";
-            content += "第2名 1500钻\n";
-            content += "第3名 1200钻\n";
-            content += "第4-10名 1000钻\n";
-            content += "第11-100名 500钻\n";
-            application.showHelp(content);
+            HelpUI.showAuctionHelp();
         }, this);
     };
     p.renderLastBid = function (today) {
         var self = this;
-        application.dao.fetch("Bid", { succeed: 0, day: today, customer_id: application.customer.id }, { limit: 1 }, function (succeed, bids) {
-            if (succeed && bids.length > 0) {
+        application.dao.fetch("Bid", { succeed: 0, day: today, customer_id: application.me.attrs.id }, { limit: 1 }).then(function (bids) {
+            if (bids.length > 0) {
                 self.bid = bids[0];
-                application.bid = self.bid;
+                application.me.bid.attrs = self.bid;
                 self.renderBid(self.addGold);
             }
         });
     };
     p.renderMaxBid = function (today) {
         var self = this;
-        application.dao.fetch("MaxBid", { day: today }, { limit: 1 }, function (succeed, bids) {
-            if (succeed && bids.length > 0) {
-                self.lblMaxBid.text = application.format(bids[0].gold);
+        application.dao.fetch("MaxBid", { day: today }, { limit: 1 }).then(function (bids) {
+            if (bids.length > 0) {
+                self.lblMaxBid.text = Utility.format(bids[0].gold);
                 self.lblMaxBidName.text = bids[0].name;
                 self.imgMaxBidAvatar.source = bids[0].avatar;
             }
@@ -83,25 +71,25 @@ var AuctionUI = (function (_super) {
     };
     p.renderBid = function (gold) {
         this.addGold = Math.floor(gold);
-        this.lblCurrentBid.text = application.format(this.addGold);
-        this.lblLastBid.text = application.format(this.addGold + this.bid.gold);
+        this.lblCurrentBid.text = Utility.format(this.addGold);
+        this.lblLastBid.text = Utility.format(this.addGold + this.bid.gold);
     };
     p.onBid = function () {
         var self = this;
-        if (self.bid.day == application.bidDay()) {
+        if (self.bid.day == Bid.day()) {
             self.bid.gold += self.addGold;
             if (self.bid.gold > 0) {
-                application.dao.fetch("Blacklist", { customer_id: application.customer.id }, { limit: 1 }, function (succeed, blacks) {
-                    if (succeed && blacks.length == 1) {
+                application.dao.fetch("Blacklist", { customer_id: application.me.attrs.id }, { limit: 1 }).then(function (blacks) {
+                    if (blacks.length == 1) {
                         Toast.launch("对不起，您由于下列原因被封号：" + blacks[0].reason + "。");
                     }
                     else {
                         self.bid.claimed = 0;
                         application.dao.save("Bid", self.bid);
-                        application.giftChanged();
+                        Gift.notify();
                         application.channel.track(TRACK_CATEGORY_ACTIVITY, TRACK_ACTION_JOIN, "投标");
                         Toast.launch("投标成功");
-                        application.bid = self.bid;
+                        application.me.bid.attrs = self.bid;
                         if (application.guideUI) {
                             application.guideUI.next();
                         }
@@ -115,7 +103,7 @@ var AuctionUI = (function (_super) {
         }
         else {
             Toast.launch("今天投标已经结束");
-            application.bid = null;
+            application.me.bid.attrs = null;
             self.refresh();
         }
     };
@@ -133,7 +121,7 @@ var AuctionUI = (function (_super) {
         this.grpTrack.x = target;
         var percent = Math.round(100 * (this.grpTrack.x - this.imgThumb.x) / (this.imgThumb.width - this.grpTrack.width));
         this.lblTrack.text = percent.toString() + "%";
-        this.renderBid((Math.max(0, application.customer.gold - this.bid.gold)) * percent / 100);
+        this.renderBid((Math.max(0, application.me.attrs.gold - this.bid.gold)) * percent / 100);
         this.imgFront.width = this.grpTrack.x - this.imgThumb.x + 20;
         this.nextStep();
     };

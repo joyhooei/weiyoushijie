@@ -87,8 +87,8 @@ class BuyAchieveUI extends eui.Component{
     }
     
     private _buy(gold:number, diamond:number): void {
-        let newOutput = this._project.output(this._myProject.level,this._achieve,this._myProject.tool_ratio) 
-        let oldOutput = this._project.output(this._myProject.level,this._myProject.achieve,this._myProject.tool_ratio);							
+        let newOutput = application.me.vip.getOutput(this._project.output(this._myProject.level,this._achieve,this._myProject.tool_ratio)); 
+        let oldOutput = application.me.vip.getOutput(this._project.output(this._myProject.level,this._myProject.achieve,this._myProject.tool_ratio));							
 
         this._myProject.achieve = this._achieve;
 		application.me.buyOutput(gold, diamond, newOutput - oldOutput);

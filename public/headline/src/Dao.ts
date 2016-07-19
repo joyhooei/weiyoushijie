@@ -47,27 +47,29 @@ class Dao extends egret.EventDispatcher {
 	}
     
     public rest(method: string, data: {}): Q.Promise<any> {
+        let self = this;
+        
     	return Q.Promise<any>(function(resolve, reject, notify) {
 			var request = new egret.HttpRequest();
 			request.responseType = egret.HttpResponseType.TEXT;
 			
 			//设置为 POST 请求
-			request.open(this._url + method + "?game=" + this._game + "&token=" + application.token, egret.HttpMethod.POST);
+            request.open(self._url + method + "?game=" + self._game + "&token=" + application.token, egret.HttpMethod.POST);
 			request.setRequestHeader("Content-Type", "application/json");
 	
 	        request.addEventListener(egret.Event.COMPLETE, (evt: egret.Event) => {
 	            var request = <egret.HttpRequest>evt.currentTarget;
 	            	
 	            resolve(JSON.parse(request.response));
-	        }, this);
+            },self);
 	            
 	        request.addEventListener(egret.IOErrorEvent.IO_ERROR,(evt: egret.IOErrorEvent) => {
                 reject(evt.$target.response);
-	        }, this);
+            },self);
 	        
 	        request.addEventListener(egret.ProgressEvent.PROGRESS,(evt: egret.ProgressEvent) => {
 	            notify(Math.floor(100 * evt.bytesLoaded / evt.bytesTotal));
-	        },this);
+            },self);
 			
 			request.send(JSON.stringify(data));
 		});

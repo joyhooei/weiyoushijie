@@ -1,14 +1,3 @@
-var GiftCategory;
-(function (GiftCategory) {
-    GiftCategory[GiftCategory["Login"] = 1] = "Login";
-    GiftCategory[GiftCategory["Online"] = 2] = "Online";
-    GiftCategory[GiftCategory["Bid"] = 3] = "Bid";
-    GiftCategory[GiftCategory["Ticket"] = 4] = "Ticket";
-    GiftCategory[GiftCategory["Share"] = 5] = "Share";
-    GiftCategory[GiftCategory["Charge"] = 6] = "Charge";
-    GiftCategory[GiftCategory["Output"] = 7] = "Output";
-    GiftCategory[GiftCategory["Attention"] = 8] = "Attention";
-})(GiftCategory || (GiftCategory = {}));
 var GiftUI = (function (_super) {
     __extends(GiftUI, _super);
     function GiftUI() {
@@ -108,13 +97,13 @@ var GiftUI = (function (_super) {
             var nextOutput = 10 * gift.data;
             gift.data = nextOutput.toString();
             //如果用户的秒产超过了下一个可以领取的秒产，则仍然保持解锁状态
-            if (application.log10(application.customer.output) >= application.log10(nextOutput)) {
+            if (Utility.log10(application.me.attrs.output) >= Utility.log10(nextOutput)) {
                 this.lockGift(gift, 0);
             }
             else {
                 this.lockGift(gift, 2);
             }
-            this.lblOutputGift.text = application.format(nextOutput);
+            this.lblOutputGift.text = Utility.format(nextOutput);
             this.updateCustomer(gift);
         }
     };
@@ -145,7 +134,7 @@ var GiftUI = (function (_super) {
     };
     p.uiCompHandler = function () {
         var self = this;
-        application.checkGift(function (gifts, hasGift) {
+        Gift.check(application.me).then(function (gifts) {
             self.gifts = gifts;
             for (var i = 0; i < self.imgPicks.length; i++) {
                 self.imgPicks[i].visible = true;
@@ -190,21 +179,21 @@ var GiftUI = (function (_super) {
     p.renderTicketGift = function () {
         //4、永久会员/月票 300钻。每天领取一次。灰色是点击跳入会员购买页面（参照道具弹出窗口） 月票默认30天，会显示剩余月票天数，如果是永久则显示永久
         var gift = this.gift(GiftCategory.Ticket);
-        if (application.customer.vip == 0) {
+        if (application.me.attrs.vip == 0) {
             this.lblTicketGiftTimeout.text = "";
         }
         else {
             var now = new Date();
-            if (application.customer.vip == 2) {
+            if (application.me.attrs.vip == 2) {
                 this.lblTicketGiftTimeout.text = "永久";
             }
             else {
-                var ticketTimeout = new Date(application.customer.ticket);
+                var ticketTimeout = new Date(application.me.attrs.ticket);
                 var timeDiff = ticketTimeout.getTime() - now.getTime();
                 var diffDays = Math.min(30, Math.floor(timeDiff / (1000 * 3600 * 24)));
                 if (diffDays <= 0) {
                     this.lblTicketGiftTimeout.text = "";
-                    application.resetTicket(0);
+                    application.me.resetTicket(0);
                 }
                 else {
                     this.lblTicketGiftTimeout.text = diffDays.toString() + "天";
@@ -216,7 +205,7 @@ var GiftUI = (function (_super) {
     p.renderOutputGift = function () {
         //7、秒产每增加一个数量级，就得100个钻石
         var gift = this.gift(GiftCategory.Output);
-        this.lblOutputGift.text = application.format(gift.data);
+        this.lblOutputGift.text = Utility.format(gift.data);
         this.renderGift(gift);
     };
     p.gift = function (category) {
@@ -268,10 +257,10 @@ var GiftUI = (function (_super) {
             tip += gift.metal.toString() + "奖章";
         }
         Toast.launch(tip);
-        application.customer.metal += gift.metal;
-        application.customer.gold += gift.gold;
-        application.customer.diamond += gift.diamond;
-        application.saveCustomerNow();
+        application.me.attrs.metal += gift.metal;
+        application.me.attrs.gold += gift.gold;
+        application.me.attrs.diamond += gift.diamond;
+        application.me.saveNow();
     };
     return GiftUI;
 }(eui.Component));

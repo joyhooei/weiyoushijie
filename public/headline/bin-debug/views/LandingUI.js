@@ -8,6 +8,20 @@ var LandingUI = (function (_super) {
     var d = __define,c=LandingUI,p=c.prototype;
     p.uiCompHandler = function () {
         var self = this;
+        self.btnLogin.visible = false;
+        application.dao.fetch("Notification", {}, { order: 'create_time DESC' }).then(function (notifications) {
+            if (notifications.length > 0) {
+                var notification = notifications[0];
+                application.showUI(new NotificationUI(notification, function () {
+                    self.btnLogin.visible = true;
+                }), self);
+            }
+            else {
+                self.btnLogin.visible = true;
+            }
+        }, function (error) {
+            self.btnLogin.visible = true;
+        });
         self.btnLogin.addEventListener(egret.TouchEvent.TOUCH_TAP, function () {
             application.channel.login().then(function (account) {
                 application.logined(account);

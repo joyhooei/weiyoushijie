@@ -209,9 +209,9 @@ var GuideUI = (function (_super) {
     p.over = function () {
         application.hideUI(this);
         application.guideUI = null;
-        application.customer.metal += 1;
-        application.customer.diamond += 500;
-        application.saveCustomerNow();
+        application.me.attrs.metal += 1;
+        application.me.attrs.diamond += 500;
+        application.me.saveNow();
         this.timer.stop();
         if (this.overCallback) {
             this.overCallback();

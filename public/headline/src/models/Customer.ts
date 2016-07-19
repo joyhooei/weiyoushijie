@@ -18,8 +18,6 @@ class Customer {
         this.bid = new Bid();
         
         this.checkTicket();
-        
-        application.channel.track(TRACK_CATEGORY_PLAYER, TRACK_ACTION_ENTER);
     }
 
 	public resetTicket(vip: number): void {

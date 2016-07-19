@@ -16,21 +16,19 @@ block main
 				h2
 					i(class="halflings-icon user")
 					span.break
-					| 订单
+					| 大标
 
 			div.box-content
 				table(class="table table-striped table-bordered bootstrap-datatable datatable")
 					thead
 						tr
-							th 玩家
-							th 现金
-							th 商品
-							th 时间
+							th 日期
+							th 投标人
+							th 金额
 					tbody
-						- each order in orders
+						- each maxbid in maxbids
 							tr
+								td= maxbid.get('day')
 								td
-									a(href="/customers/#{order.get('customer_id')}") #{order.get('customer_id')}
-								td= order.get('price')
-								td= order.get('product')
-								td= order.updatedAt
+									a(href="/customers/#{maxbid.get('customer_id')}") #{maxbid.get('name') || maxbid.get('customer_id')}
+								td= maxbid.get('gold')

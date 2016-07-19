@@ -36,7 +36,7 @@ block main
 							tr
 								td= customer.get('metal')
 								td
-									a(href="/customers/#{customer.id}") #{customer.get('name')}
+									a(href="/customers/#{customer.id}?game=#{game}") #{customer.get('name')}
 								td
 									img(src="#{customer.get('avatar')}", width=50, height=50)
 								td= customer.get('charge')

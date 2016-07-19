@@ -22,6 +22,7 @@ var orders = require('./routes/orders');
 var blacks = require('./routes/blacks');
 var projects = require('./routes/projects');
 var gifts = require('./routes/gifts');
+var maxbids = require('./routes/maxbids');
 var notifications = require('./routes/notifications');
 
 GLOBAL.moment = require("moment");
@@ -39,11 +40,7 @@ app.use(favicon(__dirname + '/public/favicon.ico'));
 
 app.use(cookieParser());
 
-if (process.env.LC_APP_ID) {
-    var DAO = require('./platforms/leancloud/dao');
-} else {
-    var DAO = require('./platforms/standalone/dao');
-}
+var DAO = require('./platforms/standalone/dao');
 GLOBAL.dao = new DAO();
 GLOBAL.dao.initialize(app);
 
@@ -86,6 +83,7 @@ app.use('/orders', orders);
 app.use('/blacks', blacks);
 app.use('/gifts', gifts);
 app.use('/projects', projects);
+app.use('/maxbids', maxbids);
 app.use('/notifications', notifications);
 
 app.use('/api', api);

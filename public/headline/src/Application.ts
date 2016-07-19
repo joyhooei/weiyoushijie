@@ -69,6 +69,8 @@ module application {
             if(customers.length > 0) {
                 application.me = new Customer(customers[0]);
 
+                application.channel.track(TRACK_CATEGORY_PLAYER,TRACK_ACTION_ENTER);
+                
                 //首次登录，需要显示引导页面
                 if(application.me.attrs.metal == 0) {
                     application.guideUI = new GuideUI();

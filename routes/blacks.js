@@ -14,7 +14,7 @@ router.get('/new', helper.ensureAuthenticated, function(req, res, next) {
 });
 
 router.post('/', helper.ensureAuthenticated, function(req, res, next) {
-	helper.createModel(new dao.Blacklist(), "black", _restfulName, req, res);
+	helper.createModel(new dao.Blacklist({reason:'', customer_id:''}), "black", _restfulName, req, res);
 });
 
 router.delete('/:id', helper.ensureAuthenticated, function(req, res, next) {

@@ -35,10 +35,6 @@ Model.extend = function(protoProps, staticProps) {
 _.extend(Model.prototype, {
 	_isNew: true,
 	
-	initialize:function(){
-		this.setNew(true);
-	},
-	
 	setNew: function(isNew){
 		this._isNew = isNew;
 		
@@ -53,35 +49,19 @@ _.extend(Model.prototype, {
 		var self = this;
 
 		try {
-			self._obj = obj;
-
-			self.id = self._obj.id;
-			self.createdAt = self._obj.createdAt;
-			self.updatedAt = self._obj.updatedAt;
+			self.id = obj.id;
+			self.createdAt = obj.createdAt;
+			self.updatedAt = obj.updatedAt;
 
 			self.attributes = {};
-			_.each(self.getSchema(), function(v, k) {
-				self.attributes[k] = self._obj[k];
-			});
+			self.set(obj);
+			
+			self._obj = obj;
 		} catch (error) {
 			console.error("decode obj failed " + error.message);
 		}
 
 		return self;
-	},
-
-	encode: function() {
-		var self = this;
-
-		try {
-			_.each(self.attributes, function(v, k) {
-				self._obj[k] = v;
-			});
-		} catch (error) {
-			console.error("encode obj failed " + error.message);
-		}
-
-		return self._obj;
 	},
 
 	get:function(attr) {
@@ -90,20 +70,18 @@ _.extend(Model.prototype, {
 
 	set:function(key, val) {
 		var self = this;
-
+		
 		try {
 			if (typeof key === 'object') {
-				_.extend(self.attributes, key);
-				if (key.id) {
-					self._obj._id = key.id;
-					
-					self.setNew(false);
-				}
+				_.each(self.getSchema(), function(v, k) {
+					var d = key[k];
+					if (!_.isUndefined(d)) {
+						self.attributes[k] = d;
+					}
+				});
 			} else {
 				self.attributes[key] = val;
 			}
-
-			self.decode(self.encode());
 		} catch (error) {
 			console.error("set failed " + error.message);
 		}
@@ -118,50 +96,47 @@ _.extend(Model.prototype, {
 
 		return Q.Promise(function(resolve, reject, notify) {
 			try {
+				_.each(self.getSchema(), function(v, k) {
+					if (_.has(self.attributes, k)) {
+						self._obj[k] = self.attributes[k];
+					}
+				});				
+			
 				if (self.isNew()) {
 					self.beforeSave().then(function(){
 						self._obj.save(function(error){
 							if (error) {
-								console.error("save obj failed " + error.message);
+								console.error("save obj " + JSON.stringify(self.attributes) + " failed " + error.message);
 								
 								reject(error);
 							} else {
 								try {
 									self.afterSave();
 								} catch (error) {
-									console.error("afterSave obj failed " + error.message);
+									console.error("afterSave obj " + JSON.stringify(self.attributes) + " failed " + error.message);
 								}
 
 								resolve(self.decode(self._obj).setNew(false));
 							}
 						});
 					}, function(error){
-						console.error("beforeSave obj failed " + error.message);
+						console.error("beforeSave obj " + JSON.stringify(self.attributes) + " failed " + error.message);
 						reject(error);
 					})
 				} else {
 					self._obj.save(function(error){
 						if (error) {
-							console.error("save obj failed " + error.message);
+							console.error("save obj " + JSON.stringify(self.attributes) + " failed " + error.message);
 							reject(error);
 						} else {
 							resolve(self.decode(self._obj).setNew(false));
 						}
 					});	
 				}
-
 			} catch(error) {
-				console.error("save model failed " + error.message);
+				console.error("save model " + JSON.stringify(self.attributes) + " failed " + error.message);
 				reject(error);
 			}
-		});
-	},
-	
-	destroy: function() {
-		var self = this;
-
-		return Q.Promise(function(resolve, reject, notify) {
-			self._obj.remove();
 		});
 	},
 
@@ -177,12 +152,95 @@ _.extend(Model.prototype, {
 	},
 });
 
+function _query(query, offset, batch) {
+	return Q.Promise(function(resolve, reject, notify) {
+		query.skip(offset);
+		query.limit(batch);
+		query.exec(function(err, objs){
+			if (err) {
+				console.error("_query failed " + err.message);
+				reject(err);
+			} else {
+				resolve(objs);
+			}
+		});
+	});		
+}
+
+function _buildQuery(clazz, conditions, filters) {
+	try {
+		if (conditions) {
+			if (conditions.id) {
+				conditions._id = conditions.id;
+				delete conditions.id;
+			}
+
+			_.each(conditions, function(v, k){
+				if (_.isArray(v)) {
+
+					conditions[k] = { $in: v };
+				}
+			})
+			
+			var query = clazz.find(conditions);
+		} else {
+			var query = clazz.find();
+		}
+
+		if (filters) {
+			if (filters.limit) {
+				query.limit(filters.limit);
+			}
+
+			if (filters.offset) {
+				query.skip(filters.offset);
+			} else {
+				query.skip(0);
+			}
+			
+			if (filters.select) {
+				query.select(filters.select);
+			}
+
+			if (filters.order) {
+				var sort = {};
+				var orders = filters.order.split(",");
+				for(var i = 0; i < orders.length; i++) {
+					var kv = orders[i].trim().split(" ");
+					if (kv.length == 2) {
+						var k = kv[0].trim();
+						var v = kv[1].trim();
+
+						if (k ==  "create_time") {
+							var name = "createdAt";
+						} else if (k == "update_time") {
+							var name = "updatedAt";
+						} else {
+							var name = k;
+						}
+
+						if (v.toUpperCase() == "ASC") {
+							sort[name] = 1;
+						} else {
+							sort[name] = -1;
+						}
+					}
+				}
+
+				query.sort(sort);
+			}
+		}
+
+		return query;
+	} catch (error) {
+		console.error(error.message);
+	}
+}
+
 module.exports = function() {
 	this.initialize = function(app){
 		var self = this;
 
-		//mongoose.set('debug', true);
-		
 		var db = mongoose.connection;
 		db.on('error', console.error.bind(console, 'connection error:'));
 		db.once('open', function() {
@@ -339,10 +397,6 @@ module.exports = function() {
 				customer_id: String,
 				rank: Number,
 				game: String
-			}, {
-				game: 1,
-				customer_id: 1,
-				rank: 1
 			});
 
 			self.addModel("Report", {
@@ -354,11 +408,23 @@ module.exports = function() {
 
 			require('./cloud');
 
-			console.log("connect mongodb succeed");
+			console.log("connect mongodb succeed " + url);
 		});
 		
-		//var url = 'mongodb://weiyoushijie:weiyugame@ds023644.mlab.com:23644/weiyoushijie';
-		var url = 'mongodb://9b18dc67c08b4434bdf68b0c3ff45477:d35f2aa56b1b4806b9934950c3d89bea@mongo.bce.duapp.com:8908/gmkSqUizKEatLnvxuIcZ';
+		if (process.env.LC_APP_ID) {
+			//leancloud
+			var AV = require('leanengine');
+			app.use(AV.Cloud);
+
+			var url = 'mongodb://weiyoushijie:weiyugame@ds023644.mlab.com:23644/weiyoushijie';
+		} else if (process.env.PORT) {
+			//heroku
+			var url = 'mongodb://weiyoushijie:weiyugame@ds023644.mlab.com:23644/weiyoushijie';
+		} else {
+			//bae
+			var url = 'mongodb://9b18dc67c08b4434bdf68b0c3ff45477:d35f2aa56b1b4806b9934950c3d89bea@mongo.bce.duapp.com:8908/gmkSqUizKEatLnvxuIcZ';
+		}
+
 		mongoose.connect(url, {db: {w: 1}});
 		
 		const session    = require('express-session');
@@ -367,24 +433,28 @@ module.exports = function() {
 		    secret: 'supernova',
 		    store: new MongoStore({ mongooseConnection: mongoose.connection }),
 		    resave: true, 
-		    saveUninitialized: true
+		    saveUninitialized: true,
+		    expires: new Date(Date.now() + (86400 * 1000))
 		}));
 	}
 	
 	this.addModel = function(className, schema, uniques) {
+		var self = this;
+		
 		try {
 			var ModelSchema = new mongoose.Schema(schema, { timestamps: {} });			
 			if (uniques) {
 				uniques.game = 1;
 				ModelSchema.index(uniques, { unique: true })
 			}
-			
+
 			var ModelClass = mongoose.model(className, ModelSchema);
 			
 			var claz = Model.extend(
 			{
 				initialize: function(attributes){
-					this.decode(new claz.class(attributes || {}));
+					var obj = new claz.class(attributes || {});
+					this.decode(obj).setNew(true);
 				},
 
 				getClass: function(){
@@ -432,6 +502,20 @@ module.exports = function() {
 		var clazz = this[className];
 		return new clazz();
 	}
+
+	this.decodeAll = function(className, objs, isNew) {
+		var models = [];
+
+		for (var i = 0; i < objs.length; i++) {
+			models.push(this.decodeOne(className, objs[i], isNew));
+		}
+ 
+		return models;
+	}
+	
+	this.decodeOne = function(className, obj, isNew) {
+		return this.new(className).decode(obj).setNew(isNew);
+	}
 	
 	this.get = function(className, id) {
 		var self = this;
@@ -444,97 +528,85 @@ module.exports = function() {
 					console.error("findById " + id + " failed " + err.message);
 					reject(err);
 				} else {
-					resolve(self.new(className).decode(obj).setNew(false));
+					resolve(self.decodeOne(className, obj, false));
+				}
+			});
+		});
+	}
+	
+	this.count = function(className, conditions, filters) {
+		var self = this;
+		
+		return Q.Promise(function(resolve, reject, notify) {
+			var clazz = self[className].class;
+
+			var query = _buildQuery(clazz, conditions, filters);
+			query.count(function(error, total) {
+				if (error) {
+					console.error("findAll count failed " + error.message);
+					reject(error);					
+				} else {
+					resolve(total);
 				}
 			});
 		});
 	}
 	
 	this.findAll = function(className, conditions, filters) {
-		return this.find(className, conditions. filters);
-	}
-	
-	this.find = function(className, conditions, filters){
 		var self = this;
 		
 		return Q.Promise(function(resolve, reject, notify) {
 			var clazz = self[className].class;
 
-			if (conditions) {
-				if (conditions.id) {
-					conditions._id = conditions.id;
-					delete conditions.id;
-				}
+			var query = _buildQuery(clazz, conditions, filters);
+			query.count(function(error, total) {
+				if (error) {
+					console.error("findAll count failed " + error.message);
+					reject(error);					
+				} else {
+					var offset   = 0; 
+					var batch    = 1000;
+					var promises = [];
+					while (offset < total) {
+						var q = _buildQuery(clazz, conditions, filters);
+						promises.push(_query(q, offset, batch));
 
-				_.each(conditions, function(v, k){
-					if (_.isArray(v)) {
-
-						conditions[k] = { $in: v };
-					}
-				})
-				
-				var query = clazz.find(conditions);
-			} else {
-				var query = clazz.find();
-			}
-
-			if (filters) {
-				if (filters.limit) {
-					query.limit(filters.limit);
-				}
-
-				if (filters.offset) {
-					query.skip(filters.offset);
-				}
-				
-				if (filters.select) {
-					query.select(filters.select);
-				}
-
-				if (filters.order) {
-					var sort = {};
-					var orders = filters.order.split(",");
-					for(var i = 0; i < orders.length; i++) {
-						var kv = orders[i].trim().split(" ");
-						if (kv.length == 2) {
-							var k = kv[0].trim();
-							var v = kv[1].trim();
-
-							if (k ==  "create_time") {
-								var name = "createdAt";
-							} else if (k == "update_time") {
-								var name = "updatedAt";
-							} else {
-								var name = k;
-							}
-
-							if (v.toUpperCase() == "ASC") {
-								sort[name] = 1;
-							} else {
-								sort[name] = -1;
-							}
-						}
+						offset += batch;
 					}
 
-					query.sort(sort);
+					if (promises.length > 0) {
+						Q.all(promises).then(function(results){
+							var objs = ([].concat.apply([], results));
+							resolve(self.decodeAll(className, objs, false));
+						}, function(error){
+							console.error("findAll Q.all failed " + error.message);
+							reject(error);
+						});
+					} else {
+						resolve([]);
+					}
 				}
-			}
+			});
+		});
+	}
+	
+	this.find = function(className, conditions, filters){
+		var self = this;
+
+		return Q.Promise(function(resolve, reject, notify) {
+			var clazz = self[className].class;
+			var query = _buildQuery(clazz, conditions, filters);
 		
 			query.exec(function(err, objs){
 				try {
 					if (err) {
+						console.error("query exec failed " + err.message);
 						reject(err);
 					} else {
-						var models = [];
-
-						for (var i = 0; i < objs.length; i++) {
-							models.push(self.new(className).decode(objs[i]).setNew(false));
-						}
-
-						resolve(models);
+						resolve(self.decodeAll(className, objs, false));
 					}
 				} catch (err) {
-					console.error("query " + err.message);
+					console.error("query unkonw error " + err.message);
 					reject(err);
 				}
 			});
@@ -550,23 +622,13 @@ module.exports = function() {
 		
 		return Q.all(promises);
 	};
-
-	this.destroyAll = function(objs) {
-		var promises = [];
-		
-		for(var i = 0; i < objs.length; i++) {
-			promises.push(objs[i].destroy());
-		}
-		
-		return Q.all(promises);
-	};
-
+	
 	this.clear = function(className) {
 		var claz = this[className];
 		
 		return Q.Promise(function(resolve, reject, notify) {
 			claz.class.remove(function(err, p){
-				if(err){ 
+				if(err){
 					reject(err);
 				} else{
 					resolve(p);

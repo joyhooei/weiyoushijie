@@ -3,7 +3,7 @@ var VipUI = (function (_super) {
     function VipUI() {
         var _this = this;
         _super.call(this);
-        this.level = application.vip.getLevel();
+        this.level = application.me.vip.getLevel();
         this.skinName = "resource/custom_skins/vipUISkin.exml";
         this.refresh();
         this.imgNext.addEventListener(egret.TouchEvent.TOUCH_TAP, function () {
@@ -39,7 +39,7 @@ var VipUI = (function (_super) {
                 this.imgNext.visible = true;
             }
         }
-        this.lblCharge.text = application.customer.charge;
+        this.lblCharge.text = application.me.attrs.charge;
         this.imgTitle.source = "vt" + this.level + "_png";
     };
     return VipUI;

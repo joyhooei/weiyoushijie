@@ -22,7 +22,7 @@ var BuyToolUI = (function (_super) {
         this.lblGold.text = "";
         if (this._name == "time") {
             this.imgIcon.source = "timeh_png";
-            this.lblGold.text = application.format(application.customer.output * 3600 * 48);
+            this.lblGold.text = Utility.format(application.me.attrs.output * 3600 * 48);
         }
         else if (this._name == "hit") {
             this.imgIcon.source = "hith_png";
@@ -34,7 +34,7 @@ var BuyToolUI = (function (_super) {
             this.imgIcon.source = "VIPh_png";
         }
         if (this._name == "time" || this._name == "hit") {
-            if (application.customer.diamond < this._price) {
+            if (application.me.attrs.diamond < this._price) {
                 this.imgBuy.source = "buttondiano_png";
             }
             else {
@@ -62,10 +62,10 @@ var BuyToolUI = (function (_super) {
         }
     };
     p.buyTime = function () {
-        if (application.customer.diamond > this._price) {
-            application.customer.diamond -= this._price;
-            application.earnGold(application.customer.output * 3600 * 48);
-            application.saveCustomerNow();
+        if (application.me.attrs.diamond > this._price) {
+            application.me.attrs.diamond -= this._price;
+            application.me.earnGold(application.me.attrs.output * 3600 * 48);
+            application.me.saveNow();
             application.channel.track(TRACK_CATEGORY_DIAMOND, TRACK_ACTION_DEC, "购买了时光沙漏", this._price);
             Toast.launch("购买了时光沙漏");
             application.hideUI(this);
@@ -75,11 +75,11 @@ var BuyToolUI = (function (_super) {
         }
     };
     p.buyHit = function () {
-        if (application.customer.total_hits == 0) {
-            if (application.customer.diamond > this._price) {
-                application.customer.diamond -= this._price;
-                application.customer.total_hits = 3;
-                application.saveCustomerNow();
+        if (application.me.attrs.total_hits == 0) {
+            if (application.me.attrs.diamond > this._price) {
+                application.me.attrs.diamond -= this._price;
+                application.me.attrs.total_hits = 3;
+                application.me.saveNow();
                 application.channel.track(TRACK_CATEGORY_DIAMOND, TRACK_ACTION_DEC, "购买了暴击", this._price);
                 Toast.launch("购买了暴击");
                 application.hideUI(this);
@@ -89,26 +89,26 @@ var BuyToolUI = (function (_super) {
             }
         }
         else {
-            Toast.launch("你还有" + application.customer.total_hits + "个暴击，请用完后再购买");
+            Toast.launch("你还有" + application.me.attrs.total_hits + "个暴击，请用完后再购买");
         }
     };
     //月票，19元每月(30天）。每天登录可以领取300钻石，离线收益增加至90%，持续12小时。普通情况下离线收益为70%，持续8小时。首次购买获得1个勋章
     p.buyTicket = function () {
-        if (application.customer.vip == 2) {
+        if (application.me.attrs.vip == 2) {
             Toast.launch("你已经购买了VIP，终身免费，不需要购买月票");
         }
         else {
-            application.buyTicket();
+            Order.buyTicket(application.me);
             application.hideUI(this);
         }
     };
     //终身VIP，49元。每天登录可以领取300钻石，离线收益增加至90%，持续12小时。
     p.buyVIP = function () {
-        if (application.customer.vip == 2) {
+        if (application.me.attrs.vip == 2) {
             Toast.launch("你已经购买了VIP，终身免费");
         }
         else {
-            application.buyVIP();
+            Order.buyVIP(application.me);
             application.hideUI(this);
         }
     };

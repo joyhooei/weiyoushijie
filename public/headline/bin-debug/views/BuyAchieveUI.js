@@ -9,7 +9,7 @@ var BuyAchieveUI = (function (_super) {
         this.skinName = "resource/custom_skins/buyAchieveUISkin.exml";
         this.imgIcon.source = "b" + achieve.toString() + "_png";
         this.imgProject.source = "t" + (myProject.sequence + 1).toString() + "_png";
-        this.lblRatio.text = application.format(project.achieve(achieve).outputRatio);
+        this.lblRatio.text = Utility.format(project.achieve(achieve).outputRatio);
         this.lblLevel.text = project.achieve(achieve).level.toString();
         this.lblGold.touchEnabled = false;
         this.lblDiamond.touchEnabled = false;
@@ -33,10 +33,10 @@ var BuyAchieveUI = (function (_super) {
         }
         else {
             var priceUseGold_1 = this._project.achieve(this._achieve).priceUseGold;
-            this.lblGold.text = application.format(priceUseGold_1);
+            this.lblGold.text = Utility.format(priceUseGold_1);
             var priceUseDiamond_1 = this._project.achieve(this._achieve).priceUseDiamond;
             this.lblDiamond.text = priceUseDiamond_1;
-            if (application.usableGold() < priceUseGold_1) {
+            if (application.me.usableGold() < priceUseGold_1) {
                 this.imgBuyUseGold.source = "buttoncoinno_png";
                 this.imgBuyUseGold.addEventListener(egret.TouchEvent.TOUCH_TAP, function () {
                     application.showUI(new BuyToolUI("time", 500), _this);
@@ -47,7 +47,7 @@ var BuyAchieveUI = (function (_super) {
                     _this._buy(priceUseGold_1, 0);
                 }, this);
             }
-            if (application.customer.diamond < priceUseDiamond_1) {
+            if (application.me.attrs.diamond < priceUseDiamond_1) {
                 this.imgBuyUseDiamond.source = "buttondiano_png";
                 this.imgBuyUseDiamond.addEventListener(egret.TouchEvent.TOUCH_TAP, function () {
                     application.showUI(new ChargeTipUI(), _this);
@@ -62,10 +62,10 @@ var BuyAchieveUI = (function (_super) {
         }
     };
     p._buy = function (gold, diamond) {
-        var newOutput = this._project.output(this._myProject.level, this._achieve, this._myProject.tool_ratio);
-        var oldOutput = this._project.output(this._myProject.level, this._myProject.achieve, this._myProject.tool_ratio);
+        var newOutput = application.me.vip.getOutput(this._project.output(this._myProject.level, this._achieve, this._myProject.tool_ratio));
+        var oldOutput = application.me.vip.getOutput(this._project.output(this._myProject.level, this._myProject.achieve, this._myProject.tool_ratio));
         this._myProject.achieve = this._achieve;
-        application.buyOutput(gold, diamond, newOutput - oldOutput);
+        application.me.buyOutput(gold, diamond, newOutput - oldOutput);
         Toast.launch("获得成就成功");
         application.dao.save("Project", this._myProject);
         application.hideUI(this);

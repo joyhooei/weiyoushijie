@@ -17,6 +17,7 @@
     "resource/custom_skins/messageDetailUISkin.exml",
     "resource/custom_skins/messageItemSkin.exml",
     "resource/custom_skins/messageUISkin.exml",
+    "resource/custom_skins/notificationUISkin.exml",
     "resource/custom_skins/offlineGoldUISkin.exml",
     "resource/custom_skins/projectItemSkin.exml",
     "resource/custom_skins/rankItemSkin.exml",

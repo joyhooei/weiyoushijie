@@ -11,7 +11,7 @@ var RankItem = (function (_super) {
             }
             else {
                 this.lblRank.text = rank.toString();
-                if (customer.id == application.customer.id) {
+                if (customer.id == application.me.attrs.id) {
                     this.imgBg.source = "RY_png";
                 }
                 else {
@@ -34,10 +34,10 @@ var RankItem = (function (_super) {
                 this.lblRank.text = rank.toString();
             }
         }
-        this.imgAvatar.source = application.avatarUrl(customer);
+        this.imgAvatar.source = Customer.avatarUrl(customer);
         this.lblName.text = customer.name;
         this.lblMetal.text = customer.metal;
-        this.lblGold.text = application.format(customer.accumulated_gold);
+        this.lblGold.text = Utility.format(customer.accumulated_gold);
     }
     var d = __define,c=RankItem,p=c.prototype;
     return RankItem;

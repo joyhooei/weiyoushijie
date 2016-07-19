@@ -1,12 +1,15 @@
 var Gift = require('./gift');
 var Project = require('./project');
 var Message = require('./message');
+var Rank = require('./rank');
 
-module.exports.expireTicket = function() {
+module.exports.expireTicket = function(game) {
 	return Q.Promise(function(resolve, reject, notify) {
 	    var now = moment();
+		
+		console.log("expire iicket " + game + " " + now.format());
 	    
-	    dao.find("Customer", {'vip': 1}, {order: 'update_time ASC'}).then(function(customers){
+	    dao.find("Customer", {'vip': 1, game:game}, {order: 'update_time ASC'}).then(function(customers){
 	        var expiredCustomers = [];
 	        
 	        _.each(customers, function(customer){
@@ -19,18 +22,17 @@ module.exports.expireTicket = function() {
 	        
 	        if (expiredCustomers.length > 0) {
 				dao.saveAll(expiredCustomers).then(function(){
-					resolve(expiredCustomers.length);
+					resolve("expireTicket " + expiredCustomers.length);
 				}, function(error) {
-					console.error(error.message);
-					reject(error.message);
+					console.error("expireTicket save " + error.message);
+					reject("expireTicket save " + error.message);
 				});
 			} else {
-				console.error("expireTicket " + expiredCustomers.length);
-				reject("expireTicket " + expiredCustomers.length);
+				resolve("expireTicket " + 0);
 			}
 	    }, function(error) {
-	    	console.error(error.message);
-	        reject(error.message);
+	    	console.error("expireTicket find " + error.message);
+	        reject("expireTicket find " + error.message);
 	    });
 	});
 }
@@ -125,7 +127,9 @@ module.exports.afterSave = function(customer) {
 
     Gift.createAll(customer);
     
-    Message.send(customer.id, "欢迎加入", "欢迎新的炫舞达人加入，开启走上人生巅峰模式！在努力升级期间，千万别忘了，每天中午12点的头条拍卖哟～\n如果您一不留神拍中了头条，也请保持低调和神秘，要对自己的美艳或帅气只字不提！\n对于明明可以靠脸却偏偏要拼才华的各位，我们特别赠送200钻，不要客气～", "diamond", 200);
-    Message.send(customer.id, "特别公告", "呦西～相信您已经对我们的游戏有所了解了。\n公测期间，我们推出同样价格双倍钻石的限时活动，走过路过不要错过哦～", "none", 0);
+    Rank.create(customer);
+    
+    Message.send(customer.id, "欢迎加入", "欢迎新的炫舞达人加入，开启走上人生巅峰模式！在努力升级期间，千万别忘了，每天中午12点的头条拍卖哟～\n如果您一不留神拍中了头条，也请保持低调和神秘，要对自己的美艳或帅气只字不提！\n对于明明可以靠脸却偏偏要拼才华的各位，我们特别赠送200钻，不要客气～", "diamond", 200, customer.get("game"));
+    Message.send(customer.id, "特别公告", "呦西～相信您已经对我们的游戏有所了解了。\n公测期间，我们推出同样价格双倍钻石的限时活动，走过路过不要错过哦～", "none", 0, customer.get("game"));
 };
 

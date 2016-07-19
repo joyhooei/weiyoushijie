@@ -9,7 +9,7 @@ var ReportUI = (function (_super) {
         }, this);
         this.imgOK.addEventListener(egret.TouchEvent.TOUCH_TAP, function () {
             if (_this.txtContent.text.length > 0) {
-                var report = { customer_id: application.customer.id, content: _this.txtContent.text, state: 0 };
+                var report = { customer_id: application.me.attrs.id, content: _this.txtContent.text, state: 0 };
                 application.dao.save("Report", report);
                 application.hideUI(_this);
             }

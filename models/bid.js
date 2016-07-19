@@ -1,12 +1,14 @@
 var Gift = require('./gift');
 var Message = require('./message');
 
-module.exports.open = function() {
+module.exports.open = function(game, today) {
 	return Q.Promise(function(resolve, reject, notify) {
 		var dt = new Date();
-		var today = dt.getFullYear() + "/" + (dt.getMonth() + 1) + "/" + dt.getDate();
+		today = today || (dt.getFullYear() + "/" + (dt.getMonth() + 1) + "/" + dt.getDate());
+		
+		console.log("open bid " + game + " " + today);
 	
-		dao.find("Bid", {'day': today, 'game': 'headline'}, {'order': 'gold DESC', 'limit': 10}).then(function(bids){
+		dao.find("Bid", {'day': today, 'game': game}, {'order': 'gold DESC', 'limit': 10}).then(function(bids){
 	    	if (bids.length > 0) {
 	    		var promises = [];
 	    		for(var i = 0; i < bids.length; i++) {

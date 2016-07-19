@@ -23,7 +23,7 @@ var Vip = (function () {
         this._patch = patch;
     }
     var d = __define,c=Vip,p=c.prototype;
-    Vip.createVip = function (charge) {
+    Vip.create = function (charge) {
         var data = [
             [0, 0, 0, 10, 0, 0, 0],
             [1, 2, 0.2, 10, 0, 0, 0],

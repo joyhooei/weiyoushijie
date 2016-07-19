@@ -18,15 +18,15 @@ var HomeUI = (function (_super) {
         self.imgHit.visible = false;
         self.imgGift.visible = false;
         self.imgHasMessage.visible = false;
-        self.imgVip.source = "VIP" + application.vip.getLevel().toString() + "_png";
+        self.imgVip.source = "VIP" + application.me.vip.getLevel().toString() + "_png";
         self.btnHome.addEventListener(egret.TouchEvent.TOUCH_TAP, self.btnHandler, self);
         self.btnRank.addEventListener(egret.TouchEvent.TOUCH_TAP, self.btnHandler, self);
         self.btnTool.addEventListener(egret.TouchEvent.TOUCH_TAP, self.btnHandler, self);
         self.btnAuction.addEventListener(egret.TouchEvent.TOUCH_TAP, self.btnHandler, self);
         self.btns = [self.btnHome, self.btnRank, self.btnTool, self.btnAuction];
-        self.imgAvatar.source = application.avatarUrl(application.customer);
+        self.imgAvatar.source = Customer.avatarUrl(application.me.attrs);
         self.renderCustomer();
-        self.lblTotalHits.text = "x" + application.customer.total_hits.toString();
+        self.lblTotalHits.text = "x" + application.me.attrs.total_hits.toString();
         self.renderTotalHits();
         self.renderProjects();
         self.renderBeauty();
@@ -40,7 +40,7 @@ var HomeUI = (function (_super) {
             application.showUI(new GiftUI(), this);
         }, this);
         self.btnHelp.addEventListener(egret.TouchEvent.TOUCH_BEGIN, function () {
-            application.showHelp("");
+            HelpUI.showMainHelp();
         }, this);
         self.btnAddGold.addEventListener(egret.TouchEvent.TOUCH_BEGIN, function () {
             application.showUI(new BuyToolUI("time", 500));
@@ -49,7 +49,7 @@ var HomeUI = (function (_super) {
             application.showUI(new ChargeTipUI(), this);
         }, this);
         self.imgCharge.addEventListener(egret.TouchEvent.TOUCH_BEGIN, function () {
-            if (application.customer.charge == 0) {
+            if (application.me.attrs.charge == 0) {
                 application.showUI(new FirstChargeBonusUI(), this);
             }
             else {
@@ -106,8 +106,8 @@ var HomeUI = (function (_super) {
     };
     p.renderGift = function () {
         var self = this;
-        application.checkGift(function (gifts, hasGift) {
-            self.imgGift.visible = hasGift;
+        Gift.check(application.me).then(function (gifts) {
+            self.imgGift.visible = Gift.hasGift(gifts);
         });
     };
     p.earnGoldDynamically = function () {
@@ -122,11 +122,9 @@ var HomeUI = (function (_super) {
         var self = this;
         application.stopwatch.addEventListener("hour", function (event) {
             if (event.data % 4 == 0) {
-                application.dao.rest("hits", { customer_id: application.customer.id }, function (succeed, result) {
-                    if (succeed) {
-                        application.customer.total_hits = result.hits;
-                        self.lblTotalHits.text = "x" + application.customer.total_hits.toString();
-                    }
+                application.dao.rest("hits", { customer_id: application.me.attrs.id }).then(function (result) {
+                    application.me.attrs.total_hits = result.hits;
+                    self.lblTotalHits.text = "x" + application.me.attrs.total_hits.toString();
                 });
             }
         }, this);
@@ -135,13 +133,13 @@ var HomeUI = (function (_super) {
     p.refreshBidAtNoon = function () {
         var self = this;
         application.stopwatch.addEventListener("minute", function (event) {
-            var bidDay = application.bidDay();
+            var bidDay = Bid.day();
             //如果bidday已经过期了，则重新刷新bid数据
             if (!(self.bid && bidDay == self.bid.day)) {
                 self.renderBid();
             }
-            if (!(application.bid && bidDay == application.bid.day)) {
-                application.refreshBid(function (bid) {
+            if (!(application.me.bid.attrs && bidDay == application.me.bid.attrs.day)) {
+                application.me.bid.refresh(application.me).then(function (bid) {
                     self.renderCustomer();
                 });
             }
@@ -156,65 +154,65 @@ var HomeUI = (function (_super) {
     p.renderMessage = function () {
         var self = this;
         self.imgHasMessage.visible = false;
-        application.dao.fetch("Message", { customer_id: application.customer.id, state: 0 }, { limit: 1 }, function (succeed, messages) {
-            if (succeed && messages.length == 1) {
+        application.dao.fetch("Message", { customer_id: application.me.attrs.id, state: 0 }, { limit: 1 }).then(function (messages) {
+            if (messages.length == 1) {
                 self.imgHasMessage.visible = true;
             }
         });
     };
     p.renderBid = function () {
         var self = this;
-        application.dao.fetch("Bid", { succeed: 1 }, { limit: 1, order: 'create_time desc' }, function (succeed, bids) {
-            if (succeed && bids.length > 0) {
+        application.dao.fetch("Bid", { succeed: 1 }, { limit: 1, order: 'create_time desc' }).then(function (bids) {
+            if (bids.length > 0) {
                 if (!(self.bid && self.bid.id == bids[0].id)) {
                     self.bid = bids[0];
                     //如果显示win ui，则不显示offlinegold ui，否则显示offlinegold ui
-                    if (application.customer.id == self.bid.customer_id) {
+                    if (application.me.attrs.id == self.bid.customer_id) {
                         //已经显示过，就不需要再显示了
                         if (self.bid.claimed == 0) {
                             application.showUI(new WinUI(self.bid), self);
-                            application.earnOfflineGold();
+                            application.me.earnOfflineGold();
                         }
                         else {
                             self.renderOfflineGold();
-                            application.earnBids();
+                            Bid.earn(application.me);
                         }
-                        self.renderBidCustomer(application.customer);
+                        self.renderBidCustomer(application.me.attrs);
                     }
                     else {
-                        application.dao.fetch("Customer", { id: self.bid.customer_id }, { limit: 1 }, function (succeed, customers) {
-                            if (succeed && customers.length > 0) {
+                        application.dao.fetch("Customer", { id: self.bid.customer_id }, { limit: 1 }).then(function (customers) {
+                            if (customers.length > 0) {
                                 self.renderBidCustomer(customers[0]);
                             }
                         });
                         self.renderOfflineGold();
-                        application.earnBids();
+                        Bid.earn(application.me);
                     }
                 }
             }
         });
     };
     p.renderOfflineGold = function () {
-        if (application.customer.offline_gold > 0) {
+        if (application.me.attrs.offline_gold > 0) {
             application.showUI(new OfflineGoldUI(), this);
         }
     };
     p.renderBidCustomer = function (customer) {
         this.lblBidName.text = customer.name;
-        this.lblBidGold.text = application.format(this.bid.gold);
+        this.lblBidGold.text = Utility.format(this.bid.gold);
         if (customer.hide_winner == 1) {
             this.imgBidAvatar.source = "Ahide_png";
         }
         else {
-            this.imgBidAvatar.source = application.avatarUrl(customer);
+            this.imgBidAvatar.source = Customer.avatarUrl(customer);
         }
     };
     p.renderProjects = function () {
         var self = this;
         self.projectItems = new Array();
         self.grpProject.removeChildren();
-        application.dao.fetch("Project", { customer_id: application.customer.id }, { order: 'sequence asc' }, function (succeed, projects) {
-            if (succeed && projects.length > 0) {
+        application.dao.fetch("Project", { customer_id: application.me.attrs.id }, { order: 'sequence asc' }).then(function (projects) {
+            if (projects.length > 0) {
                 var output = 1;
                 for (var i = 0; i < projects.length; i++) {
                     var p = projects[i];
@@ -223,11 +221,11 @@ var HomeUI = (function (_super) {
                         output += application.projects[p.sequence].output(p.level, p.achieve, p.tool_ratio);
                     }
                 }
-                output = application.vip.getOutput(output);
-                if (output != application.customer.output) {
-                    application.customer.output = output;
-                    application.saveCustomerNow();
-                    self.lblOutput.text = application.format(self.getOutput());
+                output = application.me.vip.getOutput(output);
+                if (output != application.me.attrs.output) {
+                    application.me.attrs.output = output;
+                    application.me.saveNow();
+                    self.lblOutput.text = Utility.format(self.getOutput());
                 }
             }
         });
@@ -255,12 +253,12 @@ var HomeUI = (function (_super) {
     };
     p.earnGold = function (second) {
         var gold = this.getOutput() * second;
-        application.earnGold(gold);
+        application.me.earnGold(gold);
         //显示获得金币的动画
         this.grpAddGold.y = 370;
         this.imgAddGold.visible = true;
         this.lblAddGold.visible = true;
-        this.lblAddGold.text = "+" + application.format(gold);
+        this.lblAddGold.text = "+" + Utility.format(gold);
         var timer = new egret.Timer(100, 20);
         timer.addEventListener(egret.TimerEvent.TIMER, function (event) {
             this.grpAddGold.y -= 10;
@@ -276,13 +274,13 @@ var HomeUI = (function (_super) {
         if (self.hit > 0) {
             return;
         }
-        if (application.customer.total_hits > 0) {
-            application.customer.total_hits -= 1;
-            application.saveCustomerNow();
-            self.lblTotalHits.text = "x" + application.customer.total_hits.toString();
+        if (application.me.attrs.total_hits > 0) {
+            application.me.attrs.total_hits -= 1;
+            application.me.saveNow();
+            self.lblTotalHits.text = "x" + application.me.attrs.total_hits.toString();
             self.hit = 59;
-            self.lblOutput.text = application.format(self.getOutput());
-            Toast.launch("获得" + application.vip.getHitRatio() + "倍收益，持续60秒");
+            self.lblOutput.text = Utility.format(self.getOutput());
+            Toast.launch("获得" + application.me.vip.getHitRatio() + "倍收益，持续60秒");
             self.imgHit.visible = true;
             var timer = new egret.Timer(1000, 59);
             timer.addEventListener(egret.TimerEvent.TIMER, function (event) {
@@ -294,7 +292,7 @@ var HomeUI = (function (_super) {
             timer.addEventListener(egret.TimerEvent.TIMER_COMPLETE, function (event) {
                 self.hit = 0;
                 self.lblHit.text = "59";
-                self.lblOutput.text = application.format(self.getOutput());
+                self.lblOutput.text = Utility.format(self.getOutput());
                 self.imgHit.visible = false;
             }, this);
             timer.start();
@@ -305,10 +303,10 @@ var HomeUI = (function (_super) {
     };
     p.getOutput = function () {
         if (this.hit > 0) {
-            return application.vip.getHit(application.customer.output);
+            return application.me.vip.getHit(application.me.attrs.output);
         }
         else {
-            return application.customer.output;
+            return application.me.attrs.output;
         }
     };
     p.animateStep = function (lbl, from, to) {
@@ -319,31 +317,31 @@ var HomeUI = (function (_super) {
         var delta = (to - from) / step;
         var timer = new egret.Timer(50, step);
         timer.addEventListener(egret.TimerEvent.TIMER, function (event) {
-            lbl.text = application.format(Math.round(from + delta * event.target.currentCount));
+            lbl.text = Utility.format(Math.round(from + delta * event.target.currentCount));
         }, this);
         timer.addEventListener(egret.TimerEvent.TIMER_COMPLETE, function (event) {
-            lbl.text = application.format(to);
+            lbl.text = Utility.format(to);
         }, this);
         timer.start();
     };
     p.renderCustomer = function () {
-        if (this.gold != application.usableGold()) {
-            this.animateStep(this.lblGold, this.gold, application.usableGold());
-            this.gold = application.usableGold();
+        if (this.gold != application.me.usableGold()) {
+            this.animateStep(this.lblGold, this.gold, application.me.usableGold());
+            this.gold = application.me.usableGold();
         }
-        if (this.diamond != application.customer.diamond) {
-            this.animateStep(this.lblDiamond, this.diamond, application.customer.diamond);
-            this.diamond = application.customer.diamond;
+        if (this.diamond != application.me.attrs.diamond) {
+            this.animateStep(this.lblDiamond, this.diamond, application.me.attrs.diamond);
+            this.diamond = application.me.attrs.diamond;
         }
         if (this.output != this.getOutput()) {
             this.animateStep(this.lblOutput, this.output, this.getOutput());
             this.output = this.getOutput();
         }
-        this.lblTotalHits.text = "x" + application.customer.total_hits.toString();
-        if (application.customer.charge > 0) {
+        this.lblTotalHits.text = "x" + application.me.attrs.total_hits.toString();
+        if (application.me.attrs.charge > 0) {
             this.imgCharge.source = "charge_png";
         }
-        this.lblName.text = application.customer.name;
+        this.lblName.text = application.me.attrs.name;
     };
     p.renderProject = function (proj) {
         if (proj) {

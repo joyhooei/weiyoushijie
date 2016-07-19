@@ -14,13 +14,10 @@ var ChannelHuHuH5 = (function (_super) {
     p.login = function () {
         var self = this;
         window['loginCallBcak'] = function (userId, userName, userImage, userPosition, token) {
-            application.dao.rest("login", { token: token, wysj_channel: "huhuh5", userId: userId, userName: userName, userImage: userImage, userPosition: userPosition }, function (succeed, account) {
-                if (succeed) {
-                    self.resolve(account);
-                }
-                else {
-                    self.reject("登录失败");
-                }
+            application.dao.rest("login", { token: token, wysj_channel: "huhuh5", userId: userId, userName: userName, userImage: userImage, userPosition: userPosition }).then(function (account) {
+                self.resolve(account);
+            }, function (error) {
+                self.reject("登录失败");
             });
         };
         h5Game.login('loginCallBcak');

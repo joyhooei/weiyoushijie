@@ -18,17 +18,17 @@ var ResetUI = (function (_super) {
             var oldOutput = _this.output();
             _this.myProject.tool_ratio = 1;
             application.dao.save("Project", _this.myProject);
-            application.customer.diamond += _this.diamond;
-            application.customer.output += _this.output() - oldOutput;
-            application.saveCustomerNow();
+            application.me.attrs.diamond += _this.diamond;
+            application.me.attrs.output += _this.output() - oldOutput;
+            application.me.saveNow();
             application.channel.track(TRACK_CATEGORY_DIAMOND, TRACK_ACTION_INC, "重置了金手指", _this.diamond);
             Toast.launch("成功重置了金手指");
             application.hideUI(_this);
         }, this);
-        this.lblDiamond.text = application.format(this.diamond);
+        this.lblDiamond.text = Utility.format(this.diamond);
     };
     p.output = function () {
-        return this.project.output(this.myProject.level, this.myProject.achieve, this.myProject.tool_ratio);
+        return application.me.vip.getOutput(this.project.output(this.myProject.level, this.myProject.achieve, this.myProject.tool_ratio));
     };
     return ResetUI;
 }(eui.Component));
