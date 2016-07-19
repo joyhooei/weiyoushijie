@@ -54,15 +54,15 @@ class HelpUI extends eui.Component{
 		
 		var lines = [];
 		lines.push("金币单位");
-		for (var i = 0; i < application.units.length; i++) {
+		for (var i = 0; i < Utility.units.length; i++) {
             var line  = ((i + 1) * 3).toString() + "个0";
 			
-			var blanks = Math.round((maxWidth - egret.sys.measureText(line + application.units[i], 'Arial', 24, false, false))/ blankWidth);
+			var blanks = Math.round((maxWidth - egret.sys.measureText(line + Utility.units[i], 'Arial', 24, false, false))/ blankWidth);
 			for(var j = 0; j < blanks; j++) {
 				line += " ";
 			}
 			
-			lines.push(line + application.units[i]);
+			lines.push(line + Utility.units[i]);
 		}
 		
 		var leftBlanks = Math.floor((380 - maxWidth) / (blankWidth * 2));
