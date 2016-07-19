@@ -89,7 +89,7 @@ class AuctionUI extends eui.Component{
 	private renderLastBid(today:string): void {
 		var self = this;
 		
-        application.dao.fetch("Bid",{ day :today, customer_id: application.customer.id}, {limit : 1}, function(succeed, bids){
+        application.dao.fetch("Bid",{ succeed: 0, day :today, customer_id: application.customer.id}, {limit : 1}, function(succeed, bids){
             if (succeed && bids.length > 0) {
 				self.bid = bids[0];
 				
