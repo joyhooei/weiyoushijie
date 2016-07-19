@@ -27,9 +27,9 @@ class Bid {
                 }
     
                 resolve(self);
-            })
-        }, function(error) {
-            reject(error);
+	        }, function(error) {
+	            reject(error);
+	        })
         });
     }
     
