@@ -32,17 +32,17 @@ class MessageItem extends eui.Component {
         this.imgOperate.addEventListener(egret.TouchEvent.TOUCH_BEGIN, function() {
             if(this.imgOperate.source == "get_png") {
                 if(message.attach_category == "diamond") {
-                    application.customer.diamond += message.attach_quantity;
+                    application.customer.me.diamond += message.attach_quantity;
                     
                     application.channel.track(TRACK_CATEGORY_DIAMOND, TRACK_ACTION_INC, "奖品奖励", message.attach_quantity); 
                 } else if(message.attach_category == "gold") {
-                    application.customer.gold += message.attach_quantity;
+                    application.customer.me.gold += message.attach_quantity;
                 } else {
-                    application.customer.metal += message.attach_quantity;
+                    application.customer.me.metal += message.attach_quantity;
                 }                
                 message.state = 1;
                 application.dao.save("Message",message);
-                application.saveCustomerNow();
+                application.customer.saveNow();
 
                 this.imgOperate.source = "del_png";         
             } else {
