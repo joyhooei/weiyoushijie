@@ -1,4 +1,10 @@
 class Utility {
+    public static units = [
+        'k', 'm', 'b', 't', 
+        'a', 'A', 'c', 'C', 'd', 'D', 'e', 'E', 'f', 'F', 'g', 'G', 'h', 'H', 'i', '!', 'j', 'J', 'l', 'L', 'n', 'N', 'o', 'O', 'p', 'P', 'q', 'Q', 'r', 'R', 's', 'S', 'u', 'U', 'v', 'V', 'w', 'W', 'x', 'X', 'y', 'Y', 'z', 'Z',
+        'aa', 'AA', 'cc', 'CC', 'dd', 'DD', 'ee', 'EE', 'ff', 'FF', 'gg', 'GG', 'hh', 'HH', 'ii', '!!', 'jj', 'JJ', 'll', 'LL', 'nn', 'NN', 'oo', 'OO', 'pp', 'PP', 'qq', 'QQ', 'rr', 'RR', 'ss', 'SS', 'uu', 'UU', 'vv', 'VV', 'ww', 'WW', 'xx', 'XX', 'yy', 'YY', 'zz', 'ZZ',
+    ];
+    
     public static log10(d:number):number {
         let result:number = 0;
         
@@ -18,7 +24,7 @@ class Utility {
 			}
         
 			let unit:string  = "";		
-			for (var i = 0; i < application.units.length; i++) {
+			for (var i = 0; i < Utility.units.length; i++) {
 				if (d < 10) {
                     return new Number(d).toFixed(2) + unit;
 				} else if (d < 100) {
@@ -26,7 +32,7 @@ class Utility {
 				} else if (d < 1000) {
                     return new Number(d).toFixed() + unit;
 				} else {
-					unit = application.units[i];
+					unit = Utility.units[i];
 					d = d / 1000;
 				}
 			}
