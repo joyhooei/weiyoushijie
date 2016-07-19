@@ -28,7 +28,7 @@ class Customer {
         }
     }
     
-    public static  save() {
+    public static save() {
 		var now = (new Date()).getTime() / 1000;
         if (now - application.saveSeconds >= 120) {
             Customer.saveNow();
@@ -55,7 +55,7 @@ class Customer {
     public static earnOfflineGold() {
         if (application.customer.offline_gold > 0) {
             application.earnGold(application.customer.offline_gold);
-            application.saveCustomerNow();
+            Customer.saveNow();
         }
     }
     
