@@ -56,12 +56,15 @@ module application {
             if(customers.length > 0) {
                 application.customer = new Customer(customers[0]);
 
-                application.bid = Bid.refresh();
-                
                 //首次登录，需要显示引导页面
                 if(application.customer.me.metal == 0) {
                     application.guideUI = new GuideUI();
                 }
+                
+                application.bid = new Bid();
+                application.bid.refresh().then(function(data){
+                	application.main.dispatchEventWith(GameEvents.EVT_LOGIN_IN_SUCCESS);
+                })
 
                 var timer: egret.Timer = new egret.Timer(1000,0);
                 timer.addEventListener(egret.TimerEvent.TIMER,function(event: egret.TimerEvent) {
@@ -78,8 +81,6 @@ module application {
                     }
                 },this);
                 timer.start();
-
-                application.main.dispatchEventWith(GameEvents.EVT_LOGIN_IN_SUCCESS);
             } else {
                 Toast.launch("获取账号信息失败");
             }
