@@ -1,14 +1,3 @@
-enum GiftCategory {
-    Login = 1,
-    Online,
-    Bid,
-    Ticket,
-	Share,
-	Charge,
-	Output,
-	Attention
-}
-
 class GiftUI extends eui.Component {
     private imgPick1: eui.Image;
     private imgPick2: eui.Image;
