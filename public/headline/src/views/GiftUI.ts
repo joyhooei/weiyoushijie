@@ -131,7 +131,7 @@ class GiftUI extends eui.Component {
 			gift.data = nextOutput.toString();
 			
 			//如果用户的秒产超过了下一个可以领取的秒产，则仍然保持解锁状态
-			if (Utility.log10(application.customer.me.output) >= Utility.log10(nextOutput)) {
+			if (Utility.log10(application.me.attrs.output) >= Utility.log10(nextOutput)) {
 				this.lockGift(gift, 0);
 			} else {
 				this.lockGift(gift, 2);
@@ -236,21 +236,21 @@ class GiftUI extends eui.Component {
 	private renderTicketGift() {
 		//4、永久会员/月票 300钻。每天领取一次。灰色是点击跳入会员购买页面（参照道具弹出窗口） 月票默认30天，会显示剩余月票天数，如果是永久则显示永久
 		var gift = this.gift(GiftCategory.Ticket);
-		if (application.customer.me.vip == 0) {
+		if (application.me.attrs.vip == 0) {
 			this.lblTicketGiftTimeout.text = "";
 		} else {
 			var now = new Date();
 			
-			if (application.customer.me.vip == 2) {
+			if (application.me.attrs.vip == 2) {
 				this.lblTicketGiftTimeout.text = "永久";
 			} else {
-				var ticketTimeout = new Date(application.customer.me.ticket);
+				var ticketTimeout = new Date(application.me.attrs.ticket);
 				var timeDiff = ticketTimeout.getTime() - now.getTime();
 				var diffDays = Math.min(30, Math.floor(timeDiff / (1000 * 3600 * 24))); 
 				if (diffDays <= 0) {
 					this.lblTicketGiftTimeout.text = "";
 					
-					application.resetTicket(0);
+					application.me.resetTicket(0);
 				} else {
 					this.lblTicketGiftTimeout.text = diffDays.toString() + "天";
 				}
@@ -263,7 +263,7 @@ class GiftUI extends eui.Component {
 	private renderOutputGift() {
 		//7、秒产每增加一个数量级，就得100个钻石
 		var gift = this.gift(GiftCategory.Output);
-		this.lblOutputGift.text = application.format(gift.data);
+		this.lblOutputGift.text = Utility.format(gift.data);
 		this.renderGift(gift);
 	}
 	
@@ -316,9 +316,9 @@ class GiftUI extends eui.Component {
 		}
 		Toast.launch(tip);
 		
-		application.customer.me.metal   += gift.metal;
-		application.customer.me.gold    += gift.gold;
-		application.customer.me.diamond += gift.diamond;
-		application.customer.saveNow();
+		application.me.attrs.metal   += gift.metal;
+		application.me.attrs.gold    += gift.gold;
+		application.me.attrs.diamond += gift.diamond;
+		application.me.saveNow();
 	}
 }
