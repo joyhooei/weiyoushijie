@@ -80,7 +80,7 @@ class ProjectItem extends eui.Component {
 	}
 
     private output(): number {
-        return application.customer.vip.getOutput(this._project.output(this._myProject.level,this._myProject.achieve,this._myProject.tool_ratio));
+        return application.me.vip.getOutput(this._project.output(this._myProject.level,this._myProject.achieve,this._myProject.tool_ratio));
     }
     
     private renderProject(): void {
@@ -99,9 +99,9 @@ class ProjectItem extends eui.Component {
             this.imgUpgrade10.source = "upgrade10g_png";
             this.imgUpgrade100.source = "upgrade100g_png";           
         } else {
-            var p = application.customer.vip.getUpgrade(this._project.priceOf(this._myProject.level));
-            var p10 = application.customer.vip.getUpgrade(this._project.price(this._myProject.level, 10));
-            var p100 = application.customer.vip.getUpgrade(this._project.price(this._myProject.level, 100));
+            var p = application.me.vip.getUpgrade(this._project.priceOf(this._myProject.level));
+            var p10 = application.me.vip.getUpgrade(this._project.price(this._myProject.level, 10));
+            var p100 = application.me.vip.getUpgrade(this._project.price(this._myProject.level, 100));
 
             this.lblLevel.text = this._myProject.level;
             this.lblOutput.text = Utility.format(this.output());
@@ -192,8 +192,8 @@ class ProjectItem extends eui.Component {
     private upgrade(step:number): void {
         let self = this;
         
-        let p = application.customer.vip.getUpgrade(this._project.price(this._myProject.level, step));
-        if(application.customer.usableGold() < p) {
+        let p = application.me.vip.getUpgrade(this._project.price(this._myProject.level, step));
+        if(application.me.usableGold() < p) {
 			Toast.launch("没有足够的金币");
 			
 			return;
@@ -213,7 +213,7 @@ class ProjectItem extends eui.Component {
         let self = this;
 
         let p = this._project.priceOf(1);
-        if(application.usableGold() < p) {
+        if(application.me.usableGold() < p) {
 			Toast.launch("没有足够的金币");
 			
 			return;
@@ -224,16 +224,16 @@ class ProjectItem extends eui.Component {
 
 		if (self._myProject.sequence < 19) {
 			let project:any = {};
-			project.customer_id = application.customer.me.id;
+			project.customer_id = application.me.attrs.id;
 			project.sequence = self._myProject.sequence + 1;
 			project.unlocked = 1;
 			project.achieve = 0;
 			project.level = 1;
 			application.dao.save("Project",project);
 			
-			application.customer.buyOutput(p, 0, self.output());
+			application.me.buyOutput(p, 0, self.output());
 		} else {
-            application.customer.buyOutput(p,0,self.output());    			    
+            application.me.buyOutput(p,0,self.output());    			    
 		}
         
 		if (application.guideUI) {
