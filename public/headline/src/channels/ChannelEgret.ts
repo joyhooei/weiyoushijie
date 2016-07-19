@@ -16,13 +16,11 @@ class ChannelEgret extends Channel{
 					var loginView: LoginUI = new LoginUI(loginTypes,function(logType: nest.easyuser.ILoginType) {
 						nest.easyuser.login(logType, function (data:nest.user.LoginCallbackInfo) {
 							if (data.result == 0) {
-                                application.dao.rest("login",{ token: data.token, wysj_channel: "egret" },(succeed: boolean,account: any) => {
-                                    if (succeed) {
-                                        self.resolve(account);
-                                    } else {
-                                        self.reject("登录失败");
-                                    }
-                                });
+                                application.dao.rest("login",{ token: data.token, wysj_channel: "egret" }).then(function(account){
+                                	self.resolve(account);
+	                            }, function(error) {
+	                                self.reject("登录失败");
+	                            });
 							} else {
                                 self.reject("登录失败");
 							}
@@ -34,12 +32,10 @@ class ChannelEgret extends Channel{
 					//不需要登录按钮，直接调用登录进游戏
 					nest.easyuser.login({}, function (data:nest.user.LoginCallbackInfo) {
 						if (data.result == 0) {
-                            application.dao.rest("login",{ token: data.token,wysj_channel: "egret" },(succeed: boolean,account: any) => {
-                                if(succeed) {
-                                    self.resolve(account);
-                                } else {
-                                    self.reject("登录失败");
-                                }
+                            application.dao.rest("login",{ token: data.token,wysj_channel: "egret" }).then(function(account){
+                                self.resolve(account);
+                            }, function(error){
+                                self.reject("登录失败");
                             });
 						} else {
                             self.reject("登录失败");
@@ -126,7 +122,7 @@ class ChannelEgret extends Channel{
 		switch(category) {
 			case TRACK_CATEGORY_PLAYER:
 				if (action == TRACK_ACTION_ENTER){
-					esa.EgretSA.player.init({ egretId: application.customer.uid,level: 1,serverId: 1,playerName: application.customer.name })
+					esa.EgretSA.player.init({ egretId: application.me.attrs.uid,level: 1,serverId: 1,playerName: application.me.attrs.name })
 				} else {
 					esa.EgretSA.onLeave();
 				}
