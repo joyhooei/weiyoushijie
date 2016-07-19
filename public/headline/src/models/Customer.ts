@@ -123,7 +123,7 @@ class Customer {
         }
     }
     
-    public static buyOutput(gold:number, diamond: number, output:number): void {
+    public buyOutput(gold:number, diamond: number, output:number): void {
         gold    = Math.abs(gold);
         diamond = Math.abs(diamond);
         output  = Math.abs(output);
