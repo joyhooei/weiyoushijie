@@ -1,35 +1,38 @@
 class Customer {
-	public me: any;
+	public attrs: any;
 	
-	putlic vip: any;
+	public vip: Vip;
+	
+	public bid: Bid;
 	
 	private saveSeconds: number = 0;
 	
-	constructor(me: any) {
+	constructor(attrs: any) {
         super();
         
-        this.me = me;
+        this.attrs = attrs;
 
-        if(!this.me.earned_gold) {
-            this.me.earned_gold = 0;
+        if(!this.attrs.earned_gold) {
+            this.attrs.earned_gold = 0;
         }
         
-        this.vip = Vip.createVip(this.me.charge);
+        this.vip = Vip.create(this.attrs.charge);
+        this.bid = new Bid();
         
         this.checkTicket();
         
-        application.channel.track(TRACK_CATEGORY_PLAYER, TRACK_ACTION_ENTER); 
+        application.channel.track(TRACK_CATEGORY_PLAYER, TRACK_ACTION_ENTER);
     }
 
 	public resetTicket(vip: number): void {
-		this.me.vip = vip;
+		this.attrs.vip = vip;
 		
 		if (vip == 0 || vip == 2) {
-			this.me.ticket = "";
+			this.attrs.ticket = "";
 		} else {
 			var now = new Date();
 			now = new Date(now.getTime() + 1000 * 60 * 60 * 24 * 30);
-			this.me.ticket = now.toString();
+			this.attrs.ticket = now.toString();
 		}
 		
 		this.saveNow();
@@ -37,9 +40,9 @@ class Customer {
 
     //检查是否ticket超期了
     public checkTicket(): void {
-        if(this.me.vip == 1) {
-            if(this.me.ticket && this.me.ticket.length > 1) {
-                var ticketTimeout = new Date(this.me.ticket);
+        if(this.attrs.vip == 1) {
+            if(this.attrs.ticket && this.attrs.ticket.length > 1) {
+                var ticketTimeout = new Date(this.attrs.ticket);
                 var now = new Date();
                 if(ticketTimeout.getTime() < now.getTime()) {
                     this.resetTicket(0);
@@ -63,58 +66,60 @@ class Customer {
     	var self = this;
     	
         self.saveSeconds = (new Date()).getTime() / 1000;
+        
+        let oldCharge = self.attrs.charge;
 
-        self.me.version = application.version;
-        self.me.gold = Math.max(0,self.me.gold);
-        self.me.earned_gold = Math.max(0,self.me.earned_gold);
-        self.me.accumulated_gold = Math.max(self.me.accumulated_gold, self.me.gold);
-        self.me.diamond = Math.max(0, self.me.diamond);
-        application.dao.save("Customer",self.me).then(function(customer){
-            if (self.me.charge != application.vip) {
-                application.vip = Vip.createVip(self.me.charge);
+        self.attrs.version = application.version;
+        self.attrs.gold = Math.max(0,self.attrs.gold);
+        self.attrs.earned_gold = Math.max(0,self.attrs.earned_gold);
+        self.attrs.accumulated_gold = Math.max(self.attrs.accumulated_gold, self.attrs.gold);
+        self.attrs.diamond = Math.max(0, self.attrs.diamond);
+        application.dao.save("Customer", self.attrs).then(function(customer){
+            if (customer.charge != oldCharge) {
+                self.vip = Vip.create(customer.charge);
             }
         });
     }
 
     public earnOfflineGold() {
-        if (this.me.offline_gold > 0) {
-            this.earnGold(this.me.offline_gold);
+        if (this.attrs.offline_gold > 0) {
+            this.earnGold(this.attrs.offline_gold);
             this.saveNow();
         }
     }
     
     public earnGold(gold:number) {
 		//处理大数 + 小数，小数被四舍五入的问题
-        this.me.earned_gold += gold;
+        this.attrs.earned_gold += gold;
         
-        var oldGold = this.me.gold;
+        var oldGold = this.attrs.gold;
         
-        this.me.gold += this.me.earned_gold;
-        if (oldGold != this.me.gold) {
-            this.me.accumulated_gold += this.me.earned_gold;
+        this.attrs.gold += this.attrs.earned_gold;
+        if (oldGold != this.attrs.gold) {
+            this.attrs.accumulated_gold += this.attrs.earned_gold;
             
-            this.me.earned_gold = 0;			
+            this.attrs.earned_gold = 0;			
         }
         
         this.save();
     }
     
     public static useGold(gold:number) {
-        if(this.me.earned_gold > gold) {
-            this.me.earned_gold -= gold;
+        if(this.attrs.earned_gold > gold) {
+            this.attrs.earned_gold -= gold;
         } else {
-            this.me.gold = this.me.gold + this.me.earned_gold - gold;
-            this.me.earned_gold = 0;
+            this.attrs.gold = this.attrs.gold + this.attrs.earned_gold - gold;
+            this.attrs.earned_gold = 0;
         }
         
         this.saveNow();
     }
 
     public usableGold() {
-        if (application.bid) {
-            return Math.max(0,this.me.gold + this.me.earned_gold - application.bid.current.gold);
+        if (this.bid.attrs) {
+            return Math.max(0,this.attrs.gold + this.attrs.earned_gold - this.bid.attrs.gold);
         } else {
-            return Math.max(0,this.me.gold + this.me.earned_gold);
+            return Math.max(0,this.attrs.gold + this.attrs.earned_gold);
         }
     }
     
@@ -123,12 +128,12 @@ class Customer {
         diamond = Math.abs(diamond);
         output  = Math.abs(output);
         
-        this.me.diamond -= diamond;	
-        this.me.output  += output;
+        this.attrs.diamond -= diamond;	
+        this.attrs.output  += output;
         this.useGold(gold);
         
-        if (this.me.output >= 100) {
-			if(Utility.log10(this.me.output) > Utility.log10(this.me.output - output)) {
+        if (this.attrs.output >= 100) {
+			if(Utility.log10(this.attrs.output) > Utility.log10(this.attrs.output - output)) {
 				application.dao.fetch("Gift", {customer_id: application.customer.id, category: 7}, {limit: 1}).then(function(gifts){
 					if (gifts.length > 0) {
 						var gift = gifts[0];
