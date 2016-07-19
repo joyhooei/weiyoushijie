@@ -105,7 +105,7 @@ class BuyToolUI extends eui.Component{
 				application.showUI(new ChargeTipUI());
 			}
 		} else {
-			Toast.launch("你还有" + application.customer.total_hits + "个暴击，请用完后再购买");
+			Toast.launch("你还有" + application.me.attrs.total_hits + "个暴击，请用完后再购买");
 		}
 	}
     
