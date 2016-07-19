@@ -41,8 +41,8 @@ module application {
         application.stopwatch = new egret.EventDispatcher();
 
         window.onunload = function() {
-            if (application.customer) {
-                application.saveCustomerNow();
+            if (application.me) {
+                application.me.saveNow();
             }
         }
     }
