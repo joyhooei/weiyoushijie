@@ -19,12 +19,10 @@ class ChannelHuHuH5 extends Channel{
         let self = this;
 
         window['loginCallBcak'] = function(userId, userName, userImage, userPosition, token){
-            application.dao.rest("login",{ token: token, wysj_channel: "huhuh5", userId: userId, userName: userName, userImage: userImage, userPosition: userPosition},(succeed: boolean,account: any) => {
-                if (succeed) {
-                    self.resolve(account);
-                } else {
-                    self.reject("登录失败");
-                }
+            application.dao.rest("login",{ token: token, wysj_channel: "huhuh5", userId: userId, userName: userName, userImage: userImage, userPosition: userPosition}).then(function(account){
+            	self.resolve(account);
+            }, function(error) {
+            	self.reject("登录失败");
             });
         };
         
