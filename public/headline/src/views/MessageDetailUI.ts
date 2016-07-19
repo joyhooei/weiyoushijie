@@ -45,18 +45,18 @@ class MessageDetailUI extends eui.Component {
             this.imgOperate.addEventListener(egret.TouchEvent.TOUCH_TAP,() => {
                 if(this.imgOperate.source == "get_png") {
                     if(message.attach_category == "diamond") {
-                        application.customer.me.diamond += message.attach_quantity;
+                        application.me.attrs.diamond += message.attach_quantity;
                         
                         application.channel.track(TRACK_CATEGORY_DIAMOND, TRACK_ACTION_INC, "奖品奖励", message.attach_quantity); 
                     } else if(message.attach_category == "gold") {
-                        application.customer.me.gold += message.attach_quantity;
+                        application.me.attrs.gold += message.attach_quantity;
                     } else {
-                        application.customer.me.metal += message.attach_quantity;
+                        application.me.attrs.metal += message.attach_quantity;
                     }
                     message.state = 1;
                     application.dao.save("Message",message);
                     
-                    application.customer.saveNow();
+                    application.me.saveNow();
 
                     this.imgOperate.source = "del_png";
                 } else {
