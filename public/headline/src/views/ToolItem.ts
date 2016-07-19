@@ -49,9 +49,9 @@ class ToolItem extends eui.Component {
     }
 	
 	public refresh():void {
-		this.lbl1.text   = application.format(this._myProject.tool_ratio);
-		this.lbl100.text = application.format(this.ratio(this._myProject.tool_ratio, 1));
-		this.lbl900.text = application.format(this.ratio(this._myProject.tool_ratio, 10));
+		this.lbl1.text   = Utility.format(this._myProject.tool_ratio);
+		this.lbl100.text = Utility.format(this.ratio(this._myProject.tool_ratio, 1));
+		this.lbl900.text = Utility.format(this.ratio(this._myProject.tool_ratio, 10));
 	}
 	
 	private reset(): void {
@@ -72,10 +72,10 @@ class ToolItem extends eui.Component {
 	}
 	
 	private buy(price: number, step: number): void {
-        if (application.customer.diamond >= price) {
+        if (application.me.attrs.diamond >= price) {
 			let oldOutput = this.output();
             this._myProject.tool_ratio = this.ratio(this._myProject.tool_ratio, step);
-            application.buyOutput(0,price,this.output() - oldOutput);
+            application.me.buyOutput(0, price,this.output() - oldOutput);
             application.dao.save("Project",this._myProject);
 			
 			application.channel.track(TRACK_CATEGORY_DIAMOND, TRACK_ACTION_DEC, "购买了金手指", price); 
@@ -107,7 +107,7 @@ class ToolItem extends eui.Component {
 				200000000000
 			];
 			
-		var i = application.log10(oldRatio);
+		var i = Utility.log10(oldRatio);
 		if (i < ratios.length) {
 			return oldRatio + ratios[i];
 		} else {
