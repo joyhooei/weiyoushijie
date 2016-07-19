@@ -44,7 +44,7 @@ class ChargeTipUI extends eui.Component{
         },this);
         
         this.imgCharge7.addEventListener(egret.TouchEvent.TOUCH_TAP,() => {
-            if (application.customer.me.vip == 2) {
+            if (application.me.attrs.vip == 2) {
 			    Toast.launch("你已经购买了VIP，终身免费，不需要购买月票");
 		    } else {
             	Order.buyTicket();
@@ -52,7 +52,7 @@ class ChargeTipUI extends eui.Component{
         },this);
         
         this.imgCharge8.addEventListener(egret.TouchEvent.TOUCH_TAP,() => {
-			if (application.customer.me.vip == 2) {
+			if (application.me.attrs.vip == 2) {
 				Toast.launch("你已经购买了VIP，终身免费");
 			} else {
 				Order.buyVIP();
