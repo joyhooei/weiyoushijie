@@ -107,15 +107,6 @@ module application {
         })
     }
 
-    export function usableGold() {
-        if (application.bid) {
-            return Math.max(0,application.customer.gold - application.bid.gold + application.customer.earned_gold);
-        } else {
-            return Math.max(0,application.customer.gold + application.customer.earned_gold);
-        }
-    }
-
-
     export function gotoHome(): void {
         application.main.homeUI.gotoPage(GamePages.HOME,true);
     }
@@ -176,19 +167,4 @@ module application {
         
         return ui;
     }
-	
-	export function avatarUrl(customer: any): string {
-		if (customer.avatar && customer.avatar.length > 1) {
-			return customer.avatar;
-		} else {
-            var url = application.baseUrl + "headline/resource/art/";
-			if (customer.sex == 1) {
-				return url + "headM.png";
-			} else if (customer.sex == 2) {
-				return url + "headF.png";
-			} else {
-                return url + "head.png";
-            }
-		}
-	}
 }
