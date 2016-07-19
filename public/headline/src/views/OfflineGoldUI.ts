@@ -10,12 +10,12 @@ class OfflineGoldUI extends eui.Component{
         
         this.skinName = "resource/custom_skins/offlineGoldUISkin.exml";
 		
-        this.lblGold.text   = application.format(application.customer.offline_gold);
-        this.lblHour.text   = application.customer.offline_hours; 
-        this.lblMinute.text = application.customer.offline_minutes;
+        this.lblGold.text   = Utility.format(application.me.attrs.offline_gold);
+        this.lblHour.text   = application.me.attrs.offline_hours; 
+        this.lblMinute.text = application.me.attrs.offline_minutes;
         
         this.imgOK.addEventListener( egret.TouchEvent.TOUCH_TAP, ()=>{
-            application.earnOfflineGold();
+            application.me.earnOfflineGold();
             
             application.hideUI(this);
         }, this );	
