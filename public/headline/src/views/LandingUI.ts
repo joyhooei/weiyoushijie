@@ -13,7 +13,7 @@ class LandingUI extends eui.Component {
         var self = this;
         
         self.btnLogin.visible = false;
-        application.dao.find("Notification", {}, {order: 'create_time DESC'}).then(function(notifications){
+        application.dao.fetch("Notification", {}, {order: 'create_time DESC'}).then(function(notifications){
         	if (notifications.length > 0) {
         		let notification = notifications[0];
         		application.showUI(new NotificationUI(notification, function(){
