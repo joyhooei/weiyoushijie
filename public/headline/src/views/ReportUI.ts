@@ -15,7 +15,7 @@ class ReportUI extends eui.Component{
         
         this.imgOK.addEventListener( egret.TouchEvent.TOUCH_TAP, ()=>{
 			if (this.txtContent.text.length > 0) {
-				var report = {customer_id: application.customer.id, content: this.txtContent.text, state: 0};
+				var report = {customer_id: application.me.attrs.id, content: this.txtContent.text, state: 0};
 				application.dao.save("Report", report);
 				application.hideUI(this);
 			} else {
