@@ -1,8 +1,8 @@
 class Bid {
-	public current: any;
+	public attrs: any;
 	
 	public constructor() {
-		this.current = null;
+		this.attrs = null;
 	}
 	
     public static day(): string {
@@ -19,29 +19,29 @@ class Bid {
     	var self = this;
     	
         return Q.Promise(function(resolve, reject, notify) {
-            application.dao.fetch("Bid",{ succeed: 0, day :Bid.day(), customer_id: customer.me.id}, {limit : 1}).then(function(bids){
+            application.dao.fetch("Bid",{succeed: 0, day :Bid.day(), customer_id: customer.attrs.id}, {limit : 1}).then(function(bids){
                 if (bids.length > 0) {
-                    self.bid = bids[0];
+                    self.attrs = bids[0];
                 } else {
-                    self.bid = null;
+                    self.attrs = null;
                 }
     
-                resolve(self.bid);
+                resolve(self);
             })
         }, function(error) {
-            resolve(self.bid);
+            reject(error);
         });
     }
     
     public static earn(customer:Customer): void {
     	var self = this;
     	
-		application.dao.fetch("Bid", {customer_id: customer.me.id, succeed: {$gte:1}, claimed: 0}, {}).then(function(bids){
+		application.dao.fetch("Bid", {customer_id: customer.attrs.id, succeed: {$gte:1}, claimed: 0}, {}).then(function(bids){
 			if (bids.length > 0) {
 				for(var i = 0; i < bids.length; i++) {
-					customer.me.gold -= bids[i].gold;
+					customer.attrs.gold -= bids[i].gold;
 					if (bids[i].rank == 1) {
-						customer.me.diamond += 2000;
+						customer.attrs.diamond += 2000;
 						application.channel.track(TRACK_CATEGORY_DIAMOND, TRACK_ACTION_INC, "拍卖头名", 2000); 
 					}
 
