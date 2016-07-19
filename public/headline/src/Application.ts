@@ -5,9 +5,7 @@ module application {
     
     export var channel: Channel;
     
-    export var customer: Customer;
-    
-    export var bid: Bid;
+    export var me: Customer;
 
     export var projects: Project[];
 	
@@ -38,7 +36,7 @@ module application {
         
         application.channel = Channel.create();
         
-        application.projects = Project.createAllProjects();
+        application.projects = Project.createAll();
         
         application.stopwatch = new egret.EventDispatcher();
 
@@ -54,15 +52,14 @@ module application {
 
         application.dao.fetch("Customer",{ id: account.customer_id },{ limit: 1 }).then(function(customers) {
             if(customers.length > 0) {
-                application.customer = new Customer(customers[0]);
+                application.me = new Customer(customers[0]);
 
                 //首次登录，需要显示引导页面
-                if(application.customer.me.metal == 0) {
+                if(application.me.attrs.metal == 0) {
                     application.guideUI = new GuideUI();
                 }
                 
-                application.bid = new Bid();
-                application.bid.refresh().then(function(data){
+                application.me.bid.refresh().then(function(attrs){
                 	application.main.dispatchEventWith(GameEvents.EVT_LOGIN_IN_SUCCESS);
                 })
 
