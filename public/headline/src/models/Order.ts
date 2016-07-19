@@ -1,24 +1,22 @@
 class Order {
-    public static buy(product: string, gid: string, price: number) {
-        var firstCharge = application.customer.charge == 0;
+    public static buy(customer:Customer, product: string, gid: string, price: number) {
+        var firstCharge = customer.me.charge == 0;
         
-        var order = { customer_id: application.customer.id, product: product, price: price, state: 0};
-        application.dao.save("Order", order, function(succeed, o) {
-            if (succeed) {
-                application.saveCustomerNow();
-                application.channel.pay({ goodsId: gid, goodsName: gid, goodsNumber: "1", money: price, orderId: o.id }).then(function(data){
-                }, function(error){
-                    Toast.launch(error);
-                });
-                    
-                application.checkOrderPayed(o, 20, firstCharge);
-            } else {
-                Toast.launch("保存订单失败，请稍后再试");
-            }
+        var order = { customer_id: customer.me.id, product: product, price: price, state: 0};
+        application.dao.save("Order", order).then(function(o) {
+            customer.saveNow();
+            application.channel.pay({ goodsId: gid, goodsName: gid, goodsNumber: "1", money: price, orderId: o.id }).then(function(data){
+            }, function(error){
+                Toast.launch(error);
+            });
+                
+            Order.checkOrderPayed(customer, o, 20, firstCharge);
+        }, function(error){
+            Toast.launch("保存订单失败，请稍后再试");
         });
     }
     
-    public static checkOrderPayed(order: any, times: number, firstCharge:boolean) {
+    public static checkOrderPayed(customer:Customer, order: any, times: number, firstCharge:boolean) {
 		application.delay(function(){
 			application.dao.fetch("Order", {id: order.id, state: 1}, {}).then(function(orders) {
 				if (orders.length > 0) {
@@ -38,8 +36,8 @@ class Order {
                             diamond = 200000;
                         }
 
-						application.customer.diamond += diamond;
-						Customer.saveNow();             
+						customer.me.diamond += diamond;
+						customer.saveNow();             
                         
                         if (firstCharge) {
 						    Toast.launch("购买了" + diamond.toString() + "钻石,并获得了1500钻，1000k金币和1个奖章的首充礼物");
@@ -49,7 +47,7 @@ class Order {
                             Toast.launch("购买了" + diamond.toString() + "钻石");
                         }
 					} else {
-						application.dao.fetch("Order", {customer_id: application.customer.id, "product": "Ticket", state: 1}, {}).then(function(os){
+						application.dao.fetch("Order", {customer_id: customer.me.id, "product": "Ticket", state: 1}, {}).then(function(os){
 							if (o.product == "Ticket") {
 								//已经买过月票，不能再获取奖章了
 								if (succeed && os.length >= 2) {
@@ -58,9 +56,9 @@ class Order {
 									var metal = 1;
 								}
 
-                                application.customer.diamond += 2000;
-								application.customer.metal += metal;
-                                Customer.resetTicket(1);
+                                customer.me.diamond += 2000;
+								customer.me.metal += metal;
+                                customer.resetTicket(1);
                                  
 								if (firstCharge) {
 									Toast.launch("购买了月票,并获得了1500钻，1000k金币和1个奖章的首充礼物");
@@ -77,9 +75,9 @@ class Order {
 									var metal = 3;
 								}
 
-                                application.customer.diamond += 5000;
-								application.customer.metal += metal;
-                                Customer.resetTicket(2);
+                                customer.me.diamond += 5000;
+								customer.me.metal += metal;
+                                customer.resetTicket(2);
                                 
 								if (firstCharge) {
 									Toast.launch("购买了VIP,并获得了1500钻，1000k金币和1个奖章的首充礼物");
@@ -95,7 +93,7 @@ class Order {
 					// fetch again
 					times -= 1;
 					if (times > 0) {
-						Order.checkOrderPayed(order, times, firstCharge);
+						Order.checkOrderPayed(customer, order, times, firstCharge);
 					} else {
 						 Toast.launch("支付超时，请稍后再试");
 					}
