@@ -18,7 +18,7 @@ class Order {
     }
     
     public static checkOrderPayed(customer:Customer, order: any, times: number, firstCharge:boolean) {
-		application.delay(function(){
+		Utility.delay(function(){
 			application.dao.fetch("Order", {id: order.id, state: 1}, {}).then(function(orders) {
 				if (orders.length > 0) {
 					var o = orders[0];
@@ -48,10 +48,10 @@ class Order {
                             Toast.launch("购买了" + diamond.toString() + "钻石");
                         }
 					} else {
-						application.dao.fetch("Order", {customer_id: customer.me.id, "product": "Ticket", state: 1}, {}).then(function(os){
+						application.dao.fetch("Order", {customer_id: customer.attrs.id, "product": "Ticket", state: 1}, {}).then(function(os){
 							if (o.product == "Ticket") {
 								//已经买过月票，不能再获取奖章了
-								if (succeed && os.length >= 2) {
+								if (os.length >= 2) {
 									var metal = 0;
 								} else {
 									var metal = 1;
@@ -70,7 +70,7 @@ class Order {
 								}
 							} else {
 								//已经买过月票，只能再获取2个奖章
-								if (succeed && os.length >= 1) {
+								if (os.length >= 1) {
 									var metal = 2;
 								} else {
 									var metal = 3;
@@ -103,15 +103,15 @@ class Order {
 		}, 1000);
     }
     
-    public static charge(gid:string, diamond: number): void {
-        Order.buy("Diamond", gid, diamond); 
+    public static charge(customer:Customer, gid:string, diamond: number): void {
+        Order.buy(customer, "Diamond", gid, diamond); 
     }
     
-    public static buyTicket(): void {
-       	Order.buy("Ticket", "ticket", 19);
+    public static buyTicket(customer:Customer): void {
+       	Order.buy(customer, "Ticket", "ticket", 19);
     }
     
-    public static buyVIP(): void {
-        Order.buy("VIP", "vip", 49);			
+    public static buyVIP(customer:Customer): void {
+        Order.buy(customer, "VIP", "vip", 49);
     }
 }
