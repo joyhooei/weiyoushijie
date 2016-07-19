@@ -14,9 +14,9 @@ class Gift {
         application.dao.dispatchEventWith("Gift", true, null);
     }
     
-    public static check() {
+    public static check(customer) {
         return Q.Promise(function(resolve, reject, notify) {
-            application.dao.fetch("Gift", {customer_id: application.customer.id}, {order : 'category ASC'}).then(function(gifts){
+            application.dao.fetch("Gift", {customer_id: customer.me.id}, {order : 'category ASC'}).then(function(gifts){
                 if (gifts.length > 0) {
     				//如果到了第二天，将所有已经领取礼物重新修改为可以领取
     				var day = 1000 * 60 * 60 * 24;
@@ -52,7 +52,7 @@ class Gift {
     
                         if (gift.category == GiftCategory.Online) {
     						//在线已经过了一小时，可以领取了
-    			            var lastLogin = new Date(application.customer.last_login);
+    			            var lastLogin = new Date(customer.me.last_login);
     			            var diff      = Math.floor((now.getTime() - lastLogin.getTime()) / 1000);
     			            if(diff >= 3600) {
     				            gift.locked = 0;
@@ -63,9 +63,9 @@ class Gift {
     							gift.locked = 1;
     						}
                         } else if (gift.category == GiftCategory.Ticket) {						
-                            application.checkTicket();
+                            customer.checkTicket();
                             
-    						if (application.customer.vip > 0) {
+    						if (customer.me.vip > 0) {
     							gift.locked = 0;
     							
     							hasGift = true;
@@ -74,8 +74,8 @@ class Gift {
     						}
                         } else if (gift.category == GiftCategory.Output) {
     						let nextOutput:number = +gift.data;
-    						let nextOutputLog: number = application.log10(nextOutput);
-                            let outputLog: number = application.log10(application.customer.output);
+    						let nextOutputLog: number = Utility.log10(nextOutput);
+                            let outputLog: number = Utility.log10(customer.me.output);
                             
     						//如果用户的秒产超过了下一个可以领取的秒产，则解锁
     						if (outputLog >= nextOutputLog) {
