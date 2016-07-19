@@ -7,6 +7,10 @@ class Customer {
         super();
         
         this.me = me;
+
+        if(!this.me.earned_gold) {
+            this.me.earned_gold = 0;
+        }
     }
 
 	public resetTicket(vip: number): void {
