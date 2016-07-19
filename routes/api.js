@@ -242,24 +242,22 @@ function _saveModel(model, req, res) {
 			var newModel = _encode(model, req.body);
 
 			newModel.save().then(function(m){
-		dao.get(req.params.model, m.id).then(function(updatedModel){
+				dao.get(req.params.model, m.id).then(function(updatedModel){
 					_succeed(res, _decode(updatedModel));
 				}, function(error){
 					console.error("_saveModel get model failed " + error.message + " model is " + JSON.stringify(m));
 					_succeed(res, _decode(m));
 				});
 			}, function(error){
-				console.error("_saveModel save failed " + error.message + " model is " + JSON.stringify(newModel));
-
+				console.error("_saveModel save failed " + error.message + " req body is " + JSON.stringify(req.body));
 				_failed(res, new Error("保存数据失败，请重新登录"));
-			});				
+			});
 		}, function(error){
-			_failed(res, new Error("您已经在另外一台终端上登录，请下线！"));
+			_failed(res, new Error("您已经在另外一台终端上登录，请下线"));
 		});
 	} else {
-		console.error("_saveModel customer_id is empty ");
-
-		_failed(res, new Error("玩家信息不存在，请重新登录"));	
+		console.error("_saveModel customer_id is empty " + " req body is " + JSON.stringify(req.body));
+		_failed(res, new Error("玩家信息不存在，请重新登录"));
 	}
 };
 
