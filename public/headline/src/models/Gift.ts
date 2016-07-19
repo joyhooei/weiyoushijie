@@ -1,4 +1,8 @@
 class Gift {
+    public static notify() {
+        application.dao.dispatchEventWith("Gift", true, null);
+    }
+    
     public static check() {
         return Q.Promise(function(resolve, reject, notify) {
             application.dao.fetch("Gift", {customer_id: application.customer.id}, {order : 'category ASC'}).then(function(gifts){
