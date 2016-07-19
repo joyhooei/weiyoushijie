@@ -29,7 +29,7 @@ class BuyAchieveUI extends eui.Component{
         
         this.imgIcon.source = "b" + achieve.toString() + "_png";
         this.imgProject.source = "t" + (myProject.sequence + 1).toString() + "_png";
-        this.lblRatio.text = application.format(project.achieve(achieve).outputRatio);
+        this.lblRatio.text = Utility.format(project.achieve(achieve).outputRatio);
         this.lblLevel.text = project.achieve(achieve).level.toString();
         
         this.lblGold.touchEnabled = false;
@@ -53,12 +53,12 @@ class BuyAchieveUI extends eui.Component{
             this.lblDiamond.text = "";
         } else {
             let priceUseGold = this._project.achieve(this._achieve).priceUseGold;
-            this.lblGold.text = application.format(priceUseGold);
+            this.lblGold.text = Utility.format(priceUseGold);
 
             let priceUseDiamond = this._project.achieve(this._achieve).priceUseDiamond;
             this.lblDiamond.text = priceUseDiamond;
 
-            if(application.usableGold() < priceUseGold) {
+            if(application.customer.usableGold() < priceUseGold) {
                 this.imgBuyUseGold.source = "buttoncoinno_png";
                 
                 this.imgBuyUseGold.addEventListener( egret.TouchEvent.TOUCH_TAP, ()=>{
@@ -70,7 +70,7 @@ class BuyAchieveUI extends eui.Component{
     			}, this );
     		}
 
-            if(application.customer.diamond < priceUseDiamond) {
+            if(application.customer.attrs.diamond < priceUseDiamond) {
                 this.imgBuyUseDiamond.source = "buttondiano_png";
                 
                 this.imgBuyUseDiamond.addEventListener( egret.TouchEvent.TOUCH_TAP, ()=>{
