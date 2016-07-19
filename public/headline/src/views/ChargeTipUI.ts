@@ -20,42 +20,42 @@ class ChargeTipUI extends eui.Component{
         }, this );
         
         this.imgCharge1.addEventListener(egret.TouchEvent.TOUCH_TAP,() => {
-            application.charge('diamond', 2);
+            Order.charge('diamond', 2);
         },this);
         
         this.imgCharge2.addEventListener(egret.TouchEvent.TOUCH_TAP,() => {
-            application.charge('diamond600', 5);
+            Order.charge('diamond600', 5);
         },this);
         
         this.imgCharge3.addEventListener(egret.TouchEvent.TOUCH_TAP,() => {
-            application.charge('diamond1300', 10);
+            Order.charge('diamond1300', 10);
         },this);
         
         this.imgCharge4.addEventListener(egret.TouchEvent.TOUCH_TAP,() => {
-            application.charge('diamond4500', 30);
+            Order.charge('diamond4500', 30);
         },this);
         
         this.imgCharge5.addEventListener(egret.TouchEvent.TOUCH_TAP,() => {
-            application.charge('diamond18000', 100);
+            Order.charge('diamond18000', 100);
         },this);
         
         this.imgCharge6.addEventListener(egret.TouchEvent.TOUCH_TAP,() => {
-            application.charge('diamond100000', 500);
+            Order.charge('diamond100000', 500);
         },this);
         
         this.imgCharge7.addEventListener(egret.TouchEvent.TOUCH_TAP,() => {
-            if (application.customer.vip == 2) {
+            if (application.customer.me.vip == 2) {
 			    Toast.launch("你已经购买了VIP，终身免费，不需要购买月票");
 		    } else {
-            	application.buyTicket();
+            	Order.buyTicket();
 			}
         },this);
         
         this.imgCharge8.addEventListener(egret.TouchEvent.TOUCH_TAP,() => {
-			if (application.customer.vip == 2) {
+			if (application.customer.me.vip == 2) {
 				Toast.launch("你已经购买了VIP，终身免费");
 			} else {
-				application.buyVIP();
+				Order.buyVIP();
 			}
         },this);
     }
