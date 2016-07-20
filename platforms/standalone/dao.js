@@ -90,6 +90,24 @@ _.extend(Model.prototype, {
 	increment: function(attr, val) {
 		this.set(attr, this.get(attr) + val);
 	},
+	
+	destroy: function() {
+		var self = this;
+
+		return Q.Promise(function(resolve, reject, notify) {
+			if (self._obj) {
+				self._obj.remove(function(error){
+					if (error) {
+						reject(error);
+					} else {
+						resolve();
+					}
+				});
+			} else {
+				resolve();
+			}
+		});		
+	},
 
 	save: function() {
 		var self = this;
