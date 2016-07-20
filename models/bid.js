@@ -35,7 +35,7 @@ module.exports.open = function(game, today) {
 	    		}
 	    		
 	    		Q.all(promises).then(function(results) {
-					resolve();
+					resolve(bids[0].get("customer_id") + "获得了" + today + "的头条");
 				}, function(error){
 					console.error(error.message);
 					reject(error.message);
