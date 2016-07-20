@@ -1,8 +1,10 @@
-module.exports.expire = function() {
+module.exports.expire = function(game) {
 	return Q.Promise(function(resolve, reject, notify) {
 	    var now = moment();
 	    
-	    dao.find("Notification", {}, {order: 'deadline ASC'}).then(function(notifications){
+		console.log("expire notification " + game + " " + now.format());
+	    
+	    dao.find("Notification", {}, {order: 'deadline ASC', game: game}).then(function(notifications){
 	        var expires = [];
 	        
 	        _.each(notifications, function(notification){
@@ -13,7 +15,7 @@ module.exports.expire = function() {
 	        
 	        if (expires.length > 0) {
 				dao.destroyAll(expires).then(function(){
-					resolve(expires.length);
+					resolve(now.format() + "expire notifications " + expires.length);
 				}, function(error) {
 					console.error(error.message);
 					reject(error.message);
