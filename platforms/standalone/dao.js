@@ -365,7 +365,7 @@ module.exports = function() {
 			
 			self.addModel("Notification", {
 				content: String,
-				deadline:  type: String,
+				deadline: String,
 				action:  {type: Number, default: 0},
 				game: String
 			});
