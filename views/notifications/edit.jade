@@ -22,7 +22,7 @@ block main
 					| 通知
 			div.box-content
 				if notification.isNew()
-					- var action = "/notifications/edit?game=" + game
+					- var action = "/notifications?game=" + game
 				else
 					- var action = "/notifications/" + notification.id + "?game=" + game
 				form(class="form-horizontal", action="#{action}", method="post")
