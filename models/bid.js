@@ -11,6 +11,7 @@ module.exports.open = function(game, today) {
 		dao.find("Bid", {'day': today, 'game': game}, {'order': 'gold DESC', 'limit': 10}).then(function(bids){
 	    	if (bids.length > 0) {
 	    		var promises = [];
+	    		
 	    		for(var i = 0; i < bids.length; i++) {
 	    			var r = i + 1;
 	    			
@@ -29,7 +30,7 @@ module.exports.open = function(game, today) {
 							var metal = 0.2;
 						}
 					
-						promises.push(Message.send(bid.get("customer_id"), "拍卖奖励", today + "拍卖，您是第" + r.toString() + '名，请领取勋章碎片奖励，谢谢参与！', "metal", metal));
+						promises.push(Message.send(bid.get("customer_id"), "拍卖奖励", today + "拍卖，您是第" + r.toString() + '名，请领取勋章碎片奖励，谢谢参与！', "metal", metal, game));
 					}
 	    		}
 	    		
