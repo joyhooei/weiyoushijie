@@ -129,7 +129,7 @@ module.exports.sendVipMetal = function(game) {
 			
 			if (promises.length > 0) {
 	    		Q.all(promises).then(function(results) {
-					resolve('发送了' + promises.length + "VIP奖励");
+					resolve(moment().format() + '发送了' + promises.length + "条VIP奖励");
 				}, function(error){
 					console.error(error.message);
 					reject(error.message);
