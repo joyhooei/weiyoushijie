@@ -6,7 +6,7 @@ module.exports.sendWith = function(message, customerId, title, content, attach, 
 	return _send(message, customerId, title, content, attach, quantity, game);
 }
 
-function _send(message, customerId, title, content, attach, quantity) {
+function _send(message, customerId, title, content, attach, quantity, game) {
 	game = game || "headline";
 	
     return Q.Promise(function(resolve, reject, notify) {
