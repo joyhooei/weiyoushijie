@@ -17,7 +17,10 @@ block main
 					i(class="halflings-icon user")
 					span.break
 					| 通知
-
+				div.box-icon
+					a(href="/notifications/new?game=#{game}" class="btn-setting")
+						i(class="halflings-icon plus")
+						
 			div.box-content
 				table(class="table table-striped table-bordered bootstrap-datatable datatable")
 					thead
@@ -27,12 +30,12 @@ block main
 							th 动作
 							th
 					tbody
-						- var actions = ["继续", "重启动"]
+						- var actions = ["继续运行", "重新启动"]
 						- each notification in notifications
 							tr
 								td= notification.get('content')
 								td= notification.get('deadline')
 								td= actions[notification.get('action')]
 								td.center
-									a(class="rest btn btn-danger", href="/notifications/#{notification.id}", data-method="DELETE")
+									a(class="rest btn btn-danger", href="/notifications/#{notification.id}?game=#{game}", data-method="DELETE")
 										i(class="halflings-icon white trash")
