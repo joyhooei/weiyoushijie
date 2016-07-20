@@ -1,6 +1,8 @@
 class LandingUI extends eui.Component {
     private btnLogin: eui.Button;
     
+    private showedNotification: any;
+    
     public constructor() {
         super();
 
@@ -13,18 +15,31 @@ class LandingUI extends eui.Component {
         var self = this;
         
         self.btnLogin.visible = false;
-        application.dao.fetch("Notification", {}, {order: 'create_time DESC'}).then(function(notifications){
+        application.dao.fetch("Notification", {}, {order: 'action DESC, create_time DESC', limit: 1}).then(function(notifications){
         	if (notifications.length > 0) {
-        		let notification = notifications[0];
-        		application.showUI(new NotificationUI(notification, function(){
+        		application.showUI(new NotificationUI(notifications[0], function(){
         			self.btnLogin.visible = true;
-        		}), self);	
+        		}), self);
+        		
+        		self.showedNotification = notifications[0];
         	} else {
         		self.btnLogin.visible = true;
         	}
         }, function(error){
         	self.btnLogin.visible = true;
         })
+        
+		application.stopwatch.addEventListener("hour", function(event:egret.Event){
+			 application.dao.fetch("Notification", {}, {order: 'action DESC, create_time DESC', limit: 1}).then(function(notifications){
+			 	if (notifications.length > 0) {
+			 		if (!(self.showedNotification && self.showedNotification.id == notifications[0].id)) {
+			 			application.showUI(new NotificationUI(notifications[0]));
+			 			
+			 			self.showedNotification = notifications[0];
+			 		}
+			 	}
+			 });
+        }, this);
         
         self.btnLogin.addEventListener(egret.TouchEvent.TOUCH_TAP,() => {
             application.channel.login().then(function(account:any){
