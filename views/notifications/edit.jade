@@ -37,8 +37,8 @@ block main
 							label(class="control-label", for="action") 动作
 							div.controls
 								select(id="action", name="action")
-									option(selected=message.get('action') == 0, value=0) 继续运行
-									option(selected=message.get('action') == 1, value=1) 重新启动
+									option(selected=notification.get('action') == 0, value=0) 继续运行
+									option(selected=notification.get('action') == 1, value=1) 重新启动
 								<p class="help-block"></p>
 
 						div.control-group
