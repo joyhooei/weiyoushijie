@@ -21,10 +21,10 @@ block main
 					span.break
 					| 通知
 			div.box-content
-				if notification.id
-					- var action = "/notifications/" + notification.id
+				if notification.isNew()
+					- var action = "/notifications/edit?game=" + game
 				else
-					- var action = "/notifications/edit"
+					- var action = "/notifications/" + notification.id + "?game=" + game
 				form(class="form-horizontal", action="#{action}", method="post")
 					fieldset
 						div.control-group
@@ -37,8 +37,8 @@ block main
 							label(class="control-label", for="action") 动作
 							div.controls
 								select(id="action", name="action")
-									option(selected=message.get('action') == 0, value=0) 继续
-									option(selected=message.get('action') == 1, value=1) 重启动
+									option(selected=message.get('action') == 0, value=0) 继续运行
+									option(selected=message.get('action') == 1, value=1) 重新启动
 								<p class="help-block"></p>
 
 						div.control-group
@@ -50,4 +50,4 @@ block main
 						div.form-actions
 							button(type="submit", class="btn btn-primary") 保存
 							button.btn 
-								a(href="/notifications") 取消
+								a(href="/notifications?game=" + game) 取消
