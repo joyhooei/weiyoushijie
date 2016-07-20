@@ -37,5 +37,5 @@ block main
 								td= notification.get('deadline')
 								td= actions[notification.get('action')]
 								td.center
-									a(class="rest btn btn-danger", href="/notifications/#{notification.id}", data-method="DELETE")
+									a(class="rest btn btn-danger", href="/notifications/#{notification.id}?game=#{game}", data-method="DELETE")
 										i(class="halflings-icon white trash")
