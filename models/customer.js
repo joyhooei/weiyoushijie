@@ -86,47 +86,37 @@ module.exports.hits = function(customer) {
 }
 
 module.exports.sendVipMetal = function(customer) {
-	let charge = customer.get("charge");
+	var charge = customer.get("charge");
 	
-	let metal = 0;
-	let level = 0;
-	if (charge >= 15000) {
-		metal = 0.65;
-		level = 15;
-	} else if (charge >= 10000) {
-		metal = 0.5;
-		level = 14;
-	} else if (charge >= 5000) {
-		metal = 0.4;
-		level = 13;
-	} else if (charge >= 2000) {
-		metal = 0.3;
-		level = 12;
-	} else if (charge >= 1000) {
-		metal = 0.25;
-		level = 11;
-	} else if (charge >= 800) {
-		metal = 0.23;
-		level = 10;
-	} else if (charge >= 500) {
-		metal = 0.2;
-		level = 9;
-	} else if (charge >= 300) {
-		metal = 0.17;
-		level = 8;
-	} else if (charge >= 200) {
-		metal = 0.15;
-		level = 7;
-	} else if (charge >= 100) {
-		metal = 0.12;
-		level = 6;
-	} else if (charge >= 50) {
-		metal = 0.1;
-		level = 5;
-	}
-	
-	if (metal > 0) {
-    	Message.send(customer.id, "VIP奖励", "您是" + level.toString() + "级VIP，每天可以获取额外的勋章碎片。", "metal", metal, customer.get("game"));
+	var data = [
+			[0, 0, 0, 10, 0, 0, 0],
+			[1, 2, 0.2, 10, 0, 0, 0],
+			[2, 10, 0.5, 10, 0, 0, 0],
+			[3, 20, 1, 15, 0, 0, 0],
+			[4, 30, 2, 20, 0, 0, 0],
+			[5, 50, 5, 25, 0.5, 0, 0.1],
+			[6, 100, 10, 30, 0.7, 0.9, 0.12],
+			[7, 200, 50, 35, 1, 0.99, 0.15],
+			[8, 300, 100, 40, 1.2, 0.999, 0.17],
+			[9, 500, 500, 45, 1.5, 0.9999, 0.2],
+			[10, 800, 800, 50, 1.7, 0.99999, 0.23],
+			[11, 1000, 1000, 55, 2, 0.999999, 0.25],
+			[12, 2000, 5000,60, 2.2, 0.9999999, 0.3],
+			[13, 5000, 50000, 65, 2.5, 0.99999999, 0.4],
+			[14, 10000, 1000000, 70, 3, 0.999999999, 0.5],
+			[15, 15000, 10000000, 75, 3.5, 0.9999999999, 0.65],
+		];
+		
+	var d = null;
+	for (var i = 0; i < data.length; i ++) {
+		if (charge >= data[i][1]) {
+			d = data[i];
+		} else {
+			break;
+		}
+	}		
+	if (d && d[6] > 0) {
+    	Message.send(customer.id, "VIP奖励", "您是" + d[0] + "级VIP，每天可以获取额外的勋章碎片。", "metal", d[6], customer.get("game"));
 	}
 }
 
