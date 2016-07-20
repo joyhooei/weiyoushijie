@@ -123,7 +123,7 @@ module.exports.sendVipMetal = function(game) {
 					}
 				}		
 				if (d && d[6] > 0) {
-			    	promises.push(Message.send(customer.id, "VIP奖励", "您是" + d[0] + "级VIP，每天可以获取额外的勋章碎片。", "metal", d[6], customer.get("game")));
+			    	promises.push(Message.send(customer.id, "VIP奖励", "到目前为止，您总计充值" + charge + "元，是" + d[0] + "级VIP，请领取每天的勋章碎片奖励。", "metal", d[6], customer.get("game")));
 				}
 			})
 			
