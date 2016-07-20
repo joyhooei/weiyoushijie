@@ -14,20 +14,16 @@ var Dao = (function (_super) {
     };
     p.save = function (model, data) {
         var self = this;
-        var doUpdate = data.id;
         data.game = this._game;
-        if (doUpdate) {
+        if (data.id) {
             var promise = this.rest("update/" + model + "/" + data.id, data);
-            self.dispatchEventWith(model, true, data);
         }
         else {
             var promise = this.rest("create/" + model, data);
         }
         promise.then(function (d) {
             data = d;
-            if (!doUpdate) {
-                self.dispatchEventWith(model, true, data);
-            }
+            self.dispatchEventWith(model, true, data);
         }, function (error) {
             Toast.launch(error);
         });

@@ -54,7 +54,7 @@ router.post('/multicast', helper.ensureAuthenticated, function(req, res, next) {
 		var promises = [];
 		
         _.each(objs, function(o){
-			promises.push(Message.send(o.id, req.body.title, req.body.content, attach, quantity));
+			promises.push(Message.send(o.id, req.body.title, req.body.content, attach, quantity, "headline"));
         });
 		
 		Q.all(promises).then(function(){

@@ -9,12 +9,12 @@ var LandingUI = (function (_super) {
     p.uiCompHandler = function () {
         var self = this;
         self.btnLogin.visible = false;
-        application.dao.fetch("Notification", {}, { order: 'create_time DESC' }).then(function (notifications) {
+        application.dao.fetch("Notification", {}, { order: 'action DESC, create_time DESC', limit: 1 }).then(function (notifications) {
             if (notifications.length > 0) {
-                var notification = notifications[0];
-                application.showUI(new NotificationUI(notification, function () {
+                application.showUI(new NotificationUI(notifications[0], function () {
                     self.btnLogin.visible = true;
                 }), self);
+                self.showedNotification = notifications[0];
             }
             else {
                 self.btnLogin.visible = true;
@@ -22,6 +22,16 @@ var LandingUI = (function (_super) {
         }, function (error) {
             self.btnLogin.visible = true;
         });
+        application.stopwatch.addEventListener("hour", function (event) {
+            application.dao.fetch("Notification", {}, { order: 'action DESC, create_time DESC', limit: 1 }).then(function (notifications) {
+                if (notifications.length > 0) {
+                    if (!(self.showedNotification && self.showedNotification.id == notifications[0].id)) {
+                        application.showUI(new NotificationUI(notifications[0]));
+                        self.showedNotification = notifications[0];
+                    }
+                }
+            });
+        }, this);
         self.btnLogin.addEventListener(egret.TouchEvent.TOUCH_TAP, function () {
             application.channel.login().then(function (account) {
                 application.logined(account);
