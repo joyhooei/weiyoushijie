@@ -1,0 +1,38 @@
+extends ../layout
+
+block main
+	ul.breadcrumb
+		li
+			i.icon-home
+		li
+			i.icon-angle-right
+		li
+			a(href="/") 面板
+
+
+	div(class="row-fluid sortable")
+		div(class="box span12")
+			div(class="box-header", data-original-title)
+				h2
+					i(class="halflings-icon user")
+					span.break
+					| 投标
+
+			div.box-content
+				table(class="table table-striped table-bordered bootstrap-datatable datatable")
+					thead
+						tr
+							th 日期
+							th 投标人
+							th 金额
+							th 排名
+							th 领取
+					tbody
+						- each bid in bids
+							tr
+								td= bid.get('day')
+								td
+									a(href="/customers/#{bid.get('customer_id')}") bid.get('customer_id')}
+								td= bid.get('gold')
+								td= bid.get('succeed')
+								td= bid.get('claimed')
