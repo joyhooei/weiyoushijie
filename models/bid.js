@@ -18,18 +18,19 @@ module.exports.open = function(game, today) {
 					bid.set("succeed", r);
 					promises.push(bid.save());
 					
-					if (r == 1) {
-						var metal = 1;
-					} else if (r == 2) {
-						var metal = 0.5;
-					} else if (r == 3) {
-						var metal = 0.4;
-					} else if (r == 4) {
-						var metal = 0.3;
-					} else {
-						var metal = 0.2;
+					if (r > 1) {
+						if (r == 2) {
+							var metal = 0.5;
+						} else if (r == 3) {
+							var metal = 0.4;
+						} else if (r == 4) {
+							var metal = 0.3;
+						} else {
+							var metal = 0.2;
+						}
+					
+						promises.push(Message.send(bid.get("customer_id"), "拍卖奖励", today + "拍卖，您是第" + r.toString() + '名，请领取勋章碎片奖励，谢谢参与！', "metal", metal));
 					}
-					promises.push(Message.send(bid.get("customer_id"), "拍卖奖励", today + "拍卖，您是第" + r.toString() + '名，请领取勋章奖励，谢谢参与！', "metal", metal));
 	    		}
 	    		
 	    		Q.all(promises).then(function(results) {
