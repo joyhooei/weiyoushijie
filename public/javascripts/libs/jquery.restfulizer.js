@@ -54,11 +54,19 @@
 						"</form>\n";
 				}
 				else {
-					var form = "\n" +
-						"<form action='" + options.target + "?_method=DELETE' method='POST' style='display:none'>\n" +
-						"	<input type='hidden' name='_method' value='" + options.method + "'>\n" +
-							inputs +
-						"</form>\n";
+					if (options.target.indexOf("?") === -1) {
+						var form = "\n" +
+							"<form action='" + options.target + "?_method=DELETE' method='POST' style='display:none'>\n" +
+							"	<input type='hidden' name='_method' value='" + options.method + "'>\n" +
+								inputs +
+							"</form>\n";
+					} else {
+						var form = "\n" +
+							"<form action='" + options.target + "&_method=DELETE' method='POST' style='display:none'>\n" +
+							"	<input type='hidden' name='_method' value='" + options.method + "'>\n" +
+								inputs +
+							"</form>\n";
+					}
 				}
 
 				if (options.method == 'DELETE') {
