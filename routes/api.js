@@ -132,6 +132,8 @@ router.post('/login', function(req, res, next) {
 				if (!moment(customer.get("last_login")).isSame(now, "day")) {
 					customer.set("last_login", now.format());
 
+					Customer.sendVipMetal(customer);
+					
 					Gift.unlockLogin(customer);
 				}
 
