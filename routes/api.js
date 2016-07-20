@@ -11,6 +11,16 @@ var Account = require('../models/account.js');
 var Maxbid = require('../models/maxbid.js');
 var Nofitication = require('../models/notification.js');
 
+router.get('/send_vip_metal', function(req, res, next) {
+	var game = req.query.game || "headline";
+	
+	Customer.sendVipMetal(game).then(function(result){
+		_succeed(res, "send_vip_metal succeed " + result);
+	}, function(error){
+		_failed(res, error);
+	})
+})
+
 router.get('/open_bid', function(req, res, next) {
 	var game = req.query.game || "headline";
 	
@@ -132,8 +142,6 @@ router.post('/login', function(req, res, next) {
 				if (!moment(customer.get("last_login")).isSame(now, "day")) {
 					customer.set("last_login", now.format());
 
-					Customer.sendVipMetal(customer);
-					
 					Gift.unlockLogin(customer);
 				}
 
