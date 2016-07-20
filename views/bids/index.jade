@@ -32,7 +32,7 @@ block main
 							tr
 								td= bid.get('day')
 								td
-									a(href="/customers/#{bid.get('customer_id')}") bid.get('customer_id')}
+									a(href="/customers/#{bid.get('customer_id')}") #{bid.get('customer_id')}
 								td= bid.get('gold')
 								td= bid.get('succeed')
 								td= bid.get('claimed')
