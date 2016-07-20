@@ -85,6 +85,51 @@ module.exports.hits = function(customer) {
 	return {"total_hits": totalHits};
 }
 
+module.exports.sendVipMetal = function(customer) {
+	let charge = customer.get("charge");
+	
+	let metal = 0;
+	let level = 0;
+	if (charge >= 15000) {
+		metal = 0.65;
+		level = 15;
+	} else if (charge >= 10000) {
+		metal = 0.5;
+		level = 14;
+	} else if (charge >= 5000) {
+		metal = 0.4;
+		level = 13;
+	} else if (charge >= 2000) {
+		metal = 0.3;
+		level = 12;
+	} else if (charge >= 1000) {
+		metal = 0.25;
+		level = 11;
+	} else if (charge >= 800) {
+		metal = 0.23;
+		level = 10;
+	} else if (charge >= 500) {
+		metal = 0.2;
+		level = 9;
+	} else if (charge >= 300) {
+		metal = 0.17;
+		level = 8;
+	} else if (charge >= 200) {
+		metal = 0.15;
+		level = 7;
+	} else if (charge >= 100) {
+		metal = 0.12;
+		level = 6;
+	} else if (charge >= 50) {
+		metal = 0.1;
+		level = 5;
+	}
+	
+	if (metal > 0) {
+    	Message.send(customer.id, "VIP奖励", "您是" + level.toString() + "级VIP，每天可以获取额外的勋章碎片。", "metal", metal, customer.get("game"));
+	}
+}
+
 module.exports.create = function() {
     var customer = new dao.Customer();
     
