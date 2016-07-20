@@ -61,9 +61,8 @@ router.get('/expire_ticket', function(req, res, next) {
 })
 
 router.get('/expire_notification', function(req, res, next) {
-	console.log("expire_notification " + JSON.stringify(req.query));
-	
-	Nofitication.expire().then(function(result){
+	var game = req.query.game || "headline";
+	Nofitication.expire(game).then(function(result){
 		_succeed(res, "expire_notification succeed " + result);
 	}, function(error){
 		_failed(res, error);
