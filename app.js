@@ -24,6 +24,7 @@ var projects = require('./routes/projects');
 var gifts = require('./routes/gifts');
 var maxbids = require('./routes/maxbids');
 var notifications = require('./routes/notifications');
+var bids = require('./routes/bids');
 
 GLOBAL.moment = require("moment");
 GLOBAL._ = require("underscore");
@@ -85,6 +86,7 @@ app.use('/gifts', gifts);
 app.use('/projects', projects);
 app.use('/maxbids', maxbids);
 app.use('/notifications', notifications);
+app.use('/bids', bids);
 
 app.use('/api', api);
 
