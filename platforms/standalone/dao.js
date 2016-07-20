@@ -641,6 +641,16 @@ module.exports = function() {
 		return Q.all(promises);
 	};
 	
+	this.destroyAll = function(objs) {
+		var promises = [];
+		
+		for(var i = 0; i < objs.length; i++) {
+			promises.push(objs[i].destroy());
+		}
+		
+		return Q.all(promises);
+	};
+	
 	this.clear = function(className) {
 		var claz = this[className];
 		
