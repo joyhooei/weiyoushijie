@@ -163,31 +163,29 @@ var HomeUI = (function (_super) {
     p.renderBid = function () {
         var self = this;
         application.dao.fetch("Bid", { succeed: 1 }, { limit: 1, order: 'create_time desc' }).then(function (bids) {
-            if (bids.length > 0) {
-                if (!(self.bid && self.bid.id == bids[0].id)) {
-                    self.bid = bids[0];
-                    //如果显示win ui，则不显示offlinegold ui，否则显示offlinegold ui
-                    if (application.me.attrs.id == self.bid.customer_id) {
-                        //已经显示过，就不需要再显示了
-                        if (self.bid.claimed == 0) {
-                            application.showUI(new WinUI(self.bid), self);
-                            application.me.earnOfflineGold();
-                        }
-                        else {
-                            self.renderOfflineGold();
-                            Bid.earn(application.me);
-                        }
-                        self.renderBidCustomer(application.me.attrs);
+            if (bids.length > 0 && !(self.bid && self.bid.id == bids[0].id)) {
+                self.bid = bids[0];
+                //如果显示win ui，则不显示offlinegold ui，否则显示offlinegold ui
+                if (application.me.attrs.id == self.bid.customer_id) {
+                    //已经显示过，就不需要再显示了
+                    if (self.bid.claimed == 0) {
+                        application.showUI(new WinUI(self.bid), self);
+                        application.me.earnOfflineGold();
                     }
                     else {
-                        application.dao.fetch("Customer", { id: self.bid.customer_id }, { limit: 1 }).then(function (customers) {
-                            if (customers.length > 0) {
-                                self.renderBidCustomer(customers[0]);
-                            }
-                        });
                         self.renderOfflineGold();
                         Bid.earn(application.me);
                     }
+                    self.renderBidCustomer(application.me.attrs);
+                }
+                else {
+                    application.dao.fetch("Customer", { id: self.bid.customer_id }, { limit: 1 }).then(function (customers) {
+                        if (customers.length > 0) {
+                            self.renderBidCustomer(customers[0]);
+                        }
+                    });
+                    self.renderOfflineGold();
+                    Bid.earn(application.me);
                 }
             }
         });
