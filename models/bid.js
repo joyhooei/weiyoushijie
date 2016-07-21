@@ -12,32 +12,16 @@ module.exports.open = function(game, today) {
 	    	if (bids.length > 0) {
 	    		var promises = [];
 	    		
+	    		var diamonds = [2000, 1500, 1200, 1000, 1000, 1000, 1000, 1000, 1000, 1000];
+	    		var metals   = [1,    0.5,  0.4,  0.3,  0.2,  0.2,  0.2,  0.2,  0.2,  0.2];
 	    		for(var i = 0; i < bids.length; i++) {
 	    			var r = i + 1;
 	    			
 					var bid = bids[i];
 					bid.set("succeed", r);
 					promises.push(bid.save());
-					
-					if (r > 1) {
-						var metal = 1;
-						var diamond = 2000;						
-					} else if (r == 2) {
-						var metal = 0.5;
-						var diamond = 1500;
-					} else if (r == 3) {
-						var metal = 0.4;
-						var diamond = 1200;
-					} else if (r == 4) {
-						var metal = 0.3;
-						var diamond = 1000;
-					} else {
-						var metal = 0.2;
-						var diamond = 1000;
-					}
-				
-					promises.push(Message.send(bid.get("customer_id"), "拍卖奖励", today + "拍卖，您是第" + r.toString() + '名，请领取钻石奖励，谢谢参与！', "diamond", diamond, game));
-					promises.push(Message.send(bid.get("customer_id"), "拍卖奖励", today + "拍卖，您是第" + r.toString() + '名，请领取勋章碎片奖励，谢谢参与！', "metal", metal, game));
+					promises.push(Message.send(bid.get("customer_id"), "拍卖奖励", today + "拍卖，您是第" + r.toString() + '名，请领取钻石奖励，谢谢参与！', "diamond", diamonds[i], game));
+					promises.push(Message.send(bid.get("customer_id"), "拍卖奖励", today + "拍卖，您是第" + r.toString() + '名，请领取勋章奖励，谢谢参与！', "metal", metals[i], game));
 				}
 	    		
 	    		Q.all(promises).then(function(results) {
