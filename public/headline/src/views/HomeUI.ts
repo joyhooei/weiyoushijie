@@ -54,6 +54,9 @@ class HomeUI extends eui.Component{
     private btnGift: eui.Button;
     private imgGift: eui.Image;
     
+    private btnReward: eui.Button;
+    private imgReward: eui.Image;
+    
     private btnHelp: eui.Button;
     
     private btnAddGold: eui.Button;
@@ -79,6 +82,7 @@ class HomeUI extends eui.Component{
         
         self.imgHit.visible = false;
         self.imgGift.visible = false;
+        self.imgReward.visible = false;
         
         self.imgHasMessage.visible = false;
         
@@ -110,6 +114,10 @@ class HomeUI extends eui.Component{
                 
         self.btnGift.addEventListener(egret.TouchEvent.TOUCH_BEGIN, function() {
 			application.showUI(new GiftUI(), this);
+        }, this);
+                
+        self.btnReward.addEventListener(egret.TouchEvent.TOUCH_BEGIN, function() {
+			application.showUI(new LoginRewardUI(), this);
         }, this);
 
         self.btnHelp.addEventListener(egret.TouchEvent.TOUCH_BEGIN, function() {
@@ -157,11 +165,16 @@ class HomeUI extends eui.Component{
             this.renderGift();
         },this);
 
+        application.dao.addEventListener("Audit",function(ev: egret.Event) {
+            this.renderReward();
+        },this);
+
         application.dao.addEventListener("Message",function(ev: egret.Event) {
             this.renderMessage();
         },this);
 
 		self.renderGiftDynamically();
+		self.renderReward();
         
         /// 首次加载完成首先显示home
         self.gotoHome(); 
@@ -205,7 +218,15 @@ class HomeUI extends eui.Component{
             self.imgGift.visible = Gift.hasGift(gifts);
         });
 	}
-    
+	
+	private renderReward(): void {
+		var self = this;
+		
+        Audit.check(application.me).then(function(audits){
+            self.imgReward.visible = Audit.hasRewards(audits);
+        });
+	}
+	
     private earnGoldDynamically(): void {
 		var seconds = 5;
 		
