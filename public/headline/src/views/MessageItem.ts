@@ -34,7 +34,7 @@ class MessageItem extends eui.Component {
                 if(message.attach_category == "diamond") {
                     application.me.attrs.diamond += message.attach_quantity;
                     
-                    application.channel.track(TRACK_CATEGORY_DIAMOND, TRACK_ACTION_INC, "奖品奖励", message.attach_quantity); 
+                    application.channel.track(TRACK_CATEGORY_DIAMOND, TRACK_ACTION_INC, message.title, message.attach_quantity); 
                 } else if(message.attach_category == "gold") {
                     application.me.attrs.gold += message.attach_quantity;
                 } else {
