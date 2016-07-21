@@ -1,4 +1,5 @@
 var crypto = require('crypto');
+var Audit = require("../models/audit");
 
 function _hashPassword(password, salt) {
 	return Q.Promise(
@@ -24,6 +25,8 @@ function _updateToken(account, resolve, reject) {
 		} else {
 			account.set("token", token.toString('hex'));
 			account.save().then(function(a){
+				Audit.succeed(a, 'login', 'users');	
+				
 				resolve(a);
 			}, function(err){
 				console.error("_updateToken save account " + err.message);
