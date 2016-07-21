@@ -282,6 +282,7 @@ module.exports = function() {
 				detail: String,
 				result: {type: Number, default: 1},
 				rewards: {type: Number, default: 0},
+				claimed: {type: Number, default: 0},
 				error: String,
 				game: String
 			});
