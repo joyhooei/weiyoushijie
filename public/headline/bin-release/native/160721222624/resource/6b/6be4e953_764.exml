@@ -1,0 +1,14 @@
+<?xml version='1.0' encoding='utf-8'?>
+<e:Skin class="helpUISkin" width="455" height="655" xmlns:e="http://ns.egret.com/eui" xmlns:w="http://ns.egret.com/wing">
+	<e:Image width="455" height="655" x="0" y="0" source="helppopup_png" fillMode="clip"/>
+	<e:Image id="imgBack" width="52" height="53" x="401" y="3" source="helpx_png" fillMode="clip"/>
+	<e:Image id="imgReport" width="149" height="49" x="26" y="81" source="flag_png" fillMode="clip"/>
+	<e:Scroller width="380" height="460" x="35" y="124">
+		<e:viewport>
+			<e:Group height="461">
+				<e:Label id="lblContent" x="0" y="0" width="380" size="24" text=""/>
+			</e:Group>
+		</e:viewport>
+	</e:Scroller>
+	<e:Label id="lblVersion" text="1.5.2" x="323" y="598" width="95" textAlign="center" size="24"/>
+</e:Skin>

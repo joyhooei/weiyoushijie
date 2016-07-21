@@ -40,12 +40,7 @@ class Bid {
 			if (bids.length > 0) {
 				for(var i = 0; i < bids.length; i++) {
 					customer.attrs.gold -= bids[i].gold;
-					if (bids[i].rank == 1) {
-						customer.attrs.metal += 1;
-						customer.attrs.diamond += 2000;
-						application.channel.track(TRACK_CATEGORY_DIAMOND, TRACK_ACTION_INC, "拍卖头名", 2000); 
-					}
-
+					
 					bids[i].claimed = 1;
 					application.dao.save("Bid", bids[i]);
 				}

@@ -20,6 +20,8 @@ declare class landingUISkin extends eui.Skin{
 }
 declare class loginButtonSkin extends eui.Skin{
 }
+declare class loginRewardUISkin extends eui.Skin{
+}
 declare class loginTypeUISkin extends eui.Skin{
 }
 declare class messageDetailUISkin extends eui.Skin{

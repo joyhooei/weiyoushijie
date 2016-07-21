@@ -47,49 +47,6 @@ module.exports.max = function(game, today) {
 	});
 }
 
-module.exports.midnight = function(game, today) {
-	return Q.Promise(function(resolve, reject, notify) {
-		today = today || _today();
-	
-		console.log("midnight " + game + " " + today);
-		
-		dao.find("Bid", {day: today, game: game}, {limit: 100, order: 'gold DESC'}).then(function(bids){
-				var promises = [];
-					
-				for (var i = 0; i < bids.length; i ++) {
-					var bid = bids[i];
-					
-					var diamond = 500;
-					if (i == 0) {
-						diamond = 2000;
-					} else if (i == 1) {
-						diamond = 1500;
-					} else if (i == 2) {
-						diamond = 1200;
-					} else if (i < 10) {
-						diamond = 1000;
-					}
-					
-					promises.push(Message.send(bid.get("customer_id"), "拍卖奖励", today + "凌晨0点，您的拍卖排行是第" + (i + 1).toString() + '名，获得额外奖励，谢谢参与！', "diamond", diamond, game));
-				}
-				
-				if (promises.length > 0) {
-					Q.all(promises).then(function(){
-						resolve("midnight " + today + "=>" + promises.length);
-					}, function(error){
-						console.error("midnight send message failed " + error.message);
-				    	reject(error.message);
-					})
-				} else {
-					resolve("midnight " + today + "=>0");
-				}
-	    }, function(error){
-			console.error("midnight find bids " + error.message);
-	    	reject(error.message);
-	    });	
-	});
-}
-
 function _today() {
 	var dt = new Date();
 	if (dt.getHours() >= 12) {

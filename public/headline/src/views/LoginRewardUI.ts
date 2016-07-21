@@ -10,7 +10,7 @@ class LoginRewardUI extends eui.Component {
     
     private imgRet: eui.Image;
     
-    private autids: any[];
+    private audits: any[];
     
     private rewardData = [300, 500, 800, 1200, 2000, 3000, 5000];
 
@@ -54,15 +54,15 @@ class LoginRewardUI extends eui.Component {
     }
     
     private claim(index:number) {
-        for(var i = 0; i < audits.length; i++) {
-            if (audits[i].rewards == this.rewardData[index] && audits[i].claimed == 0) {
-                Audit.claim(audits[i]);
-                this.renderAudit(audits[i]);
+        for(var i = 0; i < this.audits.length; i++) {
+            if (this.audits[i].rewards == this.rewardData[index] && this.audits[i].claimed == 0) {
+                Audit.claim(this.audits[i]);
+                this.renderAudit(this.audits[i]);
                 
                 application.me.attrs.diamond += this.rewardData[index];
                 application.me.saveNow();
                 
-                application.channel.track(TRACK_CATEGORY_DIAMOND, TRACK_ACTION_INC, "连续登录", rewards); 
+                application.channel.track(TRACK_CATEGORY_DIAMOND, TRACK_ACTION_INC, "连续登录", this.audits[i].rewards); 
             }
         }
     }
@@ -85,7 +85,7 @@ class LoginRewardUI extends eui.Component {
 
     private renderAudit(audit: any) {
         var imgPic = this.imgPicks[0];
-        for(var i = 0; i < rewardData.length; i ++) {
+        for(var i = 0; i < this.rewardData.length; i ++) {
             if (audit.rewards == this.rewardData[i]) {
                 imgPic = this.imgPicks[i];
                 

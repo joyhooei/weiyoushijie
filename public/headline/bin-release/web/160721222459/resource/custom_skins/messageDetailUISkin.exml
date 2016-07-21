@@ -1,0 +1,15 @@
+<?xml version='1.0' encoding='utf-8'?>
+<e:Skin class="messageDetailUISkin" width="375" height="380" xmlns:e="http://ns.egret.com/eui" xmlns:w="http://ns.egret.com/wing">
+	<e:Image width="375" height="380" x="0" y="0" fillMode="clip" source="detailB_png"/>
+	<e:Image id="imgBack" source="helpx_png" x="331" y="2" fillMode="clip" width="41" height="41"/>
+	<e:Image id="imgOperate" width="119" height="48" x="126" y="321" source="del_png" fillMode="clip"/>
+	<e:Scroller width="300" height="160" x="40" y="71">	
+		<e:viewport>
+			<e:Group>
+				<e:Label id="lblContent" x="0" y="0" width="300" size="24" text=""/>
+			</e:Group>
+		</e:viewport>
+	</e:Scroller>	
+	<e:Image id="imgAttach" width="39" height="34" x="73" y="247" source="dia_png" fillMode="clip"/>
+	<e:Label id="lblAttach" text="x300" x="122" y="250" size="24"/>
+</e:Skin>

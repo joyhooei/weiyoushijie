@@ -34,5 +34,6 @@ class Audit {
             }, function(error){
                 reject(error);
             });
+        });
     }
 }

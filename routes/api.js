@@ -41,16 +41,6 @@ router.get('/max_bid', function(req, res, next) {
 	})
 })
 
-router.get('/max_midnight', function(req, res, next) {
-	var game  = req.query.game || "headline";
-	var today = req.query.today;
-	Maxbid.midnight(game, today).then(function(result){
-		_succeed(res, "max_midnight succeed " + result);
-	}, function(error){
-		_failed(res, error);
-	})
-})
-
 router.get('/expire_ticket', function(req, res, next) {
 	var game = req.query.game || "headline";
 	Customer.expireTicket(game).then(function(result){
