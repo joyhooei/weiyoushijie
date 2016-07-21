@@ -274,6 +274,17 @@ module.exports = function() {
 				game: 1,
 				customer_id: 1
 			});
+			
+			self.addModel("Audit", {
+				customer_id: String,
+				operator: String,
+				category: String,
+				detail: String,
+				result: {type: Number, default: 1},
+				rewards: {type: Number, default: 0},
+				error: String,
+				game: String
+			});
 
 			self.addModel("Bid", {
 				customer_id: String,
