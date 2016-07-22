@@ -34,7 +34,7 @@ block main
 						- each notification in notifications
 							tr
 								td= notification.get('content')
-								td= notification.get('deadline')
+								td= moment(new Date(notification.get('deadline'))).format()
 								td= actions[notification.get('action')]
 								td.center
 									a(class="rest btn btn-danger", href="/notifications/#{notification.id}?game=#{game}", data-method="DELETE")
