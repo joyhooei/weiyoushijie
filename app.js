@@ -37,7 +37,7 @@ log4js.configure({
             type: "dateFile",
             filename: "weiyoushijie.log",
             pattern: "-yyyy-MM-dd",
-            alwaysIncludePattern: false
+            alwaysIncludePattern: false,
             category: [ 'weiyoushijie','console' ]
         },
         {
