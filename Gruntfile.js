@@ -8,7 +8,7 @@ module.exports = function(grunt) {
                     ]
                 },
                 files: {
-                    'dist/server.optimized.js': 'server.js'
+                    'dist/server.min.js': 'server.js'
                 }
             }
         },
