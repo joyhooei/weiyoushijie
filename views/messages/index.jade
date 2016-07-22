@@ -42,5 +42,5 @@ block main
 								td= message.get('content')
 								td= message.get('attach_category')
 								td= message.get('attach_quantity')
-								td= message.updatedAt
+								td= moment(message.updatedAt).format()
 								td= states[message.get('state')]
