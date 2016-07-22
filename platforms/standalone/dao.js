@@ -370,6 +370,18 @@ module.exports = function() {
 				customer_id: 1,
 				category: 1
 			});
+			
+			self.addModel("Log", {
+				url: String,
+				version: String,
+				message: String,
+				exception: String,
+				layout: String,
+				level: String,
+				logger: String,
+				timestamp: String,
+				game: String
+			});
 
 			self.addModel("MaxBid", {
 				customer_id: String,
