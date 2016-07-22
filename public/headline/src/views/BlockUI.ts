@@ -1,7 +1,5 @@
-class BlockUI extends eui.Component {
+class BlockUI extends AbstractUI {
     public constructor() {
-        super();
-		
-        this.skinName = "resource/custom_skins/blockUISkin.exml";
+        super('blockUISkin');
     }
 }
