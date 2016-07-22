@@ -1,4 +1,4 @@
-class VipUI extends eui.Component {
+class VipUI extends AbstractUI {
     private lblCharge: eui.Label;
 
     private imgCharge: eui.Image;
@@ -12,36 +12,32 @@ class VipUI extends eui.Component {
     private level: number;
 
     constructor() {
-        super();
+        super("vipUISkin");
         
         this.level = application.me.vip.getLevel();
 
-        this.skinName = "resource/custom_skins/vipUISkin.exml";
-        
-        this.refresh();
-
         this.imgNext.addEventListener(egret.TouchEvent.TOUCH_TAP,() => {
             this.level ++;
+            
             this.refresh();
         },this); 
 
         this.imgLast.addEventListener(egret.TouchEvent.TOUCH_TAP,() => {
             this.level --;
+            
             this.refresh();
         },this); 
         
         this.imgBack.addEventListener(egret.TouchEvent.TOUCH_TAP,() => {
-            application.hideUI(this);
+            this.hide();
         },this); 
         
         this.imgCharge.addEventListener(egret.TouchEvent.TOUCH_TAP,() => {
-            application.hideUI(this);
-            
-            application.showUI(new ChargeTipUI());
+            this.show(new ChargeTipUI());
         },this);
     }
     
-    private refresh() {
+    protected onRefresh() {
         if(this.level == 0) {
             this.lblCharge.visible = false;
             this.imgLast.visible   = false;
@@ -56,6 +52,7 @@ class VipUI extends eui.Component {
 				this.imgNext.visible = true;
 			}
 		}
+		
 		this.lblCharge.text = application.me.attrs.charge;        
         this.imgTitle.source = "vt" + this.level + "_png";
     }
