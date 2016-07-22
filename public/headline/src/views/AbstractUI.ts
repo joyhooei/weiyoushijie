@@ -4,7 +4,7 @@ class AbstractUI extends eui.Component{
 
         this.addEventListener( eui.UIEvent.COMPLETE, this.uiCompHandler, this );
         
-        this.skinName = skinName;
+        this.skinName = "resource/custom_skins/" + skinName + ".exml";;
     }
 
     private uiCompHandler():void {
