@@ -45,7 +45,7 @@
     "grunt-node-optimize": "~1.2.0",
     "grunt-contrib-jshint": "~0.6.3",
     "grunt-contrib-watch": "~0.5.2"
-  }
+  },
   
   "engines": {
     "node": "4.x"
