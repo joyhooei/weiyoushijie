@@ -1,7 +1,7 @@
 {
-  "name": "weiyoushijie",
+  "name": "larksoft",
   "version": "2.0.0",
-  "description": "weiyoushijie",
+  "description": "hfg",
   "main": "server.js",
   "scripts": {
     "start": "node server.js"
