@@ -8,5 +8,5 @@
 			</e:Group>
 		</e:viewport>
 	</e:Scroller>
-	<e:Image fillMode="clip" id="imgOK" source="offlineok_png" x="136" y="281" width="137" height="52"/>	
+	<e:Image fillMode="clip" id="imgOk" source="offlineok_png" x="136" y="281" width="137" height="52"/>	
 </e:Skin>
