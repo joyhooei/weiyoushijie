@@ -7,7 +7,7 @@ class AbstractUI extends eui.Component{
         this.skinName = "resource/custom_skins/" + skinName + ".exml";;
     }
 
-    private _uiCompHandler():void {
+    private _uiCompHandler() {
         try {
             this.onRefresh();
         } catch(error) {
@@ -15,7 +15,7 @@ class AbstractUI extends eui.Component{
         }
     }
     
-    public refresh(): void {
+    public refresh() {
         try {
             this.onRefresh();
         } catch(error) {
@@ -23,16 +23,20 @@ class AbstractUI extends eui.Component{
         }
     }
     
-    protected onRefresh(): void {
+    protected onRefresh() {
     }
     
-    public show(parent:parent?: egret.DisplayObjectContainer): AbstractUI {
-        application.showUI(this, parent);
-        
-        return this;
+    public show(child: eui.Component, hide?: boolean) {
+        if (hide) {
+            this.hide();
+            
+            application.showUI(child);
+        } else {
+            application.showUI(child, this);
+        }
     }
     
-    public hide(): void {
+    public hide() {
         application.hideUI(this);
     }
 }
