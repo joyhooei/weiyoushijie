@@ -33,7 +33,7 @@ class VipUI extends AbstractUI {
         },this); 
         
         this.imgCharge.addEventListener(egret.TouchEvent.TOUCH_TAP,() => {
-            this.show(new ChargeTipUI());
+            this.show(new ChargeTipUI(), true);
         },this);
     }
     
