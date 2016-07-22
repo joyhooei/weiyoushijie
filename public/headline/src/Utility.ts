@@ -51,6 +51,34 @@ class Utility {
 			cb();
 		},this);
 		timer.start();	
-	} 
+	}
+	
+	public static takeOverConsole(logger:any){
+    	var console = window.console;
+    	if (!console) {
+    		return;
+    	}
+
+    	var methods = ['log', 'warn', 'error'];
+    	for (var i = 0; i < methods.length; i++) {
+        	Utility.intercept(methods[i], logger);
+    	}
+	}
+	
+	public static intercept(method, logger){
+    	var original = console[method];
+    	console[method] = function(){
+            logger[method](arguments);
+            
+            if (original.apply){
+                // Do this for normal browsers
+                original.apply(console, arguments);
+            }else{
+                // Do this for IE
+                var message = Array.prototype.slice.apply(arguments).join(' ');
+                original(message);
+            }
+    	}
+	}	
 }
         

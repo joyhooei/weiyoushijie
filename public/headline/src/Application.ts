@@ -32,6 +32,16 @@ module application {
             application.baseUrl = window.location.protocol + "//" + window.location.hostname + (window.location.port ? ':' + window.location.port: '') + "/";
 		}
 		
+		let logger = log4javascript.getLogger("larksoft");
+		let appender = new log4javascript.AjaxAppender(application.baseUrl + "logs");
+		appender.setWaitForResponse(false);
+		appender.setThreshold(log4javascript.Level.ERROR);
+		let layout = new log4javascript.HttpPostDataLayout();
+		layout.setCustomField("version", application.version);
+		appender.setLayout(layout);
+		logger.addAppender(appender);
+		Utility.takeOverConsole(logger);
+		
         application.dao = new Dao(application.baseUrl + "api/", "headline");
         
         application.channel = Channel.create();

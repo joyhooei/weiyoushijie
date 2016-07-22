@@ -43,5 +43,5 @@ block main
 								td= customer.get('vip')
 								td= customer.get('output')
 								td= customer.get('version')
-								td= customer.get('last_login')
+								td= moment(new Date(customer.get('last_login'))).format()
 								td= customer.id

@@ -16,21 +16,24 @@ block main
 				h2
 					i(class="halflings-icon user")
 					span.break
-					| 订单
+					| 日志
 
 			div.box-content
 				table(class="table table-striped table-bordered bootstrap-datatable datatable")
 					thead
 						tr
-							th 玩家
-							th 现金
-							th 商品
-							th 时间
+							th 版本
+							th 异常
+							th 信息
+							th 链接
+							th
 					tbody
-						- each order in orders
+						- each log in logs
 							tr
-								td
-									a(href="/customers/#{order.get('customer_id')}") #{order.get('customer_id')}
-								td= order.get('price')
-								td= order.get('product')
-								td= moment(order.updatedAt).format()
+								td= log.get('version')
+								td= log.get('message')
+								td= log.get('exception')
+								td= log.get('url')
+								td.center
+									a(class="rest btn btn-danger", href="/logs/#{log.id}?game=#{game}", data-method="DELETE")
+										i(class="halflings-icon white trash")

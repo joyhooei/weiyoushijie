@@ -25,10 +25,29 @@ var gifts = require('./routes/gifts');
 var maxbids = require('./routes/maxbids');
 var notifications = require('./routes/notifications');
 var bids = require('./routes/bids');
+var logs = require('./routes/logs');
+var audits = require('./routes/audits');
 
 GLOBAL.moment = require("moment");
 GLOBAL._ = require("underscore");
 GLOBAL.Q = require('q');
+
+var log4js = require('log4js');
+log4js.configure({
+    appenders: [
+        {
+            type: "dateFile",
+            filename: "weiyoushijie.log",
+            pattern: "-yyyy-MM-dd",
+            alwaysIncludePattern: false,
+            category: [ 'weiyoushijie','console' ]
+        },
+        {
+            type: "console"
+        }
+    ],
+    replaceConsole: true
+});
 
 var app = express();
 
@@ -87,6 +106,8 @@ app.use('/projects', projects);
 app.use('/maxbids', maxbids);
 app.use('/notifications', notifications);
 app.use('/bids', bids);
+app.use('/logs', logs);
+app.use('/audits', audits);
 
 app.use('/api', api);
 
