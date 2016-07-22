@@ -16,4 +16,12 @@ router.post('/', function(req, res, next) {
 	}
 });
 
+router.get('/', helper.ensureAuthenticated, function(req, res, next) {
+	helper.listModel("Log", "logs", _restfulName, req, res);
+});
+
+router.delete('/:id', helper.ensureAuthenticated, function(req, res, next) {
+	helper.deleteModel("Log", _restfulName, "删除了错误日志", req, res);
+});
+
 module.exports = router;
