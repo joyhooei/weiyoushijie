@@ -1,17 +1,16 @@
-class WinUI extends eui.Component{
+class WinUI extends AbstractUI{
     private imgBack:eui.Button;
 	
     private imgHide:eui.Image;
 	private imgAvatar:eui.Image;
 
     constructor(bid: any) {
-        super();
-        
-        this.skinName = "resource/custom_skins/winUISkin.exml";
-        
+        super("winUISkin");
+
         this.imgBack.addEventListener( egret.TouchEvent.TOUCH_TAP, ()=>{
 			Bid.earn(application.me);
-            application.hideUI(this);
+			
+            this.hide();
         }, this);
         
         this.imgHide.addEventListener(egret.TouchEvent.TOUCH_TAP,() => {
@@ -21,13 +20,11 @@ class WinUI extends eui.Component{
 				application.me.attrs.hide_winner = 1;
 			}
 			
-			this.renderAvatar();
-        },this);
-		
-		this.renderAvatar();
+			this.refresh();
+        }, this);
     }
 	
-    private renderAvatar(): void {
+    protected onRefresh(): void {
 		if (application.me.attrs.hide_winner == 1) {
 			this.imgHide.source = "hidecancel_png";
 			
