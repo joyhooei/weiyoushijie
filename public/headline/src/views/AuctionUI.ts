@@ -1,4 +1,4 @@
-class AuctionUI extends eui.Component{
+class AuctionUI extends AbstractUI{
     private imgBack: eui.Image;
 
 	private lblGold:eui.Label;
@@ -28,36 +28,8 @@ class AuctionUI extends eui.Component{
 	private startX:number;
 	
     constructor() {
-        super();
-		
-        this.addEventListener( eui.UIEvent.COMPLETE, this.uiCompHandler, this );
-		
-        this.skinName = "resource/custom_skins/auctionUISkin.exml";
-    }
-    
-    public refresh(): void {
-        this.lblGold.text = Utility.format(application.me.usableGold());
-        this.lblDiamond.text = Utility.format(application.me.attrs.diamond);
-		
-        var today = Bid.day();
-		this.renderLastBid(today);
-		this.renderMaxBid(today);	
-		
-        this.grpTrack.x = this.imgThumb.x;
-        this.lblTrack.text = "0%";
-		
-        this.imgFront.x = this.imgThumb.x;	
-        this.imgFront.y = this.imgThumb.y;	
-        this.imgFront.width = 0;
-		
-		this.addGold = 0;
-		this.bid = { gold: 0, day: today, customer_id: application.me.attrs.id, claimed: 0 };
-        this.renderBid(0);
-    }
-
-    private uiCompHandler():void {
-		this.refresh();
-		
+        super("auctionUISkin");
+        
         this.imgBack.addEventListener(egret.TouchEvent.TOUCH_TAP,() => {
             application.gotoHome();
         },this);
@@ -83,9 +55,29 @@ class AuctionUI extends eui.Component{
                 
         this.btnHelp.addEventListener(egret.TouchEvent.TOUCH_BEGIN, function() {
         	HelpUI.showAuctionHelp();
-        }, this);
+        }, this);        
     }
-	
+    
+    public onRefresh(): void {
+        this.lblGold.text = Utility.format(application.me.usableGold());
+        this.lblDiamond.text = Utility.format(application.me.attrs.diamond);
+		
+        var today = Bid.day();
+		this.renderLastBid(today);
+		this.renderMaxBid(today);	
+		
+        this.grpTrack.x = this.imgThumb.x;
+        this.lblTrack.text = "0%";
+		
+        this.imgFront.x = this.imgThumb.x;	
+        this.imgFront.y = this.imgThumb.y;	
+        this.imgFront.width = 0;
+		
+		this.addGold = 0;
+		this.bid = { gold: 0, day: today, customer_id: application.me.attrs.id, claimed: 0 };
+        this.renderBid(0);
+    }
+
 	private renderLastBid(today:string): void {
 		var self = this;
 		
@@ -164,7 +156,7 @@ class AuctionUI extends eui.Component{
 	}
 	
 	private back(): void {
-		this.dispatchEventWith( GameEvents.EVT_RETURN );
+		application.gotoHome();
 	}
 
     private onBeginChangeBid(e: egret.TouchEvent): void {
