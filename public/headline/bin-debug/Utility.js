@@ -46,6 +46,39 @@ var Utility = (function () {
         }, this);
         timer.start();
     };
+    Utility.takeOverConsole = function (logger) {
+        var console = window.console;
+        if (!console) {
+            return;
+        }
+        var methods = ['log', 'warn', 'error'];
+        for (var i = 0; i < methods.length; i++) {
+            Utility.intercept(methods[i], logger);
+        }
+    };
+    Utility.intercept = function (method, logger) {
+        var original = console[method];
+        console[method] = function () {
+            if (method === 'log') {
+                logger.info(arguments);
+            }
+            else if (method == 'warn') {
+                logger.warn(arguments);
+            }
+            else {
+                logger.error(arguments);
+            }
+            if (original.apply) {
+                // Do this for normal browsers
+                original.apply(console, arguments);
+            }
+            else {
+                // Do this for IE
+                var message = Array.prototype.slice.apply(arguments).join(' ');
+                original(message);
+            }
+        };
+    };
     Utility.units = [
         'k', 'm', 'b', 't',
         'a', 'A', 'c', 'C', 'd', 'D', 'e', 'E', 'f', 'F', 'g', 'G', 'h', 'H', 'i', '!', 'j', 'J', 'l', 'L', 'n', 'N', 'o', 'O', 'p', 'P', 'q', 'Q', 'r', 'R', 's', 'S', 'u', 'U', 'v', 'V', 'w', 'W', 'x', 'X', 'y', 'Y', 'z', 'Z',

@@ -12,6 +12,15 @@ var application;
         else {
             application.baseUrl = window.location.protocol + "//" + window.location.hostname + (window.location.port ? ':' + window.location.port : '') + "/";
         }
+        var logger = log4javascript.getLogger("larksoft");
+        var appender = new log4javascript.AjaxAppender(application.baseUrl + "logs");
+        appender.setWaitForResponse(false);
+        appender.setThreshold(log4javascript.Level.ERROR);
+        var layout = new log4javascript.HttpPostDataLayout();
+        layout.setCustomField("version", application.version);
+        appender.setLayout(layout);
+        logger.addAppender(appender);
+        Utility.takeOverConsole(logger);
         application.dao = new Dao(application.baseUrl + "api/", "headline");
         application.channel = Channel.create();
         application.projects = Project.createAll();

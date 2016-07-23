@@ -21,7 +21,7 @@ function _redirect(restfulName, req, res) {
 	} else {
 		res.redirect('/' + restfulName);
 	}
-};
+}
 
 function _render(view, req, res, options) {
 	if (options) {
@@ -31,19 +31,19 @@ function _render(view, req, res, options) {
 	}
 	
 	res.render(view, options);
-};
+}
 
 function _renderIndex(model, modelName, restfulName, req, res) {
 	var options = {};
 	options[modelName] = model;
 	_render(restfulName + '/index', req, res, options);
-};
+}
 
 function _renderView(model, modelName, restfulName, req, res) {
 	var options = model.attributes;
 	options[modelName] = model;
 	_render(restfulName + '/view', req, res, options);
-};
+}
 
 function _renderEdit(model, modelName, restfulName,  req, res, options) {
 	if (options) {
@@ -54,7 +54,7 @@ function _renderEdit(model, modelName, restfulName,  req, res, options) {
 	
 	options[modelName] = model;
 	_render(restfulName + '/edit', req, res, options);
-};
+}
 
 function _queryModel(query, modelName, restfulName, req, res){
 	query.then(function(models){
@@ -137,7 +137,7 @@ function _saveModel(model, modelName, restfulName, req, res, options) {
 
 		_renderEdit(model, modelName, restfulName, req, res, options);
 	});
-};
+}
 
 module.exports.createModel = function(model, modelName, restfulName, req, res, options){
 	_saveModel(model, modelName, restfulName, req, res, options);

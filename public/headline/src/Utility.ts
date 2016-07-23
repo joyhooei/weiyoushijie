@@ -68,7 +68,13 @@ class Utility {
 	public static intercept(method, logger){
     	var original = console[method];
     	console[method] = function(){
-            logger[method](arguments);
+            if (method === 'log') {
+                logger.info(arguments);
+            } else if (method == 'warn') {
+                logger.warn(arguments);
+            } else {
+                logger.error(arguments);
+            }
             
             if (original.apply){
                 // Do this for normal browsers

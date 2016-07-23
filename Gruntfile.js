@@ -8,9 +8,21 @@ module.exports = function(grunt) {
                     ]
                 },
                 files: {
-                    'dist/server.min.js': 'server.js'
+                    'dist/server.js': 'server.js'
                 }
             }
+        },
+
+        uglify: {
+            options: {
+                //添加banner
+                banner: '/*! author:liweihai weiyoushijie <%= grunt.template.today("yyyy-mm-dd") %> */\n'
+            },    
+            release: {// 合并压缩a.js和b.js
+                files: {
+                    'dist/server.js':['dist/server.js']
+                }
+            }       
         },
         
         jshint: {
@@ -26,25 +38,31 @@ module.exports = function(grunt) {
             options: {
                 stderr: false
             },
-            target: {
+            multiple: {
                 command: [
-                    './public/headline/egret publish',
-                    './public/headline/egret publish --runtime native'
-                ]
+                    'egret publish public/headline --version bin-release',
+                    'egret publish public/headline --runtime native --version bin-release',
+                ].join('&&')
             }
-        },        
+        }, 
+
+        clean: {
+            build: {    
+                src: ["dist"]    
+            }
+        },
         
         copy: {
             main: {
                 files: [
-                    {expand: true, src: ['./app.conf'], dest: '../wysj/app.conf'},
-                    {expand: true, src: ['./package.json'], dest: '../wysj/package.json'},
+                    {expand: true, cwd: './', src: ['app.conf'], dest: 'dist/', filter: 'isFile'},
+                    {expand: true, cwd: './', src: ['package.json'], dest: 'dist/', filter: 'isFile'},
 
-                    {expand: true, src: ['./dist/server.min.js'], dest: '../wysj/server.js'},
-                    {expand: true, src: ['./views/**'], dest: '../wysj/views/'},
-                    {expand: true, src: ['./public/css/**', './public/font/**','./public/images/**','./public/img/**','./public/javascripts/**','./public/js/**','./public/stylesheets/**', './public/*.*'], dest: '../wysj/public/'},
+                    {expand: true, cwd: 'views/', src: ['**'], dest: 'dist/views/'},
+                    {expand: true, cwd: 'public/', src: ['css/**', 'font/**','images/**','img/**','javascripts/**','js/**','stylesheets/**', '*.*'], dest: 'dist/public/'},
                     
-                    {expand: true, src: ['./public/headline/bin-release/*'], dest: '../wysj/public/headline/bin-release/'},
+                    {expand: true, cwd: 'public/headline/bin-release/', src: ['**'], dest: 'dist/public/headline/bin-release/'},
+                    {expand: true, cwd: 'public/headline/resource/art/', src: ['head.png', 'headF.png', 'headM.png', 'icon.jpg'], dest: 'dist/public/headline/resource/art/'},
                 ],
             },
         },        
@@ -53,8 +71,10 @@ module.exports = function(grunt) {
     grunt.loadNpmTasks('grunt-node-optimize');
     grunt.loadNpmTasks('grunt-contrib-jshint');
     grunt.loadNpmTasks('grunt-contrib-copy');
+    grunt.loadNpmTasks('grunt-contrib-clean');
+    grunt.loadNpmTasks('grunt-contrib-uglify');    
     grunt.loadNpmTasks('grunt-shell');
     
     // Default task(s).
-    grunt.registerTask('default', ['copy', 'node_optimize', 'shell', 'jshint']);
+    grunt.registerTask('default', ['clean', 'shell', 'node_optimize', 'uglify', 'copy']);
 };

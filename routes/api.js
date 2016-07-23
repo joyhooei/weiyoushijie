@@ -18,8 +18,8 @@ router.get('/send_vip_metal', function(req, res, next) {
 		_succeed(res, "send_vip_metal succeed " + result);
 	}, function(error){
 		_failed(res, error);
-	})
-})
+	});
+});
 
 router.get('/open_bid', function(req, res, next) {
 	var game = req.query.game || "headline";
@@ -28,8 +28,8 @@ router.get('/open_bid', function(req, res, next) {
 		_succeed(res, "open_bid succeed " + result);
 	}, function(error){
 		_failed(res, error);
-	})
-})
+	});
+});
 
 router.get('/max_bid', function(req, res, next) {
 	var game  = req.query.game || "headline";
@@ -38,8 +38,8 @@ router.get('/max_bid', function(req, res, next) {
 		_succeed(res, "max_bid succeed " + result);
 	}, function(error){
 		_failed(res, error);
-	})
-})
+	});
+});
 
 router.get('/expire_ticket', function(req, res, next) {
 	var game = req.query.game || "headline";
@@ -47,8 +47,8 @@ router.get('/expire_ticket', function(req, res, next) {
 		_succeed(res, "expire_ticket succeed " + result);
 	}, function(error){
 		_failed(res, error);
-	})
-})
+	});
+});
 
 router.get('/expire_notification', function(req, res, next) {
 	var game = req.query.game || "headline";
@@ -56,8 +56,8 @@ router.get('/expire_notification', function(req, res, next) {
 		_succeed(res, "expire_notification succeed " + result);
 	}, function(error){
 		_failed(res, error);
-	})
-})
+	});
+});
 
 router.get('/rank', function(req, res, next) {
 	var game = req.query.game || "headline";
@@ -65,8 +65,8 @@ router.get('/rank', function(req, res, next) {
 		_succeed(res, "rank succeed " + result);
 	}, function(error){
 		_failed(res, error);
-	})
-})
+	});
+});
 
 router.get('/egret_rt', function(req, res, next) {
 	console.log("egret_rt " + JSON.stringify(req.query));
@@ -90,7 +90,7 @@ router.get('/egret_rt', function(req, res, next) {
 	}, function(error){
 		_failed(res, error.message);
 	});
-})
+});
 
 function _getChannel(req) {
 	var channel = req.body.wysj_channel || req.query.wysj_channel || "egret";
@@ -114,7 +114,7 @@ router.post(['/egret_pay', '/pay'], function(req, res, next) {
 	}, function(data){
 		_failed(res, new Error(data));
 	});
-})
+});
 
 router.post('/login', function(req, res, next) {
 	_getChannel(req).login(req.body).then(function(user){
@@ -166,7 +166,7 @@ router.post('/login', function(req, res, next) {
 	}, function(error){
 		console.error("post request failed " + error.message);
 		_failed(res, new Error("系统内部错误，请稍后再试"));
-	})
+	});
 });
 
 router.post('/hits', function(req, res, next) {
@@ -236,13 +236,12 @@ function _filterAttributes(req) {
 			delete req.body[attr];
 		});
 	}
-};
+}
 
 function _saveModel(model, req, res) {
+	var customer_id = req.body.customer_id;
 	if (req.params.model == "Customer") {
-		var customer_id = model.id;
-	} else {
-		var customer_id = req.body.customer_id;
+		customer_id = model.id;
 	}
 
 	if (customer_id && customer_id.length > 1) {
@@ -269,7 +268,7 @@ function _saveModel(model, req, res) {
 		console.error("_saveModel customer_id is empty " + " req body is " + JSON.stringify(req.body));
 		_failed(res, new Error("玩家信息不存在，请重新登录"));
 	}
-};
+}
 
 function _decode(avObj) {
 	try {
@@ -285,7 +284,7 @@ function _decode(avObj) {
 	} catch(error) {
 		console.error("_decode failed " + error.message);
 	}
-};
+}
 
 function _encode(model, attrs) {
 	var attributes = _.clone(attrs);
@@ -297,7 +296,7 @@ function _encode(model, attrs) {
 
 	model.set(attributes);
 	return model;
-};
+}
 
 function _adjustBigNumber(attributes, toActual) {
 	/*
@@ -321,11 +320,11 @@ function _succeed(res, data) {
 		data = data.toString();
 	}
 	res.status(200).send(data);
-};
+}
 
 function _failed(res, error, status) {
 	status = status || 500;
 	res.status(status).send(error.message);
-};
+}
 
 module.exports = router;

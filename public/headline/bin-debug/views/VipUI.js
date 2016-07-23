@@ -2,10 +2,8 @@ var VipUI = (function (_super) {
     __extends(VipUI, _super);
     function VipUI() {
         var _this = this;
-        _super.call(this);
+        _super.call(this, "vipUISkin");
         this.level = application.me.vip.getLevel();
-        this.skinName = "resource/custom_skins/vipUISkin.exml";
-        this.refresh();
         this.imgNext.addEventListener(egret.TouchEvent.TOUCH_TAP, function () {
             _this.level++;
             _this.refresh();
@@ -15,15 +13,14 @@ var VipUI = (function (_super) {
             _this.refresh();
         }, this);
         this.imgBack.addEventListener(egret.TouchEvent.TOUCH_TAP, function () {
-            application.hideUI(_this);
+            _this.hide();
         }, this);
         this.imgCharge.addEventListener(egret.TouchEvent.TOUCH_TAP, function () {
-            application.hideUI(_this);
-            application.showUI(new ChargeTipUI());
+            _this.show(new ChargeTipUI(), true);
         }, this);
     }
     var d = __define,c=VipUI,p=c.prototype;
-    p.refresh = function () {
+    p.onRefresh = function () {
         if (this.level == 0) {
             this.lblCharge.visible = false;
             this.imgLast.visible = false;
@@ -43,5 +40,5 @@ var VipUI = (function (_super) {
         this.imgTitle.source = "vt" + this.level + "_png";
     };
     return VipUI;
-}(eui.Component));
+}(AbstractUI));
 egret.registerClass(VipUI,'VipUI');

@@ -55,6 +55,14 @@
 			</e:Skin>
 		</e:skinName>
 	</e:Button>
+	<e:Button id="btnReward" y="331" x="10">
+		<e:skinName>
+			<e:Skin states="up,down,disabled">
+				<e:Image width="100%" height="100%" source="7dayslogo_png"/>
+				<e:Label id="labelDisplay2" horizontalCenter="0" verticalCenter="0"/>
+			</e:Skin>
+		</e:skinName>
+	</e:Button>
 	<e:Button y="98" id="btnHit" x="421">
 		<e:skinName>
 			<e:Skin states="up,down,disabled" xmlns:w="http://ns.egret.com/wing">
@@ -105,6 +113,7 @@
 	</e:Group>
 	<e:Image id="imgHit" width="53" height="32" x="83" y="281" fillMode="clip" source="effect_png"/>
 	<e:Image id="imgGift" width="20" height="20" x="449" y="287" fillMode="clip" source="red_png"/>
+	<e:Image id="imgReward" source="red_png" x="54" y="344" width="20" fillMode="clip" height="20"/>
 	<e:Image id="imgMessage" width="117" height="57" x="318" y="66" source="massage_png" fillMode="clip"/>
 	<e:Image id="imgHasMessage" fillMode="clip" source="red_png" x="393" y="76" width="20" height="20"/>
 	<e:Image id="imgVip" width="71" height="68" x="77" y="92" source="VIP0_png" fillMode="clip"/>

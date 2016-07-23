@@ -2,11 +2,10 @@ var WinUI = (function (_super) {
     __extends(WinUI, _super);
     function WinUI(bid) {
         var _this = this;
-        _super.call(this);
-        this.skinName = "resource/custom_skins/winUISkin.exml";
+        _super.call(this, "winUISkin");
         this.imgBack.addEventListener(egret.TouchEvent.TOUCH_TAP, function () {
             Bid.earn(application.me);
-            application.hideUI(_this);
+            _this.hide();
         }, this);
         this.imgHide.addEventListener(egret.TouchEvent.TOUCH_TAP, function () {
             if (application.me.attrs.hide_winner == 1) {
@@ -15,12 +14,11 @@ var WinUI = (function (_super) {
             else {
                 application.me.attrs.hide_winner = 1;
             }
-            _this.renderAvatar();
+            _this.refresh();
         }, this);
-        this.renderAvatar();
     }
     var d = __define,c=WinUI,p=c.prototype;
-    p.renderAvatar = function () {
+    p.onRefresh = function () {
         if (application.me.attrs.hide_winner == 1) {
             this.imgHide.source = "hidecancel_png";
             this.imgAvatar.source = "Ahide_png";
@@ -31,5 +29,5 @@ var WinUI = (function (_super) {
         }
     };
     return WinUI;
-}(eui.Component));
+}(AbstractUI));
 egret.registerClass(WinUI,'WinUI');

@@ -13,6 +13,7 @@
     "resource/custom_skins/homeUISkin.exml",
     "resource/custom_skins/landingUISkin.exml",
     "resource/custom_skins/loginButtonSkin.exml",
+    "resource/custom_skins/loginRewardUISkin.exml",
     "resource/custom_skins/loginUISkin.exml",
     "resource/custom_skins/messageDetailUISkin.exml",
     "resource/custom_skins/messageItemSkin.exml",

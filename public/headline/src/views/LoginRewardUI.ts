@@ -1,4 +1,4 @@
-class LoginRewardUI extends eui.Component {
+class LoginRewardUI extends AbstractUI {
     private imgPick1: eui.Image;
     private imgPick2: eui.Image;
     private imgPick3: eui.Image;
@@ -15,12 +15,8 @@ class LoginRewardUI extends eui.Component {
     private rewardData = [300, 500, 800, 1200, 2000, 3000, 5000];
 
     constructor() {
-        super();
+        super('loginRewardUISkin');
 
-        this.addEventListener(eui.UIEvent.COMPLETE, this.refresh, this);
-
-        this.skinName = "resource/custom_skins/loginRewardUISkin.exml";
-		
 		this.imgPicks = [this.imgPick1, this.imgPick2, this.imgPick3, this.imgPick4, this.imgPick5, this.imgPick6, this.imgPick7];
 		for(var i = 0; i < this.imgPicks.length; i ++){
 		    this.imgPicks[i].visible = false;
@@ -31,25 +27,25 @@ class LoginRewardUI extends eui.Component {
         },this);	
         
         this.imgPick1.addEventListener(egret.TouchEvent.TOUCH_BEGIN, function(ev){
-            this.claim(1);
+            this.claim(0);
         },this);
         this.imgPick2.addEventListener(egret.TouchEvent.TOUCH_BEGIN,function(ev) {
-            this.claim(2);
+            this.claim(1);
         },this);
         this.imgPick3.addEventListener(egret.TouchEvent.TOUCH_BEGIN,function(ev) {
-            this.claim(3);
+            this.claim(2);
         },this);
         this.imgPick4.addEventListener(egret.TouchEvent.TOUCH_BEGIN,function(ev) {
-            this.claim(4);
+            this.claim(3);
         },this);
         this.imgPick5.addEventListener(egret.TouchEvent.TOUCH_BEGIN,function(ev) {
-            this.claim(5);
+            this.claim(4);
         },this);
         this.imgPick6.addEventListener(egret.TouchEvent.TOUCH_BEGIN,function(ev) {
-            this.claim(6);
+            this.claim(5);
         },this);
         this.imgPick7.addEventListener(egret.TouchEvent.TOUCH_BEGIN,function(ev) {
-            this.claim(7);
+            this.claim(6);
         },this);
     }
     
@@ -67,7 +63,7 @@ class LoginRewardUI extends eui.Component {
         }
     }
 
-    public refresh(): void {
+    protected onRefresh(): void {
         var self = this;
 
 		Audit.check(application.me).then(function(audits){

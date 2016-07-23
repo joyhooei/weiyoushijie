@@ -24,7 +24,7 @@ function _saveUser(user, req, res) {
 		req.flash('errors', { msg: err.message });
 		res.render(_restfulName + '/edit', { user: user});
 	});
-};
+}
 
 router.get('/', helper.ensureAuthenticated, function(req, res, next) {
 	helper.listModel("Account", "accounts", _restfulName, req, res);

@@ -1128,6 +1128,16 @@
 					"isFolder":false,
 					"key":"ok_png",
 					"name":"ok_png"
+				},
+				{
+					"isFolder":false,
+					"key":"7days_png",
+					"name":"7days_png"
+				},
+				{
+					"isFolder":false,
+					"key":"7dayslogo_png",
+					"name":"7dayslogo_png"
 				}
 			]
 		}

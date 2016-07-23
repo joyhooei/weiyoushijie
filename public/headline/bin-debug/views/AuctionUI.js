@@ -1,28 +1,7 @@
 var AuctionUI = (function (_super) {
     __extends(AuctionUI, _super);
     function AuctionUI() {
-        _super.call(this);
-        this.addEventListener(eui.UIEvent.COMPLETE, this.uiCompHandler, this);
-        this.skinName = "resource/custom_skins/auctionUISkin.exml";
-    }
-    var d = __define,c=AuctionUI,p=c.prototype;
-    p.refresh = function () {
-        this.lblGold.text = Utility.format(application.me.usableGold());
-        this.lblDiamond.text = Utility.format(application.me.attrs.diamond);
-        var today = Bid.day();
-        this.renderLastBid(today);
-        this.renderMaxBid(today);
-        this.grpTrack.x = this.imgThumb.x;
-        this.lblTrack.text = "0%";
-        this.imgFront.x = this.imgThumb.x;
-        this.imgFront.y = this.imgThumb.y;
-        this.imgFront.width = 0;
-        this.addGold = 0;
-        this.bid = { gold: 0, day: today, customer_id: application.me.attrs.id, claimed: 0 };
-        this.renderBid(0);
-    };
-    p.uiCompHandler = function () {
-        this.refresh();
+        _super.call(this, "auctionUISkin");
         this.imgBack.addEventListener(egret.TouchEvent.TOUCH_TAP, function () {
             application.gotoHome();
         }, this);
@@ -43,6 +22,22 @@ var AuctionUI = (function (_super) {
         this.btnHelp.addEventListener(egret.TouchEvent.TOUCH_BEGIN, function () {
             HelpUI.showAuctionHelp();
         }, this);
+    }
+    var d = __define,c=AuctionUI,p=c.prototype;
+    p.onRefresh = function () {
+        this.lblGold.text = Utility.format(application.me.usableGold());
+        this.lblDiamond.text = Utility.format(application.me.attrs.diamond);
+        var today = Bid.day();
+        this.renderLastBid(today);
+        this.renderMaxBid(today);
+        this.grpTrack.x = this.imgThumb.x;
+        this.lblTrack.text = "0%";
+        this.imgFront.x = this.imgThumb.x;
+        this.imgFront.y = this.imgThumb.y;
+        this.imgFront.width = 0;
+        this.addGold = 0;
+        this.bid = { gold: 0, day: today, customer_id: application.me.attrs.id, claimed: 0 };
+        this.renderBid(0);
     };
     p.renderLastBid = function (today) {
         var self = this;
@@ -108,7 +103,7 @@ var AuctionUI = (function (_super) {
         }
     };
     p.back = function () {
-        this.dispatchEventWith(GameEvents.EVT_RETURN);
+        application.gotoHome();
     };
     p.onBeginChangeBid = function (e) {
         this.startX = e.stageX;
@@ -133,5 +128,5 @@ var AuctionUI = (function (_super) {
         }
     };
     return AuctionUI;
-}(eui.Component));
+}(AbstractUI));
 egret.registerClass(AuctionUI,'AuctionUI');

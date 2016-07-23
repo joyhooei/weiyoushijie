@@ -1,7 +1,0 @@
-<?xml version='1.0' encoding='utf-8'?>
-<e:Skin class="reportUISkin" width="399" height="395" xmlns:e="http://ns.egret.com/eui" xmlns:w="http://ns.egret.com/wing">
-	<e:Image width="392" height="390" x="0" y="0" fillMode="clip" source="report_png"/>
-	<e:EditableText id="txtContent" width="351" height="203" x="25" y="120" size="20"/>
-	<e:Image id="imgOK" width="139" height="49" x="59" y="334" source="offlineok_png" fillMode="clip"/>
-	<e:Image id="imgCancel" y="334" fillMode="clip" x="217" width="139" height="49" source="cancel_png"/>
-</e:Skin>
