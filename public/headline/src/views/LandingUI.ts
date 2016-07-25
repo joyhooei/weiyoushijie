@@ -43,9 +43,13 @@ class LandingUI extends eui.Component {
         
         self.btnLogin.addEventListener(egret.TouchEvent.TOUCH_TAP,() => {
         	if (egret.getOption("wysj_account_id")) {
-        		application.dao.fetch("Account", {id: egret.getOption("wysj_account_id")}, {limit: 1}).then(function(account){
-	                application.logined(account);
-					application.hideUI(self);
+        		application.dao.fetch("Account", {id: egret.getOption("wysj_account_id")}, {limit: 1}).then(function(accounts){
+        			if (accounts.length > 0) {
+	                	application.logined(accounts[0]);
+						application.hideUI(self);
+        			} else {
+        				Toast.launch('玩家不存在，ID = ' + egret.getOption("wysj_account_id"));
+        			}
         		}, function(error){
         			Toast.launch(error);
         		})
