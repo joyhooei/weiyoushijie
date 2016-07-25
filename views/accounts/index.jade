@@ -27,6 +27,6 @@ block main
 					tbody
 						- each account in accounts
 							tr
-								td account.id
+								td= account.id
 								td
 									a(href="/customers/#{account.get('customer_id')}") #{account.get('customer_id')}
