@@ -42,12 +42,21 @@ class LandingUI extends eui.Component {
         }, this);
         
         self.btnLogin.addEventListener(egret.TouchEvent.TOUCH_TAP,() => {
-            application.channel.login().then(function(account:any){
-                application.logined(account);
-				application.hideUI(self);
-			}, function(error){
-				Toast.launch(error);
-			});
+        	if (egret.getOption("wysj_account_id")) {
+        		application.dao.fetch("Account", {id: egret.getOption("wysj_account_id")}, {limit: 1}).then(function(account){
+	                application.logined(account);
+					application.hideUI(self);
+        		}, function(error){
+        			Toast.launch(error);
+        		})
+        	} else {
+	            application.channel.login().then(function(account:any){
+	                application.logined(account);
+					application.hideUI(self);
+				}, function(error){
+					Toast.launch(error);
+				});
+        	}
         }, self);
     }
 }
