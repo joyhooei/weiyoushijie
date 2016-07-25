@@ -340,6 +340,8 @@ module.exports = function() {
 				
 				output: {type: Number, default: 1},
 				
+				version: String,
+				
 				channel_data: String,
 
 				game: String
