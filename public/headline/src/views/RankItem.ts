@@ -41,7 +41,7 @@ class RankItem extends eui.Component {
 		
         this.imgAvatar.source = Customer.avatarUrl(customer);
         this.lblName.text  = customer.name;
-        this.lblMetal.text = customer.metal;
+        this.lblMetal.text = new Number(customer.metal).toFixed(3);;
         this.lblGold.text  = Utility.format(customer.accumulated_gold);
     }
 }
