@@ -22,9 +22,11 @@ block main
 				table(class="table table-striped table-bordered bootstrap-datatable datatable")
 					thead
 						tr
+							th ID
 							th 玩家
 					tbody
 						- each account in accounts
 							tr
+								td account.id
 								td
 									a(href="/customers/#{account.get('customer_id')}") #{account.get('customer_id')}
