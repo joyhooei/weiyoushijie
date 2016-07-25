@@ -24,9 +24,13 @@ block main
 						tr
 							th ID
 							th 玩家
+							th
 					tbody
 						- each account in accounts
 							tr
 								td= account.id
 								td
 									a(href="/customers/#{account.get('customer_id')}") #{account.get('customer_id')}
+								td.center
+									a(class="rest btn btn-danger", href="/accounts/#{account.id}?game=#{game}", data-method="DELETE")
+										i(class="halflings-icon white trash")
