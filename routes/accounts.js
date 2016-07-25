@@ -49,4 +49,8 @@ router.post('/:id', helper.ensureAuthenticated, function(req, res, next) {
 		});
 });
 
+router.delete('/:id', helper.ensureAuthenticated, function(req, res, next) {
+	helper.deleteModel("Account", _restfulName, "删除了账号", req, res);
+});
+
 module.exports = router;
