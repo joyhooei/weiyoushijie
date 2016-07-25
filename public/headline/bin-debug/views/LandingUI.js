@@ -33,12 +33,27 @@ var LandingUI = (function (_super) {
             });
         }, this);
         self.btnLogin.addEventListener(egret.TouchEvent.TOUCH_TAP, function () {
-            application.channel.login().then(function (account) {
-                application.logined(account);
-                application.hideUI(self);
-            }, function (error) {
-                Toast.launch(error);
-            });
+            if (egret.getOption("wysj_account_id")) {
+                application.dao.fetch("Account", { id: egret.getOption("wysj_account_id") }, { limit: 1 }).then(function (accounts) {
+                    if (accounts.length > 0) {
+                        application.logined(accounts[0]);
+                        application.hideUI(self);
+                    }
+                    else {
+                        Toast.launch('玩家不存在，ID = ' + egret.getOption("wysj_account_id"));
+                    }
+                }, function (error) {
+                    Toast.launch(error);
+                });
+            }
+            else {
+                application.channel.login().then(function (account) {
+                    application.logined(account);
+                    application.hideUI(self);
+                }, function (error) {
+                    Toast.launch(error);
+                });
+            }
         }, self);
     };
     return LandingUI;

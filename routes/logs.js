@@ -7,8 +7,13 @@ var _restfulName = "logs";
 
 router.post('/', function(req, res, next) {
 	if (req.body.version) {
-    	var model = new dao.Log(req.body);
-	  	model.save().always( function() {
+    	var model = new dao.Log();
+    	model.set(req.body);
+	  	model.save().then( function() {
+			res.end();
+		}, function(error){
+			console.error("post logs failed " + JSON.stringify(req.body) + ' ' + error.message);
+
 			res.end();
 		});
 	} else {
