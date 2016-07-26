@@ -5,25 +5,7 @@ var Customer = require('../models/customer');
 function _post(url, data) {
 	return Q.Promise(function(resolve, reject, notify) {
 		data.appid = 'fg40249b';
-		
-		var sign = "";
-		for (var key of Object.keys(data).sort()) {
-			if (!!!params[key] || key === 'sign') {
-				continue;
-			}
-			
-			if (!!!sign.length) {
-				sign = key + "=" + params[key];
-			} else {
-				sign += ("&" + key + "=" + params[key]);
-			}
-		}
-		
-		sign = stingA + "dwdse2tsz70go8dq62pzmj10bpkqh08j";
-		sign = Helper.crypto(sign);
-		
-		data.sign = sign;
-		
+		data.sign = Helper.sign(data, "dwdse2tsz70go8dq62pzmj10bpkqh08j");
 		Helper.post(url, data).then(function(body){
 			if (body.status == 1) {
 				resolve(body);
@@ -39,8 +21,8 @@ function _post(url, data) {
 
 module.exports.login = function(game, options) {
 	return Q.Promise(function(resolve, reject, notify) {
-		_post("http://api.web.51h5.com/auth/token", {appid:'fg40249b', code:options.token}).then(function(tokens){
-			_post("http://api.web.51h5.com/auth/info", {appid:'fg40249b', token:tokens.data.access_token}).then(function(body){
+		_post("http://api.web.51h5.com/auth/token", {code:options.token}).then(function(tokens){
+			_post("http://api.web.51h5.com/auth/info", {token:tokens.data.access_token}).then(function(body){
 				var user = {
 					name: body.data.nick, 
 					uid:body.data.openid, 
@@ -67,7 +49,7 @@ module.exports.login = function(game, options) {
 module.exports.payUrl = function(options) {
 	return Q.Promise(function(resolve, reject, notify) {
 		dao.get("Customer", options.customer_id).then(function(customer){
-			_post("http://api.web.51h5.com/auth/refresh", {appid:'fg40249b', refresh:customer.get('channel_data')}).then(function(tokens){
+			_post("http://api.web.51h5.com/auth/refresh", {refresh:customer.get('channel_data')}).then(function(tokens){
 				customer.set("channel_data", tokens.data.refresh_token);
 				dao.save("Customer", customer).then(function(c){
 					_post("http://api.web.51h5.com/pay/order", {token:tokens.data.access_token, total_fee:options.money, subject:options.goodsName, body:options.goodsName}).then(function(body){
