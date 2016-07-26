@@ -8,19 +8,14 @@ module.exports.login = function(game, options) {
 	return Q.Promise(function(resolve, reject, notify) {
 		var now = Date.now();
 
-		var sign = "";
-		sign += "appId=90359";
-		sign += "time=" + now;
-		sign += "token=" + options.token;
-		sign += "qChCyYzHXFacMrO9fPTFQ";
-		sign = Helper.crypto(sign);
+		var data = {
+			appId:90359,
+			time:now,
+			token:options.token;
+		}
+		data.sign = Helper.sign(data, "qChCyYzHXFacMrO9fPTFQ", "");
 
-		var url = "http://api.egret-labs.org/v2/user/getInfo?";
-		url += "appId=90359&";
-		url += "time=" + now + "&";
-		url += "token=" + options.token + "&";
-		url += "sign=" + sign;
-
+		var url = "http://api.egret-labs.org/v2/user/getInfo?" + Helper.join(data, "&");
 		Helper.post(url, {}).then(function(body){
 			var user = {
 				name: body.data.name, 
