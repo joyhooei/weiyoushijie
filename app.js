@@ -27,6 +27,7 @@ var notifications = require('./routes/notifications');
 var bids = require('./routes/bids');
 var logs = require('./routes/logs');
 var audits = require('./routes/audits');
+var channels = require('./routes/channels');
 
 GLOBAL.moment = require("moment");
 GLOBAL._ = require("underscore");
@@ -108,6 +109,7 @@ app.use('/notifications', notifications);
 app.use('/bids', bids);
 app.use('/logs', logs);
 app.use('/audits', audits);
+app.use('/channels', channels);
 
 app.use('/api', api);
 
