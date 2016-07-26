@@ -226,7 +226,7 @@ router.post('/update/:model/:id', function(req, res, next) {
 
 function _filterAttributes(req) {
 	var forbiddenAttributes = {
-		"Customer": ["charge", "last_login"],
+		"Customer": ["charge", "last_login", "channel_data"],
 		"Order": ["state"],
 		"Bid": ["succeed"],
 	};
