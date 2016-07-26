@@ -50,11 +50,28 @@ class LandingUI extends AbstractUI {
     private loginQuietly() {
     	var self = this;
     	
-        application.channel.loginQuietly().then(function(account){
-        	application.logined(account);
-        	application.hideUI(self);
-        }, function(error){
-        	self.btnLogin.visible = true;
-        })
+	    if (egret.getOption("wysj_account_id")) {
+    		application.dao.fetch("Account", {id: egret.getOption("wysj_account_id")}, {limit: 1}).then(function(accounts){
+    			if (accounts.length > 0) {
+		        	application.logined(account);
+		        	application.hideUI(self);
+    			} else {
+    				Toast.launch('玩家不存在，ID = ' + egret.getOption("wysj_account_id"));
+    				
+    				self.btnLogin.visible = true;
+    			}
+    		}, function(error){
+    			Toast.launch(error);
+    			
+    			self.btnLogin.visible = true;
+    		})
+    	} else {
+	        application.channel.loginQuietly().then(function(account){
+	        	application.logined(account);
+	        	application.hideUI(self);
+	        }, function(error){
+	        	self.btnLogin.visible = true;
+	        })
+    	}
     }
 }
