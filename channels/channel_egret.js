@@ -13,7 +13,7 @@ module.exports.login = function(game, options) {
 			time:now,
 			token:options.token;
 		}
-		data.sign = Helper.sign(Helper.join(data, "") + "qChCyYzHXFacMrO9fPTFQ");
+		data.sign = Helper.crypto(Helper.join(data, "") + "qChCyYzHXFacMrO9fPTFQ");
 
 		var url = "http://api.egret-labs.org/v2/user/getInfo?" + Helper.join(data, "&");
 		Helper.post(url, {}).then(function(body){
