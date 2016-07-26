@@ -110,21 +110,7 @@ class Channel {
     public loginQuietly(): Q.Promise<any> {
     	var self = this;
     	
-	    if (egret.getOption("wysj_account_id")) {
-    		application.dao.fetch("Account", {id: egret.getOption("wysj_account_id")}, {limit: 1}).then(function(accounts){
-    			if (accounts.length > 0) {
-                	self.resolve(accounts[0]);
-    			} else {
-    				self.reject('玩家不存在，ID = ' + egret.getOption("wysj_account_id"));
-    			}
-    		}, function(error){
-    			self.reject(error);
-    		})
-    		
-    		return this.promise();
-    	} else {
-    		return this.rejectedPromise();
-    	}
+    	return self.rejectedPromise();
     }
     
     public login(): Q.Promise<any> {
