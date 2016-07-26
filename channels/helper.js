@@ -1,5 +1,6 @@
 var crypto = require('crypto');
 var request = require('request');
+
 var Order = require('../models/order');
 
 module.exports.post = function(url, data) {
@@ -75,10 +76,10 @@ module.exports.crypto = function(data) {
 	return crypto.createHash('md5').update(data).digest('hex');
 }
 
-function _join(data, jn){
+module.exports.join = function(obj, jn) {
 	var sign = "";
 	
-	for (var key of Object.keys(data).sort()) {
+	for (var key of Object.keys(obj).sort()) {
 		if (!!!params[key] || key === 'sign') {
 			continue;
 		}
@@ -93,10 +94,3 @@ function _join(data, jn){
 	return sign;
 }
 
-module.exports.join = function(data,jn) {
-	return _join(data, jn);
-}
-
-module.exports.sign = function(data) {
-	return crypto.createHash('md5').update(data).digest('hex');	
-}
