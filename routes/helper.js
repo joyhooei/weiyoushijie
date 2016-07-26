@@ -23,8 +23,6 @@ module.exports.decode = function(obj) {
 
 		model.create_time = moment(obj.createdAt).format("YYYY-MM-DD HH:mm:ss");
 		model.update_time = moment(obj.updatedAt).format("YYYY-MM-DD HH:mm:ss");
-		
-		_adjustBigNumber(model, true);
 
 		return model;
 	} catch(error) {
@@ -37,8 +35,6 @@ module.exports.encode = function(model, attrs) {
 
 	delete attributes.create_time;
 	delete attributes.update_time;
-	
-	_adjustBigNumber(attributes, false);
 
 	model.set(attributes);
 	return model;
