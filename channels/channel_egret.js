@@ -1,6 +1,8 @@
 var Helper = require('./helper');
 
-module.exports.login = function(options) {
+var Customer = require('../models/customer');
+
+module.exports.login = function(game, options) {
 	var self = this;
 	
 	return Q.Promise(function(resolve, reject, notify) {
@@ -27,7 +29,13 @@ module.exports.login = function(options) {
 				sex:body.data.sex, 
 				age:body.data.age, 
 				channel_data: ""
-			};		
+			};
+			
+			Customer.login(game, user).then(function(account){
+				resolve(account)
+			}, function(error){
+				reject(error);
+			})
 			resolve(user);
 		}, function(error){
 			reject(error);
