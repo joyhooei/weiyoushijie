@@ -97,6 +97,6 @@ module.exports.join = function(data,jn) {
 	return _join(data, jn);
 }
 
-module.exports.sign = function(data, secret, jn) {
-	return crypto.createHash('md5').update(_join(data, jn) + secret).digest('hex');	
+module.exports.sign = function(data) {
+	return crypto.createHash('md5').update(data).digest('hex');	
 }
