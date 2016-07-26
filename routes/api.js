@@ -66,7 +66,7 @@ router.post(['/egret_pay', '/pay'], function(req, res, next) {
 });
 
 router.post('/login', function(req, res, next) {
-	Helper.do(Helper.getChannel(req).login(req.body), res);
+	Helper.do(Helper.getChannel(req).login(req.query.game || "headline", req.body), res);
 });
 
 router.post('/hits', function(req, res, next) {
