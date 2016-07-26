@@ -35,7 +35,7 @@ class Channel51H5 extends Channel{
         
         options.wysj_channel = "51h5";
         options.customer_id = application.me.attrs.id;
-		application.dao.rest("pay_url", options).then(function(data){
+		application.dao.restWithUrl(application.baseUrl + "channels/51h5_pay_url?wysj_channel=51h5", options).then(function(data){
         	location.href = data.pay_url;
         }, function(error) {
             self.reject("支付失败");
