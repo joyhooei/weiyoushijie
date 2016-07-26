@@ -116,59 +116,6 @@ router.post(['/egret_pay', '/pay'], function(req, res, next) {
 	});
 });
 
-router.post('/login', function(req, res, next) {
-	_getChannel(req).login(req.body).then(function(user){
-		dao.find("Customer", {uid: user.uid, "game": req.query.game}).then(function(customers){
-			var now = moment();
-
-			if (customers.length > 0) {
-				var customer = customers[0];
-				
-				Customer.offlineGold(customer);
-				Customer.hits(customer);
-
-				//一天只会记录一次最早的登录
-				if (!moment(customer.get("last_login")).isSame(now, "day")) {
-					customer.set("last_login", now.format());
-
-					Gift.unlockLogin(customer);
-				}
-
-				_adjustBigNumber(customer.attributes, false);
-			} else {
-				var customer = Customer.create();
-				customer.set("game", req.query.game);
-				customer.set("last_login", now.format());
-			}
-
-			customer.set(user);
-			customer.save().then(function(c){
-				Account.update(c.id).then(function(a){
-					_succeed(res, _decode(a));
-				}, function(error){
-					console.error("update token failed " + error.message);
-					_failed(res, error);
-				});
-			}, function(error){
-				console.error("login save customer failed " + error.message + " customer is " + JSON.stringify(customer));
-
-				Account.update(customer.id).then(function(a){
-					_succeed(res, _decode(a));
-				}, function(error){
-					console.error("update token failed " + error.message);
-					_failed(res, error);
-				});
-			})
-		}, function(error){
-			console.error("find customer failed " + error.message);
-			_failed(res, new Error("玩家信息不存在，请重新登录"));
-		})
-	}, function(error){
-		console.error("post request failed " + error.message);
-		_failed(res, new Error("系统内部错误，请稍后再试"));
-	});
-});
-
 router.post('/hits', function(req, res, next) {
 	dao.get("Customer", req.body.customer_id).then(function(customer){
 		Customer.hits(customer);
