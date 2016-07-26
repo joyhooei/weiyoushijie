@@ -75,8 +75,9 @@ module.exports.crypto = function(data) {
 	return crypto.createHash('md5').update(data).digest('hex');
 }
 
-module.exports.sign = function(data, secret, jn) {
+function _join(data, jn){
 	var sign = "";
+	
 	for (var key of Object.keys(data).sort()) {
 		if (!!!params[key] || key === 'sign') {
 			continue;
@@ -89,6 +90,13 @@ module.exports.sign = function(data, secret, jn) {
 		}
 	}
 	
-	sign += "dwdse2tsz70go8dq62pzmj10bpkqh08j";
-	return crypto.createHash('md5').update(sign).digest('hex');	
+	return sign;
+}
+
+module.exports.join = function(data,jn) {
+	return _join(data, jn);
+}
+
+module.exports.sign = function(data, secret, jn) {
+	return crypto.createHash('md5').update(_join(data, jn) + secret).digest('hex');	
 }
