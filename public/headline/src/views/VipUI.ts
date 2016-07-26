@@ -14,8 +14,6 @@ class VipUI extends AbstractUI {
     constructor() {
         super("vipUISkin");
         
-        this.level = application.me.vip.getLevel();
-
         this.imgNext.addEventListener(egret.TouchEvent.TOUCH_TAP,() => {
             this.level ++;
             
@@ -38,6 +36,8 @@ class VipUI extends AbstractUI {
     }
     
     protected onRefresh() {
+        this.level = application.me.vip.getLevel();
+
         if(this.level == 0) {
             this.lblCharge.visible = false;
             this.imgLast.visible   = false;
