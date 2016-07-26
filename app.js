@@ -38,7 +38,7 @@ log4js.configure({
     appenders: [
         {
             type: "dateFile",
-            filename: "weiyoushijie.log",
+            filename: "../log/weiyoushijie.log",
             pattern: "-yyyy-MM-dd",
             alwaysIncludePattern: false,
             category: [ 'weiyoushijie','console' ]
