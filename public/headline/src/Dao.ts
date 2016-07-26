@@ -41,6 +41,10 @@ class Dao extends egret.EventDispatcher {
 	}
     
     public rest(method: string, data: {}): Q.Promise<any> {
+        return this.restWithUrl(this._url + method + "?game=" + self._game + "&token=" + application.token, data);
+    }
+    
+    public restWithUrl(url: string, data: {}): Q.Promise<any> {
         let self = this;
         
     	return Q.Promise<any>(function(resolve, reject, notify) {
@@ -48,7 +52,7 @@ class Dao extends egret.EventDispatcher {
 			request.responseType = egret.HttpResponseType.TEXT;
 			
 			//设置为 POST 请求
-            request.open(self._url + method + "?game=" + self._game + "&token=" + application.token, egret.HttpMethod.POST);
+            request.open(url, egret.HttpMethod.POST);
 			request.setRequestHeader("Content-Type", "application/json");
 	
 	        request.addEventListener(egret.Event.COMPLETE, (evt: egret.Event) => {
@@ -67,5 +71,5 @@ class Dao extends egret.EventDispatcher {
 			
 			request.send(JSON.stringify(data));
 		});
-    }
+    }    
 }
