@@ -80,14 +80,14 @@ module.exports.join = function(obj, jn) {
 	var sign = "";
 	
 	for (var key of Object.keys(obj).sort()) {
-		if (!!!params[key] || key === 'sign') {
+		if (!!!obj[key] || key === 'sign') {
 			continue;
 		}
 		
 		if (!!!sign.length) {
-			sign = key + "=" + params[key];
+			sign = key + "=" + obj[key];
 		} else {
-			sign += (jn + key + "=" + params[key]);
+			sign += (jn + key + "=" + obj[key]);
 		}
 	}
 	
