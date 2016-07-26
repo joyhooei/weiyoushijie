@@ -1,17 +1,13 @@
-class LandingUI extends eui.Component {
+class LandingUI extends AbstractUI {
     private btnLogin: eui.Button;
     
     private showedNotification: any;
     
     public constructor() {
-        super();
-
-        this.addEventListener(eui.UIEvent.COMPLETE,this.uiCompHandler,this);
-        
-        this.skinName = "resource/custom_skins/landingUISkin.exml";
+        super("landingUISkin");
     }
 
-    private uiCompHandler(): void {
+    protected onRefresh(): void {
         var self = this;
         
         self.btnLogin.visible = false;
@@ -42,25 +38,12 @@ class LandingUI extends eui.Component {
         }, this);
         
         self.btnLogin.addEventListener(egret.TouchEvent.TOUCH_TAP,() => {
-        	if (egret.getOption("wysj_account_id")) {
-        		application.dao.fetch("Account", {id: egret.getOption("wysj_account_id")}, {limit: 1}).then(function(accounts){
-        			if (accounts.length > 0) {
-	                	application.logined(accounts[0]);
-						application.hideUI(self);
-        			} else {
-        				Toast.launch('玩家不存在，ID = ' + egret.getOption("wysj_account_id"));
-        			}
-        		}, function(error){
-        			Toast.launch(error);
-        		})
-        	} else {
-	            application.channel.login().then(function(account:any){
-	                application.logined(account);
-					application.hideUI(self);
-				}, function(error){
-					Toast.launch(error);
-				});
-        	}
+            application.channel.login().then(function(account:any){
+                application.logined(account);
+				application.hideUI(self);
+			}, function(error){
+				Toast.launch(error);
+			});
         }, self);
     }
     
