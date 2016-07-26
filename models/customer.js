@@ -2,6 +2,140 @@ var Gift = require('./gift');
 var Project = require('./project');
 var Message = require('./message');
 var Rank = require('./rank');
+var Account = require('./account');
+
+function _create() {
+    var customer = new dao.Customer();
+    
+    customer.set("uid", "");
+    customer.set("name", "");
+    customer.set("avatar", "");
+    customer.set("sex", 0);
+    customer.set("age", 0);
+    
+    customer.set("gold", 0);
+    customer.set("earned_gold", 0);
+    customer.set("accumulated_gold", 0);
+    
+    customer.set("diamond", 0);
+    customer.set("metal", 0);
+	customer.set("charge", 0);
+    
+    customer.set("output", 1);
+    
+    customer.set("total_hits", 3);
+    customer.set("last_hit", "");
+    
+    customer.set("ticket", "");
+    customer.set("vip", 0);
+    
+    customer.set("last_login", '');
+    
+    customer.set("offline_gold", 0);
+    customer.set("offline_hours", 0);
+    customer.set("offline_minutes", 0);
+    
+    customer.set("version", "");
+    customer.set("channel_data", "");
+    
+    return customer;
+}
+
+function _offlineGold(customer) {
+    var now  = moment();
+    var last = moment(customer.updatedAt);
+    
+    if (customer.get("vip") > 0) {
+		var percent = 0.9;
+    	var period = 12;
+	} else {
+		var percent = 0.7;
+		var period = 8;
+	}
+
+    var delta = now.diff(customer.updatedAt, 'seconds');
+    var minutes = Math.round((delta / 60) % 60);
+    if (minutes == 0) {
+        var hours = Math.round(Math.min(period, delta / 3600));
+    } else {
+        var hours = Math.round(Math.min(period - 1, delta / 3600));
+    }			
+    var gold = Math.round(percent * (hours * 60 * 60 + minutes * 60) * customer.get("output"));
+
+    customer.set({"offline_gold": gold, "offline_hours": hours, "offline_minutes": minutes});
+	
+	return {"offline_gold": gold, "offline_hours": hours, "offline_minutes": minutes};
+}
+
+function _hits(customer) {
+	var now  = moment();
+
+	if (customer.get("last_hit")) {
+		var lastHit = customer.get("last_hit");
+	} else {
+		var lastHit = customer.createdAt;
+	}
+
+	var delta = now.diff(lastHit, 'hours');
+	var totalHits  = Math.min(customer.get("total_hits") + Math.floor(delta / 4), 3);
+
+	if (totalHits > customer.get("total_hits")) {
+		customer.set("last_hit", moment(lastHit).add(totalHits - customer.get("total_hits"), "hours").format());
+		customer.set("total_hits", totalHits);
+	} else if (3 == customer.get("total_hits")) {
+		customer.set("last_hit", moment().format());
+	}
+	
+	return {"total_hits": totalHits};
+}
+
+module.exports.login = function(game, user) {
+	return Q.Promise(function(resolve, reject, notify) {
+		dao.find("Customer", {uid: user.uid, "game": game}).then(function(customers){
+			var now = moment();
+
+			if (customers.length > 0) {
+				var customer = customers[0];
+				
+				_offlineGold(customer);
+				_hits(customer);
+
+				//一天只会记录一次最早的登录
+				if (!moment(customer.get("last_login")).isSame(now, "day")) {
+					customer.set("last_login", now.format());
+
+					Gift.unlockLogin(customer);
+				}
+			} else {
+				var customer = _create();
+				customer.set("game", req.query.game);
+				customer.set("last_login", now.format());
+			}
+
+			customer.set(user);
+			customer.save().then(function(c){
+				Account.update(c.id).then(function(a){
+					resolve(a);
+				}, function(error){
+					console.error("update token failed " + error.message);
+					reject(error);
+				});
+			}, function(error){
+				console.error("login save customer failed " + error.message + " customer is " + JSON.stringify(customer));
+
+				Account.update(customer.id).then(function(a){
+					resolve(a);
+				}, function(error){
+					console.error("update token failed " + error.message);
+					reject(error);
+				});
+			})
+		}, function(error){
+			console.error("find customer failed " + error.message);
+			reject(error);
+		})
+	});
+};
 
 module.exports.expireTicket = function(game) {
 	return Q.Promise(function(resolve, reject, notify) {
@@ -37,52 +171,8 @@ module.exports.expireTicket = function(game) {
 	});
 }
 
-module.exports.offlineGold = function(customer) {
-    var now  = moment();
-    var last = moment(customer.updatedAt);
-    
-    if (customer.get("vip") > 0) {
-		var percent = 0.9;
-    	var period = 12;
-	} else {
-		var percent = 0.7;
-		var period = 8;
-	}
-
-    var delta = now.diff(customer.updatedAt, 'seconds');
-    var minutes = Math.round((delta / 60) % 60);
-    if (minutes == 0) {
-        var hours = Math.round(Math.min(period, delta / 3600));
-    } else {
-        var hours = Math.round(Math.min(period - 1, delta / 3600));
-    }			
-    var gold = Math.round(percent * (hours * 60 * 60 + minutes * 60) * customer.get("output"));
-
-    customer.set({"offline_gold": gold, "offline_hours": hours, "offline_minutes": minutes});
-	
-	return {"offline_gold": gold, "offline_hours": hours, "offline_minutes": minutes};
-}
-
 module.exports.hits = function(customer) {
-	var now  = moment();
-
-	if (customer.get("last_hit")) {
-		var lastHit = customer.get("last_hit");
-	} else {
-		var lastHit = customer.createdAt;
-	}
-
-	var delta = now.diff(lastHit, 'hours');
-	var totalHits  = Math.min(customer.get("total_hits") + Math.floor(delta / 4), 3);
-
-	if (totalHits > customer.get("total_hits")) {
-		customer.set("last_hit", moment(lastHit).add(totalHits - customer.get("total_hits"), "hours").format());
-		customer.set("total_hits", totalHits);
-	} else if (3 == customer.get("total_hits")) {
-		customer.set("last_hit", moment().format());
-	}
-	
-	return {"total_hits": totalHits};
+	return _hit(cusomer);
 }
 
 module.exports.sendVipMetal = function(game) {
@@ -139,42 +229,6 @@ module.exports.sendVipMetal = function(game) {
 	})
 }
 
-module.exports.create = function() {
-    var customer = new dao.Customer();
-    
-    customer.set("uid", "");
-    customer.set("name", "");
-    customer.set("avatar", "");
-    customer.set("sex", 0);
-    customer.set("age", 0);
-    
-    customer.set("gold", 0);
-    customer.set("earned_gold", 0);
-    customer.set("accumulated_gold", 0);
-    
-    customer.set("diamond", 0);
-    customer.set("metal", 0);
-	customer.set("charge", 0);
-    
-    customer.set("output", 1);
-    
-    customer.set("total_hits", 3);
-    customer.set("last_hit", "");
-    
-    customer.set("ticket", "");
-    customer.set("vip", 0);
-    
-    customer.set("last_login", '');
-    
-    customer.set("offline_gold", 0);
-    customer.set("offline_hours", 0);
-    customer.set("offline_minutes", 0);
-    
-    customer.set("version", "");
-    customer.set("channel_data", "");
-    
-    return customer;
-}
 
 module.exports.afterSave = function(customer) {
     Project.create(customer);
