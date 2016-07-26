@@ -54,6 +54,10 @@ class Channel {
 	public loadjs(url:string) {
 		loadfile(url, "js");
 	}
+	
+	public rest(channel:string, method:string, data:any): Q.Promise<any> {
+		return application.dao.restWithUrl(application.baseUrl + "channels/" + method + "?wysj_channel=" + channel, data);
+	}
     
     public promise() {
         if (this._deferred) {
