@@ -32,55 +32,15 @@ class Channel51H5 extends Channel{
 	
     public pay(options: any): Q.Promise<any> {
         let self = this;
-		
-		
+        
+        options.wysj_channel = "51h5";
+        options.customer_id = application.me.attrs.id;
+		application.dao.rest("pay_url", options).then(function(data){
+        	location.href = data.pay_url;
+        }, function(error) {
+            self.reject("支付失败");
+        });	
+        
         return self.promise();
 	}
-	
-    public share(options:any): Q.Promise<any> {
-        let self = this;
-
-		
-        return self.promise();
-    }
-    
-    public attention(options:any): Q.Promise<any> {
-        let self = this;
-		
-		
-        return self.promise();
-	}
-
-    public track(category: string,action?: string,opt_label?: string,opt_value?: number) {
-        super.track(category,action,opt_label,opt_value);
-
-        switch(category) {
-            case TRACK_CATEGORY_PLAYER:
-                if(action == TRACK_ACTION_ENTER) {
-                } else {
-                }
-                return;
-
-            case TRACK_CATEGORY_DIAMOND:
-                if(action == TRACK_ACTION_INC) {
-                } else {
-                }
-                return;
-
-            case TRACK_CATEGORY_GOLD:
-                if(action == TRACK_ACTION_INC) {
-                } else {
-                }
-                return;
-
-            case TRACK_CATEGORY_ACTIVITY:
-                return;
-
-            case TRACK_CATEGORY_GUIDE:
-                return;
-
-            case TRACK_CATEGORY_RESOURCE:
-                return;
-        }
-    }
 }
