@@ -16,17 +16,33 @@ module.exports.getChannel = function(req) {
 	}
 };
 
-module.exports.succeed = function(res, data) {
+module.exports.do = function(promise, res) {
+	promise.then(function(result){
+		_succeed(res, result);
+	}, function(error){
+		_failed(res, error);
+	});
+};
+
+function _succeed(res, data) {
 	data = data || {};
 	if (_.isNumber(data)) {
 		data = data.toString();
 	}
 	res.status(200).send(data);
+}
+
+function _failed(res, error, status) {
+	status = status || 500;
+	res.status(status).send(error.message);
+}
+
+module.exports.succeed = function(res, data) {
+	_succeed(res, data);
 };
 
 module.exports.failed = function(res, error, status) {
-	status = status || 500;
-	res.status(status).send(error.message);
+	_failed(res, error, status);
 };
 
 module.exports.redirect = function (restfulName, req, res) {
