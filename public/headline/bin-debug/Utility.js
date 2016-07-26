@@ -59,23 +59,27 @@ var Utility = (function () {
     Utility.intercept = function (method, logger) {
         var original = console[method];
         console[method] = function () {
-            if (method === 'log') {
-                logger.info(arguments);
+            try {
+                if (method === 'log') {
+                    logger.info(arguments);
+                }
+                else if (method == 'warn') {
+                    logger.warn(arguments);
+                }
+                else {
+                    logger.error(arguments);
+                }
+                if (original.apply) {
+                    // Do this for normal browsers
+                    original.apply(console, arguments);
+                }
+                else {
+                    // Do this for IE
+                    var message = Array.prototype.slice.apply(arguments).join(' ');
+                    original(message);
+                }
             }
-            else if (method == 'warn') {
-                logger.warn(arguments);
-            }
-            else {
-                logger.error(arguments);
-            }
-            if (original.apply) {
-                // Do this for normal browsers
-                original.apply(console, arguments);
-            }
-            else {
-                // Do this for IE
-                var message = Array.prototype.slice.apply(arguments).join(' ');
-                original(message);
+            catch (error) {
             }
         };
     };

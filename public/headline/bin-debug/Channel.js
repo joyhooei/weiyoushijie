@@ -1,6 +1,6 @@
 var CHANNEL_1758_IN_EGRET = "10016";
-var CHANNEL_HUHUH5 = "HUHUH5";
-var CHANNEL_51H5 = "51H5";
+var CHANNEL_HUHUH5 = "huhuh5";
+var CHANNEL_51H5 = "51h5";
 var TRACK_CATEGORY_PLAYER = "player";
 var TRACK_CATEGORY_DIAMOND = "diamond";
 var TRACK_CATEGORY_GOLD = "gold";
@@ -44,6 +44,9 @@ var Channel = (function () {
     p.loadjs = function (url) {
         loadfile(url, "js");
     };
+    p.rest = function (channel, method, data) {
+        return application.dao.restWithUrl(application.baseUrl + "channels/" + method + "?wysj_channel=" + channel, data);
+    };
     p.promise = function () {
         if (this._deferred) {
             this._deferred.reject("操作超时");
@@ -84,6 +87,10 @@ var Channel = (function () {
                 this._loadingUI.parent.removeChild(this._loadingUI);
             }
         }
+    };
+    p.loginQuietly = function () {
+        var self = this;
+        return self.rejectedPromise();
     };
     p.login = function () {
         return this.rejectedPromise();

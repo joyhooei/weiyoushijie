@@ -1,26 +1,24 @@
 var LandingUI = (function (_super) {
     __extends(LandingUI, _super);
     function LandingUI() {
-        _super.call(this);
-        this.addEventListener(eui.UIEvent.COMPLETE, this.uiCompHandler, this);
-        this.skinName = "resource/custom_skins/landingUISkin.exml";
+        _super.call(this, "landingUISkin");
     }
     var d = __define,c=LandingUI,p=c.prototype;
-    p.uiCompHandler = function () {
+    p.onRefresh = function () {
         var self = this;
         self.btnLogin.visible = false;
         application.dao.fetch("Notification", {}, { order: 'action DESC, create_time DESC', limit: 1 }).then(function (notifications) {
             if (notifications.length > 0) {
                 application.showUI(new NotificationUI(notifications[0], function () {
-                    self.btnLogin.visible = true;
+                    self.loginQuietly();
                 }), self);
                 self.showedNotification = notifications[0];
             }
             else {
-                self.btnLogin.visible = true;
+                self.loginQuietly();
             }
         }, function (error) {
-            self.btnLogin.visible = true;
+            self.loginQuietly();
         });
         application.stopwatch.addEventListener("hour", function (event) {
             application.dao.fetch("Notification", {}, { order: 'action DESC, create_time DESC', limit: 1 }).then(function (notifications) {
@@ -33,29 +31,40 @@ var LandingUI = (function (_super) {
             });
         }, this);
         self.btnLogin.addEventListener(egret.TouchEvent.TOUCH_TAP, function () {
-            if (egret.getOption("wysj_account_id")) {
-                application.dao.fetch("Account", { id: egret.getOption("wysj_account_id") }, { limit: 1 }).then(function (accounts) {
-                    if (accounts.length > 0) {
-                        application.logined(accounts[0]);
-                        application.hideUI(self);
-                    }
-                    else {
-                        Toast.launch('玩家不存在，ID = ' + egret.getOption("wysj_account_id"));
-                    }
-                }, function (error) {
-                    Toast.launch(error);
-                });
-            }
-            else {
-                application.channel.login().then(function (account) {
-                    application.logined(account);
-                    application.hideUI(self);
-                }, function (error) {
-                    Toast.launch(error);
-                });
-            }
+            application.channel.login().then(function (account) {
+                application.logined(account);
+                application.hideUI(self);
+            }, function (error) {
+                Toast.launch(error);
+            });
         }, self);
     };
+    p.loginQuietly = function () {
+        var self = this;
+        if (egret.getOption("wysj_account_id")) {
+            application.dao.fetch("Account", { id: egret.getOption("wysj_account_id") }, { limit: 1 }).then(function (accounts) {
+                if (accounts.length > 0) {
+                    application.logined(accounts[0]);
+                    application.hideUI(self);
+                }
+                else {
+                    Toast.launch('玩家不存在，ID = ' + egret.getOption("wysj_account_id"));
+                    self.btnLogin.visible = true;
+                }
+            }, function (error) {
+                Toast.launch(error);
+                self.btnLogin.visible = true;
+            });
+        }
+        else {
+            application.channel.loginQuietly().then(function (account) {
+                application.logined(account);
+                application.hideUI(self);
+            }, function (error) {
+                self.btnLogin.visible = true;
+            });
+        }
+    };
     return LandingUI;
-}(eui.Component));
+}(AbstractUI));
 egret.registerClass(LandingUI,'LandingUI');

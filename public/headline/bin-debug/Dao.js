@@ -30,18 +30,22 @@ var Dao = (function (_super) {
         return promise;
     };
     p.rest = function (method, data) {
+        return this.restWithUrl(this._url + method + "?game=" + this._game + "&token=" + application.token, data);
+    };
+    p.restWithUrl = function (url, data) {
         var self = this;
         return Q.Promise(function (resolve, reject, notify) {
             var request = new egret.HttpRequest();
             request.responseType = egret.HttpResponseType.TEXT;
             //设置为 POST 请求
-            request.open(self._url + method + "?game=" + self._game + "&token=" + application.token, egret.HttpMethod.POST);
+            request.open(url, egret.HttpMethod.POST);
             request.setRequestHeader("Content-Type", "application/json");
             request.addEventListener(egret.Event.COMPLETE, function (evt) {
                 var request = evt.currentTarget;
                 resolve(JSON.parse(request.response));
             }, self);
             request.addEventListener(egret.IOErrorEvent.IO_ERROR, function (evt) {
+                console.error('restWithUrl ' + url + ' failed ' + evt.$target.response);
                 reject(evt.$target.response);
             }, self);
             request.addEventListener(egret.ProgressEvent.PROGRESS, function (evt) {

@@ -2,52 +2,38 @@ var Channel51H5 = (function (_super) {
     __extends(Channel51H5, _super);
     function Channel51H5(standalone) {
         _super.call(this, standalone);
+        this.appId = "fg40249b";
     }
     var d = __define,c=Channel51H5,p=c.prototype;
+    p.loginQuietly = function () {
+        var self = this;
+        if (egret.getOption("code")) {
+            self.rest("51h5", "login", { token: egret.getOption("code") }).then(function (account) {
+                self.resolve(account);
+            }, function (error) {
+                self.reject("登录失败");
+            });
+            return self.promise();
+        }
+        else {
+            return self.rejectedPromise();
+        }
+    };
     p.login = function () {
         var self = this;
+        location.href = 'http://web.51h5.com/sso.html?appid=' + this.appId
+            + '&redirect=' + encodeURIComponent(application.baseUrl + "/headline/index.html?wysj_channel=51h5");
         return self.promise();
     };
     p.pay = function (options) {
         var self = this;
+        options.customer_id = application.me.attrs.id;
+        self.rest("51h5", "51h5_pay_url", options).then(function (data) {
+            location.href = data.pay_url;
+        }, function (error) {
+            self.reject("支付失败");
+        });
         return self.promise();
-    };
-    p.share = function (options) {
-        var self = this;
-        return self.promise();
-    };
-    p.attention = function (options) {
-        var self = this;
-        return self.promise();
-    };
-    p.track = function (category, action, opt_label, opt_value) {
-        _super.prototype.track.call(this, category, action, opt_label, opt_value);
-        switch (category) {
-            case TRACK_CATEGORY_PLAYER:
-                if (action == TRACK_ACTION_ENTER) {
-                }
-                else {
-                }
-                return;
-            case TRACK_CATEGORY_DIAMOND:
-                if (action == TRACK_ACTION_INC) {
-                }
-                else {
-                }
-                return;
-            case TRACK_CATEGORY_GOLD:
-                if (action == TRACK_ACTION_INC) {
-                }
-                else {
-                }
-                return;
-            case TRACK_CATEGORY_ACTIVITY:
-                return;
-            case TRACK_CATEGORY_GUIDE:
-                return;
-            case TRACK_CATEGORY_RESOURCE:
-                return;
-        }
     };
     return Channel51H5;
 }(Channel));

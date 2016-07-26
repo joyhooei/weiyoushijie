@@ -41,7 +41,7 @@ class Dao extends egret.EventDispatcher {
 	}
     
     public rest(method: string, data: {}): Q.Promise<any> {
-        return this.restWithUrl(this._url + method + "?game=" + self._game + "&token=" + application.token, data);
+        return this.restWithUrl(this._url + method + "?game=" + this._game + "&token=" + application.token, data);
     }
     
     public restWithUrl(url: string, data: {}): Q.Promise<any> {

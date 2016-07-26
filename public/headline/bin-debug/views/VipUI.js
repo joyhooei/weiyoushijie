@@ -3,7 +3,6 @@ var VipUI = (function (_super) {
     function VipUI() {
         var _this = this;
         _super.call(this, "vipUISkin");
-        this.level = application.me.vip.getLevel();
         this.imgNext.addEventListener(egret.TouchEvent.TOUCH_TAP, function () {
             _this.level++;
             _this.refresh();
@@ -21,6 +20,7 @@ var VipUI = (function (_super) {
     }
     var d = __define,c=VipUI,p=c.prototype;
     p.onRefresh = function () {
+        this.level = application.me.vip.getLevel();
         if (this.level == 0) {
             this.lblCharge.visible = false;
             this.imgLast.visible = false;

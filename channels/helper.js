@@ -14,6 +14,8 @@ module.exports.post = function(url, data) {
 
 		function callback(error, response, body) {
 		    if (!error && response.statusCode == 200) {
+				console.log("POST " + url + " " + JSON.stringify(data) + " " + JSON.stringify(body));
+	
 		        resolve(body);
 		    } else {
 				console.error("POST " + url + " " + error + " " + response.statusCode + " " + JSON.stringify(body));
@@ -80,7 +82,7 @@ module.exports.join = function(obj, jn) {
 	var sign = "";
 	
 	for (var key of Object.keys(obj).sort()) {
-		if (!!!obj[key] || key === 'sign') {
+		if (!!!obj[key]) {
 			continue;
 		}
 		

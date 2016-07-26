@@ -5,12 +5,18 @@ var Customer = require('../models/customer');
 function _post(url, data) {
 	return Q.Promise(function(resolve, reject, notify) {
 		data.appid = 'fg40249b';
-		data.sign = Helper.crypto(Helper.join(data, "&") + "dwdse2tsz70go8dq62pzmj10bpkqh08j");
+
+		var sign = Helper.join(data, "&") + "dwdse2tsz70go8dq62pzmj10bpkqh08j";
+		var buf = new Buffer(sign);
+		sign = buf.toString("binary");
+		data.sign = Helper.crypto(sign);
+
+		url += "?" + Helper.join(data, "&");
 		Helper.post(url, data).then(function(body){
 			if (body.status == 1) {
 				resolve(body);
 			} else {
-				console.error(url + "failed " + JSON.stringify(data) + " " + JSON.stringify(body));
+				console.error(url + " failed " + JSON.stringify(data) + " " + JSON.stringify(body));
 				reject(new Error(body.data));						
 			}
 		}, function(error){

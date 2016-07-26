@@ -16,7 +16,11 @@ router.post('/pay', function(req, res, next) {
 });
 
 router.post('/login', function(req, res, next) {
-	Helper.do(Helper.getChannel(req).login(req.query.game || "headline", req.body), res);
+	Helper.getChannel(req).login(req.query.game || "headline", req.body).then(function(account){
+		Helper.succeed(res, Helper.decode(account));
+	}, function(error){
+		Helper.failed(res, error);
+	})
 });
 
 module.exports = router;

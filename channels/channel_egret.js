@@ -7,28 +7,32 @@ module.exports.login = function(game, options) {
 	
 	return Q.Promise(function(resolve, reject, notify) {
 		var data = {
-			appId:90359,
-			time:Date.now(),
-			token:options.token
+			appId: '90359',
+			time:  Date.now().toString(),
+			token: options.token
 		}
 		data.sign = Helper.crypto(Helper.join(data, "") + "qChCyYzHXFacMrO9fPTFQ");
 
 		var url = "http://api.egret-labs.org/v2/user/getInfo?" + Helper.join(data, "&");
 		Helper.post(url, {}).then(function(body){
-			var user = {
-				name: body.data.name, 
-				uid:body.data.id, 
-				avatar:body.data.pic, 
-				sex:body.data.sex, 
-				age:body.data.age, 
-				channel_data: ""
-			};
-			
-			Customer.login(game, user).then(function(account){
-				resolve(account)
-			}, function(error){
-				reject(error);
-			});
+			if (body.code == 0) {
+				var user = {
+					name: body.data.name, 
+					uid:body.data.id, 
+					avatar:body.data.pic, 
+					sex:body.data.sex, 
+					age:body.data.age, 
+					channel_data: ""
+				};
+				
+				Customer.login(game, user).then(function(account){
+					resolve(account)
+				}, function(error){
+					reject(error);
+				});
+			} else {
+				reject(new Error(body.data.msg));
+			}
 		}, function(error){
 			reject(error);
 		})

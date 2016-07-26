@@ -108,7 +108,7 @@ module.exports.login = function(game, user) {
 				}
 			} else {
 				var customer = _create();
-				customer.set("game", req.query.game);
+				customer.set("game", game);
 				customer.set("last_login", now.format());
 			}
 
