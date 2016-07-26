@@ -1,5 +1,7 @@
 var Helper = require('./helper');
 
+var Customer = require('../models/customer');
+
 function _post(url, data) {
 	return Q.Promise(function(resolve, reject, notify) {
 		data.appid = 'fg40249b';
@@ -35,26 +37,7 @@ function _post(url, data) {
 	});
 }
 
-function _refreshToken(customerId) {
-	return Q.Promise(function(resolve, reject, notify) {
-		dao.get("Customer", customerId).then(function(customer){
-			_post("http://api.web.51h5.com/auth/refresh", {appid:'fg40249b', refresh:customer.get('channel_data')}).then(function(tokens){
-				customer.set("channel_data", tokens.data.refresh_token);
-				dao.save("Customer", customer).then(function(c){
-					resolve(tokens);
-				}, function(error){
-					reject(error);
-				})
-			}, function(error){
-				reject(error);
-			})
-		}, function(error){
-			reject(error);
-		})
-	});
-}
-
-module.exports.login = function(options) {
+module.exports.login = function(game, options) {
 	return Q.Promise(function(resolve, reject, notify) {
 		_post("http://api.web.51h5.com/auth/token", {appid:'fg40249b', code:options.token}).then(function(tokens){
 			_post("http://api.web.51h5.com/auth/info", {appid:'fg40249b', token:tokens.data.access_token}).then(function(body){
@@ -67,7 +50,11 @@ module.exports.login = function(options) {
 					channel_data: tokens.data.refresh_token
 				};
 				
-				resolve(user);
+				Customer.login(game, user).then(function(account){
+					resolve(account)
+				}, function(error){
+					reject(error);
+				})
 			}, function(error){
 				reject(error);
 			})	
@@ -79,15 +66,24 @@ module.exports.login = function(options) {
 
 module.exports.payUrl = function(options) {
 	return Q.Promise(function(resolve, reject, notify) {
-		_refreshToken(options.customer_id).then(function(tokens){
-			_post("http://api.web.51h5.com/pay/order", {token:tokens.data.access_token, total_fee:options.money, subject:options.goodsName, body:options.goodsName}).then(function(body){
-				resolve(body.data.pay_url);
+		dao.get("Customer", options.customer_id).then(function(customer){
+			_post("http://api.web.51h5.com/auth/refresh", {appid:'fg40249b', refresh:customer.get('channel_data')}).then(function(tokens){
+				customer.set("channel_data", tokens.data.refresh_token);
+				dao.save("Customer", customer).then(function(c){
+					_post("http://api.web.51h5.com/pay/order", {token:tokens.data.access_token, total_fee:options.money, subject:options.goodsName, body:options.goodsName}).then(function(body){
+						resolve(body.data.pay_url);
+					}, function(error){
+						reject(error);
+					});
+				}, function(error){
+					reject(error);
+				})
 			}, function(error){
 				reject(error);
-			});
+			})
 		}, function(error){
 			reject(error);
-		})
+		})		
 	});
 }
 
