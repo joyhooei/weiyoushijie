@@ -16,6 +16,34 @@ module.exports.getChannel = function(req) {
 	}
 };
 
+module.exports.decode = function(obj) {
+	try {
+		var attributes = _.extend({"id" : obj.id}, _.omit(obj.attributes, ["ACL", "location"]));
+		var model = attributes;
+
+		model.create_time = moment(obj.createdAt).format("YYYY-MM-DD HH:mm:ss");
+		model.update_time = moment(obj.updatedAt).format("YYYY-MM-DD HH:mm:ss");
+		
+		_adjustBigNumber(model, true);
+
+		return model;
+	} catch(error) {
+		console.error("_decode failed " + error.message);
+	}
+};
+
+module.exports.encode = function(model, attrs) {
+	var attributes = _.clone(attrs);
+
+	delete attributes.create_time;
+	delete attributes.update_time;
+	
+	_adjustBigNumber(attributes, false);
+
+	model.set(attributes);
+	return model;
+};
+
 module.exports.do = function(promise, res) {
 	promise.then(function(result){
 		_succeed(res, result);
