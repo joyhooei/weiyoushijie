@@ -16,7 +16,7 @@ class ChannelEgret extends Channel{
 					var loginView: LoginUI = new LoginUI(loginTypes,function(logType: nest.easyuser.ILoginType) {
 						nest.easyuser.login(logType, function (data:nest.user.LoginCallbackInfo) {
 							if (data.result == 0) {
-                                application.dao.rest("login",{ token: data.token, wysj_channel: "egret" }).then(function(account){
+                                self.rest("egret", "login",{ token: data.token }).then(function(account){
                                 	self.resolve(account);
 	                            }, function(error) {
 	                                self.reject("登录失败");
@@ -32,7 +32,7 @@ class ChannelEgret extends Channel{
 					//不需要登录按钮，直接调用登录进游戏
 					nest.easyuser.login({}, function (data:nest.user.LoginCallbackInfo) {
 						if (data.result == 0) {
-                            application.dao.rest("login",{ token: data.token,wysj_channel: "egret" }).then(function(account){
+                            self.rest("egret", "login",{ token: data.token }).then(function(account){
                                 self.resolve(account);
                             }, function(error){
                                 self.reject("登录失败");
