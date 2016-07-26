@@ -62,6 +62,7 @@ class Dao extends egret.EventDispatcher {
             },self);
 	            
 	        request.addEventListener(egret.IOErrorEvent.IO_ERROR,(evt: egret.IOErrorEvent) => {
+	        	console.error('restWithUrl ' + url + ' failed ' + evt.$target.response);
                 reject(evt.$target.response);
             },self);
 	        
