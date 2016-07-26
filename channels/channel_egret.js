@@ -6,11 +6,9 @@ module.exports.login = function(game, options) {
 	var self = this;
 	
 	return Q.Promise(function(resolve, reject, notify) {
-		var now = Date.now();
-
 		var data = {
 			appId:90359,
-			time:now,
+			time:Date.now(),
 			token:options.token;
 		}
 		data.sign = Helper.crypto(Helper.join(data, "") + "qChCyYzHXFacMrO9fPTFQ");
@@ -30,7 +28,7 @@ module.exports.login = function(game, options) {
 				resolve(account)
 			}, function(error){
 				reject(error);
-			})
+			});
 		}, function(error){
 			reject(error);
 		})
