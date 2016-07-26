@@ -65,6 +65,10 @@ router.post(['/egret_pay', '/pay'], function(req, res, next) {
 	Helper.do(Helper.getChannel(req).pay(req.body), res);
 });
 
+router.post('/login', function(req, res, next) {
+	Helper.do(Helper.getChannel(req).login(req.body), res);
+});
+
 router.post('/hits', function(req, res, next) {
 	dao.get("Customer", req.body.customer_id).then(function(customer){
 		Customer.hits(customer);
