@@ -74,3 +74,21 @@ module.exports.pay = function(channel, orderId, price) {
 module.exports.crypto = function(data) {
 	return crypto.createHash('md5').update(data).digest('hex');
 }
+
+module.exports.sign = function(data, secret) {
+	var sign = "";
+	for (var key of Object.keys(data).sort()) {
+		if (!!!params[key] || key === 'sign') {
+			continue;
+		}
+		
+		if (!!!sign.length) {
+			sign = key + "=" + params[key];
+		} else {
+			sign += ("&" + key + "=" + params[key]);
+		}
+	}
+	
+	sign += "dwdse2tsz70go8dq62pzmj10bpkqh08j";
+	return crypto.createHash('md5').update(sign).digest('hex');	
+}
