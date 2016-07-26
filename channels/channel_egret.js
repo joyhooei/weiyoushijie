@@ -9,7 +9,7 @@ module.exports.login = function(game, options) {
 		var data = {
 			appId:90359,
 			time:Date.now(),
-			token:options.token;
+			token:options.token
 		}
 		data.sign = Helper.crypto(Helper.join(data, "") + "qChCyYzHXFacMrO9fPTFQ");
 
