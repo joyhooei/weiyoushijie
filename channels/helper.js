@@ -75,7 +75,7 @@ module.exports.crypto = function(data) {
 	return crypto.createHash('md5').update(data).digest('hex');
 }
 
-module.exports.sign = function(data, secret) {
+module.exports.sign = function(data, secret, jn) {
 	var sign = "";
 	for (var key of Object.keys(data).sort()) {
 		if (!!!params[key] || key === 'sign') {
@@ -85,7 +85,7 @@ module.exports.sign = function(data, secret) {
 		if (!!!sign.length) {
 			sign = key + "=" + params[key];
 		} else {
-			sign += ("&" + key + "=" + params[key]);
+			sign += (jn + key + "=" + params[key]);
 		}
 	}
 	
