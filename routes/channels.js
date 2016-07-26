@@ -16,16 +16,7 @@ router.post('/pay', function(req, res, next) {
 });
 
 router.post('/login', function(req, res, next) {
-	Helper.getChannel(req).login(req.body).then(function(user){
-		Customer.login(req.query.game, user).then(function(account){
-			Helper.succeed(res, Helper.decode(account));
-		}, function(error){
-			Helper.failed(res, new Error("登录失败，请稍后再试"));
-		})
-	}, function(error){
-		console.error("post request failed " + error.message);
-		Helper.failed(res, new Error("登录失败，请稍后再试"));
-	});
+	Helper.do(Helper.getChannel(req).login(req.body), res);
 });
 
 module.exports = router;
