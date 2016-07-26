@@ -18,15 +18,15 @@ class LandingUI extends eui.Component {
         application.dao.fetch("Notification", {}, {order: 'action DESC, create_time DESC', limit: 1}).then(function(notifications){
         	if (notifications.length > 0) {
         		application.showUI(new NotificationUI(notifications[0], function(){
-        			self.btnLogin.visible = true;
+        			self.loginQuietly();
         		}), self);
         		
         		self.showedNotification = notifications[0];
         	} else {
-        		self.btnLogin.visible = true;
+        		self.loginQuietly();
         	}
         }, function(error){
-        	self.btnLogin.visible = true;
+        	self.loginQuietly();
         })
         
 		application.stopwatch.addEventListener("hour", function(event:egret.Event){
@@ -62,5 +62,16 @@ class LandingUI extends eui.Component {
 				});
         	}
         }, self);
+    }
+    
+    private loginQuietly() {
+    	var self = this;
+    	
+        application.channel.loginQuietly().then(function(account){
+        	application.logined(account);
+        	application.hideUI(self);
+        }, function(error){
+        	self.btnLogin.visible = true;
+        })
     }
 }
