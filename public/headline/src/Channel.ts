@@ -1,6 +1,6 @@
 const CHANNEL_1758_IN_EGRET = "10016";
-const CHANNEL_HUHUH5 = "HUHUH5";
-const CHANNEL_51H5 = "51H5";
+const CHANNEL_HUHUH5 = "huhuh5";
+const CHANNEL_51H5 = "51h5";
 
 const TRACK_CATEGORY_PLAYER   = "player";
 const TRACK_CATEGORY_DIAMOND  = "diamond";
