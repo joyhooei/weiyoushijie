@@ -6,66 +6,35 @@ var Gift = require('../models/gift');
 var Customer = require('../models/customer');
 var Bid = require('../models/bid');
 var Order = require('../models/order');
-var Rank = require('../models/rank.js');
-var Account = require('../models/account.js');
-var Maxbid = require('../models/maxbid.js');
-var Nofitication = require('../models/notification.js');
+var Rank = require('../models/rank');
+var Account = require('../models/account');
+var Maxbid = require('../models/maxbid');
+var Nofitication = require('../models/notification');
+
+var Helper = require('./helper');
 
 router.get('/send_vip_metal', function(req, res, next) {
-	var game = req.query.game || "headline";
-	
-	Customer.sendVipMetal(game).then(function(result){
-		_succeed(res, "send_vip_metal succeed " + result);
-	}, function(error){
-		_failed(res, error);
-	});
+	Helper.do(Customer.sendVipMetal(req.query.game || "headline"), res);
 });
 
 router.get('/open_bid', function(req, res, next) {
-	var game = req.query.game || "headline";
-	
-	Bid.open(game).then(function(result){
-		_succeed(res, "open_bid succeed " + result);
-	}, function(error){
-		_failed(res, error);
-	});
+	Helper.do(Bid.open(req.query.game || "headline"), res);
 });
 
 router.get('/max_bid', function(req, res, next) {
-	var game  = req.query.game || "headline";
-	var today = req.query.today;
-	Maxbid.max(game, today).then(function(result){
-		_succeed(res, "max_bid succeed " + result);
-	}, function(error){
-		_failed(res, error);
-	});
+	Helper.do(Maxbid.max(req.query.game || "headline", req.query.today), res);
 });
 
 router.get('/expire_ticket', function(req, res, next) {
-	var game = req.query.game || "headline";
-	Customer.expireTicket(game).then(function(result){
-		_succeed(res, "expire_ticket succeed " + result);
-	}, function(error){
-		_failed(res, error);
-	});
+	Helper.do(Customer.expireTicket(req.query.game || "headline"), res);
 });
 
 router.get('/expire_notification', function(req, res, next) {
-	var game = req.query.game || "headline";
-	Nofitication.expire(game).then(function(result){
-		_succeed(res, "expire_notification succeed " + result);
-	}, function(error){
-		_failed(res, error);
-	});
+	Helper.do(Nofitication.expire(req.query.game || "headline"), res);
 });
 
 router.get('/rank', function(req, res, next) {
-	var game = req.query.game || "headline";
-	Rank.rank(game).then(function(result){
-		_succeed(res, "rank succeed " + result);
-	}, function(error){
-		_failed(res, error);
-	});
+	Helper.do(Rank.rank(req.query.game || "headline"), res);
 });
 
 router.get('/egret_rt', function(req, res, next) {
@@ -88,46 +57,26 @@ router.get('/egret_rt', function(req, res, next) {
 			res.end();
 		}
 	}, function(error){
-		_failed(res, error.message);
+		Helper.failed(res, error.message);
 	});
 });
 
-function _getChannel(req) {
-	var channel = req.body.wysj_channel || req.query.wysj_channel || "egret";
-
-	if (channel === "1758") {
-		return require("../channels/channel_1758");
-	} else if (channel === "huhuh5") {
-		return require("../channels/channel_huhuh5");
-	} else if (channel === "51h5") {
-		return require("../channels/channel_51h5");
-	} else {
-		return require("../channels/channel_egret");
-	}
-}
-
 router.post(['/egret_pay', '/pay'], function(req, res, next) {
-	console.log("egret_pay " + JSON.stringify(req.body));
-	
-	_getChannel(req).pay(req.body).then(function(data){
-		_succeed(res, data);
-	}, function(data){
-		_failed(res, new Error(data));
-	});
+	Helper.do(Helper.getChannel(req).pay(req.body), res);
 });
 
 router.post('/hits', function(req, res, next) {
 	dao.get("Customer", req.body.customer_id).then(function(customer){
 		Customer.hits(customer);
 		customer.save().then(function(c){
-			_succeed(res, c.get("total_hits"));
+			Helper.succeed(res, c.get("total_hits"));
 		}, function(error){
 			console.log("hits customer = " + req.body.customer_id + " failed " + error.message);
-			_failed(res, new Error('修改玩家信息失败，请稍后再试'));
+			Helper.failed(res, new Error('修改玩家信息失败，请稍后再试'));
 		});
 	}, function(error) {
 		console.log("hits customer = " + req.body.customer_id + " failed " + error.message);
-		_failed(res, new Error('玩家信息不存在，请重新登录'));
+		Helper.failed(res, new Error('玩家信息不存在，请重新登录'));
 	});
 });
 
@@ -136,12 +85,12 @@ router.post('/select_all/:model', function(req, res, next) {
 		var models = [];
 
 		for (var i = 0; i < objs.length; i++) {
-			models.push(_decode(objs[i]));
+			models.push(Helper.decode(objs[i]));
 		}
 		
-		_succeed(res, models);
+		Helper.succeed(res, models);
 	}, function(error){
-		_failed(res, error);
+		Helper.failed(res, error);
 	});
 });
 
@@ -150,12 +99,12 @@ router.post('/select/:model', function(req, res, next) {
 		var models = [];
 
 		for (var i = 0; i < objs.length; i++) {
-			models.push(_decode(objs[i]));
+			models.push(Helper.decode(objs[i]));
 		}
 		
-		_succeed(res, models);
+		Helper.succeed(res, models);
 	}, function(error){
-		_failed(res, error);
+		Helper.failed(res, error);
 	});
 });
 
@@ -167,7 +116,7 @@ router.post('/update/:model/:id', function(req, res, next) {
 	dao.get(req.params.model, req.params.id).then(function(m){
 		_saveModel(m, req, res);
 	}, function(error){
-		_failed(res, error);
+		Helper.failed(res, error);
 	});
 });
 
@@ -195,83 +144,26 @@ function _saveModel(model, req, res) {
 		Account.check(customer_id, req.query.token).then(function(a){
 			_filterAttributes(req);
 
-			var newModel = _encode(model, req.body);
+			var newModel = Helper.encode(model, req.body);
 
 			newModel.save().then(function(m){
 				dao.get(req.params.model, m.id).then(function(updatedModel){
-					_succeed(res, _decode(updatedModel));
+					Helper.succeed(res, Helper.decode(updatedModel));
 				}, function(error){
 					console.error("_saveModel get model failed " + error.message + " model is " + JSON.stringify(m));
-					_succeed(res, _decode(m));
+					Helper.succeed(res, Helper.decode(m));
 				});
 			}, function(error){
 				console.error("_saveModel save failed " + error.message + " req body is " + JSON.stringify(req.body));
-				_failed(res, new Error("保存数据失败，请重新登录"));
+				Helper.failed(res, new Error("保存数据失败，请重新登录"));
 			});
 		}, function(error){
-			_failed(res, new Error("您已经在另外一台终端上登录，请下线"));
+			Helper.failed(res, new Error("您已经在另外一台终端上登录，请下线"));
 		});
 	} else {
 		console.error("_saveModel customer_id is empty " + " req body is " + JSON.stringify(req.body));
-		_failed(res, new Error("玩家信息不存在，请重新登录"));
+		Helper.failed(res, new Error("玩家信息不存在，请重新登录"));
 	}
-}
-
-function _decode(avObj) {
-	try {
-		var attributes = _.extend({"id" : avObj.id}, _.omit(avObj.attributes, ["ACL", "location"]));
-		var model = attributes;
-
-		model.create_time = moment(avObj.createdAt).format("YYYY-MM-DD HH:mm:ss");
-		model.update_time = moment(avObj.updatedAt).format("YYYY-MM-DD HH:mm:ss");
-		
-		_adjustBigNumber(model, true);
-
-		return model;
-	} catch(error) {
-		console.error("_decode failed " + error.message);
-	}
-}
-
-function _encode(model, attrs) {
-	var attributes = _.clone(attrs);
-
-	delete attributes.create_time;
-	delete attributes.update_time;
-	
-	_adjustBigNumber(attributes, false);
-
-	model.set(attributes);
-	return model;
-}
-
-function _adjustBigNumber(attributes, toActual) {
-	/*
-	_.each(attributes, function(v, k){
-		if (toActual) {	
-			if (_.isNumber(v) && v >= 922337203685477580700) {
-				attributes[k] = v / 100;
-			}
-		} else {
-			if (_.isNumber(v) && v >= 9223372036854775807) {
-				attributes[k] = v * 100;
-			}
-		}
-	});	
-	*/
-}
-
-function _succeed(res, data) {
-	data = data || {};
-	if (_.isNumber(data)) {
-		data = data.toString();
-	}
-	res.status(200).send(data);
-}
-
-function _failed(res, error, status) {
-	status = status || 500;
-	res.status(status).send(error.message);
 }
 
 module.exports = router;
