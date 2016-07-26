@@ -36,7 +36,6 @@ module.exports.login = function(game, options) {
 			}, function(error){
 				reject(error);
 			})
-			resolve(user);
 		}, function(error){
 			reject(error);
 		})
