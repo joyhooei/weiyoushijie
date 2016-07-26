@@ -80,20 +80,6 @@ router.post('/hits', function(req, res, next) {
 	});
 });
 
-router.post('/select_all/:model', function(req, res, next) {
-	dao.findAll(req.params.model, req.body.conditions, req.body.filters).then(function(objs) {
-		var models = [];
-
-		for (var i = 0; i < objs.length; i++) {
-			models.push(Helper.decode(objs[i]));
-		}
-		
-		Helper.succeed(res, models);
-	}, function(error){
-		Helper.failed(res, error);
-	});
-});
-
 router.post('/select/:model', function(req, res, next) {
 	dao.find(req.params.model, req.body.conditions, req.body.filters).then(function(objs) {
 		var models = [];
