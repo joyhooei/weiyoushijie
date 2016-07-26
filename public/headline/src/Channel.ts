@@ -107,6 +107,10 @@ class Channel {
     	}
     }
     
+    public loginQuietly(): Q.Promise<any> {
+    	return this.rejectedPromise();
+    }
+    
     public login(): Q.Promise<any> {
         return this.rejectedPromise();
 	}
