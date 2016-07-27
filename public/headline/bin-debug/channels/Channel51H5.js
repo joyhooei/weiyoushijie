@@ -2,7 +2,7 @@ var Channel51H5 = (function (_super) {
     __extends(Channel51H5, _super);
     function Channel51H5(standalone) {
         _super.call(this, standalone);
-        this.appId = "fg40249b";
+        this.appId = "y6k9mjsn";
     }
     var d = __define,c=Channel51H5,p=c.prototype;
     p.loginQuietly = function () {
