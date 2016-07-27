@@ -25,6 +25,7 @@ block main
 							th 玩家
 							th 现金
 							th 商品
+							th 渠道
 							th 时间
 					tbody
 						- each order in orders
@@ -33,4 +34,5 @@ block main
 									a(href="/customers/#{order.get('customer_id')}") #{order.get('customer_id')}
 								td= order.get('price')
 								td= order.get('product')
+								td= order.get('channel')
 								td= moment(order.updatedAt).format()
