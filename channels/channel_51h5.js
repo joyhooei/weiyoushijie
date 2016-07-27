@@ -54,11 +54,11 @@ module.exports.login = function(game, options) {
 
 module.exports.payUrl = function(options) {
 	return Q.Promise(function(resolve, reject, notify) {
-		dao.get("Customer", options.customer_id).then(function(customer){
+		dao.get("Customer", options.customerId).then(function(customer){
 			_post("http://api.web.51h5.com/auth/refresh", {refresh:customer.get('channel_data')}).then(function(tokens){
 				customer.set("channel_data", tokens.data.refresh_token);
 				dao.save("Customer", customer).then(function(c){
-					_post("http://api.web.51h5.com/pay/order", {token:tokens.data.access_token, total_fee:options.money, subject:options.goodsName, body:options.goodsName, exten:options.order_id}).then(function(body){
+					_post("http://api.web.51h5.com/pay/order", {token:tokens.data.access_token, total_fee:options.money, subject:options.goodsId, body:options.goodsName, exten:options.orderId}).then(function(body){
 						resolve(body.data.pay_url);
 					}, function(error){
 						reject(error);
