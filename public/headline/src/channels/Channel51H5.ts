@@ -33,7 +33,7 @@ class Channel51H5 extends Channel{
     public pay(options: any): Q.Promise<any> {
         let self = this;
         
-        options.customer_id = application.me.attrs.id;
+        options.customerId = application.me.attrs.id;
 		self.rest("51h5", "51h5_pay_url", options).then(function(data){
         	location.href = data.pay_url;
         }, function(error) {
