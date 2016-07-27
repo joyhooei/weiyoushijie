@@ -7,8 +7,6 @@ function _post(url, data) {
 		data.appid = 'y6k9mjsn';
 
 		var sign = Helper.join(data, "&") + "1m0ukliipkkjcq0ocuc5nvux7y322zah";
-		var buf = new Buffer(sign);
-		sign = buf.toString("binary");
 		data.sign = Helper.crypto(sign);
 
 		url += "?" + Helper.join(data, "&");
