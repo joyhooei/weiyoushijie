@@ -5,21 +5,33 @@ var Customer = require('../models/customer');
 function _post(url, data) {
 	return Q.Promise(function(resolve, reject, notify) {
 		data.appid = 'y6k9mjsn';
+		data.sign  = Helper.crypto(Helper.join(data, "&") + "1m0ukliipkkjcq0ocuc5nvux7y322zah");
 
-		var sign = Helper.join(data, "&") + "1m0ukliipkkjcq0ocuc5nvux7y322zah";
-		data.sign = Helper.crypto(sign);
+		var options = {
+		    url: url,
+		    method: 'POST',
+		    form: data
+		};
 
-		url += "?" + Helper.join(data, "&");
-		Helper.post(url, data).then(function(body){
-			if (body.status == 1) {
-				resolve(body);
-			} else {
-				console.error(url + " failed " + JSON.stringify(data) + " " + JSON.stringify(body));
-				reject(new Error(body.data));						
-			}
-		}, function(error){
-			reject(error);
-		})	
+		function callback(error, response, body) {
+		    if (!error && response.statusCode == 200) {
+				console.log("POST " + url + " " + JSON.stringify(data) + " " + body);
+				
+				var result = JSON.stringify(body);
+				if (result.status == 1) {
+					resolve(result);
+				} else {
+					console.error(url + " failed " + JSON.stringify(data) + " " + body);
+					reject(new Error(result.data));						
+				}
+		    } else {
+				console.error("POST " + url + " " + error + " " + response.statusCode + " " + body);
+			
+		    	reject(new Error(response.statusCode));
+		    }
+		}
+
+		request(options, callback);
 	});
 }
 
