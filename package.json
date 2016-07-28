@@ -34,7 +34,8 @@
     "leanengine": "^0.1.4",
     "mongoose": "*",
     "connect-mongo": "*",
-    "log4js": "*"
+    "log4js": "*",
+    "log4js-node-mongodb": "*"
   },
   "devDependencies": {
     "grunt": "~0.4.1",
