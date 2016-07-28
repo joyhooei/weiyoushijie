@@ -462,12 +462,29 @@ module.exports = function() {
 
 			var url = 'mongodb://weiyoushijie:weiyugame@ds023644.mlab.com:23644/weiyoushijie';
 		} else if (process.env.PORT) {
-			//heroku
+			//heroku or local
 			var url = 'mongodb://weiyoushijie:weiyugame@ds023644.mlab.com:23644/weiyoushijie';
 		} else {
 			//bae
 			var url = 'mongodb://9b18dc67c08b4434bdf68b0c3ff45477:d35f2aa56b1b4806b9934950c3d89bea@mongo.bce.duapp.com:8908/gmkSqUizKEatLnvxuIcZ';
 		}
+		
+		var log4js = require('log4js');
+		var mongoAppender = require('log4js-node-mongodb');
+		log4js.configure({
+		    appenders: [
+		        {
+		            type: 'log4js-node-mongodb',
+		            connectionString: url,
+		            collectionName: 'logs',
+		            category: [ 'larksoft', 'console' ]
+		        },
+		        {
+		            type: "console"
+		        }
+		    ],
+		    replaceConsole: true
+		});
 
 		mongoose.connect(url, {db: {w: 1}});
 		
