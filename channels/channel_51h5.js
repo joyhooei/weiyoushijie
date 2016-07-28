@@ -6,17 +6,8 @@ function _post(url, data) {
 	return Q.Promise(function(resolve, reject, notify) {
 		data.appid = 'y6k9mjsn';
 		data.sign  = Helper.crypto(Helper.join(data, "&") + "1m0ukliipkkjcq0ocuc5nvux7y322zah");
-
-		var options = {
-		    url: url,
-		    method: 'POST',
-		    form: data
-		};
-
-		function callback(error, response, body) {
+		request.post(url, {form: data},  function(error, response, body){
 		    if (!error && response.statusCode == 200) {
-				console.log("POST " + url + " " + JSON.stringify(data) + " " + body);
-				
 				var result = JSON.stringify(body);
 				if (result.status == 1) {
 					resolve(result);
@@ -25,13 +16,11 @@ function _post(url, data) {
 					reject(new Error(result.data));						
 				}
 		    } else {
-				console.error("POST " + url + " " + error + " " + response.statusCode + " " + body);
+				console.error(url + " failed " + JSON.stringify(data) + " " + body + " " + response.statusCode);
 			
 		    	reject(new Error(response.statusCode));
 		    }
-		}
-
-		request(options, callback);
+		});
 	});
 }
 
