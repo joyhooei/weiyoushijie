@@ -8,19 +8,25 @@ function _post(url, data) {
 		data.appid = 'y6k9mjsn';
 		data.sign  = Helper.crypto(Helper.join(data, "&") + "1m0ukliipkkjcq0ocuc5nvux7y322zah");
 		request.post(url, {form: data},  function(error, response, body){
-		    if (!error && response.statusCode == 200) {
-				var result = JSON.parse(body);
-				if (result.status == 1) {
-					resolve(result);
-				} else {
-					console.error(url + " failed " + JSON.stringify(data) + " " + body);
-					reject(new Error(result.data));						
-				}
-		    } else {
-				console.error(url + " failed " + JSON.stringify(data) + " " + body + " " + response.statusCode);
-			
-		    	reject(new Error(response.statusCode));
-		    }
+			try {
+			    if (!error && response.statusCode == 200) {
+					var result = JSON.parse(body);
+					if (result.status == 1) {
+						resolve(result);
+					} else {
+						console.error(url + " failed " + JSON.stringify(data) + " " + body);
+						reject(new Error(result.data));						
+					}
+			    } else {
+					console.error(url + " failed " + JSON.stringify(data) + " " + body + " " + response.statusCode);
+				
+			    	reject(new Error(response.statusCode));
+			    }
+			} catch(error) {
+					console.error(url + " failed " + JSON.stringify(data) + " " + body + " " + error.message);
+				
+			    	reject(new Error(error.message));
+			}
 		});
 	});
 }
