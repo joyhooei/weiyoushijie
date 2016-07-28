@@ -71,7 +71,7 @@ module.exports.payUrl = function(options) {
 		dao.get("Customer", options.customerId).then(function(customer){
 			_post("http://dev.api.web.51h5.com/auth/refresh", {refresh:customer.get('channel_data')}).then(function(tokens){
 				customer.set("channel_data", tokens.data.refresh_token);
-				dao.save("Customer", customer).then(function(c){
+				customer.save().then(function(c){
 					_post("http://dev.api.web.51h5.com/pay/order", {token:tokens.data.access_token, total_fee:options.money, subject:options.goodsId, body:options.goodsName, exten:options.orderId}).then(function(body){
 						resolve(body.data.pay_url);
 					}, function(error){
