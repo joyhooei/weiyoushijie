@@ -9,7 +9,7 @@ function _post(url, data) {
 		data.sign  = Helper.crypto(Helper.join(data, "&") + "1m0ukliipkkjcq0ocuc5nvux7y322zah");
 		request.post(url, {form: data},  function(error, response, body){
 		    if (!error && response.statusCode == 200) {
-				var result = JSON.stringify(body);
+				var result = JSON.parse(body);
 				if (result.status == 1) {
 					resolve(result);
 				} else {
