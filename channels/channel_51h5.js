@@ -7,7 +7,7 @@ function _post(url, data) {
 	return Q.Promise(function(resolve, reject, notify) {
 		data.appid = 'y6k9mjsn';
 		data.sign  = Helper.crypto(Helper.join(data, "&") + "1m0ukliipkkjcq0ocuc5nvux7y322zah");
-		request.post({url: url, form: data}, function(error, response, body){
+		request.post({url: url, headers: {'content-type': 'application/x-www-form-urlencoded'}, body: Helper.join(data, "&")}, function(error, response, body){
 			try {
 			    if (!error && response.statusCode == 200) {
 					var result = JSON.parse(body);
