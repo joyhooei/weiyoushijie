@@ -34,24 +34,32 @@ function _post(url, data) {
 module.exports.login = function(game, options) {
 	return Q.Promise(function(resolve, reject, notify) {
 		_post("http://dev.api.web.51h5.com/auth/token", {code:options.token}).then(function(tokens){
-			_post("http://dev.api.web.51h5.com/auth/info", {token:tokens.data.access_token}).then(function(body){
-				var user = {
-					name: body.data.nick, 
-					uid:body.data.openid, 
-					avatar:body.data.avatar, 
-					sex:body.data.gender, 
-					age:0, 
-					channel_data: tokens.data.refresh_token
-				};
-				
-				Customer.login(game, user).then(function(account){
-					resolve(account)
+			try {
+				_post("http://dev.api.web.51h5.com/auth/info", {token:tokens.data.access_token}).then(function(body){
+					try {
+						var user = {
+							name: body.data.nick, 
+							uid:body.data.openid, 
+							avatar:body.data.avatar, 
+							sex:body.data.gender, 
+							age:0, 
+							channel_data: tokens.data.refresh_token
+						};
+						
+						Customer.login(game, user).then(function(account){
+							resolve(account)
+						}, function(error){
+							reject(error);
+						})
+					} catch(error){
+						reject(error);
+					}
 				}, function(error){
 					reject(error);
-				})
-			}, function(error){
+				})	
+			} catch (error){
 				reject(error);
-			})	
+			}
 		}, function(error){
 			reject(error);
 		})		
