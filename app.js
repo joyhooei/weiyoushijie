@@ -33,25 +33,6 @@ GLOBAL.moment = require("moment");
 GLOBAL._ = require("underscore");
 GLOBAL.Q = require('q');
 
-if (!process.env.LC_APP_PORT && !process.env.PORT) {
-    var log4js = require('log4js');
-    log4js.configure({
-        appenders: [
-            {
-                type: "dateFile",
-                filename: "../log/weiyoushijie.log",
-                pattern: "-yyyy-MM-dd",
-                alwaysIncludePattern: false,
-                category: [ 'weiyoushijie','console' ]
-            },
-            {
-                type: "console"
-            }
-        ],
-        replaceConsole: true
-    });
-}
-
 var app = express();
 
 // 设置 view 引擎
