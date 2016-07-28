@@ -42,7 +42,14 @@ var Dao = (function (_super) {
             request.setRequestHeader("Content-Type", "application/json");
             request.addEventListener(egret.Event.COMPLETE, function (evt) {
                 var request = evt.currentTarget;
-                resolve(JSON.parse(request.response));
+                var data;
+                try {
+                    data = JSON.parse(request.response);
+                }
+                catch (error) {
+                    data = request.response;
+                }
+                resolve(data);
             }, self);
             request.addEventListener(egret.IOErrorEvent.IO_ERROR, function (evt) {
                 console.error('restWithUrl ' + url + ' failed ' + evt.$target.response);

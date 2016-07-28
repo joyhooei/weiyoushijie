@@ -60,14 +60,15 @@ var Utility = (function () {
         var original = console[method];
         console[method] = function () {
             try {
+                var message = Array.prototype.slice.apply(arguments).join(' ');
                 if (method === 'log') {
-                    logger.info(arguments);
+                    logger.info(message);
                 }
                 else if (method == 'warn') {
-                    logger.warn(arguments);
+                    logger.warn(message);
                 }
                 else {
-                    logger.error(arguments);
+                    logger.error(message);
                 }
                 if (original.apply) {
                     // Do this for normal browsers
@@ -75,7 +76,6 @@ var Utility = (function () {
                 }
                 else {
                     // Do this for IE
-                    var message = Array.prototype.slice.apply(arguments).join(' ');
                     original(message);
                 }
             }

@@ -28,8 +28,8 @@ var Channel51H5 = (function (_super) {
     p.pay = function (options) {
         var self = this;
         options.customerId = application.me.attrs.id;
-        self.rest("51h5", "51h5_pay_url", options).then(function (data) {
-            location.href = data.pay_url;
+        self.rest("51h5", "51h5_pay_url", options).then(function (pay_url) {
+            location.href = pay_url;
         }, function (error) {
             self.reject("支付失败");
         });

@@ -24,12 +24,13 @@ var Vip = (function () {
     }
     var d = __define,c=Vip,p=c.prototype;
     Vip.create = function (charge) {
+        //level: number, charge: number, output: number, hit: number, time: number, upgrade: number, patch: number
         var data = [
             [0, 0, 0, 10, 0, 0, 0],
             [1, 2, 0.2, 10, 0, 0, 0],
             [2, 10, 0.5, 10, 0, 0, 0],
-            [3, 20, 1, 15, 0, 0, 0],
-            [4, 30, 2, 20, 0, 0, 0],
+            [3, 20, 1, 15, 0, 0, 0.03],
+            [4, 30, 2, 20, 0, 0, 0.05],
             [5, 50, 5, 25, 0.5, 0, 0.1],
             [6, 100, 10, 30, 0.7, 0.9, 0.12],
             [7, 200, 50, 35, 1, 0.99, 0.15],

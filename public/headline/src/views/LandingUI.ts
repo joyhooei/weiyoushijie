@@ -70,8 +70,6 @@ class LandingUI extends AbstractUI {
 	        	application.logined(account);
 	        	application.hideUI(self);
 	        }, function(error){
-	        	Toast.launch(error);
-	        	
 	        	self.btnLogin.visible = true;
 	        })
     	}

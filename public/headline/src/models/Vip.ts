@@ -34,7 +34,7 @@ class Vip {
 		//level: number, charge: number, output: number, hit: number, time: number, upgrade: number, patch: number
 		let data = [
 			[0, 	0, 		0, 			10, 	0, 		0, 				0],
-			[1, 	2, 		0.2, 		10, 	0		0, 				0],
+			[1, 	2, 		0.2, 		10, 	0,		0, 				0],
 			[2, 	10, 	0.5, 		10, 	0, 		0, 				0],
 			[3, 	20, 	1, 			15, 	0, 		0, 				0.03],
 			[4, 	30, 	2, 			20, 	0, 		0, 				0.05],
