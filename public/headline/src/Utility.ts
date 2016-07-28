@@ -69,12 +69,13 @@ class Utility {
     	var original = console[method];
     	console[method] = function(){
             try {
+                var message = Array.prototype.slice.apply(arguments).join(' ');
                 if (method === 'log') {
-                    logger.info(arguments);
+                    logger.info(message);
                 } else if (method == 'warn') {
-                    logger.warn(arguments);
+                    logger.warn(message);
                 } else {
-                    logger.error(arguments);
+                    logger.error(message);
                 }
                 
                 if (original.apply){
@@ -82,7 +83,6 @@ class Utility {
                     original.apply(console, arguments);
                 }else{
                     // Do this for IE
-                    var message = Array.prototype.slice.apply(arguments).join(' ');
                     original(message);
                 }
             } catch (error){
