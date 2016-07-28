@@ -1,4 +1,5 @@
 var Helper = require('./helper');
+var request = require('request');
 
 var Customer = require('../models/customer');
 
