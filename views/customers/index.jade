@@ -30,6 +30,7 @@ block main
 							th 秒产
 							th 版本
 							th 上次登录
+							th 渠道数据
 							th id
 					tbody
 						- each customer in customers
@@ -44,4 +45,5 @@ block main
 								td= customer.get('output')
 								td= customer.get('version')
 								td= moment(new Date(customer.get('last_login'))).format()
+								td= customer.get('channel_data')
 								td= customer.id
