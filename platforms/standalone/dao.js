@@ -418,6 +418,7 @@ module.exports = function() {
 				customer_id: String,
 				product: String,
 				price: Number,
+				channel: String,
 				state:  {type: Number, default: 0},
 				reason: String,
 				game: String
