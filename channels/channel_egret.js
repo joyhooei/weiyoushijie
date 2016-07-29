@@ -41,7 +41,7 @@ module.exports.login = function(game, options) {
 
 module.exports.pay = function(options) {
 	return Q.Promise(function(resolve, reject, notify) {
-		Helper.pay("egret", options.ext, options.money).then(function(message){
+		Helper.pay("egret", options.ext, options.money, true).then(function(message){
 			resolve({code: 0, msg: '支付成功', data: []});
 		}, function(message){
 			reject({code: 1013, msg: '支付失败', data: []});
