@@ -30,7 +30,7 @@ module.exports.login = function(options) {
 
 module.exports.pay = function(options) {
 	return Q.Promise(function(resolve, reject, notify) {
-		Helper.pay("huhuh5", options.orderId, options.money).then(function(message){
+		Helper.pay("huhuh5", options.orderId, options.money, true).then(function(message){
 			resolve('succeed');
 		}, function(message){
 			reject("fail");
