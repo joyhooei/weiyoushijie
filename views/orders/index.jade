@@ -23,6 +23,7 @@ block main
 					thead
 						tr
 							th 时间
+							th 单号
 							th 玩家
 							th 现金
 							th 商品
@@ -33,6 +34,7 @@ block main
 						- each order in orders
 							tr
 								td= moment(order.updatedAt).format('LLL')
+								td= id
 								td
 									a(href="/customers/#{order.get('customer_id')}") #{order.get('customer_id')}
 								td= order.get('price')
