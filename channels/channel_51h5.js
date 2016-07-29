@@ -33,9 +33,9 @@ function _post(url, data) {
 
 module.exports.login = function(game, options) {
 	return Q.Promise(function(resolve, reject, notify) {
-		_post("http://dev.api.web.51h5.com/auth/token", {code:options.token}).then(function(tokens){
+		_post("http://api.web.51h5.com/auth/token", {code:options.token}).then(function(tokens){
 			try {
-				_post("http://dev.api.web.51h5.com/auth/info", {token:tokens.data.access_token}).then(function(body){
+				_post("http://api.web.51h5.com/auth/info", {token:tokens.data.access_token}).then(function(body){
 					try {
 						var user = {
 							name: body.data.nick, 
@@ -69,10 +69,10 @@ module.exports.login = function(game, options) {
 module.exports.payUrl = function(options) {
 	return Q.Promise(function(resolve, reject, notify) {
 		dao.get("Customer", options.customerId).then(function(customer){
-			_post("http://dev.api.web.51h5.com/auth/refresh", {refresh:customer.get('channel_data')}).then(function(tokens){
+			_post("http://api.web.51h5.com/auth/refresh", {refresh:customer.get('channel_data')}).then(function(tokens){
 				customer.set("channel_data", tokens.data.refresh_token);
 				customer.save().then(function(c){
-					_post("http://dev.api.web.51h5.com/pay/order", {token:tokens.data.access_token, total_fee:options.money, subject:options.goodsId, body:options.goodsName, exten:options.orderId}).then(function(body){
+					_post("http://api.web.51h5.com/pay/order", {token:tokens.data.access_token, total_fee:options.money, subject:options.goodsId, body:options.goodsName, exten:options.orderId}).then(function(body){
 						resolve(body.data.pay_url);
 					}, function(error){
 						reject(error);
