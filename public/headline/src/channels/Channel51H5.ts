@@ -1,5 +1,5 @@
 class Channel51H5 extends Channel{
-    public appId: string = "y6k9mjsn";
+    public appId: string = "fg40249b";
 	
 	constructor(standalone:boolean) {
         super(standalone);
