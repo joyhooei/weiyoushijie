@@ -480,6 +480,22 @@ module.exports = function() {
 		            collectionName: 'backlogs',
 		            category: [ 'larksoft', 'console' ]
 		        },
+			    {
+			      	type: "smtp",
+			      	recipients: "weihailee@sohu.com",
+			      	sendInterval: 5,
+			      	transport: "SMTP",
+			      	SMTP: {
+			        	host: "smtp.sohu.com",
+			        	port: 25,
+			    		auth: {
+			          		user: "weihailee@sohu.com",
+			          		pass: "future"
+			        	},
+			        	debug: true
+			      	},
+			      	category: [ 'larksoft', 'console' ]
+			    },
 		        {
 		            type: "console"
 		        }
