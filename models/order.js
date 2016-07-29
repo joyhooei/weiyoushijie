@@ -1,6 +1,6 @@
 var Gift = require('./gift');
 
-module.exports.pay = function(order) {
+module.exports.pay = function(order, changeProduct) {
 	return Q.Promise(function(resolve, reject, notify) {
 		dao.find("Order", {'customer_id': order.get("customer_id"), 'product': "Ticket", 'state': 1}).then(function(orders){
 			dao.get("Customer", order.get("customer_id")).then(function(customer){
@@ -10,12 +10,15 @@ module.exports.pay = function(order) {
 				}
 
 				var price = order.get("price");
-				if (price == 49) {
-					order.set("product", "VIP");
-				} else if (price == 19) {
-					order.set("product", "Ticket");
-				} else {
-					order.set("product", "Diamond");
+				
+				if (changeProduct) {
+					if (price == 49) {
+						order.set("product", "VIP");
+					} else if (price == 19) {
+						order.set("product", "Ticket");
+					} else {
+						order.set("product", "Diamond");
+					}
 				}
 				
 				customer.increment("charge", price);
