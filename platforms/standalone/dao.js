@@ -468,15 +468,16 @@ module.exports = function() {
 			//bae
 			var url = 'mongodb://9b18dc67c08b4434bdf68b0c3ff45477:d35f2aa56b1b4806b9934950c3d89bea@mongo.bce.duapp.com:8908/gmkSqUizKEatLnvxuIcZ';
 		}
+
+		mongoose.connect(url, {db: {w: 1}});
 		
 		var log4js = require('log4js');
-		var mongoAppender = require('log4js-node-mongodb');
 		log4js.configure({
 		    appenders: [
 		        {
 		            type: 'log4js-node-mongodb',
 		            connectionString: url,
-		            collectionName: 'logs',
+		            collectionName: 'backlogs',
 		            category: [ 'larksoft', 'console' ]
 		        },
 		        {
@@ -485,8 +486,6 @@ module.exports = function() {
 		    ],
 		    replaceConsole: true
 		});
-
-		mongoose.connect(url, {db: {w: 1}});
 		
 		const session    = require('express-session');
 		const MongoStore = require('connect-mongo')(session);
