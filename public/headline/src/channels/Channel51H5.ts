@@ -24,8 +24,8 @@ class Channel51H5 extends Channel{
     public login(): Q.Promise<any> {
         let self = this;
         
-        location.href = 'http://dev.web.51h5.com/sso.html?appid=' + this.appId 
-        				+ '&redirect=' + encodeURIComponent(application.baseUrl + "/headline/index.html?wysj_channel=51h5");
+        location.href = 'http://web.51h5.com/sso.html?appid=' + this.appId 
+        				+ '&redirect=' + encodeURIComponent(application.baseUrl + "/headline/bin-release/web/bin-release/index.html?wysj_channel=51h5");
 		
         return self.promise();
 	}
