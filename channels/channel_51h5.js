@@ -91,7 +91,7 @@ module.exports.payUrl = function(options) {
 
 module.exports.pay = function(options) {
 	return Q.Promise(function(resolve, reject, notify) {
-		Helper.pay("51h5", options.exten, options.amount).then(function(message){
+		Helper.pay("51h5", options.exten, options.amount, false).then(function(message){
 			resolve("success");
 		}, function(message){
 			reject("fail");
