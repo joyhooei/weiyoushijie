@@ -21,6 +21,9 @@ var VipUI = (function (_super) {
     var d = __define,c=VipUI,p=c.prototype;
     p.onRefresh = function () {
         this.level = application.me.vip.getLevel();
+        this.onRefreshAgain();
+    };
+    p.onRefreshAgain = function () {
         if (this.level == 0) {
             this.lblCharge.visible = false;
             this.imgLast.visible = false;

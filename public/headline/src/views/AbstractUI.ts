@@ -17,13 +17,17 @@ class AbstractUI extends eui.Component{
     
     public refresh() {
         try {
-            this.onRefresh();
+            this.onRefreshAgain();
         } catch(error) {
             console.error('refresh onRefresh failed ' + error.message);
         }
     }
     
     protected onRefresh() {
+    }
+    
+    protected onRefreshAgain() {
+        this.onRefresh();
     }
     
     public show(child: eui.Component, hide?: boolean) {

@@ -37,23 +37,28 @@ class VipUI extends AbstractUI {
     
     protected onRefresh() {
         this.level = application.me.vip.getLevel();
+        
+        this.onRefreshAgain();
 
+    }
+    
+    protected onRefreshAgain() {
         if(this.level == 0) {
             this.lblCharge.visible = false;
-            this.imgLast.visible   = false;
-            this.imgNext.visible   = true;
+            this.imgLast.visible = false;
+            this.imgNext.visible = true;
         } else {
-			this.lblCharge.visible = true;
-			this.imgLast.visible   = true;
+            this.lblCharge.visible = true;
+            this.imgLast.visible = true;
 
-			if (this.level == 15) {
-				this.imgNext.visible = false;
-			} else {
-				this.imgNext.visible = true;
-			}
-		}
-		
-		this.lblCharge.text = application.me.attrs.charge;        
-        this.imgTitle.source = "vt" + this.level + "_png";
+            if(this.level == 15) {
+                this.imgNext.visible = false;
+            } else {
+                this.imgNext.visible = true;
+            }
+        }
+
+        this.lblCharge.text = application.me.attrs.charge;
+        this.imgTitle.source = "vt" + this.level + "_png";       
     }
 }

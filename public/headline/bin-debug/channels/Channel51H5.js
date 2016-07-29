@@ -2,7 +2,7 @@ var Channel51H5 = (function (_super) {
     __extends(Channel51H5, _super);
     function Channel51H5(standalone) {
         _super.call(this, standalone);
-        this.appId = "y6k9mjsn";
+        this.appId = "fg40249b";
     }
     var d = __define,c=Channel51H5,p=c.prototype;
     p.loginQuietly = function () {
@@ -21,8 +21,8 @@ var Channel51H5 = (function (_super) {
     };
     p.login = function () {
         var self = this;
-        location.href = 'http://dev.web.51h5.com/sso.html?appid=' + this.appId
-            + '&redirect=' + encodeURIComponent(application.baseUrl + "/headline/index.html?wysj_channel=51h5");
+        location.href = 'http://web.51h5.com/sso.html?appid=' + this.appId
+            + '&redirect=' + encodeURIComponent(application.baseUrl + "/headline/bin-release/web/bin-release/index.html?wysj_channel=51h5");
         return self.promise();
     };
     p.pay = function (options) {

@@ -17,13 +17,16 @@ var AbstractUI = (function (_super) {
     };
     p.refresh = function () {
         try {
-            this.onRefresh();
+            this.onRefreshAgain();
         }
         catch (error) {
             console.error('refresh onRefresh failed ' + error.message);
         }
     };
     p.onRefresh = function () {
+    };
+    p.onRefreshAgain = function () {
+        this.onRefresh();
     };
     p.show = function (child, hide) {
         if (hide) {
