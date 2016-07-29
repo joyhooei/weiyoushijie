@@ -56,7 +56,7 @@ module.exports.pay = function(channel, orderId, price) {
 	return Q.Promise(function(resolve, reject, notify) {
 		dao.get("Order", orderId).then(function(order){
 			if (order.get("state") != 1) {
-				order.set("price", parseInt(price));
+				order.set("price", +price);
 				order.set("channel", channel);
 				Order.pay(order).then(function(o){
 					resolve('pay successfully');
