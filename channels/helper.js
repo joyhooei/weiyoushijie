@@ -50,7 +50,7 @@ module.exports.get = function(url) {
 	});	
 }
 
-module.exports.pay = function(channel, orderId, price) {
+module.exports.pay = function(channel, orderId, price, changeProduct) {
 	var self = this;
 	
 	return Q.Promise(function(resolve, reject, notify) {
@@ -58,7 +58,7 @@ module.exports.pay = function(channel, orderId, price) {
 			if (order.get("state") != 1) {
 				order.set("price", +price);
 				order.set("channel", channel);
-				Order.pay(order).then(function(o){
+				Order.pay(order, changeProduct).then(function(o){
 					resolve('pay successfully');
 				}, function(error){
 					console.error("order pay failed " + channelId + " " + orderId + " " +  error.message);
