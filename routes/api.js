@@ -62,10 +62,14 @@ router.get('/egret_rt', function(req, res, next) {
 });
 
 router.post(['/egret_pay', '/pay'], function(req, res, next) {
+	console.log("api egret_pay " + JSON.stringify(req.body) + " " + JSON.stringify(req.query));
+	
 	Helper.do(Helper.getChannel(req).pay(req.body), res);
 });
 
 router.post('/login', function(req, res, next) {
+	console.log("api login " + JSON.stringify(req.body) + " " + JSON.stringify(req.query));
+	
 	Helper.do(Helper.getChannel(req).login(req.query.game || "headline", req.body), res);
 });
 
