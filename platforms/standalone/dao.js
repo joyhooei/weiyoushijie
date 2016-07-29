@@ -480,6 +480,7 @@ module.exports = function() {
 		            collectionName: 'backlogs',
 		            category: [ 'larksoft', 'console' ]
 		        },
+		        /*
 			    {
 			      	type: "smtp",
 			      	recipients: "weihailee@sohu.com",
@@ -496,6 +497,7 @@ module.exports = function() {
 			      	},
 			      	category: [ 'larksoft', 'console' ]
 			    },
+			    */
 		        {
 		            type: "console"
 		        }
