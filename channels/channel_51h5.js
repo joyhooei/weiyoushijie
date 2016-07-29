@@ -5,8 +5,8 @@ var Customer = require('../models/customer');
 
 function _post(url, data) {
 	return Q.Promise(function(resolve, reject, notify) {
-		data.appid = 'y6k9mjsn';
-		data.sign  = Helper.crypto(Helper.join(data, "&") + "1m0ukliipkkjcq0ocuc5nvux7y322zah");
+		data.appid = 'fg40249b';
+		data.sign  = Helper.crypto(Helper.join(data, "&") + "dwdse2tsz70go8dq62pzmj10bpkqh08j");
 		request.post({url: url, headers: {'content-type': 'application/x-www-form-urlencoded'}, body: Helper.join(data, "&")}, function(error, response, body){
 			try {
 			    if (!error && response.statusCode == 200) {
