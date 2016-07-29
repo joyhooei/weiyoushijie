@@ -34,7 +34,7 @@ block main
 						- each order in orders
 							tr
 								td= moment(order.updatedAt).format('LLL')
-								td= id
+								td= order.id
 								td
 									a(href="/customers/#{order.get('customer_id')}") #{order.get('customer_id')}
 								td= order.get('price')
