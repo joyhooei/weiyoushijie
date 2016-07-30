@@ -81,17 +81,14 @@ module.exports.crypto = function(data) {
 module.exports.join = function(obj, jn) {
 	var sign = "";
 	
-	for (var key of Object.keys(obj).sort()) {
-		if (!!!obj[key]) {
-			continue;
-		}
-		
-		if (!!!sign.length) {
+	var keys = Object.keys(obj).sort();
+	_.each(keys, function(key){
+		if (sign.length == 0) {
 			sign = key + "=" + obj[key];
 		} else {
 			sign += (jn + key + "=" + obj[key]);
 		}
-	}
+	})
 	
 	return sign;
 }

@@ -60,6 +60,7 @@ module.exports = function(grunt) {
 
                     {expand: true, cwd: 'views/', src: ['**'], dest: 'dist/views/'},
                     {expand: true, cwd: 'public/', src: ['css/**', 'font/**','images/**','img/**','javascripts/**','js/**','stylesheets/**', '*.*'], dest: 'dist/public/'},
+                    {expand: true, cwd: './node_modules', src: ['**'], dest: 'dist/node_modules/'},
                     
                     {expand: true, cwd: 'public/headline/bin-release/', src: ['**'], dest: 'dist/public/headline/bin-release/'},
                     {expand: true, cwd: 'public/headline/resource/art/', src: ['head.png', 'headF.png', 'headM.png', 'icon.jpg'], dest: 'dist/public/headline/resource/art/'},
