@@ -1,0 +1,14 @@
+<?xml version='1.0' encoding='utf-8'?>
+<e:Skin class="loginRewardUISkin" width="467" height="696" xmlns:e="http://ns.egret.com/eui" xmlns:w="http://ns.egret.com/wing">
+	<e:Image width="467" height="696" x="0" y="0" fillMode="clip" source="7days_png"/>
+	
+	<e:Image id="imgPick1" width="120" height="65" x="44" y="274"  fillMode="clip" source="picked_png"/>
+	<e:Image id="imgPick2" width="120" height="65" x="163" y="274" fillMode="clip" source="picked_png"/>
+	<e:Image id="imgPick3" width="120" height="65" x="279" y="274" fillMode="clip" source="picked_png"/>
+	<e:Image id="imgPick4" width="120" height="65" x="38" y="451" fillMode="clip" source="picked_png"/>
+	<e:Image id="imgPick5" width="120" height="65" x="156" y="451" fillMode="clip" source="picked_png"/>
+	<e:Image id="imgPick6" width="120" height="65" x="289" y="451" fillMode="clip" source="picked_png"/>
+	<e:Image id="imgPick7" width="120" height="65" x="54" y="634" fillMode="clip" source="picked_png" />
+	
+	<e:Image x="389" id="imgRet" source="helpx_png" fillMode="clip" y="126" width="41" height="40"/>
+</e:Skin>

@@ -1,0 +1,9 @@
+<?xml version='1.0' encoding='utf-8'?>
+<e:Skin class="rankItemSkin" width="436" height="77" xmlns:e="http://ns.egret.com/eui">
+	<e:Image height="68" width="68" x="87" y="6" id="imgAvatar" source="Ahide_png"/>
+	<e:Image height="77" width="436" x="0" y="0" fillMode="clip" id="imgBg" source="RR_png"/>
+	<e:Label fontFamily="微软雅黑" id="lblRank" x="7" y="22" size="20" width="78" textAlign="center" verticalAlign="middle" height="30"/>
+	<e:Label fontFamily="微软雅黑" id="lblName" x="165" y="9" size="20" width="257" textAlign="left" verticalAlign="middle" height="25"/>
+	<e:Label fontFamily="微软雅黑" id="lblMetal" textAlign="left" width="82" size="20" verticalAlign="middle" x="195" height="20" y="50"/>
+	<e:Label fontFamily="微软雅黑" y="50" id="lblGold" textAlign="left" width="86" size="20" verticalAlign="middle" x="330" height="20"/>
+</e:Skin>

@@ -1,0 +1,6 @@
+<?xml version='1.0' encoding='utf-8'?>
+<e:Skin class="loginButtonSkin" width="210" height="252" xmlns:e="http://ns.egret.com/eui" xmlns:w="http://ns.egret-labs.org/wing">
+	<e:Group id="icon_group" width="200" height="200" left="0" top="0"/>
+	<e:Image id="right_ui" source="right_png" y="146" x="147"/>
+	<e:Label id="name_txt" text="标签" textColor="0x070000" width="209" x="1" textAlign="center" height="39" y="219"/>
+</e:Skin>

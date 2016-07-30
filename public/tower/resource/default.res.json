@@ -1,0 +1,29 @@
+{
+	"groups":[
+		{
+			"keys":"",
+			"name":"home"
+		},
+		{
+			"keys":"",
+			"name":"loading"
+		},
+		{
+			"keys":"",
+			"name":"rank"
+		},
+		{
+			"keys":"",
+			"name":"tool"
+		},
+		{
+			"keys":"",
+			"name":"auction"
+		},
+		{
+			"keys":"",
+			"name":"login"
+		}
+	],
+	"resources":[]
+}

@@ -1,0 +1,12 @@
+<?xml version='1.0' encoding='utf-8'?>
+<e:Skin class="notificationUISkin" width="407" height="380" xmlns:e="http://ns.egret.com/eui" xmlns:w="http://ns.egret.com/wing">
+	<e:Image width="405" height="380" x="0" y="0" fillMode="clip" source="toolpopB_png"/>
+	<e:Scroller width="330" height="170" x="40" y="71">	
+		<e:viewport>
+			<e:Group width="342">
+				<e:Label id="lblContent" x="0" y="0" size="24" text=""/>
+			</e:Group>
+		</e:viewport>
+	</e:Scroller>
+	<e:Image fillMode="clip" id="imgOk" source="offlineok_png" x="136" y="281" width="137" height="52"/>	
+</e:Skin>

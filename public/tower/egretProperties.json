@@ -1,0 +1,36 @@
+{
+	"native": {
+		"path_ignore": []
+	},
+	"publish": {
+		"web": 0,
+		"native": 1,
+		"path": "bin-release"
+	},
+	"egret_version": "3.0.7",
+	"modules": [
+		{
+			"name": "egret"
+		},
+		{
+			"name": "eui"
+		},
+		{
+			"name": "res"
+		},
+		{
+			"name": "game"
+		},
+		{
+			"name": "tween"
+		},
+		{
+			"name": "nest",
+			"path": "../../egret/modules/nest/libsrc"
+		},
+		{
+    		"name": "egretsa",
+    		"path": "../../egret/modules/egretsa"
+		}
+	]
+}
