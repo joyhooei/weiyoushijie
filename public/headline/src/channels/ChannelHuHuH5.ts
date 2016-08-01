@@ -32,9 +32,9 @@ class ChannelHuHuH5 extends Channel{
     }
     
     public openScreen(stage:egret.Stage): void {
-    	if (h5Game) {
+    	try {
     		h5Game.openScreen (false);
-    	} else {
+    	} catch(error) {
     		Utility.delay(function(){
     			application.channel.openScreen(stage);
     		}, 100);
