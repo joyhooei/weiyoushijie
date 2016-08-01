@@ -13,10 +13,6 @@ class Object extends egret.Sprite {
             this.parent.removeChild(this);
         }
     }
-
-    /**打击效果*/
-    public onHit():void {
-    }
     
     /**帧事件*/
     public onEnterFrame(tick:number):void {
