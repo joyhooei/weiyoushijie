@@ -14,7 +14,11 @@ class Object extends egret.Sprite {
         }
     }
     
-    /**帧事件*/
-    public onEnterFrame(tick:number):void {
+    /**更新状态*/
+    public update():void {
     }	
+    
+    /**显示*/
+    public paint():void {
+    }	    
 }
