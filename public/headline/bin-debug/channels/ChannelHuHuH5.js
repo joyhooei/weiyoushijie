@@ -6,7 +6,13 @@ var ChannelHuHuH5 = (function (_super) {
     }
     var d = __define,c=ChannelHuHuH5,p=c.prototype;
     p.openScreen = function (stage) {
-        h5Game.openScreen(false);
+    	if (h5Game) {
+    		h5Game.openScreen (false);
+    	} else {
+    		Utility.delay(function(){
+    			application.channel.openScreen(stage);
+    		}, 100);
+    	}        
     };
     p.setOpenScreenProgress = function (progress, total, title) {
         h5Game.progress(progress, total, title);
