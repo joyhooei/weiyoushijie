@@ -1,4 +1,16 @@
+enum ObjectState {
+    idle,
+    moving,
+    moveEnd,
+    fighting,
+    fightEnd,
+    dying,
+    dead
+};
+
 class Object extends egret.Sprite {
+	private _state: ObjectState;
+	
     public constructor() {
         super();
 	}
