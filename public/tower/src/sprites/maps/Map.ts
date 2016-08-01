@@ -11,20 +11,20 @@ class Map extends Object {
         super();
     }
     
-    public update() {
+    public update(ticks:number) {
         _hero.update();
         
         for(let i = 0; i < _towers.length; i++) {
-            _towers[i].update();
+            _towers[i].update(ticks);
         }
         
         for(let i = 0; i < _npcs.length; i++) {
-            _npcs[i].update();
+            _npcs[i].update(ticks);
         }        
         
         for(let i = 0; i < _bullets.length; i++) {
-            _bullets[i].update();
-        }        
+            _bullets[i].update(ticks);
+        }
     }
     
     public paint() {
