@@ -20,7 +20,7 @@ module.exports.login = function(options) {
 				
 				resolve(user);
 			} else {
-				reject(new Error(body.message));
+				reject(new Error(body.msg));
 			}
 		}, function(error){
 			reject(error);
