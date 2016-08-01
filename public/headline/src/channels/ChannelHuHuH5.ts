@@ -48,7 +48,7 @@ class ChannelHuHuH5 extends Channel{
     public login(): Q.Promise<any> {
         let self = this;
         
-        h5Game.login('huhuh5_loginCallBcak')
+        h5Game.login('huhuh5_loginCallBcak');
 		
         return self.promise();
 	}
@@ -63,7 +63,7 @@ class ChannelHuHuH5 extends Channel{
             money:     options.money,
             orderId:   options.orderId,
         };
-        h5Game.pay(data, 'huhuh5_payCallBcak')
+        h5Game.pay(data, 'huhuh5_payCallBcak');
 		
         return self.promise();
 	}
