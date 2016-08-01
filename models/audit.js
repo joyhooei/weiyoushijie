@@ -31,13 +31,10 @@ function _loginBonus(account) {
 					resolve(0);
 				} else {
 					var rewards = 300;
-					
-					if (last.dayOfYear() == now.dayOfYear() - 1) {
-						var rewardData = [300, 500, 800, 1200, 2000, 3000, 5000];
-						for(var i = 0; i < rewardData.length - 1; i++) {
-							if (audit.get("rewards") == rewardData[i]) {
-								rewards = rewardData[i + 1]
-							}
+					var rewardData = [300, 500, 800, 1200, 2000, 3000, 5000];
+					for(var i = 0; i < rewardData.length - 1; i++) {
+						if (audit.get("rewards") == rewardData[i]) {
+							rewards = rewardData[i + 1]
 						}
 					}
 					
