@@ -6,9 +6,9 @@ var ChannelHuHuH5 = (function (_super) {
     }
     var d = __define,c=ChannelHuHuH5,p=c.prototype;
     p.openScreen = function (stage) {
-    	if (h5Game) {
+    	try {
     		h5Game.openScreen (false);
-    	} else {
+    	} catch(error) {
     		Utility.delay(function(){
     			application.channel.openScreen(stage);
     		}, 100);
