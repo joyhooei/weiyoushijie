@@ -1,5 +1,29 @@
 declare var h5Game;
 
+window['huhuh5_loginCallBcak'] = function(userId, userName, userImage, userPosition, token){
+	let channel = application.channel;
+    channel.rest("huhuh5", "login",{ token: token, userId: userId, userName: userName, userImage: userImage, userPosition: userPosition}).then(function(account){
+    	channel.resolve(account);
+    }, function(error) {
+    	channel.reject("登录失败");
+    });
+};
+
+window['huhuh5_shareCallBcak'] = function(){
+    application.channel.resolve();
+};
+
+window['huhuh5_payCallBcak'] = function(orderId, status){
+	let channel = application.channel;
+    if (status == 'SUCCESS') {
+        channel.resolve();
+	} else if(status == 'CANCEL') {
+        channel.reject("取消了支付");
+	} else {
+        channel.reject("支付失败");
+	}
+};
+
 class ChannelHuHuH5 extends Channel{
 	constructor(standalone:boolean) {
         super(standalone);
@@ -17,33 +41,15 @@ class ChannelHuHuH5 extends Channel{
     
     public login(): Q.Promise<any> {
         let self = this;
-
-        window['loginCallBcak'] = function(userId, userName, userImage, userPosition, token){
-            self.rest("huhuh5", "login",{ token: token, userId: userId, userName: userName, userImage: userImage, userPosition: userPosition}).then(function(account){
-            	self.resolve(account);
-            }, function(error) {
-            	self.reject("登录失败");
-            });
-        };
         
-        h5Game.login('loginCallBcak')
+        h5Game.login('huhuh5_loginCallBcak')
 		
         return self.promise();
 	}
 	
     public pay(options: any): Q.Promise<any> {
         let self = this;
-		
-        window['payCallBcak'] = function(orderId, status){
-            if (status == 'SUCCESS') {
-                self.resolve();
-			} else if(status == 'CANCEL') {
-                self.reject("取消了支付");
-			} else {
-                self.reject("支付失败");
-			}
-        };
-        
+       
         var data = {
             goodsId:   options.goodsId,
             goodsName: options.goodsName,
@@ -51,19 +57,15 @@ class ChannelHuHuH5 extends Channel{
             money:     options.money,
             orderId:   options.orderId,
         };
-        h5Game.pay(data, 'payCallBcak')
+        h5Game.pay(data, 'huhuh5_payCallBcak')
 		
         return self.promise();
 	}
 	
     public share(options:any): Q.Promise<any> {
         let self = this;
-
-        window['shareCallBcak'] = function(){
-            self.resolve();
-        };
         
-        h5Game.share("shareCallBcak");
+        h5Game.share("huhuh5_shareCallBcak");
 		
         return self.promise();
     }
