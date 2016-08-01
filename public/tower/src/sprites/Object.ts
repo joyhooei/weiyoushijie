@@ -1,9 +1,9 @@
 enum ObjectState {
     idle,
     moving,
-    moveEnd,
+    stop,
     fighting,
-    fightEnd,
+    fighted,
     dying,
     dead
 };
@@ -20,7 +20,7 @@ class Object extends egret.Sprite {
     }
     
     /**更新状态*/
-    public update():void {
+    public update(ticks:number):void {
     }	
     
     /**显示*/
