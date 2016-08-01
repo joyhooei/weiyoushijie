@@ -4,14 +4,7 @@ class Object extends egret.Sprite {
 	}
 	
 	/**创建*/
-    public onCreate():void {
-    }
-    
-    /**销毁*/
-    public onDestroy():void {
-        if (this && this.parent) {
-            this.parent.removeChild(this);
-        }
+    public create():void {
     }
     
     /**更新状态*/
@@ -20,5 +13,12 @@ class Object extends egret.Sprite {
     
     /**显示*/
     public paint():void {
-    }	    
+    }	
+    
+    /**销毁*/
+    public destroy():void {
+        if (this && this.parent) {
+            this.parent.removeChild(this);
+        }
+    }
 }
