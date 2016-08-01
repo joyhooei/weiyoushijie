@@ -11,36 +11,55 @@ class Map extends Object {
         super();
     }
     
+    public create() {
+        this.loadMap();
+        this.loadHero();
+    }
+    
     public update(ticks:number) {
-        _hero.update();
+        this._hero.update();
         
         for(let i = 0; i < _towers.length; i++) {
-            _towers[i].update(ticks);
+            this._towers[i].update(ticks);
         }
         
         for(let i = 0; i < _npcs.length; i++) {
-            _npcs[i].update(ticks);
+            this._npcs[i].update(ticks);
         }        
         
         for(let i = 0; i < _bullets.length; i++) {
-            _bullets[i].update(ticks);
+            this._bullets[i].update(ticks);
         }
+        
+        this.loadEnemies(ticks);
     }
     
     public paint() {
-        _hero.paint();
+        this._hero.paint();
         
         for(let i = 0; i < _towers.length; i++) {
-            _towers[i].paint();
+            this._towers[i].paint();
         }
         
         for(let i = 0; i < _npcs.length; i++) {
-            _npcs[i].paint();
+            this._npcs[i].paint();
         }        
         
         for(let i = 0; i < _bullets.length; i++) {
-            _bullets[i].paint();
+            this._bullets[i].paint();
         }            
+    }
+    
+    protected loadMap() {
+        
+    }
+    
+    protected loadHero() {
+        
+    }
+    
+    protected loadEnemies(ticks: number) {
+        
     }
     
     private _loadMap(url:string) {
