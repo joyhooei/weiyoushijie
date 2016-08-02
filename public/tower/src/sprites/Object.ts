@@ -1,9 +1,8 @@
 enum ObjectState {
     idle,
     moving,
-    stop,
+    stand,
     fighting,
-    fighted,
     dying,
     dead
 };
@@ -13,6 +12,13 @@ class Object extends egret.Sprite {
 
     public constructor() {
         super();
+	}
+	
+	public intersect(x: number, y: number, radius: number):boolean {
+		return !(x - radius > this.x + this.width || 
+           x + radius < this.x || 
+           y - radius > this.y + this.height ||
+           y + radius < this.y);
 	}
 	
 	public dead(): boolean {
