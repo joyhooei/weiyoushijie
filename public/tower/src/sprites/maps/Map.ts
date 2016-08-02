@@ -69,88 +69,88 @@ abstract class Map extends Object {
         
         this._hero.update(ticks);
         
-        for(let i = 0; i < _towers.length; i++) {
-            this._towers[i].update(ticks);
-        }
-        
-        for(let i = 0; i < _soliders.length; i++) {
-            this._soliders[i].update(ticks);
-        }        
-        
-        for(let i = 0; i < _enemies.length; i++) {
-            this._enemies[i].update(ticks);
-        }        
-        
-        for(let i = 0; i < _bullets.length; i++) {
-            this._bullets[i].update(ticks);
-        }
-         
-        for(let i = 0; i < _cartridges.length; i++) {
-            this._cartridges[i].update(ticks);
-        }
+        this._update(this._towers, i);
+        this._update(this._soliders, i);
+        this._update(this._enemies, i);
+        this._update(this._bullets, i);
+        this._update(this._cartridges, i);
     }
     
     public paint() {
         this._hero.paint();
         
-        for(let i = 0; i < _towers.length; i++) {
-            this._towers[i].paint();
-        }
-        
-        for(let i = 0; i < _soliders.length; i++) {
-            this._soliders[i].paint();
+        this._paint(this._towers);
+        this._paint(this._soliders);
+        this._paint(this._enemies);
+        this._paint(this._bullets);
+        this._paint(this._cartridges);
+    }
+    
+    private _update(objs: Object[], ticks:number){
+        for(let i = 0; i < objs.length; i++) {
+            let obj = objs[i];
+            
+            obj.update(ticks);
+            
+            if (obj.dead()) {
+                obj.splice(i, 1);
+                
+                this.removeChild(obj);
+            }
         }        
-        
-        for(let i = 0; i < _enemies.length; i++) {
-            this._enemies[i].paint();
+    }
+    
+    private _paint(objs: Object[]) {
+        for(let i = 0; i < objs.length; i++) {
+            objs[i].paint();
         }        
-        
-        for(let i = 0; i < _bullets.length; i++) {
-            this._bullets[i].paint();
-        }
-         
-        for(let i = 0; i < _cartridges.length; i++) {
-            this._cartridges[i].paint();
-        }
     }
 
     private _launch(ticks: number) {
         for(var i = 0; i < this._standbys.length; i++) {
-            var enemy = this._standbys[i];
-            if (enemy.luanchTicks >= ticks) {
+            var sb = this._standbys[i];
+            if (sb.luanchTicks >= ticks) {
                 this._standbys.splice(i, 1);
                 
-                this._enemies.push(enemy);
+                this._enemies.push(sb);
+                this._addObj(sb.x, sb.y, sb, 1);
             }
         }
     }
     
     public addSoliders(x:number, y:number, soliders:Solider[]) {
-        
+        for(var i = 0; i < soliders.length; i++) {
+            this._soliders.push(soliders[i]);
+            this._addObj(x, y, soliders[i], 1);           
+        } 
     }
     
-    public addBullets(x:number, y:number, bullets:Bullet[]) {
-        
+    public addBullets(x:number, y:number, bullet:Bullet) {
+        this._bullets.push(bullet);
+        this._addObj(x, y, bullet, 2); 
     }
     
     public addCartridges(x:number, y:number, cartridges:Bullet[]) {
-        
+        for(var i = 0; i < cartridges.length; i++) {
+            this._cartridges.push(cartridges[i]);
+            this._addObj(x, y, cartridges[i], 2);           
+        }
     }
     
     public addTower(x:number, y:number, tower:Tower) {
-        
+        this._towers.push(tower);
+        this._addObj(x, y, tower, 1);        
     }
     
     private _addBase(x:number, y:number, base:Base) {
-        base.x = x;
-        base.y = y;
         this._bases.push(base);
+        this._addObj(x, y, base, 1);
     }
 
     private _setHero(x:number, y:number, hero:Hero) {
-        hero.x = x;
-        hero.y = y;
         this._hero = hero;
+        
+        this._addObj(x, y, hero, 1);
     }
     
     private _addStandbys(x:number, y:number, enemies:Enemy[]) {
@@ -171,5 +171,11 @@ abstract class Map extends Object {
             sb.x = x;
             this._standbys.push(sb);
         }
+    }
+    
+    private _addObj(x:number, y:number, obj:Object, zIndex:number) {
+        obj.x = x;
+        obj.y = y;
+        this.addChildAt(obj, zIndex);
     }
 }
