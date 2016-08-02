@@ -125,6 +125,22 @@ abstract class Map extends Object {
         }
     }
     
+    public addSoliders(x:number, y:number, soliders:Solider[]) {
+        
+    }
+    
+    public addBullets(x:number, y:number, bullets:Bullet[]) {
+        
+    }
+    
+    public addCartridges(x:number, y:number, cartridges:Bullet[]) {
+        
+    }
+    
+    public addTower(x:number, y:number, tower:Tower) {
+        
+    }
+    
     private _addBase(x:number, y:number, base:Base) {
         base.x = x;
         base.y = y;
@@ -155,5 +171,5 @@ abstract class Map extends Object {
             sb.x = x;
             this._standbys.push(sb);
         }
-    }    
+    }
 }
