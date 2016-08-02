@@ -1,5 +1,6 @@
 enum ObjectState {
     idle,
+    building,
     moving,
     fighting,
     dying,
@@ -59,6 +60,10 @@ class Object extends egret.Sprite {
 		    	this._idle(ticks);
 		    	break;
 		    	
+		    case ObjectState.building:
+		    	this._building(ticks);
+		    	break;
+		    	
    	    	case ObjectState.moving,
 		    	this._moving(ticks);
 		    	break;
@@ -74,6 +79,10 @@ class Object extends egret.Sprite {
     }
     
     protected _idle(ticks:number) {
+    }
+    
+    protected _building(ticks:number) {
+    	
     }
 
     protected _moving(ticks:number) {
