@@ -15,10 +15,11 @@ class MapUI extends AbstractUI {
     protected onRefresh() {
         var self = this;
         
-        self._map = (Map)application.objectFactory.allocateObject("Map", {stage: self._stage, level: self._level});
-        self._map.loadResource().then(function(){
-            self._map.create();
-            self.addChild(self._map);
+        var options = {stage: self._stage, level: self._level};
+        self._map = application.factory.allocateMap(options);
+        self._map.loadResource(options).then(function(){
+            self._map.initialize(options);
+            self.addChildAt(self._map, 0);
         }, function(error:Error){
             Toast.launch(error.message);
         })
