@@ -20,7 +20,7 @@ class Map01 extends Map {
     
     //增加敌人
     protected addStandbys() {
-        let pah = [];
-        this._addStandbys(new Enemy(), path, 10);
+        let path = [];
+        this._addStandbys(-10, 200, [new Enemy(path, 600)]);
     }
 }
