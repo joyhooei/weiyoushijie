@@ -5,6 +5,6 @@ class Tower extends Object
     }
     
     protected _idle(ticks:number) {
-        this._changeState(ObjectState.building);
-    }    
+        this._changeState(ObjectState.building, ticks);
+    }
 }
