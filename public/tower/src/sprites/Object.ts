@@ -12,6 +12,8 @@ class Object extends egret.Sprite {
 
     public constructor() {
         super();
+        
+        this._state = ObjectState.idle;
 	}
 	
 	public intersect(x: number, y: number, radius: number):boolean {
@@ -43,37 +45,33 @@ class Object extends egret.Sprite {
     public update(ticks:number):void {
     	switch(this._state) {
 		    case ObjectState.idle:
-		    	this._idle();
+		    	this._idle(ticks);
 		    	break;
 		    	
    	    	case ObjectState.moving,
-		    	this._moving();
+		    	this._moving(ticks);
 		    	break;
 
    	    	case ObjectState.fighting,
-		    	this._fighting();
+		    	this._fighting(ticks);
 		    	break;
 		    	
    	    	case ObjectState.dying,
-		    	this._dying();
+		    	this._dying(ticks);
 		    	break;
     	}
     }
     
-    protected _idle() {
-    	
+    protected _idle(ticks:number) {
     }
 
-    protected _moving() {
-    	
+    protected _moving(ticks:number) {
     }
     
-    protected _fighting() {
-    	
+    protected _fighting(ticks:number) {
     }
     
-    protected _dying() {
-    	
+    protected _dying(ticks:number) {
     }
     
     /**显示*/
