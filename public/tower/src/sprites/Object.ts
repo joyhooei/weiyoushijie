@@ -14,6 +14,10 @@ class Object extends egret.Sprite {
     public constructor() {
         super();
 	}
+    
+    public match(options: any): boolean {
+    	return false;
+    }
 	
 	/**初始化*/
     public initialize(options: any):void {
