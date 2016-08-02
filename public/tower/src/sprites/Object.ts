@@ -16,7 +16,7 @@ class Object extends egret.Sprite {
 	}
 	
 	/**创建*/
-    public create():void {
+    public create(options: any):void {
     }
     
     /**更新状态*/
