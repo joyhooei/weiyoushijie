@@ -1,16 +1,14 @@
 class AbstractUI extends eui.Component{
-    constructor(skinName?:string) {
+    constructor(skinName:string) {
         super();
 
-        this.addEventListener( eui.UIEvent.COMPLETE, this._uiCompHandler, this );
+        var self = this;
         
-        if (skinName) {
-            this._loadSkin(skinName);
-        }
-    }
-    
-    private _loadSkin(skinName:string) {
-        this.skinName = "resource/custom_skins/" + skinName + ".exml";        
+        self.addEventListener( eui.UIEvent.COMPLETE, self._uiCompHandler, self );
+        
+        Utility.delay(function(){
+            self.skinName = "resource/custom_skins/" + skinName + ".exml";    
+        }, 10);
     }
 
     private _uiCompHandler() {
