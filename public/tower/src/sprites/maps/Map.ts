@@ -1,4 +1,4 @@
-class Map extends Object {
+abstract class Map extends Object {
     //己方
     private _hero:      Hero;
     private _towers:    Tower[];
@@ -6,6 +6,7 @@ class Map extends Object {
     private _bullets:   Bullet[];
     
     //敌方
+    private _standbys: Enemy[];
     private _enemies: Enemy[];
     private _cartridges: Bullet[];
     
@@ -16,7 +17,7 @@ class Map extends Object {
         super();
     }
     
-    public loadMap(): Q.Promise<tiled.TMXTilemap> {
+    public loadResource(options: any): Q.Promise<tiled.TMXTilemap> {
         var self = this;
 
         return Q.Promise<tiled.TMXTilemap>(function(resolve, reject, notify) {
@@ -28,37 +29,61 @@ class Map extends Object {
                 var data:any = egret.XML.parse(event.target.data);
                 var tmxTileMap:tiled.TMXTilemap = new tiled.TMXTilemap(2000, 2000, data, url);
                 tmxTileMap.render();
+                self.addChildAt(tmxTileMap, 0);
                 resolve(tmxTileMap);
             }, url);
             
             urlLoader.addEventListener(egret.IOErrorEvent.IO_ERROR, function (event:egret.Event):void {
-                reject(new Error('加载地图失败'));
+                reject(new Error('加载资源失败'));
             }, url);
             
             urlLoader.load(new egret.URLRequest(url)); 
         }）；        
     }
 
-    public create(options: any) {
-        this.addChild(options.tmxTileMap);
+    public initialize(options: any) {
+        this.removeChildren();
+
+        this._towers = [];
+        this._soliders = [];
+        this._bullets = [];
+        
+        this._enemies = [];
+        this._cartridges = [];
+        
+        this.addHero();
+        this.addStandbys();
     }
     
+    //增加英雄
+    abstract addHero();
+    //增加敌人
+    abstract addStandbys();
+    
     public update(ticks:number) {
-        this._hero.update();
+        this._launch(ticks);
+        
+        this._hero.update(ticks);
         
         for(let i = 0; i < _towers.length; i++) {
             this._towers[i].update(ticks);
         }
         
-        for(let i = 0; i < _npcs.length; i++) {
-            this._npcs[i].update(ticks);
+        for(let i = 0; i < _soliders.length; i++) {
+            this._soliders[i].update(ticks);
+        }        
+        
+        for(let i = 0; i < _enemies.length; i++) {
+            this._enemies[i].update(ticks);
         }        
         
         for(let i = 0; i < _bullets.length; i++) {
             this._bullets[i].update(ticks);
         }
-        
-        this.loadEnemies(ticks);
+         
+        for(let i = 0; i < _cartridges.length; i++) {
+            this._cartridges[i].update(ticks);
+        }
     }
     
     public paint() {
@@ -68,16 +93,31 @@ class Map extends Object {
             this._towers[i].paint();
         }
         
-        for(let i = 0; i < _npcs.length; i++) {
-            this._npcs[i].paint();
+        for(let i = 0; i < _soliders.length; i++) {
+            this._soliders[i].paint();
+        }        
+        
+        for(let i = 0; i < _enemies.length; i++) {
+            this._enemies[i].paint();
         }        
         
         for(let i = 0; i < _bullets.length; i++) {
             this._bullets[i].paint();
-        }            
+        }
+         
+        for(let i = 0; i < _cartridges.length; i++) {
+            this._cartridges[i].paint();
+        }
     }
 
-    protected loadEnemies(ticks: number) {
-        
+    private _launch(ticks: number) {
+        for(var i = 0; i < this._standbys.length; i++) {
+            var enemy = this._standbys[i];
+            if (enemy.luanchTicks >= ticks) {
+                this._standbys.splice(i, 1);
+                
+                this._enemies.push(enemy);
+            }
+        }
     }
 }
