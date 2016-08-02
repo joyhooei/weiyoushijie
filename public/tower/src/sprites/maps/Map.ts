@@ -118,6 +118,16 @@ abstract class Map extends Object {
         }
     }
     
+    public searchEnemy(x: number, y: number, radius: number) : Enemy {
+        for(var i = 0; i < this._enemies.length; i++) {
+            if (this._enemies.in(x, y, radius)){
+                return this._enemies[i];
+            }
+        }
+        
+        return null;
+    }
+    
     public addSoliders(x:number, y:number, soliders:Solider[]) {
         for(var i = 0; i < soliders.length; i++) {
             this._soliders.push(soliders[i]);
