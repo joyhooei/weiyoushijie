@@ -137,11 +137,22 @@ abstract class Map extends Object {
         this._hero = hero;
     }
     
-    private addStandbys(x:number, y:number, enemies:Enemy[]) {
+    private _addStandbys(x:number, y:number, enemies:Enemy[]) {
         for(var i = 0; i < enemies.length; i++) {
             var sb = enemies[i];
+            if (i % 3 == 0) {
+                sb.y = y - sb.height;
+            } else if (i % 3 == 1) {
+                sb.y = y + sb.height;
+            } else {
+                if (x <= 0) {
+                    x = x - sb.width - 5;
+                } else {
+                    x = x + sb.width + 5;
+                }
+            }
+            
             sb.x = x;
-            sb.y = y;
             this._standbys.push(sb);
         }
     }    
