@@ -78,6 +78,11 @@ class Object extends egret.Sprite {
     	}
     }
     
+    private _changeState(state:ObjectState, ticks:number) {
+    	this._ticks = ticks;
+    	this._state = state;
+    }
+    
     protected _idle(ticks:number) {
     }
     
