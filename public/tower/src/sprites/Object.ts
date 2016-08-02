@@ -14,6 +14,10 @@ class Object extends egret.Sprite {
     public constructor() {
         super();
 	}
+	
+	public dead(): boolean {
+		return this._state == ObjectState.dead;
+	}
     
     public match(options: any): boolean {
     	return false;
