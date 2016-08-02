@@ -1,6 +1,7 @@
 abstract class Map extends Object {
     //己方
     private _hero:      Hero;
+    private _bases:     Base[];
     private _towers:    Tower[];
     private _soliders:  Solidier[];
     private _bullets:   Bullet[];
@@ -53,7 +54,7 @@ abstract class Map extends Object {
         
         this.addHero();
         this.addStandbys();
-        this.addTowerBases();
+        this.addBases();
     }
     
     //增加英雄
@@ -61,7 +62,7 @@ abstract class Map extends Object {
     //增加敌人
     abstract addStandbys();
     //增加塔基
-    abstract addTowerBases();
+    abstract addBases();
     
     public update(ticks:number) {
         this._launch(ticks);
