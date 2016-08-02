@@ -13,7 +13,7 @@ abstract class Map extends Object {
     
     //地图文件地址
     private _url: string;
-    
+
     public constructor() {
         super();
     }
