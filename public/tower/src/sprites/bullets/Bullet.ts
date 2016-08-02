@@ -3,8 +3,17 @@ class Bullet extends Object {
     
     private _speed: number;
     
-    public constructor() {
+    public constructor(target: NPC) {
         super();
+        
+        this._target = target;
+        
+        this._speed = 1;
+    }
+    
+    protected _idle(ticks: number) {
+        this._state = ObjectState.moving;
+        this._ticks = ticks;
     }
     
     protected _moving(ticks: number) {
@@ -19,6 +28,8 @@ class Bullet extends Object {
         if (this.collide(_target)) {
             this._state = ObjectState.dying;
             this._ticks = ticks;
+            
+            this._target.hitBy(this._damage);
         }
     }
     
