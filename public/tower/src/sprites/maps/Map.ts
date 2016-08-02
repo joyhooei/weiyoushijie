@@ -1,19 +1,46 @@
 class Map extends Object {
-    private _hero: Hero;
+    //己方
+    private _hero:      Hero;
+    private _towers:    Tower[];
+    private _soliders:  Solidier[];
+    private _bullets:   Bullet[];
     
-    private _towers: Tower[];
+    //敌方
+    private _enemies: Enemy[];
+    private _cartridges: Bullet[];
     
-    private _npcs: NPC[];
-    
-    private _bullets: Bullet[];
+    //地图文件地址
+    private _url: string;
     
     public constructor() {
         super();
     }
     
-    public create() {
-        this.loadMap();
-        this.loadHero();
+    public loadMap(): Q.Promise<tiled.TMXTilemap> {
+        var self = this;
+
+        return Q.Promise<tiled.TMXTilemap>(function(resolve, reject, notify) {
+            var urlLoader:egret.URLLoader = new egret.URLLoader();
+            urlLoader.dataFormat = egret.URLLoaderDataFormat.TEXT;
+            
+            //load complete
+            urlLoader.addEventListener(egret.Event.COMPLETE, function (event:egret.Event):void {
+                var data:any = egret.XML.parse(event.target.data);
+                var tmxTileMap:tiled.TMXTilemap = new tiled.TMXTilemap(2000, 2000, data, url);
+                tmxTileMap.render();
+                resolve(tmxTileMap);
+            }, url);
+            
+            urlLoader.addEventListener(egret.IOErrorEvent.IO_ERROR, function (event:egret.Event):void {
+                reject(new Error('加载地图失败'));
+            }, url);
+            
+            urlLoader.load(new egret.URLRequest(url)); 
+        }）；        
+    }
+
+    public create(options: any) {
+        this.addChild(options.tmxTileMap);
     }
     
     public update(ticks:number) {
@@ -49,32 +76,8 @@ class Map extends Object {
             this._bullets[i].paint();
         }            
     }
-    
-    protected loadMap() {
-        
-    }
-    
-    protected loadHero() {
-        
-    }
-    
+
     protected loadEnemies(ticks: number) {
         
-    }
-    
-    private _loadMap(url:string) {
-        var self = this;
-
-        var urlLoader:egret.URLLoader = new egret.URLLoader();
-        urlLoader.dataFormat = egret.URLLoaderDataFormat.TEXT;
-        //load complete
-        urlLoader.addEventListener(egret.Event.COMPLETE, function (event:egret.Event):void {
-            var data:any = egret.XML.parse(event.target.data);
-            var tmxTileMap:tiled.TMXTilemap = new tiled.TMXTilemap(2000, 2000, data, url);
-            tmxTileMap.render();
-            self.addChild(tmxTileMap);
-        }, url);
-        
-        urlLoader.load(new egret.URLRequest(url));        
     }
 }
