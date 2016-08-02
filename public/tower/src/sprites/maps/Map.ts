@@ -53,12 +53,15 @@ abstract class Map extends Object {
         
         this.addHero();
         this.addStandbys();
+        this.addTowerBases();
     }
     
     //增加英雄
     abstract addHero();
     //增加敌人
     abstract addStandbys();
+    //增加塔基
+    abstract addTowerBases();
     
     public update(ticks:number) {
         this._launch(ticks);
