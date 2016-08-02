@@ -1,5 +1,5 @@
 class AbstractUI extends eui.Component{
-    constructor(skinName:string) {
+    constructor(skinName?:string) {
         super();
 
         this.addEventListener( eui.UIEvent.COMPLETE, this._uiCompHandler, this );
@@ -9,7 +9,7 @@ class AbstractUI extends eui.Component{
         }
     }
     
-    private _loadSkin(skinName) {
+    private _loadSkin(skinName:string) {
         this.skinName = "resource/custom_skins/" + skinName + ".exml";        
     }
 
