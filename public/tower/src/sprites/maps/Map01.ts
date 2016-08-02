@@ -4,7 +4,7 @@ class Map01 extends Map {
     }
     
     //增加塔基放置点
-    protected addTowerBase() {
+    protected addTowerBases() {
     }
 
     //增加英雄
