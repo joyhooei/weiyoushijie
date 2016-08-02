@@ -4,12 +4,10 @@ class MapUI extends AbstractUI {
     private _ticks : number = 0;
     
     constructor(stage:number, level:number) {
-        super();
+        super("mapUISkin");
         
         this._stage = stage;
         this._level = level;
-        
-        this._loadSkin("mapUISkin");
     }
     
     protected onRefresh() {
