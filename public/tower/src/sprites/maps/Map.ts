@@ -124,4 +124,25 @@ abstract class Map extends Object {
             }
         }
     }
+    
+    private _addBase(x:number, y:number, base:Base) {
+        base.x = x;
+        base.y = y;
+        this._bases.push(base);
+    }
+
+    private _setHero(x:number, y:number, hero:Hero) {
+        hero.x = x;
+        hero.y = y;
+        this._hero = hero;
+    }
+    
+    private addStandbys(x:number, y:number, enemies:Enemy[]) {
+        for(var i = 0; i < enemies.length; i++) {
+            var sb = enemies[i];
+            sb.x = x;
+            sb.y = y;
+            this._standbys.push(sb);
+        }
+    }    
 }
