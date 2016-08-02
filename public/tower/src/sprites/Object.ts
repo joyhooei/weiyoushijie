@@ -85,13 +85,25 @@ class Object extends egret.Sprite {
     protected _dying(ticks:number) {
     }
     
-    private _direction(x:number, y:number):ObjectDirection {
+    private _direction8(x:number, y:number):ObjectDirection {
+        let angels = [22.5, 67.5, 112.5, 157.5, 202.5, 247.5, 292.5, 337.5, 360];
+        let directions = [ObjectDirection.east, ObjectDirection.northeast, ObjectDirection.north, ObjectDirection.northwest, ObjectDirection.west, ObjectDirection.southwest, ObjectDirection.south, ObjectDirection.southeast, ObjectDirection.east ];
+        
+        return _direction(x, y, angels, directions);
+    }
+    
+    private _direction4(x:number, y:number):ObjectDirection {
+        let angels = [60, 120, 240, 300, 360];
+        let directions = [ObjectDirection.east, ObjectDirection.north, ObjectDirection.west, ObjectDirection.south, ObjectDirection.east ];
+        
+        return _direction(x, y, angels, directions);
+    }
+    
+    private _direction(x:number, y:number, angels:number[], directions:ObjectDirection[]):ObjectDirection {
         let dx: number = x - this.x;
         let dy: number = y - this.y;
         let angel = Math.atan2(dy, dx) * 180 / Math.PI + 180;
         
-        let angels = [22.5, 67.5, 112.5, 157.5, 202.5, 247.5, 292.5, 337.5, 360];
-        let directions = [ObjectDirection.east, ObjectDirection.northeast, ObjectDirection.north, ObjectDirection.northwest, ObjectDirection.west, ObjectDirection.southwest, ObjectDirection.south, ObjectDirection.southeast, ObjectDirection.east ];
         for(let i = 0; i < angels.length; i++) {
         	if (angel <= angels[i]) {
         		return directions[i];
