@@ -7,15 +7,25 @@ abstract class Map extends Object {
     private _bullets:   Bullet[];
     
     //敌方
-    private _standbys: Enemy[];
     private _enemies: Enemy[];
     private _cartridges: Bullet[];
+    
+    //当前一波敌人
+    private _currentWave: number;
+    //下一波敌人发动攻击时间
+    private _timeToNextWave: number;
+    //两波敌人发动攻击的时间间隔
+    private _timeBetweenWaves: number;
     
     //地图文件地址
     private _url: string;
 
     public constructor() {
         super();
+        
+        this._currentWave = 1;
+        this._timeToNextWave = 1000;
+        this._timeBetweenWaves = 1000;
     }
     
     public loadResource(options: any): Q.Promise<tiled.TMXTilemap> {
@@ -59,13 +69,17 @@ abstract class Map extends Object {
     
     //增加英雄
     abstract addHero();
-    //增加敌人
-    abstract addStandbys();
+
     //增加塔基
     abstract addBases();
+
+    //发动一波攻击
+    abstract launch(wave:number);
     
     public update(ticks:number) {
-        this._launch(ticks);
+        if (this._enemies.length == 0) {
+            this._launchNextWave(ticks);
+        }
         
         this._hero.update(ticks);
         
@@ -74,6 +88,15 @@ abstract class Map extends Object {
         this._update(this._enemies, i);
         this._update(this._bullets, i);
         this._update(this._cartridges, i);
+    }
+    
+    private _launchNextWave(ticks:number) {
+        this._timeToNextWave --;
+        if (this._timeToNextWave <= 0) {
+            this.launch(this._currentWave);
+            this._currentWave ++;
+            this._timeToNextWave = this._timeBetweenWaves;
+        }            
     }
     
     public paint() {
@@ -106,18 +129,6 @@ abstract class Map extends Object {
         }        
     }
 
-    private _launch(ticks: number) {
-        for(var i = 0; i < this._standbys.length; i++) {
-            var sb = this._standbys[i];
-            if (sb.luanchTicks >= ticks) {
-                this._standbys.splice(i, 1);
-                
-                this._enemies.push(sb);
-                this._addObj(sb.x, sb.y, sb, 1);
-            }
-        }
-    }
-    
     public searchEnemy(x: number, y: number, radius: number) : Enemy {
         for(var i = 0; i < this._enemies.length; i++) {
             if (this._enemies.intersect(x, y, radius)){
@@ -173,29 +184,34 @@ abstract class Map extends Object {
         this._addObj(x, y, hero, 1);
     }
     
-    private _addStandbys(x:number, y:number, enemies:Enemy[]) {
-        for(var i = 0; i < enemies.length; i++) {
-            var sb = enemies[i];
-            if (i % 3 == 0) {
-                sb.y = y - sb.height;
-            } else if (i % 3 == 1) {
-                sb.y = y + sb.height;
-            } else {
-                if (x <= 0) {
-                    x = x - sb.width - 5;
-                } else {
-                    x = x + sb.width + 5;
-                }
-            }
-            
-            sb.x = x;
-            this._standbys.push(sb);
-        }
-    }
-    
     private _addObj(x:number, y:number, obj:Object, zIndex:number) {
         obj.x = x;
         obj.y = y;
         this.addChildAt(obj, zIndex);
     }
+    
+    private _queue(x:number, y:number, direction:ObjectDirection, objs:Object[]): Object[] {
+        var width  = objs[0].width  + 2;
+        var height = objs[0].height + 2;
+        
+        for(var i = 0; i < objs.length; i++) {
+            var obj = objs[i];
+
+            if (i % 3 == 0) {
+                obj.y = y - height;
+            } else if (i % 3 == 1) {
+                obj.y = y + height;
+            } else {
+                if (direction == ObjectDirection.east) {
+                    x -= width;
+                } else {
+                    x += width;
+                }
+            }
+            
+            obj.x = x;
+        }
+        
+        return objs;
+    }    
 }
