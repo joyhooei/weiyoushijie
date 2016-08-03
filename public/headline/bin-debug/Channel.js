@@ -45,7 +45,9 @@ var Channel = (function () {
         loadfile(url, "js");
     };
     p.rest = function (channel, method, data) {
-        return application.dao.restWithUrl(application.baseUrl + "channels/" + method + "?wysj_channel=" + channel, data);
+        var url = application.baseUrl + "channels/" + method + "?wysj_channel=" + channel;
+        console.log("rest " + url + " " + JSON.stringify(data));
+        return application.dao.restWithUrl(url, data);
     };
     p.promise = function () {
         if (this._deferred) {

@@ -8,7 +8,7 @@ window['huhuh5_loginCallBcak'] = function(userId, userName, userImage, userPosit
     channel.rest("huhuh5","login",options).then(function(account){
     	channel.resolve(account);
     }, function(error) {
-        console.error("huhuh5_loginCallBcak login failed " + error);
+        console.error("huhuh5_loginCallBcak login failed ");
     	channel.reject("登录失败");
     });
 };

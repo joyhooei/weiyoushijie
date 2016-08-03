@@ -56,7 +56,11 @@ class Channel {
 	}
 	
 	public rest(channel:string, method:string, data:any): Q.Promise<any> {
-		return application.dao.restWithUrl(application.baseUrl + "channels/" + method + "?wysj_channel=" + channel, data);
+        var url = application.baseUrl + "channels/" + method + "?wysj_channel=" + channel;
+        
+        console.log("rest " + url + " " + JSON.stringify(data));
+        
+        return application.dao.restWithUrl(url, data);
 	}
     
     public promise() {

@@ -9,22 +9,27 @@ module.exports.login = function(game, options) {
 		url += encodeURIComponent(options.token);
 
 		Helper.get(url).then(function(body){
-			if (body.code == 1) {
-				var user = {
-					name:  options.userName, 
-					uid:   options.userId, 
-					avatar:options.userImage, 
-					sex:0, 
-					age:0
-				};
-				
-				Customer.login(game, user).then(function(account){
-					resolve(account)
-				}, function(error){
-					reject(error);
-				})
-			} else {
-				reject(new Error(body.msg));
+			try {
+				if (body.code == 1) {
+					var user = {
+						name:  options.userName, 
+						uid:   options.userId, 
+						avatar:options.userImage, 
+						sex:0, 
+						age:0
+					};
+					
+					Customer.login(game, user).then(function(account){
+						resolve(account)
+					}, function(error){
+						reject(error);
+					})
+				} else {
+					reject(new Error(body.msg));
+				}
+			} catch (error) {
+				console.error("login failed " + error.message);
+				reject(error);
 			}
 		}, function(error){
 			reject(error);
