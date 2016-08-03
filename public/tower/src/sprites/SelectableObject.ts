@@ -6,6 +6,8 @@ class SelectableObject extends Object {
         
         this._selected = false;
         
+        this.touchEnabled = true;
+        
         this.addEventListener(egret.TouchEvent.TOUCH_BEGIN, this._touch, this);
 	}
     
