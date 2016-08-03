@@ -55,6 +55,8 @@ class Object extends egret.Sprite {
     
     /**更新状态*/
     public update(ticks:number):void {
+    	ticks -= this._ticks;
+    	
     	switch(this._state) {
 		    case ObjectState.idle:
 		    	this._idle(ticks);
