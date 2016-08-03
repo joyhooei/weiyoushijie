@@ -7,7 +7,7 @@ module application {
     
     export var me: Customer;
 
-    export var projects: Project[];
+    export var map: Map;
 	
 	export var baseUrl: string;
 
@@ -45,9 +45,7 @@ module application {
         application.dao = new Dao(application.baseUrl + "api/", "headline");
         
         application.channel = Channel.create();
-        
-        application.projects = Project.createAll();
-        
+
         application.stopwatch = new egret.EventDispatcher();
         var timer: egret.Timer = new egret.Timer(1000,0);
         timer.addEventListener(egret.TimerEvent.TIMER,function(event: egret.TimerEvent) {
