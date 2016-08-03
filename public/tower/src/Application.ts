@@ -18,7 +18,7 @@ module application {
     export var ticks: number = 0;
     export var stopwatch: egret.EventDispatcher;
     
-    export var version: string = '2.4.1';
+    export var version: string = '1.1.1';
     
     export var token: string = "";
 
@@ -42,7 +42,7 @@ module application {
 		logger.addAppender(appender);
 		Utility.takeOverConsole(logger);
 		
-        application.dao = new Dao(application.baseUrl + "api/", "headline");
+        application.dao = new Dao(application.baseUrl + "api/", "tower");
         
         application.channel = Channel.create();
 
@@ -93,18 +93,6 @@ module application {
         })
     }
 
-    export function gotoHome(): void {
-        application.main.homeUI.gotoPage(GamePages.HOME,true);
-    }
-    
-    export function gotoAuction(): void {
-        application.main.homeUI.gotoPage(GamePages.AUCTION, false);
-    }
-    
-    export function gotoTool(): void {
-        application.main.homeUI.gotoPage(GamePages.TOOL, false);
-    }
-    
     export function showUI(ui: eui.Component,parent?: egret.DisplayObjectContainer): egret.DisplayObjectContainer {
         ui.horizontalCenter = 0;
         ui.verticalCenter   = 0;
