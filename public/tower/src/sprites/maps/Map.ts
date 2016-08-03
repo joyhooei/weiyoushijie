@@ -1,4 +1,17 @@
 abstract class Map extends Object {
+    /**地基层*/
+    private _baseLayer: egret.Sprite;
+    /**范围层*/
+    private _areaLayer: egret.Sprite;
+    /**怪物层、士兵层、英雄层、塔层(层级排序)*/
+    private _objLayer: egret.Sprite;
+    /**弓箭、炮弹层*/
+    private _bulletLayer: egret.Sprite;
+    /**工具层*/
+    private _toolLayer: egret.Sprite;
+    /**UI特效 提示层*/
+    private _uiLayer: egret.Sprite;
+    
     //己方
     private _hero:      Hero;
     private _bases:     Base[];
@@ -22,10 +35,27 @@ abstract class Map extends Object {
 
     public constructor() {
         super();
+
+        //地基层
+        this._baseLayer = this._addLayer();
+        //范围层
+        this._areaLayer = this._addLayer();
+        //怪物层、士兵层、英雄层、塔层(层级排序)
+        this._objLayer = this._addLayer();
+        //添加武器层
+        this._bulletLayer = this._addLayer();
+        //添加工具层
+        this._toolLayer = this._addLayer();
+        //添加UI层
+        this._uiLayer = this._addLayer();    
         
-        this._currentWave = 1;
-        this._timeToNextWave = 1000;
-        this._timeBetweenWaves = 1000;
+        this.addBases();
+    }
+    
+    private _addLayer():egret.Sprite(){
+        let layer = new egret.Sprite();
+        this.addChild(layer);           
+        return layer;
     }
     
     public loadResource(options: any): Q.Promise<tiled.TMXTilemap> {
@@ -53,7 +83,14 @@ abstract class Map extends Object {
     }
 
     public initialize(options: any) {
-        this.removeChildren();
+        this._areaLayer.removeChildren();
+        this._objLayer.removeChildren();
+        this._bulletLayer.removeChildren();
+        this._toolLayer.removeChildren();
+
+        this._currentWave = 1;
+        this._timeToNextWave = 1000;
+        this._timeBetweenWaves = 1000;
 
         this._towers = [];
         this._soliders = [];
@@ -63,8 +100,6 @@ abstract class Map extends Object {
         this._cartridges = [];
         
         this.addHero();
-        this.addStandbys();
-        this.addBases();
     }
     
     //增加英雄
@@ -83,11 +118,11 @@ abstract class Map extends Object {
         
         this._hero.update(ticks);
         
-        this._update(this._towers, i);
-        this._update(this._soliders, i);
-        this._update(this._enemies, i);
-        this._update(this._bullets, i);
-        this._update(this._cartridges, i);
+        this._update(this._towers, ticks, this._objLayer);
+        this._update(this._soliders, ticks, this._objLayer);
+        this._update(this._enemies, ticks, this._objLayer);
+        this._update(this._bullets, ticks, this._bulletLayer);
+        this._update(this._cartridges, ticks, this._bulletLayer);
     }
     
     private _launchNextWave(ticks:number) {
@@ -109,7 +144,7 @@ abstract class Map extends Object {
         this._paint(this._cartridges);
     }
     
-    private _update(objs: Object[], ticks:number){
+    private _update(objs: Object[], ticks:number, layer:egret.Sprite){
         for(let i = 0; i < objs.length; i++) {
             let obj = objs[i];
             
@@ -118,7 +153,7 @@ abstract class Map extends Object {
             if (obj.dead()) {
                 obj.splice(i, 1);
                 
-                this.removeChild(obj);
+                layer.removeChild(obj);
             }
         }        
     }
@@ -152,42 +187,51 @@ abstract class Map extends Object {
     public addSoliders(x:number, y:number, soliders:Solider[]) {
         for(var i = 0; i < soliders.length; i++) {
             this._soliders.push(soliders[i]);
-            this._addObj(x, y, soliders[i], 1);           
+            this._addObj(x, y, soliders[i], this._objLayer);           
+        } 
+    }
+    
+    public addEnemies(x:number, y:number, enemies:Enemy[]) {
+        for(var i = 0; i < enemies.length; i++) {
+            this._enemies.push(enemies[i]);
+            this._addObj(x, y, enemies[i], this._objLayer);           
         } 
     }
     
     public addBullets(x:number, y:number, bullet:Bullet) {
         this._bullets.push(bullet);
-        this._addObj(x, y, bullet, 2); 
+        this._addObj(x, y, bullet, this._bulletLayer); 
     }
     
     public addCartridges(x:number, y:number, cartridges:Bullet[]) {
         for(var i = 0; i < cartridges.length; i++) {
             this._cartridges.push(cartridges[i]);
-            this._addObj(x, y, cartridges[i], 2);           
+            this._addObj(x, y, cartridges[i], this._bulletLayer);           
         }
     }
     
     public addTower(x:number, y:number, tower:Tower) {
         this._towers.push(tower);
-        this._addObj(x, y, tower, 1);        
+        this._addObj(x, y, tower, this._objLayer);
     }
     
     private _addBase(x:number, y:number, base:Base) {
         this._bases.push(base);
-        this._addObj(x, y, base, 1);
+        this._addObj(x, y, base, this._baseLayer);
+        
+        base.touchEnabled = true;
     }
 
     private _setHero(x:number, y:number, hero:Hero) {
         this._hero = hero;
         
-        this._addObj(x, y, hero, 1);
+        this._addObj(x, y, hero, this._objLayer);
     }
     
-    private _addObj(x:number, y:number, obj:Object, zIndex:number) {
+    private _addObj(x:number, y:number, obj:Object, layer:egret.Sprite) {
         obj.x = x;
         obj.y = y;
-        this.addChildAt(obj, zIndex);
+        layer.addChild(obj);
     }
     
     private _queue(x:number, y:number, direction:ObjectDirection, objs:Object[]): Object[] {
