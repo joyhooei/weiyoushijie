@@ -3,9 +3,7 @@ class SelectableObject extends Object {
     
     public constructor() {
         super();
-        
-        this._selected = false;
-        
+
         this.touchEnabled = true;
         
         this.addEventListener(egret.TouchEvent.TOUCH_BEGIN, this._touch, this);
@@ -16,7 +14,7 @@ class SelectableObject extends Object {
     		this._select(true);
     	} else {
     		SelectableObject._selectedObj._deselect();
-    		
+    		SelectableObject._selectedObj = this;
     		this._select(false);
     	}
     }
