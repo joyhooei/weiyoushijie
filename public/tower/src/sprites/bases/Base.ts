@@ -13,7 +13,7 @@ class Base extends SelectableObject {
     
     protected _select(again:boolean) {
         if (this._tower) {
-            this._tower._select(again);
+            application.mao.showToow(new TowerMenuUI(), this.x, this.y);
         } else {
             application.map.showTool(new BuildTowerUI(), this.x, this.y);
         }
