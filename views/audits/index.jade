@@ -36,7 +36,7 @@ block main
 							tr
 								td= moment(audit.createdAt).format()
 								td
-									a(href="/customers/#{audit.get('customer_id')}") #{audit.get('customer_id')}
+									a(href="/customers/#{audit.get('customer_id')}", target="_blank") #{audit.get('customer_id')}
 								td= audit.get('category')
 								td= audit.get('operator')
 								td= audit.get('rewards')
