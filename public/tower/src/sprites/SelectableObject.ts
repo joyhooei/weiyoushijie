@@ -1,5 +1,5 @@
 class SelectableObject extends Object {
-    private _selected: boolean;
+    static _selectedObj: SelectableObject;
     
     public constructor() {
         super();
@@ -12,12 +12,13 @@ class SelectableObject extends Object {
 	}
     
     private _touch(e:egret.TouchEvent) {
-        if (this._selected) {
-            this._select(true);
-        } else {
-            this._selected = true;
-            this._select(false);
-        }
+    	if (SelectableObject._selectedObj == this) {
+    		this._select(true);
+    	} else {
+    		SelectableObject._selectedObj.deselect();
+    		
+    		this._select(false);
+    	}
     }
     
     protected _select(again:boolean) {
