@@ -35,6 +35,8 @@ GLOBAL.Q = require('q');
 
 var app = express();
 
+app.locals.deployVersion = Math.ceil((new Date).getTime()/300000)*300000;
+
 // 设置 view 引擎
 app.set('views', path.join(__dirname, './views'));
 app.set('view engine', 'jade');
