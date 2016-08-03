@@ -1,4 +1,4 @@
-abstract class Map extends Object {
+abstract class Map extends SelectableObject {
     /**地基层*/
     private _baseLayer: egret.Sprite;
     /**范围层*/
