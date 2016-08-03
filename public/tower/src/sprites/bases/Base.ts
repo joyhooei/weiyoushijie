@@ -15,7 +15,7 @@ class Base extends SelectableObject {
         if (this._tower) {
             this._tower._select(again);
         } else {
-            application.map.showTool(new TowerMenuUI(), this.x, this.y);
+            application.map.showTool(new BuildTowerUI(), this.x, this.y);
         }
     }
 }
