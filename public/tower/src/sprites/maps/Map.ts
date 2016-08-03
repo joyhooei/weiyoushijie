@@ -9,9 +9,7 @@ abstract class Map extends Object {
     private _bulletLayer: egret.Sprite;
     /**工具层*/
     private _toolLayer: egret.Sprite;
-    /**UI特效 提示层*/
-    private _uiLayer: egret.Sprite;
-    
+
     //己方
     private _hero:      Hero;
     private _bases:     Base[];
@@ -46,9 +44,7 @@ abstract class Map extends Object {
         this._bulletLayer = this._addLayer();
         //添加工具层
         this._toolLayer = this._addLayer();
-        //添加UI层
-        this._uiLayer = this._addLayer();    
-        
+
         this.addBases();
     }
     
@@ -218,8 +214,6 @@ abstract class Map extends Object {
     private _addBase(x:number, y:number, base:Base) {
         this._bases.push(base);
         this._addObj(x, y, base, this._baseLayer);
-        
-        base.touchEnabled = true;
     }
 
     private _setHero(x:number, y:number, hero:Hero) {
