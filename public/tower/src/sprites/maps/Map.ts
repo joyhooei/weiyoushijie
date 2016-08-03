@@ -107,6 +107,16 @@ abstract class Map extends Object {
     //发动一波攻击
     abstract launch(wave:number);
     
+    public showTool(ui:egret.DisplayObject, x:number, y:number) {
+        ui.x = x;
+        ui.y = y;
+        this._toolLayer.addChild(ui);
+    }
+    
+    public hideTool(ui:egret.DisplayObject) {
+        this._toolLayer.removeChild(ui);
+    }
+    
     public update(ticks:number) {
         if (this._enemies.length == 0) {
             this._launchNextWave(ticks);
