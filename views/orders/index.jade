@@ -36,7 +36,7 @@ block main
 								td= moment(order.updatedAt).format('LLL')
 								td= order.id
 								td
-									a(href="/customers/#{order.get('customer_id')}") #{order.get('customer_id')}
+									a(href="/customers/#{order.get('customer_id')}", target="_blank") #{order.get('customer_id')}
 								td= order.get('price')
 								td= order.get('product')
 								td= order.get('channel')
