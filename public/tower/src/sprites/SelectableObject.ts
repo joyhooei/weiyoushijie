@@ -15,7 +15,7 @@ class SelectableObject extends Object {
     	if (SelectableObject._selectedObj == this) {
     		this._select(true);
     	} else {
-    		SelectableObject._selectedObj.deselect();
+    		SelectableObject._selectedObj._deselect();
     		
     		this._select(false);
     	}
@@ -24,7 +24,6 @@ class SelectableObject extends Object {
     protected _select(again:boolean) {
     }
     
-    public deselect() {
-        this._selected = false;
+    protected _deselect() {
     }
 }
