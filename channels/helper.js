@@ -38,6 +38,8 @@ module.exports.get = function(url) {
 
 		function callback(error, response, body) {
 		    if (!error && response.statusCode == 200) {
+				console.log("GET " + url + " " + JSON.stringify(body));
+	
 		        resolve(body);
 		    } else {
 				console.error("GET " + url + " " + error + " " + response.statusCode + " " + JSON.stringify(body));

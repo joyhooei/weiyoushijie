@@ -1,8 +1,11 @@
 window['huhuh5_loginCallBcak'] = function (userId, userName, userImage, userPosition, token) {
+    var options = { token: token, userId: userId, userName: userName, userImage: userImage, userPosition: userPosition };
+    console.log("huhuh5_loginCallBcak" + JSON.stringify(options));
     var channel = application.channel;
-    channel.rest("huhuh5", "login", { token: token, userId: userId, userName: userName, userImage: userImage, userPosition: userPosition }).then(function (account) {
+    channel.rest("huhuh5", "login", options).then(function (account) {
         channel.resolve(account);
     }, function (error) {
+        console.error("huhuh5_loginCallBcak login failed " + error);
         channel.reject("登录失败");
     });
 };
@@ -10,6 +13,7 @@ window['huhuh5_shareCallBcak'] = function () {
     application.channel.resolve();
 };
 window['huhuh5_payCallBcak'] = function (orderId, status) {
+    console.log("huhuh5_payCallBcak" + orderId + " " + status);
     var channel = application.channel;
     if (status == 'SUCCESS') {
         channel.resolve();
@@ -35,7 +39,7 @@ var ChannelHuHuH5 = (function (_super) {
         catch (error) {
             Utility.delay(function () {
                 application.channel.openScreen(stage);
-            }, 100);
+            }, 10);
         }
     };
     p.setOpenScreenProgress = function (progress, total, title) {
