@@ -18,7 +18,7 @@ module application {
     export var ticks: number = 0;
     export var stopwatch: egret.EventDispatcher;
     
-    export var version: string = '2.4.1';
+    export var version: string = '2.5.1';
     
     export var token: string = "";
 
