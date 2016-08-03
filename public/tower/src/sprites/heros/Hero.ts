@@ -1,4 +1,4 @@
-class Hero extends Object {
+class Hero extends SelectableObject {
     public constructor() {
         super();
     }
