@@ -37,7 +37,7 @@ block main
 						- each message in messages
 							tr
 								td
-									a(href="/customers/#{message.get('customer_id')}") #{message.get('customer_id')}
+									a(href="/customers/#{message.get('customer_id')}", target="_blank") #{message.get('customer_id')}
 								td= message.get('title')
 								td= message.get('content')
 								td= message.get('attach_category')
