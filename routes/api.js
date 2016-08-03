@@ -18,7 +18,7 @@ router.get('/send_vip_metal', function(req, res, next) {
 });
 
 router.get('/open_bid', function(req, res, next) {
-	Helper.do(Bid.open(req.query.game || "headline"), res);
+	Helper.do(Bid.open(req.query.game || "headline", req.query.today), res);
 });
 
 router.get('/max_bid', function(req, res, next) {
