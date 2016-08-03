@@ -108,13 +108,15 @@ abstract class Map extends SelectableObject {
     abstract launch(wave:number);
     
     public showTool(ui:egret.DisplayObject, x:number, y:number) {
+        this.hideAllTools();
+        
         ui.x = x;
         ui.y = y;
         this._toolLayer.addChild(ui);
     }
     
-    public hideTool(ui:egret.DisplayObject) {
-        this._toolLayer.removeChild(ui);
+    public hideAllTools() {
+        this._toolLayer.removeAllChildren();
     }
     
     public update(ticks:number) {
