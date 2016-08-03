@@ -1,5 +1,7 @@
 var Helper = require('./helper');
 
+var Customer = require('../models/customer');
+
 module.exports.login = function(game, options) {
 	var self = this;
 	
