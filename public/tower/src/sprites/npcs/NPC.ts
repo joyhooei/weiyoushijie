@@ -7,6 +7,10 @@ class NPC extends Object {
         super();
     }
     
+    protected _idle(ticks: number) {
+        this._changeState(ObjectState.moving, ticks);
+    }
+    
     public hitBy(damage:number) {
         this._blood -= damage;
         if (this._blood < 0) {
