@@ -29,7 +29,7 @@ block main
 						- each black in blacks
 							tr
 								td
-									a(href="/customers/#{black.get('customer_id')}") #{black.get('customer_id')}
+									a(href="/customers/#{black.get('customer_id')}", target="_blank") #{black.get('customer_id')}
 								td= black.get('reason')
 								td.center
 									a(class="rest btn btn-danger", href="/blacks/#{black.id}?game=#{game}", data-method="DELETE")
