@@ -58,7 +58,7 @@ block main
 							td= customer.get('last_login')
 						
 				div.btn-group
-					a(href="/blacks/new?customer_id=#{customer.id}&game=#{game}", class="btn btn-primary") 加入黑名单
-					a(href="/messages/new?customer_id=#{customer.id}&game=#{game}", class="btn btn-primary") 发送消息
-					a(href="/projects?customer_id=#{customer.id}&game=#{game}&v=#{deployVersion}", class="btn btn-primary") 我的项目
-					a(href="/gifts?customer_id=#{customer.id}&game=#{game}&v=#{deployVersion}", class="btn btn-primary") 我的礼物					
+					a(href="/blacks/new?customer_id=#{customer.id}&game=#{game}", class="btn btn-primary", target="_blank") 加入黑名单
+					a(href="/messages/new?customer_id=#{customer.id}&game=#{game}", class="btn btn-primary", target="_blank") 发送消息
+					a(href="/projects?customer_id=#{customer.id}&game=#{game}&v=#{deployVersion}", class="btn btn-primary", target="_blank") 我的项目
+					a(href="/gifts?customer_id=#{customer.id}&game=#{game}&v=#{deployVersion}", class="btn btn-primary", target="_blank") 我的礼物					
