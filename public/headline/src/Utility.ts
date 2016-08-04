@@ -101,6 +101,8 @@ class Utility {
 	    	for(let i = 0; i < Utility.loadedFiles.length; i++){
 	    		if (Utility.loadedFiles[i] == file) {
 	    			resolve();
+	    			
+	    			return;
 	    		}
 	    	}
 	
