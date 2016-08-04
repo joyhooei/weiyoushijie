@@ -51,8 +51,19 @@ class Channel {
         return this._standalone;
     }
     
-    public require(file:string):　Q.Promise<any> {
-    	return Utility.require(file);
+    public require(file:string):Q.Promise<any> {
+    	var self = this;
+    	
+    	Utility.require(file).then(function(){
+    		//需要等待js执行完成
+    		Utility.delay(function(){
+    			self.resolve();
+    		}, 100);
+    	}, function(error){
+    		self.reject(error);
+    	})
+    	
+    	return self.promise();
     }
 
 	public rest(channel:string, method:string, data:any): Q.Promise<any> {
