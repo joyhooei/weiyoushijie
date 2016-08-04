@@ -31,22 +31,20 @@ window['huhuh5_payCallBcak'] = function(orderId, status){
 };
 
 class ChannelHuHuH5 extends Channel{
+	private url :string;
+	
 	constructor(standalone:boolean) {
         super(standalone);
         
-        this.loadjs('http://server.huhuh5.com:8081/3HGame/jsFile/h5Game.js');
+        this.url = 'http://server.huhuh5.com:8081/3HGame/jsFile/h5Game.js';
     }
     
     public openScreen(stage:egret.Stage): void {
     	super.openScreen(stage);
     	
-    	try {
+    	this.require(this.url).then(function(){
     		h5Game.openScreen (false);
-    	} catch(error) {
-    		Utility.delay(function(){
-    			application.channel.openScreen(stage);
-    		}, 10);
-    	}
+    	})
     }
     
     public setOpenScreenProgress(progress:number, total:number, title:string): void {
