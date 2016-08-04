@@ -50,11 +50,7 @@ class Channel {
     public standalone():boolean {
         return this._standalone;
     }
-	
-	public loadjs(url:string) {
-		loadfile(url, "js");
-	}
-	
+
 	public rest(channel:string, method:string, data:any): Q.Promise<any> {
         var url = application.baseUrl + "channels/" + method + "?wysj_channel=" + channel;
         
