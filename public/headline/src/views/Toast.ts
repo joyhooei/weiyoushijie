@@ -2,15 +2,13 @@
  * Created by egret on 2016/1/26.
  */
 class Toast extends egret.DisplayObjectContainer{
-    
     public static init( cont:egret.DisplayObjectContainer, txtrToastBg:egret.Texture ):void{
-        console.log( "Toast.init", txtrToastBg );
         this._cont = cont;
         this._txtrToastBg = txtrToastBg;
     }
     
     public static launch( msg:string ):void{
-        if( this._cont ){
+        if( this._cont && msg && msg.length > 0){
             var toast:Toast = new Toast( msg, this._cont.stage.stageWidth, this._cont.stage.stageHeight );
             this._cont.addChild( toast );
         }
