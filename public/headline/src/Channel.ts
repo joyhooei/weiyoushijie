@@ -20,7 +20,7 @@ declare var loadfile;
 
 class Channel {
 	static create(): Channel {
-		let cid = egret.getOption("channelId") || egret.getOption("egret.runtime.spid") || egret.getOption("wysj_channel") || "egret";
+        let cid = egret.getOption("wysj_channel") || egret.getOption("channelId") || egret.getOption("egret.runtime.spid") ||  "egret";
 		
         if(cid === CHANNEL_1758_IN_EGRET) {
 			console.info("using channel 1758");
@@ -52,19 +52,8 @@ class Channel {
         return this._standalone;
     }
     
-    public require(file:string):Q.Promise<any> {
-    	var self = this;
-    	
-    	Utility.require(file).then(function(){
-    		//需要等待js执行完成
-    		Utility.delay(function(){
-    			self.resolve();
-    		}, 10);
-    	}, function(error){
-    		self.reject(error);
-    	})
-    	
-    	return self.promise();
+    public require(file:string):Q.Promise<any> {    	
+        return Utility.require(file);
     }
 
 	public rest(channel:string, method:string, data:any): Q.Promise<any> {

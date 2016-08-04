@@ -7,7 +7,7 @@
 		"native": 1,
 		"path": "bin-release"
 	},
-	"egret_version": "3.0.7",
+	"egret_version": "3.0.8",
 	"modules": [
 		{
 			"name": "egret"
@@ -29,8 +29,8 @@
 			"path": "../../egret/modules/nest/libsrc"
 		},
 		{
-    		"name": "egretsa",
-    		"path": "../../egret/modules/egretsa"
+			"name": "egretsa",
+			"path": "../../egret/modules/egretsa"
 		}
 	]
 }

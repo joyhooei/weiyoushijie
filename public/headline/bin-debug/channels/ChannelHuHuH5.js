@@ -29,25 +29,14 @@ var ChannelHuHuH5 = (function (_super) {
     __extends(ChannelHuHuH5, _super);
     function ChannelHuHuH5(standalone) {
         _super.call(this, standalone);
-        this.loadjs('http://server.huhuh5.com:8081/3HGame/jsFile/h5Game.js');
+        this.url = 'http://server.huhuh5.com:8081/3HGame/jsFile/h5Game.js';
     }
     var d = __define,c=ChannelHuHuH5,p=c.prototype;
-    p.openScreen = function (stage) {
-        try {
-            h5Game.openScreen(false);
-        }
-        catch (error) {
-            Utility.delay(function () {
-                application.channel.openScreen(stage);
-            }, 10);
-        }
-    };
-    p.setOpenScreenProgress = function (progress, total, title) {
-        h5Game.progress(progress, total, title);
-    };
     p.login = function () {
         var self = this;
-        h5Game.login('huhuh5_loginCallBcak');
+        self.require(self.url).then(function () {
+            h5Game.login('huhuh5_loginCallBcak');
+        });
         return self.promise();
     };
     p.pay = function (options) {

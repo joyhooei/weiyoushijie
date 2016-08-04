@@ -100,7 +100,7 @@ class Utility {
 	    	
 	    	for(let i = 0; i < Utility.loadedFiles.length; i++){
 	    		if (Utility.loadedFiles[i] == file) {
-	    			resolve();
+                    resolve("");
 	    			
 	    			return;
 	    		}
@@ -121,12 +121,12 @@ class Utility {
 	        	// IE
 	        	filenode.onreadystatechange = function () {
 	            	if (filenode.readyState === 'loaded' || filenode.readyState === 'complete') {
-	                	timer.stop();
+	                	 timer.stop();
 	                	
-	                	filenode.onreadystatechange = null;
+	                	 filenode.onreadystatechange = null;
 	                	
-	                	Utility.loadedFiles.push(file);
-	                	resolve();
+	                	 Utility.loadedFiles.push(file);
+                        resolve("");
 	            	}
 	        	};
 	        	
@@ -136,7 +136,7 @@ class Utility {
 	        		
 	        		Utility.loadedFiles.push(file);
 	        		
-	            	resolve();
+                    resolve("");
 	        	};
 	        	
 	        	document.head.appendChild(filenode);
@@ -148,7 +148,7 @@ class Utility {
 	        	document.head.appendChild(filenode);
 	        	
 	        	Utility.loadedFiles.push(file);
-	        	resolve();
+                resolve("");
 	    	} else {
 	    		let message = "unknown file type to load " + file;
 	    		console.error(message);

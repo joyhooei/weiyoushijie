@@ -2,6 +2,7 @@ var application;
 (function (application) {
     application.ticks = 0;
     application.version = '2.5.1';
+    application.game = 'headline';
     application.token = "";
     function init(main) {
         application.main = main;
@@ -18,10 +19,11 @@ var application;
         appender.setThreshold(log4javascript.Level.ERROR);
         var layout = new log4javascript.HttpPostDataLayout();
         layout.setCustomField("version", application.version);
+        layout.setCustomField("game", application.game);
         appender.setLayout(layout);
         logger.addAppender(appender);
         Utility.takeOverConsole(logger);
-        application.dao = new Dao(application.baseUrl + "api/", "headline");
+        application.dao = new Dao(application.baseUrl + "api/", application.game);
         application.channel = Channel.create();
         application.projects = Project.createAll();
         application.stopwatch = new egret.EventDispatcher();

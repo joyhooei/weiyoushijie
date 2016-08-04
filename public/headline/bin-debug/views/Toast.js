@@ -40,12 +40,11 @@ var Toast = (function (_super) {
     }
     var d = __define,c=Toast,p=c.prototype;
     Toast.init = function (cont, txtrToastBg) {
-        console.log("Toast.init", txtrToastBg);
         this._cont = cont;
         this._txtrToastBg = txtrToastBg;
     };
     Toast.launch = function (msg) {
-        if (this._cont) {
+        if (this._cont && msg && msg.length > 0) {
             var toast = new Toast(msg, this._cont.stage.stageWidth, this._cont.stage.stageHeight);
             this._cont.addChild(toast);
         }
