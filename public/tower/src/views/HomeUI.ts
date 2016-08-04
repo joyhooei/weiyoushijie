@@ -1,27 +1,6 @@
-class HomeUI extends eui.Component{
-    //footer buttons
-    private btnHome: eui.ToggleButton;
-    private btnRank: eui.ToggleButton;
-    private btnTool: eui.ToggleButton;
-    private btnAuction: eui.ToggleButton;
-    private _btnFocused:eui.ToggleButton;
-    private btns: eui.ToggleButton[];
-    
-    private _pageFocusedPrev:string;
-    private _pageFocused:string;
-    
-    private _rankUI:RankUI;
-    private _toolUI:ToolUI;
-    private _auctionUI:AuctionUI;
-    private _uiFocused:eui.Component;
-    
+class HomeUI extends AbstractUI{
     private imgBg:eui.Image;
-    
-    private grpProject: eui.Group;
-    private projectItems: ProjectItem[];
-    
-    private mcBeauty: egret.MovieClip;
-    
+
 	private imgAvatar: eui.Image;
     private lblGold:eui.Label;
     private lblDiamond: eui.Label;
@@ -35,20 +14,9 @@ class HomeUI extends eui.Component{
     private grpAddGold: eui.Group;
 	private imgAddGold: eui.Image;
 	private lblAddGold: eui.Label;
-    
-	private bid: any;
-	private imgBidAvatar:eui.Image;
-    private lblBidName:eui.Label;
-    private lblBidGold:eui.Label;
-        
+
     private imgCharge: eui.Image;
-    
-    private btnHit: eui.Button;
-    private lblHit: eui.Label;
-    private lblTotalHits: eui.Label;
-    private imgHit: eui.Image;
-	private hit: number = 0;
-	
+
 	private imgVip: eui.Image;
 	
     private btnGift: eui.Button;
@@ -66,14 +34,10 @@ class HomeUI extends eui.Component{
     private imgHasMessage: eui.Image;
     
     constructor( ) {
-        super();
-		
-        this.addEventListener( eui.UIEvent.COMPLETE, this.uiCompHandler, this );
-        
-        this.skinName = "resource/custom_skins/homeUISkin.exml";
+        super("homeUISkin");
     }
 
-    private uiCompHandler():void {
+    protected onRefresh():void {
         var self = this;
         
         self.lblAddGold.visible = false;
@@ -87,24 +51,10 @@ class HomeUI extends eui.Component{
         self.imgHasMessage.visible = false;
         
         self.imgVip.source = "VIP" + application.me.vip.getLevel().toString() + "_png";
-        
-        self.btnHome.addEventListener( egret.TouchEvent.TOUCH_TAP, self.btnHandler, self );
-        self.btnRank.addEventListener( egret.TouchEvent.TOUCH_TAP, self.btnHandler, self );
-        self.btnTool.addEventListener( egret.TouchEvent.TOUCH_TAP, self.btnHandler, self );
-        self.btnAuction.addEventListener( egret.TouchEvent.TOUCH_TAP, self.btnHandler, self );
-        
-        self.btns = [self.btnHome,self.btnRank,self.btnTool,self.btnAuction ];
-        
+
 		self.imgAvatar.source = Customer.avatarUrl(application.me.attrs);
         self.renderCustomer();
-        
-		self.lblTotalHits.text = "x" + application.me.attrs.total_hits.toString();
-        self.renderTotalHits();
-            
-        self.renderProjects();
-        
-		self.renderBeauty();
-        
+
         self.lblHit.addEventListener(egret.TouchEvent.TOUCH_BEGIN, function() {
 			self.onHit();
         }, this);
@@ -147,17 +97,8 @@ class HomeUI extends eui.Component{
         self.imgVip.addEventListener(egret.TouchEvent.TOUCH_BEGIN,function() {
             application.showUI(new VipUI(),this);
         },this);
-       
-        application.dao.addEventListener("Project",function(ev: egret.Event) {
-            var myProject = ev.data;
-            this.renderProject(myProject);
-        },this);
 
         application.dao.addEventListener("Customer",function(ev: egret.Event) {
-            this.renderCustomer();
-        },this);
-
-        application.dao.addEventListener("Bid",function(ev: egret.Event) {
             this.renderCustomer();
         },this);
 
@@ -183,10 +124,6 @@ class HomeUI extends eui.Component{
 			application.guideUI.setOverCallback(function(){
 			 	self.earnGoldDynamically();
 
-				self.renderBid();
-
-			 	self.refreshBidAtNoon();
-				
                 self.refreshMessageTimely();
 			});
             
@@ -195,10 +132,6 @@ class HomeUI extends eui.Component{
 		} else {	
 		 	self.earnGoldDynamically();
 
-			self.renderBid();
-			
-		 	self.refreshBidAtNoon();
-			
             self.refreshMessageTimely();
 		}
     }
@@ -236,40 +169,7 @@ class HomeUI extends eui.Component{
 			}
 		}, this);
     }
-    
-    private renderTotalHits(): void {
-    	var self = this;
-		
-        application.stopwatch.addEventListener("hour", function(event:egret.Event){
-        	if (event.data % 4 == 0) {
-			 	application.dao.rest("hits", {customer_id: application.me.attrs.id}).then(function(result) {
-				 	application.me.attrs.total_hits = result.hits;
-				 	self.lblTotalHits.text = "x" + application.me.attrs.total_hits.toString();
-			 	});				
-			}
-        }, this);
-    }
-	
-	//中午12点需要刷新拍卖数据
-	private refreshBidAtNoon(): void {
-    	var self = this;
-		
-		application.stopwatch.addEventListener("minute", function(event:egret.Event){
-        	var bidDay = Bid.day();
-			
-			//如果bidday已经过期了，则重新刷新bid数据
-			if (!(self.bid && bidDay == self.bid.day)) {
-				self.renderBid();
-			}
-            
-            if (!(application.me.bid.attrs && bidDay == application.me.bid.attrs.day)) {
-				application.me.bid.refresh(application.me).then(function(bid){
-                    self.renderCustomer();
-				});
-			}
-		}, this);
-	}
-	
+
 	private refreshMessageTimely(): void {
         this.renderMessage();
         
@@ -288,117 +188,13 @@ class HomeUI extends eui.Component{
             }
         });
     }
-    
-	private renderBid(): void {
-		var self = this;
-		
-        application.dao.fetch("Bid",{ succeed: 1}, {limit : 1, order :'create_time desc'}).then(function(bids){
-            if (bids.length > 0 && !(self.bid && self.bid.id == bids[0].id)) {
-				self.bid = bids[0];
-				
-				//如果显示win ui，则不显示offlinegold ui，否则显示offlinegold ui
-				if (application.me.attrs.id == self.bid.customer_id) {
-					//已经显示过，就不需要再显示了
-					if (self.bid.claimed == 0) {
-						application.showUI(new WinUI(self.bid), self);
-                        
-                        application.me.earnOfflineGold();
-					} else {
-                    	self.renderOfflineGold();
-                        
-                        Bid.earn(application.me);
-                    }
-					
-					self.renderBidCustomer(application.me.attrs);
-				} else {
-					application.dao.fetch("Customer",{ id: self.bid.customer_id },{ limit: 1 }).then(function(customers) {
-						if(customers.length > 0) {
-							self.renderBidCustomer(customers[0]);
-						}
-					});
-					
-					self.renderOfflineGold();
-                    
-                    Bid.earn(application.me);
-				}
-            }
-        })
-	}
-    
+
     private renderOfflineGold(): void {
         if(application.me.attrs.offline_gold > 0) {
             application.showUI(new OfflineGoldUI(), this);
         }
     }
-	
-	private renderBidCustomer(customer:any) {
-		this.lblBidName.text = customer.name;
-		this.lblBidGold.text = Utility.format(this.bid.gold);
 
-		if (customer.hide_winner == 1) {
-			this.imgBidAvatar.source = "Ahide_png";
-		} else {
-            this.imgBidAvatar.source = Customer.avatarUrl(customer);
-        }
-	}
-	
-	private renderProjects(): void {
-		var self = this;
-		
-        self.projectItems = new Array<ProjectItem>();
-		
-        self.grpProject.removeChildren();
-        application.dao.fetch("Project",{ customer_id: application.me.attrs.id },{ order: 'sequence asc' }).then(function(projects) {
-            if(projects.length > 0) {
-              	var output = 1;
-                for(var i = 0; i < projects.length; i ++){
-					var p = projects[i];
-					
-                    self.renderProject(p);
-                    
-                    if (p.unlocked == 0) {
-                    	output += application.projects[p.sequence].output(p.level, p.achieve, p.tool_ratio);
-					}
-                }
-				output = application.me.vip.getOutput(output);
-                
-				if (output != application.me.attrs.output) {
-					application.me.attrs.output = output;
-					application.me.saveNow();
-					
-					self.lblOutput.text = Utility.format(self.getOutput());
-				}
-            }
-        });
-	}
-	
-	private renderBeauty(): void {
-		var self = this;
-		
-        var data = RES.getRes("animation_json");
-        var txtr = RES.getRes("animation_png");
-        var mcFactory:egret.MovieClipDataFactory = new egret.MovieClipDataFactory( data, txtr );
-		
-        self.mcBeauty = new egret.MovieClip( mcFactory.generateMovieClipData("" ) );
-        self.mcBeauty.x = 70; 
-        self.mcBeauty.y = 90; 
-        self.addChildAt(self.mcBeauty, 3);
-		
-        self.mcBeauty.touchEnabled = true;
-        self.mcBeauty.addEventListener(egret.TouchEvent.TOUCH_BEGIN, function() {
-			self.onBeauty();
-        },this);
-	}
-	
-	private onBeauty(): void {
-		this.mcBeauty.play(3);
-		this.earnGold(1);
-		
-		if (application.guideUI) {
-		    application.guideUI.next();
-		}
-	}
-	
 	private earnGold(second:number): void {
 		var gold = this.getOutput() * second;
 		
@@ -420,48 +216,7 @@ class HomeUI extends eui.Component{
         },this);
         timer.start();
 	}
-	
-	private onHit(): void {
-		var self = this;
-        
-        if (self.hit > 0) {
-        	return;
-		}
-		
-		if (application.me.attrs.total_hits > 0) {
-            application.me.attrs.total_hits -= 1;
-            application.me.saveNow();
-            
-            self.lblTotalHits.text = "x" + application.me.attrs.total_hits.toString();
-            
-    		self.hit = 59;
-    		self.lblOutput.text = Utility.format(self.getOutput());
-            
-            Toast.launch("获得" + application.me.vip.getHitRatio() + "倍收益，持续60秒");
-            
-            self.imgHit.visible = true;
-            
-    		var timer: egret.Timer = new egret.Timer(1000, 59);
-    		timer.addEventListener(egret.TimerEvent.TIMER, function(event:egret.TimerEvent){
-    			self.lblHit.text = self.hit.toString();
-    
-				if (self.hit > 0) {
-    				self.hit = self.hit - 1;
-				}
-    		}, this);   
-    		timer.addEventListener(egret.TimerEvent.TIMER_COMPLETE, function(event:egret.TimerEvent){
-    			self.hit = 0;
-    			self.lblHit.text = "59";
-    			self.lblOutput.text = Utility.format(self.getOutput());
-                
-                self.imgHit.visible = false;
-    		}, this);
-    		timer.start();
-    	} else {
-    	    application.showUI(new BuyToolUI("hit", 100), this);
-    	}
-	}
-	
+
 	private getOutput(): number {
 		if (this.hit > 0) {
 			return application.me.vip.getHit(application.me.attrs.output);
@@ -507,192 +262,11 @@ class HomeUI extends eui.Component{
             
             this.output = this.getOutput();
 		}
-		
-        this.lblTotalHits.text = "x" + application.me.attrs.total_hits.toString();
-        
+
         if (application.me.attrs.charge > 0) {
         	this.imgCharge.source = "charge_png";
         }
         
         this.lblName.text = application.me.attrs.name;
-	}
-	
-	private renderProject(proj) {
-		if (proj) {
-            let i = proj.sequence;
-            
-            if(i >= this.projectItems.length) {
-				let item: ProjectItem = new ProjectItem(proj, application.projects[i]);
-                this.projectItems[i] = item;
-				this.grpProject.addChildAt(item,i);
-		 	}
-		}
-	}
-    
-    private gotoHome():void{
-		this._uiFocused   = null;
-		this.selectFooter(this.btnHome);
-    }
-    
-    private gotoTool():void {
-		if( !this._toolUI ){
-			this._toolUI = new ToolUI();
-			this._toolUI.addEventListener( GameEvents.EVT_RETURN, ()=>{
-				this.gotoPage(GamePages.HOME, true);
-			}, this );
-		} else {
-            this._toolUI.refresh();
-		}
-		
-		this._uiFocused = this._toolUI;		
-		this.selectFooter(this.btnTool);
-    }
-    
-    private gotoRank():void {
-		if( !this._rankUI ){
-			this._rankUI = new RankUI();
-			this._rankUI.addEventListener( GameEvents.EVT_RETURN, ()=>{
-				this.gotoPage(GamePages.HOME, true);
-			}, this );
-		} else {
-            this._rankUI.refresh();
-		}
-		
-		this._uiFocused = this._rankUI;	
-		this.selectFooter(this.btnRank);
-    }
-    
-    private gotoAuction():void {
-		if( !this._auctionUI ){
-			this._auctionUI = new AuctionUI();
-			this._auctionUI.addEventListener( GameEvents.EVT_RETURN, ()=>{
-				this.gotoPage(GamePages.HOME, true);
-			}, this );
-		} else {
-            this._auctionUI.refresh();
-		}
-		
-		this._uiFocused = this._auctionUI;	
-		this.selectFooter(this.btnAuction);
-		
-        if(application.guideUI) {
-            application.guideUI.next();
-        }		
-    }
-    
-    private btnHandler( evt:egret.TouchEvent ):void{
-        /// 已经选中不应当再处理!
-        if( evt.currentTarget == this._btnFocused ) {
-            this._btnFocused.selected = true;
-            return;
-        }
-
-        switch ( evt.currentTarget ){
-            case this.btnHome:
-                this.gotoPage(GamePages.HOME, true);
-                break;
-                
-            case this.btnRank:
-				this.gotoPage(GamePages.RANK, false);
-                break;
-                
-            case this.btnTool:
-                this.gotoPage(GamePages.TOOL, false);
-                break;
-                
-            case this.btnAuction:
-                this.gotoPage(GamePages.AUCTION, false);
-                break;
-        }
-    }
-    
-    private resetFocus():void{
-        if( this._uiFocused ){
-            if( this._uiFocused.parent ){
-                this._uiFocused.parent.removeChild( this._uiFocused );
-            }
-            this._uiFocused = null;
-        }
-        
-        if( this._btnFocused ){
-            this._btnFocused.selected = false;
-            this._btnFocused.enabled = true;
-            this._btnFocused = null;
-        }
-    }
-	
-	public gotoPage(pageName:string, pageReady:boolean) {
-        this._pageFocused = pageName;
-        
-        this.resetFocus();
-		
-        switch ( pageName ){
-            case GamePages.HOME:
-                this.gotoHome();
-                return;
-                
-            case GamePages.RANK:
-				if( this._rankUI || pageReady){
-                	this.gotoRank();
-				} else {
-					this.loadPage();
-				}
-                break;
-                
-            case GamePages.TOOL:
-				if( this._toolUI || pageReady ){
-                	this.gotoTool();
-				} else {
-					this.loadPage();
-				}
-                break;
-                
-            case GamePages.AUCTION:
-				if( this._auctionUI || pageReady ){
-                	this.gotoAuction();
-				} else {
-					this.loadPage();
-				}
-                break;
-        }
-        
-        if (this._uiFocused) {
-			this._uiFocused.horizontalCenter = 0;
-			this._uiFocused.verticalCenter   = 0;
-            
-        
-			if (application.guideUI) {
-				this.addChildAt(this._uiFocused, this.getChildIndex(application.guideUI));
-			} else {              
-				this.addChild(this._uiFocused);
-			}
-        }
-	}
-	
-	private loadPage(): void {
-		this.enableFooter(false);
-		
-		this.dispatchEventWith( GameEvents.EVT_LOAD_PAGE, false, this._pageFocused);
-	}
-
-    public pageReadyHandler( pageName:string ):void {
-        this.enableFooter(true);
-		
-		this.gotoPage(pageName, true);
-    }
-	
-	private selectFooter(btn:eui.ToggleButton): void {
-		if (this._btnFocused) {
-			this._btnFocused.selected = false;
-		}
-		
-        this._btnFocused = btn;
-		this._btnFocused.selected = true;
-	}
-	
-	private enableFooter(enabled:boolean) : void {
-        for( var i:number = 0; i < this.btns.length; i++ ){
-            this.btns[i].enabled = enabled;
-        }
 	}
 }
