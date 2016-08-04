@@ -38,25 +38,13 @@ class ChannelHuHuH5 extends Channel{
         
         this.url = 'http://server.huhuh5.com:8081/3HGame/jsFile/h5Game.js';
     }
-    
-    public openScreen(stage:egret.Stage): void {
-    	super.openScreen(stage);
-    	
-    	this.require(this.url).then(function(){
-    		h5Game.openScreen(false);
-    	});
-    }
-    
-    public setOpenScreenProgress(progress:number, total:number, title:string): void {
-    	super.setOpenScreenProgress(progress, total, title);
-    	
-    	h5Game.progress(progress, total, title);
-    }
-    
+
     public login(): Q.Promise<any> {
         let self = this;
         
-        h5Game.login('huhuh5_loginCallBcak');
+        self.require(self.url).then(function(){
+        	h5Game.login('huhuh5_loginCallBcak');
+        });
 		
         return self.promise();
 	}
