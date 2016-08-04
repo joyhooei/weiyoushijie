@@ -24,7 +24,7 @@ module application {
 
     export function init(main:Main) {
 		application.main = main;
-		
+
         var url = egret.getOption("wysj_server");
         if (url && url.length > 1) {
             application.baseUrl = url;
