@@ -18,7 +18,7 @@ class Channel1758 extends ChannelEgret {
     public share(options: any): Q.Promise<any> {
     	var self = this;
     	
-    	Utility.require(self.url).then(function(){
+    	self.require(self.url).then(function(){
     		hlmy.setShareInfo();
     	});
     	
