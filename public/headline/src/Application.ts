@@ -20,6 +20,8 @@ module application {
     
     export var version: string = '2.5.1';
     
+    export var game: string = 'headline';
+    
     export var token: string = "";
 
     export function init(main:Main) {
@@ -38,11 +40,12 @@ module application {
 		appender.setThreshold(log4javascript.Level.ERROR);
 		let layout = new log4javascript.HttpPostDataLayout();
 		layout.setCustomField("version", application.version);
+		layout.setCustomField("game", application.game);
 		appender.setLayout(layout);
 		logger.addAppender(appender);
 		Utility.takeOverConsole(logger);
 		
-        application.dao = new Dao(application.baseUrl + "api/", "headline");
+        application.dao = new Dao(application.baseUrl + "api/", application.game);
         
         application.channel = Channel.create();
         
