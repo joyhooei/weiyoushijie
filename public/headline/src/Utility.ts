@@ -94,23 +94,33 @@ class Utility {
 	
     public static require(file:string): Q.Promise<any> {
     	return Q.Promise<any>(function(resolve, reject, notify) {
-	    	var filenode;
-	    	var jsfile_extension  = /(.js)$/i;
-	    	var cssfile_extension = /(.css)$/i;
+	    	let filenode;
+	    	let jsfile_extension  = /(.js)$/i;
+	    	let cssfile_extension = /(.css)$/i;
 	    	
-	    	for(var i = 0; i < Utility.loadedFiles.length; i++){
+	    	for(let i = 0; i < Utility.loadedFiles.length; i++){
 	    		if (Utility.loadedFiles[i] == file) {
 	    			resolve();
 	    		}
 	    	}
 	
 	    	if (jsfile_extension.test(file)) {
+				let timer: egret.Timer = new egret.Timer(60 * 1000, 1);
+				timer.addEventListener(egret.TimerEvent.TIMER,function(event: egret.TimerEvent) {
+					let message = "load file timeout " + file;
+					console.error(message);
+					reject(message);
+				},this);
+				timer.start();
+	    		
 	        	filenode = document.createElement('script');
 	        	filenode.src = file;
 	        	
 	        	// IE
 	        	filenode.onreadystatechange = function () {
 	            	if (filenode.readyState === 'loaded' || filenode.readyState === 'complete') {
+	                	timer.stop();
+	                	
 	                	filenode.onreadystatechange = null;
 	                	
 	                	Utility.loadedFiles.push(file);
@@ -120,6 +130,8 @@ class Utility {
 	        	
 	        	// others
 	        	filenode.onload = function () {
+	        		timer.stop();
+	        		
 	        		Utility.loadedFiles.push(file);
 	        		
 	            	resolve();
@@ -136,8 +148,9 @@ class Utility {
 	        	Utility.loadedFiles.push(file);
 	        	resolve();
 	    	} else {
-	    		console.error("Unknown file type to load.");
-	        	reject("Unknown file type to load.");
+	    		let message = "unknown file type to load " + file;
+	    		console.error(message);
+	        	reject(message);
 	    	}
     	});
 	}
