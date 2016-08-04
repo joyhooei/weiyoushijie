@@ -1,5 +1,11 @@
 declare var hlmy;
 
+window['onShareTimeline'] = function(){
+	console.log('onShareTimeline');
+	
+    application.channel.resolve();
+}
+
 class Channel1758 extends ChannelEgret {
 	public constructor(standalone:boolean) {
         super(standalone);
@@ -8,14 +14,10 @@ class Channel1758 extends ChannelEgret {
 	}
     
     public share(options: any): Q.Promise<any> {
-        let self = this;
-
-        hlmy.setShareInfo();
-        
-        window['onShareTimeline'] = function(){
-            self.resolve();
-        }
-        
-        return self.promise();
+    	var self = this;
+    	
+    	hlmy.setShareInfo();
+    	
+    	return self.promise();
     }
 }
