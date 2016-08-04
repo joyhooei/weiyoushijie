@@ -37,6 +37,7 @@ class Channel {
 		}
 	}
 	
+	private _timer:egret.Timer;
     private _deferred: Q.Deferred<any>;
     private _standalone: boolean;
     
@@ -58,7 +59,7 @@ class Channel {
     		//需要等待js执行完成
     		Utility.delay(function(){
     			self.resolve();
-    		}, 100);
+    		}, 10);
     	}, function(error){
     		self.reject(error);
     	})
@@ -74,30 +75,42 @@ class Channel {
         return application.dao.restWithUrl(url, data);
 	}
     
-    public promise() {
-        if (this._deferred) {
-            this._deferred.reject("");
-        }
-        
+    public promise(): Q.Promise<any>  {
+        this._timer = new egret.Timer(60 * 1000, 1);
+        this._timer.addEventListener(egret.TimerEvent.TIMER,function(event: egret.TimerEvent) {
+			this.reject("操作超时");
+		}, this);
+		this._timer.start();
+
+        return this._promiseWithoutTimeout();
+    }
+    
+    private _promiseWithoutTimeout(): Q.Promise<any>  {
+    	this.reject("");
+
         this._deferred = Q.defer<any>();
-        return this._deferred.promise;        
+        return this._deferred.promise;    	
     }
 	
-	public resolvedPromise() {
-        var promise = this.promise();
+	public resolvedPromise(): Q.Promise<any> {
+        var promise = this._promiseWithoutTimeout();
 		this._deferred.resolve();
         return promise;  		
 	}
 	
-	public rejectedPromise() {
-        var promise = this.promise();
+	public rejectedPromise(): Q.Promise<any> {
+        var promise = this._promiseWithoutTimeout();
 		this._deferred.reject("目前不支持");
-        return promise;  		
+        return promise;
 	}
     
     public resolve(data?:any) {
         if (this._deferred) {
-            this._deferred.resolve(data);
+        	this._deferred.resolve(data);
+        }
+        
+        if (this._timer) {
+        	this._timer.stop();
         }
         
         this._deferred = null;
@@ -107,7 +120,11 @@ class Channel {
         if(this._deferred) {
             this._deferred.reject(data);
         }
-
+        
+        if (this._timer) {
+        	this._timer.stop();
+        }
+        
         this._deferred = null;
     }
     
