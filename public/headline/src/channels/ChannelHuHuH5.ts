@@ -43,8 +43,8 @@ class ChannelHuHuH5 extends Channel{
     	super.openScreen(stage);
     	
     	this.require(this.url).then(function(){
-    		h5Game.openScreen (false);
-    	})
+    		h5Game.openScreen(false);
+    	});
     }
     
     public setOpenScreenProgress(progress:number, total:number, title:string): void {
