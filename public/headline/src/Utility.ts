@@ -1,4 +1,6 @@
 class Utility {
+	public static loadedFiles = [];
+	
     public static units = [
         'k', 'm', 'b', 't', 
         'a', 'A', 'c', 'C', 'd', 'D', 'e', 'E', 'f', 'F', 'g', 'G', 'h', 'H', 'i', '!', 'j', 'J', 'l', 'L', 'n', 'N', 'o', 'O', 'p', 'P', 'q', 'Q', 'r', 'R', 's', 'S', 'u', 'U', 'v', 'V', 'w', 'W', 'x', 'X', 'y', 'Y', 'z', 'Z',
@@ -90,42 +92,54 @@ class Utility {
     	}
 	}
 	
-    public static require(file, callback) {
-    	callback = callback || function () {};
-    	
-    	var filenode;
-    	var jsfile_extension  = /(.js)$/i;
-    	var cssfile_extension = /(.css)$/i;
-
-    	if (jsfile_extension.test(file)) {
-        	filenode = document.createElement('script');
-        	filenode.src = file;
-        	
-        	// IE
-        	filenode.onreadystatechange = function () {
-            	if (filenode.readyState === 'loaded' || filenode.readyState === 'complete') {
-                	filenode.onreadystatechange = null;
-                	callback();
-            	}
-        	};
-        	
-        	// others
-        	filenode.onload = function () {
-            	callback();
-        	};
-        	
-        	document.head.appendChild(filenode);
-    	} else if (cssfile_extension.test(file)) {
-        	filenode = document.createElement('link');
-        	filenode.rel = 'stylesheet';
-        	filenode.type = 'text/css';
-        	filenode.href = file;
-        	document.head.appendChild(filenode);
-        	
-        	callback();
-    	} else {
-        	console.log("Unknown file type to load.")
-    	}
+    public static require(file:string): Q.Promise<any> {
+    	return Q.Promise<any>(function(resolve, reject, notify) {
+	    	var filenode;
+	    	var jsfile_extension  = /(.js)$/i;
+	    	var cssfile_extension = /(.css)$/i;
+	    	
+	    	for(var i = 0; i < Utility.loadedFiles.length; i++){
+	    		if (Utility.loadedFiles[i] == file) {
+	    			resolve();
+	    		}
+	    	}
+	
+	    	if (jsfile_extension.test(file)) {
+	        	filenode = document.createElement('script');
+	        	filenode.src = file;
+	        	
+	        	// IE
+	        	filenode.onreadystatechange = function () {
+	            	if (filenode.readyState === 'loaded' || filenode.readyState === 'complete') {
+	                	filenode.onreadystatechange = null;
+	                	
+	                	Utility.loadedFiles.push(file);
+	                	resolve();
+	            	}
+	        	};
+	        	
+	        	// others
+	        	filenode.onload = function () {
+	        		Utility.loadedFiles.push(file);
+	        		
+	            	resolve();
+	        	};
+	        	
+	        	document.head.appendChild(filenode);
+	    	} else if (cssfile_extension.test(file)) {
+	        	filenode = document.createElement('link');
+	        	filenode.rel = 'stylesheet';
+	        	filenode.type = 'text/css';
+	        	filenode.href = file;
+	        	document.head.appendChild(filenode);
+	        	
+	        	Utility.loadedFiles.push(file);
+	        	resolve();
+	    	} else {
+	    		console.error("Unknown file type to load.");
+	        	reject("Unknown file type to load.");
+	    	}
+    	});
 	}
 }
         
