@@ -50,6 +50,10 @@ class Channel {
     public standalone():boolean {
         return this._standalone;
     }
+    
+    public require(file:string):　Q.Promise<any> {
+    	return Utility.require(file);
+    }
 
 	public rest(channel:string, method:string, data:any): Q.Promise<any> {
         var url = application.baseUrl + "channels/" + method + "?wysj_channel=" + channel;
