@@ -38,6 +38,8 @@ class ChannelHuHuH5 extends Channel{
     }
     
     public openScreen(stage:egret.Stage): void {
+    	super.openScreen(stage);
+    	
     	try {
     		h5Game.openScreen (false);
     	} catch(error) {
@@ -48,6 +50,8 @@ class ChannelHuHuH5 extends Channel{
     }
     
     public setOpenScreenProgress(progress:number, total:number, title:string): void {
+    	super.setOpenScreenProgress(progress, total, title);
+    	
     	h5Game.progress(progress, total, title);
     }
     
