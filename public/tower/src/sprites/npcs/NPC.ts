@@ -12,8 +12,7 @@ class NPC extends Object {
     //一步走多远
     private _step: number;
     //一步走的距离    
-    private _stepX: number;
-    private _stepY: number;
+    private _steps: number[];
 
     public constructor() {
         super();
@@ -65,7 +64,7 @@ class NPC extends Object {
     
     private _moveOneStep(): bool {
         var path = this._paths[this.path];
-        if (Math.abs(this.x - path.x) < this._step && Math.abs(this.y - path.y) < this._step) {
+        if (Math.abs(this.x - path[0]) < this._step && Math.abs(this.y - path[1]) < this._step) {
             if (this._path >= this._paths.length - 1) {
                 //到达终点
                 return true;
@@ -73,36 +72,14 @@ class NPC extends Object {
             
             this._path ++;
             
-            path = this._paths[this._path];;
-            this._direction = this._direction8(path.x, path.y);
+            path = this._paths[this._path];
+            this._direction = this._direction8(path[0], path[1]);
             
-            let dx = Math.abs(this.x - path.x);
-            let dy = Math.abs(this.y - path.y);
-            if (dx >= dy) {
-                this._stepX = this._step;
-                if (path.x < this.x) {
-                    this._stepX = 0 - this._stepX;
-                }
-                
-                this._stepY = dy / (dx / this._stepX);
-                if (path.y < this.y) {
-                    this._stepY = 0 - this._stepY;
-                }
-            } else {
-                 this._stepY = this._step;
-                if (path.y < this.y) {
-                    this._stepY = 0 - this._stepY;
-                }
-                
-                this._stepX = dx / (dy / this._stepY);
-                if (path.x < this.x) {
-                    this._stepX = 0 - this._stepX;
-                }                   
-            }
+            this._steps = this._steps(path[0], path[1], this._step);
         }
         
-        this.x += this._stepX;
-        this.y += this._stepY;
+        this.x += this._steps[0];
+        this.y += this._steps[1];
         
         return false;
     }
