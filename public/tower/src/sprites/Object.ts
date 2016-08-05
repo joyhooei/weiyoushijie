@@ -45,6 +45,10 @@ class Object extends egret.Sprite {
 	public dead(): boolean {
 		return this._state == ObjectState.dead;
 	}
+	
+	public dying(): boolean {
+		return this._state == ObjectState.dying;
+	}
     
     public match(options: any): boolean {
     	return false;
@@ -56,7 +60,7 @@ class Object extends egret.Sprite {
     
     /**更新状态*/
     public update(ticks:number):void {
-    	ticks -= this._ticks;
+    	this._ticks++;
     	
     	switch(this._state) {
 		    case ObjectState.idle:
@@ -85,8 +89,8 @@ class Object extends egret.Sprite {
     	}
     }
     
-    private _changeState(state:ObjectState, ticks:number) {
-    	this._ticks = ticks;
+    private _changeState(state:ObjectState) {
+    	this._ticks = 0;
     	this._state = state;
     }
     
