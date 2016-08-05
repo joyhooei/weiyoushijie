@@ -1,4 +1,4 @@
-abstract class Map extends Object {
+abstract class Map extends Entity {
     /**地基层*/
     private _baseLayer: egret.Sprite;
     /**范围层*/
@@ -33,7 +33,7 @@ abstract class Map extends Object {
     
     private _lives: number;
     
-    private _selectedObj: Object;
+    private _selectedObj: Entity;
 
     public constructor() {
         super();
@@ -166,7 +166,7 @@ abstract class Map extends Object {
         }            
     }
 
-    private _update(objs: Object[], ticks:number, layer:egret.Sprite){
+    private _update(objs: Entity[], ticks:number, layer:egret.Sprite){
         for(let i = 0; i < objs.length; i++) {
             let obj = objs[i];
             
@@ -242,13 +242,13 @@ abstract class Map extends Object {
         this._addObj(x, y, hero, this._objLayer);
     }
     
-    private _addObj(x:number, y:number, obj:Object, layer:egret.Sprite) {
+    private _addObj(x:number, y:number, obj:Entity, layer:egret.Sprite) {
         obj.x = x;
         obj.y = y;
         layer.addChild(obj);
     }
     
-    private _queue(x:number, y:number, direction:ObjectDirection, objs:Object[]): Object[] {
+    private _queue(x:number, y:number, direction:EntityDirection, objs:Entity[]): Entity[] {
         var width  = objs[0].width  + 2;
         var height = objs[0].height + 2;
         
