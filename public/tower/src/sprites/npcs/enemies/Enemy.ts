@@ -9,6 +9,10 @@ class Enemy extends NPC {
     
     public addSolider(solider:Solider) {
         this._soliders.push(solider);
+        
+        if (this._state == ObjectState.moving) {
+            this._changeState(ObjectState.guarding);
+        }
     }
     
     protected _moving(ticks: number) {
@@ -18,10 +22,7 @@ class Enemy extends NPC {
             this._changeState(ObjectState.dead);
         }
     }
-    
-    protected _guarding(ticks: number) {
-    }
-    
+
     protected _fighting(ticks: number) {
         if (ticks % this._hitSpeed == 0) {
             this._soliders[0].hitBy(this._damage);
