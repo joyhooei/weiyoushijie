@@ -14,9 +14,7 @@ class NPC extends Object {
     //一步走的距离    
     private _stepX: number;
     private _stepY: number;
-    
-    private _direction: ObjectDirection;
-    
+
     public constructor() {
         super();
     }
@@ -26,24 +24,33 @@ class NPC extends Object {
         this._path  = 0;
     }
     
-    protected _idle(ticks: number) {
-        this._changeState(ObjectState.moving);
+    protected _stateChanged(oldState:ObjectState, newState:ObjectState) {
+        if (newState == ObjectState.moving) {
+            let path = this._paths[this.path];
+            this._direction = this._direction8(path.x, path.y);
+        }
+        
+        super._stateChanged(oldState, newState);
+    }
+    
+    protected _idle() {
+        this._do(ObjectState.moving);
     }
 
-    protected _dying(ticks: number) {
+    protected _dying() {
         if (ticks >= 5) {
-            this._changeState(ObjectState.dead);
+            this._do(ObjectState.dead);
         }
     }
     
     public hitBy(damage:number) {
         this._hp -= damage;
         if (this._hp < 0) {
-            this._changeState(ObjectState.dying);
+            this._do(ObjectState.dying);
         }
         
         if (this._state != ObjectState.fighting) {
-            this._changeState(ObjectState.fighting);
+            this._do(ObjectState.fighting);
         }
     }
     
@@ -53,7 +60,7 @@ class NPC extends Object {
     
     private _moveTo(x:number, y:number) {
         this.setPath([[this.x, this.y], [x, y]]);
-        this._changeState(ObjectState.moving);
+        this._do(ObjectState.moving);
     }
     
     private _moveOneStep(): bool {
