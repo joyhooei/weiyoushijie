@@ -10,8 +10,8 @@ class Enemy extends NPC {
     public addSolider(solider:Solider) {
         this._soliders.push(solider);
         
-        if (this._state == ObjectState.moving) {
-            this._do(ObjectState.guarding);
+        if (this._state == EntityState.moving) {
+            this._do(EntityState.guarding);
         }
     }
     
@@ -23,12 +23,12 @@ class Enemy extends NPC {
         }
         
         if (this._soliders.length == 0) {
-            this._do(ObjectState.moving);
+            this._do(EntityState.moving);
         }
     }
     
-    protected _stateChanged(oldState:ObjectState, newState:ObjectState) {
-        if (newState == ObjectState.guarding) {
+    protected _stateChanged(oldState:EntityState, newState:EntityState) {
+        if (newState == EntityState.guarding) {
             this._direction = this._direction8(this._soliders[0].x, this._soliders[0].y);
         }
         
@@ -39,7 +39,7 @@ class Enemy extends NPC {
         if (this._moveOneStep()) {
             application.map.incLives(-1);
             
-            this._do(ObjectState.dead);
+            this._do(EntityState.dead);
         }
     }
 
@@ -49,7 +49,7 @@ class Enemy extends NPC {
             if (this._soliders[0].dying() || this._soliders[0].dead()) {
                 this._soliders.splice(0, 1);
                 if (this._soliders.length == 0) {
-                    this._do(ObjectState.moving);
+                    this._do(EntityState.moving);
                 }
             }
         }
