@@ -30,6 +30,8 @@ class Object extends egret.Sprite {
         super();
         
         this._state = ObjectState.idle;
+        this._ticks = 0;
+        this._direction = ObjectDirection.east;
 	}
 	
 	public intersect(x: number, y: number, radius: number):boolean {
