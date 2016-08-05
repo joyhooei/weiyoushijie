@@ -12,7 +12,7 @@ class MapUI extends AbstractUI {
         var self = this;
         
         var options = {stage: self._stage, level: self._level};
-        application.map = _createMap();
+        application.map = application.pool.get("Map" + this._stage);
         application.map.loadResource(options).then(function(){
             application.map.initialize(options);
             self.addChildAt(application.map, 0);
@@ -22,14 +22,7 @@ class MapUI extends AbstractUI {
         
         self.addEventListener(egret.Event.ENTER_FRAME,self._onEnterFrame, self);
     }
-    
-    private _createMap(): Map {
-        switch(this._stage) {
-            case 1: 
-                return new Map01();
-        }
-    }
-    
+
     private _onEnterFrame(e:egret.Event) {
         this._ticks ++;
         
