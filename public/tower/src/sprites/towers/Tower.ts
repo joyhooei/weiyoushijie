@@ -3,10 +3,7 @@ class Tower extends Object {
     
     /**射程范围最大半径*/
     private _maxRadius: number = 140;
-    
-    /**射程范围最小半径*/
-    private _minRadius: number = 100;
-    
+
     /**将圆沿y轴压扁变为椭圆时候的比例*/
     private _ratioY: number;
     
