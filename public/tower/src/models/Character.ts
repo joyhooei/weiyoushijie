@@ -12,6 +12,10 @@ class Character {
         this._mcs = new egret.MovieClip[][];
     }
     
+    public getProperty(name:string):number{
+        return this._properties[name];
+    }
+    
     public addMC(mc:egret.MovieClip, direction:EntityDirection, state:EntityState) {
         this._mcs[state][direction] = mc;
     }
@@ -53,10 +57,6 @@ class Character {
         }
         
         return characters;
-    }
-    
-    public getProperty(name:string):number{
-        return this._properties[name];
     }
 
 }
