@@ -1,4 +1,4 @@
-abstract class Map extends SelectableObject {
+abstract class Map extends Object {
     /**地基层*/
     private _baseLayer: egret.Sprite;
     /**范围层*/
@@ -32,6 +32,8 @@ abstract class Map extends SelectableObject {
     private _url: string;
     
     private _lives: number;
+    
+    private _selectedObj: Object;
 
     public constructor() {
         super();
@@ -48,6 +50,22 @@ abstract class Map extends SelectableObject {
         this._toolLayer = this._addLayer();
 
         this.addBases();
+    }
+    
+    public enableSelect(obj: Object) {
+        obj.touchEnabled = true;
+        this.addEventListener(egret.TouchEvent.TOUCH_BEGIN, this._touch, this);        
+    }
+    
+    private _touch(e:egret.TouchEvent) {
+    	if (this._selectedObj == e.target) {
+    		e.target.select(true);
+    	} else {
+    		this._selectedObj.deselect();
+    		
+    		this.selectedObj = this;
+    		e.target.select(false);
+    	}        
     }
     
     public incLives(lives: number) {
