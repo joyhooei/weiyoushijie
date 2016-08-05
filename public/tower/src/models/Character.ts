@@ -12,11 +12,11 @@ class Character {
         this._mcs = new egret.MovieClip[][];
     }
     
-    public addMC(mc:egret.MovieClip, direction:ObjectDirection, state:ObjectState) {
+    public addMC(mc:egret.MovieClip, direction:EntityDirection, state:EntityState) {
         this._mcs[state][direction] = mc;
     }
     
-    public getMC(direction:ObjectDirection, state:ObjectState):egret.MovieClip {
+    public getMC(direction:EntityDirection, state:EntityState):egret.MovieClip {
         egret.MovieClip mc = this._mcs[state][direction];
         if (!mc) {
             for(var i = 0; i < this._mcs[state].length; i++) {
