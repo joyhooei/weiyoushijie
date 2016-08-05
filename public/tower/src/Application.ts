@@ -8,6 +8,8 @@ module application {
     export var me: Customer;
 
     export var map: Map;
+    
+    export var characters: ICharacterDirection;
 	
 	export var baseUrl: string;
 
@@ -45,6 +47,8 @@ module application {
         application.dao = new Dao(application.baseUrl + "api/", "tower");
         
         application.channel = Channel.create();
+        
+        application.characters = Character.createAll();
 
         application.stopwatch = new egret.EventDispatcher();
         var timer: egret.Timer = new egret.Timer(1000,0);
