@@ -9,15 +9,6 @@ class MovableEntity extends Entity {
         super();
     }
 
-    //转向
-    private _turn(direction: EntityDirection) {
-    	if (direction != this._direction) {
-    		this._direction = direction;
-    		
-    		this._render();
-    	}
-    }
-    
     //计一步走的距离
     private _steps(x:number, y:number, step:number) {
 	    let stepX = 0;
