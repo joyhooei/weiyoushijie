@@ -51,6 +51,6 @@ class Character {
         
         let mc = this._mcs[direction][state];
         sprite.addChild(mc);
-        mc.gotoAndPlay();
+        mc.play();
     }
 }
