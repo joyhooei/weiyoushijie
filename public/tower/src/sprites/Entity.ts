@@ -109,15 +109,7 @@ class Entity extends egret.Sprite {
 	    	this._render();
     	}
     }
-    
-    private _turn(direction: EntityDirection) {
-    	if (direction != this._direction) {
-    		this._direction = direction;
-    		
-    		this._render();
-    	}
-    }
-    
+
     protected _stateChanged(oldState: EntityState, newState: EntityState) {
     }
     
@@ -173,36 +165,5 @@ class Entity extends egret.Sprite {
         		return directions[i];
         	}
         }
-    }
-    
-    private _steps(x:number, y:number, step:number):number[] {
-	    let stepX = 0;
-	    let stepY = 0;
-	    
-	    let dx = Math.abs(this.x - x);
-	    let dy = Math.abs(this.y - y);
-	    if (dx >= dy) {
-	        stepX = step;
-	        if (x < this.x) {
-	            stepX = 0 - stepX;
-	        }
-	        
-	        stepY = dy / (dx / stepX);
-	        if (y < this.y) {
-	            stepY = 0 - stepY;
-	        }
-	    } else {
-	         stepY = step;
-	        if (y < this.y) {
-	            stepY = 0 - stepY;
-	        }
-	        
-	        stepX = dx / (dy / stepY);
-	        if (x < this.x) {
-	            stepX = 0 - stepX;
-	        }                   
-	    }
-	    
-	   	return [stepX, stepY];
     }
 }
