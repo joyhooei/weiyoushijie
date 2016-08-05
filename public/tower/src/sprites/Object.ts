@@ -104,6 +104,14 @@ class Object extends egret.Sprite {
     	}
     }
     
+    private _turn(direction: ObjectDirection) {
+    	if (direction != this._direction) {
+    		this._direction = direction;
+    		
+    		this._render();
+    	}
+    }
+    
     protected _stateChanged(oldState: ObjectState, newState: ObjectState) {
     }
     
