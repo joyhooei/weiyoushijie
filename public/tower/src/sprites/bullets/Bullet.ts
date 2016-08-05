@@ -1,4 +1,4 @@
-class Bullet extends Object {
+class Bullet extends Entity {
     private _target: NPC;
     
     private _step: number;
