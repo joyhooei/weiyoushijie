@@ -29,9 +29,8 @@ class Object extends egret.Sprite {
     public constructor() {
         super();
         
-        this._state = ObjectState.idle;
-        this._ticks = 0;
         this._direction = ObjectDirection.east;
+        this._do(ObjectState.idle);
 	}
 	
 	public intersect(x: number, y: number, radius: number):boolean {
