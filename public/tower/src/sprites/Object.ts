@@ -57,6 +57,12 @@ class Object extends egret.Sprite {
     public match(options: any): boolean {
     	return false;
     }
+    
+    public select(again:boolean) {
+    }
+    
+    public deselect() {
+    }
 	
 	/**初始化*/
     public initialize(options: any):void {
