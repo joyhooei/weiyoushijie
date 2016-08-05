@@ -26,7 +26,7 @@ class NPC extends Object {
     protected _stateChanged(oldState:ObjectState, newState:ObjectState) {
         if (newState == ObjectState.moving) {
             let path = this._paths[this.path];
-            this._direction = this._direction8(path.x, path.y);
+            this._turn(this._direction8(path.x, path.y));
         }
         
         super._stateChanged(oldState, newState);
@@ -73,7 +73,7 @@ class NPC extends Object {
             this._path ++;
             
             path = this._paths[this._path];
-            this._direction = this._direction8(path[0], path[1]);
+            this._turn(this._direction8(path[0], path[1]));
             
             this._steps = this._steps(path[0], path[1], this._step);
         }
