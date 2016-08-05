@@ -1,4 +1,4 @@
-enum ObjectState {
+enum EntityState {
     idle = 0,
     building,
     moving,
@@ -8,7 +8,7 @@ enum ObjectState {
     dead
 };
 
-enum ObjectDirection {
+enum EntityDirection {
     north = 0,
     northeast,
     east,
@@ -19,18 +19,18 @@ enum ObjectDirection {
     northwest
 };
 
-class Object extends egret.Sprite {
-	private _state: ObjectState;
+class Entity extends egret.Sprite {
+	private _state: EntityState;
 	private _ticks: number;
     
     //面向
-    private _direction: ObjectDirection;
+    private _direction: EntityDirection;
 
     public constructor() {
         super();
         
-        this._direction = ObjectDirection.east;
-        this._do(ObjectState.idle);
+        this._direction = EntityDirection.east;
+        this._do(EntityState.idle);
 	}
 	
 	public intersect(x: number, y: number, radius: number):boolean {
@@ -39,7 +39,7 @@ class Object extends egret.Sprite {
 		return (dx * dx + dy * dy <= radius * radius);
 	}
 	
-	public collide(obj: Object) {
+	public collide(obj: Entity) {
 		return !(obj.x > this.x + this.width || 
            obj.x + obj.width < this.x || 
            obj.y > this.y + this.height ||
@@ -69,7 +69,7 @@ class Object extends egret.Sprite {
     }
     
     /**更新状态*/
-    public update(ticks:number):void {
+    public update():void {
     	this._ticks++;
     	
     	switch(this._state) {
@@ -99,7 +99,7 @@ class Object extends egret.Sprite {
     	}
     }
     
-    private _do(state:ObjectState) {
+    private _do(state:EntityState) {
     	if (state != this._state) {
 	    	this._stateChanged( this._state, state);
 	    	
@@ -110,7 +110,7 @@ class Object extends egret.Sprite {
     	}
     }
     
-    private _turn(direction: ObjectDirection) {
+    private _turn(direction: EntityDirection) {
     	if (direction != this._direction) {
     		this._direction = direction;
     		
@@ -118,7 +118,7 @@ class Object extends egret.Sprite {
     	}
     }
     
-    protected _stateChanged(oldState: ObjectState, newState: ObjectState) {
+    protected _stateChanged(oldState: EntityState, newState: EntityState) {
     }
     
     //根据状态、面向修改重新渲染
@@ -149,21 +149,21 @@ class Object extends egret.Sprite {
     protected _dying() {
     }
     
-    private _direction8(x:number, y:number):ObjectDirection {
+    private _direction8(x:number, y:number):EntityDirection {
         let angels = [22.5, 67.5, 112.5, 157.5, 202.5, 247.5, 292.5, 337.5, 360];
-        let directions = [ObjectDirection.east, ObjectDirection.northeast, ObjectDirection.north, ObjectDirection.northwest, ObjectDirection.west, ObjectDirection.southwest, ObjectDirection.south, ObjectDirection.southeast, ObjectDirection.east ];
+        let directions = [EntityDirection.east, EntityDirection.northeast, EntityDirection.north, EntityDirection.northwest, EntityDirection.west, EntityDirection.southwest, EntityDirection.south, EntityDirection.southeast, EntityDirection.east ];
         
         return _directionOf(x, y, angels, directions);
     }
     
-    private _direction4(x:number, y:number):ObjectDirection {
+    private _direction4(x:number, y:number):EntityDirection {
         let angels = [60, 120, 240, 300, 360];
-        let directions = [ObjectDirection.east, ObjectDirection.north, ObjectDirection.west, ObjectDirection.south, ObjectDirection.east ];
+        let directions = [EntityDirection.east, EntityDirection.north, EntityDirection.west, EntityDirection.south, EntityDirection.east ];
         
         return _directionOf(x, y, angels, directions);
     }
     
-    private _directionOf(x:number, y:number, angels:number[], directions:ObjectDirection[]):ObjectDirection {
+    private _directionOf(x:number, y:number, angels:number[], directions:EntityDirection[]):EntityDirection {
         let dx: number = x - this.x;
         let dy: number = y - this.y;
         let angel = Math.atan2(dy, dx) * 180 / Math.PI + 180;
