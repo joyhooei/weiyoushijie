@@ -41,6 +41,10 @@ class NPC extends Object {
         if (this._hp < 0) {
             this._changeState(ObjectState.dying);
         }
+        
+        if (this._state != ObjectState.fighting) {
+            this._changeState(ObjectState.fighting);
+        }
     }
     
     private _hit(npc: NPC) {
