@@ -19,6 +19,12 @@ block main
 					| 订单
 
 			div.box-content
+				- var sumary = 0
+				- each order in orders
+					sumary += order.get("price")
+					
+				h1 合计 #{sumary} 元
+				
 				table(class="table table-striped table-bordered bootstrap-datatable datatable")
 					thead
 						tr
