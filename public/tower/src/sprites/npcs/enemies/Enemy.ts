@@ -4,6 +4,12 @@ class Enemy extends NPC {
     public constructor() {
         super();
         
+        this.initialize();
+    }
+    
+    public initialize(options:any) {
+        super.initialize(options);
+        
         this._soliders = [];
     }
     
@@ -13,6 +19,10 @@ class Enemy extends NPC {
         if (this._state == EntityState.moving) {
             this._do(EntityState.guarding);
         }
+    }
+    
+    public totalSoliders(): number {
+        return this._soliders.length;
     }
     
     public rmvSolider(solider:Solider) {
