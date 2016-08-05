@@ -1,4 +1,4 @@
-class NPC extends Object {
+class NPC extends Entity {
     private _hp: number;
     
     private _damage: number;
@@ -23,8 +23,8 @@ class NPC extends Object {
         this._path  = 0;
     }
     
-    protected _stateChanged(oldState:ObjectState, newState:ObjectState) {
-        if (newState == ObjectState.moving) {
+    protected _stateChanged(oldState:EntityState, newState:EntityState) {
+        if (newState == EntityState.moving) {
             let path = this._paths[this.path];
             this._turn(this._direction8(path.x, path.y));
         }
@@ -33,23 +33,23 @@ class NPC extends Object {
     }
     
     protected _idle() {
-        this._do(ObjectState.moving);
+        this._do(EntityState.moving);
     }
 
     protected _dying() {
         if (ticks >= 5) {
-            this._do(ObjectState.dead);
+            this._do(EntityState.dead);
         }
     }
     
     public hitBy(damage:number) {
         this._hp -= damage;
         if (this._hp < 0) {
-            this._do(ObjectState.dying);
+            this._do(EntityState.dying);
         }
         
-        if (this._state != ObjectState.fighting) {
-            this._do(ObjectState.fighting);
+        if (this._state != EntityState.fighting) {
+            this._do(EntityState.fighting);
         }
     }
     
@@ -59,7 +59,7 @@ class NPC extends Object {
     
     private _moveTo(x:number, y:number) {
         this.setPath([[this.x, this.y], [x, y]]);
-        this._do(ObjectState.moving);
+        this._do(EntityState.moving);
     }
     
     private _moveOneStep(): bool {
