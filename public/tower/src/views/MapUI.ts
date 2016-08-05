@@ -34,6 +34,5 @@ class MapUI extends AbstractUI {
         this._ticks ++;
         
         application.map.update(this._ticks);
-        application.map.paint();
     }
 }
