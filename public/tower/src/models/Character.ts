@@ -15,7 +15,11 @@ class Character {
     public addMC(mc:egret.MovieClip, direction:ObjectDirection, state:ObjectState) {
         this._mcs[direction][state] = mc;
     }
-
+    
+    public getMC(direction:ObjectDirection, state:ObjectState):egret.MovieClip {
+        return this._mcs[direction][state];
+    }
+    
     static createAll(): ICharacterDictionary {
         let characters = new ICharacterDictionary();
         
@@ -45,12 +49,5 @@ class Character {
     public getProperty(name:string):number{
         return this._properties[name];
     }
-    
-    public render(sprite:egret.Sprite, direction:ObjectDirection, state:ObjectState) {
-        sprite.removeChildren();
-        
-        let mc = this._mcs[direction][state];
-        sprite.addChild(mc);
-        mc.play();
-    }
+
 }
