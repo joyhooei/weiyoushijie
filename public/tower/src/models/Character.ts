@@ -13,11 +13,20 @@ class Character {
     }
     
     public addMC(mc:egret.MovieClip, direction:ObjectDirection, state:ObjectState) {
-        this._mcs[direction][state] = mc;
+        this._mcs[state][direction] = mc;
     }
     
     public getMC(direction:ObjectDirection, state:ObjectState):egret.MovieClip {
-        return this._mcs[direction][state];
+        egret.MovieClip mc = this._mcs[state][direction];
+        if (!mc) {
+            for(var i = 0; i < this._mcs[state].length; i++) {
+                if (this._mcs[state][i]) {
+                    return this._mcs[state][i];
+                }
+            }
+        }
+        
+        return mc;
     }
     
     static createAll(): ICharacterDictionary {
