@@ -173,9 +173,9 @@ abstract class Map extends Object {
             obj.update(ticks);
             
             if (obj.dead()) {
-                obj.splice(i, 1);
-                
+                objs.splice(i, 1);
                 layer.removeChild(obj);
+                application.pool.set(obj);
             }
         }        
     }
