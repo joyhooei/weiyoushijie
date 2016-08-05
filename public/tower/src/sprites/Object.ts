@@ -117,6 +117,7 @@ class Object extends egret.Sprite {
     
     //根据状态、面向修改重新渲染
     protected _render() {
+    	application.characters[egret.getQualifiedClassName(this)].render(this, this._direction, this._state);
     }
     
     protected _idle()) {
