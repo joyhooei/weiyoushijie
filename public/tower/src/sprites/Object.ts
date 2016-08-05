@@ -99,10 +99,16 @@ class Object extends egret.Sprite {
 	    	
 	    	this._ticks = 0;
 	    	this._state = state;
+	    	
+	    	this._render();
     	}
     }
     
     protected _stateChanged(oldState: ObjectState, newState: ObjectState) {
+    }
+    
+    //根据状态、面向修改重新渲染
+    protected _render() {
     }
     
     protected _idle()) {
