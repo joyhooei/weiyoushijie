@@ -13,12 +13,12 @@ class Soldier extends NPC {
     }
     
     protected _moving(ticks: number) {
-        if (this._move()) {
+        if (this._moveOneStep()) {
             if (this._enemy) {
-                this._changeState(ObjectState.fighting, ticks);
+                this._changeState(ObjectState.fighting);
             } else {
-                this._changeState(ObjectState.guarding, ticks);
-            }            
+                this._changeState(ObjectState.guarding);
+            }
         }
     }
     
@@ -29,20 +29,18 @@ class Soldier extends NPC {
     protected _fighting(ticks: number) {
         if (ticks % this._hitSpeed == 0) {
             this._enemy.hitBy(this._damage);
-            if (this._enemy.dead()) {
-                if (!this._findEnemy()) {
-                    this._moveTo([[this._guardX, this._gradeY]]);
-                }
+            if (this._enemy.dying() && !this._findEnemy()) {
+                this._moveTo(his._guardX, this._gradeY);
             }
         }
     }
     
-    private _findEnemy() {
+    private _findEnemy(): Enemy {
         this._enemy = application.map.findEnemy(this.x, this.y, this._guardRadius));
         if (this._enemy) {
-            this._moveTo([[this._enemy.x, this._emeny.y]]);
+            this._moveTo(this._enemy.x, this._emeny.y);
             
-            this._enemy._changeState(ObjectState.guarding, ticks);
+            this._enemy._changeState(ObjectState.guarding);
         }
         
         return this._enemy;
