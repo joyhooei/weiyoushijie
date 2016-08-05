@@ -84,10 +84,12 @@ class Entity extends egret.Sprite {
 		    	this._dying();
 		    	break;
     	}
+    	
+    	this._paint();
     }
     
     //根据状态、面向修改重新渲染
-    public parint() {
+    private _paint() {
     	if (this._repaint) {
 	    	egret.MovieClip mc = application.characters[egret.getQualifiedClassName(this)].getMC(this._direction, this._state);
 	    	if (mc) {
@@ -112,6 +114,15 @@ class Entity extends egret.Sprite {
     	}
     }
 
+    //转向
+    private _turn(direction: EntityDirection) {
+    	if (direction != this._direction) {
+    		this._direction = direction;
+    		
+    		this._repaint = true;
+    	}
+    }
+    
     protected _stateChanged(oldState: EntityState, newState: EntityState) {
     }
     
