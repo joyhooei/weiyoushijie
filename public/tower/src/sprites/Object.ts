@@ -117,7 +117,12 @@ class Object extends egret.Sprite {
     
     //根据状态、面向修改重新渲染
     protected _render() {
-    	application.characters[egret.getQualifiedClassName(this)].render(this, this._direction, this._state);
+    	egret.MovieClip mc = application.characters[egret.getQualifiedClassName(this)].getMC(this._direction, this._state);
+    	
+    	this.removeChildren();
+    	this.addChild(mc);
+    	
+    	mc.start();
     }
     
     protected _idle()) {
