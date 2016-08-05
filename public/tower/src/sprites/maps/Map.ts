@@ -30,6 +30,8 @@ abstract class Map extends SelectableObject {
     
     //地图文件地址
     private _url: string;
+    
+    private _lives: number;
 
     public constructor() {
         super();
@@ -46,6 +48,10 @@ abstract class Map extends SelectableObject {
         this._toolLayer = this._addLayer();
 
         this.addBases();
+    }
+    
+    public incLives(lives: number) {
+        this._lives += lives;
     }
     
     private _addLayer():egret.Sprite(){
@@ -141,17 +147,7 @@ abstract class Map extends SelectableObject {
             this._timeToNextWave = this._timeBetweenWaves;
         }            
     }
-    
-    public paint() {
-        this._hero.paint();
-        
-        this._paint(this._towers);
-        this._paint(this._soliders);
-        this._paint(this._enemies);
-        this._paint(this._bullets);
-        this._paint(this._cartridges);
-    }
-    
+
     private _update(objs: Object[], ticks:number, layer:egret.Sprite){
         for(let i = 0; i < objs.length; i++) {
             let obj = objs[i];
@@ -163,12 +159,6 @@ abstract class Map extends SelectableObject {
                 
                 layer.removeChild(obj);
             }
-        }        
-    }
-    
-    private _paint(objs: Object[]) {
-        for(let i = 0; i < objs.length; i++) {
-            objs[i].paint();
         }        
     }
 
