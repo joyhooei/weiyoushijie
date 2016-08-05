@@ -11,7 +11,7 @@ module application {
     
     export var characters: ICharacterDirection;
     
-    export var pool: ObjectPool;
+    export var pool: EntityPool;
 	
 	export var baseUrl: string;
 
@@ -52,7 +52,7 @@ module application {
         
         application.characters = Character.createAll();
         
-        application.pool = new ObjectPool();
+        application.pool = new EntityPool();
 
         application.stopwatch = new egret.EventDispatcher();
         var timer: egret.Timer = new egret.Timer(1000,0);
