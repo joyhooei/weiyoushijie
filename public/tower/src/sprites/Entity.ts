@@ -36,17 +36,16 @@ class Entity extends egret.Sprite {
 	
 	/**初始化*/
     public initialize(options?: any):void {
-    	this._repaint = true;
-        this._direction = EntityDirection.east;
+        this._turn(EntityDirection.east);
         this._do(EntityState.idle);
     }
 
 	public dead(): boolean {
-		return this._state == ObjectState.dead;
+		return this._state == EntityState.dead;
 	}
 	
 	public dying(): boolean {
-		return this._state == ObjectState.dying;
+		return this._state == EntityState.dying;
 	}
 
     public select(again:boolean) {
@@ -89,7 +88,7 @@ class Entity extends egret.Sprite {
     }
     
     //根据状态、面向修改重新渲染
-    private _paint() {
+    protected _paint() {
     	if (this._repaint) {
 	    	egret.MovieClip mc = application.characters[egret.getQualifiedClassName(this)].getMC(this._direction, this._state);
 	    	if (mc) {
@@ -103,7 +102,7 @@ class Entity extends egret.Sprite {
     	}
     }
     
-    private _do(state:EntityState) {
+    protected _do(state:EntityState) {
     	if (state != this._state) {
 	    	this._stateChanged( this._state, state);
 	    	
@@ -115,7 +114,7 @@ class Entity extends egret.Sprite {
     }
 
     //转向
-    private _turn(direction: EntityDirection) {
+    protected _turn(direction: EntityDirection) {
     	if (direction != this._direction) {
     		this._direction = direction;
     		
@@ -157,21 +156,21 @@ class Entity extends egret.Sprite {
            obj.y + obj.height < this.y);		
 	}
 	
-    private _direction8(x:number, y:number):EntityDirection {
+    protected _direction8(x:number, y:number):EntityDirection {
         let angels = [22.5, 67.5, 112.5, 157.5, 202.5, 247.5, 292.5, 337.5, 360];
         let directions = [EntityDirection.east, EntityDirection.northeast, EntityDirection.north, EntityDirection.northwest, EntityDirection.west, EntityDirection.southwest, EntityDirection.south, EntityDirection.southeast, EntityDirection.east ];
         
         return _directionOf(x, y, angels, directions);
     }
     
-    private _direction4(x:number, y:number):EntityDirection {
+    protected _direction4(x:number, y:number):EntityDirection {
         let angels = [60, 120, 240, 300, 360];
         let directions = [EntityDirection.east, EntityDirection.north, EntityDirection.west, EntityDirection.south, EntityDirection.east ];
         
         return _directionOf(x, y, angels, directions);
     }
     
-    private _directionOf(x:number, y:number, angels:number[], directions:EntityDirection[]):EntityDirection {
+    protected _directionOf(x:number, y:number, angels:number[], directions:EntityDirection[]):EntityDirection {
         let dx: number = x - this.x;
         let dy: number = y - this.y;
         let angel = Math.atan2(dy, dx) * 180 / Math.PI + 180;
