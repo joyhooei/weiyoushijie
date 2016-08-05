@@ -1,5 +1,5 @@
 enum ObjectState {
-    idle,
+    idle = 0,
     building,
     moving,
     guarding,
@@ -9,7 +9,7 @@ enum ObjectState {
 };
 
 enum ObjectDirection {
-    north,
+    north = 0,
     northeast,
     east,
     southeast,
