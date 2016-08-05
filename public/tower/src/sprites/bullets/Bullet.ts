@@ -30,7 +30,8 @@ class Bullet extends Object {
             this._missing = true;
             this._do(ObjectState.dying);
         } else {
-            this._direction = this._direction8(this._target.x, this._target.y);
+            this._turn(this._direction8(this._target.x, this._target.y));
+            
             this._steps = this._steps(this._target.x, this._target.y, this._step);
 
             this.x += this._steps[0];
