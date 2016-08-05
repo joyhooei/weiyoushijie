@@ -25,7 +25,7 @@ class Character {
         
         let data = [
             //name, properties [mc_direction, mc_state, mc_name]
-            '', 
+            ['', {}, []],
         ];
         
         var data = RES.getRes("animation.json");
