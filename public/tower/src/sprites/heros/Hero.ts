@@ -7,5 +7,9 @@ class Hero extends Solider {
     }
     
     public deselect() {
-    }    
+    }
+    
+    protected _idle() {
+        this._do(ObjectState.guarding);
+    }
 }
