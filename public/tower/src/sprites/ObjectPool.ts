@@ -5,24 +5,18 @@ class ObjectPool {
         this._objs = new Object[];
     }
     
-    public get(className:string, count:number): Object[] {
-        let objs = new Object[];
-        
-        for(let i = 0; i < this._objs && objs.length < count; i++) {
+    public get(className:string): Object {
+        for(let i = 0; i < this._objs; i++) {
             let obj = this._objs[i];
             if (className == egret.getQualifiedClassName(obj)) {
-                objs.push(obj);
                 this._objs.splice(i, 1);
+                return obj;
             }
         }
         
-        for (let i = objs.length; i < count; i++) {
-            var obj = Object.create(window[className].prototype);
-            obj.constructor.apply(obj);
-            objs.push(obj);          
-        }
-        
-        return objs;
+        let obj = Object.create(window[className].prototype);
+        obj.constructor.apply(obj);
+        return obj;
     }
     
     public set(obj:Object) {
