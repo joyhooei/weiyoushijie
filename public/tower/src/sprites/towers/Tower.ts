@@ -1,4 +1,4 @@
-class Tower extends Object {
+class Tower extends Entity {
     private _enemy: Enemy;
     
     /**射程范围最大半径*/
@@ -21,12 +21,12 @@ class Tower extends Object {
     }
     
     protected _idle() {
-        this._do(ObjectState.building);
+        this._do(EntityState.building);
     }
     
     protected _building() {
         if (this._ticks > 100) {
-            this._do(ObjectState.fighting);
+            this._do(EntityState.fighting);
         }
     }
     
