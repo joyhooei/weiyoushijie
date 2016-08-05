@@ -21,7 +21,7 @@ block main
 			div.box-content
 				- var sumary = 0
 				- each order in orders
-					sumary += order.get("price")
+					- sumary += parseInt(order.get("price"))
 					
 				h1 合计 #{sumary} 元
 				
