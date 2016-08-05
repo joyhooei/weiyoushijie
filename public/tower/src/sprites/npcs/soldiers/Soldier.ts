@@ -11,8 +11,8 @@ class Soldier extends NPC {
         this._enemy = null;
     }
     
-    protected _stateChanged(oldState:ObjectState, newState:ObjectState) {
-        if (newState == ObjectState.guarding) {
+    protected _stateChanged(oldState:EntityState, newState:EntityState) {
+        if (newState == EntityState.guarding) {
             this._direction = this._direction8(this._enemy.x, this._enemy.y);
         }
         
@@ -22,9 +22,9 @@ class Soldier extends NPC {
     protected _moving() {
         if (this._moveOneStep()) {
             if (this._enemy) {
-                this._do(ObjectState.fighting);
+                this._do(EntityState.fighting);
             } else {
-                this._do(ObjectState.guarding);
+                this._do(EntityState.guarding);
             }
         }
     }
