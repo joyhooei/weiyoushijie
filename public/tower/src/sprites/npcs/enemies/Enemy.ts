@@ -27,7 +27,15 @@ class Enemy extends NPC {
         }
     }
     
-    protected _moving(ticks: number) {
+    protected _stateChanged(oldState:ObjectState, newState:ObjectState) {
+        if (newState == ObjectState.guarding) {
+            this._direction = this._direction8(this._soliders[0].x, this._soliders[0].y);
+        }
+        
+        super._stateChanged(oldState, newState);
+    }
+    
+    protected _moving() {
         if (this._moveOneStep()) {
             application.map.incLives(-1);
             
@@ -35,8 +43,8 @@ class Enemy extends NPC {
         }
     }
 
-    protected _fighting(ticks: number) {
-        if (ticks % this._hitSpeed == 0) {
+    protected _fighting() {
+        if (this._ticks % this._hitSpeed == 0) {
             this._soliders[0].hitBy(this._damage);
             if (this._soliders[0].dying() || this._soliders[0].dead()) {
                 this._soliders.splice(0, 1);
