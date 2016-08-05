@@ -143,21 +143,21 @@ abstract class Map extends Entity {
         this._toolLayer.removeAllChildren();
     }
     
-    public update(ticks:number) {
+    public update() {
         if (this._enemies.length == 0) {
-            this._launchNextWave(ticks);
+            this._launchNextWave();
         }
         
-        this._hero.update(ticks);
+        this._hero.update();
         
-        this._update(this._towers, ticks, this._objLayer);
-        this._update(this._soliders, ticks, this._objLayer);
-        this._update(this._enemies, ticks, this._objLayer);
-        this._update(this._bullets, ticks, this._bulletLayer);
-        this._update(this._cartridges, ticks, this._bulletLayer);
+        this._update(this._towers, this._objLayer);
+        this._update(this._soliders, this._objLayer);
+        this._update(this._enemies, this._objLayer);
+        this._update(this._bullets, this._bulletLayer);
+        this._update(this._cartridges, this._bulletLayer);
     }
     
-    private _launchNextWave(ticks:number) {
+    private _launchNextWave() {
         this._timeToNextWave --;
         if (this._timeToNextWave <= 0) {
             this.launch(this._currentWave);
@@ -166,11 +166,11 @@ abstract class Map extends Entity {
         }            
     }
 
-    private _update(objs: Entity[], ticks:number, layer:egret.Sprite){
+    private _update(objs: Entity[], layer:egret.Sprite){
         for(let i = 0; i < objs.length; i++) {
             let obj = objs[i];
             
-            obj.update(ticks);
+            obj.update();
             
             if (obj.dead()) {
                 objs.splice(i, 1);
@@ -181,13 +181,20 @@ abstract class Map extends Entity {
     }
 
     public searchEnemy(x: number, y: number, radius: number) : Enemy {
+        var enemy = null;
         for(var i = 0; i < this._enemies.length; i++) {
             if (this._enemies.intersect(x, y, radius)){
-                return this._enemies[i];
+                if (this._enemies[i].totalSoliders == 0) {
+                    return this._enemies[i];
+                } else {
+                    if (!(enemy && enemy.totalSoliders() < this._enemies[i].totalSoliders)) {
+                        enemy = this._enemies[i];
+                    }
+                }
             }
         }
         
-        return null;
+        return enemy;
     }
     
     public searchSolider(x: number, y: number, radius: number) : Solider {
