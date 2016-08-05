@@ -10,6 +10,8 @@ module application {
     export var map: Map;
     
     export var characters: ICharacterDirection;
+    
+    export var pool: ObjectPool;
 	
 	export var baseUrl: string;
 
@@ -49,6 +51,8 @@ module application {
         application.channel = Channel.create();
         
         application.characters = Character.createAll();
+        
+        application.pool = new ObjectPool();
 
         application.stopwatch = new egret.EventDispatcher();
         var timer: egret.Timer = new egret.Timer(1000,0);
