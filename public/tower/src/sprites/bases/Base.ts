@@ -1,4 +1,4 @@
-class Base extends Object {
+class Base extends Entity {
     private _tower: Tower;
     
     public constructor() {
