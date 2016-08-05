@@ -1,26 +1,32 @@
 class Bullet extends Object {
     private _target: NPC;
     
-    private _speed: number;
+    private _step: number;
     
     private _missing: boolean;
     
-    public constructor(target: NPC) {
+    public constructor() {
         super();
         
-        this._target = target;
+        this._target = null;
         
-        this._speed = 1;
+        this._step = 1;
+        
+        this._missing = false;
     }
     
-    protected _idle(ticks: number) {
-        this._changeState(ObjectState.moving, ticks);
+    public setTarget(target: NPC) {
+        this._target = target;
     }
     
-    protected _moving(ticks: number) {
-        if (this._target.dead()) {
+    protected _idle() {
+        this._do(ObjectState.moving);
+    }
+    
+    protected _moving() {
+        if (this._target.dying() || this._target.dead()) {
             this._missing = true;
-            this._changeState(ObjectState.dying, ticks);
+            this._do(ObjectState.dying);
         } else {
             let dx = this._target.x - this.x;
             let dy = this._target.y - this.y;
@@ -32,7 +38,7 @@ class Bullet extends Object {
             
             if (this.collide(_target)) {
                 this._missing = false;
-                this._changeState(ObjectState.dying, ticks);
+                this._do(ObjectState.dying);
     
                 this._target.hitBy(this._damage);
             }
@@ -41,13 +47,7 @@ class Bullet extends Object {
     
     protected _dying(ticks: number) {
         if (ticks -  this._ticks > 3) {
-            this._changeState(ObjectState.dead, ticks);
-        } else {
-            if (this._missing) {
-                //显示missing图片
-            } else {
-                //显示击中图片
-            }
+            this._do(ObjectState.dead);
         }
     }
 }
