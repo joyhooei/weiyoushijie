@@ -39,8 +39,7 @@ class Soldier extends NPC {
         this._enemy = application.map.findEnemy(this.x, this.y, this._guardRadius));
         if (this._enemy) {
             this._moveTo(this._enemy.x, this._emeny.y);
-            
-            this._enemy._changeState(ObjectState.guarding);
+            this._enemy.addSolider(this);
         }
         
         return this._enemy;
