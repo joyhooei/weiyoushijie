@@ -1,7 +1,6 @@
 class Soldier extends NPC {
     private _guardX: number;
     private _gradeY: number;
-    
     private _guardRadius: number;
 
     private _enemy: Enemy;
@@ -12,22 +11,30 @@ class Soldier extends NPC {
         this._enemy = null;
     }
     
-    protected _moving(ticks: number) {
+    protected _stateChanged(oldState:ObjectState, newState:ObjectState) {
+        if (newState == ObjectState.guarding) {
+            this._direction = this._direction8(_enemy.x, _enemy.y);
+        }
+        
+        super._stateChanged(oldState, newState);
+    }
+    
+    protected _moving() {
         if (this._moveOneStep()) {
             if (this._enemy) {
-                this._changeState(ObjectState.fighting);
+                this._do(ObjectState.fighting);
             } else {
-                this._changeState(ObjectState.guarding);
+                this._do(ObjectState.guarding);
             }
         }
     }
     
-    protected _guarding(ticks: number) {
+    protected _guarding() {
         this._findEnemy();
     }
     
-    protected _fighting(ticks: number) {
-        if (ticks % this._hitSpeed == 0) {
+    protected _fighting() {
+        if (this._state % this._hitSpeed == 0) {
             this._enemy.hitBy(this._damage);
             if (this._enemy.dying() && !this._findEnemy()) {
                 this._moveTo(his._guardX, this._gradeY);
