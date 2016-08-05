@@ -33,6 +33,10 @@ class Entity extends egret.Sprite {
         this._do(EntityState.idle);
 	}
 	
+	/**初始化*/
+    public initialize(options: any):void {
+    }
+	
 	public intersect(x: number, y: number, radius: number):boolean {
 		let dx = this.x - x;
 		let dy = this.y - y;
@@ -53,19 +57,11 @@ class Entity extends egret.Sprite {
 	public dying(): boolean {
 		return this._state == ObjectState.dying;
 	}
-    
-    public match(options: any): boolean {
-    	return false;
-    }
-    
+
     public select(again:boolean) {
     }
     
     public deselect() {
-    }
-	
-	/**初始化*/
-    public initialize(options: any):void {
     }
     
     /**更新状态*/
@@ -116,11 +112,12 @@ class Entity extends egret.Sprite {
     //根据状态、面向修改重新渲染
     protected _render() {
     	egret.MovieClip mc = application.characters[egret.getQualifiedClassName(this)].getMC(this._direction, this._state);
-    	
-    	this.removeChildren();
-    	this.addChild(mc);
-    	
-    	mc.start();
+    	if (mc) {
+	    	this.removeChildren();
+	    	this.addChild(mc);
+	    	
+	    	mc.start();
+    	}
     }
     
     protected _idle()) {
