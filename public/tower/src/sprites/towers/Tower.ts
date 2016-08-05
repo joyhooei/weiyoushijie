@@ -23,26 +23,26 @@ class Tower extends Object {
         this._lastFireTicks = 0;
     }
     
-    protected _idle(ticks:number) {
-        this._changeState(ObjectState.building, ticks);
+    protected _idle() {
+        this._do(ObjectState.building);
     }
     
-    protected _building(ticks:number) {
-        if (ticks > 100) {
-            this._changeState(ObjectState.fighting, ticks);
+    protected _building() {
+        if (this._ticks > 100) {
+            this._do(ObjectState.fighting);
         }
     }
     
-    protected _fighting(ticks:number) {
+    protected _fighting() {
         if (!this._enemy || this._enemy.dead() || !this._enemy.intersect(this.x, this.y, this._maxRadius)) {
             this._enemy = application.map.searchEnemy(this.x, this.y, this._maxRadius);
         }
         
         if (this._enemy) {
-            if (ticks - this._lastFireTicks >= this._speed) {
+            if (this._ticks - this._lastFireTicks >= this._speed) {
                 this._fire(this._enemy);
                 
-                this._lastFireTicks = ticks;
+                this._lastFireTicks = this._ticks;
             }
         }
     }
