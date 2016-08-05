@@ -3,6 +3,8 @@ class Bullet extends Object {
     
     private _step: number;
     
+    private _steps: number[];
+    
     private _missing: boolean;
     
     public constructor() {
@@ -28,15 +30,13 @@ class Bullet extends Object {
             this._missing = true;
             this._do(ObjectState.dying);
         } else {
-            let dx = this._target.x - this.x;
-            let dy = this._target.y - this.y;
+            this._direction = this._direction8(this._target.x, this._target.y);
+            this._steps = this._steps(this._target.x, this._target.y, this._step);
+
+            this.x += this._steps[0];
+            this.y += this._steps[1];
             
-            let distance = Math.sqrt(dx * dx + dy * dy);
-            
-            this.x += this._speed * dx / distance;
-            this.y += this._speed * dy / distance;
-            
-            if (this.collide(_target)) {
+            if (this.collide(this._target)) {
                 this._missing = false;
                 this._do(ObjectState.dying);
     
