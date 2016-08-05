@@ -1,17 +1,19 @@
-class Base extends SelectableObject {
+class Base extends Object {
     private _tower: Tower;
     
     public constructor() {
         super();
         
         this._tower = null;
+        
+        application.map.enableSelect(this);
     }
     
     public setTower(tower: Tower) {
         this._tower = tower;
     }
     
-    protected _select(again:boolean) {
+    public select(again:boolean) {
         if (this._tower) {
             application.mao.showTool(new TowerMenuUI(this._tower), this.x, this.y);
         } else {
@@ -19,7 +21,7 @@ class Base extends SelectableObject {
         }
     }
     
-    protected _deselect() {
+    public deselect() {
         application.map.hideAllTools();
     }
 }
