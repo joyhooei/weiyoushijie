@@ -22,6 +22,9 @@ enum ObjectDirection {
 class Object extends egret.Sprite {
 	private _state: ObjectState;
 	private _ticks: number;
+    
+    //面向
+    private _direction: ObjectDirection;
 
     public constructor() {
         super();
@@ -64,70 +67,76 @@ class Object extends egret.Sprite {
     	
     	switch(this._state) {
 		    case ObjectState.idle:
-		    	this._idle(ticks);
+		    	this._idle();
 		    	break;
 		    	
 		    case ObjectState.building:
-		    	this._building(ticks);
+		    	this._building();
 		    	break;
 		    	
    	    	case ObjectState.moving:
-		    	this._moving(ticks);
+		    	this._moving();
 		    	break;
 		    	
 		    case ObjectState.guarding:
-		    	this._guarding(ticks);
+		    	this._guarding();
 		    	break;
 
    	    	case ObjectState.fighting:
-		    	this._fighting(ticks);
+		    	this._fighting();
 		    	break;
 		    	
    	    	case ObjectState.dying:
-		    	this._dying(ticks);
+		    	this._dying();
 		    	break;
     	}
     }
     
-    private _changeState(state:ObjectState) {
-    	this._ticks = 0;
-    	this._state = state;
+    private _do(state:ObjectState) {
+    	if (state != this._state) {
+	    	this._stateChanged( this._state, state);
+	    	
+	    	this._ticks = 0;
+	    	this._state = state;
+    	}
     }
     
-    protected _idle(ticks:number) {
+    protected _stateChanged(oldState: ObjectState, newState: ObjectState) {
     }
     
-    protected _building(ticks:number) {
-    	
+    protected _idle()) {
+    }
+    
+    protected _building() {
     }
 
-    protected _moving(ticks:number) {
+    protected _moving() {
     }
 
-    protected _guarding(ticks:number) {
+    protected _guarding() {
     }
     
-    protected _fighting(ticks:number) {
+    protected _fighting() {
     }
     
-    protected _dying(ticks:number) {
+    protected _dying() {
     }
     
     private _direction8(x:number, y:number):ObjectDirection {
         let angels = [22.5, 67.5, 112.5, 157.5, 202.5, 247.5, 292.5, 337.5, 360];
         let directions = [ObjectDirection.east, ObjectDirection.northeast, ObjectDirection.north, ObjectDirection.northwest, ObjectDirection.west, ObjectDirection.southwest, ObjectDirection.south, ObjectDirection.southeast, ObjectDirection.east ];
         
-        return _direction(x, y, angels, directions);
+        return _directionOf(x, y, angels, directions);
     }
     
     private _direction4(x:number, y:number):ObjectDirection {
         let angels = [60, 120, 240, 300, 360];
         let directions = [ObjectDirection.east, ObjectDirection.north, ObjectDirection.west, ObjectDirection.south, ObjectDirection.east ];
         
-        return _direction(x, y, angels, directions);
+        return _directionOf(x, y, angels, directions);
     }
     
-    private _direction(x:number, y:number, angels:number[], directions:ObjectDirection[]):ObjectDirection {
+    private _directionOf(x:number, y:number, angels:number[], directions:ObjectDirection[]):ObjectDirection {
         let dx: number = x - this.x;
         let dy: number = y - this.y;
         let angel = Math.atan2(dy, dx) * 180 / Math.PI + 180;
@@ -136,17 +145,6 @@ class Object extends egret.Sprite {
         	if (angel <= angels[i]) {
         		return directions[i];
         	}
-        }
-    }
-    
-    /**显示*/
-    public paint():void {
-    }
-    
-    /**销毁*/
-    public destroy():void {
-        if (this && this.parent) {
-            this.parent.removeChild(this);
         }
     }
 }
