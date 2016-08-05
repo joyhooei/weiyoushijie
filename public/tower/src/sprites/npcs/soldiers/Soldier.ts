@@ -13,7 +13,7 @@ class Soldier extends NPC {
     
     protected _stateChanged(oldState:ObjectState, newState:ObjectState) {
         if (newState == ObjectState.guarding) {
-            this._direction = this._direction8(_enemy.x, _enemy.y);
+            this._direction = this._direction8(this._enemy.x, this._enemy.y);
         }
         
         super._stateChanged(oldState, newState);
