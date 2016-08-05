@@ -36,24 +36,24 @@ class Character {
     static createAll(): ICharacterDictionary {
         let characters = new ICharacterDictionary();
         
-        let data = [
+        let config = [
             //name, properties [mc_direction, mc_state, mc_name]
             ['', {}, []],
         ];
         
-        var data = RES.getRes("animation.json");
-        var txtr = RES.getRes("animation.png");
-        var mcFactory:egret.MovieClipDataFactory = new egret.MovieClipDataFactory( data, txtr );
+        let data = RES.getRes("animation.json");
+        let txtr = RES.getRes("animation.png");
+        let mcFactory:egret.MovieClipDataFactory = new egret.MovieClipDataFactory( data, txtr );
 
-        for(let i = 0; i < data.lengths; i++) {
-            let character = new Character(data[1]);
+        for(let i = 0; i < config.lengths; i++) {
+            let character = new Character(config[1]);
             
-            let d = data[2];
+            let d = config[2];
             let mc:egret.MovieClip = new egret.MovieClip( mcFactory.generateMovieClipData( d[0] ) );
             
             character.addMC(mc, d[1], d[2]);
             
-            characters[data[0]] = character;
+            characters[config[0]] = character;
         }
         
         return characters;
