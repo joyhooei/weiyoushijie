@@ -140,9 +140,6 @@ var Main = (function (_super) {
         RES.loadGroup(pageName);
     };
     p.pageLoadedHandler = function (name) {
-        if (name != "home") {
-            this.homeUI.pageReadyHandler(this._idLoading);
-        }
         if (this._trueLoadingUI.parent) {
             this._trueLoadingUI.parent.removeChild(this._trueLoadingUI);
         }

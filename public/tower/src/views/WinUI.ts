@@ -8,9 +8,7 @@ class WinUI extends AbstractUI{
         super("winUISkin");
 
         this.imgBack.addEventListener( egret.TouchEvent.TOUCH_TAP, ()=>{
-			Bid.earn(application.me);
-			
-            this.hide();
+           this.hide();
         }, this);
         
         this.imgHide.addEventListener(egret.TouchEvent.TOUCH_TAP,() => {

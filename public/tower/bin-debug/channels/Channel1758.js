@@ -1,16 +1,19 @@
+window['onShareTimeline'] = function () {
+    console.log('onShareTimeline');
+    application.channel.resolve();
+};
 var Channel1758 = (function (_super) {
     __extends(Channel1758, _super);
     function Channel1758(standalone) {
         _super.call(this, standalone);
-        this.loadjs("http://wx.1758.com/static/common/js/hlmy1758.js");
+        this.url = "http://wx.1758.com/static/common/js/hlmy1758.js";
     }
     var d = __define,c=Channel1758,p=c.prototype;
     p.share = function (options) {
         var self = this;
-        hlmy.setShareInfo();
-        window['onShareTimeline'] = function () {
-            self.resolve();
-        };
+        self.require(self.url).then(function () {
+            hlmy.setShareInfo();
+        });
         return self.promise();
     };
     return Channel1758;

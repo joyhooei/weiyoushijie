@@ -1,7 +1,8 @@
 var application;
 (function (application) {
     application.ticks = 0;
-    application.version = '2.4.1';
+    application.version = '1.1.1';
+    application.game = 'tower';
     application.token = "";
     function init(main) {
         application.main = main;
@@ -18,12 +19,14 @@ var application;
         appender.setThreshold(log4javascript.Level.ERROR);
         var layout = new log4javascript.HttpPostDataLayout();
         layout.setCustomField("version", application.version);
+        layout.setCustomField("game", application.game);
         appender.setLayout(layout);
         logger.addAppender(appender);
         Utility.takeOverConsole(logger);
-        application.dao = new Dao(application.baseUrl + "api/", "headline");
+        application.dao = new Dao(application.baseUrl + "api/", application.game);
         application.channel = Channel.create();
-        application.projects = Project.createAll();
+        application.characters = Character.createAll();
+        application.pool = new EntityPool();
         application.stopwatch = new egret.EventDispatcher();
         var timer = new egret.Timer(1000, 0);
         timer.addEventListener(egret.TimerEvent.TIMER, function (event) {
@@ -54,9 +57,6 @@ var application;
                 if (application.me.attrs.metal == 0) {
                     application.guideUI = new GuideUI();
                 }
-                application.me.bid.refresh(application.me).then(function (attrs) {
-                    application.main.dispatchEventWith(GameEvents.EVT_LOGIN_IN_SUCCESS);
-                });
             }
             else {
                 Toast.launch("获取账号信息失败,请重新进入");
@@ -64,18 +64,6 @@ var application;
         });
     }
     application.logined = logined;
-    function gotoHome() {
-        application.main.homeUI.gotoPage(GamePages.HOME, true);
-    }
-    application.gotoHome = gotoHome;
-    function gotoAuction() {
-        application.main.homeUI.gotoPage(GamePages.AUCTION, false);
-    }
-    application.gotoAuction = gotoAuction;
-    function gotoTool() {
-        application.main.homeUI.gotoPage(GamePages.TOOL, false);
-    }
-    application.gotoTool = gotoTool;
     function showUI(ui, parent) {
         ui.horizontalCenter = 0;
         ui.verticalCenter = 0;

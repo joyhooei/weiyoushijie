@@ -7,9 +7,9 @@ module application {
     
     export var me: Customer;
 
-    export var map: Map;
+    export var battle: Battle;
     
-    export var characters: ICharacterDirection;
+    export var characters: Character[];
     
     export var pool: EntityPool;
 	
@@ -23,6 +23,8 @@ module application {
     export var stopwatch: egret.EventDispatcher;
     
     export var version: string = '1.1.1';
+    
+    export var game: string = 'tower';
     
     export var token: string = "";
 
@@ -42,11 +44,12 @@ module application {
 		appender.setThreshold(log4javascript.Level.ERROR);
 		let layout = new log4javascript.HttpPostDataLayout();
 		layout.setCustomField("version", application.version);
+		layout.setCustomField("game", application.game);
 		appender.setLayout(layout);
 		logger.addAppender(appender);
 		Utility.takeOverConsole(logger);
 		
-        application.dao = new Dao(application.baseUrl + "api/", "tower");
+        application.dao = new Dao(application.baseUrl + "api/", application.game);
         
         application.channel = Channel.create();
         
@@ -91,10 +94,6 @@ module application {
                 if(application.me.attrs.metal == 0) {
                     application.guideUI = new GuideUI();
                 }
-                
-                application.me.bid.refresh(application.me).then(function(attrs){
-                	application.main.dispatchEventWith(GameEvents.EVT_LOGIN_IN_SUCCESS);
-                })
             } else {
                 Toast.launch("获取账号信息失败,请重新进入");
             }

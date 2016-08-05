@@ -1,7 +1,3 @@
-interface ICharacterDictionary {
-     [index: string]: Character;
-}
-
 class Character {
     private _mcs: egret.MovieClip[][];
     
@@ -9,7 +5,7 @@ class Character {
     
     constructor(properties: any) {
         this._properties = properties;
-        this._mcs = new egret.MovieClip[][];
+        this._mcs = new Array<Array<egret.MovieClip>>();
     }
     
     public getProperty(name:string):number{
@@ -21,7 +17,7 @@ class Character {
     }
     
     public getMC(direction:EntityDirection, state:EntityState):egret.MovieClip {
-        egret.MovieClip mc = this._mcs[state][direction];
+        let mc = this._mcs[state][direction];
         if (!mc) {
             for(var i = 0; i < this._mcs[state].length; i++) {
                 if (this._mcs[state][i]) {
@@ -33,27 +29,33 @@ class Character {
         return mc;
     }
     
-    static createAll(): ICharacterDictionary {
-        let characters = new ICharacterDictionary();
+    static createAll(): Character[] {
+        let characters = new Array<Character>();
         
         let config = [
             //name, properties [mc_direction, mc_state, mc_name]
-            ['', {}, []],
+            {name: 'hero', properties:{hp:1000}, mcs:[
+                        { dir: EntityDirection.east, state: EntityState.moving, name:'test' },
+                        { dir: EntityDirection.west, state: EntityState.moving, name: 'test' },
+                    ]},
         ];
         
         let data = RES.getRes("animation.json");
         let txtr = RES.getRes("animation.png");
         let mcFactory:egret.MovieClipDataFactory = new egret.MovieClipDataFactory( data, txtr );
 
-        for(let i = 0; i < config.lengths; i++) {
-            let character = new Character(config[1]);
+        for(let i = 0; i < config.length; i++) {
+            let d = config[i];
             
-            let d = config[2];
-            let mc:egret.MovieClip = new egret.MovieClip( mcFactory.generateMovieClipData( d[0] ) );
+            let character = new Character(d.name);
             
-            character.addMC(mc, d[1], d[2]);
+            for(let j = 0; j < d.mcs.length; j++) {
+                let mc:egret.MovieClip = new egret.MovieClip( mcFactory.generateMovieClipData( d.mcs[j].name ) );
             
-            characters[config[0]] = character;
+                character.addMC(mc, d.mcs[j].dir, d.mcs[j].state);
+            }
+            
+            characters[d.name] = character;
         }
         
         return characters;

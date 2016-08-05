@@ -1,5 +1,5 @@
 class BuildTowerUI extends AbstractUI{
-    constructor() {
+    constructor(base:Base) {
         super("buildTowerUISkin");
         
         

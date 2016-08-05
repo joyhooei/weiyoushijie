@@ -16,7 +16,7 @@
             padding: 0;
             border: 0;
             margin: 0;
-            height: 100%;
+            width: 100%;
         }
     </style>
 
@@ -31,6 +31,7 @@
 	<script egret="lib" src="libs/modules/tween/tween.js" src-release="libs/modules/tween/tween.min.js"></script>
 	<script egret="lib" src="libs/modules/nest/nest.js" src-release="libs/modules/nest/nest.min.js"></script>
 	<script egret="lib" src="libs/modules/egretsa/egretsa.js" src-release="libs/modules/egretsa/egretsa.min.js"></script>
+	<script egret="lib" src="libs/modules/tiled/tiled.js" src-release="libs/modules/tiled/tiled.min.js"></script>
 	<!--modules_files_end-->
 
     <!--这个标签为不通过egret提供的第三方库的方式使用的 javascript 文件，请将这些文件放在libs下，但不要放在modules下面。-->
@@ -38,6 +39,7 @@
 	<script type='text/javascript' src='//cdn.bootcss.com/q.js/1.4.1/q.min.js'></script>
 	<script type='text/javascript' src='//cdn.bootcss.com/ismobilejs/0.4.0/isMobile.min.js'></script>
 	<script type='text/javascript' src='//cdn.bootcss.com/log4javascript/1.4.9/log4javascript.min.js'></script>
+	<!--<script type='text/javascript' src="http://jsconsole.com/js/remote.js?32b7b43e-c7f3-48bd-a80e-b7bc6043b525"></script>-->
     <!--other_libs_files_end-->
 
     <!--这个标签会被替换为项目中所有的 javascript 文件。删除 game_files 标签后，项目文件加载列表将不会变化，请谨慎操作！-->
@@ -56,16 +58,27 @@
 	<script egret="game" src="bin-debug/euisys/AssetAdapter.js"></script>
 	<script egret="game" src="bin-debug/euisys/ThemeAdapter.js"></script>
 	<script egret="game" src="bin-debug/models/Audit.js"></script>
-	<script egret="game" src="bin-debug/models/Bid.js"></script>
+	<script egret="game" src="bin-debug/models/Character.js"></script>
 	<script egret="game" src="bin-debug/models/Customer.js"></script>
 	<script egret="game" src="bin-debug/models/Gift.js"></script>
 	<script egret="game" src="bin-debug/models/Order.js"></script>
-	<script egret="game" src="bin-debug/models/Project.js"></script>
 	<script egret="game" src="bin-debug/models/Vip.js"></script>
+	<script egret="game" src="bin-debug/sprites/Entity.js"></script>
+	<script egret="game" src="bin-debug/sprites/EntityPool.js"></script>
+	<script egret="game" src="bin-debug/sprites/MovableEntity.js"></script>
+	<script egret="game" src="bin-debug/sprites/bases/Base.js"></script>
+	<script egret="game" src="bin-debug/sprites/battles/Battle.js"></script>
+	<script egret="game" src="bin-debug/sprites/battles/Battle1.js"></script>
+	<script egret="game" src="bin-debug/sprites/bullets/Bullet.js"></script>
+	<script egret="game" src="bin-debug/sprites/npcs/NPC.js"></script>
+	<script egret="game" src="bin-debug/sprites/npcs/enemies/Enemy.js"></script>
+	<script egret="game" src="bin-debug/sprites/npcs/soldiers/Soldier.js"></script>
+	<script egret="game" src="bin-debug/sprites/npcs/soldiers/heros/Hero.js"></script>
+	<script egret="game" src="bin-debug/sprites/towers/Tower.js"></script>
 	<script egret="game" src="bin-debug/views/AbstractUI.js"></script>
-	<script egret="game" src="bin-debug/views/AuctionUI.js"></script>
+	<script egret="game" src="bin-debug/views/BattleUI.js"></script>
 	<script egret="game" src="bin-debug/views/BlockUI.js"></script>
-	<script egret="game" src="bin-debug/views/BuyAchieveUI.js"></script>
+	<script egret="game" src="bin-debug/views/BuildTowerUI.js"></script>
 	<script egret="game" src="bin-debug/views/BuyToolUI.js"></script>
 	<script egret="game" src="bin-debug/views/ChargeTipUI.js"></script>
 	<script egret="game" src="bin-debug/views/FirstChargeBonusUI.js"></script>
@@ -83,7 +96,6 @@
 	<script egret="game" src="bin-debug/views/MessageUI.js"></script>
 	<script egret="game" src="bin-debug/views/NotificationUI.js"></script>
 	<script egret="game" src="bin-debug/views/OfflineGoldUI.js"></script>
-	<script egret="game" src="bin-debug/views/ProjectItem.js"></script>
 	<script egret="game" src="bin-debug/views/RankItem.js"></script>
 	<script egret="game" src="bin-debug/views/RankUI.js"></script>
 	<script egret="game" src="bin-debug/views/ReportUI.js"></script>
@@ -91,6 +103,7 @@
 	<script egret="game" src="bin-debug/views/Toast.js"></script>
 	<script egret="game" src="bin-debug/views/ToolItem.js"></script>
 	<script egret="game" src="bin-debug/views/ToolUI.js"></script>
+	<script egret="game" src="bin-debug/views/TowerMenuUI.js"></script>
 	<script egret="game" src="bin-debug/views/TrueLoadingUI.js"></script>
 	<script egret="game" src="bin-debug/views/VipUI.js"></script>
 	<script egret="game" src="bin-debug/views/WinUI.js"></script>
@@ -111,23 +124,6 @@
     </div>
     
 	<script>
-		function loadfile(filename, filetype){
-			if (filetype=="js"){ //if filename is a external JavaScript file
-				var fileref=document.createElement('script');
-				fileref.setAttribute("type","text/javascript");
-				fileref.setAttribute("src", filename);
-			} else if (filetype=="css"){ //if filename is an external CSS file
-				var fileref=document.createElement("link");
-				fileref.setAttribute("rel", "stylesheet");
-				fileref.setAttribute("type", "text/css");
-				fileref.setAttribute("href", filename);
-			}
-		
-			if (typeof fileref!="undefined") {
-				document.getElementsByTagName("head")[0].appendChild(fileref);
-			}
-		}
-    	
  		if (!isMobile.any){
 			var width = window.innerWidth || document.documentElement.clientWidth || document.body.clientWidth;
 			var height = window.innerHeight || document.documentElement.clientHeight || document.body.clientHeight;

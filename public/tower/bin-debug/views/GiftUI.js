@@ -50,7 +50,6 @@ var GiftUI = (function (_super) {
         }
         else if (gift.locked == 1) {
             application.hideUI(this);
-            application.gotoAuction();
         }
     };
     p.pickTicketGift = function () {
@@ -60,7 +59,6 @@ var GiftUI = (function (_super) {
         }
         else if (gift.locked == 1) {
             application.hideUI(this);
-            application.gotoTool();
         }
     };
     p.pickShareGift = function () {

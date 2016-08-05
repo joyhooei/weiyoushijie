@@ -1,5 +1,5 @@
 class Enemy extends NPC {
-    private _soliders: Solider[];
+    private _soliders: Soldier[];
     
     public constructor() {
         super();
@@ -7,13 +7,13 @@ class Enemy extends NPC {
         this.initialize();
     }
     
-    public initialize(options:any) {
+    public initialize(options?:any) {
         super.initialize(options);
         
         this._soliders = [];
     }
     
-    public addSolider(solider:Solider) {
+    public addSolider(solider: Soldier) {
         this._soliders.push(solider);
         
         if (this._state == EntityState.moving) {
@@ -25,8 +25,8 @@ class Enemy extends NPC {
         return this._soliders.length;
     }
     
-    public rmvSolider(solider:Solider) {
-        for (let i = 0; i < this._soliders; i++) {
+    public rmvSolider(solider: Soldier) {
+        for(let i = 0;i < this._soliders.length; i++) {
             if (this._soliders[i] == solider) {
                 this._soliders.splice(i, 1);   
             }
@@ -47,7 +47,7 @@ class Enemy extends NPC {
     
     protected _moving() {
         if (this._moveOneStep()) {
-            application.map.incLives(-1);
+            application.battle.incLives(-1);
             
             this._do(EntityState.dead);
         }

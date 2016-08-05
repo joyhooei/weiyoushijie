@@ -171,11 +171,7 @@ class Main extends eui.UILayer {
         RES.loadGroup(pageName);
     }
     
-    pageLoadedHandler( name:string ):void{
-        if( name != "home" ){
-            this.homeUI.pageReadyHandler( this._idLoading );
-        }
-      
+    pageLoadedHandler( name:string ):void{      
         if( this._trueLoadingUI.parent ){
             this._trueLoadingUI.parent.removeChild( this._trueLoadingUI );
         }

@@ -3,8 +3,6 @@ class Customer {
 	
 	public vip: Vip;
 	
-	public bid: Bid;
-	
 	private saveSeconds: number = 0;
 	
 	constructor(attrs: any) {
@@ -15,7 +13,6 @@ class Customer {
         }
         
         this.vip = Vip.create(this.attrs.charge);
-        this.bid = new Bid();
         
         this.checkTicket();
     }
@@ -112,11 +109,7 @@ class Customer {
     }
 
     public usableGold() {
-        if (this.bid.attrs) {
-            return Math.max(0,this.attrs.gold + this.attrs.earned_gold - this.bid.attrs.gold);
-        } else {
-            return Math.max(0,this.attrs.gold + this.attrs.earned_gold);
-        }
+        return Math.max(0,this.attrs.gold + this.attrs.earned_gold);
     }
     
     public buyOutput(gold:number, diamond: number, output:number): void {

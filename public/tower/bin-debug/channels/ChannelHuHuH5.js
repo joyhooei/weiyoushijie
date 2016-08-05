@@ -1,41 +1,46 @@
+window['huhuh5_loginCallBcak'] = function (userId, userName, userImage, userPosition, token) {
+    var options = { token: token, userId: userId, userName: userName, userImage: userImage, userPosition: userPosition };
+    console.log("huhuh5_loginCallBcak" + JSON.stringify(options));
+    var channel = application.channel;
+    channel.rest("huhuh5", "login", options).then(function (account) {
+        channel.resolve(account);
+    }, function (error) {
+        console.error("huhuh5_loginCallBcak login failed ");
+        channel.reject("登录失败");
+    });
+};
+window['huhuh5_shareCallBcak'] = function () {
+    application.channel.resolve();
+};
+window['huhuh5_payCallBcak'] = function (orderId, status) {
+    console.log("huhuh5_payCallBcak" + orderId + " " + status);
+    var channel = application.channel;
+    if (status == 'SUCCESS') {
+        channel.resolve();
+    }
+    else if (status == 'CANCEL') {
+        channel.reject("取消了支付");
+    }
+    else {
+        channel.reject("支付失败");
+    }
+};
 var ChannelHuHuH5 = (function (_super) {
     __extends(ChannelHuHuH5, _super);
     function ChannelHuHuH5(standalone) {
         _super.call(this, standalone);
-        this.loadjs('http://server.huhuh5.com:8081/3HGame/jsFile/h5Game.js');
+        this.url = 'http://server.huhuh5.com:8081/3HGame/jsFile/h5Game.js';
     }
     var d = __define,c=ChannelHuHuH5,p=c.prototype;
-    p.openScreen = function (stage) {
-        h5Game.openScreen(false);
-    };
-    p.setOpenScreenProgress = function (progress, total, title) {
-        h5Game.progress(progress, total, title);
-    };
     p.login = function () {
         var self = this;
-        window['loginCallBcak'] = function (userId, userName, userImage, userPosition, token) {
-            self.rest("huhuh5", "login", { token: token, userId: userId, userName: userName, userImage: userImage, userPosition: userPosition }).then(function (account) {
-                self.resolve(account);
-            }, function (error) {
-                self.reject("登录失败");
-            });
-        };
-        h5Game.login('loginCallBcak');
+        self.require(self.url).then(function () {
+            h5Game.login('huhuh5_loginCallBcak');
+        });
         return self.promise();
     };
     p.pay = function (options) {
         var self = this;
-        window['payCallBcak'] = function (orderId, status) {
-            if (status == 'SUCCESS') {
-                self.resolve();
-            }
-            else if (status == 'CANCEL') {
-                self.reject("取消了支付");
-            }
-            else {
-                self.reject("支付失败");
-            }
-        };
         var data = {
             goodsId: options.goodsId,
             goodsName: options.goodsName,
@@ -43,15 +48,12 @@ var ChannelHuHuH5 = (function (_super) {
             money: options.money,
             orderId: options.orderId,
         };
-        h5Game.pay(data, 'payCallBcak');
+        h5Game.pay(data, 'huhuh5_payCallBcak');
         return self.promise();
     };
     p.share = function (options) {
         var self = this;
-        window['shareCallBcak'] = function () {
-            self.resolve();
-        };
-        h5Game.share("shareCallBcak");
+        h5Game.share("huhuh5_shareCallBcak");
         return self.promise();
     };
     p.track = function (category, action, opt_label, opt_value) {

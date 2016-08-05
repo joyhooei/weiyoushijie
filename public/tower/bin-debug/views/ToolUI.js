@@ -21,17 +21,12 @@ var ToolUI = (function (_super) {
         tLayout.paddingBottom = 0;
         tLayout.requestedColumnCount = 2; /// 设置两列显示
         this.grpProject.layout = tLayout; /// 网格布局
-        self.grpProject.removeChildren();
-        application.dao.fetch("Project", { customer_id: application.me.attrs.id }, { order: 'sequence asc' }).then(function (projects) {
-            for (var i = 0; i < projects.length; i++) {
-                self.addProject(projects[i]);
-            }
-        });
     };
     p.uiCompHandler = function () {
+        var _this = this;
         this.refresh();
         this.imgBack.addEventListener(egret.TouchEvent.TOUCH_TAP, function () {
-            application.gotoHome();
+            application.hideUI(_this);
         }, this);
         application.dao.addEventListener("Customer", function (evt) {
             this.lblGold.text = Utility.format(application.me.usableGold());
@@ -55,13 +50,6 @@ var ToolUI = (function (_super) {
         this.imgVIP.addEventListener(egret.TouchEvent.TOUCH_BEGIN, function () {
             application.showUI(new BuyToolUI("vip", 49), this);
         }, this);
-    };
-    p.addProject = function (proj) {
-        if (proj && proj.unlocked == 0) {
-            var i = proj.sequence;
-            var item = new ToolItem(proj, application.projects[i], (i + 1).toString() + "_png", "t" + (i + 1).toString() + "_png");
-            this.grpProject.addChildAt(item, i);
-        }
     };
     return ToolUI;
 }(eui.Component));

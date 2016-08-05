@@ -4,7 +4,6 @@ var WinUI = (function (_super) {
         var _this = this;
         _super.call(this, "winUISkin");
         this.imgBack.addEventListener(egret.TouchEvent.TOUCH_TAP, function () {
-            Bid.earn(application.me);
             _this.hide();
         }, this);
         this.imgHide.addEventListener(egret.TouchEvent.TOUCH_TAP, function () {

@@ -39,20 +39,13 @@ class ToolUI extends eui.Component {
         tLayout.paddingBottom = 0;
         tLayout.requestedColumnCount = 2;  /// 设置两列显示
         this.grpProject.layout = tLayout;    /// 网格布局
-        
-        self.grpProject.removeChildren();
-        application.dao.fetch("Project",{ customer_id: application.me.attrs.id },{ order: 'sequence asc' }).then(function(projects) {
-            for(var i = 0; i < projects.length; i ++){                    
-                self.addProject(projects[i]);
-            }
-        });
     }
     
     private uiCompHandler():void {
         this.refresh();
 
         this.imgBack.addEventListener(egret.TouchEvent.TOUCH_TAP,() => {
-            application.gotoHome();
+            application.hideUI(this);
         },this);
 
         application.dao.addEventListener("Customer",function(evt: egret.Event) {
@@ -84,12 +77,5 @@ class ToolUI extends eui.Component {
             application.showUI(new BuyToolUI("vip", 49), this);
         },this);
     }
-    
-	private addProject(proj) {
-    	if (proj && proj.unlocked == 0) {
-            let i = proj.sequence;
-            let item: ToolItem = new ToolItem(proj, application.projects[i], (i + 1).toString() + "_png", "t" + (i + 1).toString() + "_png");
-            this.grpProject.addChildAt(item,i);
-        }
-	}
+
 }

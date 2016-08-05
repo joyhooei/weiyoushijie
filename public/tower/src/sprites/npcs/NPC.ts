@@ -1,28 +1,28 @@
 class NPC extends MovableEntity {
-    private _hp: number;
+    protected _hp: number;
     
-    private _damage: number;
+    protected _damage: number;
     
-    private _hitSpeed: number;
+    protected _hitSpeed: number;
     
     //所有路径
-    private _paths: number[][][];
+    protected _paths: number[][];
     //当前路径
-    private _path: number;
+    protected _path: number;
 
     public constructor() {
         super();
     }
 
-    public setPaths(paths:number[][][]) {
+    public setPaths(paths:number[][]) {
         this._paths = paths;
         this._path  = 0;
     }
     
     protected _stateChanged(oldState:EntityState, newState:EntityState) {
         if (newState == EntityState.moving) {
-            let path = this._paths[this.path];
-            this._turn(this._direction8(path.x, path.y));
+            let path:number[] = this._paths[this._path];
+            this._turn(this._direction8(path[0], path[1]));
         }
         
         super._stateChanged(oldState, newState);
@@ -33,7 +33,7 @@ class NPC extends MovableEntity {
     }
 
     protected _dying() {
-        if (ticks >= 5) {
+        if (this._ticks >= 5) {
             this._do(EntityState.dead);
         }
     }
@@ -49,13 +49,13 @@ class NPC extends MovableEntity {
         }
     }
     
-    private _hit(npc: NPC) {
+    protected _hit(npc: NPC) {
         npc.hitBy(this._damage);
     }
     
     //走一步
-    private _moveOneStep(): bool {
-        var path = this._paths[this.path];
+    protected _moveOneStep(): boolean {
+        var path = this._paths[this._path];
         if (Math.abs(this.x - path[0]) < this._step && Math.abs(this.y - path[1]) < this._step) {
             if (this._path >= this._paths.length - 1) {
                 //到达终点
@@ -67,7 +67,7 @@ class NPC extends MovableEntity {
             path = this._paths[this._path];
             this._turn(this._direction8(path[0], path[1]));
             
-            this._steps(path[0], path[1]);
+            this._changeSteps(path[0], path[1]);
         }
         
         this.x += this._steps[0];

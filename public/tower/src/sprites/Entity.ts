@@ -20,13 +20,13 @@ enum EntityDirection {
 };
 
 class Entity extends egret.Sprite {
-	private _state: EntityState;
-	private _ticks: number;
+	protected _state: EntityState;
+    protected _ticks: number;
     
     //面向
-    private _direction: EntityDirection;
+    protected _direction: EntityDirection;
     
-    private _repaint: boolean;
+    protected _repaint: boolean;
 
     public constructor() {
         super();
@@ -59,27 +59,27 @@ class Entity extends egret.Sprite {
     	this._ticks++;
     	
     	switch(this._state) {
-		    case ObjectState.idle:
+		    case EntityState.idle:
 		    	this._idle();
 		    	break;
 		    	
-		    case ObjectState.building:
+            case EntityState.building:
 		    	this._building();
 		    	break;
 		    	
-   	    	case ObjectState.moving:
+            case EntityState.moving:
 		    	this._moving();
 		    	break;
 		    	
-		    case ObjectState.guarding:
+            case EntityState.guarding:
 		    	this._guarding();
 		    	break;
 
-   	    	case ObjectState.fighting:
+            case EntityState.fighting:
 		    	this._fighting();
 		    	break;
 		    	
-   	    	case ObjectState.dying:
+            case EntityState.dying:
 		    	this._dying();
 		    	break;
     	}
@@ -90,7 +90,7 @@ class Entity extends egret.Sprite {
     //根据状态、面向修改重新渲染
     protected _paint() {
     	if (this._repaint) {
-	    	egret.MovieClip mc = application.characters[egret.getQualifiedClassName(this)].getMC(this._direction, this._state);
+	    	let mc = application.characters[egret.getQualifiedClassName(this)].getMC(this._direction, this._state);
 	    	if (mc) {
 		    	this.removeChildren();
 		    	this.addChild(mc);
@@ -125,7 +125,7 @@ class Entity extends egret.Sprite {
     protected _stateChanged(oldState: EntityState, newState: EntityState) {
     }
     
-    protected _idle()) {
+    protected _idle() {
     }
     
     protected _building() {
@@ -160,14 +160,14 @@ class Entity extends egret.Sprite {
         let angels = [22.5, 67.5, 112.5, 157.5, 202.5, 247.5, 292.5, 337.5, 360];
         let directions = [EntityDirection.east, EntityDirection.northeast, EntityDirection.north, EntityDirection.northwest, EntityDirection.west, EntityDirection.southwest, EntityDirection.south, EntityDirection.southeast, EntityDirection.east ];
         
-        return _directionOf(x, y, angels, directions);
+        return this._directionOf(x, y, angels, directions);
     }
     
     protected _direction4(x:number, y:number):EntityDirection {
         let angels = [60, 120, 240, 300, 360];
         let directions = [EntityDirection.east, EntityDirection.north, EntityDirection.west, EntityDirection.south, EntityDirection.east ];
         
-        return _directionOf(x, y, angels, directions);
+        return this._directionOf(x, y, angels, directions);
     }
     
     protected _directionOf(x:number, y:number, angels:number[], directions:EntityDirection[]):EntityDirection {

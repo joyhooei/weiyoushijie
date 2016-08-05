@@ -3,6 +3,8 @@ class Bullet extends MovableEntity {
 
     private _missing: boolean;
     
+    private _damage: number;
+    
     public constructor() {
         super();
         
@@ -21,11 +23,11 @@ class Bullet extends MovableEntity {
     protected _moving() {
         if (this._target.dying() || this._target.dead()) {
             this._missing = true;
-            this._do(ObjectState.dying);
+            this._do(EntityState.dying);
         } else {
             this._turn(this._direction8(this._target.x, this._target.y));
             
-            this._steps(this._target.x, this._target.y);
+            this._changeSteps(this._target.x, this._target.y);
 
             this.x += this._steps[0];
             this.y += this._steps[1];
@@ -39,8 +41,8 @@ class Bullet extends MovableEntity {
         }
     }
     
-    protected _dying(ticks: number) {
-        if (ticks -  this._ticks > 3) {
+    protected _dying() {
+        if (this._ticks > 3) {
             this._do(EntityState.dead);
         }
     }

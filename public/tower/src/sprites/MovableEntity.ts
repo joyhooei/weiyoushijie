@@ -1,16 +1,16 @@
 class MovableEntity extends Entity {
     //一步走多远
-    private _step: number;
+    protected _step: number;
     
     //一步走的距离    
-    private _steps: number[];
+    protected _steps: number[];
     
     public constructor() {
         super();
     }
 
     //计一步走的距离
-    private _steps(x:number, y:number, step:number) {
+    protected _changeSteps(x:number, y:number) {
 	    let stepX = 0;
 	    let stepY = 0;
 	    

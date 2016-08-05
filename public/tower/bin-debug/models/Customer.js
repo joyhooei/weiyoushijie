@@ -6,7 +6,6 @@ var Customer = (function () {
             this.attrs.earned_gold = 0;
         }
         this.vip = Vip.create(this.attrs.charge);
-        this.bid = new Bid();
         this.checkTicket();
     }
     var d = __define,c=Customer,p=c.prototype;
@@ -89,12 +88,7 @@ var Customer = (function () {
         this.saveNow();
     };
     p.usableGold = function () {
-        if (this.bid.attrs) {
-            return Math.max(0, this.attrs.gold + this.attrs.earned_gold - this.bid.attrs.gold);
-        }
-        else {
-            return Math.max(0, this.attrs.gold + this.attrs.earned_gold);
-        }
+        return Math.max(0, this.attrs.gold + this.attrs.earned_gold);
     };
     p.buyOutput = function (gold, diamond, output) {
         gold = Math.abs(gold);

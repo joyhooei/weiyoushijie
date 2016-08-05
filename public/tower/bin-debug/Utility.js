@@ -83,6 +83,61 @@ var Utility = (function () {
             }
         };
     };
+    Utility.require = function (file) {
+        return Q.Promise(function (resolve, reject, notify) {
+            var filenode;
+            var jsfile_extension = /(.js)$/i;
+            var cssfile_extension = /(.css)$/i;
+            for (var i = 0; i < Utility.loadedFiles.length; i++) {
+                if (Utility.loadedFiles[i] == file) {
+                    resolve("");
+                    return;
+                }
+            }
+            if (jsfile_extension.test(file)) {
+                var timer_1 = new egret.Timer(60 * 1000, 1);
+                timer_1.addEventListener(egret.TimerEvent.TIMER, function (event) {
+                    var message = "load file timeout " + file;
+                    console.error(message);
+                    reject(message);
+                }, this);
+                timer_1.start();
+                filenode = document.createElement('script');
+                filenode.src = file;
+                // IE
+                filenode.onreadystatechange = function () {
+                    if (filenode.readyState === 'loaded' || filenode.readyState === 'complete') {
+                        timer_1.stop();
+                        filenode.onreadystatechange = null;
+                        Utility.loadedFiles.push(file);
+                        resolve("");
+                    }
+                };
+                // others
+                filenode.onload = function () {
+                    timer_1.stop();
+                    Utility.loadedFiles.push(file);
+                    resolve("");
+                };
+                document.head.appendChild(filenode);
+            }
+            else if (cssfile_extension.test(file)) {
+                filenode = document.createElement('link');
+                filenode.rel = 'stylesheet';
+                filenode.type = 'text/css';
+                filenode.href = file;
+                document.head.appendChild(filenode);
+                Utility.loadedFiles.push(file);
+                resolve("");
+            }
+            else {
+                var message = "unknown file type to load " + file;
+                console.error(message);
+                reject(message);
+            }
+        });
+    };
+    Utility.loadedFiles = [];
     Utility.units = [
         'k', 'm', 'b', 't',
         'a', 'A', 'c', 'C', 'd', 'D', 'e', 'E', 'f', 'F', 'g', 'G', 'h', 'H', 'i', '!', 'j', 'J', 'l', 'L', 'n', 'N', 'o', 'O', 'p', 'P', 'q', 'Q', 'r', 'R', 's', 'S', 'u', 'U', 'v', 'V', 'w', 'W', 'x', 'X', 'y', 'Y', 'z', 'Z',

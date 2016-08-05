@@ -20,7 +20,7 @@ var Channel = (function () {
     }
     var d = __define,c=Channel,p=c.prototype;
     Channel.create = function () {
-        var cid = egret.getOption("channelId") || egret.getOption("egret.runtime.spid") || egret.getOption("wysj_channel") || "egret";
+        var cid = egret.getOption("wysj_channel") || egret.getOption("channelId") || egret.getOption("egret.runtime.spid") || "egret";
         if (cid === CHANNEL_1758_IN_EGRET) {
             console.info("using channel 1758");
             return new Channel1758(false);
@@ -41,26 +41,34 @@ var Channel = (function () {
     p.standalone = function () {
         return this._standalone;
     };
-    p.loadjs = function (url) {
-        loadfile(url, "js");
+    p.require = function (file) {
+        return Utility.require(file);
     };
     p.rest = function (channel, method, data) {
-        return application.dao.restWithUrl(application.baseUrl + "channels/" + method + "?wysj_channel=" + channel, data);
+        var url = application.baseUrl + "channels/" + method + "?wysj_channel=" + channel;
+        console.log("rest " + url + " " + JSON.stringify(data));
+        return application.dao.restWithUrl(url, data);
     };
     p.promise = function () {
-        if (this._deferred) {
-            this._deferred.reject("操作超时");
-        }
+        this._timer = new egret.Timer(60 * 1000, 1);
+        this._timer.addEventListener(egret.TimerEvent.TIMER, function (event) {
+            this.reject("操作超时");
+        }, this);
+        this._timer.start();
+        return this._promiseWithoutTimeout();
+    };
+    p._promiseWithoutTimeout = function () {
+        this.reject("");
         this._deferred = Q.defer();
         return this._deferred.promise;
     };
     p.resolvedPromise = function () {
-        var promise = this.promise();
+        var promise = this._promiseWithoutTimeout();
         this._deferred.resolve();
         return promise;
     };
     p.rejectedPromise = function () {
-        var promise = this.promise();
+        var promise = this._promiseWithoutTimeout();
         this._deferred.reject("目前不支持");
         return promise;
     };
@@ -68,11 +76,17 @@ var Channel = (function () {
         if (this._deferred) {
             this._deferred.resolve(data);
         }
+        if (this._timer) {
+            this._timer.stop();
+        }
         this._deferred = null;
     };
     p.reject = function (data) {
         if (this._deferred) {
             this._deferred.reject(data);
+        }
+        if (this._timer) {
+            this._timer.stop();
         }
         this._deferred = null;
     };

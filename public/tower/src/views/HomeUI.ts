@@ -44,7 +44,6 @@ class HomeUI extends AbstractUI{
         self.imgAddGold.visible = false;
         self.lblAddGold.backgroundColor = 0xFFFFFF;
         
-        self.imgHit.visible = false;
         self.imgGift.visible = false;
         self.imgReward.visible = false;
         
@@ -54,13 +53,6 @@ class HomeUI extends AbstractUI{
 
 		self.imgAvatar.source = Customer.avatarUrl(application.me.attrs);
         self.renderCustomer();
-
-        self.lblHit.addEventListener(egret.TouchEvent.TOUCH_BEGIN, function() {
-			self.onHit();
-        }, this);
-        self.btnHit.addEventListener(egret.TouchEvent.TOUCH_BEGIN, function() {
-			self.onHit();
-        }, this);
                 
         self.btnGift.addEventListener(egret.TouchEvent.TOUCH_BEGIN, function() {
 			application.showUI(new GiftUI(), this);
@@ -116,9 +108,6 @@ class HomeUI extends AbstractUI{
 
 		self.renderGiftDynamically();
 		self.renderReward();
-        
-        /// 首次加载完成首先显示home
-        self.gotoHome(); 
 		
         if (application.guideUI) {
 			application.guideUI.setOverCallback(function(){
@@ -218,11 +207,7 @@ class HomeUI extends AbstractUI{
 	}
 
 	private getOutput(): number {
-		if (this.hit > 0) {
-			return application.me.vip.getHit(application.me.attrs.output);
-		} else {
-			return application.me.attrs.output;
-		}
+        return application.me.attrs.output;
 	}
 	
 	private animateStep(lbl:eui.Label, from:number, to:number): void {

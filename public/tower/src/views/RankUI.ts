@@ -87,7 +87,7 @@ class RankUI extends eui.Component {
         this.refresh();
 
         this.imgBack.addEventListener(egret.TouchEvent.TOUCH_TAP,() => {
-            application.gotoHome();
+            application.hideUI(this);
         },this);
     } 
 

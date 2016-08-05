@@ -1,8 +1,8 @@
-class Hero extends Solider {
+class Hero extends Soldier {
     public constructor() {
         super();
         
-        application.map.enableSelect(this);
+        application.battle.enableSelect(this);
     }
     
     public select(again:boolean) {
@@ -12,6 +12,6 @@ class Hero extends Solider {
     }
     
     protected _idle() {
-        this._do(ObjectState.guarding);
+        this._do(EntityState.guarding);
     }
 }

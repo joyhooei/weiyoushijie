@@ -1,12 +1,12 @@
 class EntityPool {
-    private _objs : Entity[];
+    private _objs: Array<Entity>;
 
     public constructor() {
-        this._objs = new Entity[];
+        this._objs = new Array<Entity>();
     }
     
     public get(className:string): Entity {
-        for(let i = 0; i < this._objs; i++) {
+        for(let i = 0; i < this._objs.length; i++) {
             let obj = this._objs[i];
             if (className == egret.getQualifiedClassName(obj)) {
                 this._objs.splice(i, 1);
@@ -14,7 +14,7 @@ class EntityPool {
             }
         }
         
-        let obj = Entity.create(window[className].prototype);
+        let obj = Object.create(window[className].prototype);
         obj.constructor.apply(obj);
         return obj;
     }

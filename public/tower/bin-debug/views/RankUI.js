@@ -69,9 +69,10 @@ var RankUI = (function (_super) {
         });
     };
     p.uiCompHandler = function () {
+        var _this = this;
         this.refresh();
         this.imgBack.addEventListener(egret.TouchEvent.TOUCH_TAP, function () {
-            application.gotoHome();
+            application.hideUI(_this);
         }, this);
     };
     p.back = function () {

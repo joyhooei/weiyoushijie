@@ -6,7 +6,7 @@ class Base extends Entity {
         
         this._tower = null;
         
-        application.map.enableSelect(this);
+        application.battle.enableSelect(this);
     }
     
     public setTower(tower: Tower) {
@@ -15,13 +15,13 @@ class Base extends Entity {
     
     public select(again:boolean) {
         if (this._tower) {
-            application.mao.showTool(new TowerMenuUI(this._tower), this.x, this.y);
+            application.battle.showTool(new TowerMenuUI(this._tower), this.x, this.y);
         } else {
-            application.map.showTool(new BuildTowerUI(this), this.x, this.y);
+            application.battle.showTool(new BuildTowerUI(this), this.x, this.y);
         }
     }
     
     public deselect() {
-        application.map.hideAllTools();
+        application.battle.hideAllTools();
     }
 }

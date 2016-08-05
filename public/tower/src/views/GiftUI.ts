@@ -79,7 +79,6 @@ class GiftUI extends eui.Component {
             this.pickGift(gift);
         } else if (gift.locked == 1) {
             application.hideUI(this);
-            application.gotoAuction();
         }
 	}
 	
@@ -89,7 +88,6 @@ class GiftUI extends eui.Component {
             this.pickGift(gift);
         } else if (gift.locked == 1) {
             application.hideUI(this);
-            application.gotoTool();
         }
 	}
 

@@ -32,7 +32,7 @@ class Tower extends Entity {
     
     protected _fighting() {
         if (!this._enemy || this._enemy.dead() || !this._enemy.intersect(this.x, this.y, this._maxRadius)) {
-            this._enemy = application.map.searchEnemy(this.x, this.y, this._maxRadius);
+            this._enemy = application.battle.findEnemy(this.x, this.y, this._maxRadius);
         }
         
         if (this._enemy) {

@@ -2,9 +2,11 @@ var AbstractUI = (function (_super) {
     __extends(AbstractUI, _super);
     function AbstractUI(skinName) {
         _super.call(this);
-        this.addEventListener(eui.UIEvent.COMPLETE, this._uiCompHandler, this);
-        this.skinName = "resource/custom_skins/" + skinName + ".exml";
-        ;
+        var self = this;
+        self.addEventListener(eui.UIEvent.COMPLETE, self._uiCompHandler, self);
+        Utility.delay(function () {
+            self.skinName = "resource/custom_skins/" + skinName + ".exml";
+        }, 10);
     }
     var d = __define,c=AbstractUI,p=c.prototype;
     p._uiCompHandler = function () {

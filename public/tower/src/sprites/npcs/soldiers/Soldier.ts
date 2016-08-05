@@ -34,7 +34,7 @@ class Soldier extends NPC {
     }
     
     private _moveTo(x:number, y:number) {
-        this.setPath([[this.x, this.y], [x, y]]);
+        this.setPaths([[this.x, this.y], [x, y]]);
         this._do(EntityState.moving);
     }
     
@@ -42,15 +42,15 @@ class Soldier extends NPC {
         if (this._state % this._hitSpeed == 0) {
             this._enemy.hitBy(this._damage);
             if (this._enemy.dying() && !this._findEnemy()) {
-                this._moveTo(his._guardX, this._gradeY);
+                this._moveTo(this._guardX, this._gradeY);
             }
         }
     }
     
     private _findEnemy(): Enemy {
-        this._enemy = application.map.findEnemy(this.x, this.y, this._guardRadius));
+        this._enemy = application.battle.findEnemy(this.x, this.y, this._guardRadius);
         if (this._enemy) {
-            this._moveTo(this._enemy.x, this._emeny.y);
+            this._moveTo(this._enemy.x,this._enemy.y);
             this._enemy.addSolider(this);
         }
         
