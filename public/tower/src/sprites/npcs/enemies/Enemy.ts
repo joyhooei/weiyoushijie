@@ -11,25 +11,37 @@ class Enemy extends NPC {
         this._soliders.push(solider);
         
         if (this._state == ObjectState.moving) {
-            this._changeState(ObjectState.guarding);
+            this._do(ObjectState.guarding);
+        }
+    }
+    
+    public rmvSolider(solider:Solider) {
+        for (let i = 0; i < this._soliders; i++) {
+            if (this._soliders[i] == solider) {
+                this._soliders.splice(i, 1);   
+            }
+        }
+        
+        if (this._soliders.length == 0) {
+            this._do(ObjectState.moving);
         }
     }
     
     protected _moving(ticks: number) {
         if (this._moveOneStep()) {
-            application.incLifes(-1);
+            application.map.incLives(-1);
             
-            this._changeState(ObjectState.dead);
+            this._do(ObjectState.dead);
         }
     }
 
     protected _fighting(ticks: number) {
         if (ticks % this._hitSpeed == 0) {
             this._soliders[0].hitBy(this._damage);
-            if (this._soliders[0].dying()) {
+            if (this._soliders[0].dying() || this._soliders[0].dead()) {
                 this._soliders.splice(0, 1);
                 if (this._soliders.length == 0) {
-                    this._changeState(ObjectState.moving);
+                    this._do(ObjectState.moving);
                 }
             }
         }
