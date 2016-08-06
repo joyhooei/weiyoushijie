@@ -55,3 +55,4 @@ var NPC = (function (_super) {
     return NPC;
 }(MovableEntity));
 egret.registerClass(NPC,'NPC');
+//# sourceMappingURL=NPC.js.map

@@ -22,3 +22,4 @@ var ReportUI = (function (_super) {
     return ReportUI;
 }(eui.Component));
 egret.registerClass(ReportUI,'ReportUI');
+//# sourceMappingURL=ReportUI.js.map

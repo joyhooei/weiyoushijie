@@ -7,3 +7,4 @@ var BlockUI = (function (_super) {
     return BlockUI;
 }(AbstractUI));
 egret.registerClass(BlockUI,'BlockUI');
+//# sourceMappingURL=BlockUI.js.map

@@ -23,3 +23,4 @@ var NotificationUI = (function (_super) {
     return NotificationUI;
 }(eui.Component));
 egret.registerClass(NotificationUI,'NotificationUI');
+//# sourceMappingURL=NotificationUI.js.map

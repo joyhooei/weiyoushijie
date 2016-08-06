@@ -46,3 +46,4 @@ var ChargeTipUI = (function (_super) {
     return ChargeTipUI;
 }(eui.Component));
 egret.registerClass(ChargeTipUI,'ChargeTipUI');
+//# sourceMappingURL=ChargeTipUI.js.map

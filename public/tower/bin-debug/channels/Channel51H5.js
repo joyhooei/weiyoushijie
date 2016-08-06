@@ -38,3 +38,4 @@ var Channel51H5 = (function (_super) {
     return Channel51H5;
 }(Channel));
 egret.registerClass(Channel51H5,'Channel51H5');
+//# sourceMappingURL=Channel51H5.js.map

@@ -33,3 +33,4 @@ var ResetUI = (function (_super) {
     return ResetUI;
 }(eui.Component));
 egret.registerClass(ResetUI,'ResetUI');
+//# sourceMappingURL=ResetUI.js.map

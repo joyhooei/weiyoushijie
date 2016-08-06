@@ -99,3 +99,4 @@ var Gift = (function () {
     return Gift;
 }());
 egret.registerClass(Gift,'Gift');
+//# sourceMappingURL=Gift.js.map

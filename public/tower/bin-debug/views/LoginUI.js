@@ -29,3 +29,4 @@ var LoginUI = (function (_super) {
     return LoginUI;
 }(eui.Component));
 egret.registerClass(LoginUI,'LoginUI');
+//# sourceMappingURL=LoginUI.js.map

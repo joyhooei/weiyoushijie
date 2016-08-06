@@ -45,3 +45,4 @@ var VipUI = (function (_super) {
     return VipUI;
 }(AbstractUI));
 egret.registerClass(VipUI,'VipUI');
+//# sourceMappingURL=VipUI.js.map

@@ -81,3 +81,4 @@ var RankUI = (function (_super) {
     return RankUI;
 }(eui.Component));
 egret.registerClass(RankUI,'RankUI');
+//# sourceMappingURL=RankUI.js.map

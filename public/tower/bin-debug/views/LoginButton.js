@@ -63,3 +63,4 @@ var LoginButton = (function (_super) {
     return LoginButton;
 }(eui.Component));
 egret.registerClass(LoginButton,'LoginButton');
+//# sourceMappingURL=LoginButton.js.map

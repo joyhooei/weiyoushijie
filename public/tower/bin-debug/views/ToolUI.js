@@ -54,3 +54,4 @@ var ToolUI = (function (_super) {
     return ToolUI;
 }(eui.Component));
 egret.registerClass(ToolUI,'ToolUI');
+//# sourceMappingURL=ToolUI.js.map

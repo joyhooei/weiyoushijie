@@ -19,3 +19,4 @@ var Channel1758 = (function (_super) {
     return Channel1758;
 }(ChannelEgret));
 egret.registerClass(Channel1758,'Channel1758');
+//# sourceMappingURL=Channel1758.js.map

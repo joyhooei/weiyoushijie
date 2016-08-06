@@ -14,3 +14,4 @@ var GameEvents = (function () {
     return GameEvents;
 }());
 egret.registerClass(GameEvents,'GameEvents');
+//# sourceMappingURL=GameEvents.js.map

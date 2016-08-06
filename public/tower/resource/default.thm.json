@@ -1,6 +1,5 @@
 {
   "exmls": [
-    "resource/custom_skins/auctionUISkin.exml",
     "resource/custom_skins/blockUISkin.exml",
     "resource/custom_skins/buyAchieveUISkin.exml",
     "resource/custom_skins/buyToolUISkin.exml",
@@ -19,7 +18,6 @@
     "resource/custom_skins/messageUISkin.exml",
     "resource/custom_skins/notificationUISkin.exml",
     "resource/custom_skins/offlineGoldUISkin.exml",
-    "resource/custom_skins/projectItemSkin.exml",
     "resource/custom_skins/rankItemSkin.exml",
     "resource/custom_skins/rankUISkin.exml",
     "resource/custom_skins/reportUISkin.exml",

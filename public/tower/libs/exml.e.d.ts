@@ -1,5 +1,3 @@
-declare class auctionUISkin extends eui.Skin{
-}
 declare class blockUISkin extends eui.Skin{
 }
 declare class buyAchieveUISkin extends eui.Skin{
@@ -33,8 +31,6 @@ declare class messageUISkin extends eui.Skin{
 declare class notificationUISkin extends eui.Skin{
 }
 declare class offlineGoldUISkin extends eui.Skin{
-}
-declare class projectListIRSkin extends eui.Skin{
 }
 declare class rankItemSkin extends eui.Skin{
 }

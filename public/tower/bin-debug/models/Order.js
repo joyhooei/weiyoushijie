@@ -116,3 +116,4 @@ var Order = (function () {
     return Order;
 }());
 egret.registerClass(Order,'Order');
+//# sourceMappingURL=Order.js.map

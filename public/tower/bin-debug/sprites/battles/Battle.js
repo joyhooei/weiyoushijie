@@ -177,3 +177,4 @@ var Battle = (function (_super) {
     return Battle;
 }(Entity));
 egret.registerClass(Battle,'Battle');
+//# sourceMappingURL=Battle.js.map

@@ -21,3 +21,4 @@ var EntityPool = (function () {
     return EntityPool;
 }());
 egret.registerClass(EntityPool,'EntityPool');
+//# sourceMappingURL=EntityPool.js.map

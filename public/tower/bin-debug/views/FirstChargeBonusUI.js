@@ -16,3 +16,4 @@ var FirstChargeBonusUI = (function (_super) {
     return FirstChargeBonusUI;
 }(eui.Component));
 egret.registerClass(FirstChargeBonusUI,'FirstChargeBonusUI');
+//# sourceMappingURL=FirstChargeBonusUI.js.map

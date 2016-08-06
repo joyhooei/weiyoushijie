@@ -263,3 +263,4 @@ var GiftUI = (function (_super) {
     return GiftUI;
 }(eui.Component));
 egret.registerClass(GiftUI,'GiftUI');
+//# sourceMappingURL=GiftUI.js.map

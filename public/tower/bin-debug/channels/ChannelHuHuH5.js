@@ -90,3 +90,4 @@ var ChannelHuHuH5 = (function (_super) {
     return ChannelHuHuH5;
 }(Channel));
 egret.registerClass(ChannelHuHuH5,'ChannelHuHuH5');
+//# sourceMappingURL=ChannelHuHuH5.js.map

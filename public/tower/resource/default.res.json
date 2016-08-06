@@ -1,29 +1,42 @@
 {
-	"groups":[
+	"groups": [
 		{
-			"keys":"",
-			"name":"home"
+			"keys": "",
+			"name": "home"
 		},
 		{
-			"keys":"",
-			"name":"loading"
+			"keys": "login_png,loginb_png",
+			"name": "landing"
 		},
 		{
-			"keys":"",
-			"name":"rank"
+			"keys": "login_png,loginb_png",
+			"name": "preload"
 		},
 		{
-			"keys":"",
-			"name":"tool"
-		},
-		{
-			"keys":"",
-			"name":"auction"
-		},
-		{
-			"keys":"",
-			"name":"login"
+			"keys": "loading_run_png,toast-bg_png",
+			"name": "loading"
 		}
 	],
-	"resources":[]
+	"resources": [
+		{
+			"url": "art/landing/login.png",
+			"type": "image",
+			"name": "login_png"
+		},
+		{
+			"url": "art/landing/loginb.png",
+			"type": "image",
+			"name": "loginb_png"
+		},
+		{
+			"url": "art/loading/loading_run.png",
+			"type": "image",
+			"name": "loading_run_png"
+		},
+		{
+			"url": "art/loading/toast-bg.png",
+			"type": "image",
+			"name": "toast-bg_png"
+		}
+	]
 }

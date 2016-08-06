@@ -143,3 +143,4 @@ var Entity = (function (_super) {
     return Entity;
 }(egret.Sprite));
 egret.registerClass(Entity,'Entity');
+//# sourceMappingURL=Entity.js.map

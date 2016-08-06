@@ -54,3 +54,4 @@ var Enemy = (function (_super) {
     return Enemy;
 }(NPC));
 egret.registerClass(Enemy,'Enemy');
+//# sourceMappingURL=Enemy.js.map

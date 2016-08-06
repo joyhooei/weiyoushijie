@@ -16,3 +16,4 @@ var OfflineGoldUI = (function (_super) {
     return OfflineGoldUI;
 }(eui.Component));
 egret.registerClass(OfflineGoldUI,'OfflineGoldUI');
+//# sourceMappingURL=OfflineGoldUI.js.map

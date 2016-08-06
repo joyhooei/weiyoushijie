@@ -115,3 +115,4 @@ var BuyToolUI = (function (_super) {
     return BuyToolUI;
 }(eui.Component));
 egret.registerClass(BuyToolUI,'BuyToolUI');
+//# sourceMappingURL=BuyToolUI.js.map

@@ -87,3 +87,4 @@ var MessageItem = (function (_super) {
     return MessageItem;
 }(eui.Component));
 egret.registerClass(MessageItem,'MessageItem');
+//# sourceMappingURL=MessageItem.js.map

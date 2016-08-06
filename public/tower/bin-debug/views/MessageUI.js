@@ -37,3 +37,4 @@ var MessageUI = (function (_super) {
     return MessageUI;
 }(eui.Component));
 egret.registerClass(MessageUI,'MessageUI');
+//# sourceMappingURL=MessageUI.js.map

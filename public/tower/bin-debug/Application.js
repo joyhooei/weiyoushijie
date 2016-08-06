@@ -113,3 +113,4 @@ var application;
     }
     application.hideUI = hideUI;
 })(application || (application = {}));
+//# sourceMappingURL=Application.js.map

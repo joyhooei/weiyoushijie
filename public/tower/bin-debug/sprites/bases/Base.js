@@ -23,3 +23,4 @@ var Base = (function (_super) {
     return Base;
 }(Entity));
 egret.registerClass(Base,'Base');
+//# sourceMappingURL=Base.js.map

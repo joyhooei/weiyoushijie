@@ -44,3 +44,4 @@ var RankItem = (function (_super) {
     return RankItem;
 }(eui.Component));
 egret.registerClass(RankItem,'RankItem');
+//# sourceMappingURL=RankItem.js.map

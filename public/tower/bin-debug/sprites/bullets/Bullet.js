@@ -37,3 +37,4 @@ var Bullet = (function (_super) {
     return Bullet;
 }(MovableEntity));
 egret.registerClass(Bullet,'Bullet');
+//# sourceMappingURL=Bullet.js.map

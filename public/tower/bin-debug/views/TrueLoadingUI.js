@@ -20,7 +20,7 @@ var TrueLoadingUI = (function (_super) {
     p.createChildren = function () {
         _super.prototype.createChildren.call(this);
         this._imgBg = new eui.Image();
-        this._imgBg.source = "Loginb_png";
+        this._imgBg.source = "loginb_png";
         this.addChild(this._imgBg);
         this._loadingRun = new egret.Bitmap(RES.getRes("loading_run_png"));
         this.addChild(this._loadingRun);
@@ -54,3 +54,4 @@ var TrueLoadingUI = (function (_super) {
     return TrueLoadingUI;
 }(eui.Group));
 egret.registerClass(TrueLoadingUI,'TrueLoadingUI');
+//# sourceMappingURL=TrueLoadingUI.js.map

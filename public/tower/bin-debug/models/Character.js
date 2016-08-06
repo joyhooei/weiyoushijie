@@ -23,13 +23,7 @@ var Character = (function () {
     };
     Character.createAll = function () {
         var characters = new Array();
-        var config = [
-            //name, properties [mc_direction, mc_state, mc_name]
-            { name: 'hero', properties: { hp: 1000 }, mcs: [
-                    { dir: EntityDirection.east, state: EntityState.moving, name: 'test' },
-                    { dir: EntityDirection.west, state: EntityState.moving, name: 'test' },
-                ] },
-        ];
+        var config = [];
         var data = RES.getRes("animation.json");
         var txtr = RES.getRes("animation.png");
         var mcFactory = new egret.MovieClipDataFactory(data, txtr);
@@ -47,3 +41,4 @@ var Character = (function () {
     return Character;
 }());
 egret.registerClass(Character,'Character');
+//# sourceMappingURL=Character.js.map

@@ -47,3 +47,4 @@ var Soldier = (function (_super) {
     return Soldier;
 }(NPC));
 egret.registerClass(Soldier,'Soldier');
+//# sourceMappingURL=Soldier.js.map

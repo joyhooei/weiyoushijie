@@ -60,3 +60,4 @@ var HelpUI = (function (_super) {
     return HelpUI;
 }(eui.Component));
 egret.registerClass(HelpUI,'HelpUI');
+//# sourceMappingURL=HelpUI.js.map

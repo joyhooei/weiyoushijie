@@ -68,3 +68,4 @@ var LandingUI = (function (_super) {
     return LandingUI;
 }(AbstractUI));
 egret.registerClass(LandingUI,'LandingUI');
+//# sourceMappingURL=LandingUI.js.map

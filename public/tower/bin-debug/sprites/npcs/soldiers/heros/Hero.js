@@ -15,3 +15,4 @@ var Hero = (function (_super) {
     return Hero;
 }(Soldier));
 egret.registerClass(Hero,'Hero');
+//# sourceMappingURL=Hero.js.map

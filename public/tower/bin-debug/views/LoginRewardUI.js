@@ -75,3 +75,4 @@ var LoginRewardUI = (function (_super) {
     return LoginRewardUI;
 }(AbstractUI));
 egret.registerClass(LoginRewardUI,'LoginRewardUI');
+//# sourceMappingURL=LoginRewardUI.js.map

@@ -7,3 +7,4 @@ var BuildTowerUI = (function (_super) {
     return BuildTowerUI;
 }(AbstractUI));
 egret.registerClass(BuildTowerUI,'BuildTowerUI');
+//# sourceMappingURL=BuildTowerUI.js.map

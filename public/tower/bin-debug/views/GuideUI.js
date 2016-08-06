@@ -220,3 +220,4 @@ var GuideUI = (function (_super) {
     return GuideUI;
 }(eui.Component));
 egret.registerClass(GuideUI,'GuideUI');
+//# sourceMappingURL=GuideUI.js.map

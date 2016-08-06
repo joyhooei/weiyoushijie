@@ -34,10 +34,12 @@ class Character {
         
         let config = [
             //name, properties [mc_direction, mc_state, mc_name]
+            /*
             {name: 'hero', properties:{hp:1000}, mcs:[
                         { dir: EntityDirection.east, state: EntityState.moving, name:'test' },
                         { dir: EntityDirection.west, state: EntityState.moving, name: 'test' },
                     ]},
+            */
         ];
         
         let data = RES.getRes("animation.json");

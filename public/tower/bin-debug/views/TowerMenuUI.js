@@ -7,3 +7,4 @@ var TowerMenuUI = (function (_super) {
     return TowerMenuUI;
 }(AbstractUI));
 egret.registerClass(TowerMenuUI,'TowerMenuUI');
+//# sourceMappingURL=TowerMenuUI.js.map

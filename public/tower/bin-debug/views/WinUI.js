@@ -30,3 +30,4 @@ var WinUI = (function (_super) {
     return WinUI;
 }(AbstractUI));
 egret.registerClass(WinUI,'WinUI');
+//# sourceMappingURL=WinUI.js.map

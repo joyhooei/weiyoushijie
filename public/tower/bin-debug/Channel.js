@@ -149,3 +149,4 @@ var Channel = (function () {
     return Channel;
 }());
 egret.registerClass(Channel,'Channel');
+//# sourceMappingURL=Channel.js.map

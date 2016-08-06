@@ -35,3 +35,4 @@ var MovableEntity = (function (_super) {
     return MovableEntity;
 }(Entity));
 egret.registerClass(MovableEntity,'MovableEntity');
+//# sourceMappingURL=MovableEntity.js.map

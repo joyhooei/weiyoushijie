@@ -26,3 +26,4 @@ var BattleUI = (function (_super) {
     return BattleUI;
 }(AbstractUI));
 egret.registerClass(BattleUI,'BattleUI');
+//# sourceMappingURL=BattleUI.js.map

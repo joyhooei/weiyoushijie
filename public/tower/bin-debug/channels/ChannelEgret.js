@@ -156,3 +156,4 @@ var ChannelEgret = (function (_super) {
     return ChannelEgret;
 }(Channel));
 egret.registerClass(ChannelEgret,'ChannelEgret');
+//# sourceMappingURL=ChannelEgret.js.map

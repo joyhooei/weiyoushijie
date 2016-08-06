@@ -45,3 +45,4 @@ var AbstractUI = (function (_super) {
     return AbstractUI;
 }(eui.Component));
 egret.registerClass(AbstractUI,'AbstractUI');
+//# sourceMappingURL=AbstractUI.js.map

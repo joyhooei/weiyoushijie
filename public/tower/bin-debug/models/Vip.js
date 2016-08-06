@@ -75,3 +75,4 @@ var Vip = (function () {
     return Vip;
 }());
 egret.registerClass(Vip,'Vip');
+//# sourceMappingURL=Vip.js.map

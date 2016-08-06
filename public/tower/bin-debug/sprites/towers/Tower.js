@@ -33,3 +33,4 @@ var Tower = (function (_super) {
     return Tower;
 }(Entity));
 egret.registerClass(Tower,'Tower');
+//# sourceMappingURL=Tower.js.map

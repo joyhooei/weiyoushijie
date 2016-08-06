@@ -129,3 +129,4 @@ var Customer = (function () {
     return Customer;
 }());
 egret.registerClass(Customer,'Customer');
+//# sourceMappingURL=Customer.js.map
