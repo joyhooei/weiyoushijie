@@ -4,8 +4,12 @@ var application;
     application.version = '1.1.1';
     application.game = 'tower';
     application.token = "";
+    application.development = 0;
     function init(main) {
         application.main = main;
+        if (egret.getOption("wysj_development")) {
+            application.development = 1;
+        }
         var url = egret.getOption("wysj_server");
         if (url && url.length > 1) {
             application.baseUrl = url;

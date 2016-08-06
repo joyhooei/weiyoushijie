@@ -28,8 +28,14 @@ module application {
     
     export var token: string = "";
 
+    export var development: number = 0;
+
     export function init(main:Main) {
 		application.main = main;
+
+        if (egret.getOption("wysj_development")) {
+            application.development = 1;
+        }
 		
         var url = egret.getOption("wysj_server");
         if (url && url.length > 1) {

@@ -58,8 +58,12 @@ var Main = (function (_super) {
                 Toast.init(this, RES.getRes("toast-bg_png"));
                 this._trueLoadingUI = new TrueLoadingUI();
                 application.channel.track(TRACK_CATEGORY_RESOURCE, TRACK_ACTION_LOAD, "开始加载着陆页面", 3);
-                //this.loadPage("landing");
-                this.loadPage("home");
+                if (application.development == 1) {
+                    this.loadPage("home");
+                }
+                else {
+                    this.loadPage("landing");
+                }
                 break;
             case "landing":
                 this.addChild(new LandingUI());
