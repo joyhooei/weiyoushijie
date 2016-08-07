@@ -1,7 +1,7 @@
 {
 	"groups":[
 		{
-			"keys":"animation_json,animation_png,MPauction_png,MPbottombar_png,MPmainpage_png,MPrank_png,MPtool_png,MPB_png,MPgift_png,MPhit_png,MPquestion_png,acv1_png,acv2_png,acv3_png,acv4_png,acv5_png,acv6_png,acv7_png,acv8_png,acv9_png,acv10_png,acvlock_png,MPbx10_jpg,MPBx100_jpg,MPpinkx10_jpg,MPpinkx100_jpg,MPup_jpg,MPupb_jpg,Projectbar_png,upgrade_png,upgrade10_png,upgrade100_png,add_png,MPtopup_png,MPauctionS_png,MPmainpageS_png,MPrankS_png,MPtoolS_png,acvnone_png,upgrade10g_png,upgrade100g_png,upgradeg_png,1_png,2_png,3_png,4_png,5_png,6_png,7_png,8_png,9_png,10_png,11_png,12_png,13_png,14_png,15_png,16_png,17_png,18_png,19_png,20_png,t1_png,t2_png,t3_png,t4_png,t5_png,t6_png,t7_png,t8_png,t9_png,t10_png,t11_png,t12_png,t13_png,t14_png,t15_png,t16_png,t17_png,t18_png,t19_png,t20_png,helpx_png,offlineB_png,offlineok_png,giftB_png,pick_png,picked_png,unpick_png,topup_png,topupbutton_png,topuplater_png,helppopup_png,buttoncoin_png,buttoncoinno_png,buttondia_png,buttondiano_png,popwinB_png,icon_png,charge_png,share_png,upgradeb_png,upgrade100b_png,upgrade10b_png,Ahide_png,Awin_png,Awinhide_png,hidecancel_png,att_png,coineffect_png,b1_png,b2_png,b3_png,b4_png,b5_png,b6_png,b7_png,b8_png,b9_png,b10_png,updatedp2_png,upgradeg2_png,G1_png,G2_png,G3_png,G4_png,G5_png,G6_png,G7_png,G8_png,guidearr_png,guideB_png,guidebutton_png,guideconti_png,highlight1_png,highlight2_png,highlight3_png,highlight4_png,effect_png,red_png,chargeB_png,flag_png,report_png,cancel_png,bar_png,bargery_png,coin_png,del_png,detailB_png,dia_png,get_png,massage_png,massageB_png,metal_png,VIP0_png,VIP1_png,VIP2_png,VIP3_png,VIP4_png,VIP5_png,VIP6_png,VIP7_png,VIP8_png,VIP9_png,VIP10_png,VIP11_png,VIP12_png,VIP13_png,VIP14_png,VIP15_png,VIPB_png,vt0_png,vt1_png,vt2_png,vt3_png,vt4_png,vt5_png,vt6_png,vt7_png,vt8_png,vt9_png,vt10_png,vt11_png,vt12_png,vt13_png,vt14_png,vt15_png,left_png,right_png,7days_png,7dayslogo_png",
+			"keys":"animation_json,animation_png,MPauction_png,MPbottombar_png,MPmainpage_png,MPrank_png,MPtool_png,MPB_png,MPgift_png,MPhit_png,MPquestion_png,acv1_png,acv2_png,acv3_png,acv4_png,acv5_png,acv6_png,acv7_png,acv8_png,acv9_png,acv10_png,acvlock_png,MPbx10_jpg,MPBx100_jpg,MPpinkx10_jpg,MPpinkx100_jpg,MPup_jpg,MPupb_jpg,Projectbar_png,upgrade_png,upgrade10_png,upgrade100_png,add_png,MPtopup_png,MPauctionS_png,MPmainpageS_png,MPrankS_png,MPtoolS_png,acvnone_png,upgrade10g_png,upgrade100g_png,upgradeg_png,1_png,2_png,3_png,4_png,5_png,6_png,7_png,8_png,9_png,10_png,11_png,12_png,13_png,14_png,15_png,16_png,17_png,18_png,19_png,20_png,t1_png,t2_png,t3_png,t4_png,t5_png,t6_png,t7_png,t8_png,t9_png,t10_png,t11_png,t12_png,t13_png,t14_png,t15_png,t16_png,t17_png,t18_png,t19_png,t20_png,helpx_png,offlineB_png,offlineok_png,giftB_png,pick_png,picked_png,unpick_png,topup_png,topupbutton_png,topuplater_png,helppopup_png,buttoncoin_png,buttoncoinno_png,buttondia_png,buttondiano_png,popwinB_png,icon_png,charge_png,share_png,upgradeb_png,upgrade100b_png,upgrade10b_png,Ahide_png,Awin_png,Awinhide_png,hidecancel_png,att_png,coineffect_png,b1_png,b2_png,b3_png,b4_png,b5_png,b6_png,b7_png,b8_png,b9_png,b10_png,updatedp2_png,upgradeg2_png,G1_png,G2_png,G3_png,G4_png,G5_png,G6_png,G7_png,G8_png,guidearr_png,guideB_png,guidebutton_png,guideconti_png,highlight1_png,highlight2_png,highlight3_png,highlight4_png,effect_png,red_png,chargeB_png,flag_png,report_png,cancel_png,bar_png,bargery_png,coin_png,del_png,detailB_png,dia_png,get_png,massage_png,massageB_png,metal_png,VIP0_png,VIP1_png,VIP2_png,VIP3_png,VIP4_png,VIP5_png,VIP6_png,VIP7_png,VIP8_png,VIP9_png,VIP10_png,VIP11_png,VIP12_png,VIP13_png,VIP14_png,VIP15_png,VIPB_png,vt0_png,vt1_png,vt2_png,vt3_png,vt4_png,vt5_png,vt6_png,vt7_png,vt8_png,vt9_png,vt10_png,vt11_png,vt12_png,vt13_png,vt14_png,vt15_png,left_png,right_png,7days_png,7dayslogo_png,button_png,button2_png,cover_png,s1_png,s2_png,s3_png,s4_png,s5_png,s6_png,s7_png,s8_png,s9_png,s10_png,s11_png,s12_png,s13_png,s14_png,s15_png,starB_png,starlogo_png,start_png,stick_png,got_png",
 			"name":"home"
 		},
 		{
@@ -1160,6 +1160,121 @@
 			"name":"7dayslogo_png",
 			"type":"image",
 			"url":"art/home/7days/7dayslogo.png"
+		},
+		{
+			"name":"button_png",
+			"type":"image",
+			"url":"art/home/star/button.png"
+		},
+		{
+			"name":"button2_png",
+			"type":"image",
+			"url":"art/home/star/button2.png"
+		},
+		{
+			"name":"cover_png",
+			"type":"image",
+			"url":"art/home/star/cover.png"
+		},
+		{
+			"name":"s1_png",
+			"type":"image",
+			"url":"art/home/star/s1.png"
+		},
+		{
+			"name":"s2_png",
+			"type":"image",
+			"url":"art/home/star/s2.png"
+		},
+		{
+			"name":"s3_png",
+			"type":"image",
+			"url":"art/home/star/s3.png"
+		},
+		{
+			"name":"s4_png",
+			"type":"image",
+			"url":"art/home/star/s4.png"
+		},
+		{
+			"name":"s5_png",
+			"type":"image",
+			"url":"art/home/star/s5.png"
+		},
+		{
+			"name":"s6_png",
+			"type":"image",
+			"url":"art/home/star/s6.png"
+		},
+		{
+			"name":"s7_png",
+			"type":"image",
+			"url":"art/home/star/s7.png"
+		},
+		{
+			"name":"s8_png",
+			"type":"image",
+			"url":"art/home/star/s8.png"
+		},
+		{
+			"name":"s9_png",
+			"type":"image",
+			"url":"art/home/star/s9.png"
+		},
+		{
+			"name":"s10_png",
+			"type":"image",
+			"url":"art/home/star/s10.png"
+		},
+		{
+			"name":"s11_png",
+			"type":"image",
+			"url":"art/home/star/s11.png"
+		},
+		{
+			"name":"s12_png",
+			"type":"image",
+			"url":"art/home/star/s12.png"
+		},
+		{
+			"name":"s13_png",
+			"type":"image",
+			"url":"art/home/star/s13.png"
+		},
+		{
+			"name":"s14_png",
+			"type":"image",
+			"url":"art/home/star/s14.png"
+		},
+		{
+			"name":"s15_png",
+			"type":"image",
+			"url":"art/home/star/s15.png"
+		},
+		{
+			"name":"starB_png",
+			"type":"image",
+			"url":"art/home/star/starB.png"
+		},
+		{
+			"name":"starlogo_png",
+			"type":"image",
+			"url":"art/home/star/starlogo.png"
+		},
+		{
+			"name":"start_png",
+			"type":"image",
+			"url":"art/home/star/start.png"
+		},
+		{
+			"name":"stick_png",
+			"type":"image",
+			"url":"art/home/star/stick.png"
+		},
+		{
+			"name":"got_png",
+			"type":"image",
+			"url":"art/home/star/got.png"
 		}
 	]
 }

@@ -1,5 +1,5 @@
 {
-	"close":false,
+	"close":true,
 	"natures":["egretProject"],
 	"resourcePlugin":{
 		"configs":[{
@@ -8,7 +8,38 @@
 			}],
 		"id":"org.egret-labs.resource",
 		"library":{
-			"children":[]
+			"children":[
+				{
+					"isFolder":false,
+					"key":"world_jpg",
+					"name":"world_jpg"
+				},
+				{
+					"isFolder":false,
+					"key":"login_png",
+					"name":"login_png"
+				},
+				{
+					"isFolder":false,
+					"key":"loginb_png",
+					"name":"loginb_png"
+				},
+				{
+					"isFolder":false,
+					"key":"loading_run_png",
+					"name":"loading_run_png"
+				},
+				{
+					"isFolder":false,
+					"key":"toast-bg_png",
+					"name":"toast-bg_png"
+				},
+				{
+					"isFolder":false,
+					"key":"world2_jpg",
+					"name":"world2_jpg"
+				}
+			]
 		}
 	},
 	"theme":"resource/default.thm.json"

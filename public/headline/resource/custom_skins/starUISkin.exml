@@ -1,0 +1,17 @@
+<?xml version='1.0' encoding='utf-8'?>
+<e:Skin class="starUISkin" width="400" height="640" xmlns:e="http://ns.egret.com/eui" xmlns:w="http://ns.egret.com/wing">
+	<e:Image width="400" height="640" x="0" y="0" source="starB_png" fillMode="clip"/>
+	<e:Image id="imgBack" fillMode="clip" height="41" x="351" y="18" width="41" source="helpx_png"/>
+	<e:Image id="imgStar" width="302" height="266" x="47" y="140" fillMode="clip" source="cover_png"/>	
+	<e:Image id="imgLast" width="63" height="54" x="32" y="260" source="left_png" fillMode="clip"/>	
+	<e:Image id="imgNext" width="47" height="48" x="304" y="257" source="right_png" fillMode="clip"/>
+	<e:Image id="imgStart" width="84" height="43" x="153" y="440" source="start_png" fillMode="clip"/>
+	<e:Image width="56" height="31" x="253" y="536" source="button_png" fillMode="clip"/>
+	<e:Label id="lblTotalSticks" text="10" x="112" y="541" size="24" width="58" textAlign="center"/>
+	<e:Label id="lblStickPickTime" y="98" text="10" textAlign="center" size="24" width="68" x="230"/>
+	<e:Label id="lblSticks" y="98" text="10" textAlign="center" size="24" width="41" x="149"/>
+	<e:Label id="lblVIPSticks" y="94" text="1" textAlign="center" size="16" width="17" x="86" height="16"/>
+	<e:Label id="lblTicketSticks" x="86" y="116" text="1" textAlign="center" size="16" width="17" height="16"/>
+	<e:Label id="lblUpgradeHours" y="501" text="240" textAlign="center" size="24" width="74" x="257"/>
+	<e:Label id="lblUpgradeDays" y="501" text="10" textAlign="center" size="24" width="45" x="107"/>
+</e:Skin>

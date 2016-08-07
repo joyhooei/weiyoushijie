@@ -44,6 +44,8 @@ declare class reportUISkin extends eui.Skin{
 }
 declare class resetUISkin extends eui.Skin{
 }
+declare class starUISkin extends eui.Skin{
+}
 declare class toolItemSkin extends eui.Skin{
 }
 declare class toolUISkin extends eui.Skin{

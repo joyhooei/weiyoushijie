@@ -65,6 +65,8 @@ class HomeUI extends eui.Component{
     private imgMessage: eui.Image;
     private imgHasMessage: eui.Image;
     
+    private imgStar: eui.Image;
+    
     constructor( ) {
         super();
 		
@@ -147,7 +149,11 @@ class HomeUI extends eui.Component{
         self.imgVip.addEventListener(egret.TouchEvent.TOUCH_BEGIN,function() {
             application.showUI(new VipUI(),this);
         },this);
-       
+
+        self.imgStar.addEventListener(egret.TouchEvent.TOUCH_BEGIN,function() {
+            application.showUI(new StarUI(),this);
+        },this);
+
         application.dao.addEventListener("Project",function(ev: egret.Event) {
             var myProject = ev.data;
             this.renderProject(myProject);

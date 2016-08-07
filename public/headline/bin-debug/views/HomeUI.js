@@ -66,6 +66,9 @@ var HomeUI = (function (_super) {
         self.imgVip.addEventListener(egret.TouchEvent.TOUCH_BEGIN, function () {
             application.showUI(new VipUI(), this);
         }, this);
+        self.imgStar.addEventListener(egret.TouchEvent.TOUCH_BEGIN, function () {
+            application.showUI(new StarUI(), this);
+        }, this);
         application.dao.addEventListener("Project", function (ev) {
             var myProject = ev.data;
             this.renderProject(myProject);
