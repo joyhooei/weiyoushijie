@@ -12,7 +12,6 @@ var Battle = (function (_super) {
         this._bulletLayer = this._addLayer();
         //添加工具层
         this._toolLayer = this._addLayer();
-        this.addBases();
     }
     var d = __define,c=Battle,p=c.prototype;
     p.enableSelect = function (obj) {
@@ -40,6 +39,7 @@ var Battle = (function (_super) {
     p.loadResource = function (options) {
         var self = this;
         return Q.Promise(function (resolve, reject, notify) {
+            resolve(self);
         });
     };
     p.initialize = function (options) {
@@ -50,11 +50,13 @@ var Battle = (function (_super) {
         this._currentWave = 1;
         this._timeToNextWave = 1000;
         this._timeBetweenWaves = 1000;
+        this._bases = [];
         this._towers = [];
         this._soliders = [];
         this._bullets = [];
         this._enemies = [];
         this._cartridges = [];
+        this.addBases();
         this.addHero();
     };
     p.showTool = function (ui, x, y) {

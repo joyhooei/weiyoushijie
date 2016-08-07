@@ -30,8 +30,6 @@ class Entity extends egret.Sprite {
 
     public constructor() {
         super();
-
-		this.initialize();
 	}
 	
 	/**初始化*/

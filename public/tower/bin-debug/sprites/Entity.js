@@ -25,7 +25,6 @@ var Entity = (function (_super) {
     __extends(Entity, _super);
     function Entity() {
         _super.call(this);
-        this.initialize();
     }
     var d = __define,c=Entity,p=c.prototype;
     /**初始化*/

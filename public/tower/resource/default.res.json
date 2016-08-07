@@ -1,7 +1,7 @@
 {
 	"groups": [
 		{
-			"keys": "",
+			"keys": "world_jpg",
 			"name": "home"
 		},
 		{
@@ -9,7 +9,7 @@
 			"name": "landing"
 		},
 		{
-			"keys": "login_png,loginb_png",
+			"keys": "login_png,loginb_png,world2_jpg",
 			"name": "preload"
 		},
 		{
@@ -37,6 +37,16 @@
 			"url": "art/loading/toast-bg.png",
 			"type": "image",
 			"name": "toast-bg_png"
+		},
+		{
+			"url": "art/home/world.jpg",
+			"type": "image",
+			"name": "world_jpg"
+		},
+		{
+			"name": "world2_jpg",
+			"type": "image",
+			"url": "art/home/world.jpg"
 		}
 	]
 }

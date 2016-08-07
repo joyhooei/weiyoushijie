@@ -5,6 +5,9 @@ var HomeUI = (function (_super) {
     }
     var d = __define,c=HomeUI,p=c.prototype;
     p.onRefresh = function () {
+        this.imgBattle1.addEventListener(egret.TouchEvent.TOUCH_TAP, function () {
+            application.showUI(new BattleUI(1, 1));
+        }, this);
     };
     return HomeUI;
 }(AbstractUI));
