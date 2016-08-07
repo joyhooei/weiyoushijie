@@ -7,7 +7,7 @@ class Tower extends Entity {
     /**将圆沿y轴压扁变为椭圆时候的比例*/
     private _ratioY: number;
     
-    private _speed: number;
+    private _fireSpeed: number;
     
     private _lastFireTicks: number;
     
@@ -16,8 +16,10 @@ class Tower extends Entity {
         
         this._enemy = null;
         
-        this._speed = 5;
+        this._fireSpeed = 5;
         this._lastFireTicks = 0;
+
+        this._maxRadius = 50;
     }
     
     protected _idle() {
@@ -36,7 +38,7 @@ class Tower extends Entity {
         }
         
         if (this._enemy) {
-            if (this._ticks - this._lastFireTicks >= this._speed) {
+            if (this._ticks - this._lastFireTicks >= this._fireSpeed) {
                 this._fire(this._enemy);
                 
                 this._lastFireTicks = this._ticks;

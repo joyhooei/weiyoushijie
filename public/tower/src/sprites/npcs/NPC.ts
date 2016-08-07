@@ -27,10 +27,6 @@ class NPC extends MovableEntity {
         
         super._stateChanged(oldState, newState);
     }
-    
-    protected _idle() {
-        this._do(EntityState.moving);
-    }
 
     protected _dying() {
         if (this._ticks >= 5) {
@@ -67,12 +63,9 @@ class NPC extends MovableEntity {
             path = this._paths[this._path];
             this._turn(this._direction8(path[0], path[1]));
             
-            this._changeSteps(path[0], path[1]);
+            this._computeSteps(path[0], path[1]);
         }
         
-        this.x += this._steps[0];
-        this.y += this._steps[1];
-        
-        return false;
+        return super._moveOneStep();
     }    
 }

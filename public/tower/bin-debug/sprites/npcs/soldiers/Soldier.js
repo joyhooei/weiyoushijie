@@ -3,11 +3,14 @@ var Soldier = (function (_super) {
     function Soldier() {
         _super.call(this);
         this._enemy = null;
+        this._guardX = 0;
+        this._gradeY = 0;
+        this._guardRadius = 10;
     }
     var d = __define,c=Soldier,p=c.prototype;
     p._stateChanged = function (oldState, newState) {
         if (newState == EntityState.guarding) {
-            this._turn(this._direction8(this._enemy.x, this._enemy.y));
+            this._turn(this._direction8(this._guardX, this._gradeY));
         }
         _super.prototype._stateChanged.call(this, oldState, newState);
     };

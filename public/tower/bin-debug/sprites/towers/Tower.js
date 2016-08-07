@@ -5,8 +5,9 @@ var Tower = (function (_super) {
         /**射程范围最大半径*/
         this._maxRadius = 140;
         this._enemy = null;
-        this._speed = 5;
+        this._fireSpeed = 5;
         this._lastFireTicks = 0;
+        this._maxRadius = 50;
     }
     var d = __define,c=Tower,p=c.prototype;
     p._idle = function () {
@@ -22,7 +23,7 @@ var Tower = (function (_super) {
             this._enemy = application.battle.findEnemy(this.x, this.y, this._maxRadius);
         }
         if (this._enemy) {
-            if (this._ticks - this._lastFireTicks >= this._speed) {
+            if (this._ticks - this._lastFireTicks >= this._fireSpeed) {
                 this._fire(this._enemy);
                 this._lastFireTicks = this._ticks;
             }

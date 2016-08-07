@@ -7,10 +7,24 @@ class MovableEntity extends Entity {
     
     public constructor() {
         super();
+
+		this._step = 10;
+		this._steps = [10, 10];
+    }
+    
+    protected _idle() {
+        this._do(EntityState.moving);
+    }
+
+    protected _moveOneStep(): boolean {
+        this.x += this._steps[0];
+        this.y += this._steps[1];
+        
+        return false;
     }
 
     //计一步走的距离
-    protected _changeSteps(x:number, y:number) {
+    protected _computeSteps(x:number, y:number) {
 	    let stepX = 0;
 	    let stepY = 0;
 	    
@@ -27,7 +41,7 @@ class MovableEntity extends Entity {
 	            stepY = 0 - stepY;
 	        }
 	    } else {
-	         stepY = this._step;
+	        stepY = this._step;
 	        if (y < this.y) {
 	            stepY = 0 - stepY;
 	        }
@@ -38,6 +52,7 @@ class MovableEntity extends Entity {
 	        }
 	    }
 	    
-	   	this._steps = [stepX, stepY];
+	   	this._steps[0] = stepX;
+		this._steps[1] = stepY;
     }
 }

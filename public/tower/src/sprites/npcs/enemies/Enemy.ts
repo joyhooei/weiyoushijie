@@ -39,7 +39,7 @@ class Enemy extends NPC {
     
     protected _stateChanged(oldState:EntityState, newState:EntityState) {
         if (newState == EntityState.guarding) {
-            this._direction = this._direction8(this._soliders[0].x, this._soliders[0].y);
+            this._turn(this._direction8(this._soliders[0].x, this._soliders[0].y));
         }
         
         super._stateChanged(oldState, newState);

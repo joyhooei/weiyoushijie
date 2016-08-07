@@ -2,10 +2,20 @@ var MovableEntity = (function (_super) {
     __extends(MovableEntity, _super);
     function MovableEntity() {
         _super.call(this);
+        this._step = 10;
+        this._steps = [10, 10];
     }
     var d = __define,c=MovableEntity,p=c.prototype;
+    p._idle = function () {
+        this._do(EntityState.moving);
+    };
+    p._moveOneStep = function () {
+        this.x += this._steps[0];
+        this.y += this._steps[1];
+        return false;
+    };
     //计一步走的距离
-    p._changeSteps = function (x, y) {
+    p._computeSteps = function (x, y) {
         var stepX = 0;
         var stepY = 0;
         var dx = Math.abs(this.x - x);
@@ -30,7 +40,8 @@ var MovableEntity = (function (_super) {
                 stepX = 0 - stepX;
             }
         }
-        this._steps = [stepX, stepY];
+        this._steps[0] = stepX;
+        this._steps[1] = stepY;
     };
     return MovableEntity;
 }(Entity));

@@ -10,8 +10,4 @@ class Hero extends Soldier {
     
     public deselect() {
     }
-    
-    protected _idle() {
-        this._do(EntityState.guarding);
-    }
 }

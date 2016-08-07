@@ -9,11 +9,15 @@ class Soldier extends NPC {
         super();
         
         this._enemy = null;
+
+        this._guardX = 0;
+        this._gradeY = 0;
+        this._guardRadius = 10;
     }
     
     protected _stateChanged(oldState:EntityState, newState:EntityState) {
         if (newState == EntityState.guarding) {
-            this._turn(this._direction8(this._enemy.x, this._enemy.y));
+            this._turn(this._direction8(this._guardX, this._gradeY));
         }
         
         super._stateChanged(oldState, newState);

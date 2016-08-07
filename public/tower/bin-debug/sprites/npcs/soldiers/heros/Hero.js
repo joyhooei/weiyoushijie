@@ -9,9 +9,6 @@ var Hero = (function (_super) {
     };
     p.deselect = function () {
     };
-    p._idle = function () {
-        this._do(EntityState.guarding);
-    };
     return Hero;
 }(Soldier));
 egret.registerClass(Hero,'Hero');

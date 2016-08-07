@@ -30,7 +30,7 @@ var Enemy = (function (_super) {
     };
     p._stateChanged = function (oldState, newState) {
         if (newState == EntityState.guarding) {
-            this._direction = this._direction8(this._soliders[0].x, this._soliders[0].y);
+            this._turn(this._direction8(this._soliders[0].x, this._soliders[0].y));
         }
         _super.prototype._stateChanged.call(this, oldState, newState);
     };

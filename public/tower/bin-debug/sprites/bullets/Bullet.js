@@ -9,9 +9,6 @@ var Bullet = (function (_super) {
     p.setTarget = function (target) {
         this._target = target;
     };
-    p._idle = function () {
-        this._do(EntityState.moving);
-    };
     p._moving = function () {
         if (this._target.dying() || this._target.dead()) {
             this._missing = true;
@@ -19,9 +16,8 @@ var Bullet = (function (_super) {
         }
         else {
             this._turn(this._direction8(this._target.x, this._target.y));
-            this._changeSteps(this._target.x, this._target.y);
-            this.x += this._steps[0];
-            this.y += this._steps[1];
+            this._computeSteps(this._target.x, this._target.y);
+            this._moveOneStep();
             if (this.collide(this._target)) {
                 this._missing = false;
                 this._do(EntityState.dying);

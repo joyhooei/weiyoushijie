@@ -15,9 +15,6 @@ var NPC = (function (_super) {
         }
         _super.prototype._stateChanged.call(this, oldState, newState);
     };
-    p._idle = function () {
-        this._do(EntityState.moving);
-    };
     p._dying = function () {
         if (this._ticks >= 5) {
             this._do(EntityState.dead);
@@ -46,11 +43,9 @@ var NPC = (function (_super) {
             this._path++;
             path = this._paths[this._path];
             this._turn(this._direction8(path[0], path[1]));
-            this._changeSteps(path[0], path[1]);
+            this._computeSteps(path[0], path[1]);
         }
-        this.x += this._steps[0];
-        this.y += this._steps[1];
-        return false;
+        return _super.prototype._moveOneStep.call(this);
     };
     return NPC;
 }(MovableEntity));
