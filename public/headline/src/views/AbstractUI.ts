@@ -2,21 +2,21 @@ class AbstractUI extends eui.Component{
     constructor(skinName:string) {
         super();
 
-        var self = this;
+        this.addEventListener(eui.UIEvent.COMPLETE,this._uiCompHandler,this );
         
-        self.addEventListener( eui.UIEvent.COMPLETE, self._uiCompHandler, self );
-        
-        Utility.delay(function(){
-            self.skinName = "resource/custom_skins/" + skinName + ".exml";    
-        }, 10);
+        this.skinName = "resource/custom_skins/" + skinName + ".exml";    
     }
 
     private _uiCompHandler() {
-        try {
-            this.onRefresh();
-        } catch(error) {
-            console.error('_uiCompHandler onRefresh failed ' + error.message);
-        }
+        var self = this;
+
+        Utility.delay(function(){
+            try {
+                self.onRefresh();
+            } catch(error) {
+                console.error('_uiCompHandler onRefresh failed ' + error.message);
+            }
+        }, 10);
     }
     
     public refresh() {
