@@ -1,12 +1,10 @@
 class Dao extends egret.EventDispatcher {
     private _url: string;
-    private _game: string;
-    
-    constructor(url: string, game: string) {
+
+    constructor(url: string) {
         super();
         
         this._url = url;
-        this._game = game;
     }
 	
 	public fetch(model:string, conditions:{}, filters?:{}): Q.Promise<any[]> {
@@ -21,7 +19,7 @@ class Dao extends egret.EventDispatcher {
 	public save(model:string, data:any): Q.Promise<any> {
     	let self = this;
 
-        data.game = this._game;
+        data.game = application.game;
         
         if(data.id){
 			var promise = this.rest("update/" + model + "/" + data.id, data);
@@ -41,7 +39,7 @@ class Dao extends egret.EventDispatcher {
 	}
     
     public rest(method: string, data: {}): Q.Promise<any> {
-        return this.restWithUrl(this._url + method + "?game=" + this._game + "&token=" + application.token, data);
+        return this.restWithUrl(this._url + method + "?game=" + application.game + "&token=" + application.token, data);
     }
     
     public restWithUrl(url: string, data: {}): Q.Promise<any> {
