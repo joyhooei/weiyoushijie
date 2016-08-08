@@ -45,7 +45,7 @@ class Star {
                     application.star = Star.create(customer);
                 }
                 
-                resolve(star);
+                resolve(application.star);
             });
         }, function(error){
             reject(error);
