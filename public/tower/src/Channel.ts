@@ -57,7 +57,7 @@ class Channel {
     }
 
 	public rest(channel:string, method:string, data:any): Q.Promise<any> {
-        var url = application.baseUrl + "channels/" + method + "?wysj_channel=" + channel;
+        var url = application.baseUrl + "channels/" + method + "?wysj_channel=" + channel + "&game=" + application.game;
         
         console.log("rest " + url + " " + JSON.stringify(data));
         
