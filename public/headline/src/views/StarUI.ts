@@ -24,7 +24,12 @@ class StarUI extends AbstractUI {
 	public constructor() {
     	super("starUISkin");
 		
-		this._level = application.star.opening_level;
+		Star.check(application.star);
+		if (application.star.opening_level == 0 && application.star.opened_level == 0) {
+			this._level = 1;
+		} else {
+			this._level = Math.min(15, application.star.opened_level + 1);
+		}
 
         this.imgBack.addEventListener(egret.TouchEvent.TOUCH_TAP,() => {
             application.hideUI(this);
@@ -44,7 +49,7 @@ class StarUI extends AbstractUI {
 
         this.imgPickStick.addEventListener(egret.TouchEvent.TOUCH_TAP,() => {
         	application.star.sticks += parseInt(this.lblTotalSticks.text);
-        	
+        	application.star.last_pick_time = (new Date()).toString();
         	application.dao.save("Star", star);
         	
         	this.refresh();
@@ -53,7 +58,6 @@ class StarUI extends AbstractUI {
         this.imgUseStick.addEventListener(egret.TouchEvent.TOUCH_TAP,() => {
         	application.star.sticks -= 1;
         	application.star.saving_hours += 1;
-        	
         	application.dao.save("Star", star);
         	
         	this.refresh();
@@ -62,9 +66,8 @@ class StarUI extends AbstractUI {
         this.imgStart.addEventListener(egret.TouchEvent.TOUCH_TAP,() => {
         	this.imgStart.visible = false;
         	
-            application.star.opening_level = this._level;
+            application.star.opening_level = application.star.opened_level + 1;
             application.star.opening_time = (new Date()).toString();
-            application.star.saving_hours = 0;
             
             let vip = application.me.vip.getLevel();
             if (vip >= 5 && vip <= 7) {
@@ -87,6 +90,17 @@ class StarUI extends AbstractUI {
 	
 	protected onRefresh() {
 		Star.check(application.star);
+		
+		if (this._level == 1) {
+			this.imgNext.visible = true;
+			this.imgLast.visible = false;
+		} else if (this._level == 15) {
+			this.imgNext.visible = false;
+			this.imgLast.visible = true;
+		} else {
+			this.imgNext.visible = true;
+			this.imgLast.visible = true;			
+		}
 		
 	    if (this._level <= application.star.opened_level) {
 	    	this._renderOpenedStar();
@@ -127,6 +141,13 @@ class StarUI extends AbstractUI {
 	
 	private _renderOpeningStar() {
 		this.imgStart.visible = false;
+		
+		if (application.star.sticks > 0) {
+			this.imgUseStick.visible = true;
+		} else {
+			this.imgUseStick.visible = false;
+		}
+
 		this.imgStar.source = "s" + this._level + "_png";
 
 		this.lblUpgradeHours.text = application.star.saving_hours;
