@@ -1,7 +1,7 @@
 class Star {
     public static getUpgrade(price: number): number {
         for (let i = 1; i <= star.opened_level; i++) {
-		    price = price * 0.99;
+		    price = price * 0.01;
         }
         
         return price;
