@@ -64,11 +64,12 @@ class ProjectItem extends eui.Component {
     	}, this);
     	
         application.dao.addEventListener("Customer",function(ev: egret.Event) {
-            var customer = ev.data;
-            
             this.renderProject();
         },this);
     	
+        application.dao.addEventListener("Star",function(ev: egret.Event) {
+            this.renderProject();
+        },this);
     }
 	
 	private onUpgrade(): void {
@@ -99,9 +100,9 @@ class ProjectItem extends eui.Component {
             this.imgUpgrade10.source = "upgrade10g_png";
             this.imgUpgrade100.source = "upgrade100g_png";           
         } else {
-            var p = application.me.vip.getUpgrade(this._project.priceOf(this._myProject.level));
-            var p10 = application.me.vip.getUpgrade(this._project.price(this._myProject.level, 10));
-            var p100 = application.me.vip.getUpgrade(this._project.price(this._myProject.level, 100));
+            var p = Star.getUpgrade(application.me.vip.getUpgrade(this._project.priceOf(this._myProject.level)));
+            var p10 = Star.getUpgrade(application.me.vip.getUpgrade(this._project.price(this._myProject.level, 10)));
+            var p100 = Star.getUpgrade(application.me.vip.getUpgrade(this._project.price(this._myProject.level, 100)));
 
             this.lblLevel.text = this._myProject.level;
             this.lblOutput.text = Utility.format(this.output());
@@ -192,7 +193,7 @@ class ProjectItem extends eui.Component {
     private upgrade(step:number): void {
         let self = this;
         
-        let p = application.me.vip.getUpgrade(this._project.price(this._myProject.level, step));
+        let p = Star.getUpgrade((application.me.vip.getUpgrade(this._project.price(this._myProject.level, step)));
         if(application.me.usableGold() < p) {
 			Toast.launch("没有足够的金币");
 			
