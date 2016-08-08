@@ -12,7 +12,7 @@ class LoginRewardUI extends AbstractUI {
     
     private audits: any[];
     
-    private rewardData = [300, 500, 800, 1200, 2000, 3000, 5000];
+    private rewardData = [300, 500, 700, 900, 1100, 1300, 1500];
 
     constructor() {
         super('loginRewardUISkin');
