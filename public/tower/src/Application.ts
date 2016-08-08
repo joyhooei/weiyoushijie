@@ -55,7 +55,7 @@ module application {
 		logger.addAppender(appender);
 		Utility.takeOverConsole(logger);
 		
-        application.dao = new Dao(application.baseUrl + "api/", application.game);
+        application.dao = new Dao(application.baseUrl + "api/");
         
         application.channel = Channel.create();
         
