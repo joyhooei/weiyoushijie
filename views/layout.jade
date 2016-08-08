@@ -28,7 +28,8 @@ block header
                     i(class="halflings-icon off")
                     |  注销
 
-block content 
+block content
+    - var v = (new Date).getTime();
     <!-- start: Main Menu -->
     div#sidebar-left.span2
         div(class="nav-collapse sidebar-nav")
@@ -43,43 +44,43 @@ block content
                     span.hidden-tablet 头条关注
                 ul(style="display: none;")
                     li
-                        a(href="/accounts?game=headline&v=#{deployVersion}")
+                        a(href="/accounts?game=headline&v=#{v}")
                             i.icon-bar-chart
                             span.hidden-tablet 账号
                     li
-                        a(href="/customers?game=headline&v=#{deployVersion}")
+                        a(href="/customers?game=headline&v=#{v}")
                             i.icon-bar-chart
                             span.hidden-tablet 玩家
                     li
-                        a(href="/orders?game=headline&v=#{deployVersion}")
+                        a(href="/orders?game=headline&v=#{v}")
                             i.icon-bar-chart
                             span.hidden-tablet 订单
                     li
-                        a(href="/notifications?game=headline&v=#{deployVersion}")
+                        a(href="/notifications?game=headline&v=#{v}")
                             i.icon-bar-chart
                             span.hidden-tablet 通知
                     li
-                        a(href="/messages?game=headline&v=#{deployVersion}")
+                        a(href="/messages?game=headline&v=#{v}")
                             i.icon-bar-chart
                             span.hidden-tablet 消息
                     li
-                        a(href="/audits?game=headline&v=#{deployVersion}")
+                        a(href="/audits?game=headline&v=#{v}")
                             i.icon-bar-chart
                             span.hidden-tablet 审计
                     li
-                        a(href="/bids?game=headline&v=#{deployVersion}")
+                        a(href="/bids?game=headline&v=#{v}")
                             i.icon-bar-chart
                             span.hidden-tablet 投标
                     li
-                        a(href="/maxbids?game=headline&v=#{deployVersion}")
+                        a(href="/maxbids?game=headline&v=#{v}")
                             i.icon-bar-chart
                             span.hidden-tablet 大标
                     li
-                        a(href="/blacks?game=headline&v=#{deployVersion}")
+                        a(href="/blacks?game=headline&v=#{v}")
                             i.icon-bar-chart
                             span.hidden-tablet 黑名单
                     li
-                        a(href="/logs?game=headline&v=#{deployVersion}")
+                        a(href="/logs?game=headline&v=#{v}")
                             i.icon-bar-chart
                             span.hidden-tablet 日志
                             
