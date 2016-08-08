@@ -450,6 +450,17 @@ module.exports = function() {
 				state:  {type: Number, default: 0},
 				game: String
 			});
+			
+			self.addModel("Star", {
+				customer_id: String,
+				opened_level: {type: Number, default: 0},
+				opening_level:  {type: Number, default: 0},
+				open_time: String,
+				saving_hours: {type: Number, default: 0},
+				last_pick_time: String,
+				sticks: {type: Number, default: 0},
+				game: String
+			});			
 
 			require('./cloud');
 
