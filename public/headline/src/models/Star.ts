@@ -31,9 +31,11 @@ class Star {
     	star.opening_level = 0;
     	star.open_time = "";
     	star.saving_hours = 0;
-    	star.last_pick_time = "";
+    	star.last_pick_time = (new Date()).toString();
     	star.sticks = 0;
-    	application.dao.save("Star", star);         
+    	application.dao.save("Star", star);
+    	
+    	return star;
     }
     
     public static refresh(customer:Customer): Q.Promise<any[]> {
