@@ -214,6 +214,8 @@ class HomeUI extends eui.Component{
 		
 		application.stopwatch.addEventListener("hour", function(event:egret.Event){
 			this.renderGift();
+			
+			Star.check(application.star);
 		}, this);
 	}
 	
