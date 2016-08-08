@@ -19,7 +19,7 @@ class Channel1758 extends ChannelEgret {
     	var self = this;
     	
     	self.require(self.url).then(function(){
-    		hlmy.setShareInfo();
+    		hlmy.setShareInfo({state: "", tipInfo: true, reward: ['100钻石']});
     	});
     	
     	return self.promise();
