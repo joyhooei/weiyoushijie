@@ -35,8 +35,6 @@ GLOBAL.Q = require('q');
 
 var app = express();
 
-app.locals.deployVersion = (new Date).getTime();
-
 // 设置 view 引擎
 app.set('views', path.join(__dirname, './views'));
 app.set('view engine', 'jade');
