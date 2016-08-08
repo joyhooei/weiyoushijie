@@ -89,8 +89,10 @@ module application {
                     application.guideUI = new GuideUI();
                 }
                 
-                application.me.bid.refresh(application.me).then(function(attrs){
-                	application.main.dispatchEventWith(GameEvents.EVT_LOGIN_IN_SUCCESS);
+                Star.refresh(application.me).then(function(star){
+	                application.me.bid.refresh(application.me).then(function(attrs){
+	                	application.main.dispatchEventWith(GameEvents.EVT_LOGIN_IN_SUCCESS);
+	                })
                 })
             } else {
                 Toast.launch("获取账号信息失败,请重新进入");
