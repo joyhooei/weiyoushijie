@@ -254,5 +254,28 @@ abstract class Battle extends Entity {
         }
         
         return objs;
-    }    
+    }
+    
+    private _loadTileMap(url: string, width:number, height:number) : Q.Promise<any> {
+        let self = this;
+
+        return Q.Promise<any>(function(resolve,reject,notify) {
+            var urlLoader:egret.URLLoader = new egret.URLLoader();
+            urlLoader.dataFormat = egret.URLLoaderDataFormat.TEXT;
+            
+            urlLoader.addEventListener(egret.Event.COMPLETE, function (event:egret.Event):void {
+                var data:any = egret.XML.parse(event.target.data);
+                
+                var tmxTileMap:tiled.TMXTilemap = new tiled.TMXTilemap(width, height, data, url);
+                tmxTileMap.render();
+                resolve(tmxTileMap);
+            }, url);
+            
+            loader.addEventListener(egret.IOErrorEvent.IO_ERROR, function (event:egret.Event):void {
+                reject('加载地图失败');
+            }, this);
+            
+            urlLoader.load(new egret.URLRequest(url));
+        });         
+    }
 }
