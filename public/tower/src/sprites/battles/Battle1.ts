@@ -5,18 +5,18 @@ class Battle1 extends Battle {
     
     //增加塔基放置点
     public addBases() {
-        let x = [100];
-        let y = [100];
+        let bases = this._map.getBasePositions();
         
-        for(let i = 0; i < x.length; i++) {
+        for(let i = 0; i < bases.length; i++) {
             let entity = application.pool.get("Base");
-            this._addBase(x[i], y[i], <Base>entity);
+            this._addBase(bases[i][0], bases[i][1], <Base>entity);
         }
     }
 
     //增加英雄
     public addHero() {
-        this._setHero(100,200,<Hero>application.pool.get("Hero"));
+        let hero = this._map.getBaseGuardPosition();
+        this._setHero(hero[0],hero[1],<Hero>application.pool.get("Hero"));
     }
     
     //增加敌人
