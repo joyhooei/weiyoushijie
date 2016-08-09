@@ -193,7 +193,7 @@ class ProjectItem extends eui.Component {
     private upgrade(step:number): void {
         let self = this;
         
-        let p = Star.getUpgrade((application.me.vip.getUpgrade(this._project.price(this._myProject.level, step)));
+        let p = Star.getUpgrade((application.me.vip.getUpgrade(this._project.price(this._myProject.level, step))));
         if(application.me.usableGold() < p) {
 			Toast.launch("没有足够的金币");
 			

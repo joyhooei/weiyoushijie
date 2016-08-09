@@ -39,7 +39,9 @@ var ProjectItem = (function (_super) {
             }
         }, this);
         application.dao.addEventListener("Customer", function (ev) {
-            var customer = ev.data;
+            this.renderProject();
+        }, this);
+        application.dao.addEventListener("Star", function (ev) {
             this.renderProject();
         }, this);
     };
@@ -70,9 +72,9 @@ var ProjectItem = (function (_super) {
             this.imgUpgrade100.source = "upgrade100g_png";
         }
         else {
-            var p = application.me.vip.getUpgrade(this._project.priceOf(this._myProject.level));
-            var p10 = application.me.vip.getUpgrade(this._project.price(this._myProject.level, 10));
-            var p100 = application.me.vip.getUpgrade(this._project.price(this._myProject.level, 100));
+            var p = Star.getUpgrade(application.me.vip.getUpgrade(this._project.priceOf(this._myProject.level)));
+            var p10 = Star.getUpgrade(application.me.vip.getUpgrade(this._project.price(this._myProject.level, 10)));
+            var p100 = Star.getUpgrade(application.me.vip.getUpgrade(this._project.price(this._myProject.level, 100)));
             this.lblLevel.text = this._myProject.level;
             this.lblOutput.text = Utility.format(this.output());
             this.lblPrice.text = Utility.format(p);
@@ -158,7 +160,7 @@ var ProjectItem = (function (_super) {
     };
     p.upgrade = function (step) {
         var self = this;
-        var p = application.me.vip.getUpgrade(this._project.price(this._myProject.level, step));
+        var p = Star.getUpgrade((application.me.vip.getUpgrade(this._project.price(this._myProject.level, step))));
         if (application.me.usableGold() < p) {
             Toast.launch("没有足够的金币");
             return;

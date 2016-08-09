@@ -74,6 +74,7 @@ var GiftUI = (function (_super) {
             var img_url = application.baseUrl + "headline/resource/art/home/icon.png";
             var options = { title: '我来上头条，女神任我挑！', description: '最炫最浪的舞蹈经营类游戏，无需下载，点开即送，多重豪礼等你来拿！', url: url, img_url: img_url, img_title: '头条关注' };
             application.channel.share(options).then(function () {
+                Toast.launch("分享成功，请领取礼物");
                 self.lockGift(gift, 0);
             }, function (error) {
                 Toast.launch(error);
@@ -115,6 +116,7 @@ var GiftUI = (function (_super) {
         }
         else if (gift.locked == 1) {
             application.channel.attention({}).then(function () {
+                Toast.launch("关注成功，请领取礼物");
                 self.lockGift(gift, 0);
             }, function (error) {
                 Toast.launch(error);

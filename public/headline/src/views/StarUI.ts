@@ -50,7 +50,7 @@ class StarUI extends AbstractUI {
         this.imgPickStick.addEventListener(egret.TouchEvent.TOUCH_TAP,() => {
         	application.star.sticks += parseInt(this.lblTotalSticks.text);
         	application.star.last_pick_time = (new Date()).toString();
-        	application.dao.save("Star", star);
+            application.dao.save("Star",application.star);
         	
         	this.refresh();
         },this); 
@@ -58,7 +58,7 @@ class StarUI extends AbstractUI {
         this.imgUseStick.addEventListener(egret.TouchEvent.TOUCH_TAP,() => {
         	application.star.sticks -= 1;
         	application.star.saving_hours += 1;
-        	application.dao.save("Star", star);
+            application.dao.save("Star",application.star);
         	
         	this.refresh();
         },this);
@@ -67,7 +67,7 @@ class StarUI extends AbstractUI {
         	this.imgStart.visible = false;
         	
             application.star.opening_level = application.star.opened_level + 1;
-            application.star.opening_time = (new Date()).toString();
+            application.star.open_time = (new Date()).toString();
             
             let vip = application.me.vip.getLevel();
             if (vip >= 5 && vip <= 7) {
@@ -82,7 +82,7 @@ class StarUI extends AbstractUI {
             	application.star.saving_hours = 0;
             }
            
-            application.dao.save("Star", star);
+            application.dao.save("Star", application.star);
             
             this.refresh();
         },this);        
@@ -123,7 +123,7 @@ class StarUI extends AbstractUI {
 		this.imgStart.visible = false;
 		this.imgUseStick.visible = false;
 		
-		this.imgStar.source = "cover_png";
+        this.imgStar.source = "s" + this._level + "_png";
 		
 		this.lblUpgradeHours.text = "";
 		this.lblUpgradeDays.text  = "";
@@ -150,18 +150,21 @@ class StarUI extends AbstractUI {
 
 		this.imgStar.source = "s" + this._level + "_png";
 
-		this.lblUpgradeHours.text = application.star.saving_hours;
+        this.lblUpgradeDays.text = application.star.opening_level + 3;
 		
 		let now = new Date();
+        if(!application.star.open_time) {
+            application.star.open_time = now.toString();
+        }
 		let openTime = new Date(application.star.open_time);
-        let diff      = Math.floor((now.getTime() - openTime.getTime()) / 1000) - applicaton.star.saving_hours * 3600;
+        let diff = (application.star.opening_level + 3) * 24 * 3600 - Math.floor((now.getTime() - openTime.getTime()) / 1000) - application.star.saving_hours * 3600;
         
-        let hours = Math.floor(diff / 60));
+        let hours = Math.floor(diff / 3600);
         if (hours > 24) {
-        	let days = (Math.floor(hours / 24);
-        	this.lblUpgradeDays.text = days.toString() + "天" + (Math.floor(diff % 24)).toString();
+            this.lblUpgradeHours.text = Math.floor(hours / 24) + "天" + Math.floor(hours % 24) + "时";
         } else {
-        	this.lblUpgradeDays.text = hours.toString() + ":" + (Math.floor(diff % 60)).toString();
+            let minutes = Math.floor(diff / 60);
+            this.lblUpgradeHours.text = Math.floor(minutes / 60) + "时" + Math.floor(minutes % 60) + "分";
         }
 	}
 	
@@ -181,14 +184,20 @@ class StarUI extends AbstractUI {
 		let LastPickTime = new Date(application.star.last_pick_time);
         let diff      = Math.floor((now.getTime() - LastPickTime.getTime()) / 1000);
         if(diff >= 60 * 60 * 5) {
-        	this.lblStickPickTime.text = (Math.floor(diff / 60)).toString() + ":" + (Math.floor(diff % 60)).toString();;
-        	this.imgPickStick.visible = false;
+            this.lblStickPickTime.text = "";
+            this.imgPickStick.visible = true;
         } else {
-        	this.lblStickPickTime.text = "0";
-        	this.imgPickStick.visible = true;
+            diff = 60 * 60 * 5 - diff;
+            if (diff > 3600) {
+                this.lblStickPickTime.text = (Math.floor(diff / 3600)).toString() + "时" + (Math.floor((diff % 3600)/60)).toString() + "分";
+            } else {
+                this.lblStickPickTime.text = (Math.floor(diff / 60)).toString() + "分" + (Math.floor(diff % 60)).toString() + "秒";               
+            }
+            
+            this.imgPickStick.visible = false;
 		}
 		
-		this.lblSticks.text = application.star.sticks;
+		this.lblTotalSticks.text = application.star.sticks;
 		
         let vip = application.me.vip.getLevel();
         if (vip >= 1 && vip <= 4) {
@@ -210,6 +219,6 @@ class StarUI extends AbstractUI {
         	this.lblTicketSticks.text = "0";
         }
         
-		this.lblTotalSticks.text = parseInt(this.lblTicketSticks.text) + parseInt(this.lblVIPSticks.text);		
+        this.lblSticks.text = (parseInt(this.lblTicketSticks.text) + parseInt(this.lblVIPSticks.text) + 2).toString();		
 	}
 }

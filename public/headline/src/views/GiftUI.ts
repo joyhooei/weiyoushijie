@@ -104,7 +104,8 @@ class GiftUI extends eui.Component {
 			let img_url = application.baseUrl + "headline/resource/art/home/icon.png";
 			let options = { title: '我来上头条，女神任我挑！',description: '最炫最浪的舞蹈经营类游戏，无需下载，点开即送，多重豪礼等你来拿！',url: url, img_url: img_url,img_title:'头条关注'};
 			application.channel.share(options).then(function(){
-				 self.lockGift(gift, 0);
+				Toast.launch("分享成功，请领取礼物");
+				self.lockGift(gift, 0);
 			}, function(error){
 				Toast.launch(error);
 			});
@@ -152,7 +153,8 @@ class GiftUI extends eui.Component {
             self.pickGift(gift);
         } else if (gift.locked == 1) {
 			application.channel.attention({}).then(function(){
-				 self.lockGift(gift, 0);
+				Toast.launch("关注成功，请领取礼物");
+				self.lockGift(gift, 0);
 			}, function(error){
 				Toast.launch(error);
 			});

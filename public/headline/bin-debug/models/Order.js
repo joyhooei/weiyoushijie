@@ -2,12 +2,12 @@ var Order = (function () {
     function Order() {
     }
     var d = __define,c=Order,p=c.prototype;
-    Order.buy = function (customer, product, gid, price) {
+    Order.buy = function (customer, product, gid, gname, price) {
         var firstCharge = customer.attrs.charge == 0;
         var order = { customer_id: customer.attrs.id, product: product, price: price, state: 0 };
         application.dao.save("Order", order).then(function (o) {
             customer.saveNow();
-            application.channel.pay({ goodsId: gid, goodsName: gid, goodsNumber: "1", money: price, orderId: o.id }).then(function (data) {
+            application.channel.pay({ goodsId: gid, goodsName: gname, goodsNumber: "1", money: price, orderId: o.id }).then(function (data) {
             }, function (error) {
                 Toast.launch(error);
             });
@@ -104,14 +104,30 @@ var Order = (function () {
             });
         }, 1000);
     };
-    Order.charge = function (customer, gid, diamond) {
-        Order.buy(customer, "Diamond", gid, diamond);
+    Order.charge = function (customer, gid, price) {
+        var gname = "200钻石";
+        if (gid == "diamond600") {
+            gname = "600钻石";
+        }
+        else if (gid == "diamond1300") {
+            gname = "1300钻石";
+        }
+        else if (gid == "diamond4500") {
+            gname = "4500钻石";
+        }
+        else if (gid == "diamond18000") {
+            gname = "18000钻石";
+        }
+        else if (gid == "diamond100000") {
+            gname = "100000钻石";
+        }
+        Order.buy(customer, "Diamond", gid, gname, price);
     };
     Order.buyTicket = function (customer) {
-        Order.buy(customer, "Ticket", "ticket", 19);
+        Order.buy(customer, "Ticket", "ticket", "月票", 19);
     };
     Order.buyVIP = function (customer) {
-        Order.buy(customer, "VIP", "vip", 49);
+        Order.buy(customer, "VIP", "vip", "终生VIP", 49);
     };
     return Order;
 }());

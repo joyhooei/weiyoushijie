@@ -6,6 +6,8 @@ module application {
     export var channel: Channel;
     
     export var me: Customer;
+    
+    export var star: any;
 
     export var projects: Project[];
 	

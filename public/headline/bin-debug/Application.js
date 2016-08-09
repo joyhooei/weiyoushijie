@@ -56,8 +56,10 @@ var application;
                 if (application.me.attrs.metal == 0) {
                     application.guideUI = new GuideUI();
                 }
-                application.me.bid.refresh(application.me).then(function (attrs) {
-                    application.main.dispatchEventWith(GameEvents.EVT_LOGIN_IN_SUCCESS);
+                Star.refresh(application.me).then(function (star) {
+                    application.me.bid.refresh(application.me).then(function (attrs) {
+                        application.main.dispatchEventWith(GameEvents.EVT_LOGIN_IN_SUCCESS);
+                    });
                 });
             }
             else {

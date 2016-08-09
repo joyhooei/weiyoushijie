@@ -30,6 +30,7 @@ var game_file_list = [
 	"bin-debug/models/Gift.js",
 	"bin-debug/models/Order.js",
 	"bin-debug/models/Project.js",
+	"bin-debug/models/Star.js",
 	"bin-debug/models/Vip.js",
 	"bin-debug/views/AbstractUI.js",
 	"bin-debug/views/AuctionUI.js",
@@ -57,13 +58,13 @@ var game_file_list = [
 	"bin-debug/views/RankUI.js",
 	"bin-debug/views/ReportUI.js",
 	"bin-debug/views/ResetUI.js",
+	"bin-debug/views/StarUI.js",
 	"bin-debug/views/Toast.js",
 	"bin-debug/views/ToolItem.js",
 	"bin-debug/views/ToolUI.js",
 	"bin-debug/views/TrueLoadingUI.js",
 	"bin-debug/views/VipUI.js",
 	"bin-debug/views/WinUI.js",
-	"bin-debug/views/StarUI.js",
 	//----auto game_file_list end----
 ];
 

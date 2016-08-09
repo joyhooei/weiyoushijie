@@ -113,6 +113,7 @@ var HomeUI = (function (_super) {
         this.renderGift();
         application.stopwatch.addEventListener("hour", function (event) {
             this.renderGift();
+            Star.check(application.star);
         }, this);
     };
     p.renderGift = function () {
