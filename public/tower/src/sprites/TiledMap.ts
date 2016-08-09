@@ -18,7 +18,6 @@ class TiledMap extends Entity {
     private _heroGuardTileId: number,
     
     public constructor() {
-        this._grid = [][];
     }
     
     public load(url: string, width:number, height:number) : Q.Promise<any> {
@@ -47,6 +46,8 @@ class TiledMap extends Entity {
     }
     
     private _parseTMXTilemap(tmxTileMap:tiled.TMXTilemap) {
+        this._grid = [];
+                
         this._spriteWidth  = tmxTileMap.tilewidth();
         this._spriteHeight = tmxTileMap.tileheight();
         
