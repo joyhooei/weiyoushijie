@@ -2,6 +2,16 @@
 declare Graph;
 declare astar;
 
+enum TileType {
+    wall = 0,
+    path,
+    base,
+    solider,
+    hero,
+    entrance,
+    exit
+}
+
 class TiledMap extends Entity {
     private _map: tiled.TMXTilemap;
     
@@ -18,6 +28,7 @@ class TiledMap extends Entity {
     private _heroGuardTileId: number,
     
     public constructor() {
+        super();
     }
     
     public load(url: string, width:number, height:number) : Q.Promise<any> {
@@ -58,13 +69,13 @@ class TiledMap extends Entity {
             for(let j = 0; j < pathLayer.cols(); j++) {
                 let tileId = pathLayer.getTileId(i, j);
                 if (tileId == this._entranceTileId) {
-                    this._grid[i][j] = 5;
+                    this._grid[i][j] = TileType.entrance;
                 } else if (tileId == this._exitTileId) {
-                    this._grid[i][j] = 6;
+                    this._grid[i][j] = TileType.exit;
                 } else if (tileId == this._pathId) {
-                    this._grid[i][j] = 1;
+                    this._grid[i][j] = TileType.path;
                 } else {
-                    this._grid[i][j] = 0;
+                    this._grid[i][j] = TileType.wall;
                 }
             }
         }
@@ -74,11 +85,11 @@ class TiledMap extends Entity {
             for(let j = 0; j < baseLayer.cols(); j++) {
                 let tileId = baseLayer.getTileId(i, j);
                 if (tileId == this._baseTileId) {
-                    this._grid[i][j] = 2;
+                    this._grid[i][j] = TileType.base;
                 } else if (tileId == this._baseGuardTileId) {
-                    this._grid[i][j] = 3;
+                    this._grid[i][j] = TileType.solider;
                 } else if (tileId == this._heroGuardTileID) {
-                    this._grid[i][j] = 4;
+                    this._grid[i][j] = TileType.hero;
                 }
             }
         }
@@ -89,31 +100,29 @@ class TiledMap extends Entity {
     public movable(x: number, y: number): boolean {
         x = Math.round(x / this._spriteWidth);
         y = Math.round(y / this._spriteHeight);
-        if (x < this._grid.length && y < this._grid[x].length && this._grid[x][y] == 1) {
-            return true;
-        } else {
-            return false;
-        }
+        return (x < this._grid.length && y < this._grid[x].length 
+                && (this._grid[x][y] == TileType.path || this._grid[x][y] == TileType.solider || this._grid[x][y] == TileType.hero)
+            );
     }
     
     public getBasePositions(): number[][] {
-        return this._getPositionsByType(2);    
+        return this._getPositionsByType(TileType.base);    
     }
     
     public getBaseGuardPosition(x: number, y: number): number[] {
-        return this._getPositionsByType(3);            
+        return this._getPositionsByType(TileType.solider);            
     }
     
     public getHeroGuardPositions(): number[][] {
-        return this._getPositionsByType(4);          
+        return this._getPositionsByType(TileType.hero);          
     }
     
     public getEnemyEntrances(): number[][] {
-        return this._getPositionsByType(5);   
+        return this._getPositionsByType(TileType.entrance);   
     }
     
     public getEnemyExits(): number[][] {
-        return this._getPositionsByType(6);         
+        return this._getPositionsByType(TileType.exit);         
     }
     
     public getEnemyPaths(): number[][][] {
