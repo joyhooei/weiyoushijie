@@ -1,4 +1,4 @@
-abstract class Battle extends Entity {
+class Battle extends Entity {
     /**地基层*/
     private _baseLayer: egret.Sprite;
     /**范围层*/
@@ -127,19 +127,66 @@ abstract class Battle extends Entity {
         this._enemies = [];
         this._cartridges = [];
 
-        this.addBases();
+        this._addBases();
 
-        this.addHero();
+        this._addHero();
     }
     
     //增加英雄
-    abstract addHero();
+    private _addHero() {
+        let hero = this._map.getBaseGuardPosition();
+        this._setHero(hero[0],hero[1],this._hero);        
+    }
 
     //增加塔基
-    abstract addBases();
+    private _addBases() {
+        let bases = this._map.getBasePositions();
+        
+        for(let i = 0; i < bases.length; i++) {
+            let entity = application.pool.get("Base");
+            this._addBase(bases[i][0], bases[i][1], <Base>entity);
+        }        
+    }
+
+    protected _addWaveEnemy(wave:number, entrance:number, exit:number, className:string, options:{}) {
+        if (this._waves[wave]) {
+            this._waves[wave] = [];
+        }
+        
+        let group = 0
+        for(; group < this._waves[wave].length; group++) {
+            let sbs = this._waves[wave][group];
+            if (sbs && sbs.length > 0 && sbs[0][0] == entrance && sbs[0][1] == exit) {
+                sbs.push([entrance, exit, className, options]);
+                
+                return;
+            }
+        }
+        
+        this._waves[wave][group] = [[entrance, exit, className, options]];
+    }
 
     //发动一波攻击
-    abstract launch(wave:number);
+    private _launch(wave:number) {
+        let groups = this._waves[wave];
+        for(let i = 0; i < groups.length; i++) {
+            let group = groups[i];
+            
+            let path = this._map.getEnemyPath(group[0][0], group[0][1]);
+            
+            for(let j = 0; j < group.length; j++) {
+                let sb = group[j];
+                
+                let enemy = (Enemy)application.pool.get(sb[2]);
+                
+                let options = sb[3];
+                options.path = path;
+                enemy.initialize(options);
+                
+                this.addEnemy(path[0][0], path[0][1], enemy);
+            }
+        }
+    }
     
     public showTool(ui:egret.DisplayObject, x:number, y:number) {
         this.hideAllTools();
@@ -214,11 +261,9 @@ abstract class Battle extends Entity {
         } 
     }
     
-    public addEnemies(x:number, y:number, enemies:Enemy[]) {
-        for(var i = 0; i < enemies.length; i++) {
-            this._enemies.push(enemies[i]);
-            this._addObj(x, y, enemies[i], this._objLayer);           
-        } 
+    public addEnemy(x:number, y:number, enemy:Enemy) {
+        this._enemies.push(enemy);
+        this._addObj(x, y, enemy, this._objLayer);           
     }
     
     public addBullets(x:number, y:number, bullet:Bullet) {
@@ -253,30 +298,5 @@ abstract class Battle extends Entity {
         obj.x = x;
         obj.y = y;
         layer.addChild(obj);
-    }
-    
-    private _queue(x:number, y:number, direction:EntityDirection, objs:Entity[]): Entity[] {
-        var width  = objs[0].width  + 2;
-        var height = objs[0].height + 2;
-        
-        for(var i = 0; i < objs.length; i++) {
-            var obj = objs[i];
-
-            if (i % 3 == 0) {
-                obj.y = y - height;
-            } else if (i % 3 == 1) {
-                obj.y = y + height;
-            } else {
-                if (direction == EntityDirection.east) {
-                    x -= width;
-                } else {
-                    x += width;
-                }
-            }
-            
-            obj.x = x;
-        }
-        
-        return objs;
     }
 }
