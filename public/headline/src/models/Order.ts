@@ -1,12 +1,12 @@
 class Order {
-    public static buy(customer:Customer, product: string, gid: string, price: number) {
+    public static buy(customer:Customer, product: string, gid: string, gname: string, price: number) {
         var firstCharge = customer.attrs.charge == 0;
         
         var order = { customer_id: customer.attrs.id, product: product, price: price, state: 0};
         application.dao.save("Order", order).then(function(o) {
             customer.saveNow();
             
-            application.channel.pay({ goodsId: gid, goodsName: gid, goodsNumber: "1", money: price, orderId: o.id }).then(function(data){
+            application.channel.pay({ goodsId: gid, goodsName: gname, goodsNumber: "1", money: price, orderId: o.id }).then(function(data){
             }, function(error){
                 Toast.launch(error);
             });
@@ -103,15 +103,28 @@ class Order {
 		}, 1000);
     }
     
-    public static charge(customer:Customer, gid:string, diamond: number): void {
-        Order.buy(customer, "Diamond", gid, diamond); 
+    public static charge(customer:Customer, gid:string, price: number): void {
+    	var gname = "200钻石";
+    	if (gid == "diamond600") {
+    		gname = "600钻石";
+    	} else if (gid == "diamond1300") {
+    		gname = "1300钻石";
+    	} else if (gid == "diamond4500") {
+    		gname = "4500钻石";
+    	} else if (gid == "diamond18000") {
+    		gname = "18000钻石";
+    	} else if (gid == "diamond100000") {
+    		gname = "100000钻石";
+    	}
+    	
+        Order.buy(customer, "Diamond", gid, gname, price); 
     }
     
     public static buyTicket(customer:Customer): void {
-       	Order.buy(customer, "Ticket", "ticket", 19);
+       	Order.buy(customer, "Ticket", "ticket", "月票", 19);
     }
     
     public static buyVIP(customer:Customer): void {
-        Order.buy(customer, "VIP", "vip", 49);
+        Order.buy(customer, "VIP", "vip", "终生VIP", 49);
     }
 }
