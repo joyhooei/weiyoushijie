@@ -27,8 +27,15 @@ class TiledMap extends Entity {
     private _baseGuardTileId: number,
     private _heroGuardTileId: number,
     
-    public constructor() {
+    public constructor(entrance:number, exit:number, path:number, base:number, solider:number, hero:number) {
         super();
+        
+        this._entranceId = entrance;
+        this._entranceId = entrance;
+        this._entranceId = entrance;
+        this._entranceId = entrance;
+        this._entranceId = entrance;
+        this._entranceId = entrance;
     }
     
     public load(url: string, width:number, height:number) : Q.Promise<any> {
