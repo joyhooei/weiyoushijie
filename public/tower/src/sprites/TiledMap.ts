@@ -31,10 +31,10 @@ class TiledMap extends Entity {
             urlLoader.addEventListener(egret.Event.COMPLETE, function (event:egret.Event):void {
                 var data:any = egret.XML.parse(event.target.data);
                 
-                let tmxTileMap = new tiled.TMXTilemap(width, height, data, url);
-                tmxTileMap.render();
-                self._parseTMXTilemap(txtTileMap);
-                self.addChild(txtTileMap);
+                self.tmxTileMap = new tiled.TMXTilemap(width, height, data, url);
+                self.tmxTileMap.render();
+                self._parseTMXTilemap(self.txtTileMap);
+                self.addChild(self.txtTileMap);
                 resolve(self);
             }, url);
             
