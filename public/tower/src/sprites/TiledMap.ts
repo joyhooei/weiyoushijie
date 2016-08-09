@@ -27,18 +27,24 @@ class TiledMap extends Entity {
     private _soliderTileId: number,
     private _heroTileId: number,
     
-    public constructor(entrance:number, exit:number, path:number, base:number, solider:number, hero:number) {
+    public constructor(map:tiled.TMXTilemap, entrance:number, exit:number, path:number, base:number, solider:number, hero:number) {
         super();
         
-        this._entranceTileId = entrance;
-        this._exitTileId = exit;
-        this._pathTileId = path;
-        this._baseTileId = base;
-        this._soliderTileId = solider;
-        this._heroTileId = hero;
+        this._map = map;
+        
+        this._entranceTileId    = entrance;
+        this._exitTileId        = exit;
+        this._pathTileId        = path;
+        this._baseTileId        = base;
+        this._soliderTileId     = solider;
+        this._heroTileId        = hero;
+        
+        this._parse(map);
+        
+        this.addChild(map);
     }
     
-    public load(url: string, width:number, height:number) : Q.Promise<any> {
+    public static load(url: string, width:number, height:number) : Q.Promise<any> {
         let self = this;
 
         return Q.Promise<any>(function(resolve,reject,notify) {
@@ -48,11 +54,9 @@ class TiledMap extends Entity {
             urlLoader.addEventListener(egret.Event.COMPLETE, function (event:egret.Event):void {
                 var data:any = egret.XML.parse(event.target.data);
                 
-                self.tmxTileMap = new tiled.TMXTilemap(width, height, data, url);
-                self.tmxTileMap.render();
-                self._parseTMXTilemap(self.txtTileMap);
-                self.addChild(self.txtTileMap);
-                resolve(self);
+                let tmxTileMap:tiled.TMXTilemap = new tiled.TMXTilemap(width, height, data, url);
+                tmxTileMap.render();
+                resolve(tmxTileMap);
             }, url);
             
             loader.addEventListener(egret.IOErrorEvent.IO_ERROR, function (event:egret.Event):void {
@@ -63,7 +67,7 @@ class TiledMap extends Entity {
         });
     }
     
-    private _parseTMXTilemap(tmxTileMap:tiled.TMXTilemap) {
+    private _parse(tmxTileMap:tiled.TMXTilemap) {
         this._grid = [];
                 
         this._tileWidth  = tmxTileMap.tilewidth();
@@ -100,8 +104,6 @@ class TiledMap extends Entity {
                 }
             }
         }
-        
-        return tmxTileMap;
     }
     
     public movable(x: number, y: number): boolean {
