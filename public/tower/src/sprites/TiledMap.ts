@@ -17,25 +17,25 @@ class TiledMap extends Entity {
     
     private _grid: number[][];
 
-    private _spriteWidth: number;
-    private _spriteHeight: number;
+    private _tileWidth: number;
+    private _tileHeight: number;
     
     private _entranceTileId: number,
     private _exitTileId: number,
-    private _pathId: number,
+    private _pathTileId: number,
     private _baseTileId: number,
-    private _baseGuardTileId: number,
-    private _heroGuardTileId: number,
+    private _soliderTileId: number,
+    private _heroTileId: number,
     
     public constructor(entrance:number, exit:number, path:number, base:number, solider:number, hero:number) {
         super();
         
-        this._entranceId = entrance;
-        this._entranceId = entrance;
-        this._entranceId = entrance;
-        this._entranceId = entrance;
-        this._entranceId = entrance;
-        this._entranceId = entrance;
+        this._entranceTileId = entrance;
+        this._exitTileId = exit;
+        this._pathTileId = path;
+        this._baseTileId = base;
+        this._soliderTileId = solider;
+        this._heroTileId = hero;
     }
     
     public load(url: string, width:number, height:number) : Q.Promise<any> {
@@ -66,8 +66,8 @@ class TiledMap extends Entity {
     private _parseTMXTilemap(tmxTileMap:tiled.TMXTilemap) {
         this._grid = [];
                 
-        this._spriteWidth  = tmxTileMap.tilewidth();
-        this._spriteHeight = tmxTileMap.tileheight();
+        this._tileWidth  = tmxTileMap.tilewidth();
+        this._tileHeight = tmxTileMap.tileheight();
         
         let layers: Array<any> = this.getLayers();
         
@@ -93,9 +93,9 @@ class TiledMap extends Entity {
                 let tileId = baseLayer.getTileId(i, j);
                 if (tileId == this._baseTileId) {
                     this._grid[i][j] = TileType.base;
-                } else if (tileId == this._baseGuardTileId) {
+                } else if (tileId == this._soliderTileId) {
                     this._grid[i][j] = TileType.solider;
-                } else if (tileId == this._heroGuardTileID) {
+                } else if (tileId == this._heroTileID) {
                     this._grid[i][j] = TileType.hero;
                 }
             }
@@ -105,8 +105,8 @@ class TiledMap extends Entity {
     }
     
     public movable(x: number, y: number): boolean {
-        x = Math.round(x / this._spriteWidth);
-        y = Math.round(y / this._spriteHeight);
+        x = Math.round(x / this._tileWidth);
+        y = Math.round(y / this._tileHeight);
         return (x < this._grid.length && y < this._grid[x].length 
                 && (this._grid[x][y] == TileType.path || this._grid[x][y] == TileType.solider || this._grid[x][y] == TileType.hero)
             );
@@ -142,7 +142,7 @@ class TiledMap extends Entity {
             for(let j = 0; j < exits.length: j++) {
                 let path = this._getEnemyPath(entrances[i], exits[j]);
                 if (path && path.length > 0) {
-                    paths.push([path[0] * this._spriteWidth, path[1] * this._spriteHeight]);
+                    paths.push([path[0] * this._tileWidth, path[1] * this._tileHeight]);
                 }
             }
         }
@@ -151,11 +151,10 @@ class TiledMap extends Entity {
     }
     
     private _getEnemyPath(entrance:number[], exit: number[]): number[][] {
-        let path = number[][];
-        
         var graph = new Graph(this._grid, { diagonal: true });
         var start = graph.grid[entrance[0]][entrance[1]];
         var end   = graph.grid[exit[0]][exit[1]];
+        
         return astar.search(graph, start, end, { heuristic: astar.heuristics.diagonal });
     }
     
@@ -165,7 +164,7 @@ class TiledMap extends Entity {
         for(let i = 0; i < this._grid.length; i++) {
             for(let j = 0; j < this._grid[i].length; j++) {
                 if (this._grid[i][j] == type) {
-                    positions.push([i * this._spriteWidth, j * this._spriteHeight]);
+                    positions.push([i * this._tileWidth, j * this._tileHeight]);
                 }
             }
         }
