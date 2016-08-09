@@ -48,6 +48,8 @@ abstract class Battle extends Entity {
         this._bulletLayer = this._addLayer();
         //添加工具层
         this._toolLayer = this._addLayer();
+        
+        this.enableSelect(this);
     }
     
     public enableSelect(obj: Entity) {
@@ -59,11 +61,30 @@ abstract class Battle extends Entity {
     	if (this._selectedObj == e.target) {
     		e.target.select(true);
     	} else {
-    		this._selectedObj.deselect();
-    		
-    		this._selectedObj = this;
-    		e.target.select(false);
+    	    if (e.target == this) {
+    	        let baseClassName = egret.getQualifiedSuperclassName(this._selectedObj);
+    	        let x = Math.round(e.localX);
+                let y = Math.round(e.localY);
+                if (this._walkable(x, y)) {
+    	            if (baseClassName == "Hero") {
+    	                <Hero>this._selectedObj.moveTo(x, y);
+    	            }
+                } else {
+                    //显示不能放置图片
+                    
+                }
+    	    } else {
+        		this._selectedObj.deselect();
+        		
+        		this._selectedObj = this;
+        		e.target.select(false);
+    	    }
     	}        
+    }
+    
+    //检查x和y所在的地方是否允许放置英雄或者技能
+    private _walkable(x, y) {
+        return true;
     }
     
     public incLives(lives: number) {
@@ -85,6 +106,7 @@ abstract class Battle extends Entity {
     }
 
     public initialize(options: any) {
+        this._baseLayer.removeChildren();
         this._areaLayer.removeChildren();
         this._objLayer.removeChildren();
         this._bulletLayer.removeChildren();
@@ -136,11 +158,11 @@ abstract class Battle extends Entity {
         
         this._hero.update();
         
-        this._update(this._towers, this._objLayer);
-        this._update(this._soliders, this._objLayer);
-        this._update(this._enemies, this._objLayer);
-        this._update(this._bullets, this._bulletLayer);
-        this._update(this._cartridges, this._bulletLayer);
+        this._updateLayer(this._towers, this._objLayer);
+        this._updateLayer(this._soliders, this._objLayer);
+        this._updateLayer(this._enemies, this._objLayer);
+        this._updateLayer(this._bullets, this._bulletLayer);
+        this._updateLayer(this._cartridges, this._bulletLayer);
     }
     
     private _launchNextWave() {
@@ -152,7 +174,7 @@ abstract class Battle extends Entity {
         }            
     }
 
-    private _update(objs: Entity[], layer:egret.Sprite){
+    private _updateLayer(objs: Entity[], layer:egret.Sprite){
         for(let i = 0; i < objs.length; i++) {
             let obj = objs[i];
             
