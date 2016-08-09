@@ -3,7 +3,9 @@ declare Graph;
 declare astar;
 
 class TiledMap extends Entity {
-    private _map: number[][];
+    private _map: tiled.TMXTilemap;
+    
+    private _grid: number[][];
 
     private _spriteWidth: number;
     private _spriteHeight: number;
@@ -13,10 +15,10 @@ class TiledMap extends Entity {
     private _pathId: number,
     private _baseTileId: number,
     private _baseGuardTileId: number,
-    private _heroGuardTileID: number,
+    private _heroGuardTileId: number,
     
     public constructor() {
-        this._map = [][];
+        this._grid = [][];
     }
     
     public load(url: string, width:number, height:number) : Q.Promise<any> {
@@ -55,13 +57,13 @@ class TiledMap extends Entity {
             for(let j = 0; j < pathLayer.cols(); j++) {
                 let tileId = pathLayer.getTileId(i, j);
                 if (tileId == this._entranceTileId) {
-                    this._map[i][j] = 5;
+                    this._grid[i][j] = 5;
                 } else if (tileId == this._exitTileId) {
-                    this._map[i][j] = 6;
+                    this._grid[i][j] = 6;
                 } else if (tileId == this._pathId) {
-                    this._map[i][j] = 1;
+                    this._grid[i][j] = 1;
                 } else {
-                    this._map[i][j] = 0;
+                    this._grid[i][j] = 0;
                 }
             }
         }
@@ -71,11 +73,11 @@ class TiledMap extends Entity {
             for(let j = 0; j < baseLayer.cols(); j++) {
                 let tileId = baseLayer.getTileId(i, j);
                 if (tileId == this._baseTileId) {
-                    this._map[i][j] = 2;
+                    this._grid[i][j] = 2;
                 } else if (tileId == this._baseGuardTileId) {
-                    this._map[i][j] = 3;
+                    this._grid[i][j] = 3;
                 } else if (tileId == this._heroGuardTileID) {
-                    this._map[i][j] = 4;
+                    this._grid[i][j] = 4;
                 }
             }
         }
@@ -86,7 +88,7 @@ class TiledMap extends Entity {
     public movable(x: number, y: number): boolean {
         x = Math.round(x / this._spriteWidth);
         y = Math.round(y / this._spriteHeight);
-        if (x < this._map.length && y < this._map[x].length && this._map[x][y] == 1) {
+        if (x < this._grid.length && y < this._grid[x].length && this._grid[x][y] == 1) {
             return true;
         } else {
             return false;
@@ -134,7 +136,7 @@ class TiledMap extends Entity {
     private _getEnemyPath(entrance:number[], exit: number[]): number[][] {
         let path = number[][];
         
-        var graph = new Graph(this.map, { diagonal: true });
+        var graph = new Graph(this._grid, { diagonal: true });
         var start = graph.grid[entrance[0]][entrance[1]];
         var end   = graph.grid[exit[0]][exit[1]];
         return astar.search(graph, start, end, { heuristic: astar.heuristics.diagonal });
@@ -143,9 +145,9 @@ class TiledMap extends Entity {
     private _getPositionsByType(type:number) : number[][] {
         let positions = [][];
         
-        for(let i = 0; i < this._map.length; i++) {
-            for(let j = 0; j < this._map[i].length; j++) {
-                if (this._map[i][j] == type) {
+        for(let i = 0; i < this._grid.length; i++) {
+            for(let j = 0; j < this._grid[i].length; j++) {
+                if (this._grid[i][j] == type) {
                     positions.push([i * this._spriteWidth, j * this._spriteHeight]);
                 }
             }
