@@ -31,7 +31,9 @@ class TiledMap extends Entity {
                 
                 let tmxTileMap = new tiled.TMXTilemap(width, height, data, url);
                 tmxTileMap.render();
-                resolve(self._parseTMXTilemap(tmxTileMap));
+                self._parseTMXTilemap(txtTileMap);
+                self.addChild(txtTileMap);
+                resolve(self);
             }, url);
             
             loader.addEventListener(egret.IOErrorEvent.IO_ERROR, function (event:egret.Event):void {
