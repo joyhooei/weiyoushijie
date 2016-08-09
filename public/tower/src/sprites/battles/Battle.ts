@@ -30,6 +30,7 @@ abstract class Battle extends Entity {
     
     //地图文件地址
     private _url: string;
+    private _map: TiledMap;
     
     private _lives: number;
     
@@ -50,6 +51,8 @@ abstract class Battle extends Entity {
         this._toolLayer = this._addLayer();
         
         this.enableSelect(this);
+        
+        this._map = new TiledMap();
     }
     
     public enableSelect(obj: Entity) {
@@ -65,7 +68,7 @@ abstract class Battle extends Entity {
     	        let baseClassName = egret.getQualifiedSuperclassName(this._selectedObj);
     	        let x = Math.round(e.localX);
                 let y = Math.round(e.localY);
-                if (this._walkable(x, y)) {
+                if (this._map.walkable(x, y)) {
     	            if (baseClassName == "Hero") {
     	                <Hero>this._selectedObj.moveTo(x, y);
     	            }
@@ -82,11 +85,6 @@ abstract class Battle extends Entity {
     	}        
     }
     
-    //检查x和y所在的地方是否允许放置英雄或者技能
-    private _walkable(x, y) {
-        return true;
-    }
-    
     public incLives(lives: number) {
         this._lives += lives;
     }
@@ -101,7 +99,11 @@ abstract class Battle extends Entity {
         let self = this;
 
         return Q.Promise<any>(function(resolve,reject,notify) {
-            resolve(self);
+            self._map.load(self._url, 800, 480).then(function(){
+    	         resolve(self);     
+    	    }, function(error){
+                reject(error);    
+            })
         }); 
     }
 
@@ -276,28 +278,5 @@ abstract class Battle extends Entity {
         }
         
         return objs;
-    }
-    
-    private _loadTileMap(url: string, width:number, height:number) : Q.Promise<any> {
-        let self = this;
-
-        return Q.Promise<any>(function(resolve,reject,notify) {
-            var urlLoader:egret.URLLoader = new egret.URLLoader();
-            urlLoader.dataFormat = egret.URLLoaderDataFormat.TEXT;
-            
-            urlLoader.addEventListener(egret.Event.COMPLETE, function (event:egret.Event):void {
-                var data:any = egret.XML.parse(event.target.data);
-                
-                var tmxTileMap:tiled.TMXTilemap = new tiled.TMXTilemap(width, height, data, url);
-                tmxTileMap.render();
-                resolve(tmxTileMap);
-            }, url);
-            
-            loader.addEventListener(egret.IOErrorEvent.IO_ERROR, function (event:egret.Event):void {
-                reject('加载地图失败');
-            }, this);
-            
-            urlLoader.load(new egret.URLRequest(url));
-        });         
     }
 }
