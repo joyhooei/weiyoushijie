@@ -7,6 +7,10 @@ class Soldier extends NPC {
     
     public constructor() {
         super();
+    }
+    
+    public initialize(properties:any) {
+        super.initialize(properties);
         
         this._enemy = null;
 
