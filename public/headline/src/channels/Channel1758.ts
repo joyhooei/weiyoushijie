@@ -1,9 +1,9 @@
 declare var hlmy;
 
 window['onShareTimeline'] = function(){
-	console.log('onShareTimeline');
+	console.info('onShareTimeline');
 	
-    application.channel.resolve();
+    application.channel.resolve("");
 }
 
 class Channel1758 extends ChannelEgret {
@@ -19,7 +19,7 @@ class Channel1758 extends ChannelEgret {
     	var self = this;
     	
     	self.require(self.url).then(function(){
-    		hlmy.setShareInfo();
+    		hlmy.setShareInfo({state: "", tipInfo: true, reward: ['100钻石']});
     	});
     	
     	return self.promise();

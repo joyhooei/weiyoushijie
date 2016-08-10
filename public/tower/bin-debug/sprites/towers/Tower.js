@@ -4,12 +4,15 @@ var Tower = (function (_super) {
         _super.call(this);
         /**射程范围最大半径*/
         this._maxRadius = 140;
-        this._enemy = null;
-        this._fireSpeed = 5;
-        this._lastFireTicks = 0;
-        this._maxRadius = 50;
     }
     var d = __define,c=Tower,p=c.prototype;
+    p.initialize = function (properties) {
+        _super.prototype.initialize.call(this, properties);
+        this._enemy = null;
+        this._lastFireTicks = 0;
+        this._fireSpeed = properties.fireSpeed;
+        this._maxRadius = properties.maxRadius;
+    };
     p._idle = function () {
         this._do(EntityState.building);
     };

@@ -28,9 +28,19 @@ var Entity = (function (_super) {
     }
     var d = __define,c=Entity,p=c.prototype;
     /**初始化*/
-    p.initialize = function (options) {
-        this._turn(EntityDirection.east);
-        this._do(EntityState.idle);
+    p.initialize = function (properties) {
+        this._direction = this._get(properties, "direction", EntityDirection.east);
+        this._state = this._get(properties, "state", EntityState.idle);
+        this._ticks = 0;
+        this._repaint = true;
+    };
+    p._get = function (properties, name, defaultVal) {
+        if (properties && properties[name]) {
+            return properties[name];
+        }
+        else {
+            return defaultVal;
+        }
     };
     p.dead = function () {
         return this._state == EntityState.dead;
@@ -71,8 +81,9 @@ var Entity = (function (_super) {
     p._paint = function () {
         if (this._repaint) {
             var mc = application.characters[egret.getQualifiedClassName(this)].getMC(this._direction, this._state);
-            if (mc) {
-                this.removeChildren();
+            if (mc && mc != this._mc) {
+                this.removeChild(this._mc);
+                this._mc = mc;
                 this.addChild(mc);
                 mc.start();
             }

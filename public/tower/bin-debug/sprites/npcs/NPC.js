@@ -2,8 +2,18 @@ var NPC = (function (_super) {
     __extends(NPC, _super);
     function NPC() {
         _super.call(this);
+        this._hp = new Hp();
+        this._hp.width = 18;
+        this._hp.horizontalCenter = 0;
+        this.addChild(this._hp);
     }
     var d = __define,c=NPC,p=c.prototype;
+    p.initialize = function (properties) {
+        _super.prototype.initialize.call(this, properties);
+        this._hp.initialize(properties);
+        this._damage = properties.damage;
+        this._hitSpeed = properties.hitSpeed;
+    };
     p.setPaths = function (paths) {
         this._paths = paths;
         this._path = 0;
@@ -21,8 +31,7 @@ var NPC = (function (_super) {
         }
     };
     p.hitBy = function (damage) {
-        this._hp -= damage;
-        if (this._hp < 0) {
+        if (this._hp.hitBy(damage) <= 0) {
             this._do(EntityState.dying);
         }
         if (this._state != EntityState.fighting) {
@@ -31,6 +40,10 @@ var NPC = (function (_super) {
     };
     p._hit = function (npc) {
         npc.hitBy(this._damage);
+    };
+    p._paint = function () {
+        _super.prototype._paint.call(this);
+        this._hp._paint();
     };
     //走一步
     p._moveOneStep = function () {

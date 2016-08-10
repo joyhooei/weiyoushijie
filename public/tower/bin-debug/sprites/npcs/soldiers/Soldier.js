@@ -2,12 +2,15 @@ var Soldier = (function (_super) {
     __extends(Soldier, _super);
     function Soldier() {
         _super.call(this);
+    }
+    var d = __define,c=Soldier,p=c.prototype;
+    p.initialize = function (properties) {
+        _super.prototype.initialize.call(this, properties);
         this._enemy = null;
         this._guardX = 0;
         this._gradeY = 0;
         this._guardRadius = 10;
-    }
-    var d = __define,c=Soldier,p=c.prototype;
+    };
     p._stateChanged = function (oldState, newState) {
         if (newState == EntityState.guarding) {
             this._turn(this._direction8(this._guardX, this._gradeY));

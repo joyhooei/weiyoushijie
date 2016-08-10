@@ -6,7 +6,11 @@ var Customer = require('../models/customer');
 function _post(url, data) {
 	return Q.Promise(function(resolve, reject, notify) {
 		data.appid = 'fg40249b';
-		data.sign  = Helper.crypto(Helper.join(data, "&") + "dwdse2tsz70go8dq62pzmj10bpkqh08j");
+
+		var temp = Helper.join(data, "&") + "dwdse2tsz70go8dq62pzmj10bpkqh08j";
+		var buf = new Buffer(temp);
+		temp = buf.toString("binary");
+		data.sign  = Helper.crypto(temp);
 		request.post({url: url, headers: {'content-type': 'application/x-www-form-urlencoded'}, body: Helper.join(data, "&")}, function(error, response, body){
 			try {
 			    if (!error && response.statusCode == 200) {
@@ -72,7 +76,7 @@ module.exports.payUrl = function(options) {
 			_post("http://api.web.51h5.com/auth/refresh", {refresh:customer.get('channel_data')}).then(function(tokens){
 				customer.set("channel_data", tokens.data.refresh_token);
 				customer.save().then(function(c){
-					_post("http://api.web.51h5.com/pay/order", {token:tokens.data.access_token, total_fee:options.money, subject:options.goodsId, body:options.goodsName, exten:options.orderId}).then(function(body){
+					_post("http://api.web.51h5.com/pay/order", {token:tokens.data.access_token, total_fee:options.money, subject:options.goodsName, body:options.goodsName, exten:options.orderId}).then(function(body){
 						resolve(body.data.pay_url);
 					}, function(error){
 						reject(error);

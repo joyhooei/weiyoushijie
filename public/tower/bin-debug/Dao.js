@@ -1,9 +1,8 @@
 var Dao = (function (_super) {
     __extends(Dao, _super);
-    function Dao(url, game) {
+    function Dao(url) {
         _super.call(this);
         this._url = url;
-        this._game = game;
     }
     var d = __define,c=Dao,p=c.prototype;
     p.fetch = function (model, conditions, filters) {
@@ -14,7 +13,7 @@ var Dao = (function (_super) {
     };
     p.save = function (model, data) {
         var self = this;
-        data.game = this._game;
+        data.game = application.game;
         if (data.id) {
             var promise = this.rest("update/" + model + "/" + data.id, data);
         }
@@ -30,7 +29,7 @@ var Dao = (function (_super) {
         return promise;
     };
     p.rest = function (method, data) {
-        return this.restWithUrl(this._url + method + "?game=" + this._game + "&token=" + application.token, data);
+        return this.restWithUrl(this._url + method + "?game=" + application.game + "&token=" + application.token, data);
     };
     p.restWithUrl = function (url, data) {
         var self = this;

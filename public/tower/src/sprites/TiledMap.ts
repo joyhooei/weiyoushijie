@@ -16,12 +16,12 @@ class TiledMap extends Entity {
     private _tileWidth: number;
     private _tileHeight: number;
     
-    private _entranceTileId: number,
-    private _exitTileId: number,
-    private _pathTileId: number,
-    private _baseTileId: number,
-    private _soliderTileId: number,
-    private _heroTileId: number,
+    private _entranceTileId: number;
+    private _exitTileId: number;
+    private _pathTileId: number;
+    private _baseTileId: number;
+    private _soliderTileId: number;
+    private _heroTileId: number;
     
     public constructor(map:tiled.TMXTilemap, entrance:number, exit:number, path:number, base:number, solider:number, hero:number) {
         super();
@@ -55,7 +55,7 @@ class TiledMap extends Entity {
                 resolve(tmxTileMap);
             }, url);
             
-            loader.addEventListener(egret.IOErrorEvent.IO_ERROR, function (event:egret.Event):void {
+            urlLoader.addEventListener(egret.IOErrorEvent.IO_ERROR, function (event:egret.Event):void {
                 reject('加载地图失败');
             }, this);
             
@@ -66,20 +66,20 @@ class TiledMap extends Entity {
     private _parse(tmxTileMap:tiled.TMXTilemap) {
         this._grid = [];
                 
-        this._tileWidth  = tmxTileMap.tilewidth();
-        this._tileHeight = tmxTileMap.tileheight();
+        this._tileWidth  = tmxTileMap.tilewidth;
+        this._tileHeight = tmxTileMap.tileheight;
         
-        let layers: Array<any> = this.getLayers();
+        let layers: Array<any> = tmxTileMap.getLayers();
         
         let pathLayer:tiled.TMXLayer = <tiled.TMXLayer>layers[1];
-        for(let i = 0; i < pathLayer.rows(); i++) {
-            for(let j = 0; j < pathLayer.cols(); j++) {
+        for(let i = 0; i < pathLayer.rows; i++) {
+            for(let j = 0; j < pathLayer.cols; j++) {
                 let tileId = pathLayer.getTileId(i, j);
                 if (tileId == this._entranceTileId) {
                     this._grid[i][j] = TileType.entrance;
                 } else if (tileId == this._exitTileId) {
                     this._grid[i][j] = TileType.exit;
-                } else if (tileId == this._pathId) {
+                } else if (tileId == this._pathTileId) {
                     this._grid[i][j] = TileType.path;
                 } else {
                     this._grid[i][j] = TileType.wall;
@@ -88,21 +88,21 @@ class TiledMap extends Entity {
         }
         
         let baseLayer:tiled.TMXLayer = <tiled.TMXLayer>layers[2];
-        for(let i = 0; i < baseLayer.rows(); i++) {
-            for(let j = 0; j < baseLayer.cols(); j++) {
+        for(let i = 0; i < baseLayer.rows; i++) {
+            for(let j = 0; j < baseLayer.cols; j++) {
                 let tileId = baseLayer.getTileId(i, j);
                 if (tileId == this._baseTileId) {
                     this._grid[i][j] = TileType.base;
                 } else if (tileId == this._soliderTileId) {
                     this._grid[i][j] = TileType.solider;
-                } else if (tileId == this._heroTileID) {
+                } else if (tileId == this._heroTileId) {
                     this._grid[i][j] = TileType.hero;
                 }
             }
         }
     }
     
-    public movable(x: number, y: number): boolean {
+    public walkable(x: number, y: number): boolean {
         x = Math.round(x / this._tileWidth);
         y = Math.round(y / this._tileHeight);
         return (x < this._grid.length && y < this._grid[x].length 
@@ -114,7 +114,7 @@ class TiledMap extends Entity {
         return this._getPositionsByType(TileType.base);    
     }
     
-    public getBaseGuardPosition(x: number, y: number): number[] {
+    public getBaseGuardPosition(): number[][] {
         return this._getPositionsByType(TileType.solider);            
     }
     
@@ -131,33 +131,17 @@ class TiledMap extends Entity {
     }
     
     public getEnemyPaths(): number[][][] {
-        let paths = number[][][];
-        
-        let entrances = this.getEnemyEntrances();
-        let exits = this.getEnemyExits();
-        
-        for(let i = 0; i < entrances.length; i++) {
-            for(let j = 0; j < exits.length: j++) {
-                let path = this._getEnemyPath(entrances[i], exits[j]);
-                if (path && path.length > 0) {
-                    paths.push([path[0] * this._tileWidth, path[1] * this._tileHeight]);
-                }
-            }
-        }
+        let paths = [];
         
         return paths;
     }
-    
-    private _getEnemyPath(entrance:number[], exit: number[]): number[][] {
-        var graph = new Graph(this._grid, { diagonal: true });
-        var start = graph.grid[entrance[0]][entrance[1]];
-        var end   = graph.grid[exit[0]][exit[1]];
-        
-        return astar.search(graph, start, end, { heuristic: astar.heuristics.diagonal });
+
+    public getEnemyPath(x:number, y:number): number[][] {
+        return [];
     }
     
     private _getPositionsByType(type:number) : number[][] {
-        let positions = [][];
+        let positions = [];
         
         for(let i = 0; i < this._grid.length; i++) {
             for(let j = 0; j < this._grid[i].length; j++) {

@@ -152,7 +152,7 @@ function _saveModel(model, req, res) {
 				Helper.failed(res, new Error("保存数据失败，请重新登录"));
 			});
 		}, function(error){
-			Helper.failed(res, new Error("您已经在另外一台终端上登录，请下线"));
+			Helper.failed(res, new Error("您已经在另外一台终端上登录，请重新登录"));
 		});
 	} else {
 		console.error("_saveModel customer_id is empty " + " req body is " + JSON.stringify(req.body));

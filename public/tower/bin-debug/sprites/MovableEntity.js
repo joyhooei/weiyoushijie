@@ -6,6 +6,10 @@ var MovableEntity = (function (_super) {
         this._steps = [10, 10];
     }
     var d = __define,c=MovableEntity,p=c.prototype;
+    p.initialize = function (properties) {
+        _super.prototype.initialize.call(this, properties);
+        this._step = properties.steep;
+    };
     p._idle = function () {
         this._do(EntityState.moving);
     };

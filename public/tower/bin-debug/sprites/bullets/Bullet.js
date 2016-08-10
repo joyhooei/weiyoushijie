@@ -6,6 +6,10 @@ var Bullet = (function (_super) {
         this._missing = false;
     }
     var d = __define,c=Bullet,p=c.prototype;
+    p.initialize = function (properties) {
+        _super.prototype.initialize.call(this, properties);
+        this._damage = properties.damage;
+    };
     p.setTarget = function (target) {
         this._target = target;
     };

@@ -12,37 +12,13 @@ var Battle = (function (_super) {
         this._bulletLayer = this._addLayer();
         //添加工具层
         this._toolLayer = this._addLayer();
+        this.enableSelect(this);
+        this._map = new TiledMap();
     }
     var d = __define,c=Battle,p=c.prototype;
-    p.enableSelect = function (obj) {
-        obj.touchEnabled = true;
-        this.addEventListener(egret.TouchEvent.TOUCH_BEGIN, this._touch, this);
-    };
-    p._touch = function (e) {
-        if (this._selectedObj == e.target) {
-            e.target.select(true);
-        }
-        else {
-            this._selectedObj.deselect();
-            this._selectedObj = this;
-            e.target.select(false);
-        }
-    };
-    p.incLives = function (lives) {
-        this._lives += lives;
-    };
-    p._addLayer = function () {
-        var layer = new egret.Sprite();
-        this.addChild(layer);
-        return layer;
-    };
-    p.loadResource = function (options) {
-        var self = this;
-        return Q.Promise(function (resolve, reject, notify) {
-            resolve(self);
-        });
-    };
-    p.initialize = function (options) {
+    p.initialize = function (properties) {
+        _super.prototype.initialize.call(this, properties);
+        this._baseLayer.removeChildren();
         this._areaLayer.removeChildren();
         this._objLayer.removeChildren();
         this._bulletLayer.removeChildren();
@@ -56,8 +32,97 @@ var Battle = (function (_super) {
         this._bullets = [];
         this._enemies = [];
         this._cartridges = [];
-        this.addBases();
-        this.addHero();
+        this._addBases();
+        this._addHero();
+    };
+    p.enableSelect = function (obj) {
+        obj.touchEnabled = true;
+        this.addEventListener(egret.TouchEvent.TOUCH_BEGIN, this._touch, this);
+    };
+    p._touch = function (e) {
+        if (this._selectedObj == e.target) {
+            e.target.select(true);
+        }
+        else {
+            if (e.target == this) {
+                var baseClassName = egret.getQualifiedSuperclassName(this._selectedObj);
+                var x = Math.round(e.localX);
+                var y = Math.round(e.localY);
+                if (this._map.walkable(x, y)) {
+                    if (baseClassName == "Hero") {
+                        this._selectedObj.moveTo(x, y);
+                    }
+                }
+                else {
+                }
+            }
+            else {
+                this._selectedObj.deselect();
+                this._selectedObj = this;
+                e.target.select(false);
+            }
+        }
+    };
+    p.incLives = function (lives) {
+        this._lives += lives;
+    };
+    p._addLayer = function () {
+        var layer = new egret.Sprite();
+        this.addChild(layer);
+        return layer;
+    };
+    p.loadResource = function (options) {
+        var self = this;
+        return Q.Promise(function (resolve, reject, notify) {
+            self._map.load(self._url, 800, 480).then(function () {
+                resolve(self);
+            }, function (error) {
+                reject(error);
+            });
+        });
+    };
+    //增加英雄
+    p._addHero = function () {
+        var hero = this._map.getBaseGuardPosition();
+        this._setHero(hero[0], hero[1], this._hero);
+    };
+    //增加塔基
+    p._addBases = function () {
+        var bases = this._map.getBasePositions();
+        for (var i = 0; i < bases.length; i++) {
+            var entity = application.pool.get("Base");
+            this._addBase(bases[i][0], bases[i][1], entity);
+        }
+    };
+    p._addWaveEnemy = function (wave, entrance, exit, className, options) {
+        if (this._waves[wave]) {
+            this._waves[wave] = [];
+        }
+        var group = 0;
+        for (; group < this._waves[wave].length; group++) {
+            var sbs = this._waves[wave][group];
+            if (sbs && sbs.length > 0 && sbs[0][0] == entrance && sbs[0][1] == exit) {
+                sbs.push([entrance, exit, className, options]);
+                return;
+            }
+        }
+        this._waves[wave][group] = [[entrance, exit, className, options]];
+    };
+    //发动一波攻击
+    p._launch = function (wave) {
+        var groups = this._waves[wave];
+        for (var i = 0; i < groups.length; i++) {
+            var group = groups[i];
+            var path = this._map.getEnemyPath(group[0][0], group[0][1]);
+            for (var j = 0; j < group.length; j++) {
+                var sb = group[j];
+                var enemy = (Enemy), application_1, pool = void 0, get = (sb[2]);
+                var options = sb[3];
+                options.path = path;
+                enemy.initialize(options);
+                this.addEnemy(path[0][0], path[0][1], enemy);
+            }
+        }
     };
     p.showTool = function (ui, x, y) {
         this.hideAllTools();
@@ -73,11 +138,11 @@ var Battle = (function (_super) {
             this._launchNextWave();
         }
         this._hero.update();
-        this._update(this._towers, this._objLayer);
-        this._update(this._soliders, this._objLayer);
-        this._update(this._enemies, this._objLayer);
-        this._update(this._bullets, this._bulletLayer);
-        this._update(this._cartridges, this._bulletLayer);
+        this._updateLayer(this._towers, this._objLayer);
+        this._updateLayer(this._soliders, this._objLayer);
+        this._updateLayer(this._enemies, this._objLayer);
+        this._updateLayer(this._bullets, this._bulletLayer);
+        this._updateLayer(this._cartridges, this._bulletLayer);
     };
     p._launchNextWave = function () {
         this._timeToNextWave--;
@@ -87,7 +152,7 @@ var Battle = (function (_super) {
             this._timeToNextWave = this._timeBetweenWaves;
         }
     };
-    p._update = function (objs, layer) {
+    p._updateLayer = function (objs, layer) {
         for (var i = 0; i < objs.length; i++) {
             var obj = objs[i];
             obj.update();
@@ -120,11 +185,9 @@ var Battle = (function (_super) {
             this._addObj(x, y, soliders[i], this._objLayer);
         }
     };
-    p.addEnemies = function (x, y, enemies) {
-        for (var i = 0; i < enemies.length; i++) {
-            this._enemies.push(enemies[i]);
-            this._addObj(x, y, enemies[i], this._objLayer);
-        }
+    p.addEnemy = function (x, y, enemy) {
+        this._enemies.push(enemy);
+        this._addObj(x, y, enemy, this._objLayer);
     };
     p.addBullets = function (x, y, bullet) {
         this._bullets.push(bullet);
@@ -152,29 +215,6 @@ var Battle = (function (_super) {
         obj.x = x;
         obj.y = y;
         layer.addChild(obj);
-    };
-    p._queue = function (x, y, direction, objs) {
-        var width = objs[0].width + 2;
-        var height = objs[0].height + 2;
-        for (var i = 0; i < objs.length; i++) {
-            var obj = objs[i];
-            if (i % 3 == 0) {
-                obj.y = y - height;
-            }
-            else if (i % 3 == 1) {
-                obj.y = y + height;
-            }
-            else {
-                if (direction == EntityDirection.east) {
-                    x -= width;
-                }
-                else {
-                    x += width;
-                }
-            }
-            obj.x = x;
-        }
-        return objs;
     };
     return Battle;
 }(Entity));

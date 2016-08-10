@@ -2,11 +2,10 @@ var Enemy = (function (_super) {
     __extends(Enemy, _super);
     function Enemy() {
         _super.call(this);
-        this.initialize();
     }
     var d = __define,c=Enemy,p=c.prototype;
-    p.initialize = function (options) {
-        _super.prototype.initialize.call(this, options);
+    p.initialize = function (properties) {
+        _super.prototype.initialize.call(this, properties);
         this._soliders = [];
     };
     p.addSolider = function (solider) {

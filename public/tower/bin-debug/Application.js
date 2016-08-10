@@ -27,7 +27,7 @@ var application;
         appender.setLayout(layout);
         logger.addAppender(appender);
         Utility.takeOverConsole(logger);
-        application.dao = new Dao(application.baseUrl + "api/", application.game);
+        application.dao = new Dao(application.baseUrl + "api/");
         application.channel = Channel.create();
         application.characters = Character.createAll();
         application.pool = new EntityPool();

@@ -45,7 +45,7 @@ var Channel = (function () {
         return Utility.require(file);
     };
     p.rest = function (channel, method, data) {
-        var url = application.baseUrl + "channels/" + method + "?wysj_channel=" + channel;
+        var url = application.baseUrl + "channels/" + method + "?wysj_channel=" + channel + "&game=" + application.game;
         console.log("rest " + url + " " + JSON.stringify(data));
         return application.dao.restWithUrl(url, data);
     };

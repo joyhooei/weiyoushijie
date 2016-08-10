@@ -36,6 +36,8 @@ class Battle extends Entity {
     
     private _selectedObj: Entity;
 
+    private _waves: any;
+
     public constructor() {
         super();
 
@@ -51,8 +53,6 @@ class Battle extends Entity {
         this._toolLayer = this._addLayer();
         
         this.enableSelect(this);
-        
-        this._map = new TiledMap();
     }
 
     public initialize(properties: any) {
@@ -97,7 +97,7 @@ class Battle extends Entity {
                 let y = Math.round(e.localY);
                 if (this._map.walkable(x, y)) {
     	            if (baseClassName == "Hero") {
-    	                <Hero>this._selectedObj.moveTo(x, y);
+    	                (<Hero>this._selectedObj).moveTo(x, y);
     	            }
                 } else {
                     //显示不能放置图片
@@ -126,7 +126,7 @@ class Battle extends Entity {
         let self = this;
 
         return Q.Promise<any>(function(resolve,reject,notify) {
-            self._map.load(self._url, 800, 480).then(function(){
+            TiledMap.load(self._url, 800, 480).then(function(map){
     	         resolve(self);     
     	    }, function(error){
                 reject(error);    
@@ -137,7 +137,7 @@ class Battle extends Entity {
     //增加英雄
     private _addHero() {
         let hero = this._map.getBaseGuardPosition();
-        this._setHero(hero[0],hero[1],this._hero);        
+        this._setHero(hero[0][0],hero[0][1],this._hero);        
     }
 
     //增加塔基
@@ -179,7 +179,7 @@ class Battle extends Entity {
             for(let j = 0; j < group.length; j++) {
                 let sb = group[j];
                 
-                let enemy = (Enemy)application.pool.get(sb[2]);
+                let enemy = <Enemy>application.pool.get(sb[2]);
                 
                 let options = sb[3];
                 options.path = path;
@@ -219,7 +219,7 @@ class Battle extends Entity {
     private _launchNextWave() {
         this._timeToNextWave --;
         if (this._timeToNextWave <= 0) {
-            this.launch(this._currentWave);
+            this._launch(this._currentWave);
             this._currentWave ++;
             this._timeToNextWave = this._timeBetweenWaves;
         }            

@@ -2,10 +2,13 @@ var Base = (function (_super) {
     __extends(Base, _super);
     function Base() {
         _super.call(this);
-        this._tower = null;
         application.battle.enableSelect(this);
     }
     var d = __define,c=Base,p=c.prototype;
+    p.initialize = function (properties) {
+        _super.prototype.initialize.call(this, properties);
+        this._tower = null;
+    };
     p.setTower = function (tower) {
         this._tower = tower;
     };
