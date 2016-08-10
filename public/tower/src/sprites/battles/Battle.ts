@@ -54,6 +54,31 @@ class Battle extends Entity {
         
         this._map = new TiledMap();
     }
+
+    public initialize(properties: any) {
+        this._baseLayer.removeChildren();
+        this._areaLayer.removeChildren();
+        this._objLayer.removeChildren();
+        this._bulletLayer.removeChildren();
+        this._toolLayer.removeChildren();
+
+        this._currentWave = 1;
+        this._timeToNextWave = 1000;
+        this._timeBetweenWaves = 1000;
+
+        this._bases = [];
+
+        this._towers = [];
+        this._soliders = [];
+        this._bullets = [];
+        
+        this._enemies = [];
+        this._cartridges = [];
+
+        this._addBases();
+
+        this._addHero();
+    }
     
     public enableSelect(obj: Entity) {
         obj.touchEnabled = true;
@@ -107,31 +132,6 @@ class Battle extends Entity {
         }); 
     }
 
-    public initialize(options: any) {
-        this._baseLayer.removeChildren();
-        this._areaLayer.removeChildren();
-        this._objLayer.removeChildren();
-        this._bulletLayer.removeChildren();
-        this._toolLayer.removeChildren();
-
-        this._currentWave = 1;
-        this._timeToNextWave = 1000;
-        this._timeBetweenWaves = 1000;
-
-        this._bases = [];
-
-        this._towers = [];
-        this._soliders = [];
-        this._bullets = [];
-        
-        this._enemies = [];
-        this._cartridges = [];
-
-        this._addBases();
-
-        this._addHero();
-    }
-    
     //增加英雄
     private _addHero() {
         let hero = this._map.getBaseGuardPosition();
