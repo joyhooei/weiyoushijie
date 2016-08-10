@@ -1,7 +1,7 @@
 declare var hlmy;
 
 window['onShareTimeline'] = function(){
-	console.error('onShareTimeline');
+	console.info('onShareTimeline');
 	
     application.channel.resolve("");
 }
