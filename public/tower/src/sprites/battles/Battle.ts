@@ -56,6 +56,8 @@ class Battle extends Entity {
     }
 
     public initialize(properties: any) {
+        super.initialize(properties);
+        
         this._baseLayer.removeChildren();
         this._areaLayer.removeChildren();
         this._objLayer.removeChildren();
