@@ -3,10 +3,14 @@ class Base extends Entity {
     
     public constructor() {
         super();
+
+        application.battle.enableSelect(this);
+    }
+
+    public initialize(properties:any) {
+        super.initialize(properties);
         
         this._tower = null;
-        
-        application.battle.enableSelect(this);
     }
     
     public setTower(tower: Tower) {
