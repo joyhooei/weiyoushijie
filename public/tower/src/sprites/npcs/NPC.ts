@@ -14,9 +14,8 @@ class NPC extends MovableEntity {
         super();
         
         this._hp = new Hp();
-        this._hp.x = 0;
-        this._hp.y = 0;
         this._hp.width = 18;
+        this._hp.horizontalCenter = 0;
         this.addChild(this._hp);
     }
     
