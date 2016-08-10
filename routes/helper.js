@@ -172,7 +172,7 @@ function _saveModel(model, modelName, restfulName, req, res, options) {
 	_.each(model.attributes, function(value, key) {
 		if (_.isNumber(value)) {
 			if (_.has(req.body, key)) {
-				model.set(key, parseInt(req.body[key]));
+				model.set(key, +req.body[key]);
 			}
 		} else if (_.isString(value)) {
 			if (_.has(req.body, key)) {
