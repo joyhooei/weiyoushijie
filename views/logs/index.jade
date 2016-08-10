@@ -26,7 +26,6 @@ block main
 							th 版本
 							th 链接
 							th 信息
-							th 异常
 							th
 					tbody
 						- each log in logs
@@ -35,7 +34,6 @@ block main
 								td= log.get('version')
 								td(style="word-wrap: break-word;")= log.get('url')
 								td(style="word-wrap: break-word;")= log.get('message')
-								td(style="word-wrap: break-word;")= log.get('exception')
 								td.center
 									a(class="rest btn btn-danger", href="/logs/#{log.id}?game=#{game}", data-method="DELETE")
 										i(class="halflings-icon white trash")
