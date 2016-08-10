@@ -70,7 +70,7 @@ class Customer {
         self.attrs.earned_gold = Math.max(0,self.attrs.earned_gold);
         self.attrs.accumulated_gold = Math.max(self.attrs.accumulated_gold, self.attrs.gold);
         self.attrs.diamond = Math.max(0, self.attrs.diamond);
-        self.attrs.metal = 0 + (new Number(self.attrs.metal).toFixed(3));
+        self.attrs.metal = + (new Number(self.attrs.metal).toFixed(3));
         application.dao.save("Customer", self.attrs).then(function(customer){
             if (customer.charge != oldCharge) {
                 self.vip = Vip.create(customer.charge);
