@@ -33,9 +33,19 @@ class Entity extends egret.Sprite {
 	}
 	
 	/**初始化*/
-    public initialize(options?: any):void {
-        this._turn(EntityDirection.east);
-        this._do(EntityState.idle);
+    public initialize(properties: any):void {
+        this._direction = this._get(properties, "direction", EntityDirection.east);
+        this._state 	= this._get(properties, "state", EntityState.idle);
+        this._ticks 	= 0;
+        this._repaint = true;
+    }
+    
+    protected _get(properties: any, name:string, defaultVal:any): any {
+    	if (properties && properties[name]) {
+    		return properties[name];
+    	} else {
+    		return defaultVal;
+    	}
     }
 
 	public dead(): boolean {
