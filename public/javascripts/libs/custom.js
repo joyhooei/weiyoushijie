@@ -78,6 +78,7 @@ $(document).ready(function(){
 
 	/* ---------- Datable ---------- */
 	$('.datatable').dataTable({
+		"bAutoWidth": false,
         "language": {
             "url": "//cdn.datatables.net/plug-ins/9dcbecd42ad/i18n/Chinese.json"
         }
