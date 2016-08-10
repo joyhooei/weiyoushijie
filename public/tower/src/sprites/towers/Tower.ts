@@ -4,22 +4,22 @@ class Tower extends Entity {
     /**射程范围最大半径*/
     private _maxRadius: number = 140;
 
-    /**将圆沿y轴压扁变为椭圆时候的比例*/
-    private _ratioY: number;
-    
     private _fireSpeed: number;
     
     private _lastFireTicks: number;
     
     public constructor() {
         super();
+    }
+    
+    public initialize(properties?:any) {
+        super.initialize(properties);
         
         this._enemy = null;
-        
-        this._fireSpeed = 5;
         this._lastFireTicks = 0;
-
-        this._maxRadius = 50;
+        
+        this._fireSpeed = properties.fireSpeed;
+        this._maxRadius = properties.maxRadius;
     }
     
     protected _idle() {
