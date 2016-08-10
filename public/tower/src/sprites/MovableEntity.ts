@@ -12,6 +12,12 @@ class MovableEntity extends Entity {
 		this._steps = [10, 10];
     }
     
+    public initialize(properties:any) {
+        super.initialize(properties);
+        
+        this._step     = properties.steep;
+    }
+    
     protected _idle() {
         this._do(EntityState.moving);
     }
