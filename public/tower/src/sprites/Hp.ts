@@ -8,16 +8,18 @@ class Hp extends Entity {
 	}
 	
 	public initialize(properties:any) {
-	    this._maxHp = this._get(properties, "maxHp", 100);
+	    this._maxHp = this._get(properties, "hp", 100);
 	    this._hp = this._maxHp;
 	}
 
-	public hitBy(damage:number){
+	public hitBy(damage:number): number{
 	    let hp = Math.max(0, this._hp - damage);
 	    if (hp != this._hp) {
 	        this._hp = hp;
 	        this._repaint = true;
 	    }
+	    
+	    return hp;
 	}
 	
 	protected _paint() {
@@ -34,6 +36,6 @@ class Hp extends Entity {
         
         this.graphics.drawRect(0, 0, percent * this.width, 20);
         
-        this.graphics.endFill();	
+        this.graphics.endFill();
 	}
 }
