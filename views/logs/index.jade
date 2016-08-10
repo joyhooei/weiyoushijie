@@ -31,9 +31,9 @@ block main
 						- each log in logs
 							tr
 								td= log.get('version')
-								td= log.get('message')
-								td= log.get('exception')
-								td= log.get('url')
+								td(style="word-wrap: break-word;")= log.get('message')
+								td(style="word-wrap: break-word;")= log.get('exception')
+								td(style="word-wrap: break-word;")= log.get('url')
 								td.center
 									a(class="rest btn btn-danger", href="/logs/#{log.id}?game=#{game}", data-method="DELETE")
 										i(class="halflings-icon white trash")
