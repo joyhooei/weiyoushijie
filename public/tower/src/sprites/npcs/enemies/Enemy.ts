@@ -3,12 +3,10 @@ class Enemy extends NPC {
     
     public constructor() {
         super();
-        
-        this.initialize();
     }
     
-    public initialize(options?:any) {
-        super.initialize(options);
+    public initialize(properties?:any) {
+        super.initialize(properties);
         
         this._soliders = [];
     }
