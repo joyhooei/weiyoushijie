@@ -1,7 +1,5 @@
 class NPC extends MovableEntity {
-    protected _hp: number;
-    
-    protected _maxHp: number;
+    protected _hp: Hp;
     
     protected _damage: number;
     
@@ -14,13 +12,19 @@ class NPC extends MovableEntity {
 
     public constructor() {
         super();
+        
+        this._hp = new Hp();
+        this._hp.x = 0;
+        this._hp.y = 0;
+        this._hp.width = 18;
+        this.addChild(this._hp);
     }
     
     public initialize(properties:any) {
         super.initialize(properties);
         
-        this._maxHp     = properties.hp;
-        this._hp        = properties.hp;
+        this._hp.initialize(properties);
+        
         this._damage    = properties.damage;
         this._hitSpeed  = properties.hitSpeed;
     }
@@ -46,13 +50,10 @@ class NPC extends MovableEntity {
     }
     
     public hitBy(damage:number) {
-        this._hp -= damage;
-        if (this._hp < 0) {
+        if (this._hp.hitBy(damage) <= 0) {
             this._do(EntityState.dying);
         }
-        
-        this._paintHp();
-        
+
         if (this._state != EntityState.fighting) {
             this._do(EntityState.fighting);
         }
@@ -62,19 +63,10 @@ class NPC extends MovableEntity {
         npc.hitBy(this._damage);
     }
     
-    protected _paintHp() {
-        this.graphics.clear();
+    protected _paint() {
+        super._paint();
         
-        let percent = this._hp / this._maxHp;
-        if (percent >= 0.5) {
-            this.graphics.beginFill(0x00EC00);
-        } else if (percent >= 0.1) {
-            this.graphics.beginFill(0xFFED97);
-        } else {
-            this.graphics.beginFill(0xff0000);
-        }
-        this.graphics.drawRect(0, 0, percent * this.width, 20);
-        this.graphics.endFill();
+        this._hp._paint();
     }
     
     //走一步
