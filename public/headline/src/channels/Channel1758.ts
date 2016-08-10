@@ -1,9 +1,9 @@
 declare var hlmy;
 
 window['onShareTimeline'] = function(){
-	console.log('onShareTimeline');
+	console.error('onShareTimeline');
 	
-    application.channel.resolve();
+    application.channel.resolve("");
 }
 
 class Channel1758 extends ChannelEgret {
