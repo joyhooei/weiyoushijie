@@ -22,18 +22,20 @@ block main
 				table(class="table table-striped table-bordered bootstrap-datatable datatable", style="table-layout: fixed;")
 					thead
 						tr
+							th 时间
 							th 版本
-							th 异常
-							th 信息
 							th 链接
+							th 信息
+							th 异常
 							th
 					tbody
 						- each log in logs
 							tr
+								td= moment(log.createdAt).format("LLL")
 								td= log.get('version')
+								td(style="word-wrap: break-word;")= log.get('url')
 								td(style="word-wrap: break-word;")= log.get('message')
 								td(style="word-wrap: break-word;")= log.get('exception')
-								td(style="word-wrap: break-word;")= log.get('url')
 								td.center
 									a(class="rest btn btn-danger", href="/logs/#{log.id}?game=#{game}", data-method="DELETE")
 										i(class="halflings-icon white trash")
