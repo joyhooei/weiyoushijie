@@ -1,7 +1,3 @@
-//https://github.com/bgrins/javascript-astar
-declare Graph;
-declare astar;
-
 enum TileType {
     wall = 0,
     path,
