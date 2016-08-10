@@ -27,6 +27,8 @@ class Entity extends egret.Sprite {
     protected _direction: EntityDirection;
     
     protected _repaint: boolean;
+    
+    protected _mc: egret.MovieClip;
 
     public constructor() {
         super();
@@ -99,10 +101,11 @@ class Entity extends egret.Sprite {
     protected _paint() {
     	if (this._repaint) {
 	    	let mc = application.characters[egret.getQualifiedClassName(this)].getMC(this._direction, this._state);
-	    	if (mc) {
-		    	this.removeChildren();
-		    	this.addChild(mc);
+	    	if (mc && mc != this._mc) {
+		    	this.removeChild(this._mc);
+		    	this._mc = mc;
 		    	
+		    	this.addChild(mc);
 		    	mc.start();
 	    	}
 	    	
