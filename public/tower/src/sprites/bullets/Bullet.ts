@@ -12,6 +12,12 @@ class Bullet extends MovableEntity {
         this._missing = false;
     }
     
+    public initialize(properties:any) {
+        super.initialize(properties);
+        
+        this._damage = properties.damage;
+    }
+    
     public setTarget(target: NPC) {
         this._target = target;
     }
