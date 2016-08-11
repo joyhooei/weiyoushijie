@@ -27,6 +27,9 @@ class BuildTowerUI extends AbstractUI{
     }
     
     private _addTower(name:string, options?:any) {
-        this._base.setTower(application.pool.get(name, options));
+        let tower = application.pool.get(name, options);
+        tower.x = this._base.x;
+        tower.y = this._base.y;
+        this._base.setTower(tower);
     }
 }
