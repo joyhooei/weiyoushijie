@@ -19,11 +19,8 @@ class Bullet extends MovableEntity {
     }
     
     public setTarget(target: NPC) {
+        this.moveTo(target.x, target.y);
         this._target = target;
-        
-        if (this._paths.length != 2 || this._paths[1][0] != target.x || this._paths[1][1] != target.y)) {
-            this.setPaths([[this.x, this.y], [target.x, target.y]]);
-        }
     }
     
     protected _moving() {
@@ -38,7 +35,8 @@ class Bullet extends MovableEntity {
                 
             this._do(EntityState.dying);
         } else {
-            this.setTarget(this._target);
+            //如果目标移动，重新调整方向和路径
+            this.moveTo(this._target.x, this._target.y);
         }
     }
     
