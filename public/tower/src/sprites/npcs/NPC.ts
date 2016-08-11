@@ -33,34 +33,30 @@ class NPC extends MovableEntity {
     public getAltitude(): number {
         return _altitude;
     }
-
-    protected _stateChanged(oldState:EntityState, newState:EntityState) {
-        if (newState == EntityState.moving) {
-            let path:number[] = this._paths[this._path];
-            this._turn(this._direction8(path[0], path[1]));
+    
+    public kill() {
+        this._hp.kill();
+        this._do(EntityState.dying);
+    }
+    
+    public hitBy(damage:number) {
+        if (this._hp.hitBy(damage) <= 0) {
+            this._do(EntityState.dying);
+        } else {
+            this._do(EntityState.fighting);
         }
-        
-        super._stateChanged(oldState, newState);
+    }
+    
+    public hit(npc: NPC) {
+        if (!npc.dying() && !npc.dead()) {
+            npc.hitBy(this._damage);
+        }
     }
 
     protected _dying() {
         if (this._ticks >= 5) {
             this._do(EntityState.dead);
         }
-    }
-    
-    public hitBy(damage:number) {
-        if (this._hp.hitBy(damage) <= 0) {
-            this._do(EntityState.dying);
-        }
-
-        if (this._state != EntityState.fighting) {
-            this._do(EntityState.fighting);
-        }
-    }
-    
-    protected _hit(npc: NPC) {
-        npc.hitBy(this._damage);
     }
     
     protected _paint() {
