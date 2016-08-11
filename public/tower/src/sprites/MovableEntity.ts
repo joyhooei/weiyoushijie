@@ -25,8 +25,8 @@ class MovableEntity extends Entity {
     public initialize(properties:any) {
         super.initialize(properties);
         
-        this._step      = this.get(properties, "step", 10);
-        this._idleTicks = this.get(properties, "idleTicks", 0);
+        this._step       = this.get(properties, "step", 10);
+        this._idleTicks  = this.get(properties, "idleTicks", 0);
         this._dyingTicks = this.get(properties, "idleTicks", 5);
         
         this._paths = [];
@@ -59,14 +59,18 @@ class MovableEntity extends Entity {
 		   		
 	        this._path ++;
 	        
-	        path = this._paths[this._path];
-	        this._turn(this._direction8(path[0], path[1]));
-	        this._computeSteps(path[0], path[1]);
+	        this._readToMove();
 	        
 	        return true;
     	} else {
     		return false;
     	}
+    }
+    
+    private _readToMove() {
+        let path = this._paths[this._path];
+        this._turn(this._direction8(path[0], path[1]));
+        this._computeSteps(path[0], path[1]);    	
     }
     
     //走一步，true表示已经到了终点
@@ -110,6 +114,14 @@ class MovableEntity extends Entity {
 
 	   	this._delta] = [stepX, stepY];
 		this._steps = 0;
+    }
+    
+    protected _stateChanged(oldState: EntityState, newState: EntityState) {
+    	if (newState == EntityState.moving && oldState != EntityState.idle) {
+    		this._readToMove();
+    	}
+    	
+    	super._stateChanged(oldState, newState);
     }
     
     protected _idle() {
