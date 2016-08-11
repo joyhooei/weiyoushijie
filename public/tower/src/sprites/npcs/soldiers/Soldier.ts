@@ -24,15 +24,7 @@ class Soldier extends NPC {
         
         this._guardAltitude = this._get(properties, 'guardAltitude', [-1, 0]);
     }
-    
-    protected _stateChanged(oldState:EntityState, newState:EntityState) {
-        if (newState == EntityState.guarding) {
-            this._turn(this._direction8(this._guardX, this._gradeY));
-        }
-        
-        super._stateChanged(oldState, newState);
-    }
-    
+
     protected _moving() {
         if (this._moveOneStep()) {
             if (this._enemy) {
@@ -48,9 +40,9 @@ class Soldier extends NPC {
     }
 
     protected _fighting() {
-        if (this._state % this._hitSpeed == 0) {
+        if (this._ticks % this._hitSpeed == 0) {
             this._enemy.hitBy(this._damage);
-            if (this._enemy.dying() && !this._findEnemy()) {
+            if ((this._enemy.dying() || this._enemy.dead()) && !this._findEnemy()) {
                 this.moveTo(this._guardX, this._gradeY);
             }
         }
