@@ -99,7 +99,7 @@ class Entity extends egret.Sprite {
     
     //根据状态、面向修改重新渲染
     protected _paint() {
-    	if (this._repaint) {
+    	if (this._repaint && this._state != EntityState.idle && this._state != EntityState.dead) {
 	    	let mc = application.characters[egret.getQualifiedClassName(this)].getMC(this._direction, this._state);
 	    	if (mc && mc != this._mc) {
 		    	this.removeChild(this._mc);
