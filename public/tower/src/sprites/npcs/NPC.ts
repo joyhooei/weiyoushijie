@@ -24,15 +24,13 @@ class NPC extends MovableEntity {
         
         this._hp.initialize(properties);
         
-        this._damage    = properties.damage;
-        this._hitSpeed  = properties.hitSpeed;
+        this._damage    = this._get(properties, "damage", 10);
+        this._hitSpeed  = this._get(properties, "hitSpeed", 10);
+        
+        this._paths     = this._get(properties, "paths", []]);;
+        this._path = 0;
     }
 
-    public setPaths(paths:number[][]) {
-        this._paths = paths;
-        this._path  = 0;
-    }
-    
     protected _stateChanged(oldState:EntityState, newState:EntityState) {
         if (newState == EntityState.moving) {
             let path:number[] = this._paths[this._path];
