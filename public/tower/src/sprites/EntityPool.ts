@@ -5,7 +5,7 @@ class EntityPool {
         this._objs = new Array<Entity>();
     }
     
-    public get(className:string, properties?any): Entity {
+    public get(className:string, options?any): Entity {
         let obj:Entity = null;
         for(let i = 0; i < this._objs.length; i++) {
             obj = this._objs[i];
@@ -20,9 +20,16 @@ class EntityPool {
             obj.constructor.apply(obj);
         }
         
-        if (properties) {
-            obj.initialize(properties);
+        let properties = application.characters[className].getProperties() || {};
+        if (options) {
+           for (var key in options) {
+              if (options.hasOwnProperty(key)) {
+                 properties[key] = options[key];
+              }
+           }
         }
+        
+        obj.initialize(properties);
         
         return obj;
     }
