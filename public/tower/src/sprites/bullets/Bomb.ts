@@ -63,16 +63,20 @@ class Bomb extends Bullet {
             var disy: number = this.y - this._target.y < 0 ? this._target.y - this.y : this.y - this._target.y;
     
             if(disx <= this._delta[0] && disy < this._delta[1]) {
-                let enemies = application.map.findEnemies(this.x, this.y, this._hitRadius, [0]);
-                for (let i = 0; i < enemies.length; i++) {
-                    enemies[i].hitBy(this._damage);
-                }
+                this._hitTarget();
                 
                 return true;
             } 
         }
         
         return false;
+    }
+    
+    protected _hitTarget() {
+        let enemies = application.map.findEnemies(this.x, this.y, this._hitRadius, [0]);
+        for (let i = 0; i < enemies.length; i++) {
+            enemies[i].hitBy(this._damage);
+        }    	
     }
     
     protected _computeSteps(x:number, y:number) {
