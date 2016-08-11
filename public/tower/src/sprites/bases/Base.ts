@@ -1,7 +1,9 @@
 class Base extends Entity {
     protected _tower: Tower;
     
-    protected _guardLocation: number[];
+    protected _guardX: number;
+    
+    protected _guardY: number;
     
     public constructor() {
         super();
@@ -12,12 +14,22 @@ class Base extends Entity {
     public initialize(properties:any) {
         super.initialize(properties);
         
-        this._guardLocation = this._get(properties, "guardLocation", [100, 100]);
+        this._guardX = this._get(properties, "guardX", 0);
+        this._guardY = this._get(properties, "guardY", 0);
+        
         this._tower = null;
     }
     
+    public getGuardX(): number {
+        return this._guradX;
+    }
+    
+    public getGuardY(): number {
+        return this._guardY;
+    }
+    
     public setTower(tower: Tower) {
-        this._tower = tower;
+        this._tower = tower;)
     }
     
     public select(again:boolean) {
