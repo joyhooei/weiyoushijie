@@ -28,22 +28,16 @@ class Bomb extends Bullet {
     }
     
     public setTarget(target: NPC) {
-        this._target = target;
-        
-        this._computeSteps(this._target.x, this._target.y);
-        
         this._initX = this.x;
         this._initY = this.y;
+        
+        super.setTarget(target);
     }
     
-    protected _moving() {
-        if (this._moveOneStep()) {
-            this._do(EntityState.dying);
-        } else {
-            this._computeSteps(this._target.x, this._target.y);
-        }
+    public moveTo(x: number, y: number) {
+    	this._computeSteps(this._target.x, this._target.y);
     }
-    
+
     protected _moveOneStep():boolean {
         this._flyTicks += 0.5;
         
