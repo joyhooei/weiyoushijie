@@ -5,7 +5,7 @@ class Enemy extends NPC {
         super();
     }
     
-    public initialize(properties?:any) {
+    public initialize(properties:any) {
         super.initialize(properties);
         
         this._soliders = [];
@@ -13,10 +13,7 @@ class Enemy extends NPC {
     
     public addSolider(solider: Soldier) {
         this._soliders.push(solider);
-        
-        if (this._state == EntityState.moving) {
-            this._do(EntityState.guarding);
-        }
+        this._do(EntityState.guarding);
     }
     
     public totalSoliders(): number {
@@ -34,31 +31,19 @@ class Enemy extends NPC {
             this._do(EntityState.moving);
         }
     }
-    
-    protected _stateChanged(oldState:EntityState, newState:EntityState) {
-        if (newState == EntityState.guarding) {
-            this._turn(this._direction8(this._soliders[0].x, this._soliders[0].y));
-        }
-        
-        super._stateChanged(oldState, newState);
-    }
-    
+
     protected _moving() {
         if (this._moveOneStep()) {
             application.battle.incLives(-1);
-            
+
             this._do(EntityState.dead);
         }
     }
 
     protected _fighting() {
         if (this._ticks % this._hitSpeed == 0) {
-            this._soliders[0].hitBy(this._damage);
-            if (this._soliders[0].dying() || this._soliders[0].dead()) {
-                this._soliders.splice(0, 1);
-                if (this._soliders.length == 0) {
-                    this._do(EntityState.moving);
-                }
+            if (this._soliders[0].hitBy(this._damage)) {
+                this.rmvSolider(this._soliders[0]);
             }
         }
     }
