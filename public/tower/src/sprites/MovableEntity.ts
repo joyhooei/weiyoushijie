@@ -29,14 +29,16 @@ class MovableEntity extends Entity {
     }
     
     public setPaths(paths: number[][]) {
-   		this.x = paths[0][0];
-   		this.y = paths[0][1];
-   		
-    	this._turn(this._direction8(paths[1][0], paths[1][1]));
-    	this._computeSteps(paths[1][0], paths[1][1]);
-    	
-    	this._path = 1;
-    	this._paths = paths;
+    	if (paths.length >= 2) {
+	   		this.x = paths[0][0];
+	   		this.y = paths[0][1];
+	   		
+	    	this._turn(this._direction8(paths[1][0], paths[1][1]));
+	    	this._computeSteps(paths[1][0], paths[1][1]);
+	    	
+	    	this._path = 1;
+	    	this._paths = paths;
+    	}
     }
     
     protected _idle() {
