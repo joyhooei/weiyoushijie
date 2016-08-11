@@ -29,6 +29,8 @@ class NPC extends MovableEntity {
         
         this._paths     = this._get(properties, "paths", []]);;
         this._path = 0;
+        
+        this._idleTicks = Math.random() * 100;
     }
 
     protected _stateChanged(oldState:EntityState, newState:EntityState) {
