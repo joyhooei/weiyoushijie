@@ -28,7 +28,6 @@ class Soldier extends NPC {
     protected _moving() {
         if (this._moveOneStep()) {
             if (this._enemy) {
-                this._turn(this._direction8(this._enemy.x, this._enemy.y));
                 this._do(EntityState.fighting);
             } else {
                 this._do(EntityState.guarding);
@@ -37,25 +36,45 @@ class Soldier extends NPC {
     }
     
     protected _guarding() {
-        this._findEnemy();
+        let enemy = this._findEnemy();
+        if (enemy) {
+            this._fightWith(enemy);
+        }
+    }
+    
+    private _fightWith(enemy:Enemy) {
+        if (this._enemy) {
+            this._enemy.rmvSolider(this);
+        }
+        
+        this._enemy = enemy;
+        
+        this.moveTo(this._enemy.x, this._enemy.y);
+        this._enemy.addSolider(this);
     }
 
     protected _fighting() {
         if (this._ticks % this._hitSpeed == 0) {
-            this._enemy.hitBy(this._damage);
-            if ((this._enemy.dying() || this._enemy.dead()) && !this._findEnemy()) {
-                this.moveTo(this._guardX, this._gradeY);
+            this._enemy._do(EntityState.fighting);
+            
+            if (this._enemy.hitBy(this._damage)) {
+                let enemy = this._findEnemy();
+                if (enemy) {
+                    this._fightWith(enemy);
+                } else {
+                    this.moveTo(this._guardX, this.guardY);
+                    this._do(EntityState.moving);
+                }
+            } else (this._enemy.totalSoliders() > 1) {
+                let enemy = this._findEnemy();
+                if (enemy && enemy.totalSoliders() == 0) {
+                    this._fightWith(enemy);
+                }
             }
         }
     }
     
     private _findEnemy(): Enemy {
-        this._enemy = application.battle.findEnemy(this.x, this.y, this._guardRadius, this._guardAltitude);
-        if (this._enemy) {
-            this.moveTo(this._enemy.x,this._enemy.y);
-            this._enemy.addSolider(this);
-        }
-        
-        return this._enemy;
+        return application.battle.findEnemy(this.x, this.y, this._guardRadius, this._guardAltitude);
     }
 }
