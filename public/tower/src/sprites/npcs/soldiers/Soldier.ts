@@ -1,7 +1,10 @@
 class Soldier extends NPC {
     private _guardX: number;
     private _gradeY: number;
+    
     private _guardRadius: number;
+    
+    private _guardAltitude: numbers;
 
     private _enemy: Enemy;
     
@@ -14,9 +17,12 @@ class Soldier extends NPC {
         
         this._enemy = null;
 
-        this._guardX = 0;
-        this._gradeY = 0;
-        this._guardRadius = 10;
+        this._guardX = this._get(properties, 'guardX', 0);
+        this._gradeY = this._get(properties, 'guardY', 0);
+        
+        this._guardRadius = this._get(properties, 'guardRadius', 10);
+        
+        this._guardAltitude = this._get(properties, 'guardAltitude', [-1, 0]);
     }
     
     protected _stateChanged(oldState:EntityState, newState:EntityState) {
@@ -56,7 +62,7 @@ class Soldier extends NPC {
     }
     
     private _findEnemy(): Enemy {
-        this._enemy = application.battle.findEnemy(this.x, this.y, this._guardRadius);
+        this._enemy = application.battle.findEnemy(this.x, this.y, this._guardRadius, this._guardAltitude);
         if (this._enemy) {
             this.moveTo(this._enemy.x,this._enemy.y);
             this._enemy.addSolider(this);
