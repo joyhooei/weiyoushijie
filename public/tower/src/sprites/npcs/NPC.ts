@@ -9,6 +9,9 @@ class NPC extends MovableEntity {
     protected _paths: number[][];
     //当前路径
     protected _path: number;
+    
+    //海拔高度，地表：0，地下：-1，空中：1
+    protected _altitude: number;
 
     public constructor() {
         super();
@@ -27,7 +30,9 @@ class NPC extends MovableEntity {
         this._damage    = this._get(properties, "damage", 10);
         this._hitSpeed  = this._get(properties, "hitSpeed", 10);
         
-        this._paths     = this._get(properties, "paths", []]);;
+        this._altitude  = this._get(properties, "altitude", 0);
+        
+        this._paths     = this._get(properties, "paths", []]);
         this._path = 0;
         
         this._idleTicks = Math.random() * 100;
