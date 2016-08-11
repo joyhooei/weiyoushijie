@@ -39,26 +39,16 @@ class NPC extends MovableEntity {
         this._do(EntityState.dying);
     }
     
-    public hitBy(damage:number) {
+    public hitBy(damage:number): boolean {
         if (this._hp.hitBy(damage) <= 0) {
             this._do(EntityState.dying);
+            
+            return true;
         } else {
-            this._do(EntityState.fighting);
-        }
-    }
-    
-    public hit(npc: NPC) {
-        if (!npc.dying() && !npc.dead()) {
-            npc.hitBy(this._damage);
+            return false;
         }
     }
 
-    protected _dying() {
-        if (this._ticks >= 5) {
-            this._do(EntityState.dead);
-        }
-    }
-    
     protected _paint() {
         super._paint();
         
