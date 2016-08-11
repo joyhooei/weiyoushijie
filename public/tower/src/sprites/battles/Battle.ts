@@ -226,10 +226,10 @@ class Battle extends Entity {
         }        
     }
 
-    public findEnemy(x: number, y: number, radius: number) : Enemy {
+    public findEnemy(x: number, y: number, radius: number, altitudes: number[]) : Enemy {
         var enemy = null;
         for(var i = 0; i < this._enemies.length; i++) {
-            if (this._enemies[i].intersect(x, y, radius)){
+            if ((this._enemies[i].getAltitude() in altitudes) && this._enemies[i].intersect(x, y, radius)){
                 if (this._enemies[i].totalSoliders() == 0) {
                     return this._enemies[i];
                 } else {
