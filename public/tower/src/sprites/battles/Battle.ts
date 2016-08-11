@@ -11,7 +11,7 @@ class Battle extends Entity {
     private _toolLayer: egret.Sprite;
 
     //己方
-    private _hero:      Hero;
+    private _heros:     Hero[];
     private _bases:     Base[];
     private _towers:    Tower[];
     private _soliders:  Soldier[];
@@ -79,7 +79,7 @@ class Battle extends Entity {
 
         this._addBases();
 
-        this._addHero();
+        this._addHeros();
     }
     
     public enableSelect(obj: Entity) {
@@ -127,27 +127,26 @@ class Battle extends Entity {
 
         return Q.Promise<any>(function(resolve,reject,notify) {
             TiledMap.load(self._url, 800, 480).then(function(map){
-    	         resolve(self);     
+                self._map = map;
+    	        resolve(self);     
     	    }, function(error){
-                reject(error);    
+                reject(error);
             })
         }); 
     }
 
     //增加英雄
-    private _addHero() {
-        let hero = this._map.getBaseGuardPosition();
-        this._setHero(hero[0][0],hero[0][1],this._hero);        
+    protected _addHeros() {
     }
 
     //增加塔基
     private _addBases() {
-        let bases = this._map.getBasePositions();
+        let bases = this._map.getBases();
         
         for(let i = 0; i < bases.length; i++) {
-            let entity = application.pool.get("Base");
-            this._addBase(bases[i][0], bases[i][1], <Base>entity);
-        }        
+            let base = <Base>application.pool.get("Base", {"guardLocation": [bases[i][2], bases[i][3]]});
+            this._addBase(bases[i][0], bases[i][1], base);
+        }
     }
 
     protected _addWaveEnemy(wave:number, entrance:number, exit:number, className:string, options:{}) {
