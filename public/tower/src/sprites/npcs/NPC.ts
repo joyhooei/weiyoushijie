@@ -31,11 +31,15 @@ class NPC extends MovableEntity {
         this._hitSpeed  = this._get(properties, "hitSpeed", 10);
         
         this._altitude  = this._get(properties, "altitude", 0);
-        
+
         this._paths     = this._get(properties, "paths", []]);
         this._path = 0;
         
         this._idleTicks = Math.random() * 100;
+    }
+    
+    public getAltitude(): number {
+        return _altitude;
     }
 
     protected _stateChanged(oldState:EntityState, newState:EntityState) {
