@@ -8,9 +8,7 @@ class Battle1 extends Battle {
     //增加英雄
     protected _addHeros() {
         let heros = this._map.getHeros();
-        for(let i = 0; i < heros.length; i ++) {
-            this._addHero(heros[i][0], heros[i][1], <MonkeyKing>application.pool.get("MonkeyKing"));
-    	}
+        this._addHero(heros[0][0], heros[0][1], <MonkeyKing>application.pool.get("MonkeyKing"));
     }
     
     protected _addStandbys() {
@@ -27,7 +25,8 @@ class Battle1 extends Battle {
         
         for(let i = 0; i < waves.length; i++) {
             let wave = waves[i];
-            this._addWaveStandbys(wave[0], wave[2], wave[3], paths[wave[1]]);
+            
+            this._addWaveStandbys(wave[0], wave[1], wave[2], paths[wave[3]]);
         }
     }
 }
