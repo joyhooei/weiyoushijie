@@ -5,6 +5,8 @@ class MovableEntity extends Entity {
     //等待多少时间开始显示
     protected _idleTicks: number;
     
+    protected _dyingTicks:number;
+    
     //所有路径
     protected _paths: number[][];
     //当前路径
@@ -25,6 +27,7 @@ class MovableEntity extends Entity {
         
         this._step      = this.get(properties, "step", 10);
         this._idleTicks = this.get(properties, "idleTicks", 0);
+        this._dyingTicks = this.get(properties, "idleTicks", 5);
         
         this._paths = [];
         this._path  = 0;
@@ -114,4 +117,10 @@ class MovableEntity extends Entity {
         	this._do(EntityState.moving);
     	}
     }
+    
+    protected _dying() {
+        if (this._ticks > this._dyingTicks) {
+            this._do(EntityState.dead);
+        }
+    }    
 }
