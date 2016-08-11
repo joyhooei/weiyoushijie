@@ -150,7 +150,7 @@ class Battle extends Entity {
         let bases = this._map.getBases();
         
         for(let i = 0; i < bases.length; i++) {
-            let base = <Base>application.pool.get("Base", {"guardLocation": [bases[i][2], bases[i][3]]});
+            let base = <Base>application.pool.get("Base", {"guardX": bases[i][2], "guardY": bases[i][3]});
             this._addBase(bases[i][0], bases[i][1], base);
         }
     }
