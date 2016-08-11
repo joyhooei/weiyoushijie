@@ -1,5 +1,7 @@
 class Base extends Entity {
-    private _tower: Tower;
+    protected _tower: Tower;
+    
+    protected _guardLocation: number[];
     
     public constructor() {
         super();
@@ -10,6 +12,7 @@ class Base extends Entity {
     public initialize(properties:any) {
         super.initialize(properties);
         
+        this._guardLocation = this._get(properties, "guardLocation", [100, 100]);
         this._tower = null;
     }
     
