@@ -120,7 +120,7 @@ class Entity extends egret.Sprite {
     }
     
     protected _getMC(): egret.MovieClip {
-    	return application.characters[egret.getQualifiedClassName(this)].getMC(this._direction, this._state);
+    	return application.characters[egret.getQualifiedClassName(this)].getMC(0);
     }
     
     protected _do(state:EntityState) {
