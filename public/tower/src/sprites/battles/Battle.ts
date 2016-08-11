@@ -222,6 +222,18 @@ class Battle extends Entity {
         }        
     }
 
+    public findEnemies(x: number, y: number, radius: number, altitudes: number[]) : Enemy {
+        var enemies = [];
+        
+        for(var i = 0; i < this._enemies.length; i++) {
+            if ((this._enemies[i].getAltitude() in altitudes) && this._enemies[i].intersect(x, y, radius)){
+                enemies.push(this._enemies[i]);
+            }
+        }
+        
+        return enemies;
+    }
+
     public findEnemy(x: number, y: number, radius: number, altitudes: number[]) : Enemy {
         for(var i = 0; i < this._enemies.length; i++) {
             if ((this._enemies[i].getAltitude() in altitudes) && this._enemies[i].intersect(x, y, radius)){
