@@ -17,17 +17,17 @@ class Battle1 extends Battle {
         let paths = this._map.getPaths();
         
         let waves = [
-            [0, 0, "Enemy", 10],
+            [0, "Enemy", 10, 0],
             
-            [1, 1, "Enemy", 10],
+            [1, "Enemy", 10, 10],
             
-            [2, 0, "Enemy", 10],
-            [2, 1, "Enemy", 10],
+            [2, "Enemy", 10, 0],
+            [2, "Enemy", 10, 1],
         ];
         
         for(let i = 0; i < waves.length; i++) {
             let wave = waves[i];
-            this._addWaveStandbys(wave[0], paths[wave[1]], wave[2], wave[3]);
+            this._addWaveStandbys(wave[0], wave[2], wave[3], paths[wave[1]]);
         }
     }
 }
