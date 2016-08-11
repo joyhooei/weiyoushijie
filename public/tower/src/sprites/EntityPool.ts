@@ -19,7 +19,7 @@ class EntityPool {
             obj = <Entity>Object.create(window[className].prototype);
             obj.constructor.apply(obj);
         }
-        
+
         let properties = application.characters[className].getProperties() || {};
         if (options) {
            for (var key in options) {
