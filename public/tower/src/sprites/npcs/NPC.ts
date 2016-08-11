@@ -4,12 +4,7 @@ class NPC extends MovableEntity {
     protected _damage: number;
     
     protected _hitSpeed: number;
-    
-    //所有路径
-    protected _paths: number[][];
-    //当前路径
-    protected _path: number;
-    
+
     //海拔高度，地表：0，地下：-1，空中：1
     protected _altitude: number;
 
@@ -32,9 +27,6 @@ class NPC extends MovableEntity {
         
         this._altitude  = this._get(properties, "altitude", 0);
 
-        this._paths     = this._get(properties, "paths", []]);
-        this._path = 0;
-        
         this._idleTicks = Math.random() * 100;
     }
     
@@ -76,24 +68,4 @@ class NPC extends MovableEntity {
         
         this._hp._paint();
     }
-    
-    //走一步
-    protected _moveOneStep(): boolean {
-        var path = this._paths[this._path];
-        if (Math.abs(this.x - path[0]) < this._step && Math.abs(this.y - path[1]) < this._step) {
-            if (this._path >= this._paths.length - 1) {
-                //到达终点
-                return true;
-            }
-            
-            this._path ++;
-            
-            path = this._paths[this._path];
-            this._turn(this._direction8(path[0], path[1]));
-            
-            this._computeSteps(path[0], path[1]);
-        }
-        
-        return super._moveOneStep();
-    }    
 }
