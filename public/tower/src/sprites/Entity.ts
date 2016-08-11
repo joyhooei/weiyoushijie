@@ -114,7 +114,7 @@ class Entity extends egret.Sprite {
     }
     
     protected _do(state:EntityState) {
-    	if (state != this._state) {
+    	if (state != this._state && this._state != EntityState.dead) {
 	    	this._stateChanged( this._state, state);
 	    	
 	    	this._ticks = 0;
