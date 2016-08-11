@@ -40,6 +40,18 @@ class Bullet extends MovableEntity {
         }
     }
     
+    protected _paint() {
+        if (this._missing) {
+            this._paintMissing();
+        } else {
+            super._paint();
+        }
+    }
+    
+    protected _paintMissing() {
+        super._paint();
+    }
+    
     protected _dying() {
         if (this._ticks > 3) {
             this._do(EntityState.dead);
