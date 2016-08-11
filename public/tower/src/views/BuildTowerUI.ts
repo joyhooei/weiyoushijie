@@ -18,7 +18,7 @@ class BuildTowerUI extends AbstractUI{
         },this);
 
         this.imgSoliderTower.addEventListener(egret.TouchEvent.TOUCH_BEGIN, function(ev){
-            this._addTower("SoliderTower");
+            this._addTower("SoliderTower", {"guardX", this._base.getGuardX(), "guardY", this._base.getGuardY()});
         },this);
 
         this.imgMagicTower.addEventListener(egret.TouchEvent.TOUCH_BEGIN, function(ev){
@@ -26,7 +26,7 @@ class BuildTowerUI extends AbstractUI{
         },this);        
     }
     
-    private _addTower(name) {
-        this.setTower(application.pool.get(name));
+    private _addTower(name:string, options?:any) {
+        this.setTower(application.pool.get(name, options));
     }
 }
