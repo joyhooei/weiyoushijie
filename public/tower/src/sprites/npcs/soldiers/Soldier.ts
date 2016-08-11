@@ -28,6 +28,7 @@ class Soldier extends NPC {
     protected _moving() {
         if (this._moveOneStep()) {
             if (this._enemy) {
+                this._turn(this._direction8(this._enemy.x, this._enemy.y));
                 this._do(EntityState.fighting);
             } else {
                 this._do(EntityState.guarding);
