@@ -29,7 +29,7 @@ class Base extends Entity {
     }
     
     public setTower(tower: Tower) {
-        this._tower = tower;)
+        this._tower = tower;
     }
     
     public select(again:boolean) {
