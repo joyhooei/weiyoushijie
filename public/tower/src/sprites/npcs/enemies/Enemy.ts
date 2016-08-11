@@ -14,6 +14,8 @@ class Enemy extends NPC {
     public addSolider(solider: Soldier) {
         this._soliders.push(solider);
         this._do(EntityState.guarding);
+        
+        this._turn(this._direction8(this._soliders[0].x, this._soliders[0].y));
     }
     
     public totalSoliders(): number {
@@ -29,6 +31,8 @@ class Enemy extends NPC {
         
         if (this._soliders.length == 0) {
             this._do(EntityState.moving);
+        } else {
+            this._turn(this._direction8(this._soliders[0].x, this._soliders[0].y));
         }
     }
 
