@@ -41,6 +41,14 @@ class MovableEntity extends Entity {
     	}
     }
     
+    public moveTo(x:number, y:number) {
+        if (this._paths.length != 2 || this._paths[1][0] != x || this._paths[1][1] != y)) {
+            this.setPaths([[this.x, this.y], [x, y]]);
+        }
+
+        this._do(EntityState.moving);
+    }
+    
     protected _idle() {
     	if (this._ticks >= this._idleTicks) {
         	this._do(EntityState.moving);
