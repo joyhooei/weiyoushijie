@@ -2,16 +2,19 @@ class MovableEntity extends Entity {
     //一步走多远
     protected _step: number;
     
-    //一步走的距离    
-    protected _steps: number[];
+    //等待多少时间开始显示
+    protected _idleTicks: number;
     
     //所有路径
     protected _paths: number[][];
-    
     //当前路径
     protected _path: number;
-    
-    protected _idleTicks: number;
+    //当前路径每步走的距离，0表示x方向，1表示y方向
+    protected _delta: number[];
+    //当前路径一共需要走多少步
+    protected _totalSteps: number;
+    //当前路径已经走了多少步
+    protected _steps: number;
     
     public constructor() {
         super();
@@ -20,94 +23,88 @@ class MovableEntity extends Entity {
     public initialize(properties:any) {
         super.initialize(properties);
         
-        this._step     = this.get(properties, "step", 10);
-        this._steps    = [this._step, 0];
-
-        this.setPaths(this._get(properties, "paths", []);
-        
-        this._idleTicks = 0;
-    }
-    
-    public setPaths(paths: number[][]) {
-    	if (paths.length >= 2) {
-	   		this.x = paths[0][0];
-	   		this.y = paths[0][1];
-	   		
-	    	this._turn(this._direction8(paths[1][0], paths[1][1]));
-	    	this._computeSteps(paths[1][0], paths[1][1]);
-	    	
-	    	this._path = 1;
-	    	this._paths = paths;
-    	}
+        this._step      = this.get(properties, "step", 10);
+        this._idleTicks = this.get(properties, "idleTicks", 0);
     }
     
     public moveTo(x:number, y:number) {
         if (this._paths.length != 2 || this._paths[1][0] != x || this._paths[1][1] != y)) {
             this.setPaths([[this.x, this.y], [x, y]]);
         }
-
-        this._do(EntityState.moving);
     }
     
-    protected _idle() {
-    	if (this._ticks >= this._idleTicks) {
-        	this._do(EntityState.moving);
+    public setPaths(paths: number[][]): boolean {
+    	this._path = 0;
+    	this._paths = paths;
+   		
+   		return this._nextPath();
+    }
+    
+    private _nextPath(): boolean {
+    	if (this._path < this._paths.length - 1) {
+	    	let path = this._paths[this._path];
+	    	
+	   		this.x = path[0];
+	   		this.y = path[1];
+		   		
+	        this._path ++;
+	        
+	        path = this._paths[this._path];
+	        this._turn(this._direction8(path[0], path[1]));
+	        this._computeSteps(path[0], path[1]);
+	        
+	        return true;
+    	} else {
+    		return false;
     	}
     }
     
-    //走一步
+    //走一步，true表示已经到了终点
     protected _moveOneStep(): boolean {
-        var path = this._paths[this._path];
-        if (Math.abs(this.x - path[0]) < this._step && Math.abs(this.y - path[1]) < this._step) {
-            if (this._path >= this._paths.length - 1) {
+    	this._steps ++;
+        if (this._steps >= this._totalSteps) {
+            if (!this._nextPath()) {
                 //到达终点
                 return true;
             }
-            
-            this._path ++;
-            
-            path = this._paths[this._path];
-            this._turn(this._direction8(path[0], path[1]));
-            
-            this._computeSteps(path[0], path[1]);
         }
         
-        this.x += this._steps[0];
-        this.y += this._steps[1];
+        this.x += this._delta[0];
+        this.y += this._delta[1];
         
         return false;
     }
 
     //计一步走的距离
-    protected _computeSteps(x:number, y:number) {
+    private _computeSteps(x:number, y:number) {
 	    let stepX = 0;
 	    let stepY = 0;
 	    
 	    let dx = Math.abs(this.x - x);
 	    let dy = Math.abs(this.y - y);
 	    if (dx >= dy) {
-	        stepX = this._step;
-	        if (x < this.x) {
-	            stepX = 0 - stepX;
-	        }
-	        
-	        stepY = dy / (dx / stepX);
-	        if (y < this.y) {
-	            stepY = 0 - stepY;
-	        }
+	    	this._totalSteps = Math.round(dx / this._step);
 	    } else {
-	        stepY = this._step;
-	        if (y < this.y) {
-	            stepY = 0 - stepY;
-	        }
-	        
-	        stepX = dx / (dy / stepY);
-	        if (x < this.x) {
-	            stepX = 0 - stepX;
-	        }
+	    	this._totalSteps = Math.round(dy / this._step);
 	    }
 	    
-	   	this._steps[0] = stepX;
-		this._steps[1] = stepY;
+        stepX = dx / this._totalSteps;
+        if (x < this.x) {
+            stepX = 0 - stepX;
+        }
+        
+        stepY = dy / this._totalSteps;
+        if (y < this.y) {
+            stepY = 0 - stepY;
+        }
+
+	   	this._delta] = [stepX, stepY];
+		this._steps = 0;
+    }
+    
+    protected _idle() {
+    	if (this._ticks >= this._idleTicks) {
+        	this._do(EntityState.moving);
+    	}
     }
 }
