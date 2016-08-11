@@ -18,6 +18,7 @@ class Battle extends Entity {
     private _bullets:   Bullet[];
     
     //敌方
+    private _standbys: Enemy[];
     private _enemies: Enemy[];
     private _cartridges: Bullet[];
     
@@ -34,9 +35,7 @@ class Battle extends Entity {
     
     private _lives: number;
     
-    private _selectedObj: Entity;
-
-    private _waves: any;
+    private _focus: Entity;
 
     public constructor() {
         super();
@@ -53,6 +52,19 @@ class Battle extends Entity {
         this._toolLayer = this._addLayer();
         
         this.enableSelect(this);
+    }
+    
+    public loadResource(options: any): Q.Promise<any> {
+        let self = this;
+
+        return Q.Promise<any>(function(resolve,reject,notify) {
+            TiledMap.load(self._url, 800, 480).then(function(map){
+                self._map = map;
+    	        resolve(self);
+    	    }, function(error){
+                reject(error);
+            })
+        }); 
     }
 
     public initialize(properties: any) {
@@ -80,6 +92,8 @@ class Battle extends Entity {
         this._addBases();
 
         this._addHeros();
+        
+        this._addStandbys();
     }
     
     public enableSelect(obj: Entity) {
@@ -88,25 +102,25 @@ class Battle extends Entity {
     }
     
     private _touch(e:egret.TouchEvent) {
-    	if (this._selectedObj == e.target) {
+    	if (this._focus == e.target) {
     		e.target.select(true);
     	} else {
     	    if (e.target == this) {
-    	        let baseClassName = egret.getQualifiedSuperclassName(this._selectedObj);
+    	        let baseClassName = egret.getQualifiedSuperclassName(this._focus);
     	        let x = Math.round(e.localX);
                 let y = Math.round(e.localY);
                 if (this._map.walkable(x, y)) {
     	            if (baseClassName == "Hero") {
-    	                (<Hero>this._selectedObj).moveTo(x, y);
+    	                (<Hero>this._focus).moveTo(x, y);
     	            }
                 } else {
                     //显示不能放置图片
                     
                 }
     	    } else {
-        		this._selectedObj.deselect();
+        		this._focus.deselect();
         		
-        		this._selectedObj = this;
+        		this._focus = this;
         		e.target.select(false);
     	    }
     	}        
@@ -121,22 +135,14 @@ class Battle extends Entity {
         this.addChild(layer);           
         return layer;
     }
-    
-    public loadResource(options: any): Q.Promise<any> {
-        let self = this;
-
-        return Q.Promise<any>(function(resolve,reject,notify) {
-            TiledMap.load(self._url, 800, 480).then(function(map){
-                self._map = map;
-    	        resolve(self);     
-    	    }, function(error){
-                reject(error);
-            })
-        }); 
-    }
 
     //增加英雄
     protected _addHeros() {
+    }
+    
+    //增加敌人
+    protected _addStandbys() {
+        
     }
 
     //增加塔基
@@ -149,43 +155,22 @@ class Battle extends Entity {
         }
     }
 
-    protected _addWaveEnemy(wave:number, entrance:number, exit:number, className:string, options:{}) {
+    protected _addWaveStandbys(wave:number, className:string, count:number, path:[]) {
         if (this._waves[wave]) {
             this._waves[wave] = [];
         }
         
-        let group = 0
-        for(; group < this._waves[wave].length; group++) {
-            let sbs = this._waves[wave][group];
-            if (sbs && sbs.length > 0 && sbs[0][0] == entrance && sbs[0][1] == exit) {
-                sbs.push([entrance, exit, className, options]);
-                
-                return;
-            }
+        for(let i = 0; i < count; i++) {
+            let enemy = <Enemy>application.pool.get(className, {"path": path});
+            this._waves[wave].push(enemy);
         }
-        
-        this._waves[wave][group] = [[entrance, exit, className, options]];
     }
 
     //发动一波攻击
     private _launch(wave:number) {
-        let groups = this._waves[wave];
-        for(let i = 0; i < groups.length; i++) {
-            let group = groups[i];
-            
-            let path = this._map.getEnemyPath(group[0][0], group[0][1]);
-            
-            for(let j = 0; j < group.length; j++) {
-                let sb = group[j];
-                
-                let enemy = <Enemy>application.pool.get(sb[2]);
-                
-                let options = sb[3];
-                options.path = path;
-                enemy.initialize(options);
-                
-                this.addEnemy(path[0][0], path[0][1], enemy);
-            }
+        for(let i = 0; i < this._waves[wave].length; i++) {
+            let enemy = this._waves[wave][i];
+            this.addEnemy(enemy.x, enemy.y, enemy);
         }
     }
     
