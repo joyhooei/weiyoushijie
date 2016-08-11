@@ -46,12 +46,7 @@ class Soldier extends NPC {
     protected _guarding() {
         this._findEnemy();
     }
-    
-    public moveTo(x:number, y:number) {
-        this.setPaths([[this.x, this.y], [x, y]]);
-        this._do(EntityState.moving);
-    }
-    
+
     protected _fighting() {
         if (this._state % this._hitSpeed == 0) {
             this._enemy.hitBy(this._damage);
