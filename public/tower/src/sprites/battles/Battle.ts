@@ -155,13 +155,16 @@ class Battle extends Entity {
         }
     }
 
-    protected _addWaveStandbys(wave:number, className:string, count:number, path:[]) {
+    protected _addWaveStandbys(wave:number, className:string, count:number, paths:number[][]) {
         if (this._waves[wave]) {
             this._waves[wave] = [];
         }
         
         for(let i = 0; i < count; i++) {
-            let enemy = <Enemy>application.pool.get(className, {"path": path});
+            let properties = application.characters[className].getProperties();
+            properties.paths = paths;
+
+            let enemy = <Enemy>application.pool.get(className, properties);
             this._waves[wave].push(enemy);
         }
     }
