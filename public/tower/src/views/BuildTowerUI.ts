@@ -4,6 +4,8 @@ class BuildTowerUI extends AbstractUI{
     public imgSoliderTower,
     public imgMagicTower;
     
+    private _base: Base;
+    
     constructor(base:Base) {
         super("buildTowerUISkin");
         
@@ -25,6 +27,6 @@ class BuildTowerUI extends AbstractUI{
     }
     
     private _addTower(name) {
-        application.map.addTower(application.pool.get(name));
+        this.setTower(application.pool.get(name));
     }
 }
