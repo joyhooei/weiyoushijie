@@ -14,10 +14,27 @@ class ArrowTower extends Tower {
     }
     
     protected _stateChanged(oldState: EntityState, newState: EntityState) {
+        super._stateChanged(oldState, newState);
+        
         if (newState == EntityState.guarding) {
-            this._solders.push(<Solider>application.pool.get("ArrowSolider", {"guardX": this.x, "guardY": this.y, "guardRadius", this._guardRadius}));
-            this._solders.push(<Solider>application.pool.get("ArrowSolider", {"guardX": this.x, "guardY": this.y, "guardRadius", this._guardRadius}));
+            let solider = this._createSolider();
+            solider.x = 30;
+            solider.y = 30;
+            this.addChild(solider);
+            this._solders.push(solider);
+            
+            solider = this._createSolider();
+            solider.x = 100;
+            solider.y = 100;
+            this.addChild(solider);
+            this._solders.push(solider);            
         }
+    }
+    
+    protected _createSolider():ArrowSolider {
+        return <ArrowSolider>application.pool.get(
+                "ArrowSolider", 
+                {"guardX": this.parent.x, "guardY": this.parent.y, "guardRadius", this._guardRadius})
     }
     
     public update() {
