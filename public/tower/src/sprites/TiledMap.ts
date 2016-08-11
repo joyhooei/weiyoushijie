@@ -1,6 +1,4 @@
 class TiledMap extends egret.Sprite {
-    private _map: tiled.TMXTilemap;
-    
     private _grid: number[][];
 
     private _tileWidth: number;
@@ -12,12 +10,14 @@ class TiledMap extends egret.Sprite {
     private _bases: number[][];
     private _heros: number[][];
     private _paths: number[][][];
+    
+    //入口和出口
+    private _entrances: number[][];
+    private _exits: number[][];
 
     public constructor(map:tiled.TMXTilemap) {
         super();
         
-        this._map = map;
-
         this._parse(map);
         
         this.addChild(map);
@@ -35,7 +35,7 @@ class TiledMap extends egret.Sprite {
                 
                 let tmxTileMap:tiled.TMXTilemap = new tiled.TMXTilemap(width, height, data, url);
                 tmxTileMap.render();
-                resolve(tmxTileMap);
+                resolve(new TiledMap(tmxTileMap));
             }, url);
             
             urlLoader.addEventListener(egret.IOErrorEvent.IO_ERROR, function (event:egret.Event):void {
@@ -46,6 +46,51 @@ class TiledMap extends egret.Sprite {
         });
     }
     
+    private _xP2L(x:number) {
+        return Math.round(x / this._tileWidth);
+    }
+    
+    private _yP2L(y:number) {
+        return Math.round(y / this._tileHeight)
+    }
+    
+    private _markGrid() {
+        this._grid = [];
+        
+        for(let i = 0; i <= this._width; i++) {
+            for(let j = 0; j < this._height; j++) {
+                this._grid[i][j] = 0;
+            }
+        }
+        
+        for(let j = 0; j < this._paths.length; j++) {
+            let path = this._paths[j];
+            for(let i = 0; i < path.length - 1; i++) {
+                let xFrom = this._xP2L(path[i][0]);
+                let yFrom = this._yP2L(path[i][1]);
+                
+                let xTo = this._xP2L(path[i + 1][0]);
+                let yTo = this._yP2L(path[i + 1][1]);
+                
+                for(let k = xFrom; k <= xTo; k++) {
+                    for(let j = yFrom; j <= yTo; j++) {
+                        this._markArea(k, j, 1, 1);
+                    }
+                }
+            }
+        }
+    }
+    
+    private _markArea(x:number, y:number, delta:number, value:number) {
+        for(let i = x - delta; i <= x + delta; i++) {
+            for(let j = y - delta; j <= y + delta; j++) {
+                if (!this._outOfBounds(i, j)) {
+                    this._grid[i][j] = value;
+                }
+            }
+        }
+    } 
+    
     private _parse(tmxTileMap:tiled.TMXTilemap) {
         this._tileWidth  = tmxTileMap.tilewidth;
         this._tileHeight = tmxTileMap.tileheight;
@@ -53,12 +98,11 @@ class TiledMap extends egret.Sprite {
         this._width  = tmxTileMap.width;
         this._height = tmxTileMap.height;
         
-        this._grid = [];
-        for(let i = 0; i <= this._width; i++) {
-            for(let j = 0; j < this._height; j++) {
-                this._grid[i][j] = 0;
-            }
-        }
+        this._paths = [];
+        this._bases = [];
+        this._heros = [];
+        this._entrances = [];
+        this._exits = [];
 
         let ogs = tmxTileMap.getObjects();
         for(let i = 0; i < ogs.length; i++) {
@@ -72,6 +116,8 @@ class TiledMap extends egret.Sprite {
                 this._heros = _parseHeros(og);
             }
         }
+        
+        this._markGrid();
     }
     
     private _parsePath(og:tiled.TMXObjectGroup):number[][]{
@@ -80,30 +126,23 @@ class TiledMap extends egret.Sprite {
         for(let i = 0; i < og.getObjectCount(); i++) {
             let o = og.getObjectByIndex(i);
             let name = o.name();
+            let location = [o.x, o.y];
             
             if (name == 'start') {
-                path[0] = [o.x, o.y];
+                path[0] = location;
+                if (!this._exists(this._entrances, location)) {
+                    this._entrances.push(location);
+                }
             } else if (name = 'end') {
-                path[og.getObjectCount() - 1] = [o.x, o.y];
+                path[og.getObjectCount() - 1] = location;
+                if (!this._exists(this._exits, location)) {
+                    this._exits.push(location);
+                }
             } else {
                 let arrayOfStrings = name.split("-");
                 if (arrayOfStrings.length == 2 && arrayOfStrings[0] == 'waypoint') {
                     let idx = + arrayOfStrings[1];
-                    path[idx] = [o.x, o.y];
-                }
-            }
-        }
-        
-        for(let i = 0; i < path.length - 1; i++) {
-            let xFrom = Math.round(path[i][0] / this._tileWidth);
-            let yFrom = Math.round(path[i][1] / this._tileHeight);
-            
-            let xTo = Math.round(path[i + 1][0] / this._tileWidth);
-            let yTo = Math.round(path[i + 1][1] / this._tileHeight);
-            
-            for(let k = xFrom; k <= xTo; k++) {
-                for(let j = yFrom; j <= yTo; j++) {
-                    this._markArea(k, j, 1, 1);
+                    path[idx] = location;
                 }
             }
         }
@@ -111,16 +150,16 @@ class TiledMap extends egret.Sprite {
         return path;
     }
     
-    private _markArea(x:number, y:number, delta:number, value:number) {
-        for(let i = x - delta; i <= x + delta; i++) {
-            for(let j = y - delta; j <= y + delta; j++) {
-                if (!this._outOfBounds(i, j)) {
-                    this._grid[i][j] = value;
-                }
+    private _exists(locations:number[][], location:number[]):boolean {
+        for(let i = 0; i < locations; i++) {
+            if (locations[i][0] == location[0] && locations[i][1] == location[1]) {
+                return true;
             }
         }
+        
+        return false;
     }
-    
+
     private _parsBases(og:tiled.TMXObjectGroup):number[][]{
         let bases = [];
 
@@ -129,15 +168,16 @@ class TiledMap extends egret.Sprite {
             let name = o.name();
             let arrayOfStrings = name.split("-");
             
-            if (arrayOfStrings.length == 2) {
+            if (arrayOfStrings.length == 2 && arrayOfStrings[0] == 'base' || arrayOfStrings[0] = 'guarder') {
                 let idx = + arrayOfStrings[1];
+                if (!bases[idx]) {
+                    bases[idx] = [];
+                }
+                
                 if (arrayOfStrings[0] == 'base') {
-                    if (!bases[idx]) {
-                        bases[idx] = [];
-                    }
                     bases[idx][0] = o.x;
                     bases[idx][1] = o.y;
-                } else if (arrayOfStrings[0] = 'guarder') {
+                } else {
                     bases[idx][2] = o.x;
                     bases[idx][3] = o.y;
                 }
@@ -163,8 +203,8 @@ class TiledMap extends egret.Sprite {
     }
     
     public walkable(x: number, y: number): boolean {
-        x = Math.round(x / this._tileWidth);
-        y = Math.round(y / this._tileHeight);
+        x = this._xL2P(x);
+        y = this._yL2P(y);
         return (!this._outofBounds(x, y) && (this._grid[x][y] == 1));
     }
     
@@ -182,5 +222,13 @@ class TiledMap extends egret.Sprite {
 
     public getPaths(): number[][][] {
         return this.paths;
+    }
+    
+    public getEntrances(): number[][] {
+        return this._entrances;
+    }
+    
+    public getExits(): number[][] {
+        return this._exits;
     }
 }
