@@ -21,7 +21,9 @@ class Bullet extends MovableEntity {
     public setTarget(target: NPC) {
         this._target = target;
         
-        this.setPaths([[this.x, this.y], [target.x, target.y]]);
+        if (this._paths.length != 2 || this._paths[1][0] != target.x || this._paths[1][1] != target.y)) {
+            this.setPaths([[this.x, this.y], [target.x, target.y]]);
+        }
     }
     
     protected _moving() {
