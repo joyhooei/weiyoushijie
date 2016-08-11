@@ -42,7 +42,7 @@ class Soldier extends NPC {
         }
     }
     
-    private _fightWith(enemy:Enemy) {
+    protected _fightWith(enemy:Enemy) {
         if (this._enemy) {
             this._enemy.rmvSolider(this);
         }
