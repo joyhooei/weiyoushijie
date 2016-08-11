@@ -31,4 +31,12 @@ class Base extends Entity {
     public deselect() {
         application.battle.hideAllTools();
     }
+    
+    protected _paint() {
+        if (this._tower) {
+            this._tower._paint();
+        } else {
+            super._paint();
+        }
+    }
 }
