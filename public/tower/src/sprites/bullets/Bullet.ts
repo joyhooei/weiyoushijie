@@ -1,8 +1,6 @@
 class Bullet extends MovableEntity {
     private _target: NPC;
 
-    private _missing: boolean;
-    
     private _damage: number;
     
     public constructor() {
@@ -13,8 +11,7 @@ class Bullet extends MovableEntity {
         super.initialize(properties);
         
         this._target  = null;
-        this._missing = false;
-        
+
         this._damage = this._get(properties, 'damage', 10);
     }
     
@@ -25,30 +22,10 @@ class Bullet extends MovableEntity {
     
     protected _moving() {
         if (this._moveOneStep()) {
-            if (this._target.dying() || this._target.dead()) {
-                this._missing = true;
-            } else {
-                this._missing = false;
-                
-                this._target.hitBy(this._damage);
-            }
-                
             this._do(EntityState.dying);
         } else {
             //如果目标移动，重新调整方向和路径
             this.moveTo(this._target.x, this._target.y);
         }
-    }
-    
-    protected _paint() {
-        if (this._missing) {
-            this._paintMissing();
-        } else {
-            super._paint();
-        }
-    }
-    
-    protected _paintMissing() {
-        super._paint();
     }
 }
