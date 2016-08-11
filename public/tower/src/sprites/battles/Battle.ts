@@ -3,7 +3,7 @@ class Battle extends Entity {
     private _baseLayer: egret.Sprite;
     /**范围层*/
     private _areaLayer: egret.Sprite;
-    /**怪物层、士兵层、英雄层、塔层(层级排序)*/
+    /**怪物层、士兵层层级排序)*/
     private _objLayer: egret.Sprite;
     /**弓箭、炮弹层*/
     private _bulletLayer: egret.Sprite;
@@ -13,15 +13,15 @@ class Battle extends Entity {
     //己方
     private _heros:     Hero[];
     private _bases:     Base[];
-    private _towers:    Tower[];
     private _soliders:  Soldier[];
-    private _bullets:   Bullet[];
     
     //敌方
     private _standbys: Enemy[];
     private _enemies: Enemy[];
-    private _cartridges: Bullet[];
     
+    //子弹
+    private _bullets:Bullet[];
+
     //当前一波敌人
     private _currentWave: number;
     //下一波敌人发动攻击时间
@@ -82,7 +82,6 @@ class Battle extends Entity {
 
         this._bases = [];
 
-        this._towers = [];
         this._soliders = [];
         this._bullets = [];
         
@@ -132,7 +131,7 @@ class Battle extends Entity {
     
     private _addLayer():egret.Sprite {
         let layer = new egret.Sprite();
-        this.addChild(layer);           
+        this.addChild(layer);
         return layer;
     }
 
@@ -146,34 +145,31 @@ class Battle extends Entity {
     }
 
     //增加塔基
-    private _addBases() {
+    protected _addBases() {
         let bases = this._map.getBases();
         
         for(let i = 0; i < bases.length; i++) {
             let base = <Base>application.pool.get("Base", {"guardX": bases[i][2], "guardY": bases[i][3]});
-            this._addBase(bases[i][0], bases[i][1], base);
+            base.x = bases[i][0];
+            base.y = bases[i][1];
+            this._addBase(base);
         }
     }
 
     protected _addWaveStandbys(wave:number, className:string, count:number, paths:number[][]) {
-        if (this._waves[wave]) {
-            this._waves[wave] = [];
-        }
-        
-        for(let i = 0; i < count; i++) {
-            let properties = application.characters[className].getProperties();
-            properties.paths = paths;
+        this._waves[wave] = this._waves[wave] || [];
 
-            let enemy = <Enemy>application.pool.get(className, properties);
+        for(let i = 0; i < count; i++) {
+            let enemy = <Enemy>application.pool.get(className, {"paths": paths});
             this._waves[wave].push(enemy);
         }
     }
 
     //发动一波攻击
-    private _launch(wave:number) {
+    protected _launch(wave:number) {
         for(let i = 0; i < this._waves[wave].length; i++) {
             let enemy = this._waves[wave][i];
-            this.addEnemy(enemy.x, enemy.y, enemy);
+            this.addEnemy(enemy);
         }
     }
     
@@ -227,6 +223,16 @@ class Battle extends Entity {
     }
 
     public findEnemy(x: number, y: number, radius: number, altitudes: number[]) : Enemy {
+        for(var i = 0; i < this._enemies.length; i++) {
+            if ((this._enemies[i].getAltitude() in altitudes) && this._enemies[i].intersect(x, y, radius)){
+                return this._enemies[i];
+            }
+        }
+        
+        return null;
+    }
+
+    public findSuitableEnemy(x: number, y: number, radius: number, altitudes: number[]) : Enemy {
         var enemy = null;
         for(var i = 0; i < this._enemies.length; i++) {
             if ((this._enemies[i].getAltitude() in altitudes) && this._enemies[i].intersect(x, y, radius)){
@@ -243,49 +249,28 @@ class Battle extends Entity {
         return enemy;
     }
     
-    public addSoliders(x:number, y:number, soliders:Soldier[]) {
-        for(var i = 0; i < soliders.length; i++) {
-            this._soliders.push(soliders[i]);
-            this._addObj(x, y, soliders[i], this._objLayer);           
-        } 
+    public addSolider(solider:Soldier) {
+        this._soliders.push(solider);
+        this._objLayer.addChild(solider);
     }
     
-    public addEnemy(x:number, y:number, enemy:Enemy) {
+    public addEnemy(enemy:Enemy) {
         this._enemies.push(enemy);
-        this._addObj(x, y, enemy, this._objLayer);           
+        this._objLayer.addChild(enemy);          
     }
     
-    public addBullets(x:number, y:number, bullet:Bullet) {
+    public addBullet(bullet:Bullet) {
         this._bullets.push(bullet);
-        this._addObj(x, y, bullet, this._bulletLayer); 
-    }
-    
-    public addCartridges(x:number, y:number, cartridges:Bullet[]) {
-        for(var i = 0; i < cartridges.length; i++) {
-            this._cartridges.push(cartridges[i]);
-            this._addObj(x, y, cartridges[i], this._bulletLayer);           
-        }
-    }
-    
-    public addTower(x:number, y:number, tower:Tower) {
-        this._towers.push(tower);
-        this._addObj(x, y, tower, this._objLayer);
-    }
-    
-    protected _addBase(x:number, y:number, base:Base) {
-        this._bases.push(base);
-        this._addObj(x, y, base, this._baseLayer);
+        this._bulletLayer.addChild(bullet);     
     }
 
-    protected _setHero(x:number, y:number, hero:Hero) {
-        this._hero = hero;
-        
-        this._addObj(x, y, hero, this._objLayer);
+    public addBase(base:Base) {
+        this._bases.push(base);
+        this._baseLayer.addChild(bullet);
     }
-    
-    private _addObj(x:number, y:number, obj:Entity, layer:egret.Sprite) {
-        obj.x = x;
-        obj.y = y;
-        layer.addChild(obj);
+
+    public addHero(hero:Hero) {
+        this._heros.push(hero);
+        this._objLayer.addChild(Hero);      
     }
 }
