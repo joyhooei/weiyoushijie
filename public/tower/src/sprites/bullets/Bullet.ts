@@ -7,37 +7,36 @@ class Bullet extends MovableEntity {
     
     public constructor() {
         super();
-        
-        this._target = null;
-        this._missing = false;
     }
     
     public initialize(properties:any) {
         super.initialize(properties);
         
-        this._damage = properties.damage;
+        this._target = null;
+        this._missing = false;
+        
+        this._damage = this._get(properties, 'damage', 10);
     }
     
     public setTarget(target: NPC) {
         this._target = target;
+        
+        this.setPaths([[this.x, this.y], [target.x, target.y]]);
     }
     
     protected _moving() {
-        if (this._target.dying() || this._target.dead()) {
-            this._missing = true;
-            this._do(EntityState.dying);
-        } else {
-            this._turn(this._direction8(this._target.x, this._target.y));
-            this._computeSteps(this._target.x, this._target.y);
-
-            this._moveOneStep();
-            
-            if (this.collide(this._target)) {
+        if (this._moveOneStep()) {
+            if (this._target.dying() || this._target.dead()) {
+                this._missing = true;
+            } else {
                 this._missing = false;
-                this._do(EntityState.dying);
-    
+                
                 this._target.hitBy(this._damage);
             }
+                
+            this._do(EntityState.dying);
+        } else {
+            this.setTarget(this._target);
         }
     }
     
