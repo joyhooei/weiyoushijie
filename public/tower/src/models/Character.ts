@@ -7,9 +7,9 @@ class Character {
         this._properties = properties;
         this._mcs = new Array<Array<egret.MovieClip>>();
     }
-    
-    public getProperty(name:string):number{
-        return this._properties[name];
+
+    public getProperties():any {
+        return_properties;
     }
     
     public addMC(mc:egret.MovieClip, direction:EntityDirection, state:EntityState) {
