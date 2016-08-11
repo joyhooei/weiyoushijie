@@ -5,21 +5,25 @@ class MovableEntity extends Entity {
     //一步走的距离    
     protected _steps: number[];
     
+    protected _idleTicks: number;
+    
     public constructor() {
         super();
-
-		this._step = 10;
-		this._steps = [10, 10];
     }
     
     public initialize(properties:any) {
         super.initialize(properties);
         
-        this._step     = properties.steep;
+        this._step     = this.get(properties, "step", 10);
+        this._steps    = [this._step, 0];
+        
+        this._idleTicks = 0;
     }
     
     protected _idle() {
-        this._do(EntityState.moving);
+    	if (this._ticks >= this._idleTicks) {
+        	this._do(EntityState.moving);
+    	}
     }
 
     protected _moveOneStep(): boolean {
