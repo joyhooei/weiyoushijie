@@ -25,6 +25,13 @@ class MovableEntity extends Entity {
         
         this._step      = this.get(properties, "step", 10);
         this._idleTicks = this.get(properties, "idleTicks", 0);
+        
+        this._paths = [];
+        this._path  = 0;
+        
+        this._delta = [];
+        this._totalSteps = 0;
+        this._steps = 0;
     }
     
     public moveTo(x:number, y:number) {
