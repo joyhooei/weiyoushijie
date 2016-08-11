@@ -29,6 +29,8 @@ class Entity extends egret.Sprite {
     protected _repaint: boolean;
     
     protected _mc: egret.MovieClip;
+    
+    protected _parent: Entity;
 
     public constructor() {
         super();
@@ -40,6 +42,10 @@ class Entity extends egret.Sprite {
         this._state 	= this._get(properties, "state", EntityState.idle);
         this._ticks 	= 0;
         this._repaint = true;
+    }
+    
+    public setParent(parent: Entity) {
+    	this._parent = parent;
     }
     
     protected _get(properties: any, name:string, defaultVal:any): any {
@@ -134,6 +140,9 @@ class Entity extends egret.Sprite {
     }
     
     protected _stateChanged(oldState: EntityState, newState: EntityState) {
+    	if (this._parent && newState == EntityState.dead) {
+    		this._parent.childDead(this);
+    	}
     }
     
     protected _idle() {
