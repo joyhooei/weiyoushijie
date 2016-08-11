@@ -12,7 +12,7 @@ class Bullet extends MovableEntity {
     public initialize(properties:any) {
         super.initialize(properties);
         
-        this._target = null;
+        this._target  = null;
         this._missing = false;
         
         this._damage = this._get(properties, 'damage', 10);
@@ -50,11 +50,5 @@ class Bullet extends MovableEntity {
     
     protected _paintMissing() {
         super._paint();
-    }
-    
-    protected _dying() {
-        if (this._ticks > 3) {
-            this._do(EntityState.dead);
-        }
     }
 }
