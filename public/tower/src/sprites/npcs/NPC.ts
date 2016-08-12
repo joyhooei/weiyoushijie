@@ -54,4 +54,8 @@ class NPC extends MovableEntity {
         
         this._hp._paint();
     }
+    
+    protected _face(npc:NPC) {
+        this._turn(this._direction8(npc.x, npc.y));
+    }
 }
