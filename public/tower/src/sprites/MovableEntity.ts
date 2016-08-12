@@ -32,10 +32,15 @@ class MovableEntity extends Entity {
 
     //走一步，true表示已经到了终点
     protected _moveOneStep(): boolean {
-        this.x += this._delta[0];
-        this.y += this._delta[1];
-        
-        return false;
+    	this._steps ++;
+        if (this._steps >= this._totalSteps) {
+            return true;
+        } else {
+	        this.x += this._delta[0];
+	        this.y += this._delta[1];
+	        
+	        return false;
+        }
     }
 
     //计一步走的距离
