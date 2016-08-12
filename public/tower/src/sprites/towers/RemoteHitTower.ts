@@ -18,20 +18,25 @@ class RemoteHitTower extends Tower {
     protected _guarding() {
         if (this._ticks % this._hitSpeed == 0) {
             if (this._enemy == null 
-                    || this._enemy.deadling() 
+                    || this._enemy.dying() 
+                    || this._enemy.dead()
                     || !this._enemy.intersects(this.parent.x, this.parent.y, this._guardRadius)) {
                 this._enemy = application.battle.findEnemy(this.parent.x, this.parent.y, this._guardRadius, [0]);
             }
 
             if (this._enemy) {
-                let bomb = this._createBullet();
-                bomb.x = this.parent.x;
-                bomb.y = this.parent.y;
-                bomb.setTarget(this._enemy);
-                
-                application.addBullet(bomb);
+                this._fire();
             }
         }
+    }
+    
+    protected _fire() {
+        let bomb = this._createBullet();
+        bomb.x = this.parent.x;
+        bomb.y = this.parent.y;
+        bomb.setTarget(this._enemy);
+        
+        application.addBullet(bomb);        
     }
     
     protected _createBullet():Bullet {
