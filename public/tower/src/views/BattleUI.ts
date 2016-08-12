@@ -2,14 +2,29 @@ class BattleUI extends AbstractUI {
     private _stage: number;
     
     private _level: number;
+
+    public grpSystemTools: eui.Group;
+    
+    public grpBoughtTools: eui.Group;
     
     constructor(stage:number, level:number) {
         super("battleUISkin");
         
-        this._stage = stage;
-        this._level = level;
+        let self = this;
+        
+        self._stage = stage;
+        self._level = level;
+
+        self.grpSystemTools.addChild(new SoliderToolItem());
+        self.grpSystemTools.addChild(new FireBallToolItem());
+        
+        application.dao.fetch("Tool", {customer_id: application.me.attrs.id, count: {$gt: 0}}).then(function(tools){
+            for(let i = 0; i < tools.length; i++) {
+                self.grpBoughtTools.addChild(new TooItem(tool));
+            }
+        })
     }
-    
+
     protected onRefresh() {
         var self = this;
         
