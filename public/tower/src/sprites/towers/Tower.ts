@@ -33,12 +33,12 @@ class Tower extends Entity {
     }
     
     protected _idle() {
-        this._do(EntityState.building);
+        this.build();
     }
     
     protected _building() {
         if (this._ticks > this._buildTicks) {
-            this._do(EntityState.guarding);
+            this.guard();
         }
     }
 }
