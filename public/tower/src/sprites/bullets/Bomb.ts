@@ -24,6 +24,10 @@ class Bomb extends Bullet {
         this._flyHeight = this._get(properties, 'flyHeight', 25);
         this._gravity   = this._get(properties, 'gravity', 1);
         
+        this._angle = 0;
+        
+        this._hitRadius = 0;
+        
         this._flyTicks = 0;
     }
     
