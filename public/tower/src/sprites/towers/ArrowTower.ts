@@ -6,8 +6,8 @@ class ArrowTower extends Tower {
     public constructor() {
         super();
         
-        this._soliders.push(this._createSolider(30, 30));
-        this._soliders.push(this._createSolider(100, 100));
+        this._soliders.push(this._createSolider(36, 15));
+        this._soliders.push(this._createSolider(50, 15));
     }
     
     public initialize(properties:any) {
