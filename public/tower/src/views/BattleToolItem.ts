@@ -1,6 +1,8 @@
 class BattleToolItem extends AbstractUI {
     private _tool: any;
     
+    public imgTool: eui.Image;
+
     public constructor(tool:any) {
         super("toolItemSkin");
         
@@ -8,14 +10,20 @@ class BattleToolItem extends AbstractUI {
         
 		this.addEventListener(egret.TouchEvent.TOUCH_TAP,() => {
 		    application.battle.readyUseTool(this);
-		}, this);        
+		}, this);
+		
+        if (tool.category == "bomb") {
+        	this.imgTool.source = "";
+        } else if (tool.category == "gold") {
+        	this.imgTool.source = "";
+        }
     }
     
     public use() {
         this._tool.count -= 1;
         application.dao.save("Tool", this._tool);
         
-        if (tool.category == "Bomb") {
+        if (tool.category == "bomb") {
         } else if (tool.category == "gold") {
         }
         
