@@ -6,6 +6,8 @@ class Tower extends Entity {
     protected _buyPrice: number;
     protected _sellPrice: number;
     
+    protected _guardRadius: number;
+
     public constructor() {
         super();
     }
@@ -18,6 +20,8 @@ class Tower extends Entity {
         
         this._buyPrice = this._get(properties, "buyPrice", 100);
         this._sellPrice = this._get(properties, "sellPrice", 100);
+        
+        this._guardRadius = this._get(properties, "guardRadius", 10);
     }
 
     protected _stateChanged(oldState: EntityState, newState: EntityState) {
