@@ -279,6 +279,12 @@ class Battle extends Entity {
         this._objLayer.addChild(enemy);          
     }
     
+    public killAllEnemies() {
+        for(let i = 0; i < this._enemies.length; i++) {
+            this._enemies[i].kill();
+        }
+    }
+    
     public addBullet(bullet:Bullet) {
         this._bullets.push(bullet);
         this._bulletLayer.addChild(bullet);     
