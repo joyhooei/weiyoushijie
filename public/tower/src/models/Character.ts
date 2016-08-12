@@ -1,24 +1,30 @@
 class Character {
-    private _mcs: egret.MovieClip[];
-    
     private _properties: any;
     
-    constructor(properties: any) {
+    private _factory: egret.MovieClipDataFactory;
+    
+    private _mcs: string[];
+
+    constructor(properties: any, mcs:string[], factory: egret.MovieClipDataFactory) {
         this._properties = properties;
         
-        this._mcs = [];
+        this._mcs = mcs;
+        
+        this._factory = factory;
     }
 
-    public getProperties():any {
+    public getProperties(): any {
         return_properties;
     }
-    
-    public addMC(mc:egret.MovieClip) {
-        this._mcs.push(mc);
-    }
-    
-    public getMC(idx:number):egret.MovieClip {
-        return this._mcs[idx];
+
+    public getMCs(): egret.MovieClip[] {
+        let mcs = egret.MovieClip[];
+
+        for(let j = 0; j < this._mcs.length; j++) {
+            mcs.push(new egret.MovieClip(this._factory.generateMovieClipData(this._mcs[j])));
+        }
+        
+        return mcs;
     }
     
     static createAll(): Character[] {
@@ -29,24 +35,15 @@ class Character {
             /*
             {name: 'MonkeyKing', properties:{hp:1000}, mcs:['test', 'test1']},
             */
-        ];
+        ];   
         
         let data = RES.getRes("animation.json");
         let txtr = RES.getRes("animation.png");
-        let mcFactory:egret.MovieClipDataFactory = new egret.MovieClipDataFactory( data, txtr );
-
+        let factory:egret.MovieClipDataFactory = new egret.MovieClipDataFactory( data, txtr );
+        
         for(let i = 0; i < config.length; i++) {
             let d = config[i];
-            
-            let character = new Character(d.name);
-            
-            for(let j = 0; j < d.mcs.length; j++) {
-                let mc:egret.MovieClip = new egret.MovieClip( mcFactory.generateMovieClipData( d.mcs[j][j] ) );
-            
-                character.addMC(mc);
-            }
-            
-            characters[d.name] = character;
+            characters[d.name] = new Character(d.properties, d.mcs, factory);
         }
         
         return characters;
