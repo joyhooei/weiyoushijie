@@ -29,6 +29,8 @@ class Tower extends Entity {
     		application.battle.incGolds(-this.buyPrice);
     	} else if (newState == EntityState.dying) {
     	    application.battle.incGolds(this._sellPrice);
+    	} else if (newState == EntityState.dead) {
+    	    application.pool.set(this);
     	}
     	
     	super._stateChanged(oldState, newState);
