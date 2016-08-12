@@ -163,8 +163,18 @@ class Entity extends egret.Sprite {
     	return application.characters[egret.getQualifiedClassName(this)].getMC(0);
     }
     
-    protected _do(state:EntityState) {
-    	if (state != this._state && this._state != EntityState.dead) {
+    private _do(state:EntityState) {
+    	if (state != this._state) {
+    		//dead状态不需要再变更状态了
+    		if (this._state == EntityState.dead) {
+    			return;
+    		}
+    		
+    		//当前状态如果是dying，新状态只能是dead
+    		if (this._state == EntityState.dying && state != EntityState.dead) {
+    			return;
+    		}
+    		
 	    	this._stateChanged( this._state, state);
 	    	
 	    	this._ticks = 0;
