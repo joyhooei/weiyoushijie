@@ -23,6 +23,8 @@ class BattleUI extends AbstractUI {
                 self.grpBoughtTools.addChild(new BattleTooItem(tool));
             }
         })
+        
+        self.stage.frameRate = application.frameRate;
     }
 
     protected onRefresh() {
