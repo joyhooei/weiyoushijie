@@ -156,11 +156,13 @@ class Entity extends egret.Sprite {
     protected _paint() {
     	let mc = this._getCurrentMC();
     	if (mc && mc != this._mc) {
+    		this._mc.stop();
 	    	this.removeChild(this._mc);
+	    	
 	    	this._mc = mc;
 	    	
 	    	this.addChild(mc);
-	    	mc.start();
+	    	mc.play(-1);
     	}
     }
     
