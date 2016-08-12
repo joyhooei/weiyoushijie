@@ -1,6 +1,4 @@
 class RemoteHitTower extends Tower {
-    protected _guardRadius: number;
-    
     protected _enemy: Enemy;
 
     public constructor() {
@@ -9,9 +7,7 @@ class RemoteHitTower extends Tower {
     
     public initialize(properties:any) {
         super.initialize(properties);
-        
-        this._guardRadius = this._get(properties, "guardRadius", 10);
-        
+
         this._enemy = null;
     }
 
