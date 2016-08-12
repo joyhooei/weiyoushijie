@@ -9,6 +9,8 @@ module application {
 
     export var battle: Battle;
     
+    export var frameRate: number;
+    
     export var characters: Character[];
     
     export var pool: EntityPool;
@@ -62,6 +64,8 @@ module application {
         application.characters = Character.createAll();
         
         application.pool = new EntityPool();
+        
+        application.frameRate = 60;
 
         application.stopwatch = new egret.EventDispatcher();
         var timer: egret.Timer = new egret.Timer(1000,0);
