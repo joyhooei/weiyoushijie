@@ -17,13 +17,9 @@ class ArrowSolider extends Solider {
 
     protected _fighting() {
         if (this._ticks % this._hitSpeed == 0) {
-            let x = this.x;
-            let y = this.y;
-            if (this._parent) {
-                x += this._parent.x;
-                y += this._parent.y;
-            }
-            
+            let x = this.getMapX();
+            let y = this.getMapY();
+
             if (this._enemy == null 
                     || this._enemy.dying() 
                     || this._enemy.dead()
@@ -35,8 +31,8 @@ class ArrowSolider extends Solider {
 
             if (enemy) {
                 let arrow = <Bullet>application.pool.get("Arrow");
-                arrow.x = this.x;
-                arrow.y = this.y;
+                arrow.x = x;
+                arrow.y = y;
                 arrow.setTarget(enemy);
                 
                 application.addBullet(arrow);
