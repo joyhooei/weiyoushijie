@@ -3,6 +3,8 @@ class Tower extends Entity {
     
     protected _buildTicks: number;
     
+    protected _price: number;
+    
     public constructor() {
         super();
     }
@@ -12,6 +14,15 @@ class Tower extends Entity {
         
         this._hitSpeed   = this._get(properties, "hitSpeed", 60);
         this._buildTicks = this._get(properties, "buildTicks", 100);
+        this._price = this._get(properties, "price", 100);
+    }
+    
+    protected _stateChanged(oldState: EntityState, newState: EntityState) {
+    	if (newState == EntityState.building) {
+    		application.battle.incGolds(-this._price);
+    	}
+    	
+    	super._stateChanged(oldState, newState);
     }
     
     protected _idle() {
