@@ -29,11 +29,11 @@ class ArrowSolider extends Solider {
                 this._face(this._enemy);
             }
 
-            if (enemy) {
+            if (this._enemy) {
                 let arrow = <Bullet>application.pool.get("Arrow");
                 arrow.x = x;
                 arrow.y = y;
-                arrow.setTarget(enemy);
+                arrow.setTarget(this._enemy);
                 
                 application.addBullet(arrow);
             }
