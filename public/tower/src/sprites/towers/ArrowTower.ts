@@ -1,11 +1,8 @@
-class ArrowTower1 extends Tower {
+class ArrowTower extends Tower {
     protected _soliders: Solider[];
 
     public constructor() {
         super();
-        
-        this._soliders.push(this._createSolider(36, 15));
-        this._soliders.push(this._createSolider(50, 15));
     }
     
     public initialize(properties:any) {
@@ -24,9 +21,14 @@ class ArrowTower1 extends Tower {
         }
     }
     
-    protected _createSolider(x: number, y: number):ArrowSolider {
+    protected _createSoliders(className:string) {
+        this._soliders.push(this._createSolider(className, 36, 15));
+        this._soliders.push(this._createSolider(className, 50, 15));
+    }
+    
+    protected _createSolider(className:string, x: number, y: number):ArrowSolider {
         let solider =  <ArrowSolider>application.pool.get(
-                "ArrowSolider", 
+                className,
                 {"guardX": this.getMapX(), "guardY": this.getMapY(), "guardRadius", this._guardRadius});
                 
         solider.x = x;
