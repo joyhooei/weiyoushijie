@@ -21,7 +21,11 @@ class Character {
         let mcs = egret.MovieClip[];
 
         for(let j = 0; j < this._mcs.length; j++) {
-            mcs.push(new egret.MovieClip(this._factory.generateMovieClipData(this._mcs[j])));
+            let mc = new egret.MovieClip(this._factory.generateMovieClipData(this._mcs[j]));
+            
+            mc.frameRate = application.frameRate;
+            
+            mcs.push(mc);
         }
         
         return mcs;
