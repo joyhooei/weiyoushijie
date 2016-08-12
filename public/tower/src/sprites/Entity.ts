@@ -28,6 +28,7 @@ class Entity extends egret.Sprite {
     
     protected _repaint: boolean;
     
+    protected _mcs: egret.MovieClip[];
     protected _mc: egret.MovieClip;
     
     protected _parent: Entity;
@@ -35,15 +36,19 @@ class Entity extends egret.Sprite {
     public constructor() {
         super();
 	}
+    
+    public setMCs(mcs: egret.MovieClip[]) {
+    	this._mcs = mcs;
+    }
 	
 	/**初始化*/
     public initialize(properties: any):void {
         this._direction = this._get(properties, "direction", EntityDirection.east);
         this._state 	= this._get(properties, "state", EntityState.idle);
         this._ticks 	= 0;
-        this._repaint = true;
+        this._repaint   = true;
     }
-    
+
     public setParent(parent: Entity) {
     	this._parent = parent;
     }
@@ -140,27 +145,27 @@ class Entity extends egret.Sprite {
 		    	break;
     	}
     	
-    	this._paint();
+    	if (this._repaint && this._state != EntityState.idle && this._state != EntityState.dead) {
+    		this._paint();
+    		
+    		this._repaint = false;
+    	}
     }
     
     //根据状态、面向修改重新渲染
     protected _paint() {
-    	if (this._repaint && this._state != EntityState.idle && this._state != EntityState.dead) {
-	    	let mc = this._getMC();
-	    	if (mc && mc != this._mc) {
-		    	this.removeChild(this._mc);
-		    	this._mc = mc;
-		    	
-		    	this.addChild(mc);
-		    	mc.start();
-	    	}
+    	let mc = this._getCurrentMC();
+    	if (mc && mc != this._mc) {
+	    	this.removeChild(this._mc);
+	    	this._mc = mc;
 	    	
-	    	this._repaint = false;
+	    	this.addChild(mc);
+	    	mc.start();
     	}
     }
     
-    protected _getMC(): egret.MovieClip {
-    	return application.characters[egret.getQualifiedClassName(this)].getMC(0);
+    protected _getCurrentMC(): egret.MovieClip {
+    	return this._mcs[0];
     }
     
     private _do(state:EntityState) {
