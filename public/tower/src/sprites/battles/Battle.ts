@@ -37,6 +37,8 @@ class Battle extends Entity {
     private _golds: number;
     
     private _focus: Entity;
+    
+    private _toolItem: BattleToolItem;
 
     public constructor() {
         super();
@@ -104,21 +106,32 @@ class Battle extends Entity {
         this.addEventListener(egret.TouchEvent.TOUCH_BEGIN, this._touch, this);        
     }
     
+    public readyUseTool(toolItem: BattleToolItem) {
+        this._toolItem = toolItem;
+    }
+    
     private _touch(e:egret.TouchEvent) {
     	if (this._focus == e.target) {
     		e.target.select(true);
     	} else {
     	    if (e.target == this) {
-    	        let baseClassName = egret.getQualifiedSuperclassName(this._focus);
     	        let x = Math.round(e.localX);
                 let y = Math.round(e.localY);
                 if (this._map.walkable(x, y)) {
-    	            if (baseClassName == "Hero") {
-    	                (<Hero>this._focus).moveTo(x, y);
-    	            }
+                    if (this._toolItem) {
+                        this._toolItem.use(x, y);
+                        
+                        this._toolItem = null;
+                    } else (this._focus) {
+    	                let baseClassName = egret.getQualifiedSuperclassName(this._focus);
+        	            if (baseClassName == "Hero") {
+        	                (<Hero>this._focus).moveTo(x, y);
+        	            }
+        	            
+        	            this._focus = null;
+        	        }
                 } else {
                     //显示不能放置图片
-                    
                 }
     	    } else {
         		this._focus.deselect();
