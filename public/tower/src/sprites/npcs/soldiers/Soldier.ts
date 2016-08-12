@@ -17,14 +17,30 @@ class Soldier extends NPC {
         
         this._enemy = null;
 
-        this._guardX = this._get(properties, 'guardX', 0);
-        this._gradeY = this._get(properties, 'guardY', 0);
-        
-        this._guardRadius = this._get(properties, 'guardRadius', 10);
-        
+        this._guardX        = this._get(properties, 'guardX', 0);
+        this._gradeY        = this._get(properties, 'guardY', 0);
+        this._guardRadius   = this._get(properties, 'guardRadius', 10);
         this._guardAltitude = this._get(properties, 'guardAltitude', [-1, 0]);
     }
+    
+    public moveTo(x:number, y:number) {
+        this._computeSteps(x, y);
 
+        this._do(EntityState.moving);
+    }
+    
+    protected _moveOneStep(): boolean {
+    	this._steps ++;
+        if (this._steps >= this._totalSteps) {
+            return true;
+        } else {
+            this.x += this._delta[0];
+            this.y += this._delta[1];
+            
+            return false;
+        }
+    }
+    
     protected _moving() {
         if (this._moveOneStep()) {
             if (this._enemy) {
@@ -63,7 +79,6 @@ class Soldier extends NPC {
                     this._fightWith(enemy);
                 } else {
                     this.moveTo(this._guardX, this.guardY);
-                    this._do(EntityState.moving);
                 }
             } else (this._enemy.totalSoliders() > 1) {
                 let enemy = this._findEnemy();
@@ -75,6 +90,6 @@ class Soldier extends NPC {
     }
     
     private _findEnemy(): Enemy {
-        return application.battle.findEnemy(this.x, this.y, this._guardRadius, this._guardAltitude);
+        return application.battle.findBestEnemy(this._guardX, this._guardY, this._guardRadius, this._guardAltitude);
     }
 }
