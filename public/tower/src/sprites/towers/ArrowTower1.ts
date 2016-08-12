@@ -1,8 +1,6 @@
-class ArrowTower extends Tower {
+class ArrowTower1 extends Tower {
     protected _soliders: Solider[];
-    
-    protected _guardRadius: number;
-    
+
     public constructor() {
         super();
         
@@ -12,9 +10,7 @@ class ArrowTower extends Tower {
     
     public initialize(properties:any) {
         super.initialize(properties);
-        
-        this._guardRadius = this._get(properties, "guardRadius", 10);
-        
+
         this.removeChildren();
     }
     
