@@ -26,6 +26,8 @@ class Bullet extends MovableEntity {
         
         this._targetX = target.x;
         this._targetY = target.y;
+        
+        this._computeSteps(this._target.x, this._target.y);
     }
     
     protected _moving() {
