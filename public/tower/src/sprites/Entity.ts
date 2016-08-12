@@ -71,9 +71,17 @@ class Entity extends egret.Sprite {
     		return defaultVal;
     	}
     }
+    
+    public erase() {
+    	this._do(EntityState.dead);
+    }
 
 	public dead(): boolean {
 		return this._state == EntityState.dead;
+	}
+	
+	public kill() {
+		this._do(EntityState.dying);
 	}
 	
 	public dying(): boolean {
