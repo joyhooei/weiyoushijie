@@ -20,6 +20,10 @@ class Tower extends Entity {
         this._sellPrice = this._get(properties, "sellPrice", 100);
     }
     
+    public sell() {
+        this._do(EntityState.dying);
+    }
+    
     protected _stateChanged(oldState: EntityState, newState: EntityState) {
     	if (newState == EntityState.building) {
     		application.battle.incGolds(-this.buyPrice);
