@@ -20,12 +20,14 @@ class ArrowTower extends Tower {
             let solider = this._createSolider();
             solider.x = 30;
             solider.y = 30;
+            solider.setParent(this);
             this.addChild(solider);
             this._solders.push(solider);
             
             solider = this._createSolider();
             solider.x = 100;
             solider.y = 100;
+            solider.setParent(this);
             this.addChild(solider);
             this._solders.push(solider);            
         }
