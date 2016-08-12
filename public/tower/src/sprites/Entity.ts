@@ -48,6 +48,22 @@ class Entity extends egret.Sprite {
     	this._parent = parent;
     }
     
+    public getMapX(): number {
+    	if (this._parent) {
+    		return this._parent.getMapX() + this.x;
+    	} else {
+    		return this.x;
+    	}
+    }
+    
+    public getMapY(): number {
+    	if (this._parent) {
+    		return this._parent.getMapY() + this.y;
+    	} else {
+    		return this.y;
+    	}
+    }
+    
     protected _get(properties: any, name:string, defaultVal:any): any {
     	if (properties && properties[name]) {
     		return properties[name];
