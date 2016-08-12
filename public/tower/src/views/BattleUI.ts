@@ -43,6 +43,8 @@ class BattleUI extends AbstractUI {
     }
 
     private _onEnterFrame(e:egret.Event) {
-        application.battle.update();
+        if (application.battle) {
+            application.battle.update();
+        }
     }
 }
