@@ -34,6 +34,7 @@ class Battle extends Entity {
     private _map: TiledMap;
     
     private _lives: number;
+    private _golds: number;
     
     private _focus: Entity;
 
@@ -69,6 +70,9 @@ class Battle extends Entity {
 
     public initialize(properties: any) {
         super.initialize(properties);
+        
+        this._lives = this._get(properties, "lives", 20);
+        this._golds = this._get(properties, "golds", 1000);
         
         this._baseLayer.removeChildren();
         this._areaLayer.removeChildren();
@@ -127,6 +131,10 @@ class Battle extends Entity {
     
     public incLives(lives: number) {
         this._lives += lives;
+    }
+    
+    public incGolds(golds: number) {
+        this._golds += golds;
     }
     
     private _addLayer():egret.Sprite {
