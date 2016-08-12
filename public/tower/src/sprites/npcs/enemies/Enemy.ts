@@ -33,7 +33,7 @@ class Enemy extends NPC {
     
     public addSolider(solider: Soldier) {
         this._soliders.push(solider);
-        this._do(EntityState.guarding);
+        this.guard();
         
         this._face(this._soliders[0]);
     }
@@ -50,7 +50,7 @@ class Enemy extends NPC {
         }
         
         if (this._soliders.length == 0) {
-            this._do(EntityState.moving);
+            this.move();
         } else {
             this._face(this._soliders[0]);
         }
@@ -93,7 +93,7 @@ class Enemy extends NPC {
         if (this._moveOneStep()) {
             application.battle.incLives(-1);
 
-            this._do(EntityState.dead);
+            this.erase();
         }
     }
     
