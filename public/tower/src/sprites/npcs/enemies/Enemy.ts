@@ -89,15 +89,12 @@ class Enemy extends NPC {
     
     //走一步，true表示已经到了终点
     protected _moveOneStep(): boolean {
-    	this._steps ++;
-        if (this._steps >= this._totalSteps) {
-            if (!this._nextPath()) {
-                //到达终点
-                return true;
-            }
+        if (super._moveOneStep() && !this._nextPath()) {
+        	//到达终点
+        	return true;
+        } else {
+        	return false;
         }
-
-        return super._moveOneStep();
     }
     
     protected _fighting() {
