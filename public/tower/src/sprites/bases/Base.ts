@@ -30,6 +30,8 @@ class Base extends Entity {
     
     public setTower(tower: Tower) {
         this._tower = tower;
+        
+        this._tower.setParent(this);
     }
     
     public select(again:boolean) {
