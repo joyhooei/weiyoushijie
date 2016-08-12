@@ -18,6 +18,7 @@ class EntityPool {
         if (!obj) {
             obj = <Entity>Object.create(window[className].prototype);
             obj.constructor.apply(obj);
+            obj.setMCs(application.characters[className].getMCs());
         }
 
         let properties = application.characters[className].getProperties() || {};
