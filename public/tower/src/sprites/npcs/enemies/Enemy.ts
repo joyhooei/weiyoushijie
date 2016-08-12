@@ -6,6 +6,9 @@ class Enemy extends NPC {
     //当前路径
     protected _path: number;
     
+    //击毙后可以获取的金币
+    protected _gold: number;
+    
     public constructor() {
         super();
     }
@@ -13,7 +16,12 @@ class Enemy extends NPC {
     public initialize(properties:any) {
         super.initialize(properties);
         
+        this._gold = this._get(properties, "gold", 10);
+        
         this._soliders = [];
+        
+        this._paths = [];
+        this._path  = 0;
     }
     
     public setPaths(paths: number[][]): boolean {
@@ -74,6 +82,8 @@ class Enemy extends NPC {
     protected _stateChanged(oldState: EntityState, newState: EntityState) {
     	if (newState == EntityState.moving && oldState != EntityState.idle) {
     		this._readToMove();
+    	} else if (newState == EntityState.dying) {
+    		application.battle.incGold(this._gold);
     	}
     	
     	super._stateChanged(oldState, newState);
