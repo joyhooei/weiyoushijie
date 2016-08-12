@@ -1,4 +1,4 @@
-class Arrow extends Bomb {
+class Arrow extends CastBullet {
     protected _missing: boolean;
     
     public constructor() {
