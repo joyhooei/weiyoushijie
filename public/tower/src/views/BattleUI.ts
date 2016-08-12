@@ -15,12 +15,12 @@ class BattleUI extends AbstractUI {
         self._stage = stage;
         self._level = level;
 
-        self.grpSystemTools.addChild(new SoliderToolItem());
-        self.grpSystemTools.addChild(new FireBallToolItem());
+        self.grpSystemTools.addChild(new BattleTimeoutTooItem({category: 'solider'}));
+        self.grpSystemTools.addChild(new BattleTimeoutTooItem({category: 'fireball'}));
         
         application.dao.fetch("Tool", {customer_id: application.me.attrs.id, count: {$gt: 0}}).then(function(tools){
             for(let i = 0; i < tools.length; i++) {
-                self.grpBoughtTools.addChild(new TooItem(tool));
+                self.grpBoughtTools.addChild(new BattleTooItem(tool));
             }
         })
     }
