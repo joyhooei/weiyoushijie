@@ -36,8 +36,7 @@ class Base extends Entity {
     
     public sellTower() {
         this._tower.sell();
-        application.pool.set(this._tower);
-        
+
         this._tower = null;
     }
     
