@@ -1,57 +1,58 @@
 class ArrowTower extends Tower {
-    protected _solders: Solider[];
+    protected _soliders: Solider[];
     
     protected _guardRadius: number;
     
     public constructor() {
         super();
+        
+        this._soliders.push(this._createSolider(30, 30));
+        this._soliders.push(this._createSolider(100, 100));
     }
     
     public initialize(properties:any) {
         super.initialize(properties);
         
         this._guardRadius = this._get(properties, "guardRadius", 10);
+        
+        this.removeChildren();
     }
     
     protected _stateChanged(oldState: EntityState, newState: EntityState) {
         super._stateChanged(oldState, newState);
         
         if (newState == EntityState.guarding) {
-            let solider = this._createSolider();
-            solider.x = 30;
-            solider.y = 30;
-            solider.setParent(this);
-            this.addChild(solider);
-            this._solders.push(solider);
-            
-            solider = this._createSolider();
-            solider.x = 100;
-            solider.y = 100;
-            solider.setParent(this);
-            this.addChild(solider);
-            this._solders.push(solider);            
+            for(let i = 0; i < this._soliders.length; i++) {
+                this.addChild(this._soliders[i]);
+            }
         }
     }
     
-    protected _createSolider():ArrowSolider {
-        return <ArrowSolider>application.pool.get(
+    protected _createSolider(x: number, y: number):ArrowSolider {
+        let solider =  <ArrowSolider>application.pool.get(
                 "ArrowSolider", 
-                {"guardX": this.parent.x, "guardY": this.parent.y, "guardRadius", this._guardRadius})
+                {"guardX": this.getMapX(), "guardY": this.getMapY(), "guardRadius", this._guardRadius});
+                
+        solider.x = x;
+        solider.y = y;   
+        
+        solider.setParent(this);
+        return solider;
     }
     
     public update() {
         super.update();
         
-        for(let i = 0; i < this._solders.length; i++) {
-            this._solders[i].update();
+        for(let i = 0; i < this._soliders.length; i++) {
+            this._soliders[i].update();
         }
     }
     
     protected _paint() {
         super._paint();
         
-        for(let i = 0; i < this._solders.length; i++) {
-            this._solders[i]._paint();
+        for(let i = 0; i < this._soliders.length; i++) {
+            this._soliders[i]._paint();
         }
     }        
         
