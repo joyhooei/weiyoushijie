@@ -7,6 +7,8 @@ class BattleUI extends AbstractUI {
     
     public grpBoughtTools: eui.Group;
     
+    public imgBack: eui.Image;
+    
     constructor(stage:number, level:number) {
         super("battleUISkin");
         
@@ -24,6 +26,15 @@ class BattleUI extends AbstractUI {
             }
         })
         
+		self.imgBack.addEventListener(egret.TouchEvent.TOUCH_TAP,() => {
+		    application.battle.erase();
+		    application.pool.set(application.battle);
+		    
+		    application.battle = null;
+		    
+		    application.hide(self);
+		}, self);        
+        
         self.stage.frameRate = application.frameRate;
     }
 
@@ -31,9 +42,8 @@ class BattleUI extends AbstractUI {
         var self = this;
         
         var options = {stage: self._stage, level: self._level};
-        application.battle = <Battle>application.pool.get("Battle" + this._stage);
+        application.battle = <Battle>application.pool.get("Battle" + this._stage, options);
         application.battle.loadResource(options).then(function(){
-            application.battle.initialize(options);
             self.addChildAt(application.battle, 0);
 
             self.addEventListener(egret.Event.ENTER_FRAME,self._onEnterFrame, self);
