@@ -28,10 +28,15 @@ class Base extends Entity {
         return this._guardY;
     }
     
-    public setTower(tower: Tower) {
+    public buildTower(tower: Tower) {
         this._tower = tower;
         
         this._tower.setParent(this);
+    }
+    
+    public sellTower() {
+        this._tower.sell();
+        this._tower = null;
     }
     
     public select(again:boolean) {
