@@ -29,13 +29,16 @@ class Base extends Entity {
     }
     
     public buildTower(tower: Tower) {
-        this._tower = tower;
+        if (this._tower) {
+            this._tower.erase();
+        }
         
+        this._tower = tower;
         this._tower.setParent(this);
     }
     
     public sellTower() {
-        this._tower.sell();
+        this._tower.kill();
 
         this._tower = null;
     }
