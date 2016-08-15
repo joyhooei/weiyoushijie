@@ -31,11 +31,13 @@ class TowerMenuUI extends AbstractUI{
     }
     
     private _addImage(path: string, x: number, y: number) : eui.Image {
-        let image = new Image();
+        let image = new eui.Image();
         image.source = path;
         image.x = x;
         image.y = y;
         image.touchEnabled = true;
         this.addChild(image);
+
+        return image;
     }
 }

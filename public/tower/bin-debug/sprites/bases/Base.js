@@ -7,10 +7,26 @@ var Base = (function (_super) {
     var d = __define,c=Base,p=c.prototype;
     p.initialize = function (properties) {
         _super.prototype.initialize.call(this, properties);
+        this._guardX = this._get(properties, "guardX", 0);
+        this._guardY = this._get(properties, "guardY", 0);
         this._tower = null;
     };
-    p.setTower = function (tower) {
+    p.getGuardX = function () {
+        return this._guardX;
+    };
+    p.getGuardY = function () {
+        return this._guardY;
+    };
+    p.buildTower = function (tower) {
+        if (this._tower) {
+            this._tower.erase();
+        }
         this._tower = tower;
+        this._tower.setParent(this);
+    };
+    p.sellTower = function () {
+        this._tower.kill();
+        this._tower = null;
     };
     p.select = function (again) {
         if (this._tower) {
@@ -22,6 +38,14 @@ var Base = (function (_super) {
     };
     p.deselect = function () {
         application.battle.hideAllTools();
+    };
+    p.paint = function () {
+        if (this._tower) {
+            this._tower.paint();
+        }
+        else {
+            _super.prototype.paint.call(this);
+        }
     };
     return Base;
 }(Entity));

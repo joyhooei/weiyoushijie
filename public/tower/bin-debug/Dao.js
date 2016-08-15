@@ -7,7 +7,6 @@ var Dao = (function (_super) {
     var d = __define,c=Dao,p=c.prototype;
     p.fetch = function (model, conditions, filters) {
         conditions = conditions || {};
-        conditions["game"] = this._game;
         filters = filters || {};
         return this.rest("select/" + model, { conditions: conditions, filters: filters });
     };

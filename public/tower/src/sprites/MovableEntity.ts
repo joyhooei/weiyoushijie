@@ -21,9 +21,9 @@ class MovableEntity extends Entity {
     public initialize(properties:any) {
         super.initialize(properties);
         
-        this._step       = this.get(properties, "step", 10);
-        this._idleTicks  = this.get(properties, "idleTicks", 0);
-        this._dyingTicks = this.get(properties, "idleTicks", 5);
+        this._step       = this._get(properties, "step", 10);
+        this._idleTicks  = this._get(properties, "idleTicks", 0);
+        this._dyingTicks = this._get(properties, "idleTicks", 5);
 
         this._delta = [];
         this._totalSteps = 0;
@@ -44,7 +44,7 @@ class MovableEntity extends Entity {
     }
 
     //计一步走的距离
-    private _computeSteps(x:number, y:number) {
+    protected _computeSteps(x:number, y:number) {
 	    let stepX = 0;
 	    let stepY = 0;
 	    
@@ -66,7 +66,7 @@ class MovableEntity extends Entity {
             stepY = 0 - stepY;
         }
 
-	   	this._delta] = [stepX, stepY];
+	   	this._delta = [stepX, stepY];
 		this._steps = 0;
     }
     

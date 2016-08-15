@@ -8,6 +8,9 @@ var Hp = (function (_super) {
         this._maxHp = this._get(properties, "hp", 100);
         this._hp = this._maxHp;
     };
+    p.kill = function () {
+        return this.hitBy(this._hp);
+    };
     p.hitBy = function (damage) {
         var hp = Math.max(0, this._hp - damage);
         if (hp != this._hp) {

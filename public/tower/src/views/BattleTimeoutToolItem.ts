@@ -35,15 +35,15 @@ class BattleTimeoutToolItem extends BattleToolItem {
     }
     
     public use(x: number, y: number) {
-        if (tool.category == "solider") {
-            let solider = <Solider>application.tool.get("Solider", {guardX: x, guardY: y);
+        if (this._tool.category == "solider") {
+            let solider = <Soldier>application.pool.get("Solider", {guardX: x, guardY: y});
             solider.x = x;
             solider.y = y;
             application.battle.addSolider(solider);
-        } else if (tool.category == "fireball") {
-            let bullet = <Bullet>application.tool.get("Fireball");
+        } else if (this._tool.category == "fireball") {
+            let bullet = <Bullet>application.pool.get("Fireball");
             
-            let emptyEnemy = <Enemy>application.tool.get("EmptyEnemy");
+            let emptyEnemy = <Enemy>application.pool.get("EmptyEnemy");
             emptyEnemy.x = x;
             emptyEnemy.y = y;
             application.battle.addEnemy(emptyEnemy);

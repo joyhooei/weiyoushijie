@@ -1,14 +1,10 @@
-class ArrowSolider extends Solider {
-    protected _enemy: Enemy;
-    
+class ArrowSoldier extends Soldier {
     public constructor() {
         super();
     }
     
     public initialize(properties:any) {
         super.initialize(properties);
-
-        this._enemy = null;
     }
 
     protected _guarding() {
@@ -23,7 +19,7 @@ class ArrowSolider extends Solider {
             if (this._enemy == null 
                     || this._enemy.dying() 
                     || this._enemy.dead()
-                    || !this._enemy.intersects(x, y, this._guardRadius)) {
+                    || !this._enemy.intersect(x, y, this._guardRadius)) {
                 this._enemy = application.battle.findEnemy(x, y, this._guardRadius, [0]);
                 
                 this._face(this._enemy);
@@ -35,7 +31,7 @@ class ArrowSolider extends Solider {
                 arrow.y = y;
                 arrow.setTarget(this._enemy);
                 
-                application.addBullet(arrow);
+                application.battle.addBullet(arrow);
             }
         }
     }    

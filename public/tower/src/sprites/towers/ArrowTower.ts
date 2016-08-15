@@ -1,5 +1,5 @@
 class ArrowTower extends Tower {
-    protected _soliders: Solider[];
+    protected _soldiers: ArrowSoldier[];
 
     public constructor() {
         super();
@@ -15,42 +15,40 @@ class ArrowTower extends Tower {
         super._stateChanged(oldState, newState);
         
         if (newState == EntityState.guarding) {
-            for(let i = 0; i < this._soliders.length; i++) {
-                this.addChild(this._soliders[i]);
+            for(let i = 0; i < this._soldiers.length; i++) {
+                this.addChild(this._soldiers[i]);
             }
         }
     }
     
     protected _createSoliders(className:string) {
-        this._soliders.push(this._createSolider(className, 36, 15));
-        this._soliders.push(this._createSolider(className, 50, 15));
+        this._soldiers.push(this._createSoldier(className, 36, 15));
+        this._soldiers.push(this._createSoldier(className, 50, 15));
     }
     
-    protected _createSolider(className:string, x: number, y: number):ArrowSolider {
-        let solider =  <ArrowSolider>application.pool.get(
-                className,
-                {"guardX": this.getMapX(), "guardY": this.getMapY(), "guardRadius", this._guardRadius});
+    protected _createSoldier(className:string, x: number, y: number):ArrowSoldier {
+        let soldier =  <ArrowSoldier>application.pool.get(className, {"guardX": this.getMapX(), "guardY": this.getMapY(), "guardRadius": this._guardRadius});
                 
-        solider.x = x;
-        solider.y = y;   
+        soldier.x = x;
+        soldier.y = y;   
         
-        solider.setParent(this);
-        return solider;
+        soldier.setParent(this);
+        return soldier;
     }
     
     public update() {
         super.update();
         
-        for(let i = 0; i < this._soliders.length; i++) {
-            this._soliders[i].update();
+        for(let i = 0; i < this._soldiers.length; i++) {
+            this._soldiers[i].update();
         }
     }
     
-    protected _paint() {
-        super._paint();
+    public paint() {
+        super.paint();
         
-        for(let i = 0; i < this._soliders.length; i++) {
-            this._soliders[i]._paint();
+        for(let i = 0; i < this._soldiers.length; i++) {
+            this._soldiers[i].paint();
         }
     }        
         

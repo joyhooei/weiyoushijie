@@ -5,7 +5,7 @@ class EntityPool {
         this._objs = new Array<Entity>();
     }
     
-    public get(className:string, options?any): Entity {
+    public get(className:string, options?:any): Entity {
         let obj:Entity = null;
         for(let i = 0; i < this._objs.length; i++) {
             obj = this._objs[i];

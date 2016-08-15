@@ -14,11 +14,11 @@ class Character {
     }
 
     public getProperties(): any {
-        return_properties;
+        return this._properties;
     }
 
     public getMCs(): egret.MovieClip[] {
-        let mcs = egret.MovieClip[];
+        let mcs = [];
 
         for(let j = 0; j < this._mcs.length; j++) {
             let mc = new egret.MovieClip(this._factory.generateMovieClipData(this._mcs[j]));

@@ -21,7 +21,7 @@ class Base extends Entity {
     }
     
     public getGuardX(): number {
-        return this._guradX;
+        return this._guardX;
     }
     
     public getGuardY(): number {
@@ -55,11 +55,11 @@ class Base extends Entity {
         application.battle.hideAllTools();
     }
     
-    protected _paint() {
+    public paint() {
         if (this._tower) {
-            this._tower._paint();
+            this._tower.paint();
         } else {
-            super._paint();
+            super.paint();
         }
     }
 }

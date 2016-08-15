@@ -3,16 +3,29 @@ var EntityPool = (function () {
         this._objs = new Array();
     }
     var d = __define,c=EntityPool,p=c.prototype;
-    p.get = function (className) {
+    p.get = function (className, options) {
+        var obj = null;
         for (var i = 0; i < this._objs.length; i++) {
-            var obj_1 = this._objs[i];
-            if (className == egret.getQualifiedClassName(obj_1)) {
+            obj = this._objs[i];
+            if (className == egret.getQualifiedClassName(obj)) {
                 this._objs.splice(i, 1);
-                return obj_1;
+                break;
             }
         }
-        var obj = Object.create(window[className].prototype);
-        obj.constructor.apply(obj);
+        if (!obj) {
+            obj = Object.create(window[className].prototype);
+            obj.constructor.apply(obj);
+            obj.setMCs(application.characters[className].getMCs());
+        }
+        var properties = application.characters[className].getProperties() || {};
+        if (options) {
+            for (var key in options) {
+                if (options.hasOwnProperty(key)) {
+                    properties[key] = options[key];
+                }
+            }
+        }
+        obj.initialize(properties);
         return obj;
     };
     p.set = function (obj) {

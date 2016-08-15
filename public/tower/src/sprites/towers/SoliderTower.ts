@@ -19,10 +19,10 @@ class SoliderTower extends Tower {
     }
     
     private addSolider() {
-        let solider = <Solider>application.pool.get("Solider", {"guardX": this._guardX, "guardY": this._guardY});
+        let solider = <Soldier>application.pool.get("Solider", {"guardX": this._guardX, "guardY": this._guardY});
         solider.setParent(this);
 
-        application.map.addSolider(this.x, this.y, solider);
+        application.battle.addSolider(solider);
         
         this._totalSoliders ++;
     }
@@ -40,7 +40,7 @@ class SoliderTower extends Tower {
     }
     
     protected _guarding() {
-        if (this._ticks % this._hitSpeed == 0 && this._totalSoliders.length < 3) {
+        if (this._ticks % this._hitSpeed == 0 && this._totalSoliders < 3) {
             this.addSolider();
         }
     }

@@ -1,0 +1,1 @@
+{"version":3,"file":"MagicTower.js","sourceRoot":"","sources":["../../../src/sprites/towers/MagicTower.ts"],"names":[],"mappings":"AAAA;IAAyB,8BAAc;IACnC;QACI,iBAAO,CAAC;IACZ,CAAC;;IAES,eAAa,GAAvB;QACI,MAAM,CAAS,WAAW,CAAC,IAAI,CAAC,GAAG,CAAC,OAAO,CAAC,CAAC;IACjD,CAAC;IACL,iBAAC;AAAD,CAAC,AARD,CAAyB,cAAc,GAQtC;oBARK,UAAU;AAQf"}

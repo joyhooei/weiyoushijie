@@ -12,7 +12,7 @@ class Bomb extends CastBullet {
     }
     
     protected _hitTarget() {
-        let enemies = application.map.findEnemies(this.x, this.y, this._hitRadius, [0]);
+        let enemies = application.battle.findEnemies(this.x, this.y, this._hitRadius, [0]);
         for (let i = 0; i < enemies.length; i++) {
             enemies[i].hitBy(this._damage);
         }

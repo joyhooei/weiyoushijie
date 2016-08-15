@@ -27,12 +27,34 @@ var Entity = (function (_super) {
         _super.call(this);
     }
     var d = __define,c=Entity,p=c.prototype;
+    p.setMCs = function (mcs) {
+        this._mcs = mcs;
+    };
     /**初始化*/
     p.initialize = function (properties) {
         this._direction = this._get(properties, "direction", EntityDirection.east);
         this._state = this._get(properties, "state", EntityState.idle);
         this._ticks = 0;
         this._repaint = true;
+    };
+    p.setParent = function (parent) {
+        this._parent = parent;
+    };
+    p.getMapX = function () {
+        if (this._parent) {
+            return this._parent.getMapX() + this.x;
+        }
+        else {
+            return this.x;
+        }
+    };
+    p.getMapY = function () {
+        if (this._parent) {
+            return this._parent.getMapY() + this.y;
+        }
+        else {
+            return this.y;
+        }
     };
     p._get = function (properties, name, defaultVal) {
         if (properties && properties[name]) {
@@ -41,6 +63,24 @@ var Entity = (function (_super) {
         else {
             return defaultVal;
         }
+    };
+    p.build = function () {
+        this._do(EntityState.building);
+    };
+    p.move = function () {
+        this._do(EntityState.moving);
+    };
+    p.guard = function () {
+        this._do(EntityState.guarding);
+    };
+    p.fight = function () {
+        this._do(EntityState.fighting);
+    };
+    p.kill = function () {
+        this._do(EntityState.dying);
+    };
+    p.erase = function () {
+        this._do(EntityState.dead);
     };
     p.dead = function () {
         return this._state == EntityState.dead;
@@ -75,11 +115,11 @@ var Entity = (function (_super) {
                 this._dying();
                 break;
         }
-        this._paint();
+        this.paint();
     };
     //根据状态、面向修改重新渲染
-    p._paint = function () {
-        if (this._repaint) {
+    p.paint = function () {
+        if (this._repaint && this._state != EntityState.idle && this._state != EntityState.dead) {
             var mc = application.characters[egret.getQualifiedClassName(this)].getMC(this._direction, this._state);
             if (mc && mc != this._mc) {
                 this.removeChild(this._mc);
@@ -87,11 +127,21 @@ var Entity = (function (_super) {
                 this.addChild(mc);
                 mc.start();
             }
-            this._repaint = false;
         }
+    };
+    p._getCurrentMC = function () {
+        return this._mcs[0];
     };
     p._do = function (state) {
         if (state != this._state) {
+            //dead状态不需要再变更状态了
+            if (this._state == EntityState.dead) {
+                return;
+            }
+            //当前状态如果是dying，新状态只能是dead
+            if (this._state == EntityState.dying && state != EntityState.dead) {
+                return;
+            }
             this._stateChanged(this._state, state);
             this._ticks = 0;
             this._state = state;
@@ -106,6 +156,11 @@ var Entity = (function (_super) {
         }
     };
     p._stateChanged = function (oldState, newState) {
+        if (this._parent && newState == EntityState.dead) {
+            this._parent.childDead(this);
+        }
+    };
+    p.childDead = function (child) {
     };
     p._idle = function () {
     };

@@ -2,21 +2,18 @@ class Battle1 extends Battle {
     public constructor() {
         super();
         
-<<<<<<< HEAD
-        this._addHero(<Hero>application.pool.get("MonkeyKing"));
-        
-        this._addWaveEnemy(0, 0, 0, "Enemy", {});
-        this._addWaveEnemy(0, 0, 0, "Enemy", {});
-        this._addWaveEnemy(0, 0, 0, "Enemy", {});
-        this._addWaveEnemy(0, 0, 0, "Enemy", {});
-=======
         this._url = "level1.tmx";
     }
 
     //增加英雄
     protected _addHeros() {
-        let heros = this._map.getHeros();
-        this._addHero(heros[0][0], heros[0][1], <MonkeyKing>application.pool.get("MonkeyKing"));
+        let pos = this._map.getHeros();
+        for(let i = 0; i < pos.length; i++) {
+            let hero = <MonkeyKing>application.pool.get("MonkeyKing");
+            hero.x = pos[i][0];
+            hero.y = pos[i][1];
+            this.addHero(hero);
+        }
     }
     
     protected _addStandbys() {
@@ -32,10 +29,9 @@ class Battle1 extends Battle {
         ];
         
         for(let i = 0; i < waves.length; i++) {
-            let wave = waves[i];
+            let w = waves[i];
             
-            this._addWaveStandbys(wave[0], wave[1], wave[2], paths[wave[3]]);
+            this._addWaveStandbys(<number>w[0], <string>w[1], <number>w[2], paths[w[3]]);
         }
->>>>>>> 4380d4d809df42e8d1ac21a149a3d223d3ac5bcb
     }
 }

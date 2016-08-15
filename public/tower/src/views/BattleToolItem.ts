@@ -1,5 +1,5 @@
 class BattleToolItem extends AbstractUI {
-    private _tool: any;
+    protected _tool: any;
     
     public imgTool: eui.Image;
 
@@ -19,12 +19,12 @@ class BattleToolItem extends AbstractUI {
         }
     }
     
-    public use() {
+    public use(x:number, y:number) {
         this._tool.count -= 1;
         application.dao.save("Tool", this._tool);
         
-        if (tool.category == "bomb") {
-        } else if (tool.category == "gold") {
+        if (this._tool.category == "bomb") {
+        } else if (this._tool.category == "gold") {
         }
         
         if (this._tool.count <= 0) {

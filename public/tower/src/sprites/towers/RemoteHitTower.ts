@@ -16,7 +16,7 @@ class RemoteHitTower extends Tower {
             if (this._enemy == null 
                     || this._enemy.dying() 
                     || this._enemy.dead()
-                    || !this._enemy.intersects(this.parent.x, this.parent.y, this._guardRadius)) {
+                    || !this._enemy.intersect(this.parent.x, this.parent.y, this._guardRadius)) {
                 this._enemy = application.battle.findEnemy(this.parent.x, this.parent.y, this._guardRadius, [0]);
             }
 
@@ -32,7 +32,7 @@ class RemoteHitTower extends Tower {
         bomb.y = this.parent.y;
         bomb.setTarget(this._enemy);
         
-        application.addBullet(bomb);        
+        application.battle.addBullet(bomb);        
     }
     
     protected _createBullet():Bullet {

@@ -1,12 +1,12 @@
 class Soldier extends NPC {
-    private _guardX: number;
-    private _gradeY: number;
+    protected _guardX: number;
+    protected _guardY: number;
     
-    private _guardRadius: number;
+    protected _guardRadius: number;
     
-    private _guardAltitude: numbers;
+    protected _guardAltitude: number;
 
-    private _enemy: Enemy;
+    protected _enemy: Enemy;
     
     public constructor() {
         super();
@@ -18,7 +18,7 @@ class Soldier extends NPC {
         this._enemy = null;
 
         this._guardX        = this._get(properties, 'guardX', 0);
-        this._gradeY        = this._get(properties, 'guardY', 0);
+        this._guardY        = this._get(properties, 'guardY', 0);
         this._guardRadius   = this._get(properties, 'guardRadius', 10);
         this._guardAltitude = this._get(properties, 'guardAltitude', [-1, 0]);
     }
@@ -59,16 +59,16 @@ class Soldier extends NPC {
 
     protected _fighting() {
         if (this._ticks % this._hitSpeed == 0) {
-            this._enemy._do(EntityState.fighting);
+            this._enemy.fight();
             
             if (this._enemy.hitBy(this._damage)) {
                 let enemy = this._findEnemy();
                 if (enemy) {
                     this._fightWith(enemy);
                 } else {
-                    this.moveTo(this._guardX, this.guardY);
+                    this.moveTo(this._guardX, this._guardY);
                 }
-            } else (this._enemy.totalSoliders() > 1) {
+            } else if (this._enemy.totalSoliders() > 1) {
                 let enemy = this._findEnemy();
                 if (enemy && enemy.totalSoliders() == 0) {
                     this._fightWith(enemy);
@@ -78,6 +78,6 @@ class Soldier extends NPC {
     }
     
     private _findEnemy(): Enemy {
-        return application.battle.findBestEnemy(this._guardX, this._guardY, this._guardRadius, this._guardAltitude);
+        return application.battle.findSuitableEnemy(this._guardX, this._guardY, this._guardRadius, [this._guardAltitude]);
     }
 }

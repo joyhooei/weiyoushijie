@@ -1,10 +1,10 @@
 class Bullet extends MovableEntity {
-    private _target: NPC;
+    protected _target: NPC;
 
-    private _targetX: number;
-    private _targetY: number;
+    protected _targetX: number;
+    protected _targetY: number;
     
-    private _damage: number;
+    protected _damage: number;
     
     public constructor() {
         super();

@@ -31,6 +31,7 @@ var application;
         application.channel = Channel.create();
         application.characters = Character.createAll();
         application.pool = new EntityPool();
+        application.frameRate = 60;
         application.stopwatch = new egret.EventDispatcher();
         var timer = new egret.Timer(1000, 0);
         timer.addEventListener(egret.TimerEvent.TIMER, function (event) {

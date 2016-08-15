@@ -1,44 +1,46 @@
 class Battle extends Entity {
     /**地基层*/
-    private _baseLayer: egret.Sprite;
+    protected _baseLayer: egret.Sprite;
     /**范围层*/
-    private _areaLayer: egret.Sprite;
+    protected _areaLayer: egret.Sprite;
     /**怪物层、士兵层层级排序)*/
-    private _objLayer: egret.Sprite;
+    protected _objLayer: egret.Sprite;
     /**弓箭、炮弹层*/
-    private _bulletLayer: egret.Sprite;
+    protected _bulletLayer: egret.Sprite;
     /**工具层*/
-    private _toolLayer: egret.Sprite;
+    protected _toolLayer: egret.Sprite;
 
     //己方
-    private _heros:     Hero[];
-    private _bases:     Base[];
-    private _soliders:  Soldier[];
+    protected _heros:     Hero[];
+    protected _bases:     Base[];
+    protected _soliders:  Soldier[];
     
     //敌方
-    private _standbys: Enemy[];
-    private _enemies: Enemy[];
+    protected _standbys: Enemy[];
+    protected _enemies: Enemy[];
+
+    protected _waves: Enemy[][];
     
     //子弹
-    private _bullets:Bullet[];
+    protected _bullets:Bullet[];
 
     //当前一波敌人
-    private _currentWave: number;
+    protected _currentWave: number;
     //下一波敌人发动攻击时间
-    private _timeToNextWave: number;
+    protected _timeToNextWave: number;
     //两波敌人发动攻击的时间间隔
-    private _timeBetweenWaves: number;
+    protected _timeBetweenWaves: number;
     
     //地图文件地址
-    private _url: string;
-    private _map: TiledMap;
+    protected _url: string;
+    protected _map: TiledMap;
     
-    private _lives: number;
-    private _golds: number;
+    protected _lives: number;
+    protected _golds: number;
     
-    private _focus: Entity;
+    protected _focus: Entity;
     
-    private _toolItem: BattleToolItem;
+    protected _toolItem: BattleToolItem;
 
     public constructor() {
         super();
@@ -92,16 +94,12 @@ class Battle extends Entity {
         this._bullets = [];
         
         this._enemies = [];
-        this._cartridges = [];
 
         this._addBases();
-<<<<<<< HEAD
-=======
 
         this._addHeros();
         
         this._addStandbys();
->>>>>>> 4380d4d809df42e8d1ac21a149a3d223d3ac5bcb
     }
     
     public enableSelect(obj: Entity) {
@@ -125,7 +123,7 @@ class Battle extends Entity {
                         this._toolItem.use(x, y);
                         
                         this._toolItem = null;
-                    } else (this._focus) {
+                    } else if (this._focus) {
     	                let baseClassName = egret.getQualifiedSuperclassName(this._focus);
         	            if (baseClassName == "Hero") {
         	                (<Hero>this._focus).moveTo(x, y);
@@ -160,33 +158,23 @@ class Battle extends Entity {
     }
 
     //增加英雄
-<<<<<<< HEAD
-    protected _addHero(hero:Hero) {
-        let pos = this._map.getBaseGuardPosition();
-        this._setHero(pos[0][0],pos[0][1],hero);        
-=======
     protected _addHeros() {
     }
     
     //增加敌人
     protected _addStandbys() {
         
->>>>>>> 4380d4d809df42e8d1ac21a149a3d223d3ac5bcb
     }
 
     //增加塔基
     protected _addBases() {
-<<<<<<< HEAD
-        let bases = this._map.getBasePositions();
-=======
         let bases = this._map.getBases();
->>>>>>> 4380d4d809df42e8d1ac21a149a3d223d3ac5bcb
         
         for(let i = 0; i < bases.length; i++) {
             let base = <Base>application.pool.get("Base", {"guardX": bases[i][2], "guardY": bases[i][3]});
             base.x = bases[i][0];
             base.y = bases[i][1];
-            this._addBase(base);
+            this.addBase(base);
         }
     }
 
@@ -224,13 +212,15 @@ class Battle extends Entity {
             this._launchNextWave();
         }
         
-        this._hero.update();
+        for(let i = 0; i < this._heros.length; i++) {
+            this._heros[i].update();
+        }
+
         
-        this._updateLayer(this._towers, this._objLayer);
+        this._updateLayer(this._bases, this._objLayer);
         this._updateLayer(this._soliders, this._objLayer);
         this._updateLayer(this._enemies, this._objLayer);
         this._updateLayer(this._bullets, this._bulletLayer);
-        this._updateLayer(this._cartridges, this._bulletLayer);
     }
     
     private _launchNextWave() {
@@ -256,7 +246,7 @@ class Battle extends Entity {
         }        
     }
 
-    public findEnemies(x: number, y: number, radius: number, altitudes: number[]) : Enemy {
+    public findEnemies(x: number, y: number, radius: number, altitudes: number[]) : Enemy[] {
         var enemies = [];
         
         for(var i = 0; i < this._enemies.length; i++) {
@@ -318,11 +308,11 @@ class Battle extends Entity {
 
     public addBase(base:Base) {
         this._bases.push(base);
-        this._baseLayer.addChild(bullet);
+        this._baseLayer.addChild(base);
     }
 
     public addHero(hero:Hero) {
         this._heros.push(hero);
-        this._objLayer.addChild(Hero);      
+        this._objLayer.addChild(hero);      
     }
 }

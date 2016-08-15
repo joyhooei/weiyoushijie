@@ -2,36 +2,30 @@ var Bullet = (function (_super) {
     __extends(Bullet, _super);
     function Bullet() {
         _super.call(this);
-        this._target = null;
-        this._missing = false;
     }
     var d = __define,c=Bullet,p=c.prototype;
     p.initialize = function (properties) {
         _super.prototype.initialize.call(this, properties);
-        this._damage = properties.damage;
+        this._target = null;
+        this._targetX = 0;
+        this._targetY = 0;
+        this._damage = this._get(properties, 'damage', 10);
     };
     p.setTarget = function (target) {
         this._target = target;
+        this._targetX = target.x;
+        this._targetY = target.y;
+        this._computeSteps(this._target.x, this._target.y);
     };
     p._moving = function () {
-        if (this._target.dying() || this._target.dead()) {
-            this._missing = true;
-            this._do(EntityState.dying);
+        if (this._moveOneStep()) {
+            this.kill();
         }
         else {
-            this._turn(this._direction8(this._target.x, this._target.y));
-            this._computeSteps(this._target.x, this._target.y);
-            this._moveOneStep();
-            if (this.collide(this._target)) {
-                this._missing = false;
-                this._do(EntityState.dying);
-                this._target.hitBy(this._damage);
+            //如果目标移动，重新调整方向和路径
+            if (this._targetX != this._target.x || this._targetY != this._target.y) {
+                this.setTarget(this._target);
             }
-        }
-    };
-    p._dying = function () {
-        if (this._ticks > 3) {
-            this._do(EntityState.dead);
         }
     };
     return Bullet;

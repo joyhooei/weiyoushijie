@@ -30,7 +30,7 @@ class NPC extends MovableEntity {
     }
     
     public getAltitude(): number {
-        return _altitude;
+        return this._altitude;
     }
     
     public kill() {
@@ -47,15 +47,9 @@ class NPC extends MovableEntity {
             return false;
         }
     }
-<<<<<<< HEAD
     
     public paint() {
         super.paint();
-=======
-
-    protected _paint() {
-        super._paint();
->>>>>>> 4380d4d809df42e8d1ac21a149a3d223d3ac5bcb
         
         this._hp.paint();
     }
