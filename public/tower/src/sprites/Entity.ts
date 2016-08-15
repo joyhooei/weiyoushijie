@@ -93,12 +93,12 @@ class Entity extends egret.Sprite {
 		    	this._dying();
 		    	break;
     	}
-    	
-    	this._paint();
+
+        this.paint();
     }
     
     //根据状态、面向修改重新渲染
-    protected _paint() {
+    public paint() {
     	if (this._repaint) {
 	    	let mc = application.characters[egret.getQualifiedClassName(this)].getMC(this._direction, this._state);
 	    	if (mc && mc != this._mc) {

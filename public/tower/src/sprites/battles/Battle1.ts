@@ -2,11 +2,11 @@ class Battle1 extends Battle {
     public constructor() {
         super();
         
-        this._hero = <Hero>application.pool.get("Hero");
+        this._addHero(<Hero>application.pool.get("MonkeyKing"));
         
-        this._addWaveEnemy(0, 0, 0, "Enemy", 100, 10, 50);
-        this._addWaveEnemy(0, 0, 0, "Enemy", 100, 10, 50);
-        this._addWaveEnemy(0, 0, 0, "Enemy", 100, 10, 50);
-        this._addWaveEnemy(0, 0, 0, "Enemy", 100, 10, 50);
+        this._addWaveEnemy(0, 0, 0, "Enemy", {});
+        this._addWaveEnemy(0, 0, 0, "Enemy", {});
+        this._addWaveEnemy(0, 0, 0, "Enemy", {});
+        this._addWaveEnemy(0, 0, 0, "Enemy", {});
     }
 }

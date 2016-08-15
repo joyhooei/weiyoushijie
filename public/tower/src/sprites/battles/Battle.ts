@@ -78,8 +78,6 @@ class Battle extends Entity {
         this._cartridges = [];
 
         this._addBases();
-
-        this._addHero();
     }
     
     public enableSelect(obj: Entity) {
@@ -135,13 +133,13 @@ class Battle extends Entity {
     }
 
     //增加英雄
-    private _addHero() {
-        let hero = this._map.getBaseGuardPosition();
-        this._setHero(hero[0][0],hero[0][1],this._hero);        
+    protected _addHero(hero:Hero) {
+        let pos = this._map.getBaseGuardPosition();
+        this._setHero(pos[0][0],pos[0][1],hero);        
     }
 
     //增加塔基
-    private _addBases() {
+    protected _addBases() {
         let bases = this._map.getBasePositions();
         
         for(let i = 0; i < bases.length; i++) {

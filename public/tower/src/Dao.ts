@@ -9,7 +9,6 @@ class Dao extends egret.EventDispatcher {
 	
 	public fetch(model:string, conditions:{}, filters?:{}): Q.Promise<any[]> {
 		conditions = conditions || {};
-        conditions["game"] = this._game;
         
         filters = filters || {};
         

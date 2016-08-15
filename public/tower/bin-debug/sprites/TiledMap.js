@@ -34,7 +34,7 @@ var TiledMap = (function (_super) {
                 tmxTileMap.render();
                 resolve(tmxTileMap);
             }, url);
-            loader.addEventListener(egret.IOErrorEvent.IO_ERROR, function (event) {
+            urlLoader.addEventListener(egret.IOErrorEvent.IO_ERROR, function (event) {
                 reject('加载地图失败');
             }, this);
             urlLoader.load(new egret.URLRequest(url));
@@ -42,12 +42,12 @@ var TiledMap = (function (_super) {
     };
     p._parse = function (tmxTileMap) {
         this._grid = [];
-        this._tileWidth = tmxTileMap.tilewidth();
-        this._tileHeight = tmxTileMap.tileheight();
-        var layers = this.getLayers();
+        this._tileWidth = tmxTileMap.tilewidth;
+        this._tileHeight = tmxTileMap.tileheight;
+        var layers = tmxTileMap.getLayers();
         var pathLayer = layers[1];
-        for (var i = 0; i < pathLayer.rows(); i++) {
-            for (var j = 0; j < pathLayer.cols(); j++) {
+        for (var i = 0; i < pathLayer.rows; i++) {
+            for (var j = 0; j < pathLayer.cols; j++) {
                 var tileId = pathLayer.getTileId(i, j);
                 if (tileId == this._entranceTileId) {
                     this._grid[i][j] = TileType.entrance;
@@ -55,7 +55,7 @@ var TiledMap = (function (_super) {
                 else if (tileId == this._exitTileId) {
                     this._grid[i][j] = TileType.exit;
                 }
-                else if (tileId == this._pathId) {
+                else if (tileId == this._pathTileId) {
                     this._grid[i][j] = TileType.path;
                 }
                 else {
@@ -64,8 +64,8 @@ var TiledMap = (function (_super) {
             }
         }
         var baseLayer = layers[2];
-        for (var i = 0; i < baseLayer.rows(); i++) {
-            for (var j = 0; j < baseLayer.cols(); j++) {
+        for (var i = 0; i < baseLayer.rows; i++) {
+            for (var j = 0; j < baseLayer.cols; j++) {
                 var tileId = baseLayer.getTileId(i, j);
                 if (tileId == this._baseTileId) {
                     this._grid[i][j] = TileType.base;
@@ -73,13 +73,13 @@ var TiledMap = (function (_super) {
                 else if (tileId == this._soliderTileId) {
                     this._grid[i][j] = TileType.solider;
                 }
-                else if (tileId == this._heroTileID) {
+                else if (tileId == this._heroTileId) {
                     this._grid[i][j] = TileType.hero;
                 }
             }
         }
     };
-    p.movable = function (x, y) {
+    p.walkable = function (x, y) {
         x = Math.round(x / this._tileWidth);
         y = Math.round(y / this._tileHeight);
         return (x < this._grid.length && y < this._grid[x].length
@@ -88,7 +88,7 @@ var TiledMap = (function (_super) {
     p.getBasePositions = function () {
         return this._getPositionsByType(TileType.base);
     };
-    p.getBaseGuardPosition = function (x, y) {
+    p.getBaseGuardPosition = function () {
         return this._getPositionsByType(TileType.solider);
     };
     p.getHeroGuardPositions = function () {
@@ -101,29 +101,14 @@ var TiledMap = (function (_super) {
         return this._getPositionsByType(TileType.exit);
     };
     p.getEnemyPaths = function () {
-        var paths = number[][][];
-        var entrances = this.getEnemyEntrances();
-        var exits = this.getEnemyExits();
-        for (var i = 0; i < entrances.length; i++) {
-            for (var j = 0; j < exits.length; )
-                : j++;
-            {
-                var path = this._getEnemyPath(entrances[i], exits[j]);
-                if (path && path.length > 0) {
-                    paths.push([path[0] * this._tileWidth, path[1] * this._tileHeight]);
-                }
-            }
-        }
+        var paths = [];
         return paths;
     };
-    p._getEnemyPath = function (entrance, exit) {
-        var graph = new Graph(this._grid, { diagonal: true });
-        var start = graph.grid[entrance[0]][entrance[1]];
-        var end = graph.grid[exit[0]][exit[1]];
-        return astar.search(graph, start, end, { heuristic: astar.heuristics.diagonal });
+    p.getEnemyPath = function (x, y) {
+        return [];
     };
     p._getPositionsByType = function (type) {
-        var positions = [][];
+        var positions = [];
         for (var i = 0; i < this._grid.length; i++) {
             for (var j = 0; j < this._grid[i].length; j++) {
                 if (this._grid[i][j] == type) {

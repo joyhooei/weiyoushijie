@@ -15,7 +15,6 @@ class NPC extends MovableEntity {
         
         this._hp = new Hp();
         this._hp.width = 18;
-        this._hp.horizontalCenter = 0;
         this.addChild(this._hp);
     }
     
@@ -62,10 +61,10 @@ class NPC extends MovableEntity {
         npc.hitBy(this._damage);
     }
     
-    protected _paint() {
-        super._paint();
+    public paint() {
+        super.paint();
         
-        this._hp._paint();
+        this._hp.paint();
     }
     
     //走一步

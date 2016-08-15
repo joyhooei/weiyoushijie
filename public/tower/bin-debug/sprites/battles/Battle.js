@@ -13,7 +13,6 @@ var Battle = (function (_super) {
         //添加工具层
         this._toolLayer = this._addLayer();
         this.enableSelect(this);
-        this._map = new TiledMap();
     }
     var d = __define,c=Battle,p=c.prototype;
     p.initialize = function (properties) {
@@ -74,7 +73,7 @@ var Battle = (function (_super) {
     p.loadResource = function (options) {
         var self = this;
         return Q.Promise(function (resolve, reject, notify) {
-            self._map.load(self._url, 800, 480).then(function () {
+            TiledMap.load(self._url, 800, 480).then(function (map) {
                 resolve(self);
             }, function (error) {
                 reject(error);
@@ -84,7 +83,7 @@ var Battle = (function (_super) {
     //增加英雄
     p._addHero = function () {
         var hero = this._map.getBaseGuardPosition();
-        this._setHero(hero[0], hero[1], this._hero);
+        this._setHero(hero[0][0], hero[0][1], this._hero);
     };
     //增加塔基
     p._addBases = function () {
@@ -116,7 +115,7 @@ var Battle = (function (_super) {
             var path = this._map.getEnemyPath(group[0][0], group[0][1]);
             for (var j = 0; j < group.length; j++) {
                 var sb = group[j];
-                var enemy = (Enemy), application_1, pool = void 0, get = (sb[2]);
+                var enemy = application.pool.get(sb[2]);
                 var options = sb[3];
                 options.path = path;
                 enemy.initialize(options);
@@ -147,7 +146,7 @@ var Battle = (function (_super) {
     p._launchNextWave = function () {
         this._timeToNextWave--;
         if (this._timeToNextWave <= 0) {
-            this.launch(this._currentWave);
+            this._launch(this._currentWave);
             this._currentWave++;
             this._timeToNextWave = this._timeBetweenWaves;
         }
