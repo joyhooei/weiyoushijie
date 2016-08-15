@@ -1,7 +1,10 @@
 class Soldier extends NPC {
     private _guardX: number;
     private _gradeY: number;
+    
     private _guardRadius: number;
+    
+    private _guardAltitude: numbers;
 
     private _enemy: Enemy;
     
@@ -14,17 +17,16 @@ class Soldier extends NPC {
         
         this._enemy = null;
 
-        this._guardX = 0;
-        this._gradeY = 0;
-        this._guardRadius = 10;
+        this._guardX        = this._get(properties, 'guardX', 0);
+        this._gradeY        = this._get(properties, 'guardY', 0);
+        this._guardRadius   = this._get(properties, 'guardRadius', 10);
+        this._guardAltitude = this._get(properties, 'guardAltitude', [-1, 0]);
     }
     
-    protected _stateChanged(oldState:EntityState, newState:EntityState) {
-        if (newState == EntityState.guarding) {
-            this._turn(this._direction8(this._guardX, this._gradeY));
-        }
-        
-        super._stateChanged(oldState, newState);
+    public moveTo(x:number, y:number) {
+        this._computeSteps(x, y);
+
+        this._do(EntityState.moving);
     }
     
     protected _moving() {
@@ -38,30 +40,44 @@ class Soldier extends NPC {
     }
     
     protected _guarding() {
-        this._findEnemy();
+        let enemy = this._findEnemy();
+        if (enemy) {
+            this._fightWith(enemy);
+        }
     }
     
-    public moveTo(x:number, y:number) {
-        this.setPaths([[this.x, this.y], [x, y]]);
-        this._do(EntityState.moving);
+    protected _fightWith(enemy:Enemy) {
+        if (this._enemy) {
+            this._enemy.rmvSolider(this);
+        }
+        
+        this._enemy = enemy;
+        
+        this.moveTo(this._enemy.x, this._enemy.y);
+        this._enemy.addSolider(this);
     }
-    
+
     protected _fighting() {
-        if (this._state % this._hitSpeed == 0) {
-            this._enemy.hitBy(this._damage);
-            if (this._enemy.dying() && !this._findEnemy()) {
-                this.moveTo(this._guardX, this._gradeY);
+        if (this._ticks % this._hitSpeed == 0) {
+            this._enemy._do(EntityState.fighting);
+            
+            if (this._enemy.hitBy(this._damage)) {
+                let enemy = this._findEnemy();
+                if (enemy) {
+                    this._fightWith(enemy);
+                } else {
+                    this.moveTo(this._guardX, this.guardY);
+                }
+            } else (this._enemy.totalSoliders() > 1) {
+                let enemy = this._findEnemy();
+                if (enemy && enemy.totalSoliders() == 0) {
+                    this._fightWith(enemy);
+                }
             }
         }
     }
     
     private _findEnemy(): Enemy {
-        this._enemy = application.battle.findEnemy(this.x, this.y, this._guardRadius);
-        if (this._enemy) {
-            this.moveTo(this._enemy.x,this._enemy.y);
-            this._enemy.addSolider(this);
-        }
-        
-        return this._enemy;
+        return application.battle.findBestEnemy(this._guardX, this._guardY, this._guardRadius, this._guardAltitude);
     }
 }

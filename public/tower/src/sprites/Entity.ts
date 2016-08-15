@@ -28,18 +28,45 @@ class Entity extends egret.Sprite {
     
     protected _repaint: boolean;
     
+    protected _mcs: egret.MovieClip[];
     protected _mc: egret.MovieClip;
+    
+    protected _parent: Entity;
 
     public constructor() {
         super();
 	}
+    
+    public setMCs(mcs: egret.MovieClip[]) {
+    	this._mcs = mcs;
+    }
 	
 	/**初始化*/
     public initialize(properties: any):void {
         this._direction = this._get(properties, "direction", EntityDirection.east);
         this._state 	= this._get(properties, "state", EntityState.idle);
         this._ticks 	= 0;
-        this._repaint = true;
+        this._repaint   = true;
+    }
+
+    public setParent(parent: Entity) {
+    	this._parent = parent;
+    }
+    
+    public getMapX(): number {
+    	if (this._parent) {
+    		return this._parent.getMapX() + this.x;
+    	} else {
+    		return this.x;
+    	}
+    }
+    
+    public getMapY(): number {
+    	if (this._parent) {
+    		return this._parent.getMapY() + this.y;
+    	} else {
+    		return this.y;
+    	}
     }
     
     protected _get(properties: any, name:string, defaultVal:any): any {
@@ -48,6 +75,30 @@ class Entity extends egret.Sprite {
     	} else {
     		return defaultVal;
     	}
+    }
+	
+	public build() {
+		this._do(EntityState.building);
+	}
+	
+	public move() {
+		this._do(EntityState.moving);
+	}
+	
+	public guard() {
+		this._do(EntityState.guarding);
+	}
+	
+	public fight() {
+		this._do(EntityState.fighting);
+	}
+	
+	public kill() {
+		this._do(EntityState.dying);
+	}
+    
+    public erase() {
+    	this._do(EntityState.dead);
     }
 
 	public dead(): boolean {
@@ -93,6 +144,7 @@ class Entity extends egret.Sprite {
 		    	this._dying();
 		    	break;
     	}
+<<<<<<< HEAD
 
         this.paint();
     }
@@ -108,13 +160,46 @@ class Entity extends egret.Sprite {
 		    	this.addChild(mc);
 		    	mc.start();
 	    	}
-	    	
-	    	this._repaint = false;
+=======
+    	
+    	if (this._repaint && this._state != EntityState.idle && this._state != EntityState.dead) {
+    		this._paint();
+    		
+    		this._repaint = false;
     	}
     }
     
-    protected _do(state:EntityState) {
+    //根据状态、面向修改重新渲染
+    protected _paint() {
+    	let mc = this._getCurrentMC();
+    	if (mc && mc != this._mc) {
+    		this._mc.stop();
+	    	this.removeChild(this._mc);
+>>>>>>> 4380d4d809df42e8d1ac21a149a3d223d3ac5bcb
+	    	
+	    	this._mc = mc;
+	    	
+	    	this.addChild(mc);
+	    	mc.play(-1);
+    	}
+    }
+    
+    protected _getCurrentMC(): egret.MovieClip {
+    	return this._mcs[0];
+    }
+    
+    private _do(state:EntityState) {
     	if (state != this._state) {
+    		//dead状态不需要再变更状态了
+    		if (this._state == EntityState.dead) {
+    			return;
+    		}
+    		
+    		//当前状态如果是dying，新状态只能是dead
+    		if (this._state == EntityState.dying && state != EntityState.dead) {
+    			return;
+    		}
+    		
 	    	this._stateChanged( this._state, state);
 	    	
 	    	this._ticks = 0;
@@ -134,6 +219,9 @@ class Entity extends egret.Sprite {
     }
     
     protected _stateChanged(oldState: EntityState, newState: EntityState) {
+    	if (this._parent && newState == EntityState.dead) {
+    		this._parent.childDead(this);
+    	}
     }
     
     protected _idle() {

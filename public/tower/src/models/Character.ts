@@ -1,66 +1,55 @@
 class Character {
-    private _mcs: egret.MovieClip[][];
-    
     private _properties: any;
     
-    constructor(properties: any) {
+    private _factory: egret.MovieClipDataFactory;
+    
+    private _mcs: string[];
+
+    constructor(properties: any, mcs:string[], factory: egret.MovieClipDataFactory) {
         this._properties = properties;
-        this._mcs = new Array<Array<egret.MovieClip>>();
+        
+        this._mcs = mcs;
+        
+        this._factory = factory;
     }
-    
-    public getProperty(name:string):number{
-        return this._properties[name];
+
+    public getProperties(): any {
+        return_properties;
     }
-    
-    public addMC(mc:egret.MovieClip, direction:EntityDirection, state:EntityState) {
-        this._mcs[state][direction] = mc;
-    }
-    
-    public getMC(direction:EntityDirection, state:EntityState):egret.MovieClip {
-        let mc = this._mcs[state][direction];
-        if (!mc) {
-            for(var i = 0; i < this._mcs[state].length; i++) {
-                if (this._mcs[state][i]) {
-                    return this._mcs[state][i];
-                }
-            }
+
+    public getMCs(): egret.MovieClip[] {
+        let mcs = egret.MovieClip[];
+
+        for(let j = 0; j < this._mcs.length; j++) {
+            let mc = new egret.MovieClip(this._factory.generateMovieClipData(this._mcs[j]));
+            
+            mc.frameRate = application.frameRate;
+            
+            mcs.push(mc);
         }
         
-        return mc;
+        return mcs;
     }
     
     static createAll(): Character[] {
         let characters = new Array<Character>();
         
         let config = [
-            //name, properties [mc_direction, mc_state, mc_name]
+            //name, properties [ mc_name]
             /*
-            {name: 'hero', properties:{hp:1000}, mcs:[
-                        { dir: EntityDirection.east, state: EntityState.moving, name:'test' },
-                        { dir: EntityDirection.west, state: EntityState.moving, name: 'test' },
-                    ]},
+            {name: 'MonkeyKing', properties:{hp:1000}, mcs:['test', 'test1']},
             */
-        ];
+        ];   
         
         let data = RES.getRes("animation.json");
         let txtr = RES.getRes("animation.png");
-        let mcFactory:egret.MovieClipDataFactory = new egret.MovieClipDataFactory( data, txtr );
-
+        let factory:egret.MovieClipDataFactory = new egret.MovieClipDataFactory( data, txtr );
+        
         for(let i = 0; i < config.length; i++) {
             let d = config[i];
-            
-            let character = new Character(d.name);
-            
-            for(let j = 0; j < d.mcs.length; j++) {
-                let mc:egret.MovieClip = new egret.MovieClip( mcFactory.generateMovieClipData( d.mcs[j].name ) );
-            
-                character.addMC(mc, d.mcs[j].dir, d.mcs[j].state);
-            }
-            
-            characters[d.name] = character;
+            characters[d.name] = new Character(d.properties, d.mcs, factory);
         }
         
         return characters;
     }
-
 }

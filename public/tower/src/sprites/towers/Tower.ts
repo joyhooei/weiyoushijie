@@ -1,52 +1,48 @@
 class Tower extends Entity {
-    private _enemy: Enemy;
+    protected _hitSpeed: number;
     
-    /**射程范围最大半径*/
-    private _maxRadius: number = 140;
+    protected _buildTicks: number;
+    
+    protected _buyPrice: number;
+    protected _sellPrice: number;
+    
+    protected _guardRadius: number;
 
-    private _fireSpeed: number;
-    
-    private _lastFireTicks: number;
-    
     public constructor() {
         super();
     }
     
-    public initialize(properties?:any) {
+    public initialize(properties:any) {
         super.initialize(properties);
         
-        this._enemy = null;
-        this._lastFireTicks = 0;
+        this._hitSpeed   = this._get(properties, "hitSpeed", 60);
+        this._buildTicks = this._get(properties, "buildTicks", 100);
         
-        this._fireSpeed = properties.fireSpeed;
-        this._maxRadius = properties.maxRadius;
+        this._buyPrice = this._get(properties, "buyPrice", 100);
+        this._sellPrice = this._get(properties, "sellPrice", 100);
+        
+        this._guardRadius = this._get(properties, "guardRadius", 10);
+    }
+
+    protected _stateChanged(oldState: EntityState, newState: EntityState) {
+    	if (newState == EntityState.building) {
+    		application.battle.incGolds(-this.buyPrice);
+    	} else if (newState == EntityState.dying) {
+    	    application.battle.incGolds(this._sellPrice);
+    	} else if (newState == EntityState.dead) {
+    	    application.pool.set(this);
+    	}
+    	
+    	super._stateChanged(oldState, newState);
     }
     
     protected _idle() {
-        this._do(EntityState.building);
+        this.build();
     }
     
     protected _building() {
-        if (this._ticks > 100) {
-            this._do(EntityState.fighting);
+        if (this._ticks > this._buildTicks) {
+            this.guard();
         }
-    }
-    
-    protected _fighting() {
-        if (!this._enemy || this._enemy.dead() || !this._enemy.intersect(this.x, this.y, this._maxRadius)) {
-            this._enemy = application.battle.findEnemy(this.x, this.y, this._maxRadius);
-        }
-        
-        if (this._enemy) {
-            if (this._ticks - this._lastFireTicks >= this._fireSpeed) {
-                this._fire(this._enemy);
-                
-                this._lastFireTicks = this._ticks;
-            }
-        }
-    }
-    
-    protected _fire(enemy: Enemy) {
-        
     }
 }

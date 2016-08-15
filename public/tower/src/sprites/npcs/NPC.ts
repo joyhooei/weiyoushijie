@@ -4,11 +4,9 @@ class NPC extends MovableEntity {
     protected _damage: number;
     
     protected _hitSpeed: number;
-    
-    //所有路径
-    protected _paths: number[][];
-    //当前路径
-    protected _path: number;
+
+    //海拔高度，地表：0，地下：-1，空中：1
+    protected _altitude: number;
 
     public constructor() {
         super();
@@ -23,67 +21,46 @@ class NPC extends MovableEntity {
         
         this._hp.initialize(properties);
         
-        this._damage    = properties.damage;
-        this._hitSpeed  = properties.hitSpeed;
-    }
-
-    public setPaths(paths:number[][]) {
-        this._paths = paths;
-        this._path  = 0;
-    }
-    
-    protected _stateChanged(oldState:EntityState, newState:EntityState) {
-        if (newState == EntityState.moving) {
-            let path:number[] = this._paths[this._path];
-            this._turn(this._direction8(path[0], path[1]));
-        }
+        this._damage    = this._get(properties, "damage", 10);
+        this._hitSpeed  = this._get(properties, "hitSpeed", 10);
         
-        super._stateChanged(oldState, newState);
-    }
+        this._altitude  = this._get(properties, "altitude", 0);
 
-    protected _dying() {
-        if (this._ticks >= 5) {
-            this._do(EntityState.dead);
-        }
+        this._idleTicks = Math.random() * 100;
     }
     
-    public hitBy(damage:number) {
+    public getAltitude(): number {
+        return _altitude;
+    }
+    
+    public kill() {
+        this._hp.kill();
+        this._do(EntityState.dying);
+    }
+    
+    public hitBy(damage:number): boolean {
         if (this._hp.hitBy(damage) <= 0) {
             this._do(EntityState.dying);
-        }
-
-        if (this._state != EntityState.fighting) {
-            this._do(EntityState.fighting);
+            
+            return true;
+        } else {
+            return false;
         }
     }
-    
-    protected _hit(npc: NPC) {
-        npc.hitBy(this._damage);
-    }
+<<<<<<< HEAD
     
     public paint() {
         super.paint();
+=======
+
+    protected _paint() {
+        super._paint();
+>>>>>>> 4380d4d809df42e8d1ac21a149a3d223d3ac5bcb
         
         this._hp.paint();
     }
     
-    //走一步
-    protected _moveOneStep(): boolean {
-        var path = this._paths[this._path];
-        if (Math.abs(this.x - path[0]) < this._step && Math.abs(this.y - path[1]) < this._step) {
-            if (this._path >= this._paths.length - 1) {
-                //到达终点
-                return true;
-            }
-            
-            this._path ++;
-            
-            path = this._paths[this._path];
-            this._turn(this._direction8(path[0], path[1]));
-            
-            this._computeSteps(path[0], path[1]);
-        }
-        
-        return super._moveOneStep();
-    }    
+    protected _face(npc:NPC) {
+        this._turn(this._direction8(npc.x, npc.y));
+    }
 }

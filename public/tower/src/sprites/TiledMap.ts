@@ -1,39 +1,22 @@
-enum TileType {
-    wall = 0,
-    path,
-    base,
-    solider,
-    hero,
-    entrance,
-    exit
-}
-
-class TiledMap extends Entity {
-    private _map: tiled.TMXTilemap;
-    
+class TiledMap extends egret.Sprite {
     private _grid: number[][];
 
     private _tileWidth: number;
     private _tileHeight: number;
+
+    private _width: number;
+    private _height: number;
     
-    private _entranceTileId: number;
-    private _exitTileId: number;
-    private _pathTileId: number;
-    private _baseTileId: number;
-    private _soliderTileId: number;
-    private _heroTileId: number;
+    private _bases: number[][];
+    private _heros: number[][];
+    private _paths: number[][][];
     
-    public constructor(map:tiled.TMXTilemap, entrance:number, exit:number, path:number, base:number, solider:number, hero:number) {
+    //入口和出口
+    private _entrances: number[][];
+    private _exits: number[][];
+
+    public constructor(map:tiled.TMXTilemap) {
         super();
-        
-        this._map = map;
-        
-        this._entranceTileId    = entrance;
-        this._exitTileId        = exit;
-        this._pathTileId        = path;
-        this._baseTileId        = base;
-        this._soliderTileId     = solider;
-        this._heroTileId        = hero;
         
         this._parse(map);
         
@@ -52,7 +35,7 @@ class TiledMap extends Entity {
                 
                 let tmxTileMap:tiled.TMXTilemap = new tiled.TMXTilemap(width, height, data, url);
                 tmxTileMap.render();
-                resolve(tmxTileMap);
+                resolve(new TiledMap(tmxTileMap));
             }, url);
             
             urlLoader.addEventListener(egret.IOErrorEvent.IO_ERROR, function (event:egret.Event):void {
@@ -63,94 +46,189 @@ class TiledMap extends Entity {
         });
     }
     
-    private _parse(tmxTileMap:tiled.TMXTilemap) {
+    private _xP2L(x:number) {
+        return Math.round(x / this._tileWidth);
+    }
+    
+    private _yP2L(y:number) {
+        return Math.round(y / this._tileHeight)
+    }
+    
+    private _markGrid() {
         this._grid = [];
+        
+        for(let i = 0; i <= this._width; i++) {
+            for(let j = 0; j < this._height; j++) {
+                this._grid[i][j] = 0;
+            }
+        }
+        
+        for(let j = 0; j < this._paths.length; j++) {
+            let path = this._paths[j];
+            for(let i = 0; i < path.length - 1; i++) {
+                let xFrom = this._xP2L(path[i][0]);
+                let yFrom = this._yP2L(path[i][1]);
                 
+                let xTo = this._xP2L(path[i + 1][0]);
+                let yTo = this._yP2L(path[i + 1][1]);
+                
+                for(let k = xFrom; k <= xTo; k++) {
+                    for(let j = yFrom; j <= yTo; j++) {
+                        this._markArea(k, j, 1, 1);
+                    }
+                }
+            }
+        }
+    }
+    
+    private _markArea(x:number, y:number, delta:number, value:number) {
+        for(let i = x - delta; i <= x + delta; i++) {
+            for(let j = y - delta; j <= y + delta; j++) {
+                if (!this._outOfBounds(i, j)) {
+                    this._grid[i][j] = value;
+                }
+            }
+        }
+    } 
+    
+    private _parse(tmxTileMap:tiled.TMXTilemap) {
         this._tileWidth  = tmxTileMap.tilewidth;
         this._tileHeight = tmxTileMap.tileheight;
         
-        let layers: Array<any> = tmxTileMap.getLayers();
+        this._width  = tmxTileMap.width;
+        this._height = tmxTileMap.height;
         
-        let pathLayer:tiled.TMXLayer = <tiled.TMXLayer>layers[1];
-        for(let i = 0; i < pathLayer.rows; i++) {
-            for(let j = 0; j < pathLayer.cols; j++) {
-                let tileId = pathLayer.getTileId(i, j);
-                if (tileId == this._entranceTileId) {
-                    this._grid[i][j] = TileType.entrance;
-                } else if (tileId == this._exitTileId) {
-                    this._grid[i][j] = TileType.exit;
-                } else if (tileId == this._pathTileId) {
-                    this._grid[i][j] = TileType.path;
+        this._paths = [];
+        this._bases = [];
+        this._heros = [];
+        this._entrances = [];
+        this._exits = [];
+
+        let ogs = tmxTileMap.getObjects();
+        for(let i = 0; i < ogs.length; i++) {
+            let og = ogs[i];
+            let name = og.name();
+            if (name.startsWith('path')) {
+                this._paths.push(_parsePath(og));
+            } else if (name.startsWith('base')) {
+                this._bases = _parseBases(og);
+            } else if (name.startsWith('hero')) {
+                this._heros = _parseHeros(og);
+            }
+        }
+        
+        this._markGrid();
+    }
+    
+    private _parsePath(og:tiled.TMXObjectGroup):number[][]{
+        let path = [];
+        
+        for(let i = 0; i < og.getObjectCount(); i++) {
+            let o = og.getObjectByIndex(i);
+            let name = o.name();
+            let location = [o.x, o.y];
+            
+            if (name == 'start') {
+                path[0] = location;
+                if (!this._exists(this._entrances, location)) {
+                    this._entrances.push(location);
+                }
+            } else if (name = 'end') {
+                path[og.getObjectCount() - 1] = location;
+                if (!this._exists(this._exits, location)) {
+                    this._exits.push(location);
+                }
+            } else {
+                let arrayOfStrings = name.split("-");
+                if (arrayOfStrings.length == 2 && arrayOfStrings[0] == 'waypoint') {
+                    let idx = + arrayOfStrings[1];
+                    path[idx] = location;
+                }
+            }
+        }
+        
+        return path;
+    }
+    
+    private _exists(locations:number[][], location:number[]):boolean {
+        for(let i = 0; i < locations; i++) {
+            if (locations[i][0] == location[0] && locations[i][1] == location[1]) {
+                return true;
+            }
+        }
+        
+        return false;
+    }
+
+    private _parsBases(og:tiled.TMXObjectGroup):number[][]{
+        let bases = [];
+
+        for(let i = 0; i < og.getObjectCount(); i++) {
+            let o = og.getObjectByIndex(i);
+            let name = o.name();
+            let arrayOfStrings = name.split("-");
+            
+            if (arrayOfStrings.length == 2 && arrayOfStrings[0] == 'base' || arrayOfStrings[0] = 'guarder') {
+                let idx = + arrayOfStrings[1];
+                if (!bases[idx]) {
+                    bases[idx] = [];
+                }
+                
+                if (arrayOfStrings[0] == 'base') {
+                    bases[idx][0] = o.x;
+                    bases[idx][1] = o.y;
                 } else {
-                    this._grid[i][j] = TileType.wall;
+                    bases[idx][2] = o.x;
+                    bases[idx][3] = o.y;
                 }
             }
         }
         
-        let baseLayer:tiled.TMXLayer = <tiled.TMXLayer>layers[2];
-        for(let i = 0; i < baseLayer.rows; i++) {
-            for(let j = 0; j < baseLayer.cols; j++) {
-                let tileId = baseLayer.getTileId(i, j);
-                if (tileId == this._baseTileId) {
-                    this._grid[i][j] = TileType.base;
-                } else if (tileId == this._soliderTileId) {
-                    this._grid[i][j] = TileType.solider;
-                } else if (tileId == this._heroTileId) {
-                    this._grid[i][j] = TileType.hero;
-                }
+        return bases;
+    }
+    
+    private _parseHeros(og:tiled.TMXObjectGroup):number[][]{
+        let heros = [];
+        
+        for(let i = 0; i < og.getObjectCount(); i++) {
+            let o = og.getObjectByIndex(i);
+            let name = o.name();
+            
+            if (name.startsWith('start')) {
+                heros[i] = [o.x, o.y];
             }
         }
+        
+        return heros;
     }
     
     public walkable(x: number, y: number): boolean {
-        x = Math.round(x / this._tileWidth);
-        y = Math.round(y / this._tileHeight);
-        return (x < this._grid.length && y < this._grid[x].length 
-                && (this._grid[x][y] == TileType.path || this._grid[x][y] == TileType.solider || this._grid[x][y] == TileType.hero)
-            );
+        x = this._xL2P(x);
+        y = this._yL2P(y);
+        return (!this._outofBounds(x, y) && (this._grid[x][y] == 1));
     }
     
-    public getBasePositions(): number[][] {
-        return this._getPositionsByType(TileType.base);    
+    private _outOfBounds(x: number, y: number): boolean {
+        return (x >= 0 && x <= this._width && y >= 0 && y <= this._height);
     }
     
-    public getBaseGuardPosition(): number[][] {
-        return this._getPositionsByType(TileType.solider);            
-    }
-    
-    public getHeroGuardPositions(): number[][] {
-        return this._getPositionsByType(TileType.hero);          
-    }
-    
-    public getEnemyEntrances(): number[][] {
-        return this._getPositionsByType(TileType.entrance);   
-    }
-    
-    public getEnemyExits(): number[][] {
-        return this._getPositionsByType(TileType.exit);         
-    }
-    
-    public getEnemyPaths(): number[][][] {
-        let paths = [];
-        
-        return paths;
+    public getBases(): number[][] {
+        return this._bases;
     }
 
-    public getEnemyPath(x:number, y:number): number[][] {
-        return [];
+    public getHeros(): number[][] {
+        return this._heros;          
+    }
+
+    public getPaths(): number[][][] {
+        return this.paths;
     }
     
-    private _getPositionsByType(type:number) : number[][] {
-        let positions = [];
-        
-        for(let i = 0; i < this._grid.length; i++) {
-            for(let j = 0; j < this._grid[i].length; j++) {
-                if (this._grid[i][j] == type) {
-                    positions.push([i * this._tileWidth, j * this._tileHeight]);
-                }
-            }
-        }
-        
-        return positions;           
+    public getEntrances(): number[][] {
+        return this._entrances;
+    }
+    
+    public getExits(): number[][] {
+        return this._exits;
     }
 }

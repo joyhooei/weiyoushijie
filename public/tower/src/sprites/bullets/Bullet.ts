@@ -1,49 +1,43 @@
 class Bullet extends MovableEntity {
     private _target: NPC;
 
-    private _missing: boolean;
+    private _targetX: number;
+    private _targetY: number;
     
     private _damage: number;
     
     public constructor() {
         super();
-        
-        this._target = null;
-        this._missing = false;
     }
     
     public initialize(properties:any) {
         super.initialize(properties);
         
-        this._damage = properties.damage;
+        this._target  = null;
+        
+        this._targetX = 0;
+        this._targetY = 0;
+
+        this._damage = this._get(properties, 'damage', 10);
     }
     
     public setTarget(target: NPC) {
-        this._target = target;
+        this._target  = target;
+        
+        this._targetX = target.x;
+        this._targetY = target.y;
+        
+        this._computeSteps(this._target.x, this._target.y);
     }
     
     protected _moving() {
-        if (this._target.dying() || this._target.dead()) {
-            this._missing = true;
-            this._do(EntityState.dying);
+        if (this._moveOneStep()) {
+            this.kill();
         } else {
-            this._turn(this._direction8(this._target.x, this._target.y));
-            this._computeSteps(this._target.x, this._target.y);
-
-            this._moveOneStep();
-            
-            if (this.collide(this._target)) {
-                this._missing = false;
-                this._do(EntityState.dying);
-    
-                this._target.hitBy(this._damage);
+            //如果目标移动，重新调整方向和路径
+            if (this._targetX != this._target.x || this._targetY != this._target.y) {
+                this.setTarget(this._target);
             }
-        }
-    }
-    
-    protected _dying() {
-        if (this._ticks > 3) {
-            this._do(EntityState.dead);
         }
     }
 }

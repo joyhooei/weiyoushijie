@@ -2,21 +2,48 @@ class BattleUI extends AbstractUI {
     private _stage: number;
     
     private _level: number;
+
+    public grpSystemTools: eui.Group;
+    
+    public grpBoughtTools: eui.Group;
+    
+    public imgBack: eui.Image;
     
     constructor(stage:number, level:number) {
         super("battleUISkin");
         
-        this._stage = stage;
-        this._level = level;
+        let self = this;
+        
+        self._stage = stage;
+        self._level = level;
+
+        self.grpSystemTools.addChild(new BattleTimeoutTooItem({category: 'solider'}));
+        self.grpSystemTools.addChild(new BattleTimeoutTooItem({category: 'fireball'}));
+        
+        application.dao.fetch("Tool", {customer_id: application.me.attrs.id, count: {$gt: 0}}).then(function(tools){
+            for(let i = 0; i < tools.length; i++) {
+                self.grpBoughtTools.addChild(new BattleTooItem(tool));
+            }
+        })
+        
+		self.imgBack.addEventListener(egret.TouchEvent.TOUCH_TAP,() => {
+		    application.battle.erase();
+		    application.pool.set(application.battle);
+		    
+		    application.battle = null;
+		    
+		    application.hide(self);
+		}, self);        
+        
+        self.stage.frameRate = application.frameRate;
     }
-    
+
     protected onRefresh() {
         var self = this;
         
         var options = {stage: self._stage, level: self._level};
-        application.battle = <Battle>application.pool.get("Battle" + this._stage);
+        application.battle = <Battle>application.pool.get("Battle" + this._stage, options);
         application.battle.loadResource(options).then(function(){
-            application.battle.initialize(options);
             self.addChildAt(application.battle, 0);
 
             self.addEventListener(egret.Event.ENTER_FRAME,self._onEnterFrame, self);
@@ -26,6 +53,8 @@ class BattleUI extends AbstractUI {
     }
 
     private _onEnterFrame(e:egret.Event) {
-        application.battle.update();
+        if (application.battle) {
+            application.battle.update();
+        }
     }
 }

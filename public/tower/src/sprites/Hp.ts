@@ -11,6 +11,10 @@ class Hp extends Entity {
 	    this._maxHp = this._get(properties, "hp", 100);
 	    this._hp = this._maxHp;
 	}
+	
+	public kill(): number {
+		return this.hitBy(this._hp);
+	}
 
 	public hitBy(damage:number): number{
 	    let hp = Math.max(0, this._hp - damage);

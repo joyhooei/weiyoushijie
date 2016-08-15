@@ -1,5 +1,9 @@
 class Base extends Entity {
-    private _tower: Tower;
+    protected _tower: Tower;
+    
+    protected _guardX: number;
+    
+    protected _guardY: number;
     
     public constructor() {
         super();
@@ -10,11 +14,33 @@ class Base extends Entity {
     public initialize(properties:any) {
         super.initialize(properties);
         
+        this._guardX = this._get(properties, "guardX", 0);
+        this._guardY = this._get(properties, "guardY", 0);
+        
         this._tower = null;
     }
     
-    public setTower(tower: Tower) {
+    public getGuardX(): number {
+        return this._guradX;
+    }
+    
+    public getGuardY(): number {
+        return this._guardY;
+    }
+    
+    public buildTower(tower: Tower) {
+        if (this._tower) {
+            this._tower.erase();
+        }
+        
         this._tower = tower;
+        this._tower.setParent(this);
+    }
+    
+    public sellTower() {
+        this._tower.kill();
+
+        this._tower = null;
     }
     
     public select(again:boolean) {
@@ -27,5 +53,13 @@ class Base extends Entity {
     
     public deselect() {
         application.battle.hideAllTools();
+    }
+    
+    protected _paint() {
+        if (this._tower) {
+            this._tower._paint();
+        } else {
+            super._paint();
+        }
     }
 }
