@@ -48,11 +48,7 @@ class Base extends Entity {
     }
     
     public select(again:boolean) {
-        if (this._tower) {
-            application.battle.showTool(new TowerMenuUI(this._tower), this.x, this.y);
-        } else {
-            application.battle.showTool(new BuildTowerUI(this), this.x, this.y);
-        }
+        application.battle.showTool(new TowerMenuUI(this), this.x, this.y);
     }
     
     public deselect() {
