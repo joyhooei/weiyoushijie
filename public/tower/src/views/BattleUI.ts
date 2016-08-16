@@ -8,10 +8,6 @@ class BattleUI extends AbstractUI {
     public grpSystemTools: eui.Group;
     public grpBoughtTools: eui.Group;
 
-	public grpOption: eui.Group;
-    public imgStart: eui.Image;
-    public imgQuit:  eui.Image;
-    
     public imgBack:  eui.Image;
     
     constructor(stage:number, level:number) {
@@ -35,25 +31,21 @@ class BattleUI extends AbstractUI {
         
         application.dao.addEventListener("Battle",function(evt: egret.Event) {
         	if (application.battle.dead()) {
-        		this.grpOption.visible = true;
+        		application.showUI(new BattleOptionUI(function(){
+        			self._startBattle();
+        		}, function(){
+        			self._quitBattle();
+        		}), self);
         	} else {
-	            this.lblLives.text = application.battle.getLives();
-	            this.lblGolds.text = application.battle.getGolds();
+	            self.lblLives.text = application.battle.getLives();
+	            self.lblGolds.text = application.battle.getGolds();
         	}
-        },this);
+        },self);
         
 		self.imgBack.addEventListener(egret.TouchEvent.TOUCH_TAP,() => {
 		    self._quitBattle();
 		}, self);
-         
-		self.imgStart.addEventListener(egret.TouchEvent.TOUCH_TAP,() => {
-		    self._startBattle();
-		}, self);
-       
-		self.imgQuit.addEventListener(egret.TouchEvent.TOUCH_TAP,() => {
-		    self._quitBattle();
-		}, self);
-        
+
         self.stage.frameRate = application.frameRate;
     }
 
