@@ -8,7 +8,7 @@ class HomeUI extends AbstractUI{
 
     protected onRefresh():void {
         this.imgBattle1.addEventListener( egret.TouchEvent.TOUCH_TAP, ()=>{
-            application.showUI(new BattleUI(1, 1));
+            application.showUI(new BattleLoadingUI(1, 1));
         }, this ); 
     }
 }
