@@ -146,7 +146,13 @@ class Battle extends Entity {
     public incLives(lives: number) {
         this._lives += lives;
         
-        application.dao.dispatchEventWith(this, true, {lives: this._lives}});
+        if (this._lives <= 0) {
+            this.erase();
+            
+            application.dao.dispatchEventWith(this, true, {state: this._state});
+        } else {
+            application.dao.dispatchEventWith(this, true, {lives: this._lives});
+        }
     }
     
     public getLives(): number {
@@ -156,7 +162,7 @@ class Battle extends Entity {
     public incGolds(golds: number) {
         this._golds += golds;
         
-        application.dao.dispatchEventWith(this, true, {golds: this._golds}});
+        application.dao.dispatchEventWith(this, true, {golds: this._golds});
     }
     
     public getGolds(): number {
@@ -241,7 +247,7 @@ class Battle extends Entity {
             if (this._currentWave >= this._waves.length) {
                 this.erase();
                 
-                application.dao.dispatchEventWith(this, true, {state: this._state}});
+                application.dao.dispatchEventWith(this, true, {state: this._state});
             } else {
                 this._launch(this._currentWave);
                 this._currentWave ++;
