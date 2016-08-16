@@ -1,8 +1,8 @@
 class EntityPool {
-    private _entities: Array<Entity>;
+    private _entities: Entity[];
 
     public constructor() {
-        this._entities = []];
+        this._entities = [];
     }
     
     public get(className:string, properties?:any): Entity {
