@@ -55,6 +55,10 @@ class BattleUI extends AbstractUI {
     private _onEnterFrame(e:egret.Event) {
         if (application.battle) {
             application.battle.update();
+            
+            if (application.battle.getLives() <= 0) {
+            	//重玩还是退出
+            }
         }
     }
 }
