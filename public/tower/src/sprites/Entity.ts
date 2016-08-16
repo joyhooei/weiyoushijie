@@ -30,8 +30,6 @@ class Entity extends egret.Sprite {
     
     protected _mcs: egret.MovieClip[];
     protected _mc: egret.MovieClip;
-    
-    protected _parent: Entity;
 
     public constructor() {
         super();
@@ -57,21 +55,17 @@ class Entity extends egret.Sprite {
         this._repaint   = true;
     }
 
-    public setParent(parent: Entity) {
-    	this._parent = parent;
-    }
-    
     public getMapX(): number {
-    	if (this._parent) {
-    		return this._parent.getMapX() + this.x;
+    	if (this.parent != application.battle) {
+    		return (<Entity>this.parent).getMapX() + this.x;
     	} else {
     		return this.x;
     	}
     }
     
     public getMapY(): number {
-    	if (this._parent) {
-    		return this._parent.getMapY() + this.y;
+    	if (this.parent != application.battle) {
+    		return (<Entity>this.parent).getMapY() + this.y;
     	} else {
     		return this.y;
     	}
@@ -212,10 +206,6 @@ class Entity extends egret.Sprite {
     	}
     }
 
-	protected childDead(child: Entity) {
-
-	}
-    
     protected _idle() {
     }
     
