@@ -36,6 +36,14 @@ class Entity extends egret.Sprite {
     public constructor() {
         super();
 	}
+	
+	public getClassName() {
+		return egret.getQualifiedClassName(this);
+	}
+	
+	public getSuperClassName() {
+		return egret.getQualifiedSuperclassName(this);
+	}
     
     public setMCs(mcs: egret.MovieClip[]) {
     	this._mcs = mcs;
