@@ -3,6 +3,7 @@ class BattleUI extends AbstractUI {
 	public lblGolds: eui.Label;
     public grpSystemTools: eui.Group;
     public grpBoughtTools: eui.Group;
+    public grpBattle: eui.Group;
 
     public imgBack:  eui.Image;
     
@@ -11,7 +12,7 @@ class BattleUI extends AbstractUI {
         
         let self = this;
         
-    	self.addChildAt(application.battle, 0);
+    	self.grpBattle.addChild(application.battle);
 
         self.grpSystemTools.addChild(new BattleTimeoutToolItem({category: 'solider'}));
         self.grpSystemTools.addChild(new BattleTimeoutToolItem({category: 'fireball'}));
@@ -38,8 +39,6 @@ class BattleUI extends AbstractUI {
 		self.imgBack.addEventListener(egret.TouchEvent.TOUCH_TAP,() => {
 		    self._quitBattle();
 		}, self);
-
-        self.stage.frameRate = application.frameRate;
     }
 
     protected onRefresh() {
@@ -59,12 +58,11 @@ class BattleUI extends AbstractUI {
     private _startBattle() {
     	application.battle.initialize({});
     	
+    	this.stage.frameRate = application.frameRate;
     	this.addEventListener(egret.Event.ENTER_FRAME,this._onEnterFrame, this);
     }
 
     private _onEnterFrame(e:egret.Event) {
-        if (application.battle) {
-            application.battle.update();
-        }
+        application.battle.update();
     }
 }
