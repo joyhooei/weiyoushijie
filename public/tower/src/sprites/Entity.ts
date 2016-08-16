@@ -35,18 +35,6 @@ class Entity extends egret.Sprite {
         super();
 	}
 	
-	public getClassName() {
-		return egret.getQualifiedClassName(this);
-	}
-	
-	public getSuperClassName() {
-		return egret.getQualifiedSuperclassName(this);
-	}
-    
-    public setMCs(mcs: egret.MovieClip[]) {
-    	this._mcs = mcs;
-    }
-	
 	/**初始化*/
     public initialize(properties: any):void {
         this._direction = this._get(properties, "direction", EntityDirection.east);
@@ -54,6 +42,14 @@ class Entity extends egret.Sprite {
         this._ticks 	= 0;
         this._repaint   = true;
     }
+	
+	public getClassName() {
+		return egret.getQualifiedClassName(this);
+	}
+	
+	public getSuperClassName() {
+		return egret.getQualifiedSuperclassName(this);
+	}
 
     public getMapX(): number {
     	if (this.parent != application.battle) {
@@ -69,6 +65,10 @@ class Entity extends egret.Sprite {
     	} else {
     		return this.y;
     	}
+    }
+    
+    public setMCs(mcs: egret.MovieClip[]) {
+    	this._mcs = mcs;
     }
     
     protected _get(properties: any, name:string, defaultVal:any): any {
