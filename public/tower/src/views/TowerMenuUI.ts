@@ -5,32 +5,40 @@ class TowerMenuUI extends AbstractUI{
         super("towerMenuUISkin");
         
         this._tower = tower;
+        
+        application.dao.addEventListener("Battle",function(evt: egret.Event) {
+            this.refresh();
+        },this);        
     }
     
-    private _addUpgardeImage(towerName:string, path: string, x: number, y: number) {
-        this._addImage(path,x,y).addEventListener(egret.TouchEvent.TOUCH_BEGIN, function(e:egret.TouchEvent){
+    protected _onRefresh() {
+        
+    }
+    
+    private _addUpgardeItem(towerName:string, path: string, x: number, y: number) {
+        this._addItem(path,x,y).addEventListener(egret.TouchEvent.TOUCH_BEGIN, function(e:egret.TouchEvent){
             let tower = <Tower>application.pool.get(towerName);
             this._tower.getParent().buildTower(tower);
             
-            application.hideUI(this);
+            application.battle.hideAllTools();
         },this);        
     }
     
-    private _addLockImage() {
-        this._addImage("locktower",0,-14).addEventListener(egret.TouchEvent.TOUCH_BEGIN, function(e:egret.TouchEvent){
-            application.hideUI(this);
+    private _addLockItem() {
+        this._addItem("locktower",0,-14).addEventListener(egret.TouchEvent.TOUCH_BEGIN, function(e:egret.TouchEvent){
+            application.battle.hideAllTools();
         },this);        
     }
     
-    private _addSellImage() {
-        this._addImage("selltower",43,98).addEventListener(egret.TouchEvent.TOUCH_BEGIN, function(e:egret.TouchEvent){
+    private _addSellItem() {
+        this._addItem("selltower",43,98).addEventListener(egret.TouchEvent.TOUCH_BEGIN, function(e:egret.TouchEvent){
             this._tower.getParent().sellTower();
             
-            application.hideUI(this);
+            application.battle.hideAllTools();
         },this);
     }
     
-    private _addImage(path: string, x: number, y: number) : eui.Image {
+    private _addItem(path: string, x: number, y: number) : eui.Image {
         let image = new eui.Image();
         image.source = path;
         image.x = x;
