@@ -3,8 +3,9 @@ class BattleUI extends AbstractUI {
     
     private _level: number;
 
+	public lblLives: eui.Label;
+	public lblGolds: eui.Label;
     public grpSystemTools: eui.Group;
-    
     public grpBoughtTools: eui.Group;
 
 	public grpOption: eui.Group;
@@ -85,6 +86,9 @@ class BattleUI extends AbstractUI {
             if (application.battle.getLives() <= 0) {
             	this.grpOption.visible = true;
             }
+            
+            this.lblLives.text = application.battle.getLives();
+            this.lblGolds.text = application.battle.getGolds();
         }
     }
 }
