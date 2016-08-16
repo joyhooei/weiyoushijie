@@ -153,29 +153,30 @@ class Entity extends egret.Sprite {
 		    	break;
     	}
 
-        this.paint();
+    	if (this._repaint && this._state != EntityState.idle && this._state != EntityState.dead) {
+        	this.paint();
+        	
+        	this._repaint = false;
+    	}
     }
     
     //根据状态、面向修改重新渲染
     public paint() {
-    	if (this._repaint && this._state != EntityState.idle && this._state != EntityState.dead) {
-	    	let mc = application.characters[egret.getQualifiedClassName(this)].getMC(this._direction, this._state);
-	    	if (mc && mc != this._mc) {
-		    	this.removeChild(this._mc);
-		    	this._mc = mc;
-		    	
-		    	this.addChild(mc);
-		    	mc.start();
-	    	}
+    	let mc = this._getCurrentMC();
+    	if (mc && mc != this._mc) {
+	    	this.removeChild(this._mc);
+	    	this._mc = mc;
+	    	
+	    	this.addChild(mc);
+	    	mc.start();
     	}
     }
 
-    
     protected _getCurrentMC(): egret.MovieClip {
     	return this._mcs[0];
     }
     
-    protected _do(state:EntityState) {
+    private _do(state:EntityState) {
     	if (state != this._state) {
     		//dead状态不需要再变更状态了
     		if (this._state == EntityState.dead) {
