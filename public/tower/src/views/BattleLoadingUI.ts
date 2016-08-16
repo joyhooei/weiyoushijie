@@ -4,9 +4,8 @@ class BattleLoadingUI extends AbstractUI {
         
         let self = this;
         
-        let options = {stage: stage, level: level};
-        application.battle = <Battle>application.pool.get("Battle" + stage, options);
-        application.battle.loadResource(options).then(function(){
+        application.battle = <Battle>application.pool.get("Battle" + stage);
+        application.battle.loadResource({stage: stage, level: level}).then(function(){
             application.hideUI(self);
             
             application.showUI(new BattleUI());
