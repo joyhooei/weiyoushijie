@@ -1,41 +1,55 @@
 class EntityPool {
-    private _objs: Array<Entity>;
+    private _entities: Array<Entity>;
 
     public constructor() {
-        this._objs = new Array<Entity>();
+        this._entities = []];
     }
     
-    public get(className:string, options?:any): Entity {
-        let obj:Entity = null;
-        for(let i = 0; i < this._objs.length; i++) {
-            obj = this._objs[i];
-            if (className == egret.getQualifiedClassName(obj)) {
-                this._objs.splice(i, 1);
+    public get(className:string, properties?:any): Entity {
+        let entity: Entity = null;
+        for(let i = 0; i < this._entities.length; i++) {
+            entity = this._entities[i];
+            if (className == entity.getClassName()) {
+                this._entities.splice(i, 1);
                 break;
             }
         }
         
-        if (!obj) {
-            obj = <Entity>Object.create(window[className].prototype);
-            obj.constructor.apply(obj);
-            obj.setMCs(application.characters[className].getMCs());
+        let character = application.characters[className];
+        
+        if (!entity) {
+            entity = <Entity>Object.create(window[className].prototype);
+            entity.constructor.apply(entity);
+            
+            if (character) {
+                entity.setMCs(character.getMCs());
+            }
         }
 
-        let properties = application.characters[className].getProperties() || {};
-        if (options) {
-           for (var key in options) {
-              if (options.hasOwnProperty(key)) {
-                 properties[key] = options[key];
+        let props = {};
+        if (character) {
+            props = character.getProperties() || {};
+        }
+        if (properties) {
+           for (var key in properties) {
+              if (properties.hasOwnProperty(key)) {
+                 props[key] = properties[key];
               }
            }
         }
         
-        obj.initialize(properties);
+        entity.initialize(props);
         
-        return obj;
+        return entity;
     }
     
-    public set(obj:Entity) {
-        this._objs.push(obj);
+    public set(entity:Entity) {
+        for(let i = 0; i < this._entities.length; i++) {
+            if (this._entities[i] == entity) {
+                return;
+            }
+        }
+        
+        this._entities.push(entity);
     }
 }
