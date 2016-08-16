@@ -1,8 +1,6 @@
 class Battle extends Entity {
     /**地基层*/
     protected _baseLayer: egret.Sprite;
-    /**范围层*/
-    protected _areaLayer: egret.Sprite;
     /**怪物层、士兵层层级排序)*/
     protected _objLayer: egret.Sprite;
     /**弓箭、炮弹层*/
@@ -19,11 +17,10 @@ class Battle extends Entity {
     protected _standbys: Enemy[];
     protected _enemies: Enemy[];
 
-    protected _waves: Enemy[][];
-    
     //子弹
     protected _bullets:Bullet[];
 
+    protected _waves: Enemy[][];
     //当前一波敌人
     protected _currentWave: number;
     //下一波敌人发动攻击时间
@@ -39,7 +36,6 @@ class Battle extends Entity {
     protected _golds: number;
     
     protected _focus: Entity;
-    
     protected _toolItem: BattleToolItem;
 
     public constructor() {
@@ -47,13 +43,11 @@ class Battle extends Entity {
 
         //地基层
         this._baseLayer = this._addLayer();
-        //范围层
-        this._areaLayer = this._addLayer();
-        //怪物层、士兵层、英雄层、塔层(层级排序)
+        //怪物层、士兵层、英雄层
         this._objLayer = this._addLayer();
-        //添加武器层
+        //武器层
         this._bulletLayer = this._addLayer();
-        //添加工具层
+        //工具层
         this._toolLayer = this._addLayer();
         
         this.enableSelect(this);
@@ -79,11 +73,11 @@ class Battle extends Entity {
         this._golds = this._get(properties, "golds", 1000);
         
         this._baseLayer.removeChildren();
-        this._areaLayer.removeChildren();
         this._objLayer.removeChildren();
         this._bulletLayer.removeChildren();
         this._toolLayer.removeChildren();
 
+        this._waves = [];
         this._currentWave = 1;
         this._timeToNextWave = 1000;
         this._timeBetweenWaves = 1000;
@@ -102,8 +96,8 @@ class Battle extends Entity {
         this._addStandbys();
     }
     
-    public enableSelect(obj: Entity) {
-        obj.touchEnabled = true;
+    public enableSelect(entity: Entity) {
+        entity.touchEnabled = true;
         this.addEventListener(egret.TouchEvent.TOUCH_BEGIN, this._touch, this);        
     }
     
@@ -118,6 +112,7 @@ class Battle extends Entity {
     	    if (e.target == this) {
     	        let x = Math.round(e.localX);
                 let y = Math.round(e.localY);
+                
                 if (this._map.walkable(x, y)) {
                     if (this._toolItem) {
                         this._toolItem.use(x, y);
@@ -234,8 +229,7 @@ class Battle extends Entity {
             this._heros[i].update();
         }
 
-        
-        this._updateLayer(this._bases, this._objLayer);
+        this._updateLayer(this._bases, this._baseLayer);
         this._updateLayer(this._soliders, this._objLayer);
         this._updateLayer(this._enemies, this._objLayer);
         this._updateLayer(this._bullets, this._bulletLayer);
@@ -256,25 +250,25 @@ class Battle extends Entity {
         }
     }
 
-    private _updateLayer(objs: Entity[], layer:egret.Sprite){
-        for(let i = 0; i < objs.length; i++) {
-            let obj = objs[i];
+    private _updateLayer(entities: Entity[], layer:egret.Sprite){
+        for(let i = 0; i < entities.length; i++) {
+            let entity = entities[i];
             
-            obj.update();
+            entity.update();
             
-            if (obj.dead()) {
-                objs.splice(i, 1);
-                layer.removeChild(obj);
-                application.pool.set(obj);
+            if (entity.dead()) {
+                entities.splice(i, 1);
+                layer.removeChild(entity);
+                application.pool.set(entity);
             }
         }        
     }
 
     public findEnemies(x: number, y: number, radius: number, altitudes: number[]) : Enemy[] {
-        var enemies = [];
+        let enemies = [];
         
-        for(var i = 0; i < this._enemies.length; i++) {
-            if ((this._enemies[i].getAltitude() in altitudes) && this._enemies[i].intersect(x, y, radius)){
+        for(let i = 0; i < this._enemies.length; i++) {
+            if (this._enemies[i].reachable(x, y, radius, altitudes)){
                 enemies.push(this._enemies[i]);
             }
         }
@@ -283,8 +277,8 @@ class Battle extends Entity {
     }
 
     public findEnemy(x: number, y: number, radius: number, altitudes: number[]) : Enemy {
-        for(var i = 0; i < this._enemies.length; i++) {
-            if ((this._enemies[i].getAltitude() in altitudes) && this._enemies[i].intersect(x, y, radius)){
+        for(let i = 0; i < this._enemies.length; i++) {
+            if (this._enemies[i].reachable(x, y, radius, altitudes)){
                 return this._enemies[i];
             }
         }
@@ -293,9 +287,9 @@ class Battle extends Entity {
     }
 
     public findSuitableEnemy(x: number, y: number, radius: number, altitudes: number[]) : Enemy {
-        var enemy = null;
-        for(var i = 0; i < this._enemies.length; i++) {
-            if ((this._enemies[i].getAltitude() in altitudes) && this._enemies[i].intersect(x, y, radius)){
+        let enemy = null;
+        for(let i = 0; i < this._enemies.length; i++) {
+            if (this._enemies[i].reachable(x, y, radius, altitudes)){
                 if (this._enemies[i].totalSoliders() == 0) {
                     return this._enemies[i];
                 } else {
@@ -308,7 +302,7 @@ class Battle extends Entity {
         
         return enemy;
     }
-    
+
     public addSolider(solider:Soldier) {
         this._soliders.push(solider);
         this._objLayer.addChild(solider);
