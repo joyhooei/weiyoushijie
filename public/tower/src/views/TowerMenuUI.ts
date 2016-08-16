@@ -1,13 +1,13 @@
 class TowerMenuUI extends AbstractUI{
-    private _tower: Tower;
+    private _base: Base;
     
     private _items: eui.Image[];
     private _prices: number[];
     
-    constructor(tower:Tower) {
+    constructor(base: Base) {
         super("towerMenuUISkin");
         
-        this._tower = tower;
+        this._base = base;
         
         application.dao.addEventListener("Battle",function(evt: egret.Event) {
             this.refresh();
@@ -15,13 +15,18 @@ class TowerMenuUI extends AbstractUI{
     }
     
     protected _onRefresh() {
-        switch(this._tower.getClassName()) {
-            case "SoldierTower1":
-                this._addUpgardeItem("SoldierTower2", "", 10, 10);
-                break;
+        let tower = this._base.getTower();
+        if (tower) {
+            switch(this._base.getTower().getClassName()) {
+                case "SoldierTower1":
+                    this._addUpgardeItem("SoldierTower2", "", 10, 10);
+                    break;
+            }
+            
+            this._addSellItem();
+        } else {
+            
         }
-        
-        this._addSellItem();
     }
     
     private _addUpgardeItem(towerName:string, path: string, x: number, y: number) {
