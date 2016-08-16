@@ -1,8 +1,4 @@
 class BattleUI extends AbstractUI {
-    private _stage: number;
-    
-    private _level: number;
-
 	public lblLives: eui.Label;
 	public lblGolds: eui.Label;
     public grpSystemTools: eui.Group;
@@ -10,15 +6,12 @@ class BattleUI extends AbstractUI {
 
     public imgBack:  eui.Image;
     
-    constructor(stage:number, level:number) {
+    constructor() {
         super("battleUISkin");
         
         let self = this;
         
-        self._stage = stage;
-        self._level = level;
-        
-        self.grpOption.visible = false;
+    	self.addChildAt(application.battle, 0);
 
         self.grpSystemTools.addChild(new BattleTimeoutToolItem({category: 'solider'}));
         self.grpSystemTools.addChild(new BattleTimeoutToolItem({category: 'fireball'}));
@@ -54,30 +47,19 @@ class BattleUI extends AbstractUI {
     }
     
     private _quitBattle() {
+	    this.removeEventListener(egret.Event.ENTER_FRAME,this._onEnterFrame, this);
+	    
 	    application.battle.erase();
 	    application.pool.set(application.battle);
-	    
 	    application.battle = null;
-	    
-	    application.battle.hideAllTools();
-	    
+
 	    application.hideUI(this);
     }
     
     private _startBattle() {
-    	var self = this;
+    	application.battle.initialize({});
     	
-    	self.grpOption.visible = false;
-    	
-        var options = {stage: self._stage, level: self._level};
-        application.battle = <Battle>application.pool.get("Battle" + this._stage, options);
-        application.battle.loadResource(options).then(function(){
-            self.addChildAt(application.battle, 0);
-
-            self.addEventListener(egret.Event.ENTER_FRAME,self._onEnterFrame, self);
-        }, function(error:Error){
-            Toast.launch(error.message);
-        })    	
+    	this.addEventListener(egret.Event.ENTER_FRAME,this._onEnterFrame, this);
     }
 
     private _onEnterFrame(e:egret.Event) {
