@@ -37,6 +37,10 @@ class Base extends Entity {
         this._tower.setParent(this);
     }
     
+    public getTower(): Tower {
+        return this._tower;
+    }
+    
     public sellTower() {
         this._tower.kill();
 
