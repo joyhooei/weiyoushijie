@@ -1,5 +1,7 @@
 class TowerMenuUI extends AbstractUI{
-    private _tower : Tower;
+    private _tower: Tower;
+    
+    private _items: eui.Image[];
     
     constructor(tower:Tower) {
         super("towerMenuUISkin");
@@ -12,7 +14,13 @@ class TowerMenuUI extends AbstractUI{
     }
     
     protected _onRefresh() {
+        switch(this._tower.getClassName()) {
+            case "SoldierTower1":
+                this._addUpgardeItem("SoldierTower2", "", 10, 10);
+                break;
+        }
         
+        this._addSellItem();
     }
     
     private _addUpgardeItem(towerName:string, path: string, x: number, y: number) {
