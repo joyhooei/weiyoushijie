@@ -1,5 +1,5 @@
 class Enemy extends NPC {
-    private _soliders: Soldier[];
+    protected _soliders: Soldier[];
     
     //所有路径
     protected _paths: number[][];
@@ -57,8 +57,8 @@ class Enemy extends NPC {
     }
     
     public reachable(x: number, y: number, radius: number, altitudes: number[]): boolean {
-        return !this.dying() && !this.dead() && this.getAltitude() in altitudes) && this.intersect(x, y, radius);
-    }    
+        return !this._state >= EntityState.dying && this._altitude in altitudes && this.intersect(x, y, radius);
+    }
     
     private _nextPath(): boolean {
     	if (this._path < this._paths.length - 1) {
