@@ -72,13 +72,13 @@ class MovableEntity extends Entity {
     
     protected _idle() {
     	if (this._ticks >= this._idleTicks) {
-        	this._do(EntityState.moving);
+        	this.move();
     	}
     }
     
     protected _dying() {
-        if (this._ticks > this._dyingTicks) {
-            this._do(EntityState.dead);
+        if (this._ticks >= this._dyingTicks) {
+            this.erase();
         }
     }    
 }
