@@ -34,12 +34,12 @@ class BattleUI extends AbstractUI {
         })
         
         application.dao.addEventListener("Battle",function(evt: egret.Event) {
-            if (application.battle.getLives() <= 0) {
-            	this.grpOption.visible = true;
-            }
-            
-            this.lblLives.text = application.battle.getLives();
-            this.lblGolds.text = application.battle.getGolds();
+        	if (application.battle.dead()) {
+        		this.grpOption.visible = true;
+        	} else {
+	            this.lblLives.text = application.battle.getLives();
+	            this.lblGolds.text = application.battle.getGolds();
+        	}
         },this);
         
 		self.imgBack.addEventListener(egret.TouchEvent.TOUCH_TAP,() => {
