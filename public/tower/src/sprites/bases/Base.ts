@@ -35,6 +35,8 @@ class Base extends Entity {
         
         this._tower = tower;
         this._tower.setParent(this);
+        
+        this._repaint = true;
     }
     
     public getTower(): Tower {
@@ -45,6 +47,8 @@ class Base extends Entity {
         this._tower.kill();
 
         this._tower = null;
+        
+        this._repaint = true;
     }
     
     public select(again:boolean) {
