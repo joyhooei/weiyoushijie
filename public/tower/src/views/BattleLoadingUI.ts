@@ -2,13 +2,18 @@ class BattleLoadingUI extends AbstractUI {
     constructor(stage:number, level:number) {
         super("battleLoadingUISkin");
         
-        var options = {stage: self._stage, level: self._level};
-        application.battle = <Battle>application.pool.get("Battle" + this._stage, options);
+        let self = this;
+        
+        let options = {stage: stage, level: level};
+        application.battle = <Battle>application.pool.get("Battle" + stage, options);
         application.battle.loadResource(options).then(function(){
-            application.hideUI(this);
-            application.showUI(new BattleUI(stage, level));
+            application.hideUI(self);
+            
+            application.showUI(new BattleUI());
         }, function(error:Error){
+            application.hideUI(self);
+            
             Toast.launch(error.message);
-        }) 
+        })
     }
 }
