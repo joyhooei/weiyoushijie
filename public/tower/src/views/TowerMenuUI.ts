@@ -2,6 +2,7 @@ class TowerMenuUI extends AbstractUI{
     private _tower: Tower;
     
     private _items: eui.Image[];
+    private _prices: number[];
     
     constructor(tower:Tower) {
         super("towerMenuUISkin");
