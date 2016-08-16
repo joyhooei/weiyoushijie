@@ -147,8 +147,16 @@ class Battle extends Entity {
         this._lives += lives;
     }
     
+    public getLives(): number {
+        return this._lives;
+    }
+    
     public incGolds(golds: number) {
         this._golds += golds;
+    }
+    
+    public getGolds(): number {
+        return this._golds;
     }
     
     private _addLayer():egret.Sprite {
