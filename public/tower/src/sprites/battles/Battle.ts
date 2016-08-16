@@ -220,6 +220,42 @@ class Battle extends Entity {
         this._toolLayer.removeChildren();
     }
     
+    public erase() {
+        super.erase();
+        
+        for(let i = 0; i < this._heros.length; i++) {
+            this._heros[i].erase();
+            application.pool.set(this._heros[i]);
+        }
+        
+        for(let i = 0; i < this._bases.length; i++) {
+            this._bases[i].erase();
+            application.pool.set(this._bases[i]);
+        }
+        
+        for(let i = 0; i < this._soliders.length; i++) {
+            this._soliders[i].erase();
+            application.pool.set(this._soliders[i]);
+        }
+        
+        for(let i = 0; i < this._enemies.length; i++) {
+            this._enemies[i].erase();
+            application.pool.set(this._enemies[i]);
+        }
+        
+        for(let i = 0; i < this._bullets.length; i++) {
+            this._bullets[i].erase();
+            application.pool.set(this._bullets[i]);
+        }
+        
+        for(let i = 0; i < this._waves.length; i++) {
+            for(let j = 0; j < this._waves[i].length; j++) {
+                this._waves[i][j].erase();
+                application.pool.set(this._waves[i]);
+            }
+        }
+    }
+    
     public update() {
         if (this._enemies.length == 0) {
             this._launchNextWave();
