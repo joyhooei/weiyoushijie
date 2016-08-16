@@ -6,8 +6,12 @@ class BattleUI extends AbstractUI {
     public grpSystemTools: eui.Group;
     
     public grpBoughtTools: eui.Group;
+
+	public grpOption: eui.Group;
+    public imgStart: eui.Image;
+    public imgQuit:  eui.Image;
     
-    public imgBack: eui.Image;
+    public imgBack:  eui.Image;
     
     constructor(stage:number, level:number) {
         super("battleUISkin");
@@ -16,6 +20,8 @@ class BattleUI extends AbstractUI {
         
         self._stage = stage;
         self._level = level;
+        
+        self.grpOption.visible = false;
 
         self.grpSystemTools.addChild(new BattleTimeoutToolItem({category: 'solider'}));
         self.grpSystemTools.addChild(new BattleTimeoutToolItem({category: 'fireball'}));
@@ -27,20 +33,40 @@ class BattleUI extends AbstractUI {
         })
         
 		self.imgBack.addEventListener(egret.TouchEvent.TOUCH_TAP,() => {
-		    application.battle.erase();
-		    application.pool.set(application.battle);
-		    
-		    application.battle = null;
-		    
-		    application.battle.hideAllTools();
-		}, self);        
+		    self._quitBattle();
+		}, self);
+         
+		self.imgStart.addEventListener(egret.TouchEvent.TOUCH_TAP,() => {
+		    self._startBattle();
+		}, self);
+       
+		self.imgQuit.addEventListener(egret.TouchEvent.TOUCH_TAP,() => {
+		    self._quitBattle();
+		}, self);
         
         self.stage.frameRate = application.frameRate;
     }
 
     protected onRefresh() {
-        var self = this;
-        
+        this._startBattle();
+    }
+    
+    private _quitBattle() {
+	    application.battle.erase();
+	    application.pool.set(application.battle);
+	    
+	    application.battle = null;
+	    
+	    application.battle.hideAllTools();
+	    
+	    application.hideUI(this);
+    }
+    
+    private _startBattle() {
+    	var self = this;
+    	
+    	self.grpOption.visible = false;
+    	
         var options = {stage: self._stage, level: self._level};
         application.battle = <Battle>application.pool.get("Battle" + this._stage, options);
         application.battle.loadResource(options).then(function(){
@@ -49,7 +75,7 @@ class BattleUI extends AbstractUI {
             self.addEventListener(egret.Event.ENTER_FRAME,self._onEnterFrame, self);
         }, function(error:Error){
             Toast.launch(error.message);
-        })
+        })    	
     }
 
     private _onEnterFrame(e:egret.Event) {
@@ -57,7 +83,7 @@ class BattleUI extends AbstractUI {
             application.battle.update();
             
             if (application.battle.getLives() <= 0) {
-            	//重玩还是退出
+            	this.grpOption.visible = true;
             }
         }
     }
