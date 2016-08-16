@@ -145,6 +145,8 @@ class Battle extends Entity {
     
     public incLives(lives: number) {
         this._lives += lives;
+        
+        application.dao.dispatchEventWith(this, true, {lives: this._lives}});
     }
     
     public getLives(): number {
@@ -153,6 +155,8 @@ class Battle extends Entity {
     
     public incGolds(golds: number) {
         this._golds += golds;
+        
+        application.dao.dispatchEventWith(this, true, {golds: this._golds}});
     }
     
     public getGolds(): number {
