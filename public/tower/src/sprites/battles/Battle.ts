@@ -238,10 +238,16 @@ class Battle extends Entity {
     private _launchNextWave() {
         this._timeToNextWave --;
         if (this._timeToNextWave <= 0) {
-            this._launch(this._currentWave);
-            this._currentWave ++;
-            this._timeToNextWave = this._timeBetweenWaves;
-        }            
+            if (this._currentWave >= this._waves.length) {
+                this.erase();
+                
+                application.dao.dispatchEventWith(this, true, {state: this._state}});
+            } else {
+                this._launch(this._currentWave);
+                this._currentWave ++;
+                this._timeToNextWave = this._timeBetweenWaves;
+            }
+        }
     }
 
     private _updateLayer(objs: Entity[], layer:egret.Sprite){
