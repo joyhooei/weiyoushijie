@@ -220,7 +220,7 @@ class Battle extends Entity {
         application.dao.dispatchEventWith(this, true, {state: this._state});
     }
     
-    public update() {
+    public update(): boolean {
         if (this._enemies.length == 0) {
             this._waves.launch();
         } else {
@@ -230,15 +230,15 @@ class Battle extends Entity {
             this._updateEntities(this._enemies);
             this._updateEntities(this._bullets);
         }
+        
+        return this.dead();
     }
 
     private _updateEntities(entities: Entity[]){
-        for(let i = 0; i < entities.length; i++) {
-            let entity = entities[i];
-            
-            entity.update();
-            
-            if (entity.dead()) {
+        let i = entities.length;
+        while(i > 0) {
+            let entity = entities[--i];
+            if (entity.update()) {
                 entities.splice(i, 1);
             }
         }        
