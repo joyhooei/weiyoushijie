@@ -31,7 +31,7 @@ class Battle1 extends Battle {
         for(let i = 0; i < waves.length; i++) {
             let w = waves[i];
             
-            this._addWaveStandbys(<number>w[0], <string>w[1], <number>w[2], paths[w[3]]);
+            this._waves.add(<number>w[0], <string>w[1], <number>w[2], paths[w[3]]);
         }
     }
 }
