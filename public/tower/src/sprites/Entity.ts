@@ -20,7 +20,8 @@ enum EntityDirection {
 };
 
 class Entity extends egret.Sprite {
-	protected _state: EntityState;
+	private _state: EntityState;
+	
     protected _ticks: number;
     
     //面向
@@ -108,6 +109,10 @@ class Entity extends egret.Sprite {
 		return this._state < EntityState.dying;
 	}
 
+	public dead(): boolean {
+		return this._state == EntityState.dead;
+	}
+	
     public select(again:boolean) {
     }
     
@@ -149,7 +154,7 @@ class Entity extends egret.Sprite {
         	this._repaint = false;
     	}
     	
-    	return this._state == EntityState.dead;
+    	return this.dead();
     }
     
     public setMCs(mcs: egret.MovieClip[]) {
