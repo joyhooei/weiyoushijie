@@ -170,17 +170,11 @@ class Entity extends egret.Sprite {
     private _do(state:EntityState) {
     	if (state != this._state) {
     		//dead状态不需要再变更状态了
-    		if (this._state == EntityState.dead) {
-    			return;
-    		}
-    		
     		//当前状态如果是dying，新状态只能是dead
-    		if (this._state == EntityState.dying && state != EntityState.dead) {
+    		if (this._state == EntityState.dead || (this._state == EntityState.dying && state != EntityState.dead)) {
     			return;
     		}
-    		
-	    	this._stateChanged( this._state, state);
-	    	
+
 	    	this._ticks = 0;
 	    	this._state = state;
 	    	
@@ -195,9 +189,6 @@ class Entity extends egret.Sprite {
     		
     		this._repaint = true;
     	}
-    }
-    
-    protected _stateChanged(oldState: EntityState, newState: EntityState) {
     }
 
     protected _idle() {
