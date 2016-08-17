@@ -2,7 +2,7 @@ class Battle1 extends Battle {
     public constructor() {
         super();
         
-        this._url = "level1.tmx";
+        this._url = "resource/art/sprites/battles/level2.tmx";
     }
 
     //增加英雄

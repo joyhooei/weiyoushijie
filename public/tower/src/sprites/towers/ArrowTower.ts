@@ -10,15 +10,13 @@ class ArrowTower extends Tower {
 
         this.removeChildren();
     }
-    
-    protected _stateChanged(oldState: EntityState, newState: EntityState) {
-        super._stateChanged(oldState, newState);
-        
-        if (newState == EntityState.guarding) {
-            for(let i = 0; i < this._soldiers.length; i++) {
-                this.addChild(this._soldiers[i]);
-            }
-        }
+
+    public guard(){
+        super.guard();
+
+        for(let i = 0; i < this._soldiers.length; i++) {
+            this.addChild(this._soldiers[i]);
+        }       
     }
     
     protected _createSoliders(className:string) {
@@ -32,16 +30,15 @@ class ArrowTower extends Tower {
         soldier.x = x;
         soldier.y = y;   
         
-        soldier.setParent(this);
         return soldier;
     }
     
-    public update() {
-        super.update();
-        
+    public update() : boolean {       
         for(let i = 0; i < this._soldiers.length; i++) {
             this._soldiers[i].update();
         }
+
+        return super.update();
     }
     
     public paint() {

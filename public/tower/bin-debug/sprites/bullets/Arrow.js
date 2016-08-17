@@ -9,11 +9,11 @@ var Arrow = (function (_super) {
         this._missing = false;
     };
     p._hitTarget = function () {
-        if (this._target.dying() || this._target.dead()) {
-            this._missing = true;
+        if (this._target.active()) {
+            this._target.hitBy(this._damage);
         }
         else {
-            this._target.hitBy(this._damage);
+            this._missing = true;
         }
     };
     return Arrow;

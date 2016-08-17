@@ -78,6 +78,6 @@ class Soldier extends NPC {
     }
     
     private _findEnemy(): Enemy {
-        return application.battle.findSuitableEnemy(this._guardX, this._guardY, this._guardRadius, [this._guardAltitudes]);
+        return application.battle.findSuitableEnemy(this._guardX, this._guardY, this._guardRadius, this._guardAltitudes);
     }
 }

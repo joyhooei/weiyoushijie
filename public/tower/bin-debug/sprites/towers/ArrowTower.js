@@ -8,12 +8,10 @@ var ArrowTower = (function (_super) {
         _super.prototype.initialize.call(this, properties);
         this.removeChildren();
     };
-    p._stateChanged = function (oldState, newState) {
-        _super.prototype._stateChanged.call(this, oldState, newState);
-        if (newState == EntityState.guarding) {
-            for (var i = 0; i < this._soldiers.length; i++) {
-                this.addChild(this._soldiers[i]);
-            }
+    p.guard = function () {
+        _super.prototype.guard.call(this);
+        for (var i = 0; i < this._soldiers.length; i++) {
+            this.addChild(this._soldiers[i]);
         }
     };
     p._createSoliders = function (className) {
@@ -24,14 +22,13 @@ var ArrowTower = (function (_super) {
         var soldier = application.pool.get(className, { "guardX": this.getMapX(), "guardY": this.getMapY(), "guardRadius": this._guardRadius });
         soldier.x = x;
         soldier.y = y;
-        soldier.setParent(this);
         return soldier;
     };
     p.update = function () {
-        _super.prototype.update.call(this);
         for (var i = 0; i < this._soldiers.length; i++) {
             this._soldiers[i].update();
         }
+        return _super.prototype.update.call(this);
     };
     p.paint = function () {
         _super.prototype.paint.call(this);

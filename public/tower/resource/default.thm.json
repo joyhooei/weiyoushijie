@@ -1,5 +1,6 @@
 {
   "exmls": [
+    "resource/custom_skins/battleLoadingUISkin.exml",
     "resource/custom_skins/battleUISkin.exml",
     "resource/custom_skins/blockUISkin.exml",
     "resource/custom_skins/buyAchieveUISkin.exml",

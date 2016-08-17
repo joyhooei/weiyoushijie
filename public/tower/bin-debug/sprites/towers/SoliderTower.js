@@ -12,7 +12,6 @@ var SoliderTower = (function (_super) {
     };
     p.addSolider = function () {
         var solider = application.pool.get("Solider", { "guardX": this._guardX, "guardY": this._guardY });
-        solider.setParent(this);
         application.battle.addSolider(solider);
         this._totalSoliders++;
     };

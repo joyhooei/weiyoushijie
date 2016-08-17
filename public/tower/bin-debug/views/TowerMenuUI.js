@@ -1,29 +1,45 @@
 var TowerMenuUI = (function (_super) {
     __extends(TowerMenuUI, _super);
-    function TowerMenuUI(tower) {
+    function TowerMenuUI(base) {
         _super.call(this, "towerMenuUISkin");
-        this._tower = tower;
+        this._base = base;
+        application.dao.addEventListener("Battle", function (evt) {
+            this.refresh();
+        }, this);
     }
     var d = __define,c=TowerMenuUI,p=c.prototype;
-    p._addUpgardeImage = function (towerName, path, x, y) {
-        this._addImage(path, x, y).addEventListener(egret.TouchEvent.TOUCH_BEGIN, function (e) {
+    p._onRefresh = function () {
+        var tower = this._base.getTower();
+        if (tower) {
+            switch (this._base.getTower().getClassName()) {
+                case "SoldierTower1":
+                    this._addUpgardeItem("SoldierTower2", "", 10, 10);
+                    break;
+            }
+            this._addSellItem();
+        }
+        else {
+        }
+    };
+    p._addUpgardeItem = function (towerName, path, x, y) {
+        this._addItem(path, x, y).addEventListener(egret.TouchEvent.TOUCH_BEGIN, function (e) {
             var tower = application.pool.get(towerName);
             this._tower.getParent().buildTower(tower);
-            application.hideUI(this);
+            application.battle.hideAllTools();
         }, this);
     };
-    p._addLockImage = function () {
-        this._addImage("locktower", 0, -14).addEventListener(egret.TouchEvent.TOUCH_BEGIN, function (e) {
-            application.hideUI(this);
+    p._addLockItem = function () {
+        this._addItem("locktower", 0, -14).addEventListener(egret.TouchEvent.TOUCH_BEGIN, function (e) {
+            application.battle.hideAllTools();
         }, this);
     };
-    p._addSellImage = function () {
-        this._addImage("selltower", 43, 98).addEventListener(egret.TouchEvent.TOUCH_BEGIN, function (e) {
+    p._addSellItem = function () {
+        this._addItem("selltower", 43, 98).addEventListener(egret.TouchEvent.TOUCH_BEGIN, function (e) {
             this._tower.getParent().sellTower();
-            application.hideUI(this);
+            application.battle.hideAllTools();
         }, this);
     };
-    p._addImage = function (path, x, y) {
+    p._addItem = function (path, x, y) {
         var image = new eui.Image();
         image.source = path;
         image.x = x;

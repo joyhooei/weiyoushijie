@@ -50,12 +50,12 @@ var MovableEntity = (function (_super) {
     };
     p._idle = function () {
         if (this._ticks >= this._idleTicks) {
-            this._do(EntityState.moving);
+            this.move();
         }
     };
     p._dying = function () {
-        if (this._ticks > this._dyingTicks) {
-            this._do(EntityState.dead);
+        if (this._ticks >= this._dyingTicks) {
+            this.erase();
         }
     };
     return MovableEntity;

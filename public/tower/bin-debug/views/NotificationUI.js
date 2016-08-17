@@ -1,7 +1,7 @@
 var NotificationUI = (function (_super) {
     __extends(NotificationUI, _super);
     function NotificationUI(notification, cb) {
-        _super.call(this);
+        _super.call(this, "notificationUISkin");
         this.addEventListener(eui.UIEvent.COMPLETE, function () {
             var _this = this;
             this.lblContent.text = notification.content;
@@ -17,10 +17,9 @@ var NotificationUI = (function (_super) {
                 }
             }, this);
         }, this);
-        this.skinName = "resource/custom_skins/notificationUISkin.exml";
     }
     var d = __define,c=NotificationUI,p=c.prototype;
     return NotificationUI;
-}(eui.Component));
+}(AbstractUI));
 egret.registerClass(NotificationUI,'NotificationUI');
 //# sourceMappingURL=NotificationUI.js.map

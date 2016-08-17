@@ -1,9 +1,9 @@
-class NotificationUI extends eui.Component {
+class NotificationUI extends AbstractUI {
     private imgOk: eui.Image;
     private lblContent: eui.Label;
 
     constructor(notification:any, cb?:Function) {
-        super();
+        super("notificationUISkin");
 
         this.addEventListener(eui.UIEvent.COMPLETE,function(){
             this.lblContent.text = notification.content;
@@ -20,7 +20,5 @@ class NotificationUI extends eui.Component {
         		}
             },this);
         },this);
-        
-        this.skinName = "resource/custom_skins/notificationUISkin.exml";
     }
 }

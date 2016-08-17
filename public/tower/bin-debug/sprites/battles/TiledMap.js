@@ -32,7 +32,8 @@ var TiledMap = (function (_super) {
     p._markGrid = function () {
         this._grid = [];
         for (var i = 0; i <= this._width; i++) {
-            for (var j = 0; j < this._height; j++) {
+            this._grid[i] = [];
+            for (var j = 0; j <= this._height; j++) {
                 this._grid[i][j] = 0;
             }
         }

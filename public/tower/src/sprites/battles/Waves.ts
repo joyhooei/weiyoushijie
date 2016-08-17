@@ -42,12 +42,12 @@ class Waves {
         switch(direction) {
             case EntityDirection.east:
             case EntityDirection.west:
-                deltaX = 0；
+                deltaX = 0;
                 break;
                 
             case EntityDirection.north:
             case EntityDirection.south:
-                deltaY = 0；
+                deltaY = 0;
                 break;
         }
         newPaths.push([paths[paths.length - 1][0] + deltaX, paths[paths.length - 1][1] + deltaY]);        

@@ -24,8 +24,8 @@ class BattleUI extends AbstractUI {
         })
         
         application.dao.addEventListener("Battle",function(evt: egret.Event) {
-            self.lblLives.text = application.battle.getLives();
-            self.lblGolds.text = application.battle.getGolds();
+            self.lblLives.text = application.battle.getLives().toString();
+            self.lblGolds.text = application.battle.getGolds().toString();
         }, self);
         
 		self.imgBack.addEventListener(egret.TouchEvent.TOUCH_TAP,() => {

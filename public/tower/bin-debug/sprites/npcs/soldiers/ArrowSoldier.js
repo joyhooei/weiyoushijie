@@ -8,15 +8,14 @@ var ArrowSoldier = (function (_super) {
         _super.prototype.initialize.call(this, properties);
     };
     p._guarding = function () {
-        this._do(EntityState.fighting);
+        this.fight();
     };
     p._fighting = function () {
         if (this._ticks % this._hitSpeed == 0) {
             var x = this.getMapX();
             var y = this.getMapY();
             if (this._enemy == null
-                || this._enemy.dying()
-                || this._enemy.dead()
+                || !this._enemy.active()
                 || !this._enemy.intersect(x, y, this._guardRadius)) {
                 this._enemy = application.battle.findEnemy(x, y, this._guardRadius, [0]);
                 this._face(this._enemy);

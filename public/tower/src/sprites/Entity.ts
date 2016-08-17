@@ -169,7 +169,7 @@ class Entity extends egret.Sprite {
 	    	this._mc = mc;
 	    	
 	    	this.addChild(mc);
-	    	mc.start();
+	    	mc.play();
     	}
     }
 
@@ -238,14 +238,14 @@ class Entity extends egret.Sprite {
     }
     
     protected _direction4(x:number, y:number):EntityDirection {
-        return Entity.direction4(this.x, this.y, x, y, angels, directions);
+        return Entity.direction4(this.x, this.y, x, y);
     }
     
     public static direction4(x1:number, y1:number, x2:number, y2:number):EntityDirection {
         let angels = [60, 120, 240, 300, 360];
         let directions = [EntityDirection.east, EntityDirection.north, EntityDirection.west, EntityDirection.south, EntityDirection.east ];
         
-        return Entity.direction(this.x, this.y, x, y, angels, directions);
+        return Entity.direction(x1, y1, x2, y2, angels, directions);
     }
     
     public static direction(x1:number, y1:number, x2:number, y2:number, angels:number[], directions:EntityDirection[]):EntityDirection {

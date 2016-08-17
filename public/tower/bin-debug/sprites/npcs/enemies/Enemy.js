@@ -6,7 +6,7 @@ var Enemy = (function (_super) {
     var d = __define,c=Enemy,p=c.prototype;
     p.initialize = function (properties) {
         _super.prototype.initialize.call(this, properties);
-        this._golds = this._get(properties, "golds", 10);
+        this._bonus = this._get(properties, "bonus", 10);
         this._soliders = [];
         this._paths = [];
         this._path = 0;
@@ -37,6 +37,9 @@ var Enemy = (function (_super) {
             this._face(this._soliders[0]);
         }
     };
+    p.reachable = function (x, y, radius, altitudes) {
+        return this.active() && this._altitude in altitudes && this.intersect(x, y, radius);
+    };
     p._nextPath = function () {
         if (this._path < this._paths.length - 1) {
             var path = this._paths[this._path];
@@ -55,14 +58,14 @@ var Enemy = (function (_super) {
         this._turn(this._direction8(path[0], path[1]));
         this._computeSteps(path[0], path[1]);
     };
-    p._stateChanged = function (oldState, newState) {
-        if (newState == EntityState.moving && oldState != EntityState.idle) {
-            this._readToMove();
-        }
-        else if (newState == EntityState.dying) {
-            application.battle.incGolds(this._golds);
-        }
-        _super.prototype._stateChanged.call(this, oldState, newState);
+    p.move = function () {
+        _super.prototype.move.call(this);
+        var path = this._paths[this._path];
+        this._turn(this._direction8(path[0], path[1]));
+    };
+    p.kill = function () {
+        _super.prototype.kill.call(this);
+        application.battle.incGolds(this._bonus);
     };
     p._moving = function () {
         if (this._moveOneStep()) {
@@ -72,13 +75,7 @@ var Enemy = (function (_super) {
     };
     //走一步，true表示已经到了终点
     p._moveOneStep = function () {
-        if (_super.prototype._moveOneStep.call(this) && !this._nextPath()) {
-            //到达终点
-            return true;
-        }
-        else {
-            return false;
-        }
+        return _super.prototype._moveOneStep.call(this) && !this._nextPath();
     };
     p._fighting = function () {
         if (this._ticks % this._hitSpeed == 0) {

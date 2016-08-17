@@ -52,6 +52,13 @@ class Battle extends Entity {
         return Q.Promise<any>(function(resolve,reject,notify) {
             TiledMap.load(self._url, 800, 480).then(function(map){
                 self._map = map;
+
+                self._addBases();
+
+                self._addHeros();
+                
+                self._addStandbys();
+
     	        resolve(self);
     	    }, function(error){
                 reject(error);
@@ -78,12 +85,6 @@ class Battle extends Entity {
         this._bullets = [];
         
         this._enemies = [];
-
-        this._addBases();
-
-        this._addHeros();
-        
-        this._addStandbys();
     }
     
     public enableSelect(entity: Entity) {
@@ -134,7 +135,7 @@ class Battle extends Entity {
         if (this._lives <= 0) {
             this.kill();
         } else {
-            application.dao.dispatchEventWith(this, true, {lives: this._lives});
+            application.dao.dispatchEventWith("Battle", true, {lives: this._lives});
         }
     }
     
@@ -145,7 +146,7 @@ class Battle extends Entity {
     public incGolds(golds: number) {
         this._golds += golds;
         
-        application.dao.dispatchEventWith(this, true, {golds: this._golds});
+        application.dao.dispatchEventWith("Battle", true, {golds: this._golds});
     }
     
     public getGolds(): number {

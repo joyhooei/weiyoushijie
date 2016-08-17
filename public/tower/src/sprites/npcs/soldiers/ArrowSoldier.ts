@@ -8,7 +8,7 @@ class ArrowSoldier extends Soldier {
     }
 
     protected _guarding() {
-        this._do(EntityState.fighting);
+        this.fight();
     }
 
     protected _fighting() {
@@ -17,8 +17,7 @@ class ArrowSoldier extends Soldier {
             let y = this.getMapY();
 
             if (this._enemy == null 
-                    || this._enemy.dying() 
-                    || this._enemy.dead()
+                    || !this._enemy.active() 
                     || !this._enemy.intersect(x, y, this._guardRadius)) {
                 this._enemy = application.battle.findEnemy(x, y, this._guardRadius, [0]);
                 

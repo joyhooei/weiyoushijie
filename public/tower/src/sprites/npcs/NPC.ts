@@ -15,7 +15,7 @@ class NPC extends MovableEntity {
     public initialize(properties:any) {
         super.initialize(properties);
         
-        this._hp = application.pool.get("Hp", properties);
+        this._hp = <Hp>application.pool.get("Hp", properties);
         this._hp.width = 18;
         this.addChild(this._hp);
         

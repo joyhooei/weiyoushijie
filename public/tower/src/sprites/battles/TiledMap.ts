@@ -56,9 +56,9 @@ class TiledMap extends egret.Sprite {
     
     private _markGrid() {
         this._grid = [];
-        
         for(let i = 0; i <= this._width; i++) {
-            for(let j = 0; j < this._height; j++) {
+            this._grid[i] = [];
+            for(let j = 0; j <= this._height; j++) {
                 this._grid[i][j] = 0;
             }
         }

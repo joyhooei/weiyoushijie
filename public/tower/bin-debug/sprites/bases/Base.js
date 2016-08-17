@@ -17,23 +17,30 @@ var Base = (function (_super) {
     p.getGuardY = function () {
         return this._guardY;
     };
-    p.buildTower = function (tower) {
+    p.getTower = function () {
+        return this._tower;
+    };
+    p.setTower = function (tower) {
+        this._clearTower();
+        this._tower = tower;
+        if (this._tower) {
+            this.addChild(this._tower);
+        }
+        this._repaint = true;
+    };
+    p._clearTower = function () {
         if (this._tower) {
             this._tower.erase();
+            this._tower = null;
         }
-        this._tower = tower;
-        this._tower.setParent(this);
     };
-    p.sellTower = function () {
-        this._tower.kill();
-        this._tower = null;
+    p.erase = function () {
+        _super.prototype.erase.call(this);
+        this._clearTower();
     };
     p.select = function (again) {
-        if (this._tower) {
-            application.battle.showTool(new TowerMenuUI(this._tower), this.x, this.y);
-        }
-        else {
-            application.battle.showTool(new BuildTowerUI(this), this.x, this.y);
+        if (!again) {
+            application.battle.showTool(new TowerMenuUI(this), this.x, this.y);
         }
     };
     p.deselect = function () {

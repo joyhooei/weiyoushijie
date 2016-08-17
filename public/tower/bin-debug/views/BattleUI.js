@@ -1,10 +1,9 @@
 var BattleUI = (function (_super) {
     __extends(BattleUI, _super);
-    function BattleUI(stage, level) {
+    function BattleUI() {
         _super.call(this, "battleUISkin");
         var self = this;
-        self._stage = stage;
-        self._level = level;
+        self.grpBattle.addChild(application.battle);
         self.grpSystemTools.addChild(new BattleTimeoutToolItem({ category: 'solider' }));
         self.grpSystemTools.addChild(new BattleTimeoutToolItem({ category: 'fireball' }));
         application.dao.fetch("Tool", { customer_id: application.me.attrs.id, count: { $gt: 0 } }).then(function (tools) {
@@ -12,29 +11,37 @@ var BattleUI = (function (_super) {
                 self.grpBoughtTools.addChild(new BattleToolItem(tools[i]));
             }
         });
-        self.imgBack.addEventListener(egret.TouchEvent.TOUCH_TAP, function () {
-            application.battle.erase();
-            application.pool.set(application.battle);
-            application.battle = null;
-            application.battle.hideAllTools();
+        application.dao.addEventListener("Battle", function (evt) {
+            self.lblLives.text = application.battle.getLives().toString();
+            self.lblGolds.text = application.battle.getGolds().toString();
         }, self);
-        self.stage.frameRate = application.frameRate;
+        self.imgBack.addEventListener(egret.TouchEvent.TOUCH_TAP, function () {
+            self._quitBattle();
+        }, self);
     }
     var d = __define,c=BattleUI,p=c.prototype;
     p.onRefresh = function () {
-        var self = this;
-        var options = { stage: self._stage, level: self._level };
-        application.battle = application.pool.get("Battle" + this._stage, options);
-        application.battle.loadResource(options).then(function () {
-            self.addChildAt(application.battle, 0);
-            self.addEventListener(egret.Event.ENTER_FRAME, self._onEnterFrame, self);
-        }, function (error) {
-            Toast.launch(error.message);
-        });
+        this._startBattle();
+    };
+    p._quitBattle = function () {
+        this.removeEventListener(egret.Event.ENTER_FRAME, this._onEnterFrame, this);
+        application.battle.erase();
+        application.battle = null;
+        application.hideUI(this);
+    };
+    p._startBattle = function () {
+        application.battle.initialize({});
+        this.stage.frameRate = application.frameRate;
+        this.addEventListener(egret.Event.ENTER_FRAME, this._onEnterFrame, this);
     };
     p._onEnterFrame = function (e) {
-        if (application.battle) {
-            application.battle.update();
+        if (application.battle.update()) {
+            var self_1 = this;
+            application.showUI(new BattleOptionUI(function () {
+                self_1._startBattle();
+            }, function () {
+                self_1._quitBattle();
+            }), self_1);
         }
     };
     return BattleUI;

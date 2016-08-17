@@ -14,8 +14,7 @@ class RemoteHitTower extends Tower {
     protected _guarding() {
         if (this._ticks % this._hitSpeed == 0) {
             if (this._enemy == null 
-                    || this._enemy.dying() 
-                    || this._enemy.dead()
+                    || !this._enemy.active() 
                     || !this._enemy.intersect(this.parent.x, this.parent.y, this._guardRadius)) {
                 this._enemy = application.battle.findEnemy(this.parent.x, this.parent.y, this._guardRadius, [0]);
             }

@@ -12,20 +12,13 @@ var Tower = (function (_super) {
         this._sellPrice = this._get(properties, "sellPrice", 100);
         this._guardRadius = this._get(properties, "guardRadius", 10);
     };
-    p._stateChanged = function (oldState, newState) {
-        if (newState == EntityState.building) {
-            application.battle.incGolds(-this._buyPrice);
-        }
-        else if (newState == EntityState.dying) {
-            application.battle.incGolds(this._sellPrice);
-        }
-        else if (newState == EntityState.dead) {
-            application.pool.set(this);
-        }
-        _super.prototype._stateChanged.call(this, oldState, newState);
+    p.erase = function () {
+        _super.prototype.erase.call(this);
+        application.battle.incGolds(this._sellPrice);
     };
     p._idle = function () {
         this.build();
+        application.battle.incGolds(-this._buyPrice);
     };
     p._building = function () {
         if (this._ticks > this._buildTicks) {

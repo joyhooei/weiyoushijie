@@ -10,19 +10,19 @@ var Soldier = (function (_super) {
         this._guardX = this._get(properties, 'guardX', 0);
         this._guardY = this._get(properties, 'guardY', 0);
         this._guardRadius = this._get(properties, 'guardRadius', 10);
-        this._guardAltitude = this._get(properties, 'guardAltitude', [-1, 0]);
+        this._guardAltitudes = this._get(properties, 'guardAltitude', [-1, 0]);
     };
     p.moveTo = function (x, y) {
         this._computeSteps(x, y);
-        this._do(EntityState.moving);
+        this.move();
     };
     p._moving = function () {
         if (this._moveOneStep()) {
             if (this._enemy) {
-                this._do(EntityState.fighting);
+                this.fight();
             }
             else {
-                this._do(EntityState.guarding);
+                this.guard();
             }
         }
     };
@@ -61,7 +61,7 @@ var Soldier = (function (_super) {
         }
     };
     p._findEnemy = function () {
-        return application.battle.findSuitableEnemy(this._guardX, this._guardY, this._guardRadius, [this._guardAltitude]);
+        return application.battle.findSuitableEnemy(this._guardX, this._guardY, this._guardRadius, this._guardAltitudes);
     };
     return Soldier;
 }(NPC));

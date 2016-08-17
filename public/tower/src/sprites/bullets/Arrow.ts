@@ -12,10 +12,10 @@ class Arrow extends CastBullet {
     } 
     
     protected _hitTarget() {
-        if (this._target.dying() || this._target.dead()) {
-            this._missing = true;
-        } else {
+        if (this._target.active()) {
             this._target.hitBy(this._damage);
+        } else {
+            this._missing = true;
         }
     }    
 }

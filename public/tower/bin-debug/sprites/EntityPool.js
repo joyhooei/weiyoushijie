@@ -1,35 +1,46 @@
 var EntityPool = (function () {
     function EntityPool() {
-        this._objs = new Array();
+        this._entities = [];
     }
     var d = __define,c=EntityPool,p=c.prototype;
-    p.get = function (className, options) {
-        var obj = null;
-        for (var i = 0; i < this._objs.length; i++) {
-            obj = this._objs[i];
-            if (className == egret.getQualifiedClassName(obj)) {
-                this._objs.splice(i, 1);
+    p.get = function (className, properties) {
+        var entity = null;
+        for (var i = 0; i < this._entities.length; i++) {
+            entity = this._entities[i];
+            if (className == entity.getClassName()) {
+                this._entities.splice(i, 1);
                 break;
             }
         }
-        if (!obj) {
-            obj = Object.create(window[className].prototype);
-            obj.constructor.apply(obj);
-            obj.setMCs(application.characters[className].getMCs());
+        var character = application.characters[className];
+        if (!entity) {
+            entity = Object.create(window[className].prototype);
+            entity.constructor.apply(entity);
+            if (character) {
+                entity.setMCs(character.getMCs());
+            }
         }
-        var properties = application.characters[className].getProperties() || {};
-        if (options) {
-            for (var key in options) {
-                if (options.hasOwnProperty(key)) {
-                    properties[key] = options[key];
+        var props = {};
+        if (character) {
+            props = character.getProperties() || {};
+        }
+        if (properties) {
+            for (var key in properties) {
+                if (properties.hasOwnProperty(key)) {
+                    props[key] = properties[key];
                 }
             }
         }
-        obj.initialize(properties);
-        return obj;
+        entity.initialize(props);
+        return entity;
     };
-    p.set = function (obj) {
-        this._objs.push(obj);
+    p.set = function (entity) {
+        for (var i = 0; i < this._entities.length; i++) {
+            if (this._entities[i] == entity) {
+                return;
+            }
+        }
+        this._entities.push(entity);
     };
     return EntityPool;
 }());

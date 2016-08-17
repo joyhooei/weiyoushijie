@@ -27,34 +27,11 @@ var Entity = (function (_super) {
         _super.call(this);
     }
     var d = __define,c=Entity,p=c.prototype;
-    p.setMCs = function (mcs) {
-        this._mcs = mcs;
-    };
-    /**初始化*/
     p.initialize = function (properties) {
         this._direction = this._get(properties, "direction", EntityDirection.east);
         this._state = this._get(properties, "state", EntityState.idle);
         this._ticks = 0;
         this._repaint = true;
-    };
-    p.setParent = function (parent) {
-        this._parent = parent;
-    };
-    p.getMapX = function () {
-        if (this._parent) {
-            return this._parent.getMapX() + this.x;
-        }
-        else {
-            return this.x;
-        }
-    };
-    p.getMapY = function () {
-        if (this._parent) {
-            return this._parent.getMapY() + this.y;
-        }
-        else {
-            return this.y;
-        }
     };
     p._get = function (properties, name, defaultVal) {
         if (properties && properties[name]) {
@@ -62,6 +39,28 @@ var Entity = (function (_super) {
         }
         else {
             return defaultVal;
+        }
+    };
+    p.getClassName = function () {
+        return egret.getQualifiedClassName(this);
+    };
+    p.getSuperClassName = function () {
+        return egret.getQualifiedSuperclassName(this);
+    };
+    p.getMapX = function () {
+        if (this.parent != application.battle) {
+            return this.parent.getMapX() + this.x;
+        }
+        else {
+            return this.x;
+        }
+    };
+    p.getMapY = function () {
+        if (this.parent != application.battle) {
+            return this.parent.getMapY() + this.y;
+        }
+        else {
+            return this.y;
         }
     };
     p.build = function () {
@@ -81,18 +80,21 @@ var Entity = (function (_super) {
     };
     p.erase = function () {
         this._do(EntityState.dead);
+        if (this.parent) {
+            this.parent.removeChild(this);
+        }
+        application.pool.set(this);
+    };
+    p.active = function () {
+        return this._state < EntityState.dying;
     };
     p.dead = function () {
         return this._state == EntityState.dead;
-    };
-    p.dying = function () {
-        return this._state == EntityState.dying;
     };
     p.select = function (again) {
     };
     p.deselect = function () {
     };
-    /**更新状态*/
     p.update = function () {
         this._ticks++;
         switch (this._state) {
@@ -115,18 +117,23 @@ var Entity = (function (_super) {
                 this._dying();
                 break;
         }
-        this.paint();
+        if (this._repaint && this.active()) {
+            this.paint();
+            this._repaint = false;
+        }
+        return this.dead();
+    };
+    p.setMCs = function (mcs) {
+        this._mcs = mcs;
     };
     //根据状态、面向修改重新渲染
     p.paint = function () {
-        if (this._repaint && this._state != EntityState.idle && this._state != EntityState.dead) {
-            var mc = application.characters[egret.getQualifiedClassName(this)].getMC(this._direction, this._state);
-            if (mc && mc != this._mc) {
-                this.removeChild(this._mc);
-                this._mc = mc;
-                this.addChild(mc);
-                mc.start();
-            }
+        var mc = this._getCurrentMC();
+        if (mc && mc != this._mc) {
+            this.removeChild(this._mc);
+            this._mc = mc;
+            this.addChild(mc);
+            mc.play();
         }
     };
     p._getCurrentMC = function () {
@@ -135,14 +142,10 @@ var Entity = (function (_super) {
     p._do = function (state) {
         if (state != this._state) {
             //dead状态不需要再变更状态了
-            if (this._state == EntityState.dead) {
-                return;
-            }
             //当前状态如果是dying，新状态只能是dead
-            if (this._state == EntityState.dying && state != EntityState.dead) {
+            if (this._state == EntityState.dead || (this._state == EntityState.dying && state != EntityState.dead)) {
                 return;
             }
-            this._stateChanged(this._state, state);
             this._ticks = 0;
             this._state = state;
             this._repaint = true;
@@ -154,13 +157,6 @@ var Entity = (function (_super) {
             this._direction = direction;
             this._repaint = true;
         }
-    };
-    p._stateChanged = function (oldState, newState) {
-        if (this._parent && newState == EntityState.dead) {
-            this._parent.childDead(this);
-        }
-    };
-    p.childDead = function (child) {
     };
     p._idle = function () {
     };
@@ -180,24 +176,25 @@ var Entity = (function (_super) {
         return (dx * dx + dy * dy <= radius * radius);
     };
     p.collide = function (obj) {
-        return !(obj.x > this.x + this.width ||
-            obj.x + obj.width < this.x ||
-            obj.y > this.y + this.height ||
-            obj.y + obj.height < this.y);
+        return !(obj.x > this.x + this.width || obj.x + obj.width < this.x ||
+            obj.y > this.y + this.height || obj.y + obj.height < this.y);
     };
     p._direction8 = function (x, y) {
         var angels = [22.5, 67.5, 112.5, 157.5, 202.5, 247.5, 292.5, 337.5, 360];
         var directions = [EntityDirection.east, EntityDirection.northeast, EntityDirection.north, EntityDirection.northwest, EntityDirection.west, EntityDirection.southwest, EntityDirection.south, EntityDirection.southeast, EntityDirection.east];
-        return this._directionOf(x, y, angels, directions);
+        return Entity.direction(this.x, this.y, x, y, angels, directions);
     };
     p._direction4 = function (x, y) {
+        return Entity.direction4(this.x, this.y, x, y);
+    };
+    Entity.direction4 = function (x1, y1, x2, y2) {
         var angels = [60, 120, 240, 300, 360];
         var directions = [EntityDirection.east, EntityDirection.north, EntityDirection.west, EntityDirection.south, EntityDirection.east];
-        return this._directionOf(x, y, angels, directions);
+        return Entity.direction(x1, y1, x2, y2, angels, directions);
     };
-    p._directionOf = function (x, y, angels, directions) {
-        var dx = x - this.x;
-        var dy = y - this.y;
+    Entity.direction = function (x1, y1, x2, y2, angels, directions) {
+        var dx = x2 - x1;
+        var dy = y2 - y1;
         var angel = Math.atan2(dy, dx) * 180 / Math.PI + 180;
         for (var i = 0; i < angels.length; i++) {
             if (angel <= angels[i]) {

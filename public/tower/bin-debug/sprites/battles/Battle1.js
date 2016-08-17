@@ -2,7 +2,7 @@ var Battle1 = (function (_super) {
     __extends(Battle1, _super);
     function Battle1() {
         _super.call(this);
-        this._url = "level1.tmx";
+        this._url = "resource/art/sprites/battles/level2.tmx";
     }
     var d = __define,c=Battle1,p=c.prototype;
     //增加英雄
@@ -25,7 +25,7 @@ var Battle1 = (function (_super) {
         ];
         for (var i = 0; i < waves.length; i++) {
             var w = waves[i];
-            this._addWaveStandbys(w[0], w[1], w[2], paths[w[3]]);
+            this._waves.add(w[0], w[1], w[2], paths[w[3]]);
         }
     };
     return Battle1;
