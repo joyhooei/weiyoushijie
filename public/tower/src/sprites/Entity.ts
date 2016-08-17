@@ -97,6 +97,10 @@ class Entity extends egret.Sprite {
     public erase() {
     	this._do(EntityState.dead);
     	
+    	if (this.parent) {
+    		this.parent.removeChild(this);
+    	}
+    	
     	application.pool.set(this);
     }
 
