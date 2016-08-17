@@ -140,7 +140,7 @@ class Entity extends egret.Sprite {
 		    	break;
     	}
 
-    	if (this._repaint && !this.inactive()) {
+    	if (this._repaint && this.active()) {
         	this.paint();
         	
         	this._repaint = false;
