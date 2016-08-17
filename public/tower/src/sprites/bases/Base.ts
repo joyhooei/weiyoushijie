@@ -33,7 +33,7 @@ class Base extends Entity {
     }
     
     public setTower(tower: Tower) {
-        this.clearTower();
+        this._clearTower();
         
         this._tower = tower;
         
@@ -44,7 +44,7 @@ class Base extends Entity {
         this._repaint = true;
     }
     
-    public clearTower() {
+    private _clearTower() {
         if (this._tower) {
             this._tower.erase();
             
@@ -55,7 +55,7 @@ class Base extends Entity {
     public erase() {
         super.erase();
         
-        this.clearTower();
+        this._clearTower();
     }
 
     public select(again:boolean) {
