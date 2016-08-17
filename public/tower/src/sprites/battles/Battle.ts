@@ -134,8 +134,6 @@ class Battle extends Entity {
         
         if (this._lives <= 0) {
             this.erase();
-            
-            application.dao.dispatchEventWith(this, true, {state: this._state});
         } else {
             application.dao.dispatchEventWith(this, true, {lives: this._lives});
         }
@@ -218,6 +216,8 @@ class Battle extends Entity {
         }
         
         this._waves.erase();
+        
+        application.dao.dispatchEventWith(this, true, {state: this._state});
     }
     
     public update() {
