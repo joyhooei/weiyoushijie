@@ -24,20 +24,16 @@ class Tower extends Entity {
         this._guardRadius = this._get(properties, "guardRadius", 10);
     }
 
-    protected _stateChanged(oldState: EntityState, newState: EntityState) {
-    	if (newState == EntityState.building) {
-    		application.battle.incGolds(-this._buyPrice);
-    	} else if (newState == EntityState.dying) {
-    	    application.battle.incGolds(this._sellPrice);
-    	} else if (newState == EntityState.dead) {
-    	    application.pool.set(this);
-    	}
-    	
-    	super._stateChanged(oldState, newState);
+    public erase() {
+        super.erase();
+        
+        application.battle.incGolds(this._sellPrice);
     }
-    
+
     protected _idle() {
         this.build();
+        
+        application.battle.incGolds(-this._buyPrice);
     }
     
     protected _building() {
