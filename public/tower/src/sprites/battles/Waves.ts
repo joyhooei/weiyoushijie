@@ -35,7 +35,7 @@ class Waves {
     
     public launch() {
         if (this._currentWave >= this._enemies.length) {
-            application.battle.erase();
+            application.battle.kill();
         } else {
             this._timeToNextWave --;
             if (this._timeToNextWave <= 0) {
