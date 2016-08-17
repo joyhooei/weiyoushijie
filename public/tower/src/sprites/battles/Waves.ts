@@ -22,11 +22,11 @@ class Waves {
         this._enemies[wave] = this._enemies[wave] || [];
 
         for(let i = 0; i < count; i++) {
-            this._enemies[wave].push(<Enemy>application.pool.get(className, {"paths": this._randomPaths(i, paths)}));
+            this._enemies[wave].push(<Enemy>application.pool.get(className, {"paths": this._randomPaths(paths)}));
         }
     }
     
-    private _randomPaths(idx: number, paths: number[][]): number[][]{
+    private _randomPaths(paths: number[][]): number[][]{
         let pathWidth = 60;
         let enemyInterval = 20;
         
@@ -34,31 +34,11 @@ class Waves {
         let deltaX = Math.random() * pathWidth - pathWidth / 2;
         
         let newPaths = [];
-
-        let direction = Entity.direction4(paths[0][0], paths[0][1], paths[1][0], paths[1][1]);
-        switch(direction) {
-            case EntityDirection.east:
-                newPaths.push([paths[0][0] - idx * Math.random() * enemyInterval, paths[0][1] + deltaY]);
-                break;
-                
-            case EntityDirection.west:
-                newPaths.push([paths[0][0] + idx * Math.random() * enemyInterval, paths[0][1] + deltaY]);
-                break;
-                
-            case EntityDirection.north:
-                newPaths.push([paths[0][0] + deltaX, paths[0][1] + idx * Math.random() * enemyInterval]);
-                break;
-                
-            case EntityDirection.south:
-                newPaths.push([paths[0][0] + deltaX, paths[0][1] - idx * Math.random() * enemyInterval]);
-                break;
-        }
-
-        for(let j = 1; j < paths.length - 1; j++) {
+        for(let j = 0; j < paths.length - 1; j++) {
             newPaths.push([paths[j][0] + deltaX, paths[j][1] + deltaY]);
         }
         
-        direction = Entity.direction4(paths[paths.length - 2][0], paths[paths.length - 2][1], paths[paths.length - 1][0], paths[paths.length - 1][1]);
+        let direction = Entity.direction4(paths[paths.length - 2][0], paths[paths.length - 2][1], paths[paths.length - 1][0], paths[paths.length - 1][1]);
         switch(direction) {
             case EntityDirection.east:
             case EntityDirection.west:
