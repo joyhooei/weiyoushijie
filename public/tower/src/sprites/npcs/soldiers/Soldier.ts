@@ -4,7 +4,7 @@ class Soldier extends NPC {
     
     protected _guardRadius: number;
     
-    protected _guardAltitude: number;
+    protected _guardAltitudes: number[];
 
     protected _enemy: Enemy;
     
@@ -20,21 +20,21 @@ class Soldier extends NPC {
         this._guardX        = this._get(properties, 'guardX', 0);
         this._guardY        = this._get(properties, 'guardY', 0);
         this._guardRadius   = this._get(properties, 'guardRadius', 10);
-        this._guardAltitude = this._get(properties, 'guardAltitude', [-1, 0]);
+        this._guardAltitudes = this._get(properties, 'guardAltitude', [-1, 0]);
     }
     
     public moveTo(x:number, y:number) {
         this._computeSteps(x, y);
 
-        this._do(EntityState.moving);
+        this.move();
     }
     
     protected _moving() {
         if (this._moveOneStep()) {
             if (this._enemy) {
-                this._do(EntityState.fighting);
+                this.fight();
             } else {
-                this._do(EntityState.guarding);
+                this.guard();
             }
         }
     }
@@ -78,6 +78,6 @@ class Soldier extends NPC {
     }
     
     private _findEnemy(): Enemy {
-        return application.battle.findSuitableEnemy(this._guardX, this._guardY, this._guardRadius, [this._guardAltitude]);
+        return application.battle.findSuitableEnemy(this._guardX, this._guardY, this._guardRadius, [this._guardAltitudes]);
     }
 }
