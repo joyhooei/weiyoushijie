@@ -57,7 +57,7 @@ class Enemy extends NPC {
     }
     
     public reachable(x: number, y: number, radius: number, altitudes: number[]): boolean {
-        return !this._state >= EntityState.dying && this._altitude in altitudes && this.intersect(x, y, radius);
+        return this.active() && this._altitude in altitudes && this.intersect(x, y, radius);
     }
     
     private _nextPath(): boolean {
