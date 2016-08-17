@@ -107,10 +107,6 @@ class Entity extends egret.Sprite {
 	public active(): boolean {
 		return this._state < EntityState.dying;
 	}
-	
-	public dead(): boolean {
-		return this._state == EntityState.dead;
-	}
 
     public select(again:boolean) {
     }
@@ -118,8 +114,7 @@ class Entity extends egret.Sprite {
     public deselect() {
     }
     
-    /**更新状态*/
-    public update():void {
+    public update():boolean {
     	this._ticks++;
     	
     	switch(this._state) {
@@ -153,6 +148,8 @@ class Entity extends egret.Sprite {
         	
         	this._repaint = false;
     	}
+    	
+    	return this._state == EntityState.dead;
     }
     
     public setMCs(mcs: egret.MovieClip[]) {
