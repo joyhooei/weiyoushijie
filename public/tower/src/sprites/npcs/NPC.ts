@@ -33,7 +33,6 @@ class NPC extends MovableEntity {
     
     public kill() {
         this._hp.erase();
-        this.removeChild(this._hp);
         this._hp = null;
 
         super.kill();
