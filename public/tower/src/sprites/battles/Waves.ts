@@ -12,7 +12,7 @@ class Waves {
     
     public constructor() {
         this._enemies = [];
-        this._currentWave = 1;
+        this._currentWave = 0;
         this._timeToNextWave = 1000;
         this._timeBetweenWaves = 1000;
     }
@@ -35,17 +35,15 @@ class Waves {
     }
     
     public launch() {
-        this._timeToNextWave --;
-        
-        if (this._timeToNextWave <= 0) {
-            if (this._currentWave >= this._enemies.length) {
-                application.battle.erase();
-                
-                application.dao.dispatchEventWith(application.battle, true, {state: this._state});
-            } else {
+        if (this._currentWave >= this._enemies.length) {
+            application.battle.erase();
+        } else {
+            this._timeToNextWave --;
+            if (this._timeToNextWave <= 0) {
                 for(let i = 0; i < this._enemies[this._currentWave].length; i++) {
                     application.battle.addEnemy(this._enemies[this._currentWave][i]);
                 }
+                this._enemies[this._currentWave] = [];
                 
                 this._currentWave ++;
                 this._timeToNextWave = this._timeBetweenWaves;
