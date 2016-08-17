@@ -14,13 +14,12 @@ class Battle extends Entity {
     protected _soliders:  Soldier[];
     
     //敌方
-    protected _standbys: Enemy[];
+    protected _waves: Waves;
     protected _enemies: Enemy[];
 
     //子弹
     protected _bullets:Bullet[];
 
-    protected _waves: Waves;
 
     //地图文件地址
     protected _url: string;
