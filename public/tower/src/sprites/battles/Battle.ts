@@ -20,14 +20,8 @@ class Battle extends Entity {
     //子弹
     protected _bullets:Bullet[];
 
-    protected _waves: Enemy[][];
-    //当前一波敌人
-    protected _currentWave: number;
-    //下一波敌人发动攻击时间
-    protected _timeToNextWave: number;
-    //两波敌人发动攻击的时间间隔
-    protected _timeBetweenWaves: number;
-    
+    protected _waves: Waves;
+
     //地图文件地址
     protected _url: string;
     protected _map: TiledMap;
@@ -77,10 +71,7 @@ class Battle extends Entity {
         this._bulletLayer.removeChildren();
         this._toolLayer.removeChildren();
 
-        this._waves = [];
-        this._currentWave = 1;
-        this._timeToNextWave = 1000;
-        this._timeBetweenWaves = 1000;
+        this._waves = new Waves();
 
         this._bases = [];
 
@@ -191,23 +182,6 @@ class Battle extends Entity {
         }
     }
 
-    protected _addWaveStandbys(wave:number, className:string, count:number, paths:number[][]) {
-        this._waves[wave] = this._waves[wave] || [];
-
-        for(let i = 0; i < count; i++) {
-            let enemy = <Enemy>application.pool.get(className, {"paths": paths});
-            this._waves[wave].push(enemy);
-        }
-    }
-
-    //发动一波攻击
-    protected _launch(wave:number) {
-        for(let i = 0; i < this._waves[wave].length; i++) {
-            let enemy = this._waves[wave][i];
-            this.addEnemy(enemy);
-        }
-    }
-    
     public showTool(ui:egret.DisplayObject, x:number, y:number) {
         this.hideAllTools();
         
@@ -243,37 +217,18 @@ class Battle extends Entity {
             this._bullets[i].erase();
         }
         
-        for(let i = 0; i < this._waves.length; i++) {
-            for(let j = 0; j < this._waves[i].length; j++) {
-                this._waves[i][j].erase();
-            }
-        }
+        this._waves.erase();
     }
     
     public update() {
         if (this._enemies.length == 0) {
-            this._launchNextWave();
+            this._waves.launch();
         } else {
             this._updateEntities(this._heros);
             this._updateEntities(this._bases);
             this._updateEntities(this._soliders);
             this._updateEntities(this._enemies);
             this._updateEntities(this._bullets);
-        }
-    }
-    
-    private _launchNextWave() {
-        this._timeToNextWave --;
-        if (this._timeToNextWave <= 0) {
-            if (this._currentWave >= this._waves.length) {
-                this.erase();
-                
-                application.dao.dispatchEventWith(this, true, {state: this._state});
-            } else {
-                this._launch(this._currentWave);
-                this._currentWave ++;
-                this._timeToNextWave = this._timeBetweenWaves;
-            }
         }
     }
 
