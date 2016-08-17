@@ -28,31 +28,40 @@ class Base extends Entity {
         return this._guardY;
     }
     
-    public buildTower(tower: Tower) {
-        if (this._tower) {
-            this._tower.erase();
-        }
-        
-        this._tower = tower;
-        this._tower.setParent(this);
-        
-        this._repaint = true;
-    }
-    
     public getTower(): Tower {
         return this._tower;
     }
     
-    public sellTower() {
-        this._tower.kill();
-
-        this._tower = null;
+    public setTower(tower: Tower) {
+        this.clearTower();
         
+        this._tower = tower;
+        
+        if (this._tower) {
+            this.addChild(this._tower);
+        }
+
         this._repaint = true;
     }
     
+    public clearTower() {
+        if (this._tower) {
+            this._tower.erase();
+            
+            this._tower = null;
+        }        
+    }
+    
+    public erase() {
+        super.erase();
+        
+        this.clearTower();
+    }
+
     public select(again:boolean) {
-        application.battle.showTool(new TowerMenuUI(this), this.x, this.y);
+        if (!again) {
+            application.battle.showTool(new TowerMenuUI(this), this.x, this.y);
+        }
     }
     
     public deselect() {
