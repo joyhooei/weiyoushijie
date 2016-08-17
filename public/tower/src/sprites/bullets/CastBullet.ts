@@ -43,7 +43,7 @@ class CastBullet extends Bullet {
     
     protected _moving() {
         if (this._moveOneStep()) {
-            this._do(EntityState.dying);
+            this.kill();
         } else {
             //如果目标移动，重新调整方向和路径
             if (this._targetX != this._target.x || this._targetY != this._target.y) {
