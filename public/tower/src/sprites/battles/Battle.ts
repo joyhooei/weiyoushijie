@@ -132,7 +132,7 @@ class Battle extends Entity {
         this._lives += lives;
         
         if (this._lives <= 0) {
-            this.erase();
+            this.kill();
         } else {
             application.dao.dispatchEventWith(this, true, {lives: this._lives});
         }
