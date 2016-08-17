@@ -234,19 +234,23 @@ class Entity extends egret.Sprite {
         let angels = [22.5, 67.5, 112.5, 157.5, 202.5, 247.5, 292.5, 337.5, 360];
         let directions = [EntityDirection.east, EntityDirection.northeast, EntityDirection.north, EntityDirection.northwest, EntityDirection.west, EntityDirection.southwest, EntityDirection.south, EntityDirection.southeast, EntityDirection.east ];
         
-        return this._directionOf(x, y, angels, directions);
+        return Entity.direction(this.x, this.y, x, y, angels, directions);
     }
     
     protected _direction4(x:number, y:number):EntityDirection {
+        return Entity.direction4(this.x, this.y, x, y, angels, directions);
+    }
+    
+    public static direction4(x1:number, y1:number, x2:number, y2:number):EntityDirection {
         let angels = [60, 120, 240, 300, 360];
         let directions = [EntityDirection.east, EntityDirection.north, EntityDirection.west, EntityDirection.south, EntityDirection.east ];
         
-        return this._directionOf(x, y, angels, directions);
+        return Entity.direction(this.x, this.y, x, y, angels, directions);
     }
     
-    protected _directionOf(x:number, y:number, angels:number[], directions:EntityDirection[]):EntityDirection {
-        let dx: number = x - this.x;
-        let dy: number = y - this.y;
+    public static direction(x1:number, y1:number, x2:number, y2:number, angels:number[], directions:EntityDirection[]):EntityDirection {
+        let dx: number = x2 - x1;
+        let dy: number = y2 - y1;
         let angel = Math.atan2(dy, dx) * 180 / Math.PI + 180;
         
         for(let i = 0; i < angels.length; i++) {
