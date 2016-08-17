@@ -191,8 +191,8 @@ class Battle extends Entity {
         this._toolLayer.removeChildren();
     }
     
-    public erase() {
-        super.erase();
+    public kill() {
+        super.kill();
         
         this._eraseEntities(this._heros);
         this._eraseEntities(this._bases);
@@ -221,7 +221,7 @@ class Battle extends Entity {
         this._updateEntities(this._enemies);
         this._updateEntities(this._bullets);
 
-        return this.dead();
+        return !this.active();
     }
 
     private _updateEntities(entities: Entity[]){
