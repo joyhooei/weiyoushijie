@@ -100,8 +100,8 @@ class Entity extends egret.Sprite {
     	application.pool.set(this);
     }
 
-	public inactive(): boolean {
-		return this._state == EntityState.dead || this._state == EntityState.dying;
+	public active(): boolean {
+		return this._state < EntityState.dying;
 	}
 
     public select(again:boolean) {
