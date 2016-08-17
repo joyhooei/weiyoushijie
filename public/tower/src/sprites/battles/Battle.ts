@@ -253,16 +253,13 @@ class Battle extends Entity {
     public update() {
         if (this._enemies.length == 0) {
             this._launchNextWave();
+        } else {
+            this._updateEntities(this._heros);
+            this._updateEntities(this._bases);
+            this._updateEntities(this._soliders);
+            this._updateEntities(this._enemies);
+            this._updateEntities(this._bullets);
         }
-        
-        for(let i = 0; i < this._heros.length; i++) {
-            this._heros[i].update();
-        }
-
-        this._updateLayer(this._bases, this._baseLayer);
-        this._updateLayer(this._soliders, this._objLayer);
-        this._updateLayer(this._enemies, this._objLayer);
-        this._updateLayer(this._bullets, this._bulletLayer);
     }
     
     private _launchNextWave() {
@@ -280,7 +277,7 @@ class Battle extends Entity {
         }
     }
 
-    private _updateLayer(entities: Entity[], layer:egret.Sprite){
+    private _updateEntities(entities: Entity[]){
         for(let i = 0; i < entities.length; i++) {
             let entity = entities[i];
             
@@ -288,7 +285,6 @@ class Battle extends Entity {
             
             if (entity.dead()) {
                 entities.splice(i, 1);
-                layer.removeChild(entity);
             }
         }        
     }
