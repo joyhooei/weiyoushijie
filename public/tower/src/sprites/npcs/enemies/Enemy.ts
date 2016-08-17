@@ -7,7 +7,7 @@ class Enemy extends NPC {
     protected _path: number;
     
     //击毙后可以获取的金币
-    protected _golds: number;
+    protected _bonus: number;
     
     public constructor() {
         super();
@@ -16,7 +16,7 @@ class Enemy extends NPC {
     public initialize(properties:any) {
         super.initialize(properties);
         
-        this._golds = this._get(properties, "golds", 10);
+        this._bonus = this._get(properties, "bonus", 10);
         
         this._soliders = [];
         
@@ -66,7 +66,7 @@ class Enemy extends NPC {
 	    	
 	   		this.x = path[0];
 	   		this.y = path[1];
-		   		
+
 	        this._path ++;
 	        
 	        this._readToMove();
@@ -83,14 +83,17 @@ class Enemy extends NPC {
         this._computeSteps(path[0], path[1]);    	
     }
     
-    protected _stateChanged(oldState: EntityState, newState: EntityState) {
-    	if (newState == EntityState.moving && oldState != EntityState.idle) {
-    		this._readToMove();
-    	} else if (newState == EntityState.dying) {
-    		application.battle.incGolds(this._golds);
-    	}
+    public move() {
+    	super.move();
     	
-    	super._stateChanged(oldState, newState);
+        let path = this._paths[this._path];
+        this._turn(this._direction8(path[0], path[1]));
+    }
+    
+    public kill() {
+    	super.kill();
+    	
+    	application.battle.incGolds(this._bonus);
     }
 
     protected _moving() {
