@@ -195,42 +195,33 @@ class Battle extends Entity {
     public erase() {
         super.erase();
         
-        for(let i = 0; i < this._heros.length; i++) {
-            this._heros[i].erase();
-        }
-        
-        for(let i = 0; i < this._bases.length; i++) {
-            this._bases[i].erase();
-        }
-        
-        for(let i = 0; i < this._soliders.length; i++) {
-            this._soliders[i].erase();
-        }
-        
-        for(let i = 0; i < this._enemies.length; i++) {
-            this._enemies[i].erase();
-        }
-        
-        for(let i = 0; i < this._bullets.length; i++) {
-            this._bullets[i].erase();
-        }
+        this._eraseEntities(this._heros);
+        this._eraseEntities(this._bases);
+        this._eraseEntities(this._soliders);
+        this._eraseEntities(this._enemies);
+        this._eraseEntities(this._bullets);
         
         this._waves.erase();
-        
-        application.dao.dispatchEventWith(this, true, {state: this._state});
+    }
+    
+    private _eraseEntities(entities: Entity[]){
+        let i = entities.length;
+        while(i > 0) {
+            entities[--i].erase();
+        }
     }
     
     public update(): boolean {
         if (this._enemies.length == 0) {
             this._waves.launch();
-        } else {
-            this._updateEntities(this._heros);
-            this._updateEntities(this._bases);
-            this._updateEntities(this._soliders);
-            this._updateEntities(this._enemies);
-            this._updateEntities(this._bullets);
         }
         
+        this._updateEntities(this._heros);
+        this._updateEntities(this._bases);
+        this._updateEntities(this._soliders);
+        this._updateEntities(this._enemies);
+        this._updateEntities(this._bullets);
+
         return this.dead();
     }
 
