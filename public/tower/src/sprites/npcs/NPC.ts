@@ -52,15 +52,7 @@ class NPC extends MovableEntity {
     public reachable(x: number, y: number, radius: number, altitudes: number[]): boolean {
         return this.active() && this._altitude in altitudes && this.within(x, y, radius);
     }
-    
-    public paint() {
-        super.paint();
-        
-        if (this._hp) {
-            this._hp.paint();
-        }
-    }
-    
+
     protected _face(npc:NPC) {
         this._turn(this._direction4(npc.x, npc.y));
     }
