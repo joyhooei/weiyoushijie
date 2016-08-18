@@ -1,10 +1,19 @@
 class Bullet extends MovableEntity {
     protected _target: NPC;
+    
+    pritected _shooter: NPC;
 
     protected _targetX: number;
     protected _targetY: number;
     
     protected _damage: number;
+    
+    public static shoot(shooter:NPC, target: NPC, claz:string) {
+        let bullet = <Bullet>application.pool.get(claz);
+        bullet.setTarget(target);
+        bullet.setShooter(shooter);
+        application.battle.addBullet(bullet);
+    }
     
     public constructor() {
         super();
@@ -19,6 +28,13 @@ class Bullet extends MovableEntity {
         this._targetY = 0;
 
         this._damage = this._get(properties, 'damage', 10);
+    }
+    
+    public setTarget(shooter: NPC) {
+        this._shooter = shooter;
+        
+        this.x = shooter.x + shooter.width / 2;
+        this.y = shooter.y + shooter.height /2 ;
     }
     
     public setTarget(target: NPC) {
