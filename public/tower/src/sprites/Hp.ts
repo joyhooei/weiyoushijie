@@ -24,7 +24,7 @@ class Hp extends Entity {
 	    if (hp != this._hp) {
 	        this._hp = hp;
 	        
-	        this._repaint = true;
+	        this.stain();
 	    }
 	    
 	    return hp > 0;
