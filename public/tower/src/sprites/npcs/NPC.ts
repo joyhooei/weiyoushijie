@@ -36,6 +36,7 @@ class NPC extends MovableEntity {
     
     public hitBy(damage:number): boolean {
         if (this.active()) {
+            this._repaint = true;
             if (this._hp.hitBy(damage)) {
                 this.kill();
                 
