@@ -19,7 +19,9 @@ class Battle extends Entity {
 
     //子弹
     protected _bullets:Bullet[];
-
+    
+    //需要重画的对象
+    protected _dirts: Entity[];
 
     //地图文件地址
     protected _url: string;
@@ -87,6 +89,8 @@ class Battle extends Entity {
         this._bullets = [];
         
         this._enemies = [];
+        
+        this._dirts = [];
     }
     
     public enableSelect(entity: Entity) {
@@ -236,6 +240,15 @@ class Battle extends Entity {
             }
         }        
     }
+    
+    public paint() {
+        let i = this._dirts.length;
+        while(i > 0) {
+            this._dirts[--i].paint();
+        }
+        
+        this._dirts = [];
+    }
 
     public findSoldier(x: number, y: number, radius: number) : Soldier {
         for(let i = 0; i < this._soldiers.length; i++) {
@@ -318,5 +331,9 @@ class Battle extends Entity {
     public addHero(hero:Hero) {
         this._heros.push(hero);
         this._objLayer.addChild(hero);      
+    }
+    
+    public addDirt(entity: Entity) {
+        this._dirts.push(entity);
     }
 }
