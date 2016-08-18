@@ -461,6 +461,13 @@ module.exports = function() {
 				sticks: {type: Number, default: 0},
 				game: String
 			});			
+			
+			self.addModel("Tool", {
+				customer_id: String,
+				catetory: String,
+				quantity: {type: Number, default: 0},
+				game: String
+			});
 
 			require('./cloud');
 
