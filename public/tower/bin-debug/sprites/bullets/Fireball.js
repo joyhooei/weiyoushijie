@@ -1,12 +1,12 @@
-var Bomb = (function (_super) {
-    __extends(Bomb, _super);
-    function Bomb() {
+var Fireball = (function (_super) {
+    __extends(Fireball, _super);
+    function Fireball() {
         _super.call(this);
     }
-    var d = __define,c=Bomb,p=c.prototype;
+    var d = __define,c=Fireball,p=c.prototype;
     p.initialize = function (properties) {
         _super.prototype.initialize.call(this, properties);
-        this._hitRadius = this._get(properties, 'hitRadius', 40);
+        this._hitRadius = this._get(properties, 'hitRadius', 20);
     };
     p._hitTarget = function () {
         var enemies = application.battle.findEnemies(this.x, this.y, this._hitRadius, [0]);
@@ -17,7 +17,7 @@ var Bomb = (function (_super) {
         }
         this._target.hitBy(this._damage);
     };
-    return Bomb;
-}(CastBullet));
-egret.registerClass(Bomb,'Bomb');
-//# sourceMappingURL=Bomb.js.map
+    return Fireball;
+}(Bullet));
+egret.registerClass(Fireball,'Fireball');
+//# sourceMappingURL=Fireball.js.map

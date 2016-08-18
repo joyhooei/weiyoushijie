@@ -8,7 +8,11 @@ var ArrowSoldier = (function (_super) {
         _super.prototype.initialize.call(this, properties);
     };
     p._guarding = function () {
-        this.fight();
+        this._enemy = application.battle.findEnemy(this.getCenterX(), this.getCenterY(), this._guardRadius, [0]);
+        if (this._enemy) {
+            this._face(this._enemy);
+            this.fight();
+        }
     };
     p._fighting = function () {
         if (this._ticks % this._hitSpeed == 0) {
@@ -16,16 +20,17 @@ var ArrowSoldier = (function (_super) {
             var y = this.getMapY();
             if (this._enemy == null
                 || !this._enemy.active()
-                || !this._enemy.intersect(x, y, this._guardRadius)) {
+                || !this._enemy.within(x, y, this._guardRadius)) {
                 this._enemy = application.battle.findEnemy(x, y, this._guardRadius, [0]);
-                this._face(this._enemy);
+                if (this._enemy) {
+                    this._face(this._enemy);
+                }
             }
             if (this._enemy) {
-                var arrow = application.pool.get("Arrow");
-                arrow.x = x;
-                arrow.y = y;
-                arrow.setTarget(this._enemy);
-                application.battle.addBullet(arrow);
+                Bullet.shoot(this.getCenterX(), this.getCenterY(), this._enemy, "Arrow");
+            }
+            else {
+                this.guard();
             }
         }
     };

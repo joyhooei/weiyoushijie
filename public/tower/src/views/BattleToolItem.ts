@@ -4,7 +4,7 @@ class BattleToolItem extends AbstractUI {
     public imgTool: eui.Image;
 
     public constructor(tool:any) {
-        super("toolItemSkin");
+        super("battleToolItemSkin");
         
         this._tool = tool;
         

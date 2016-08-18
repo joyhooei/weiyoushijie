@@ -8,7 +8,7 @@ class ArrowSoldier extends Soldier {
     }
 
     protected _guarding() {
-        this._enemy = application.battle.findEnemy(x, y, this._guardRadius, [0]);
+        this._enemy = application.battle.findEnemy(this.getCenterX(), this.getCenterY(), this._guardRadius, [0]);
         if (this._enemy) {
             this._face(this._enemy);
             this.fight();

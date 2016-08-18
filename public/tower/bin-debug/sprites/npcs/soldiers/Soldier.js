@@ -13,17 +13,25 @@ var Soldier = (function (_super) {
         this._guardAltitudes = this._get(properties, 'guardAltitude', [-1, 0]);
     };
     p.moveTo = function (x, y) {
-        this._computeSteps(x, y);
-        this.move();
+        if (this._computeSteps(x, y)) {
+            this.move();
+        }
+        else {
+            this._arrive();
+        }
+    };
+    p._arrive = function () {
+        if (this._enemy) {
+            this._face(this._enemy);
+            this.fight();
+        }
+        else {
+            this.guard();
+        }
     };
     p._moving = function () {
         if (this._moveOneStep()) {
-            if (this._enemy) {
-                this.fight();
-            }
-            else {
-                this.guard();
-            }
+            this._arrive();
         }
     };
     p._guarding = function () {
@@ -34,11 +42,16 @@ var Soldier = (function (_super) {
     };
     p._fightWith = function (enemy) {
         if (this._enemy) {
-            this._enemy.rmvSolider(this);
+            this._enemy.rmvSoldier(this);
         }
         this._enemy = enemy;
-        this.moveTo(this._enemy.x, this._enemy.y);
-        this._enemy.addSolider(this);
+        var h = this._enemy.height;
+        var w = this._enemy.width;
+        var xDeltas = [0, w, w, w, 0, -w, -w, -w];
+        var yDeltas = [-h, -h, 0, h, h, h, 0, -h];
+        var direction = this._direction8(this._enemy.x, this._enemy.y);
+        this.moveTo(this._enemy.x - xDeltas[direction], this._enemy.y - xDeltas[direction]);
+        this._enemy.addSoldier(this);
     };
     p._fighting = function () {
         if (this._ticks % this._hitSpeed == 0) {
@@ -52,9 +65,9 @@ var Soldier = (function (_super) {
                     this.moveTo(this._guardX, this._guardY);
                 }
             }
-            else if (this._enemy.totalSoliders() > 1) {
+            else if (this._enemy.totalSoldiers() > 1) {
                 var enemy = this._findEnemy();
-                if (enemy && enemy.totalSoliders() == 0) {
+                if (enemy && enemy.totalSoldiers() == 0) {
                     this._fightWith(enemy);
                 }
             }

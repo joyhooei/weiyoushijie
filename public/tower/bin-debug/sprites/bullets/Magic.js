@@ -4,6 +4,11 @@ var Magic = (function (_super) {
         _super.call(this);
     }
     var d = __define,c=Magic,p=c.prototype;
+    p._hitTarget = function () {
+        if (this._target.active()) {
+            this._target.hitBy(this._damage);
+        }
+    };
     return Magic;
 }(Bullet));
 egret.registerClass(Magic,'Magic');

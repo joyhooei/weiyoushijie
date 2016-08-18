@@ -14,9 +14,6 @@ var NPC = (function (_super) {
         this._altitude = this._get(properties, "altitude", 0);
         this._idleTicks = this._get(properties, "idleTicks", Math.random() * 100);
     };
-    p.getAltitude = function () {
-        return this._altitude;
-    };
     p.kill = function () {
         this._hp.erase();
         this._hp = null;
@@ -24,7 +21,7 @@ var NPC = (function (_super) {
     };
     p.hitBy = function (damage) {
         if (this.active()) {
-            if (this._hp.hitBy(damage) <= 0) {
+            if (this._hp.hitBy(damage)) {
                 this.kill();
                 return true;
             }
@@ -36,14 +33,11 @@ var NPC = (function (_super) {
             return true;
         }
     };
-    p.paint = function () {
-        _super.prototype.paint.call(this);
-        if (this._hp) {
-            this._hp.paint();
-        }
+    p.reachable = function (x, y, radius, altitudes) {
+        return this.active() && this._altitude in altitudes && this.within(x, y, radius);
     };
     p._face = function (npc) {
-        this._turn(this._direction8(npc.x, npc.y));
+        this._turn(this._direction4(npc.x, npc.y));
     };
     return NPC;
 }(MovableEntity));

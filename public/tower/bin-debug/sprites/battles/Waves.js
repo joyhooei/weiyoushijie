@@ -9,7 +9,8 @@ var Waves = (function () {
     p.add = function (wave, className, count, paths) {
         this._enemies[wave] = this._enemies[wave] || [];
         for (var i = 0; i < count; i++) {
-            this._enemies[wave].push(application.pool.get(className, { "paths": this._randomPaths(paths) }));
+            var enemy = application.pool.get(className, { "paths": this._randomPaths(paths) });
+            this._enemies[wave].push(enemy);
         }
     };
     p._randomPaths = function (paths) {

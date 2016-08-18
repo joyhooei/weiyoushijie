@@ -22,7 +22,8 @@ class Waves {
         this._enemies[wave] = this._enemies[wave] || [];
 
         for(let i = 0; i < count; i++) {
-            this._enemies[wave].push(<Enemy>application.pool.get(className, {"paths": this._randomPaths(paths)}));
+            let enemy = <Enemy>application.pool.get(className, {"paths": this._randomPaths(paths)});
+            this._enemies[wave].push(enemy);
         }
     }
     

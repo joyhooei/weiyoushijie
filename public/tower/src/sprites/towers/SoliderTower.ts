@@ -21,7 +21,7 @@ class SoliderTower extends Tower {
     private addSolider() {
         let solider = <Soldier>application.pool.get("Solider", {"guardX": this._guardX, "guardY": this._guardY});
 
-        application.battle.addSolider(solider);
+        application.battle.addSoldier(solider);
         
         this._totalSoliders ++;
     }

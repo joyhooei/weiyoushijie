@@ -32,8 +32,8 @@ class Soldier extends NPC {
     }
     
     private _arrive() {
-        if (this.enemy) {
-            this._face(this.enemy);
+        if (this._enemy) {
+            this._face(this._enemy);
             this.fight();
         } else {
             this.guard();
@@ -55,7 +55,7 @@ class Soldier extends NPC {
     
     protected _fightWith(enemy:Enemy) {
         if (this._enemy) {
-            this._enemy.rmvSolider(this);
+            this._enemy.rmvSoldier(this);
         }
         
         this._enemy = enemy;
@@ -69,7 +69,7 @@ class Soldier extends NPC {
         let direction = this._direction8(this._enemy.x, this._enemy.y);
 
         this.moveTo(this._enemy.x - xDeltas[direction], this._enemy.y - xDeltas[direction]);
-        this._enemy.addSolider(this);
+        this._enemy.addSoldier(this);
     }
 
     protected _fighting() {
@@ -83,9 +83,9 @@ class Soldier extends NPC {
                 } else {
                     this.moveTo(this._guardX, this._guardY);
                 }
-            } else if (this._enemy.totalSoliders() > 1) {
+            } else if (this._enemy.totalSoldiers() > 1) {
                 let enemy = this._findEnemy();
-                if (enemy && enemy.totalSoliders() == 0) {
+                if (enemy && enemy.totalSoldiers() == 0) {
                     this._fightWith(enemy);
                 }
             }

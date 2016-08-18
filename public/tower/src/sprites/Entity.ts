@@ -38,7 +38,6 @@ class Entity extends egret.Sprite {
         this._direction = this._get(properties, "direction", EntityDirection.east);
         this._state 	= this._get(properties, "state", EntityState.idle);
         this._ticks 	= 0;
-        this._dirty   	= true;
     }
     
     protected _get(properties: any, name:string, defaultVal:any): any {
@@ -74,11 +73,11 @@ class Entity extends egret.Sprite {
     }
     
     public getCenterX(): number {
-    	return this.MapX() + (this._width >> 1);
+    	return this.getMapX() + (this.width >> 1);
     }
     
-    public getMapY(): number {
-    	return this.MapY() + (this._height >> 1);
+    public getCenterY(): number {
+    	return this.getMapY() + (this.height >> 1);
     }
 
     public stain() {
@@ -192,7 +191,7 @@ class Entity extends egret.Sprite {
 	    	this._ticks = 0;
 	    	this._state = state;
 	    	
-	    	this.stain(this);
+	    	this.stain();
     	}
     }
 
@@ -201,7 +200,7 @@ class Entity extends egret.Sprite {
     	if (direction != this._direction) {
     		this._direction = direction;
     		
-    		this.stain(this);
+    		this.stain();
     	}
     }
 

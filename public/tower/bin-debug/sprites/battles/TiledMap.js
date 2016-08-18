@@ -2,10 +2,14 @@ var TiledMap = (function (_super) {
     __extends(TiledMap, _super);
     function TiledMap(map) {
         _super.call(this);
-        this._parse(map);
-        this.addChild(map);
+        this._map = map;
+        this._parse();
     }
     var d = __define,c=TiledMap,p=c.prototype;
+    p.paint = function () {
+        this.addChild(this._map);
+        this._map.render();
+    };
     TiledMap.load = function (url, width, height) {
         var self = this;
         return Q.Promise(function (resolve, reject, notify) {
@@ -14,8 +18,12 @@ var TiledMap = (function (_super) {
             urlLoader.addEventListener(egret.Event.COMPLETE, function (event) {
                 var data = egret.XML.parse(event.target.data);
                 var tmxTileMap = new tiled.TMXTilemap(width, height, data, url);
-                tmxTileMap.render();
-                resolve(new TiledMap(tmxTileMap));
+                tmxTileMap.once(tiled.TMXImageLoadEvent.ALL_IMAGE_COMPLETE, function () {
+                    Utility.delay(function () {
+                        resolve(new TiledMap(tmxTileMap));
+                    }, 100);
+                }, this, true, 0);
+                tmxTileMap.getObjects();
             }, url);
             urlLoader.addEventListener(egret.IOErrorEvent.IO_ERROR, function (event) {
                 reject('加载地图失败');
@@ -61,17 +69,17 @@ var TiledMap = (function (_super) {
             }
         }
     };
-    p._parse = function (tmxTileMap) {
-        this._tileWidth = tmxTileMap.tilewidth;
-        this._tileHeight = tmxTileMap.tileheight;
-        this._width = tmxTileMap.width;
-        this._height = tmxTileMap.height;
+    p._parse = function () {
+        this._tileWidth = this._map.tilewidth;
+        this._tileHeight = this._map.tileheight;
+        this._width = this._map.width;
+        this._height = this._map.height;
         this._paths = [];
         this._bases = [];
         this._heros = [];
         this._entrances = [];
         this._exits = [];
-        var ogs = tmxTileMap.getObjects();
+        var ogs = this._map.getObjects();
         for (var i = 0; i < ogs.length; i++) {
             var og = ogs[i];
             var name_1 = og.name;
@@ -93,32 +101,32 @@ var TiledMap = (function (_super) {
         for (var i = 0; i < og.getObjectCount(); i++) {
             var o = og.getObjectByIndex(i);
             var name_2 = o.name;
-            var location_1 = [o.x, o.y];
+            var pos = [o.x, o.y];
             var arrayOfStrings = name_2.split("-");
             if (arrayOfStrings[0] == 'start') {
-                path[0] = location_1;
-                if (!this._exists(this._entrances, location_1)) {
-                    this._entrances.push(location_1);
+                path[0] = pos;
+                if (!this._exists(this._entrances, pos)) {
+                    this._entrances.push(pos);
                 }
             }
-            else if (arrayOfStrings[0] = 'end') {
-                path[og.getObjectCount() - 1] = location_1;
-                if (!this._exists(this._exits, location_1)) {
-                    this._exits.push(location_1);
+            else if (arrayOfStrings[0] == 'end') {
+                path[og.getObjectCount() - 2] = pos;
+                if (!this._exists(this._exits, pos)) {
+                    this._exits.push(pos);
                 }
             }
             else {
                 if (arrayOfStrings.length == 2 && arrayOfStrings[0] == 'waypoint') {
                     var idx = +arrayOfStrings[1];
-                    path[idx] = location_1;
+                    path[idx] = pos;
                 }
             }
         }
         return path;
     };
-    p._exists = function (locations, location) {
-        for (var i = 0; i < locations.length; i++) {
-            if (locations[i][0] == location[0] && locations[i][1] == location[1]) {
+    p._exists = function (path, pos) {
+        for (var i = 0; i < path.length; i++) {
+            if (path[i][0] == pos[0] && path[i][1] == pos[1]) {
                 return true;
             }
         }

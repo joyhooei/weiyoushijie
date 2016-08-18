@@ -19,7 +19,7 @@ var Battle1 = (function (_super) {
         var paths = this._map.getPaths();
         var waves = [
             [0, "Enemy", 10, 0],
-            [1, "Enemy", 10, 10],
+            [1, "Enemy", 10, 1],
             [2, "Enemy", 10, 0],
             [2, "Enemy", 10, 1],
         ];

@@ -1,3 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
-<e:Skin class="battleUISkin" width="800" height="480" xmlns:e="http://ns.egret.com/eui">
+<e:Skin class="battleUISkin" width="800" height="480" xmlns:e="http://ns.egret.com/eui" xmlns:w="http://ns.egret.com/wing">
+	<e:Label id="lblLives" text="20" x="28" y="13" name="lblLives" size="20" textAlign="center"/>
+	<e:Label text="20" x="76" y="13" name="lblLives" size="20" id="lblLives0" textAlign="center" width="97"/>
+	<e:Group id="grpSystemTools" width="200" height="43" x="25" y="423"/>
+	<e:Group id="grpBoughtTools" width="395" height="43" x="385" y="423"/>
+	<e:Group id="grpBattle"  width="800" height="480" x="0" y="0" />
+    <e:Image id="imgBack" width="20" height="20" x="725" y="20"/>
 </e:Skin>

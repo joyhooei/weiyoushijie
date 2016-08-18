@@ -41,8 +41,11 @@ class TiledMap extends egret.Sprite {
                 
                 let tmxTileMap:tiled.TMXTilemap = new tiled.TMXTilemap(width, height, data, url);
                 tmxTileMap.once(tiled.TMXImageLoadEvent.ALL_IMAGE_COMPLETE, function(){
-                    resolve(new TiledMap(tmxTileMap));
-                }, this);
+                    Utility.delay(function(){
+                        resolve(new TiledMap(tmxTileMap));
+                    }, 100);
+                    
+                }, this, true, 0);
                 
                 tmxTileMap.getObjects();
             }, url);
@@ -135,25 +138,25 @@ class TiledMap extends egret.Sprite {
         let path = [];
         
         for(let i = 0; i < og.getObjectCount(); i++) {
-            let o = og.getObjectByIndex(i);
-            let name = o.name;
-            let location = [o.x, o.y];
+            let o:tiled.TMXObject = og.getObjectByIndex(i);
+            let name:string = o.name;
+            let pos:number[] = [o.x, o.y];
             
-            let arrayOfStrings = name.split("-");
+            let arrayOfStrings:string[] = name.split("-");
             if (arrayOfStrings[0] == 'start') {
-                path[0] = location;
-                if (!this._exists(this._entrances, location)) {
-                    this._entrances.push(location);
+                path[0] = pos;
+                if (!this._exists(this._entrances, pos)) {
+                    this._entrances.push(pos);
                 }
-            } else if (arrayOfStrings[0] = 'end') {
-                path[og.getObjectCount() - 1] = location;
-                if (!this._exists(this._exits, location)) {
-                    this._exits.push(location);
+            } else if (arrayOfStrings[0] == 'end') {
+                path[og.getObjectCount() - 2] = pos;
+                if (!this._exists(this._exits, pos)) {
+                    this._exits.push(pos);
                 }
             } else {
                 if (arrayOfStrings.length == 2 && arrayOfStrings[0] == 'waypoint') {
                     let idx = + arrayOfStrings[1];
-                    path[idx] = location;
+                    path[idx] = pos;
                 }
             }
         }
@@ -161,9 +164,9 @@ class TiledMap extends egret.Sprite {
         return path;
     }
     
-    private _exists(locations:number[][], location:number[]):boolean {
-        for(let i = 0; i < locations.length; i++) {
-            if (locations[i][0] == location[0] && locations[i][1] == location[1]) {
+    private _exists(path:number[][], pos:number[]):boolean {
+        for(let i = 0; i < path.length; i++) {
+            if (path[i][0] == pos[0] && path[i][1] == pos[1]) {
                 return true;
             }
         }

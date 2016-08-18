@@ -4,9 +4,6 @@ var MagicTower = (function (_super) {
         _super.call(this);
     }
     var d = __define,c=MagicTower,p=c.prototype;
-    p._createBullet = function () {
-        return application.pool.get("Magic");
-    };
     return MagicTower;
 }(RemoteHitTower));
 egret.registerClass(MagicTower,'MagicTower');

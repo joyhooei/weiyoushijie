@@ -6,7 +6,7 @@ var Battle = (function (_super) {
         this._baseLayer = this._addLayer();
         //怪物层、士兵层、英雄层
         this._objLayer = this._addLayer();
-        //武器层
+        //子弹层
         this._bulletLayer = this._addLayer();
         //工具层
         this._toolLayer = this._addLayer();
@@ -18,6 +18,8 @@ var Battle = (function (_super) {
         return Q.Promise(function (resolve, reject, notify) {
             TiledMap.load(self._url, 800, 480).then(function (map) {
                 self._map = map;
+                self.addChildAt(self._map, 0);
+                self._map.paint();
                 self._addBases();
                 self._addHeros();
                 self._addStandbys();
@@ -37,9 +39,11 @@ var Battle = (function (_super) {
         this._toolLayer.removeChildren();
         this._waves = new Waves();
         this._bases = [];
-        this._soliders = [];
+        this._soldiers = [];
         this._bullets = [];
         this._enemies = [];
+        this._heros = [];
+        this._dirts = [];
     };
     p.enableSelect = function (entity) {
         entity.touchEnabled = true;
@@ -132,7 +136,7 @@ var Battle = (function (_super) {
         _super.prototype.kill.call(this);
         this._eraseEntities(this._heros);
         this._eraseEntities(this._bases);
-        this._eraseEntities(this._soliders);
+        this._eraseEntities(this._soldiers);
         this._eraseEntities(this._enemies);
         this._eraseEntities(this._bullets);
         this._waves.erase();
@@ -149,7 +153,7 @@ var Battle = (function (_super) {
         }
         this._updateEntities(this._heros);
         this._updateEntities(this._bases);
-        this._updateEntities(this._soliders);
+        this._updateEntities(this._soldiers);
         this._updateEntities(this._enemies);
         this._updateEntities(this._bullets);
         return !this.active();
@@ -162,6 +166,21 @@ var Battle = (function (_super) {
                 entities.splice(i, 1);
             }
         }
+    };
+    p.paint = function () {
+        var i = this._dirts.length;
+        while (i > 0) {
+            this._dirts[--i].paint();
+        }
+        this._dirts = [];
+    };
+    p.findSoldier = function (x, y, radius) {
+        for (var i = 0; i < this._soldiers.length; i++) {
+            if (this._soldiers[i].reachable(x, y, radius, [0])) {
+                return this._soldiers[i];
+            }
+        }
+        return null;
     };
     p.findEnemies = function (x, y, radius, altitudes) {
         var enemies = [];
@@ -183,22 +202,23 @@ var Battle = (function (_super) {
     p.findSuitableEnemy = function (x, y, radius, altitudes) {
         var enemy = null;
         for (var i = 0; i < this._enemies.length; i++) {
-            if (this._enemies[i].reachable(x, y, radius, altitudes)) {
-                if (this._enemies[i].totalSoliders() == 0) {
-                    return this._enemies[i];
+            var e = this._enemies[i];
+            if (e.reachable(x, y, radius, altitudes)) {
+                if (e.totalSoldiers() == 0) {
+                    return e;
                 }
                 else {
-                    if (!(enemy && enemy.totalSoliders() < this._enemies[i].totalSoliders)) {
-                        enemy = this._enemies[i];
+                    if (enemy == null || enemy.totalSoldiers() > e.totalSoldiers()) {
+                        enemy = e;
                     }
                 }
             }
         }
         return enemy;
     };
-    p.addSolider = function (solider) {
-        this._soliders.push(solider);
-        this._objLayer.addChild(solider);
+    p.addSoldier = function (soldier) {
+        this._soldiers.push(soldier);
+        this._objLayer.addChild(soldier);
     };
     p.addEnemy = function (enemy) {
         this._enemies.push(enemy);
@@ -220,6 +240,9 @@ var Battle = (function (_super) {
     p.addHero = function (hero) {
         this._heros.push(hero);
         this._objLayer.addChild(hero);
+    };
+    p.addDirt = function (entity) {
+        this._dirts.push(entity);
     };
     return Battle;
 }(Entity));

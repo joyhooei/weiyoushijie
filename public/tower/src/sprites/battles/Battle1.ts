@@ -22,7 +22,7 @@ class Battle1 extends Battle {
         let waves = [
             [0, "Enemy", 10, 0],
             
-            [1, "Enemy", 10, 10],
+            [1, "Enemy", 10, 1],
             
             [2, "Enemy", 10, 0],
             [2, "Enemy", 10, 1],

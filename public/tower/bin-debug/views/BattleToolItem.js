@@ -2,7 +2,7 @@ var BattleToolItem = (function (_super) {
     __extends(BattleToolItem, _super);
     function BattleToolItem(tool) {
         var _this = this;
-        _super.call(this, "toolItemSkin");
+        _super.call(this, "battleToolItemSkin");
         this._tool = tool;
         this.addEventListener(egret.TouchEvent.TOUCH_TAP, function () {
             application.battle.readyUseTool(_this);

@@ -4,13 +4,15 @@ var BattleUI = (function (_super) {
         _super.call(this, "battleUISkin");
         var self = this;
         self.grpBattle.addChild(application.battle);
-        self.grpSystemTools.addChild(new BattleTimeoutToolItem({ category: 'solider' }));
+        self.grpSystemTools.addChild(new BattleTimeoutToolItem({ category: 'soldier' }));
         self.grpSystemTools.addChild(new BattleTimeoutToolItem({ category: 'fireball' }));
-        application.dao.fetch("Tool", { customer_id: application.me.attrs.id, count: { $gt: 0 } }).then(function (tools) {
-            for (var i = 0; i < tools.length; i++) {
+        /*
+        application.dao.fetch("Tool", {customer_id: application.me.attrs.id, count: {$gt: 0}}).then(function(tools){
+            for(let i = 0; i < tools.length; i++) {
                 self.grpBoughtTools.addChild(new BattleToolItem(tools[i]));
             }
-        });
+        })
+        */
         application.dao.addEventListener("Battle", function (evt) {
             self.lblLives.text = application.battle.getLives().toString();
             self.lblGolds.text = application.battle.getGolds().toString();
@@ -42,6 +44,9 @@ var BattleUI = (function (_super) {
             }, function () {
                 self_1._quitBattle();
             }), self_1);
+        }
+        else {
+            application.battle.paint();
         }
     };
     return BattleUI;

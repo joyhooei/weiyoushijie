@@ -29,11 +29,13 @@ class CastBullet extends Bullet {
         super._idle();
     }
     
-    protected _computeSteps(x:number, y:number) {
+    protected _computeSteps(x:number, y:number): boolean {
 	    let stepX = (x - this._initX) / this._flyHeight;
 	    let stepY = ((y - this._initY) - (this._gravity * this._flyHeight * this._flyHeight / 2)) / this._flyHeight;
 	    
 	    this._delta = [stepX, stepY];
+
+        return stepX != 0 && stepY != 0;
     }
     
     protected _moveOneStep():boolean {

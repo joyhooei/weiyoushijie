@@ -24,7 +24,7 @@ class RemoteHitTower extends Tower {
             }
 
             if (this._enemy) {
-                Bullet.shoot(this.getCenterX(), this.getCenterY(), this._enemy, _bulletName);
+                Bullet.shoot(this.getCenterX(), this.getCenterY(), this._enemy, this._bulletName);
             }
         }
     }

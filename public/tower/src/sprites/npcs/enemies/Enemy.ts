@@ -18,7 +18,7 @@ class Enemy extends NPC {
         
         this._bonus = this._get(properties, "bonus", 10);
         
-        this._soliders = [];
+        this._soldiers = [];
         
         this._paths = [];
         this._path  = 0;
@@ -107,8 +107,8 @@ class Enemy extends NPC {
     
     protected _fighting() {
         if (this._ticks % this._hitSpeed == 0) {
-            if (this.soldier[0].hitBy(this._damage)) {
-                this.rmvSolider(this.soldier[0]);
+            if (this._soldiers[0].hitBy(this._damage)) {
+                this.rmvSoldier(this._soldiers[0]);
             }
         }
     }

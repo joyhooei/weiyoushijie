@@ -16,9 +16,9 @@ var Hp = (function (_super) {
         var hp = Math.max(0, this._hp - damage);
         if (hp != this._hp) {
             this._hp = hp;
-            this._repaint = true;
+            this.stain();
         }
-        return hp;
+        return hp > 0;
     };
     p.paint = function () {
         this.graphics.clear();

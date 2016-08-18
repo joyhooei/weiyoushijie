@@ -6,7 +6,12 @@ var ArrowTower = (function (_super) {
     var d = __define,c=ArrowTower,p=c.prototype;
     p.initialize = function (properties) {
         _super.prototype.initialize.call(this, properties);
-        this.removeChildren();
+    };
+    p.erase = function () {
+        _super.prototype.erase.call(this);
+        for (var i = 0; i < this._soldiers.length; i++) {
+            this._soldiers[i].erase();
+        }
     };
     p.guard = function () {
         _super.prototype.guard.call(this);
@@ -29,12 +34,6 @@ var ArrowTower = (function (_super) {
             this._soldiers[i].update();
         }
         return _super.prototype.update.call(this);
-    };
-    p.paint = function () {
-        _super.prototype.paint.call(this);
-        for (var i = 0; i < this._soldiers.length; i++) {
-            this._soldiers[i].paint();
-        }
     };
     return ArrowTower;
 }(Tower));

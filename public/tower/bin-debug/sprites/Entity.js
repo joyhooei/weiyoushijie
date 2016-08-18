@@ -31,7 +31,6 @@ var Entity = (function (_super) {
         this._direction = this._get(properties, "direction", EntityDirection.east);
         this._state = this._get(properties, "state", EntityState.idle);
         this._ticks = 0;
-        this._repaint = true;
     };
     p._get = function (properties, name, defaultVal) {
         if (properties && properties[name]) {
@@ -62,6 +61,15 @@ var Entity = (function (_super) {
         else {
             return this.y;
         }
+    };
+    p.getCenterX = function () {
+        return this.getMapX() + (this.width >> 1);
+    };
+    p.getCenterY = function () {
+        return this.getMapY() + (this.height >> 1);
+    };
+    p.stain = function () {
+        application.battle.addDirt(this);
     };
     p.build = function () {
         this._do(EntityState.building);
@@ -117,10 +125,6 @@ var Entity = (function (_super) {
                 this._dying();
                 break;
         }
-        if (this._repaint && this.active()) {
-            this.paint();
-            this._repaint = false;
-        }
         return this.dead();
     };
     p.setMCs = function (mcs) {
@@ -148,14 +152,14 @@ var Entity = (function (_super) {
             }
             this._ticks = 0;
             this._state = state;
-            this._repaint = true;
+            this.stain();
         }
     };
     //转向
     p._turn = function (direction) {
         if (direction != this._direction) {
             this._direction = direction;
-            this._repaint = true;
+            this.stain();
         }
     };
     p._idle = function () {
@@ -170,14 +174,21 @@ var Entity = (function (_super) {
     };
     p._dying = function () {
     };
-    p.intersect = function (x, y, radius) {
-        var dx = this.x - x;
-        var dy = this.y - y;
-        return (dx * dx + dy * dy <= radius * radius);
+    p.within = function (x, y, radius) {
+        if (Entity.intersect(this.x, this.y, this.width, this.height, x - radius, y - radius, radius + radius, radius + radius)) {
+            var dx = this.x + this.width / 2 - x;
+            var dy = this.y + this.height / 2 - y;
+            return (dx * dx + dy * dy <= radius * radius);
+        }
+        else {
+            return false;
+        }
     };
-    p.collide = function (obj) {
-        return !(obj.x > this.x + this.width || obj.x + obj.width < this.x ||
-            obj.y > this.y + this.height || obj.y + obj.height < this.y);
+    p.collide = function (entity) {
+        return Entity.intersect(entity.x, entity.y, entity.width, entity.height, this.x, this.y, this.width, this.height);
+    };
+    Entity.intersect = function (x1, y1, width1, height1, x2, y2, width2, height2) {
+        return !(x1 > x2 + width2 || x1 + width1 < x2 || y1 > y2 + height2 || y1 + height1 < y2);
     };
     p._direction8 = function (x, y) {
         var angels = [22.5, 67.5, 112.5, 157.5, 202.5, 247.5, 292.5, 337.5, 360];

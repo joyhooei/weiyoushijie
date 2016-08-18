@@ -85,10 +85,12 @@ class Battle extends Entity {
 
         this._bases = [];
 
-        this._soliders = [];
+        this._soldiers = [];
         this._bullets = [];
         
         this._enemies = [];
+
+        this._heros = [];
         
         this._dirts = [];
     }
@@ -252,7 +254,7 @@ class Battle extends Entity {
 
     public findSoldier(x: number, y: number, radius: number) : Soldier {
         for(let i = 0; i < this._soldiers.length; i++) {
-            if (this._soldiers[i].reachable(x, y, radius, altitudes)){
+            if (this._soldiers[i].reachable(x, y, radius, [0])){
                 return this._soldiers[i];
             }
         }
@@ -289,10 +291,10 @@ class Battle extends Entity {
             let e = this._enemies[i];
             
             if (e.reachable(x, y, radius, altitudes)){
-                if (e.totalSoliders() == 0) {
+                if (e.totalSoldiers() == 0) {
                     return e;
                 } else {
-                    if (enemy == null || enemy.totalSoliders() > e.totalSoliders()) {
+                    if (enemy == null || enemy.totalSoldiers() > e.totalSoldiers()) {
                         enemy = e;
                     }
                 }

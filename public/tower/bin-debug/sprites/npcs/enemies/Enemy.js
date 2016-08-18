@@ -7,7 +7,7 @@ var Enemy = (function (_super) {
     p.initialize = function (properties) {
         _super.prototype.initialize.call(this, properties);
         this._bonus = this._get(properties, "bonus", 10);
-        this._soliders = [];
+        this._soldiers = [];
         this._paths = [];
         this._path = 0;
     };
@@ -16,29 +16,26 @@ var Enemy = (function (_super) {
         this._paths = paths;
         return this._nextPath();
     };
-    p.addSolider = function (solider) {
-        this._soliders.push(solider);
+    p.addSoldier = function (soldier) {
+        this._soldiers.push(soldier);
         this.guard();
-        this._face(this._soliders[0]);
+        this._face(this._soldiers[0]);
     };
-    p.totalSoliders = function () {
-        return this._soliders.length;
+    p.totalSoldiers = function () {
+        return this._soldiers.length;
     };
-    p.rmvSolider = function (solider) {
-        for (var i = 0; i < this._soliders.length; i++) {
-            if (this._soliders[i] == solider) {
-                this._soliders.splice(i, 1);
+    p.rmvSoldier = function (soldier) {
+        for (var i = 0; i < this._soldiers.length; i++) {
+            if (this._soldiers[i] == soldier) {
+                this._soldiers.splice(i, 1);
             }
         }
-        if (this._soliders.length == 0) {
+        if (this._soldiers.length == 0) {
             this.move();
         }
         else {
-            this._face(this._soliders[0]);
+            this._face(this._soldiers[0]);
         }
-    };
-    p.reachable = function (x, y, radius, altitudes) {
-        return this.active() && this._altitude in altitudes && this.intersect(x, y, radius);
     };
     p._nextPath = function () {
         if (this._path < this._paths.length - 1) {
@@ -79,8 +76,8 @@ var Enemy = (function (_super) {
     };
     p._fighting = function () {
         if (this._ticks % this._hitSpeed == 0) {
-            if (this._soliders[0].hitBy(this._damage)) {
-                this.rmvSolider(this._soliders[0]);
+            if (this._soldiers[0].hitBy(this._damage)) {
+                this.rmvSoldier(this._soldiers[0]);
             }
         }
     };

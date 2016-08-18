@@ -8,7 +8,6 @@ var CastBullet = (function (_super) {
         _super.prototype.initialize.call(this, properties);
         this._flyHeight = this._get(properties, 'flyHeight', 25);
         this._gravity = this._get(properties, 'gravity', 1);
-        this._angle = 0;
         this._flyTicks = 0;
     };
     p._idle = function () {
@@ -20,17 +19,7 @@ var CastBullet = (function (_super) {
         var stepX = (x - this._initX) / this._flyHeight;
         var stepY = ((y - this._initY) - (this._gravity * this._flyHeight * this._flyHeight / 2)) / this._flyHeight;
         this._delta = [stepX, stepY];
-    };
-    p._moving = function () {
-        if (this._moveOneStep()) {
-            this.kill();
-        }
-        else {
-            //如果目标移动，重新调整方向和路径
-            if (this._targetX != this._target.x || this._targetY != this._target.y) {
-                this.setTarget(this._target);
-            }
-        }
+        return stepX != 0 && stepY != 0;
     };
     p._moveOneStep = function () {
         this._flyTicks += 0.5;
@@ -41,22 +30,16 @@ var CastBullet = (function (_super) {
         var sy = this._initY + this._flyTicks * this._delta[1] + this._gravity * this._flyTicks * this._flyTicks / 2;
         var dx = sx - this.x;
         var dy = sy - this.y;
-        this._angle = Math.atan2(dy, dx) * 180 / Math.PI + 180;
         this._flyTicks -= 0.5;
-        return this._hitTest();
-    };
-    p._hitTest = function () {
-        if (this._angle > 180 && this._angle < 360) {
+        var angle = Math.atan2(dy, dx) * 180 / Math.PI + 180;
+        if (angle > 180 && angle < 360) {
             var disx = this.x - this._target.x < 0 ? this._target.x - this.x : this.x - this._target.x;
             var disy = this.y - this._target.y < 0 ? this._target.y - this.y : this.y - this._target.y;
             if (disx <= this._delta[0] && disy < this._delta[1]) {
-                this._hitTarget();
                 return true;
             }
         }
         return false;
-    };
-    p._hitTarget = function () {
     };
     return CastBullet;
 }(Bullet));

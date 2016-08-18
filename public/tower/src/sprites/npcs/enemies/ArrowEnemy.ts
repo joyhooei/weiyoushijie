@@ -17,7 +17,7 @@ class ArrowEnemy extends Enemy {
         if (this.active()) {
             let soldier = application.battle.findSoldier(this.x, this.y, this._attackRadius);
             if (soldier) {
-                this.addSolider(soldier);
+                this.addSoldier(soldier);
                 
                 this.fight();
             }

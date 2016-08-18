@@ -24,9 +24,12 @@ var Base = (function (_super) {
         this._clearTower();
         this._tower = tower;
         if (this._tower) {
+            this.removeChildren();
             this.addChild(this._tower);
         }
-        this._repaint = true;
+        else {
+            this.stain();
+        }
     };
     p._clearTower = function () {
         if (this._tower) {
@@ -45,14 +48,6 @@ var Base = (function (_super) {
     };
     p.deselect = function () {
         application.battle.hideAllTools();
-    };
-    p.paint = function () {
-        if (this._tower) {
-            this._tower.paint();
-        }
-        else {
-            _super.prototype.paint.call(this);
-        }
     };
     return Base;
 }(Entity));

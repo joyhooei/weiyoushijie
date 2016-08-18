@@ -17,11 +17,13 @@ class BattleUI extends AbstractUI {
         self.grpSystemTools.addChild(new BattleTimeoutToolItem({category: 'soldier'}));
         self.grpSystemTools.addChild(new BattleTimeoutToolItem({category: 'fireball'}));
         
+        /*
         application.dao.fetch("Tool", {customer_id: application.me.attrs.id, count: {$gt: 0}}).then(function(tools){
             for(let i = 0; i < tools.length; i++) {
                 self.grpBoughtTools.addChild(new BattleToolItem(tools[i]));
             }
         })
+        */
         
         application.dao.addEventListener("Battle",function(evt: egret.Event) {
             self.lblLives.text = application.battle.getLives().toString();

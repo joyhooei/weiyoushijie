@@ -6,7 +6,7 @@ var BattleTimeoutToolItem = (function (_super) {
         this._ticks = 0;
         this._maxTicks = 10;
         this.imgShield.height = 0;
-        if (tool.category == "solider") {
+        if (tool.category == "soldier") {
             this.imgTool.source = "";
         }
         else if (tool.category == "fireball") {
@@ -26,22 +26,21 @@ var BattleTimeoutToolItem = (function (_super) {
     }
     var d = __define,c=BattleTimeoutToolItem,p=c.prototype;
     p.use = function (x, y) {
-        if (this._tool.category == "solider") {
-            var solider = application.pool.get("Solider", { guardX: x, guardY: y });
-            solider.x = x;
-            solider.y = y;
-            application.battle.addSolider(solider);
+        if (this._tool.category == "soldier") {
+            var soldier = application.pool.get("Soldier", { guardX: x - 5, guardY: y - 5 });
+            soldier.x = x;
+            soldier.y = y;
+            application.battle.addSoldier(soldier);
+            soldier = application.pool.get("Soldier", { guardX: x + 5, guardY: y + 5 });
+            soldier.x = x;
+            soldier.y = y;
+            application.battle.addSoldier(soldier);
         }
         else if (this._tool.category == "fireball") {
-            var bullet = application.pool.get("Fireball");
             var emptyEnemy = application.pool.get("EmptyEnemy");
             emptyEnemy.x = x;
             emptyEnemy.y = y;
-            application.battle.addEnemy(emptyEnemy);
-            bullet.x = this.parent.x;
-            bullet.y = this.parent.y;
-            bullet.setTarget(emptyEnemy);
-            application.battle.addBullet(bullet);
+            Bullet.shoot(x, y - 200, emptyEnemy, "Fireball");
         }
         this._ticks = this._maxTicks;
     };
