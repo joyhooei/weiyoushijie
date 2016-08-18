@@ -18,7 +18,7 @@ class Hp extends Entity {
 		this.hitBy(this._hp);
 	}
 
-	public hitBy(damage:number): number{
+	public hitBy(damage:number): boolean{
 	    let hp = Math.max(0, this._hp - damage);
 	    
 	    if (hp != this._hp) {
@@ -27,7 +27,7 @@ class Hp extends Entity {
 	        this._repaint = true;
 	    }
 	    
-	    return hp;
+	    return hp > 0;
 	}
 	
 	public paint() {
