@@ -49,7 +49,7 @@ class BattleTimeoutToolItem extends BattleToolItem {
             let emptyEnemy = <Enemy>application.pool.get("EmptyEnemy");
             emptyEnemy.x = x;
             emptyEnemy.y = y;
-        	Bullet.shoot(this.parent.x, this.parent.y, emptyEnemy, "Fireball");
+        	Bullet.shoot(x, y - 200, emptyEnemy, "Fireball");
         }
         
         this._ticks = this._maxTicks;
