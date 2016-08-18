@@ -14,7 +14,7 @@ class BattleUI extends AbstractUI {
         
     	self.grpBattle.addChild(application.battle);
 
-        self.grpSystemTools.addChild(new BattleTimeoutToolItem({category: 'solider'}));
+        self.grpSystemTools.addChild(new BattleTimeoutToolItem({category: 'soldier'}));
         self.grpSystemTools.addChild(new BattleTimeoutToolItem({category: 'fireball'}));
         
         application.dao.fetch("Tool", {customer_id: application.me.attrs.id, count: {$gt: 0}}).then(function(tools){
