@@ -62,6 +62,8 @@ class BattleUI extends AbstractUI {
     		}, function(){
     			self._quitBattle();
     		}), self);        	
+        } else {
+        	application.battle.paint();
         }
     }
 }
