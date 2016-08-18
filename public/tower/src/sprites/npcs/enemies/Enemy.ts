@@ -1,5 +1,5 @@
 class Enemy extends NPC {
-    protected _soliders: Soldier[];
+    protected _soldiers: Soldier[];
     
     //所有路径
     protected _paths: number[][];
@@ -31,28 +31,28 @@ class Enemy extends NPC {
    		return this._nextPath();
     }
     
-    public addSolider(solider: Soldier) {
-        this._soliders.push(solider);
+    public addSoldier(soldier: Soldier) {
+        this._soldiers.push(soldier);
         this.guard();
         
-        this._face(this._soliders[0]);
+        this._face(this._soldiers[0]);
     }
     
-    public totalSoliders(): number {
-        return this._soliders.length;
+    public totalSoldiers(): number {
+        return this._soldiers.length;
     }
     
-    public rmvSolider(solider: Soldier) {
-        for(let i = 0;i < this._soliders.length; i++) {
-            if (this._soliders[i] == solider) {
-                this._soliders.splice(i, 1);   
+    public rmvSoldier(soldier: Soldier) {
+        for(let i = 0;i < this._soldiers.length; i++) {
+            if (this._soldiers[i] == soldier) {
+                this._soldiers.splice(i, 1);   
             }
         }
         
-        if (this._soliders.length == 0) {
+        if (this._soldiers.length == 0) {
             this.move();
         } else {
-            this._face(this._soliders[0]);
+            this._face(this._soldiers[0]);
         }
     }
     
@@ -107,8 +107,8 @@ class Enemy extends NPC {
     
     protected _fighting() {
         if (this._ticks % this._hitSpeed == 0) {
-            if (this._soliders[0].hitBy(this._damage)) {
-                this.rmvSolider(this._soliders[0]);
+            if (this.soldier[0].hitBy(this._damage)) {
+                this.rmvSolider(this.soldier[0]);
             }
         }
     }
