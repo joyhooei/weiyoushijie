@@ -8,7 +8,11 @@ class ArrowSoldier extends Soldier {
     }
 
     protected _guarding() {
-        this.fight();
+        this._enemy = application.battle.findEnemy(x, y, this._guardRadius, [0]);
+        if (this._enemy) {
+            this._face(this._enemy);
+            this.fight();
+        }
     }
 
     protected _fighting() {
@@ -18,14 +22,17 @@ class ArrowSoldier extends Soldier {
 
             if (this._enemy == null 
                     || !this._enemy.active() 
-                    || !this._enemy.intersect(x, y, this._guardRadius)) {
+                    || !this._enemy.within(x, y, this._guardRadius)) {
                 this._enemy = application.battle.findEnemy(x, y, this._guardRadius, [0]);
-                
-                this._face(this._enemy);
+                if (this._enemy) {
+                    this._face(this._enemy);
+                }
             }
 
             if (this._enemy) {
                 Bullet.shoot(this, this._enemy, "Arrow");
+            } else {
+                this.guard();
             }
         }
     }    
