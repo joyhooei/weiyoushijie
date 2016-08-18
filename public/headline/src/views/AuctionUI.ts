@@ -164,20 +164,22 @@ class AuctionUI extends AbstractUI{
     }
 	
 	private onChangeBid(e:egret.TouchEvent): void {
-        let step:number = e.stageX - this.startX;
-        this.startX = e.stageX;
-        
-        let target:number = Math.max(this.imgThumb.x, this.grpTrack.x + step);
-        target = Math.min(this.imgThumb.width + this.imgThumb.x - this.grpTrack.width,target);
-        this.grpTrack.x = target;
- 
-        let percent:number = Math.round(100 * (this.grpTrack.x - this.imgThumb.x)  / (this.imgThumb.width - this.grpTrack.width) );
-		this.lblTrack.text = percent.toString() + "%";
-
-		this.renderBid((Math.max(0, application.me.attrs.gold - this.bid.gold)) * percent / 100);
-        this.imgFront.width = this.grpTrack.x - this.imgThumb.x + 20;
-		
-		this.nextStep();
+		if (e.stageX > this.startX) {
+	        let step:number = e.stageX - this.startX;
+	        this.startX = e.stageX;
+	        
+	        let target:number = Math.max(this.imgThumb.x, this.grpTrack.x + step);
+	        target = Math.min(this.imgThumb.width + this.imgThumb.x - this.grpTrack.width,target);
+	        this.grpTrack.x = target;
+	 
+	        let percent:number = Math.round(100 * (this.grpTrack.x - this.imgThumb.x)  / (this.imgThumb.width - this.grpTrack.width) );
+			this.lblTrack.text = percent.toString() + "%";
+	
+			this.renderBid((Math.max(0, application.me.attrs.gold - this.bid.gold)) * percent / 100);
+	        this.imgFront.width = this.grpTrack.x - this.imgThumb.x + 20;
+			
+			this.nextStep();
+		}
 	}
 	
 	private nextStep(): void {
