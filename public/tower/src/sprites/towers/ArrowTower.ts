@@ -42,20 +42,8 @@ class ArrowTower extends Tower {
     public update() : boolean {       
         for(let i = 0; i < this._soldiers.length; i++) {
             this._soldiers[i].update();
-            
-            if (this._soldiers[i].dirty()) {
-                this.stain();
-            }
         }
 
         return super.update();
-    }
-    
-    public paint() {
-        super.paint();
-        
-        for(let i = 0; i < this._soldiers.length; i++) {
-            this._soldiers[i].paint();
-        }
     }
 }
