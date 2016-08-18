@@ -38,10 +38,12 @@ class Base extends Entity {
         this._tower = tower;
         
         if (this._tower) {
+            this.removeChildren();
+            
             this.addChild(this._tower);
+        } else {
+            this.stain();
         }
-
-        this._repaint = true;
     }
     
     private _clearTower() {
@@ -66,13 +68,5 @@ class Base extends Entity {
     
     public deselect() {
         application.battle.hideAllTools();
-    }
-    
-    public paint() {
-        if (this._tower) {
-            this._tower.paint();
-        } else {
-            super.paint();
-        }
     }
 }
