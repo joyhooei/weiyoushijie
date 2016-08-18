@@ -261,13 +261,16 @@ class Battle extends Entity {
 
     public findSuitableEnemy(x: number, y: number, radius: number, altitudes: number[]) : Enemy {
         let enemy = null;
+        
         for(let i = 0; i < this._enemies.length; i++) {
-            if (this._enemies[i].reachable(x, y, radius, altitudes)){
-                if (this._enemies[i].totalSoliders() == 0) {
-                    return this._enemies[i];
+            let e = this._enemies[i];
+            
+            if (e.reachable(x, y, radius, altitudes)){
+                if (e.totalSoliders() == 0) {
+                    return e;
                 } else {
-                    if (!(enemy && enemy.totalSoliders() < this._enemies[i].totalSoliders)) {
-                        enemy = this._enemies[i];
+                    if (enemy == null || enemy.totalSoliders() > e.totalSoliders()) {
+                        enemy = e;
                     }
                 }
             }
