@@ -72,6 +72,14 @@ class Entity extends egret.Sprite {
     		return this.y;
     	}
     }
+    
+    public getCenterX(): number {
+    	return this.MapX() + (this._width >> 1);
+    }
+    
+    public getMapY(): number {
+    	return this.MapY() + (this._height >> 1);
+    }
 
     public stain() {
     	application.battle.addDirt(this);
