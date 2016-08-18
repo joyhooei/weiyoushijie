@@ -25,12 +25,7 @@ class ArrowSoldier extends Soldier {
             }
 
             if (this._enemy) {
-                let arrow = <Bullet>application.pool.get("Arrow");
-                arrow.x = x;
-                arrow.y = y;
-                arrow.setTarget(this._enemy);
-                
-                application.battle.addBullet(arrow);
+                Bullet.shoot(this, this._enemy, "Arrow");
             }
         }
     }    
