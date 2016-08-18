@@ -33,8 +33,8 @@ class Bullet extends MovableEntity {
     public setTarget(shooter: NPC) {
         this._shooter = shooter;
         
-        this.x = shooter.x + shooter.width / 2;
-        this.y = shooter.y + shooter.height /2 ;
+        this.x = shooter.getMapX() + shooter.width / 2;
+        this.y = shooter.getMapY() + shooter.height /2 ;
     }
     
     public setTarget(target: NPC) {
