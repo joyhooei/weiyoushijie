@@ -4,6 +4,6 @@ class BombTower extends RemoteHitTower {
     }
 
     protected _createBullet():Bullet {
-        return <Bullet>application.pool.get("Bomb")
+        return <Bullet>application.pool.get("Bomb");
     }
 }
