@@ -11,7 +11,7 @@ class Battle extends Entity {
     //己方
     protected _heros:     Hero[];
     protected _bases:     Base[];
-    protected _soliders:  Soldier[];
+    protected _soldiers:  Soldier[];
     
     //敌方
     protected _waves: Waves;
@@ -199,7 +199,7 @@ class Battle extends Entity {
         
         this._eraseEntities(this._heros);
         this._eraseEntities(this._bases);
-        this._eraseEntities(this._soliders);
+        this._eraseEntities(this._soldiers);
         this._eraseEntities(this._enemies);
         this._eraseEntities(this._bullets);
         
@@ -220,7 +220,7 @@ class Battle extends Entity {
         
         this._updateEntities(this._heros);
         this._updateEntities(this._bases);
-        this._updateEntities(this._soliders);
+        this._updateEntities(this._soldiers);
         this._updateEntities(this._enemies);
         this._updateEntities(this._bullets);
 
@@ -235,6 +235,16 @@ class Battle extends Entity {
                 entities.splice(i, 1);
             }
         }        
+    }
+
+    public findSoldier(x: number, y: number, radius: number) : Soldier {
+        for(let i = 0; i < this._soldiers.length; i++) {
+            if (this._soldiers[i].reachable(x, y, radius, altitudes)){
+                return this._soldiers[i];
+            }
+        }
+        
+        return null;
     }
 
     public findEnemies(x: number, y: number, radius: number, altitudes: number[]) : Enemy[] {
@@ -279,9 +289,9 @@ class Battle extends Entity {
         return enemy;
     }
 
-    public addSolider(solider:Soldier) {
-        this._soliders.push(solider);
-        this._objLayer.addChild(solider);
+    public addSoldier(soldier:Soldier) {
+        this._soldiers.push(soldier);
+        this._objLayer.addChild(soldier);
     }
     
     public addEnemy(enemy:Enemy) {
