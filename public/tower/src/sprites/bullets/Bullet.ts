@@ -30,20 +30,20 @@ class Bullet extends MovableEntity {
         this._damage = this._get(properties, 'damage', 10);
     }
     
-    public setTarget(shooter: NPC) {
+    public setShooter(shooter: NPC) {
         this._shooter = shooter;
         
-        this.x = shooter.getMapX() + shooter.width / 2;
-        this.y = shooter.getMapY() + shooter.height /2 ;
+        this.x = shooter.getCenterX();
+        this.y = shooter.getCenterY() ;
     }
     
     public setTarget(target: NPC) {
         this._target  = target;
         
-        this._targetX = target.x;
-        this._targetY = target.y;
+        this._targetX = target.getCenterX();
+        this._targetY = target.getCenterY();
         
-        this._computeSteps(this._target.x, this._target.y);
+        this._computeSteps(this._targetX, this._targetY);
     }
     
     protected _moving() {
