@@ -7,8 +7,14 @@ class ArrowTower extends Tower {
     
     public initialize(properties:any) {
         super.initialize(properties);
-
-        this.removeChildren();
+    }
+    
+    public erase() {
+        super.erase();
+        
+        for(let i = 0; i < this._soldiers.length; i++) {
+            this._soldiers[i].erase();
+        }
     }
 
     public guard(){
@@ -16,7 +22,7 @@ class ArrowTower extends Tower {
 
         for(let i = 0; i < this._soldiers.length; i++) {
             this.addChild(this._soldiers[i]);
-        }       
+        }
     }
     
     protected _createSoliders(className:string) {
@@ -36,6 +42,10 @@ class ArrowTower extends Tower {
     public update() : boolean {       
         for(let i = 0; i < this._soldiers.length; i++) {
             this._soldiers[i].update();
+            
+            if (this._soldiers[i].dirty()) {
+                this.stain();
+            }
         }
 
         return super.update();
@@ -47,6 +57,5 @@ class ArrowTower extends Tower {
         for(let i = 0; i < this._soldiers.length; i++) {
             this._soldiers[i].paint();
         }
-    }        
-        
+    }
 }
