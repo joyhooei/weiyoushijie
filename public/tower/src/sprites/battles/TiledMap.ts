@@ -1,4 +1,6 @@
 class TiledMap extends egret.Sprite {
+    private _map: tiled.TMXTilemap;
+    
     private _grid: number[][];
 
     private _tileWidth: number;
@@ -18,9 +20,13 @@ class TiledMap extends egret.Sprite {
     public constructor(map:tiled.TMXTilemap) {
         super();
         
-        this._parse(map);
-        
-        this.addChild(map);
+        this._map = map;
+        this._parse();
+    }
+    
+    public paint() {
+        this.addChild(this._map);
+        this._map.render();
     }
     
     public static load(url: string, width:number, height:number) : Q.Promise<any> {
@@ -34,8 +40,11 @@ class TiledMap extends egret.Sprite {
                 var data:any = egret.XML.parse(event.target.data);
                 
                 let tmxTileMap:tiled.TMXTilemap = new tiled.TMXTilemap(width, height, data, url);
-                tmxTileMap.render();
-                resolve(new TiledMap(tmxTileMap));
+                tmxTileMap.once(tiled.TMXImageLoadEvent.ALL_IMAGE_COMPLETE, function(){
+                    resolve(new TiledMap(tmxTileMap));
+                }, this);
+                
+                tmxTileMap.getObjects();
             }, url);
             
             urlLoader.addEventListener(egret.IOErrorEvent.IO_ERROR, function (event:egret.Event):void {
@@ -91,12 +100,12 @@ class TiledMap extends egret.Sprite {
         }
     } 
     
-    private _parse(tmxTileMap:tiled.TMXTilemap) {
-        this._tileWidth  = tmxTileMap.tilewidth;
-        this._tileHeight = tmxTileMap.tileheight;
+    private _parse() {
+        this._tileWidth  = this._map.tilewidth;
+        this._tileHeight = this._map.tileheight;
         
-        this._width  = tmxTileMap.width;
-        this._height = tmxTileMap.height;
+        this._width  = this._map.width;
+        this._height = this._map.height;
         
         this._paths = [];
         this._bases = [];
@@ -104,7 +113,7 @@ class TiledMap extends egret.Sprite {
         this._entrances = [];
         this._exits = [];
 
-        let ogs = tmxTileMap.getObjects();
+        let ogs = this._map.getObjects();
         for(let i = 0; i < ogs.length; i++) {
             let og = ogs[i];
             let name = og.name;
