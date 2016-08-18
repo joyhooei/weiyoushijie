@@ -24,18 +24,25 @@ class Soldier extends NPC {
     }
     
     public moveTo(x:number, y:number) {
-        this._computeSteps(x, y);
-
-        this.move();
+        if (this._computeSteps(x, y)) {
+            this.move();
+        } else {
+            this._arrive();
+        }
+    }
+    
+    private _arrive() {
+        if (this.enemy) {
+            this._face(this.enemy);
+            this.fight();
+        } else {
+            this.guard();
+        }        
     }
     
     protected _moving() {
         if (this._moveOneStep()) {
-            if (this._enemy) {
-                this.fight();
-            } else {
-                this.guard();
-            }
+            this._arrive();
         }
     }
     
@@ -53,7 +60,15 @@ class Soldier extends NPC {
         
         this._enemy = enemy;
         
-        this.moveTo(this._enemy.x, this._enemy.y);
+        let h = this._enemy.height;
+        let w = this._enemy.width;
+        
+        let xDeltas:number[] = [ 0, w, w, w, 0, -w, -w, -w];
+        let yDeltas:number[] = [-h,-h, 0, h, h,  h,  0, -h];
+        
+        let direction = this._direction8(this._enemy.x, this._enemy.y);
+
+        this.moveTo(this._enemy.x - xDeltas[direction], this._enemy.y - xDeltas[direction]);
         this._enemy.addSolider(this);
     }
 
