@@ -219,15 +219,22 @@ class Entity extends egret.Sprite {
     protected _dying() {
     }
 	
-	public intersect(x: number, y: number, radius: number):boolean {
-		let dx = this.x - x;
-		let dy = this.y - y;
-		return (dx * dx + dy * dy <= radius * radius);
+	public within(x: number, y: number, radius: number):boolean {
+		if (Entity.intersect(this.x, this.y, this.width, this.height, x - radius, y - radius, radius + radius, radius + radius)) {
+			let dx = this.x + this.width / 2  - x;
+			let dy = this.y + this.height / 2 - y;
+			return (dx * dx + dy * dy <= radius * radius);
+		} else {
+			return false;
+		}
 	}
 	
-	public collide(obj: Entity) {
-		return !(obj.x > this.x + this.width ||  obj.x + obj.width < this.x || 
-           obj.y > this.y + this.height || obj.y + obj.height < this.y);		
+	public collide(entity: Entity) {
+		return Entity.intersect(entity.x, entity.y, entity.width, entity.height, this.x, this.y, this.width, this.height);
+	}
+	
+	public static intersect(x1:number, y1:number, width1:number, height1:number, x2:number, y2:number, width2:number, height2:number):boolean {
+		return !(x1 > x2 + width2 ||  x1 + width1 < x2 || y1 > y2 + height2 || y1 + height1 < y2);		
 	}
 	
     protected _direction8(x:number, y:number):EntityDirection {
