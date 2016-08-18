@@ -44,30 +44,36 @@ class MovableEntity extends Entity {
     }
 
     //计一步走的距离
-    protected _computeSteps(x:number, y:number) {
+    protected _computeSteps(x:number, y:number): boolean {
 	    let stepX = 0;
 	    let stepY = 0;
 	    
 	    let dx = Math.abs(this.x - x);
 	    let dy = Math.abs(this.y - y);
 	    if (dx >= dy) {
-	    	this._totalSteps = Math.round(dx / this._step);
+	    	this._totalSteps = Math.floor(dx / this._step);
 	    } else {
-	    	this._totalSteps = Math.round(dy / this._step);
+	    	this._totalSteps = Math.floor(dy / this._step);
 	    }
 	    
-        stepX = dx / this._totalSteps;
-        if (x < this.x) {
-            stepX = 0 - stepX;
-        }
-        
-        stepY = dy / this._totalSteps;
-        if (y < this.y) {
-            stepY = 0 - stepY;
-        }
-
-	   	this._delta = [stepX, stepY];
-		this._steps = 0;
+	    if (this._totalSteps > 0) {
+	        stepX = dx / this._totalSteps;
+	        if (x < this.x) {
+	            stepX = 0 - stepX;
+	        }
+	        
+	        stepY = dy / this._totalSteps;
+	        if (y < this.y) {
+	            stepY = 0 - stepY;
+	        }
+	
+		   	this._delta = [stepX, stepY];
+			this._steps = 0;
+			
+			return true;
+	    } else {
+	    	return false;
+	    }
     }
     
     protected _idle() {
