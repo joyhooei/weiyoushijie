@@ -26,11 +26,7 @@ class NPC extends MovableEntity {
 
         this._idleTicks = this._get(properties, "idleTicks", Math.random() * 100);
     }
-    
-    public getAltitude(): number {
-        return this._altitude;
-    }
-    
+
     public kill() {
         this._hp.erase();
         this._hp = null;
@@ -65,6 +61,6 @@ class NPC extends MovableEntity {
     }
     
     protected _face(npc:NPC) {
-        this._turn(this._direction8(npc.x, npc.y));
+        this._turn(this._direction4(npc.x, npc.y));
     }
 }
