@@ -26,9 +26,7 @@ class Entity extends egret.Sprite {
     
     //面向
     private _direction: EntityDirection;
-    
-    private _dirty: boolean;
-    
+
     protected _mcs: egret.MovieClip[];
     protected _mc: egret.MovieClip;
 
@@ -74,13 +72,9 @@ class Entity extends egret.Sprite {
     		return this.y;
     	}
     }
-    
-    public dirty(): boolean {
-    	return this._dirty;
-    }
-    
+
     public stain() {
-    	this._dirty = true;
+    	application.battle.addDirt(this);
     }
 	
 	public build() {
@@ -156,12 +150,6 @@ class Entity extends egret.Sprite {
 		    	break;
     	}
 
-    	if (this._dirty && this.active()) {
-        	this.paint();
-        	
-        	this._dirty = false;
-    	}
-    	
     	return this.dead();
     }
     
@@ -196,7 +184,7 @@ class Entity extends egret.Sprite {
 	    	this._ticks = 0;
 	    	this._state = state;
 	    	
-	    	this._dirty = true;
+	    	this.stain(this);
     	}
     }
 
@@ -205,7 +193,7 @@ class Entity extends egret.Sprite {
     	if (direction != this._direction) {
     		this._direction = direction;
     		
-    		this._dirty = true;
+    		this.stain(this);
     	}
     }
 
