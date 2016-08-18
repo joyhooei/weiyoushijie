@@ -27,12 +27,7 @@ class ArrowEnemy extends Enemy {
     protected _fighting() {
         if (this._ticks % this._hitSpeed == 0) {
             if (this._soldiers[0].active()) {
-                let arrow = <Bullet>application.pool.get("Arrow");
-                arrow.x = this.x;
-                arrow.y = this.y;
-                arrow.setTarget(this._soldiers[0]);
-                
-                application.battle.addBullet(arrow);
+                Bullet.shoot(this, this._soldiers[0], "Arrow");
             } else {
                 this.rmvSoldier(this._soldiers[0]);
             }
