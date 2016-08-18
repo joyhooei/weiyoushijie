@@ -35,13 +35,13 @@ class Battle extends Entity {
         super();
 
         //地基层
-        this._baseLayer = this._addLayer();
+        this._baseLayer     = this._addLayer();
         //怪物层、士兵层、英雄层
-        this._objLayer = this._addLayer();
-        //武器层
-        this._bulletLayer = this._addLayer();
+        this._objLayer      = this._addLayer();
+        //子弹层
+        this._bulletLayer   = this._addLayer();
         //工具层
-        this._toolLayer = this._addLayer();
+        this._toolLayer     = this._addLayer();
         
         this.enableSelect(this);
     }
@@ -52,6 +52,8 @@ class Battle extends Entity {
         return Q.Promise<any>(function(resolve,reject,notify) {
             TiledMap.load(self._url, 800, 480).then(function(map){
                 self._map = map;
+                self.addChildAt(self._map, 0);
+                self._map.paint();
 
                 self._addBases();
 
