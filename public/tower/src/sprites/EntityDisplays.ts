@@ -11,26 +11,25 @@ class EntityDisplays {
         this._currentDisplay = null;
     }
     
-    public addDisplay(do:egret.DisplayObject, options:any) {
-        this._displays.append(do);
+    public addDisplay(display:egret.DisplayObject, options:any) {
+        this._displays.append(display);
         this._keys.append(options);
     }
 
     public render(entity: Entity, options:any): boolean {
-        let do = this._getDisplay(options);
-        if (do && do != this._currentDisplay) {
+        let display = this._getDisplay(options);
+        if (display && display != this._currentDisplay) {
             if (this._currentDisplay) {
                 entity.removeChild(this._currentDisplay);
             }
             
-            entity.addChild(do);
+            entity.addChild(display);
             
-            if (egret.getQualifiedClassName(do) == "MovieClip") {
-                let clip:egret.MovieClip = <egret.MovieClip>do;
-                clip.play();
+            if (egret.getQualifiedClassName(display) == "MovieClip") {
+                (<egret.MovieClip>display).play();
             }
             
-            this._currentDisplay = do;
+            this._currentDisplay = display;
             
             return true;
         } else {
@@ -39,22 +38,37 @@ class EntityDisplays {
     }
     
     private _getDisplay(options:any): egret.DisplayObject {
+        let display  = null;
+        let suitable = 0;
+        
         for(let i = 0; i < this._keys.length; i++) {
-            let o = this._keys[i];
-            
-            boolean found = true;
-            for (var key in options) {
-                if (!o.hasOwnProperty(key) || o[key] != options[key]) {
-                    found = false;
-                    break;
-                }
-            }
-            
-            if (found) {
-                return this._displays[i];
+            let s = this._suitable(options, this._keys[i]);
+            if (s > suitable) {
+                display  = this._displays[i];
+                suitable = s;
             }
         }
         
-        return null;
+        return display;
+    }
+    
+    private _suitable(options:any, keys:any): number {
+        let suitable:number = 0;
+        
+        for (var key in options) {
+            if (keys.hasOwnProperty(key)) {
+                if (keys[key] == options[key]) {
+                    if (key == "direction") {
+                        suitable += 2;
+                    } else {
+                        suitable += 1;
+                    }
+                } else {
+                    return 0;
+                }
+            }
+        }
+        
+        return suitable;
     }
 }
