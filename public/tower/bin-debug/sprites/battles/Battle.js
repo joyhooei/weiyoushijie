@@ -10,6 +10,9 @@ var Battle = (function (_super) {
         this._bulletLayer = this._addLayer();
         //工具层
         this._toolLayer = this._addLayer();
+        this._waves = new Waves();
+        this._bases = [];
+        this._heros = [];
         this.enableSelect(this);
     }
     var d = __define,c=Battle,p=c.prototype;
@@ -37,12 +40,9 @@ var Battle = (function (_super) {
         this._objLayer.removeChildren();
         this._bulletLayer.removeChildren();
         this._toolLayer.removeChildren();
-        this._waves = new Waves();
-        this._bases = [];
         this._soldiers = [];
         this._bullets = [];
         this._enemies = [];
-        this._heros = [];
         this._dirts = [];
     };
     p.enableSelect = function (entity) {
@@ -74,6 +74,11 @@ var Battle = (function (_super) {
                     }
                 }
                 else {
+                    //显示不能放置图片
+                    var tip = application.pool.get("NotMoveableTip");
+                    tip.x = x;
+                    tip.y = y;
+                    this.addTip(tip);
                 }
             }
             else {
@@ -104,6 +109,10 @@ var Battle = (function (_super) {
     };
     p._addLayer = function () {
         var layer = new egret.Sprite();
+        layer.x = 0;
+        layer.y = 0;
+        layer.width = 800;
+        layer.height = 480;
         this.addChild(layer);
         return layer;
     };
@@ -147,15 +156,22 @@ var Battle = (function (_super) {
             entities[--i].erase();
         }
     };
+    p.launch = function () {
+        this._waves.launchNow();
+    };
     p.update = function () {
         if (this._enemies.length == 0) {
             this._waves.launch();
         }
-        this._updateEntities(this._heros);
-        this._updateEntities(this._bases);
-        this._updateEntities(this._soldiers);
-        this._updateEntities(this._enemies);
-        this._updateEntities(this._bullets);
+        if (this._ticks % 2 == 0) {
+            this._updateEntities(this._heros);
+            this._updateEntities(this._bases);
+            this._updateEntities(this._soldiers);
+            this._updateEntities(this._enemies);
+        }
+        else {
+            this._updateEntities(this._bullets);
+        }
         return !this.active();
     };
     p._updateEntities = function (entities) {
@@ -168,11 +184,12 @@ var Battle = (function (_super) {
         }
     };
     p.paint = function () {
-        var i = this._dirts.length;
+        //每次只刷新20个，以免刷新不及时
+        var dirts = this._dirts.splice(0, 20);
+        var i = dirts.length;
         while (i > 0) {
-            this._dirts[--i].paint();
+            dirts[--i].paint();
         }
-        this._dirts = [];
     };
     p.findSoldier = function (x, y, radius) {
         for (var i = 0; i < this._soldiers.length; i++) {
@@ -240,6 +257,9 @@ var Battle = (function (_super) {
     p.addHero = function (hero) {
         this._heros.push(hero);
         this._objLayer.addChild(hero);
+    };
+    p.addTip = function (tip) {
+        this._bulletLayer.addChild(tip);
     };
     p.addDirt = function (entity) {
         this._dirts.push(entity);

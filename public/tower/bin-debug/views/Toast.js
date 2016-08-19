@@ -40,7 +40,6 @@ var Toast = (function (_super) {
     }
     var d = __define,c=Toast,p=c.prototype;
     Toast.init = function (cont, txtrToastBg) {
-        console.log("Toast.init", txtrToastBg);
         this._cont = cont;
         this._txtrToastBg = txtrToastBg;
     };

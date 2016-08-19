@@ -77,15 +77,14 @@ class Waves {
     }
     
     public launch(cycle?:boolean) {
-        if (this._nextWave()) {
-            this._timeToNextWave --;
+        if (this._nextWave(cycle)) {
             if (this._timeToNextWave <= 0) {
                 this.launchNow(cycle);
             } else if (this._timeToNextWave == this._timeBetweenWaves) {
                 let wave = this._enemies[this._currentWave];
                 for(let i = 0; i < wave.length; i++) {
                     let paths = <number[][]>wave[i][2];
-                    for(let j = 0; j < count; j++) {
+                    for(let j = 0; j < paths.length; j++) {
                         let tip = application.pool.get("LaunchTip", {"dyingTicks":this._timeBetweenWaves});
                         let direction = Entity.direction4(paths[0][0], paths[0][1], paths[1][0], paths[1][1]);
                         switch(direction) {
@@ -110,14 +109,16 @@ class Waves {
                                 break;
                         }
 
-                        appliation.battle.addTip(tip);
+                        application.battle.addTip(tip);
                     }
                 }
             }
+
+            this._timeToNextWave --;
         }
     }
     
-    private _nextWave(): boolean {
+    private _nextWave(cycle?:boolean): boolean {
         if (this._currentWave >= this._enemies.length) {
             if (cycle) {
                 this._currentWave = 0;

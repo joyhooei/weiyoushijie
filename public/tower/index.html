@@ -16,7 +16,7 @@
             padding: 0;
             border: 0;
             margin: 0;
-            width: 100%;
+            height: 100%;
         }
     </style>
 
@@ -63,7 +63,10 @@
 	<script egret="game" src="bin-debug/models/Order.js"></script>
 	<script egret="game" src="bin-debug/models/Vip.js"></script>
 	<script egret="game" src="bin-debug/sprites/Entity.js"></script>
+	<script egret="game" src="bin-debug/sprites/EntityDisplays.js"></script>
 	<script egret="game" src="bin-debug/sprites/EntityPool.js"></script>
+	<script egret="game" src="bin-debug/sprites/Tip.js"></script>
+	<script egret="game" src="bin-debug/sprites/LaunchTip.js"></script>
 	<script egret="game" src="bin-debug/sprites/MovableEntity.js"></script>
 	<script egret="game" src="bin-debug/sprites/bases/Base.js"></script>
 	<script egret="game" src="bin-debug/sprites/battles/Battle.js"></script>
@@ -80,7 +83,6 @@
 	<script egret="game" src="bin-debug/sprites/npcs/NPC.js"></script>
 	<script egret="game" src="bin-debug/sprites/npcs/enemies/Enemy.js"></script>
 	<script egret="game" src="bin-debug/sprites/npcs/enemies/ArrowEnemy.js"></script>
-	<script egret="game" src="bin-debug/sprites/npcs/enemies/EmptyEnemy.js"></script>
 	<script egret="game" src="bin-debug/sprites/npcs/enemies/bosses/Boss.js"></script>
 	<script egret="game" src="bin-debug/sprites/npcs/soldiers/Soldier.js"></script>
 	<script egret="game" src="bin-debug/sprites/npcs/soldiers/ArrowSoldier.js"></script>
@@ -146,7 +148,7 @@
 	<!--game_files_end-->
 </head>
 <body>
-    <div style="margin: auto;width: 100%;height: 100%;" class="egret-player"
+    <div style="margin: auto;height: 100%; width:100%" class="egret-player"
          data-entry-class="Main"
          data-orientation="landscape"
          data-scale-mode="showAll"

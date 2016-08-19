@@ -2,12 +2,15 @@ var Hp = (function (_super) {
     __extends(Hp, _super);
     function Hp() {
         _super.call(this);
+        this.height = 3;
+        this.width = 20;
     }
     var d = __define,c=Hp,p=c.prototype;
     p.initialize = function (properties) {
         _super.prototype.initialize.call(this, properties);
         this._maxHp = this._get(properties, "hp", 100);
         this._hp = this._maxHp;
+        this.stain();
     };
     p.kill = function () {
         this.hitBy(this._hp);

@@ -14,7 +14,7 @@ class Tip extends Entity {
     }
     
     protected _dying() {
-        if (this._ticks > _dyingTicks) {
+        if (this._ticks > this._dyingTicks) {
             this.erase();
         }
     }

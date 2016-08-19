@@ -2,6 +2,7 @@ var Base = (function (_super) {
     __extends(Base, _super);
     function Base() {
         _super.call(this);
+        this.width = this.height = 50;
         application.battle.enableSelect(this);
     }
     var d = __define,c=Base,p=c.prototype;

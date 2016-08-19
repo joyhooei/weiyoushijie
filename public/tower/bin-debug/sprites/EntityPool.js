@@ -11,14 +11,12 @@ var EntityPool = (function () {
                 this._entities.splice(i, 1);
                 break;
             }
+            entity = null;
         }
         var character = application.characters[className];
         if (!entity) {
             entity = Object.create(window[className].prototype);
             entity.constructor.apply(entity);
-            if (character) {
-                entity.setMCs(character.getMCs());
-            }
         }
         var props = {};
         if (character) {

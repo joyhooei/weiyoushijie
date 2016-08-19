@@ -13,6 +13,7 @@ class EntityPool {
                 this._entities.splice(i, 1);
                 break;
             }
+            entity = null;
         }
         
         let character = application.characters[className];

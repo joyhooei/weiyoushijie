@@ -5,6 +5,9 @@ class Hp extends Entity {
     
 	public constructor() {
         super();
+
+		this.height = 3;
+		this.width  = 20;
 	}
 	
 	public initialize(properties:any) {
@@ -12,6 +15,8 @@ class Hp extends Entity {
 		
 	    this._maxHp = this._get(properties, "hp", 100);
 	    this._hp = this._maxHp;
+
+		this.stain();
 	}
 	
 	public kill() {

@@ -10,13 +10,14 @@ class NPC extends MovableEntity {
 
     public constructor() {
         super();
+
+        this.width = this.height = 20;
     }
     
     public initialize(properties:any) {
         super.initialize(properties);
         
         this._hp = <Hp>application.pool.get("Hp", properties);
-        this._hp.width = 18;
         this.addChild(this._hp);
         
         this._damage    = this._get(properties, "damage", 10);
@@ -33,7 +34,16 @@ class NPC extends MovableEntity {
 
         super.kill();
     }
-    
+
+    public erase() {
+        if (this._hp) {
+            this._hp.erase();
+            this._hp = null;
+        }
+
+        super.erase();
+    }
+
     public hitBy(damage:number): boolean {
         if (this.active()) {           
             if (this._hp.hitBy(damage)) {

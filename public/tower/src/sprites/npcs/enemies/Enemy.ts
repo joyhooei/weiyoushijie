@@ -20,15 +20,9 @@ class Enemy extends NPC {
         
         this._soldiers = [];
         
-        this._paths = [];
+        this._paths = this._get(properties, "paths", 10);
         this._path  = 0;
-    }
-    
-    public setPaths(paths: number[][]): boolean {
-    	this._path = 0;
-    	this._paths = paths;
-   		
-   		return this._nextPath();
+        this._nextPath();
     }
     
     public addSoldier(soldier: Soldier) {

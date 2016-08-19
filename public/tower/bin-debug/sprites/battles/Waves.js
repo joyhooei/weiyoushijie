@@ -4,14 +4,12 @@ var Waves = (function () {
         this._currentWave = 0;
         this._timeToNextWave = 1000;
         this._timeBetweenWaves = 1000;
+        this._rounds = 0;
     }
     var d = __define,c=Waves,p=c.prototype;
-    p.add = function (wave, className, count, paths) {
+    p.add = function (wave, claz, count, paths) {
         this._enemies[wave] = this._enemies[wave] || [];
-        for (var i = 0; i < count; i++) {
-            var enemy = application.pool.get(className, { "paths": this._randomPaths(paths) });
-            this._enemies[wave].push(enemy);
-        }
+        this._enemies[wave].push([count, claz, paths]);
     };
     p._randomPaths = function (paths) {
         var pathWidth = 60;
@@ -37,27 +35,71 @@ var Waves = (function () {
         return newPaths;
     };
     p.erase = function () {
-        for (var i = 0; i < this._enemies.length; i++) {
-            for (var j = 0; j < this._enemies[i].length; j++) {
-                this._enemies[i][j].erase();
+        this._enemies = [];
+    };
+    p.launchNow = function (cycle) {
+        var wave = this._enemies[this._currentWave];
+        for (var i = 0; i < wave.length; i++) {
+            var count = wave[i][0] * (1 + this._rounds * 0.5);
+            var claz = wave[i][1];
+            var paths = wave[i][2];
+            for (var j = 0; j < count; j++) {
+                var enemy = application.pool.get(claz, { "paths": this._randomPaths(paths) });
+                application.battle.addEnemy(enemy);
             }
+        }
+        this._currentWave++;
+        this._timeToNextWave = this._timeBetweenWaves;
+    };
+    p.launch = function (cycle) {
+        if (this._nextWave(cycle)) {
+            if (this._timeToNextWave <= 0) {
+                this.launchNow(cycle);
+            }
+            else if (this._timeToNextWave == this._timeBetweenWaves) {
+                var wave = this._enemies[this._currentWave];
+                for (var i = 0; i < wave.length; i++) {
+                    var paths = wave[i][2];
+                    for (var j = 0; j < paths.length; j++) {
+                        var tip = application.pool.get("LaunchTip", { "dyingTicks": this._timeBetweenWaves });
+                        var direction = Entity.direction4(paths[0][0], paths[0][1], paths[1][0], paths[1][1]);
+                        switch (direction) {
+                            case EntityDirection.east:
+                                tip.x = paths[0][0] + 50;
+                                tip.y = paths[0][1];
+                                break;
+                            case EntityDirection.west:
+                                tip.x = paths[0][0] - 50;
+                                tip.y = paths[0][1];
+                                break;
+                            case EntityDirection.north:
+                                tip.x = paths[0][0];
+                                tip.y = paths[0][1] - 50;
+                                break;
+                            case EntityDirection.south:
+                                tip.x = paths[0][0];
+                                tip.y = paths[0][1] + 50;
+                                break;
+                        }
+                        application.battle.addTip(tip);
+                    }
+                }
+            }
+            this._timeToNextWave--;
         }
     };
-    p.launch = function () {
+    p._nextWave = function (cycle) {
         if (this._currentWave >= this._enemies.length) {
-            application.battle.kill();
-        }
-        else {
-            this._timeToNextWave--;
-            if (this._timeToNextWave <= 0) {
-                for (var i = 0; i < this._enemies[this._currentWave].length; i++) {
-                    application.battle.addEnemy(this._enemies[this._currentWave][i]);
-                }
-                this._enemies[this._currentWave] = [];
-                this._currentWave++;
-                this._timeToNextWave = this._timeBetweenWaves;
+            if (cycle) {
+                this._currentWave = 0;
+                this._rounds += 1;
+            }
+            else {
+                application.battle.kill();
+                return false;
             }
         }
+        return true;
     };
     return Waves;
 }());

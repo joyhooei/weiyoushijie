@@ -10,6 +10,8 @@ class Tower extends Entity {
 
     public constructor() {
         super();
+
+        this.width = this.height = 50;
     }
     
     public initialize(properties:any) {

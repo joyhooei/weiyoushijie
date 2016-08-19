@@ -44,7 +44,13 @@ class Battle extends Entity {
         this._bulletLayer   = this._addLayer();
         //工具层
         this._toolLayer     = this._addLayer();
-        
+
+        this._waves = new Waves();
+
+        this._bases = [];
+ 
+        this._heros = [];
+       
         this.enableSelect(this);
     }
     
@@ -81,16 +87,10 @@ class Battle extends Entity {
         this._bulletLayer.removeChildren();
         this._toolLayer.removeChildren();
 
-        this._waves = new Waves();
-
-        this._bases = [];
-
         this._soldiers = [];
         this._bullets = [];
         
         this._enemies = [];
-
-        this._heros = [];
         
         this._dirts = [];
     }
@@ -167,6 +167,10 @@ class Battle extends Entity {
     
     private _addLayer():egret.Sprite {
         let layer = new egret.Sprite();
+        layer.x = 0;
+        layer.y = 0;
+        layer.width = 800;
+        layer.height = 480;
         this.addChild(layer);
         return layer;
     }
@@ -223,7 +227,7 @@ class Battle extends Entity {
         }
     }
     
-    public launch(): {
+    public launch() {
         this._waves.launchNow();
     }
     
@@ -348,8 +352,7 @@ class Battle extends Entity {
     }
 
     public addTip(tip:Entity) {
-        this._bullets.push(tip);
-        this._bulletLayer.addChild(hero);      
+        this._bulletLayer.addChild(tip);      
     }
     
     public addDirt(entity: Entity) {

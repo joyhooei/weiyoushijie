@@ -2,12 +2,12 @@ var NPC = (function (_super) {
     __extends(NPC, _super);
     function NPC() {
         _super.call(this);
+        this.width = this.height = 20;
     }
     var d = __define,c=NPC,p=c.prototype;
     p.initialize = function (properties) {
         _super.prototype.initialize.call(this, properties);
         this._hp = application.pool.get("Hp", properties);
-        this._hp.width = 18;
         this.addChild(this._hp);
         this._damage = this._get(properties, "damage", 10);
         this._hitSpeed = this._get(properties, "hitSpeed", 10);
@@ -18,6 +18,13 @@ var NPC = (function (_super) {
         this._hp.erase();
         this._hp = null;
         _super.prototype.kill.call(this);
+    };
+    p.erase = function () {
+        if (this._hp) {
+            this._hp.erase();
+            this._hp = null;
+        }
+        _super.prototype.erase.call(this);
     };
     p.hitBy = function (damage) {
         if (this.active()) {

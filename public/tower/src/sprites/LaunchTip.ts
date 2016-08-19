@@ -2,14 +2,14 @@ class LaunchTip extends Tip {
     public constructor() {
         super();
 
-        this.enableSelect(this);
+        application.battle.enableSelect(this);
     }
 
     public select(again:boolean) {
         if (again) {
             this.erase();
         } else {
-            Toach.launch("再次点击开始下一波");
+            Toast.launch("再次点击开始下一波");
         }
     }
 

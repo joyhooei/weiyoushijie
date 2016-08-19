@@ -63,7 +63,7 @@ class BattleUI extends AbstractUI {
     			self._startBattle();
     		}, function(){
     			self._quitBattle();
-    		}), self);        	
+    		}));        	
         } else {
         	application.battle.paint();
         }

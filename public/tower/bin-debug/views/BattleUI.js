@@ -43,7 +43,7 @@ var BattleUI = (function (_super) {
                 self_1._startBattle();
             }, function () {
                 self_1._quitBattle();
-            }), self_1);
+            }));
         }
         else {
             application.battle.paint();

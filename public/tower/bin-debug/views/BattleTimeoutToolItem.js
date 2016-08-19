@@ -37,10 +37,7 @@ var BattleTimeoutToolItem = (function (_super) {
             application.battle.addSoldier(soldier);
         }
         else if (this._tool.category == "fireball") {
-            var emptyEnemy = application.pool.get("EmptyEnemy");
-            emptyEnemy.x = x;
-            emptyEnemy.y = y;
-            Bullet.shoot(x, y - 200, emptyEnemy, "Fireball");
+            Bullet.shoot(x, y - 200, x, y, "Fireball");
         }
         this._ticks = this._maxTicks;
     };

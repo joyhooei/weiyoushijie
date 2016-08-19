@@ -38,6 +38,8 @@ class Bullet extends MovableEntity {
     
     public constructor() {
         super();
+
+        this.width = this.height = 5;
     }
     
     public initialize(properties:any) {

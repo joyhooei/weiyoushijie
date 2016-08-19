@@ -2,6 +2,7 @@ var Tower = (function (_super) {
     __extends(Tower, _super);
     function Tower() {
         _super.call(this);
+        this.width = this.height = 50;
     }
     var d = __define,c=Tower,p=c.prototype;
     p.initialize = function (properties) {

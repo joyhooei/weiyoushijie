@@ -9,6 +9,10 @@ var Main = (function (_super) {
     p.createChildren = function () {
         _super.prototype.createChildren.call(this);
         egret.TextField.default_fontFamily = "STXihei";
+        if (!egret.Capabilities.isMobile) {
+            this.stage.scaleMode = egret.StageScaleMode.SHOW_ALL;
+            this.stage.orientation = egret.OrientationMode.AUTO;
+        }
         //inject the custom material parser
         //注入自定义的素材解析器
         this.stage.registerImplementation("eui.IAssetAdapter", new AssetAdapter());

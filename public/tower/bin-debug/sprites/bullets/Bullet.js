@@ -2,14 +2,32 @@ var Bullet = (function (_super) {
     __extends(Bullet, _super);
     function Bullet() {
         _super.call(this);
+        this.width = this.height = 5;
     }
     var d = __define,c=Bullet,p=c.prototype;
-    Bullet.shoot = function (x, y, target, claz) {
+    Bullet.shootAtNPC = function (sourceX, sourceY, target, claz) {
         var bullet = application.pool.get(claz);
-        bullet.x = x;
-        bullet.y = y;
+        bullet.x = sourceX;
+        bullet.y = sourceY;
         bullet.setTarget(target);
         application.battle.addBullet(bullet);
+        return bullet;
+    };
+    Bullet.shootByNPC = function (shooter, target, claz) {
+        var bullet = application.pool.get(claz);
+        bullet.x = shooter.getCenterX();
+        bullet.y = shooter.getCenterY();
+        bullet.setTarget(target);
+        application.battle.addBullet(bullet);
+        return bullet;
+    };
+    Bullet.shoot = function (sourceX, sourceY, targetX, targetY, claz) {
+        var bullet = application.pool.get(claz);
+        bullet.x = sourceX;
+        bullet.y = sourceY;
+        bullet.setTargetPosition(targetX, targetY);
+        application.battle.addBullet(bullet);
+        return bullet;
     };
     p.initialize = function (properties) {
         _super.prototype.initialize.call(this, properties);
@@ -20,8 +38,11 @@ var Bullet = (function (_super) {
     };
     p.setTarget = function (target) {
         this._target = target;
-        this._targetX = target.getCenterX();
-        this._targetY = target.getCenterY();
+        this.setTargetPosition(target.getCenterX(), target.getCenterY());
+    };
+    p.setTargetPosition = function (targetX, targetY) {
+        this._targetX = targetX;
+        this._targetY = targetY;
         this._computeSteps(this._targetX, this._targetY);
     };
     p._moving = function () {
@@ -31,7 +52,7 @@ var Bullet = (function (_super) {
         }
         else {
             //如果目标移动，重新调整方向和路径
-            if (this._targetX != this._target.x || this._targetY != this._target.y) {
+            if (this._target && (this._targetX != this._target.x || this._targetY != this._target.y)) {
                 this.setTarget(this._target);
             }
         }

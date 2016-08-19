@@ -25,6 +25,7 @@ var Entity = (function (_super) {
     __extends(Entity, _super);
     function Entity() {
         _super.call(this);
+        this._displays = new EntityDisplays();
     }
     var d = __define,c=Entity,p=c.prototype;
     p.initialize = function (properties) {
@@ -127,21 +128,9 @@ var Entity = (function (_super) {
         }
         return this.dead();
     };
-    p.setMCs = function (mcs) {
-        this._mcs = mcs;
-    };
     //根据状态、面向修改重新渲染
     p.paint = function () {
-        var mc = this._getCurrentMC();
-        if (mc && mc != this._mc) {
-            this.removeChild(this._mc);
-            this._mc = mc;
-            this.addChild(mc);
-            mc.play();
-        }
-    };
-    p._getCurrentMC = function () {
-        return this._mcs[0];
+        this._displays.render(this, { direction: this._direction, state: this._state });
     };
     p._do = function (state) {
         if (state != this._state) {

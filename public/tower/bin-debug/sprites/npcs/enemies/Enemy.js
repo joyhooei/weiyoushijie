@@ -8,13 +8,9 @@ var Enemy = (function (_super) {
         _super.prototype.initialize.call(this, properties);
         this._bonus = this._get(properties, "bonus", 10);
         this._soldiers = [];
-        this._paths = [];
+        this._paths = this._get(properties, "paths", 10);
         this._path = 0;
-    };
-    p.setPaths = function (paths) {
-        this._path = 0;
-        this._paths = paths;
-        return this._nextPath();
+        this._nextPath();
     };
     p.addSoldier = function (soldier) {
         this._soldiers.push(soldier);

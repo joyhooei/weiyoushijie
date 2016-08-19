@@ -17,7 +17,7 @@ var RemoteHitTower = (function (_super) {
                 this._enemy = application.battle.findEnemy(this.parent.x, this.parent.y, this._guardRadius, [0]);
             }
             if (this._enemy) {
-                Bullet.shoot(this.getCenterX(), this.getCenterY(), this._enemy, this._bulletName);
+                Bullet.shootAtNPC(this.getCenterX(), this.getCenterY(), this._enemy, this._bulletName);
             }
         }
     };

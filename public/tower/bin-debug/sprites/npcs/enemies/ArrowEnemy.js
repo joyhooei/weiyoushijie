@@ -21,7 +21,7 @@ var ArrowEnemy = (function (_super) {
     p._fighting = function () {
         if (this._ticks % this._hitSpeed == 0) {
             if (this._soldiers[0].active()) {
-                Bullet.shoot(this.getCenterX(), this.getCenterY(), this._soldiers[0], "Arrow");
+                Bullet.shootByNPC(this, this._soldiers[0], "Arrow");
             }
             else {
                 this.rmvSoldier(this._soldiers[0]);
