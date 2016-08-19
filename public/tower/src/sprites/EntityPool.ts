@@ -22,7 +22,7 @@ class EntityPool {
             entity.constructor.apply(entity);
             
             if (character) {
-                entity.setMCs(character.getMCs());
+                entity.setDisplays(character.getDisplays());
             }
         }
 
