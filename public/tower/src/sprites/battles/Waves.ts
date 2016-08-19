@@ -24,7 +24,7 @@ class Waves {
     
     public add(wave:number, claz:string, count:number, paths:number[][]) {
         this._enemies[wave] = this._enemies[wave] || [];
-        this._enemies[wave].push([count, claz, this._randomPaths(paths)]);
+        this._enemies[wave].push([count, claz, paths]);
     }
     
     private _randomPaths(paths: number[][]): number[][]{
@@ -60,7 +60,64 @@ class Waves {
         this._enemies = [];
     }
     
+    public launchNow(cycle?:boolean) {
+        let wave = this._enemies[this._currentWave];
+        for(let i = 0; i < wave.length; i++) {
+            let count = <number>wave[i][0] * (1 + this._rounds * 0.5);
+            let claz  = <string>wave[i][1];
+            let paths = <number[][]>wave[i][2];
+            for(let j = 0; j < count; j++) {
+                let enemy = <Enemy>application.pool.get(claz, {"paths": this._randomPaths(paths)});
+                application.battle.addEnemy(enemy);
+            }
+        }
+        
+        this._currentWave ++;
+        this._timeToNextWave = this._timeBetweenWaves; 
+    }
+    
     public launch(cycle?:boolean) {
+        if (this._nextWave()) {
+            this._timeToNextWave --;
+            if (this._timeToNextWave <= 0) {
+                this.launchNow(cycle);
+            } else if (this._timeToNextWave == this._timeBetweenWaves) {
+                let wave = this._enemies[this._currentWave];
+                for(let i = 0; i < wave.length; i++) {
+                    let paths = <number[][]>wave[i][2];
+                    for(let j = 0; j < count; j++) {
+                        let tip = application.pool.get("LaunchTip", {"dyingTicks":this._timeBetweenWaves});
+                        let direction = Entity.direction4(paths[0][0], paths[0][1], paths[1][0], paths[1][1]);
+                        switch(direction) {
+                            case EntityDirection.east:
+                                tip.x = paths[0][0] + 50;
+                                tip.y = paths[0][1];
+                                break;
+                                
+                            case EntityDirection.west:
+                                tip.x = paths[0][0] - 50;
+                                tip.y = paths[0][1];
+                                break;
+                                
+                            case EntityDirection.north:
+                                tip.x = paths[0][0];
+                                tip.y = paths[0][1] - 50;
+                                break;
+                                
+                           case EntityDirection.south:
+                                tip.x = paths[0][0];
+                                tip.y = paths[0][1] + 50;
+                                break;
+                        }
+
+                        appliation.battle.addTip(tip);
+                    }
+                }
+            }
+        }
+    }
+    
+    private _nextWave(): boolean {
         if (this._currentWave >= this._enemies.length) {
             if (cycle) {
                 this._currentWave = 0;
@@ -69,25 +126,10 @@ class Waves {
             } else {
                 application.battle.kill();
                 
-                return;
+                return false;
             }
         }
         
-        this._timeToNextWave --;
-        if (this._timeToNextWave <= 0) {
-            let wave = this._enemies[this._currentWave];
-            for(let i = 0; i < wave.length; i++) {
-                let count = <number>wave[i][0] * (1 + this._rounds * 0.5);
-                let claz  = <string>wave[i][1];
-                let paths = <number[][]>wave[i][2];
-                for(let j = 0; j < count; j++) {
-                    let enemy = <Enemy>application.pool.get(claz, {"paths": paths});
-                    application.battle.addEnemy(enemy);
-                }
-            }
-            
-            this._currentWave ++;
-            this._timeToNextWave = this._timeBetweenWaves;
-        }
+        return true;
     }
 }
