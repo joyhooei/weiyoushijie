@@ -20,10 +20,6 @@ class EntityPool {
         if (!entity) {
             entity = <Entity>Object.create(window[className].prototype);
             entity.constructor.apply(entity);
-            
-            if (character) {
-                entity.setDisplays(character.getDisplays());
-            }
         }
 
         let props = {};
