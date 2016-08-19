@@ -130,7 +130,7 @@ class Battle extends Entity {
                     let tip = application.pool.get("NotMoveableTip");
                     tip.x = x;
                     tip.y = y;
-                    this._toolLayer.add(tip);
+                    this.addTip(tip);
                 }
     	    } else {
         		this._focus.deselect();
@@ -341,6 +341,11 @@ class Battle extends Entity {
     public addHero(hero:Hero) {
         this._heros.push(hero);
         this._objLayer.addChild(hero);      
+    }
+
+    public addTip(tip:Entity) {
+        this._bullets.push(tip);
+        this._bulletLayer.addChild(hero);      
     }
     
     public addDirt(entity: Entity) {
