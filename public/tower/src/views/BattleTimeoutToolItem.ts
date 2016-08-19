@@ -46,10 +46,7 @@ class BattleTimeoutToolItem extends BattleToolItem {
             soldier.y = y;
             application.battle.addSoldier(soldier);            
         } else if (this._tool.category == "fireball") {
-            let emptyEnemy = <Enemy>application.pool.get("EmptyEnemy");
-            emptyEnemy.x = x;
-            emptyEnemy.y = y;
-        	Bullet.shoot(x, y - 200, emptyEnemy, "Fireball");
+        	Bullet.shoot(x, y - 200, x, y, "Fireball");
         }
         
         this._ticks = this._maxTicks;
