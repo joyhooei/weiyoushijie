@@ -27,7 +27,7 @@ class ArrowEnemy extends Enemy {
     protected _fighting() {
         if (this._ticks % this._hitSpeed == 0) {
             if (this._soldiers[0].active()) {
-                Bullet.shoot(this.getCenterX(), this.getCenterY(), this._soldiers[0], "Arrow");
+                Bullet.shootByNPC(this, this._soldiers[0], "Arrow");
             } else {
                 this.rmvSoldier(this._soldiers[0]);
             }
