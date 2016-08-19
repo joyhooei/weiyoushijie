@@ -31,16 +31,14 @@ class Entity extends egret.Sprite {
 
     public constructor() {
         super();
+        
+        this._displays = new EntityDisplays();
 	}
 	
     public initialize(properties: any):void {
         this._direction = this._get(properties, "direction", EntityDirection.east);
         this._state 	= this._get(properties, "state", EntityState.idle);
         this._ticks 	= 0;
-    }
-    
-    public setDisplays(ed: EntityDisplays) {
-    	this._displays = ed;
     }
     
     protected _get(properties: any, name:string, defaultVal:any): any {
