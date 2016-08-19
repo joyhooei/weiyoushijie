@@ -16,14 +16,14 @@ class EntityDisplays {
         this._keys.append(options);
     }
 
-    public render(entity: Entity, options:any): boolean {
+    public render(container: egret.DisplayObjectContainer, options:any): boolean {
         let display = this._getDisplay(options);
         if (display && display != this._currentDisplay) {
             if (this._currentDisplay) {
-                entity.removeChild(this._currentDisplay);
+                container.removeChild(this._currentDisplay);
             }
             
-            entity.addChild(display);
+            container.addChild(display);
             
             if (egret.getQualifiedClassName(display) == "MovieClip") {
                 (<egret.MovieClip>display).play();
