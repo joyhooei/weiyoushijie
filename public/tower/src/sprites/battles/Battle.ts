@@ -223,6 +223,10 @@ class Battle extends Entity {
         }
     }
     
+    public launch(): {
+        this._waves.launchNow();
+    }
+    
     public update(): boolean {
         if (this._enemies.length == 0) {
             this._waves.launch();
