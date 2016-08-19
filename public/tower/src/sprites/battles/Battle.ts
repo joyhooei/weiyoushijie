@@ -127,6 +127,10 @@ class Battle extends Entity {
         	        }
                 } else {
                     //显示不能放置图片
+                    let tip = application.pool.get("NotMoveableTip");
+                    tip.x = x;
+                    tip.y = y;
+                    this._toolLayer.add(tip);
                 }
     	    } else {
         		this._focus.deselect();
@@ -220,9 +224,11 @@ class Battle extends Entity {
     }
     
     public update(): boolean {
-        if (this._enemies.length == 0 || this._ticks % 2 == 0) {
+        if (this._enemies.length == 0) {
             this._waves.launch();
-            
+        }
+        
+        if (this._ticks % 2 == 0) {
             this._updateEntities(this._heros);
             this._updateEntities(this._bases);
             this._updateEntities(this._soldiers);
