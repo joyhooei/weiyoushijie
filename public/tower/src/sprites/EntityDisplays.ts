@@ -19,7 +19,7 @@ class EntityDisplays {
         this._keys.append(options);
     }
     
-    public addDefault(display:egret.DisplayObject) {
+    public setDefault(display:egret.DisplayObject) {
         this._defaultDisplay = display;
     }
 
