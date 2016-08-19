@@ -30,7 +30,7 @@ class ArrowSoldier extends Soldier {
             }
 
             if (this._enemy) {
-                Bullet.shoot(this.getCenterX(), this.getCenterY(), this._enemy, "Arrow");
+                Bullet.shootByNPC(this, this._enemy, "Arrow");
             } else {
                 this.guard();
             }
