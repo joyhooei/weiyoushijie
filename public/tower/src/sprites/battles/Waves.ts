@@ -1,5 +1,7 @@
 class Waves {
-    private _enemies: Enemy[][];
+    private _rounds: number;
+    
+    private _enemies: any[][];
     
     //当前一波敌人
     private _currentWave: number;
@@ -16,15 +18,13 @@ class Waves {
         
         this._timeToNextWave = 1000;
         this._timeBetweenWaves = 1000;
+        
+        this._rounds = 0;
     }
     
-    public add(wave:number, className:string, count:number, paths:number[][]) {
+    public add(wave:number, claz:string, count:number, paths:number[][]) {
         this._enemies[wave] = this._enemies[wave] || [];
-
-        for(let i = 0; i < count; i++) {
-            let enemy = <Enemy>application.pool.get(className, {"paths": this._randomPaths(paths)});
-            this._enemies[wave].push(enemy);
-        }
+        this._enemies[wave].push([count, claz, this._randomPaths(paths)]);
     }
     
     private _randomPaths(paths: number[][]): number[][]{
@@ -57,27 +57,37 @@ class Waves {
     }
     
     public erase() {
-        for(let i = 0; i < this._enemies.length; i++) {
-            for(let j = 0; j < this._enemies[i].length; j++) {
-                this._enemies[i][j].erase();
-            }
-        }
+        this._enemies = [];
     }
     
-    public launch() {
+    public launch(cycle?:boolean) {
         if (this._currentWave >= this._enemies.length) {
-            application.battle.kill();
-        } else {
-            this._timeToNextWave --;
-            if (this._timeToNextWave <= 0) {
-                for(let i = 0; i < this._enemies[this._currentWave].length; i++) {
-                    application.battle.addEnemy(this._enemies[this._currentWave][i]);
-                }
-                this._enemies[this._currentWave] = [];
+            if (cycle) {
+                this._currentWave = 0;
                 
-                this._currentWave ++;
-                this._timeToNextWave = this._timeBetweenWaves;
+                this._rounds += 1;
+            } else {
+                application.battle.kill();
+                
+                return;
             }
+        }
+        
+        this._timeToNextWave --;
+        if (this._timeToNextWave <= 0) {
+            let wave = this._enemies[this._currentWave];
+            for(let i = 0; i < wave.length; i++) {
+                let count = <number>wave[i][0] * (1 + this._rounds * 0.5);
+                let claz  = <string>wave[i][1];
+                let paths = <number[][]>wave[i][2];
+                for(let j = 0; j < count; j++) {
+                    let enemy = <Enemy>application.pool.get(claz, {"paths": paths});
+                    application.battle.addEnemy(enemy);
+                }
+            }
+            
+            this._currentWave ++;
+            this._timeToNextWave = this._timeBetweenWaves;
         }
     }
 }
