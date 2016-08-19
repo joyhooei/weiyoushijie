@@ -220,15 +220,13 @@ class Battle extends Entity {
     }
     
     public update(): boolean {
-        if (this._enemies.length == 0) {
+        if (this._enemies.length == 0 || this._ticks % 2 == 0) {
             this._waves.launch();
-        }
-        
-        if (this._ticks % 2 == 0) {
+            
             this._updateEntities(this._heros);
             this._updateEntities(this._bases);
             this._updateEntities(this._soldiers);
-            this._updateEntities(this._enemies);
+            this._updateEntities(this._enemies);            
         } else {
             this._updateEntities(this._bullets);
         }
