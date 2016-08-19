@@ -20,15 +20,14 @@ enum EntityDirection {
 };
 
 class Entity extends egret.Sprite {
-	private _state: EntityState;
+	protected _state: EntityState;
 	
     protected _ticks: number;
     
     //面向
-    private _direction: EntityDirection;
+    protected _direction: EntityDirection;
 
-    protected _mcs: egret.MovieClip[];
-    protected _mc: egret.MovieClip;
+    protected _displays: EntityDisplays;
 
     public constructor() {
         super();
@@ -38,6 +37,10 @@ class Entity extends egret.Sprite {
         this._direction = this._get(properties, "direction", EntityDirection.east);
         this._state 	= this._get(properties, "state", EntityState.idle);
         this._ticks 	= 0;
+    }
+    
+    public setDisplays(ed: EntityDisplays) {
+    	this._displays = ed;
     }
     
     protected _get(properties: any, name:string, defaultVal:any): any {
@@ -159,27 +162,12 @@ class Entity extends egret.Sprite {
 
     	return this.dead();
     }
-    
-    public setMCs(mcs: egret.MovieClip[]) {
-    	this._mcs = mcs;
-    }
-    
+
     //根据状态、面向修改重新渲染
     public paint() {
-    	let mc = this._getCurrentMC();
-    	if (mc && mc != this._mc) {
-	    	this.removeChild(this._mc);
-	    	this._mc = mc;
-	    	
-	    	this.addChild(mc);
-	    	mc.play();
-    	}
+    	this._displays.render(this, {direction: this._direction, state: this._state});
     }
 
-    protected _getCurrentMC(): egret.MovieClip {
-    	return this._mcs[0];
-    }
-    
     private _do(state:EntityState) {
     	if (state != this._state) {
     		//dead状态不需要再变更状态了
