@@ -224,11 +224,14 @@ class Battle extends Entity {
             this._waves.launch();
         }
         
-        this._updateEntities(this._heros);
-        this._updateEntities(this._bases);
-        this._updateEntities(this._soldiers);
-        this._updateEntities(this._enemies);
-        this._updateEntities(this._bullets);
+        if (this._ticks % 2 == 0) {
+            this._updateEntities(this._heros);
+            this._updateEntities(this._bases);
+            this._updateEntities(this._soldiers);
+            this._updateEntities(this._enemies);
+        } else {
+            this._updateEntities(this._bullets);
+        }
 
         return !this.active();
     }
@@ -244,12 +247,13 @@ class Battle extends Entity {
     }
     
     public paint() {
-        let i = this._dirts.length;
-        while(i > 0) {
-            this._dirts[--i].paint();
-        }
+        //每次只刷新20个，以免刷新不及时
+        let dirts = this._dirts.splice(0, 20);
         
-        this._dirts = [];
+        let i = dirts.length;
+        while(i > 0) {
+            dirts[--i].paint();
+        }
     }
 
     public findSoldier(x: number, y: number, radius: number) : Soldier {
