@@ -4,7 +4,6 @@
 class Toast extends egret.DisplayObjectContainer{
     
     public static init( cont:egret.DisplayObjectContainer, txtrToastBg:egret.Texture ):void{
-        console.log( "Toast.init", txtrToastBg );
         this._cont = cont;
         this._txtrToastBg = txtrToastBg;
     }
