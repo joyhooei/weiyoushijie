@@ -1,22 +1,20 @@
-class LaunchTip extends Entity {
+class LaunchTip extends Tip {
     public constructor() {
         super();
-        
-        this.kill();
-        
+
         this.enableSelect(this);
     }
-    
-    protected _dying() {
-        if (this._ticks > 1000) {
+
+    public select(again:boolean) {
+        if (again) {
             this.erase();
-            
-            application.battle.launch();
+        } else {
+            Toach.launch("再次点击开始下一波");
         }
     }
-    
-    public select(again:boolean) {
-        this.erase();
+
+    public erase() {
+        super.erase();
         
         application.battle.launch();
     }
