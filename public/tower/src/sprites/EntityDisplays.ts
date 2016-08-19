@@ -4,16 +4,23 @@ class EntityDisplays {
     
     private _currentDisplay: egret.DisplayObject;
     
+    private _defaultDisplay: egret.DisplayObject;
+    
     public constructor() {
         this._skins    = [];
         this._displays = [];
         
         this._currentDisplay = null;
+        this._defaultDisplay = null;
     }
     
-    public addDisplay(display:egret.DisplayObject, options:any) {
+    public add(display:egret.DisplayObject, options:any) {
         this._displays.append(display);
         this._keys.append(options);
+    }
+    
+    public addDefault(display:egret.DisplayObject) {
+        this._defaultDisplay = display;
     }
 
     public render(container: egret.DisplayObjectContainer, options:any): boolean {
@@ -49,7 +56,11 @@ class EntityDisplays {
             }
         }
         
-        return display;
+        if (display) {
+            return display;
+        } else {
+            return this._defaultDisplay;
+        }
     }
     
     private _suitable(options:any, keys:any): number {
