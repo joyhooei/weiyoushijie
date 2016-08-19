@@ -1,4 +1,4 @@
-class NotMoveableTip extends Entity {
+class Tip extends Entity {
     private _dyingTicks: number;
     
     public constructor() {
