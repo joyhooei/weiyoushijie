@@ -2,8 +2,6 @@ var Hp = (function (_super) {
     __extends(Hp, _super);
     function Hp() {
         _super.call(this);
-        this.height = 3;
-        this.width = 20;
     }
     var d = __define,c=Hp,p=c.prototype;
     p.initialize = function (properties) {
@@ -21,7 +19,7 @@ var Hp = (function (_super) {
             this._hp = hp;
             this.stain();
         }
-        return hp > 0;
+        return hp <= 0;
     };
     p.paint = function () {
         this.graphics.clear();
@@ -35,7 +33,7 @@ var Hp = (function (_super) {
         else {
             this.graphics.beginFill(0xff0000);
         }
-        this.graphics.drawRect(0, 0, percent * this.width, 20);
+        this.graphics.drawRect(0, 0, percent * this.width, this.height);
         this.graphics.endFill();
     };
     return Hp;

@@ -27,6 +27,9 @@ class Battle extends Entity {
     protected _url: string;
     protected _map: TiledMap;
     
+    protected _maxLives: number;
+    protected _maxGolds: number;
+    
     protected _lives: number;
     protected _golds: number;
     
@@ -63,12 +66,6 @@ class Battle extends Entity {
                 self.addChildAt(self._map, 0);
                 self._map.paint();
 
-                self._addBases();
-
-                self._addHeros();
-                
-                self._addStandbys();
-
     	        resolve(self);
     	    }, function(error){
                 reject(error);
@@ -79,9 +76,14 @@ class Battle extends Entity {
     public initialize(properties: any) {
         super.initialize(properties);
         
-        this._lives = this._get(properties, "lives", 20);
-        this._golds = this._get(properties, "golds", 1000);
-        
+        this._maxLives = this._get(properties, "lives", 20);
+        this._maxGolds = this._get(properties, "golds", 1000);
+    }
+
+    public start() {
+        this._lives = this._maxLives;
+        this._golds = this._maxGolds;
+         
         this._baseLayer.removeChildren();
         this._objLayer.removeChildren();
         this._bulletLayer.removeChildren();
@@ -93,6 +95,14 @@ class Battle extends Entity {
         this._enemies = [];
         
         this._dirts = [];
+
+        this._addBases();
+
+        this._addHeros();
+        
+        this._addStandbys();
+
+        this.fight();
     }
     
     public enableSelect(entity: Entity) {
@@ -145,7 +155,7 @@ class Battle extends Entity {
         this._lives += lives;
         
         if (this._lives <= 0) {
-            this.kill();
+            this.erase();
         } else {
             application.dao.dispatchEventWith("Battle", true, {lives: this._lives});
         }
@@ -163,6 +173,9 @@ class Battle extends Entity {
     
     public getGolds(): number {
         return this._golds;
+    }
+
+    public stain() {
     }
     
     private _addLayer():egret.Sprite {
@@ -208,16 +221,14 @@ class Battle extends Entity {
         this._toolLayer.removeChildren();
     }
     
-    public kill() {
-        super.kill();
+    public erase() {
+        super.erase();
         
         this._eraseEntities(this._heros);
         this._eraseEntities(this._bases);
         this._eraseEntities(this._soldiers);
         this._eraseEntities(this._enemies);
         this._eraseEntities(this._bullets);
-        
-        this._waves.erase();
     }
     
     private _eraseEntities(entities: Entity[]){
@@ -231,7 +242,7 @@ class Battle extends Entity {
         this._waves.launchNow();
     }
     
-    public update(): boolean {
+    public _fighting() {
         if (this._enemies.length == 0) {
             this._waves.launch();
         }
@@ -244,8 +255,6 @@ class Battle extends Entity {
         } else {
             this._updateEntities(this._bullets);
         }
-
-        return !this.active();
     }
 
     private _updateEntities(entities: Entity[]){

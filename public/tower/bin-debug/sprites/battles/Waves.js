@@ -34,9 +34,6 @@ var Waves = (function () {
         newPaths.push([paths[paths.length - 1][0] + deltaX, paths[paths.length - 1][1] + deltaY]);
         return newPaths;
     };
-    p.erase = function () {
-        this._enemies = [];
-    };
     p.launchNow = function (cycle) {
         var wave = this._enemies[this._currentWave];
         for (var i = 0; i < wave.length; i++) {
@@ -95,7 +92,7 @@ var Waves = (function () {
                 this._rounds += 1;
             }
             else {
-                application.battle.kill();
+                application.battle.erase();
                 return false;
             }
         }

@@ -32,7 +32,7 @@ var BattleUI = (function (_super) {
         application.hideUI(this);
     };
     p._startBattle = function () {
-        application.battle.initialize({});
+        application.battle.start();
         this.stage.frameRate = application.frameRate;
         this.addEventListener(egret.Event.ENTER_FRAME, this._onEnterFrame, this);
     };

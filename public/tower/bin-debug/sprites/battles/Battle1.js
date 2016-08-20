@@ -7,12 +7,15 @@ var Battle1 = (function (_super) {
     var d = __define,c=Battle1,p=c.prototype;
     //增加英雄
     p._addHeros = function () {
-        var pos = this._map.getHeros();
+        var pos = this._map.getExits();
         for (var i = 0; i < pos.length; i++) {
-            var hero = application.pool.get("MonkeyKing");
+            var guardX = Math.min(Math.max(pos[i][0], 50), 750);
+            var guardY = Math.min(Math.max(pos[i][1], 50), 430);
+            var hero = application.pool.get("MonkeyKing", { guardX: guardX, guardY: guardY });
             hero.x = pos[i][0];
             hero.y = pos[i][1];
             this.addHero(hero);
+            hero.moveTo(guardX, guardY);
         }
     };
     p._addStandbys = function () {

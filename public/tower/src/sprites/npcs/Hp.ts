@@ -5,9 +5,6 @@ class Hp extends Entity {
     
 	public constructor() {
         super();
-
-		this.height = 3;
-		this.width  = 20;
 	}
 	
 	public initialize(properties:any) {
@@ -32,7 +29,7 @@ class Hp extends Entity {
 	        this.stain();
 	    }
 	    
-	    return hp > 0;
+	    return hp <= 0;
 	}
 	
 	public paint() {
@@ -47,7 +44,7 @@ class Hp extends Entity {
             this.graphics.beginFill(0xff0000);
         }
         
-        this.graphics.drawRect(0, 0, percent * this.width, 20);
+        this.graphics.drawRect(0, 0, percent * this.width, this.height);
         
         this.graphics.endFill();
 	}

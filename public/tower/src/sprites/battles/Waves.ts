@@ -56,10 +56,6 @@ class Waves {
         return newPaths;
     }
     
-    public erase() {
-        this._enemies = [];
-    }
-    
     public launchNow(cycle?:boolean) {
         let wave = this._enemies[this._currentWave];
         for(let i = 0; i < wave.length; i++) {
@@ -125,7 +121,7 @@ class Waves {
                 
                 this._rounds += 1;
             } else {
-                application.battle.kill();
+                application.battle.erase();
                 
                 return false;
             }

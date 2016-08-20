@@ -71,10 +71,15 @@ var Enemy = (function (_super) {
         return _super.prototype._moveOneStep.call(this) && !this._nextPath();
     };
     p._fighting = function () {
-        if (this._ticks % this._hitSpeed == 0) {
-            if (this._soldiers[0].hitBy(this._damage)) {
-                this.rmvSoldier(this._soldiers[0]);
+        if (this._soldiers.length > 0) {
+            if (this._ticks % this._hitSpeed == 0) {
+                if (this._soldiers[0].hitBy(this._damage)) {
+                    this.rmvSoldier(this._soldiers[0]);
+                }
             }
+        }
+        else {
+            this.move();
         }
     };
     return Enemy;

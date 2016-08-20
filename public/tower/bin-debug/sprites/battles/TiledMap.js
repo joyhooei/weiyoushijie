@@ -110,7 +110,7 @@ var TiledMap = (function (_super) {
                 }
             }
             else if (arrayOfStrings[0] == 'end') {
-                path[og.getObjectCount() - 2] = pos;
+                path[og.getObjectCount() - 1] = pos;
                 if (!this._exists(this._exits, pos)) {
                     this._exits.push(pos);
                 }
@@ -118,7 +118,7 @@ var TiledMap = (function (_super) {
             else {
                 if (arrayOfStrings.length == 2 && arrayOfStrings[0] == 'waypoint') {
                     var idx = +arrayOfStrings[1];
-                    path[idx] = pos;
+                    path[idx + 1] = pos;
                 }
             }
         }

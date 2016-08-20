@@ -7,12 +7,16 @@ class Battle1 extends Battle {
 
     //增加英雄
     protected _addHeros() {
-        let pos = this._map.getHeros();
+        let pos = this._map.getExits();
         for(let i = 0; i < pos.length; i++) {
-            let hero = <MonkeyKing>application.pool.get("MonkeyKing");
+            let guardX = Math.min(Math.max(pos[i][0], 50), 750);
+            let guardY = Math.min(Math.max(pos[i][1], 50), 430);
+            let hero = <MonkeyKing>application.pool.get("MonkeyKing", {guardX: guardX, guardY: guardY});
             hero.x = pos[i][0];
             hero.y = pos[i][1];
             this.addHero(hero);
+
+            hero.moveTo(guardX,guardY);
         }
     }
     

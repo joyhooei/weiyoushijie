@@ -8,6 +8,8 @@ var NPC = (function (_super) {
     p.initialize = function (properties) {
         _super.prototype.initialize.call(this, properties);
         this._hp = application.pool.get("Hp", properties);
+        this._hp.height = 3;
+        this._hp.width = 20;
         this.addChild(this._hp);
         this._damage = this._get(properties, "damage", 10);
         this._hitSpeed = this._get(properties, "hitSpeed", 10);

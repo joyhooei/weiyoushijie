@@ -23,9 +23,6 @@ var Battle = (function (_super) {
                 self._map = map;
                 self.addChildAt(self._map, 0);
                 self._map.paint();
-                self._addBases();
-                self._addHeros();
-                self._addStandbys();
                 resolve(self);
             }, function (error) {
                 reject(error);
@@ -34,8 +31,12 @@ var Battle = (function (_super) {
     };
     p.initialize = function (properties) {
         _super.prototype.initialize.call(this, properties);
-        this._lives = this._get(properties, "lives", 20);
-        this._golds = this._get(properties, "golds", 1000);
+        this._maxLives = this._get(properties, "lives", 20);
+        this._maxGolds = this._get(properties, "golds", 1000);
+    };
+    p.start = function () {
+        this._lives = this._maxLives;
+        this._golds = this._maxGolds;
         this._baseLayer.removeChildren();
         this._objLayer.removeChildren();
         this._bulletLayer.removeChildren();
@@ -44,6 +45,10 @@ var Battle = (function (_super) {
         this._bullets = [];
         this._enemies = [];
         this._dirts = [];
+        this._addBases();
+        this._addHeros();
+        this._addStandbys();
+        this.fight();
     };
     p.enableSelect = function (entity) {
         entity.touchEnabled = true;
@@ -91,7 +96,7 @@ var Battle = (function (_super) {
     p.incLives = function (lives) {
         this._lives += lives;
         if (this._lives <= 0) {
-            this.kill();
+            this.erase();
         }
         else {
             application.dao.dispatchEventWith("Battle", true, { lives: this._lives });
@@ -106,6 +111,8 @@ var Battle = (function (_super) {
     };
     p.getGolds = function () {
         return this._golds;
+    };
+    p.stain = function () {
     };
     p._addLayer = function () {
         var layer = new egret.Sprite();
@@ -141,14 +148,13 @@ var Battle = (function (_super) {
     p.hideAllTools = function () {
         this._toolLayer.removeChildren();
     };
-    p.kill = function () {
-        _super.prototype.kill.call(this);
+    p.erase = function () {
+        _super.prototype.erase.call(this);
         this._eraseEntities(this._heros);
         this._eraseEntities(this._bases);
         this._eraseEntities(this._soldiers);
         this._eraseEntities(this._enemies);
         this._eraseEntities(this._bullets);
-        this._waves.erase();
     };
     p._eraseEntities = function (entities) {
         var i = entities.length;
@@ -159,7 +165,7 @@ var Battle = (function (_super) {
     p.launch = function () {
         this._waves.launchNow();
     };
-    p.update = function () {
+    p._fighting = function () {
         if (this._enemies.length == 0) {
             this._waves.launch();
         }
@@ -172,7 +178,6 @@ var Battle = (function (_super) {
         else {
             this._updateEntities(this._bullets);
         }
-        return !this.active();
     };
     p._updateEntities = function (entities) {
         var i = entities.length;

@@ -6,7 +6,7 @@ var MovableEntity = (function (_super) {
     var d = __define,c=MovableEntity,p=c.prototype;
     p.initialize = function (properties) {
         _super.prototype.initialize.call(this, properties);
-        this._step = this._get(properties, "step", 10);
+        this._step = this._get(properties, "step", 1);
         this._idleTicks = this._get(properties, "idleTicks", 0);
         this._dyingTicks = this._get(properties, "idleTicks", 5);
         this._delta = [];

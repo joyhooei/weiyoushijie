@@ -14,9 +14,7 @@ class Character {
         
         let config = [
             //name, properties
-            /*
-            {name: 'MonkeyKing', properties:{hp:1000}},
-            */
+            {name: 'MonkeyKing', properties:{hp:1000, damage:40, guardRadius: 50}},
         ];   
 
         for(let i = 0; i < config.length; i++) {

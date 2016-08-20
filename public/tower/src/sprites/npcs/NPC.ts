@@ -18,6 +18,8 @@ class NPC extends MovableEntity {
         super.initialize(properties);
         
         this._hp = <Hp>application.pool.get("Hp", properties);
+		this._hp.height = 3;
+		this._hp.width  = 20;
         this.addChild(this._hp);
         
         this._damage    = this._get(properties, "damage", 10);

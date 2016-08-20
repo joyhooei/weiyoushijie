@@ -149,14 +149,14 @@ class TiledMap extends egret.Sprite {
                     this._entrances.push(pos);
                 }
             } else if (arrayOfStrings[0] == 'end') {
-                path[og.getObjectCount() - 2] = pos;
+                path[og.getObjectCount() - 1] = pos;
                 if (!this._exists(this._exits, pos)) {
                     this._exits.push(pos);
                 }
             } else {
                 if (arrayOfStrings.length == 2 && arrayOfStrings[0] == 'waypoint') {
                     let idx = + arrayOfStrings[1];
-                    path[idx] = pos;
+                    path[idx + 1] = pos;
                 }
             }
         }

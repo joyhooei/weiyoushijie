@@ -21,7 +21,7 @@ class MovableEntity extends Entity {
     public initialize(properties:any) {
         super.initialize(properties);
         
-        this._step       = this._get(properties, "step", 10);
+        this._step       = this._get(properties, "step", 1);
         this._idleTicks  = this._get(properties, "idleTicks", 0);
         this._dyingTicks = this._get(properties, "idleTicks", 5);
 

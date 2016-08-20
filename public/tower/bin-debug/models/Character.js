@@ -8,7 +8,10 @@ var Character = (function () {
     };
     Character.createAll = function () {
         var characters = new Array();
-        var config = [];
+        var config = [
+            //name, properties
+            { name: 'MonkeyKing', properties: { hp: 1000, damage: 40, guardRadius: 50 } },
+        ];
         for (var i = 0; i < config.length; i++) {
             var d = config[i];
             characters[d.name] = new Character(d.properties);
