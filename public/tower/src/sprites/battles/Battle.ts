@@ -1,4 +1,4 @@
-class Battle extends EntityCreator {
+class Battle extends SoldierCreator {
     /**地基层*/
     protected _baseLayer: egret.Sprite;
     /**怪物层、士兵层层级排序)*/
@@ -366,5 +366,12 @@ class Battle extends EntityCreator {
     
     public addDirt(entity: Entity) {
         this._dirts.push(entity);
+    }
+    
+    public create(child: Soldier) {
+        let hero = <Hero>child.relive(100);
+        hero.x = pos[i][0];
+        hero.y = pos[i][1];
+        this.addHero(hero);
     }
 }
