@@ -13,10 +13,6 @@ class SoliderTower extends Tower {
         this._guardY = this._get(properties, "guardY", 10);
     }
 
-    public create(child:Solider) {
-        application.battle.addSoldier(child.relive(100));
-    }
-    
     public guard() {
         for(let i = 0; i < 3; i++) {
             let soldier = <Soldier>application.pool.get(claz, {"guardX": this._guardX, "guardY": this._guardY});
