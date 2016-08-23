@@ -11,7 +11,7 @@ class Battle1 extends Battle {
         for(let i = 0; i < pos.length; i++) {
             let guardX = Math.min(Math.max(pos[i][0], 50), 750);
             let guardY = Math.min(Math.max(pos[i][1], 50), 430);
-            let hero = <MonkeyKing>application.pool.get("MonkeyKing", {guardX: guardX, guardY: guardY});
+            let hero = <Hero>application.pool.get("MonkeyKing", {guardX: guardX, guardY: guardY});
             hero.x = pos[i][0];
             hero.y = pos[i][1];
             this.addHero(hero);
