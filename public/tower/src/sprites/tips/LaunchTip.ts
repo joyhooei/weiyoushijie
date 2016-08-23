@@ -7,15 +7,21 @@ class LaunchTip extends Tip {
 
     public select(again:boolean) {
         if (again) {
+            application.battle.launch();
+            
             this.erase();
         } else {
             Toast.launch("再次点击开始下一波");
         }
     }
-
-    public erase() {
-        super.erase();
+    
+    protected _dying() {
+        super.dying();
         
-        application.battle.launch();
+        this.rotation ++;
+    }
+    
+    public paint() {
+        this.paintBitmap("launch_png");
     }
 }
