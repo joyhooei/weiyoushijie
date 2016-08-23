@@ -1,4 +1,4 @@
-class Battle extends Entity {
+class Battle extends EntityCreator {
     /**地基层*/
     protected _baseLayer: egret.Sprite;
     /**怪物层、士兵层层级排序)*/
