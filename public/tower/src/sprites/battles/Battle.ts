@@ -140,7 +140,9 @@ class Battle extends SoldierCreator {
                     let tip = application.pool.get("NotMoveableTip");
                     tip.x = x;
                     tip.y = y;
-                    this.addTip(tip);
+                    tip.width  = 10;
+                    tip.height = 10;
+                    this.addChild(tip);
                 }
     	    } else {
         		this._focus.deselect();
@@ -360,10 +362,6 @@ class Battle extends SoldierCreator {
         this._objLayer.addChild(hero);      
     }
 
-    public addTip(tip:Entity) {
-        this._bulletLayer.addChild(tip);      
-    }
-    
     public addDirt(entity: Entity) {
         this._dirts.push(entity);
     }
