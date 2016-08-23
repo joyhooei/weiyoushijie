@@ -1,7 +1,7 @@
 class SoliderTower extends Tower {
     protected _guardX: number;
     protected _guardY: number;
-    
+
     public constructor() {
         super();
     }
@@ -14,7 +14,7 @@ class SoliderTower extends Tower {
     }
     
     public create(soldier: Soldier) {
-        let s = soldier.relive(100);
+        let s = soldier.relive(this._createSpeed);
         s.x = this.getCenterX();
         s.y = this.getCenterY();
         application.battle.addSoldier(s);
