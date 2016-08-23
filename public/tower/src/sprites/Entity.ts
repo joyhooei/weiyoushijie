@@ -165,6 +165,12 @@ class Entity extends egret.Sprite {
     public paint() {
     	this._displays.render(this, {direction: this._direction, state: this._state});
     }
+    
+    public paintBitmap(name:string) {
+        let bm:egret.Bitmap = new egret.Bitmap();
+        bm.texture = RES.getRes(name);
+        this.addChild(bm);
+    }
 
     private _do(state:EntityState) {
     	if (state != this._state) {
