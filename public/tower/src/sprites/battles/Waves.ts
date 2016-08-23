@@ -28,7 +28,7 @@ class Waves {
     }
     
     private _randomPaths(paths: number[][]): number[][]{
-        let pathWidth = 60;
+        let pathWidth = 30;
         let enemyInterval = 20;
         
         let deltaY = Math.random() * pathWidth - pathWidth / 2;
