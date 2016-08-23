@@ -11,11 +11,19 @@ class Tip extends Entity {
         super.initialize(properties);
         
         this._dyingTicks = this._get(properties, "dyingTicks", 1000);
+        
+        this.stain();
     }
     
     protected _dying() {
         if (this._ticks > this._dyingTicks) {
             this.erase();
         }
+    }
+    
+    public paint() {
+        var bm:egret.Bitmap = new egret.Bitmap();
+        bm.texture = RES.getRes("disable_png");
+        this.addChild(bm);
     }
 }
