@@ -3,6 +3,8 @@ class Hp extends Entity {
     
     private _hp: number;
     
+    private _cureSpeed: number;
+    
 	public constructor() {
         super();
 	}
@@ -12,24 +14,33 @@ class Hp extends Entity {
 		
 	    this._maxHp = this._get(properties, "hp", 100);
 	    this._hp = this._maxHp;
+	    
+	    this._cureSpeed = this._get(properties, "cureSpeed", 10);
 
 		this.stain();
 	}
 	
 	public kill() {
-		this.hitBy(this._hp);
+		this._setHp(0);
+	}
+	
+	public cure() {
+		this._setHp(this._hp + this._cureSpeed);
 	}
 
 	public hitBy(damage:number): boolean{
-	    let hp = Math.max(0, this._hp - damage);
+	    this._setHp(this._hp - damage);
 	    
-	    if (hp != this._hp) {
+	    return hp <= 0;
+	}
+	
+	private _setHp(hp:number): boolean {
+		let hp = math.max(0, math.Min(this._maxHp, hp));
+		if (hp != this._hp) {
 	        this._hp = hp;
 	        
 	        this.stain();
-	    }
-	    
-	    return hp <= 0;
+		}		
 	}
 	
 	public paint() {
