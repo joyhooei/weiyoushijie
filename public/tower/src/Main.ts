@@ -82,6 +82,7 @@ class Main extends eui.UILayer {
                 
                 application.channel.track(TRACK_CATEGORY_RESOURCE, TRACK_ACTION_LOAD, "开始加载着陆页面", 3);
                 if (application.development == 1) {
+                	application.me = new Customer({id:'12345678'});
                     this.loadPage("home");
                 } else {
                     this.loadPage("landing");
