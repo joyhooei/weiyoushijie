@@ -8,10 +8,33 @@ class Soldier extends NPC {
 
     protected _enemy: Enemy;
     
-    protected _creator: EntityCreator;
+    protected _creator: SoldierCreator;
     
+    protected _range: Range;
+
     public constructor() {
         super();
+        
+        application.battle.enableSelect(this);
+    }
+    
+    public select(again:boolean) {
+        if (!again) {
+            this._range = application.pool.get("Range", {guardRadius: this._guardRadius});
+            
+            this._range.x = this.getCenterX() - this._guardRadius;
+            this._range.y = this.getCenterY() - this._guardRadius >> 1;
+            
+            this._range.width  = this._guardRadius << 1;
+            this._range.height = this._guardRadius;
+            
+            application.battle.addChild(this._range);
+        }
+    }
+    
+    public deselect() {
+        this._range.erase();
+        this._range = null;
     }
     
     public initialize(properties:any) {
@@ -23,14 +46,21 @@ class Soldier extends NPC {
         this._guardY        = this._get(properties, 'guardY', 0);
         this._guardRadius   = this._get(properties, 'guardRadius', 10);
         this._guardAltitudes = this._get(properties, 'guardAltitude', [-1, 0]);
+        
+        this._range = null;
     }
     
-    public setCreator(creator: EntityCreator) {
+    public setCreator(creator: SoldierCreator) {
         this._creator = creator;
     }
     
     public erase() {
         super.erase();
+        
+        if (this._range) {
+            this._range.erase();
+            this._range = null;
+        }
         
         if (this._creator) {
             this._creator.create(this);
@@ -67,7 +97,14 @@ class Soldier extends NPC {
             this._arrive();
         }
         
-        this._hp.cure();
+        if (this._range) {
+            this._range.x = this.getCenterX() - this._guardRadius;
+            this._range.y = this.getCenterY() - this._guardRadius >> 1;
+        }
+        
+        if (this._hp) {
+            this._hp.cure();
+        }
     }
     
     protected _guarding() {
@@ -76,7 +113,9 @@ class Soldier extends NPC {
             this._fightWith(enemy);
         }
         
-        this._hp.cure();
+        if (this._hp) {
+            this._hp.cure();
+        }
     }
     
     protected _fightWith(enemy:Enemy) {
