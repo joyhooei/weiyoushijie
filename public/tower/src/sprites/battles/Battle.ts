@@ -5,6 +5,8 @@ class Battle extends SoldierCreator {
     protected _objLayer: egret.Sprite;
     /**弓箭、炮弹层*/
     protected _bulletLayer: egret.Sprite;
+    /**提示、范围层*/
+    protected _rangeLayer: egret.Sprite;
     /**工具层*/
     protected _toolLayer: egret.Sprite;
 
@@ -19,6 +21,9 @@ class Battle extends SoldierCreator {
 
     //子弹
     protected _bullets:Bullet[];
+    
+    //其它实体
+    protected _entities: Entity[];
     
     //需要重画的对象
     protected _dirts: Entity[];
@@ -39,13 +44,10 @@ class Battle extends SoldierCreator {
     public constructor() {
         super();
 
-        //地基层
         this._baseLayer     = this._addLayer();
-        //怪物层、士兵层、英雄层
         this._objLayer      = this._addLayer();
-        //子弹层
         this._bulletLayer   = this._addLayer();
-        //工具层
+        this._rangeLayer    = this._addLayer();
         this._toolLayer     = this._addLayer();
 
         this._waves = new Waves();
@@ -88,11 +90,14 @@ class Battle extends SoldierCreator {
         this._objLayer.removeChildren();
         this._bulletLayer.removeChildren();
         this._toolLayer.removeChildren();
+        this._rangeLayer.removeChildren();
 
         this._soldiers = [];
         this._bullets = [];
         
         this._enemies = [];
+        
+        this._entities = [];
         
         this._dirts = [];
 
@@ -140,9 +145,7 @@ class Battle extends SoldierCreator {
                     let tip = application.pool.get("NotMoveableTip");
                     tip.x = x;
                     tip.y = y;
-                    tip.width  = 10;
-                    tip.height = 10;
-                    this.addChild(tip);
+                    this.addEntity(tip);
                 }
     	    } else {
         		this._focus.deselect();
@@ -178,6 +181,7 @@ class Battle extends SoldierCreator {
     }
 
     public stain() {
+        this.paint();
     }
     
     private _addLayer():egret.Sprite {
@@ -231,6 +235,7 @@ class Battle extends SoldierCreator {
         this._eraseEntities(this._soldiers);
         this._eraseEntities(this._enemies);
         this._eraseEntities(this._bullets);
+        this._eraseEntities(this._entities);
     }
     
     private _eraseEntities(entities: Entity[]){
@@ -254,6 +259,7 @@ class Battle extends SoldierCreator {
             this._updateEntities(this._bases);
             this._updateEntities(this._soldiers);
             this._updateEntities(this._enemies);            
+            this._updateEntities(this._entities);            
         } else {
             this._updateEntities(this._bullets);
         }
@@ -362,6 +368,11 @@ class Battle extends SoldierCreator {
         this._objLayer.addChild(hero);      
     }
 
+    public addEntity(entity:Entity) {
+        this._entities.push(entity);
+        this._rangeLayer.addChild(entity);      
+    }
+    
     public addDirt(entity: Entity) {
         this._dirts.push(entity);
     }
