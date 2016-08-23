@@ -1,8 +1,9 @@
-class EntityCreator enxtends Entity {
+class SoldierCreator enxtends Entity {
     public constructor() {
         super();
     }
     
-    public create(entity: Entity) {
+    public create(soldier: Soldier) {
+        application.battle.addSoldier(soldier.relive(100));
     }
 }
