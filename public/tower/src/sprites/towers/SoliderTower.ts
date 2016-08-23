@@ -12,20 +12,18 @@ class SoliderTower extends Tower {
         this._guardX = this._get(properties, "guardX", 10);
         this._guardY = this._get(properties, "guardY", 10);
     }
-    
-    private _addSolider(claz:string, idleTicks:number) {
-        let solider = <Soldier>application.pool.get(claz, {"guardX": this._guardX, "guardY": this._guardY, idleTicks: idleTicks});
-        solider.setCreator(this);
-        application.battle.addSoldier(solider);
-    }
 
-    public create(child:Entity) {
-        this._addSolider(this.getClassName(), 100);
+    public create(child:Solider) {
+        application.battle.addSoldier(child.relive(100));
     }
     
     public guard() {
         for(let i = 0; i < 3; i++) {
-            this._addSolider("Soldier", 0);
+            let soldier = <Soldier>application.pool.get(claz, {"guardX": this._guardX, "guardY": this._guardY});
+            soldier.setCreator(this);
+            application.battle.addSoldier(soldier);
         }
+        
+        super.guard();
     }
 }
