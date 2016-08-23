@@ -11,8 +11,6 @@ class BattleUI extends AbstractUI {
         super("battleUISkin");
         
         let self = this;
-        
-    	self.grpBattle.addChild(application.battle);
 
         self.grpSystemTools.addChild(new BattleTimeoutToolItem({category: 'soldier'}));
         self.grpSystemTools.addChild(new BattleTimeoutToolItem({category: 'fireball'}));
@@ -50,9 +48,16 @@ class BattleUI extends AbstractUI {
     
     private _startBattle() {
         application.battle.start();
+        
+    	this.grpBattle.addChild(application.battle);
     	
     	this.stage.frameRate = application.frameRate;
     	this.addEventListener(egret.Event.ENTER_FRAME,this._onEnterFrame, this);
+    }
+    
+    private _restartBattle() {
+    	application.relive(application.battle);
+        this._startBattle();
     }
 
     private _onEnterFrame(e:egret.Event) {
@@ -60,7 +65,7 @@ class BattleUI extends AbstractUI {
     		let self = this;
     	
     		application.showUI(new BattleOptionUI(function(){
-    			self._startBattle();
+    			self._restartBattle();
     		}, function(){
     			self._quitBattle();
     		}));        	
