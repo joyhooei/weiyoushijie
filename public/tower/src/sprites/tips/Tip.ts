@@ -3,8 +3,6 @@ class Tip extends Entity {
     
     public constructor() {
         super();
-        
-        this.kill();
     }
     
     public initialize(properties:any) {
@@ -12,7 +10,7 @@ class Tip extends Entity {
         
         this._dyingTicks = this._get(properties, "dyingTicks", 1000);
         
-        this.stain();
+        this.kill();
     }
     
     protected _dying() {
@@ -22,8 +20,6 @@ class Tip extends Entity {
     }
     
     public paint() {
-        var bm:egret.Bitmap = new egret.Bitmap();
-        bm.texture = RES.getRes("disable_png");
-        this.addChild(bm);
+        this.paintBitmap("disable_png");
     }
 }
