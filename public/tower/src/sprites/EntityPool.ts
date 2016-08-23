@@ -39,21 +39,7 @@ class EntityPool {
         
         return entity;
     }
-    
-    public relive(entity: Entity) {
-        for(let i = 0; i < this._entities.length; i++) {
-            if (entity == this._entities[i]) {
-                this._entities.splice(i, 1);
-                break;
-            }
-        }
-        
-        let character = application.characters[entity.getClassName()];
-        entity.initialize(character.getProperties());
-        
-        return entity;
-    }
-    
+
     public set(entity:Entity) {
         for(let i = 0; i < this._entities.length; i++) {
             if (this._entities[i] == entity) {
