@@ -369,7 +369,7 @@ class Battle extends SoldierCreator {
     }
     
     public create(soldier: Soldier) {
-        let hero = <Hero>child.relive(100);
+        let hero = <Hero>child.relive(this._createSpeed);
         hero.x = child.x;
         hero.y = child.y;
         this.addHero(hero);
