@@ -135,7 +135,7 @@ class Battle extends SoldierCreator {
                     let tip = application.pool.get("NotMoveableTip");
                     tip.x = x;
                     tip.y = y;
-                    this.addEntity(tip);
+                    this.addTip(tip);
                 }
     	    } else {
         		this._focus.deselect();
