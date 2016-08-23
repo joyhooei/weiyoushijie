@@ -30,11 +30,18 @@ class Soldier extends NPC {
     }
     
     public erase() {
-        super.erase;
+        super.erase();
         
         if (this._creator) {
             this._creator.create(this);
         }
+    }
+    
+    public relive(idleTicks:number):Soldier {
+        let soldier = <Soldier>applicaton.pool.get(this.getClassName(), {guardX: this._guardX, guardY: this._guardY, idleTicks: idleTicks});
+        soldier.x = this.x;
+        soldier.y = this.y;
+        return soldier;
     }
     
     public moveTo(x:number, y:number) {
