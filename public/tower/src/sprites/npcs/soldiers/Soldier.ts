@@ -44,6 +44,8 @@ class Soldier extends NPC {
         if (this._moveOneStep()) {
             this._arrive();
         }
+        
+        this.cure();
     }
     
     protected _guarding() {
@@ -51,6 +53,8 @@ class Soldier extends NPC {
         if (enemy) {
             this._fightWith(enemy);
         }
+        
+        this.cure();
     }
     
     protected _fightWith(enemy:Enemy) {
