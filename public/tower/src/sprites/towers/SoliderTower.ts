@@ -1,9 +1,6 @@
 class SoliderTower extends Tower {
     protected _guardX: number;
-    
     protected _guardY: number;
-    
-    protected _totalSoliders: number;
     
     public constructor() {
         super();
@@ -14,33 +11,21 @@ class SoliderTower extends Tower {
         
         this._guardX = this._get(properties, "guardX", 10);
         this._guardY = this._get(properties, "guardY", 10);
-        
-        this._totalSoliders = 0;
     }
     
-    private addSolider() {
-        let solider = <Soldier>application.pool.get("Solider", {"guardX": this._guardX, "guardY": this._guardY});
-
+    private _addSolider(claz:string, idleTicks:number) {
+        let solider = <Soldier>application.pool.get(claz, {"guardX": this._guardX, "guardY": this._guardY, idleTicks: idleTicks});
+        solider.setCreator(this);
         application.battle.addSoldier(solider);
-        
-        this._totalSoliders ++;
+    }
+
+    public create(child:Entity) {
+        this._addSolider(this.getClassName(), 100);
     }
     
-    public childDead(child:Entity) {
-        this._totalSoliders --;
-    }
-    
-    protected _stateChanged(oldState: EntityState, newState: EntityState) {
-        if (newState == EntityState.guarding) {
-            this.addSolider();
-            this.addSolider();
-            this.addSolider();
-        }
-    }
-    
-    protected _guarding() {
-        if (this._ticks % this._hitSpeed == 0 && this._totalSoliders < 3) {
-            this.addSolider();
+    public guard() {
+        for(let i = 0; i < 3; i++) {
+            this._addSolider("Soldier", 0);
         }
     }
 }
