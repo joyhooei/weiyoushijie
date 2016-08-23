@@ -195,7 +195,7 @@ var Entity = (function (_super) {
     Entity.direction = function (x1, y1, x2, y2, angels, directions) {
         var dx = x2 - x1;
         var dy = y2 - y1;
-let angel = Math.atan2(dy, dx) * 57.29578049044297; //180 / Math.PI;
+var angel = Math.atan2(dy, dx) * 57.29578049044297; //180 / Math.PI;
         if (angel < 0) {
         	angel += 360;
         }
