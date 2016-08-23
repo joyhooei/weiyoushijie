@@ -3,7 +3,7 @@ class SoldierCreator enxtends Entity {
         super();
     }
     
-    public create(soldier: Soldier) {
-        application.battle.addSoldier(soldier.relive(100));
+    public create(soldier: Soldier):Soldier {
+        return null;
     }
 }
