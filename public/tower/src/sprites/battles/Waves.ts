@@ -105,7 +105,7 @@ class Waves {
                                 break;
                         }
 
-                        application.battle.addEntity(tip);
+                        application.battle.addTip(tip);
                     }
                 }
             }
