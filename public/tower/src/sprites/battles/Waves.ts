@@ -104,11 +104,8 @@ class Waves {
                                 tip.y = paths[0][1] + 50;
                                 break;
                         }
-                        
-                        tip.width  = 10;
-                        tip.height = 10;
 
-                        application.battle.addChild(tip);
+                        application.battle.addEntity(tip);
                     }
                 }
             }
