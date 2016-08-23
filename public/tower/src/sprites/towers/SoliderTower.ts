@@ -22,7 +22,7 @@ class SoliderTower extends Tower {
     
     public guard() {
         for(let i = 0; i < 3; i++) {
-            let soldier = <Soldier>application.pool.get(claz, {"guardX": this._guardX, "guardY": this._guardY});
+            let soldier = <Soldier>application.pool.get("Soldier", {"guardX": this._guardX, "guardY": this._guardY});
             soldier.setCreator(this);
             soldier.x = this.getCenterX();
             soldier.y = this.getCenterY();            
