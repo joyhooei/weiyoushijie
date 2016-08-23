@@ -56,7 +56,7 @@ class BattleUI extends AbstractUI {
     }
     
     private _restartBattle() {
-    	application.relive(application.battle);
+		application.battle = <Soldier>applicaton.pool.get(application.battle.getClassName());
         this._startBattle();
     }
 
