@@ -45,7 +45,7 @@ class Soldier extends NPC {
             this._arrive();
         }
         
-        this.cure();
+        this._hp.cure();
     }
     
     protected _guarding() {
@@ -54,7 +54,7 @@ class Soldier extends NPC {
             this._fightWith(enemy);
         }
         
-        this.cure();
+        this._hp.cure();
     }
     
     protected _fightWith(enemy:Enemy) {
