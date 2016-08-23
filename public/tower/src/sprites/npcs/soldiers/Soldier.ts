@@ -28,26 +28,28 @@ class Soldier extends NPC {
             this._range.width  = this._guardRadius << 1;
             this._range.height = this._guardRadius;
             
-            application.battle.addChild(this._range);
+            application.battle.addRange(this._range);
         }
     }
     
     public deselect() {
-        this._range.erase();
-        this._range = null;
+        if (this._range) {
+            this._range.erase();
+            this._range = null;
+        }
     }
     
     public initialize(properties:any) {
         super.initialize(properties);
-        
-        this._enemy = null;
 
         this._guardX        = this._get(properties, 'guardX', 0);
         this._guardY        = this._get(properties, 'guardY', 0);
         this._guardRadius   = this._get(properties, 'guardRadius', 10);
         this._guardAltitudes = this._get(properties, 'guardAltitude', [-1, 0]);
         
+        this._enemy = null;
         this._range = null;
+        this._creator = null;
     }
     
     public setCreator(creator: SoldierCreator) {
@@ -71,6 +73,8 @@ class Soldier extends NPC {
         let soldier = <Soldier>applicaton.pool.get(this.getClassName(), {guardX: this._guardX, guardY: this._guardY, idleTicks: idleTicks});
         soldier.x = this.x;
         soldier.y = this.y;
+        soldier.width = this.width;
+        soldier.height = this.height;
         soldier.setCreator(this._creator);
         return soldier;
     }
