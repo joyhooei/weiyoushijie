@@ -8,6 +8,8 @@ class Soldier extends NPC {
 
     protected _enemy: Enemy;
     
+    protected _creator: EntityCreator;
+    
     public constructor() {
         super();
     }
@@ -21,6 +23,18 @@ class Soldier extends NPC {
         this._guardY        = this._get(properties, 'guardY', 0);
         this._guardRadius   = this._get(properties, 'guardRadius', 10);
         this._guardAltitudes = this._get(properties, 'guardAltitude', [-1, 0]);
+    }
+    
+    public setCreator(creator: EntityCreator) {
+        this._creator = creator;
+    }
+    
+    public erase() {
+        super.erase;
+        
+        if (this._creator) {
+            this._creator.create(this);
+        }
     }
     
     public moveTo(x:number, y:number) {
