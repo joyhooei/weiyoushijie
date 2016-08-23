@@ -11,17 +11,12 @@ class Battle extends SoldierCreator {
     protected _toolLayer: egret.Sprite;
 
     //己方
-    protected _heros:     Hero[];
-    protected _bases:     Base[];
     protected _soldiers:  Soldier[];
     
     //敌方
     protected _waves: Waves;
     protected _enemies: Enemy[];
 
-    //子弹
-    protected _bullets:Bullet[];
-    
     //其它实体
     protected _entities: Entity[];
     
@@ -52,10 +47,6 @@ class Battle extends SoldierCreator {
 
         this._waves = new Waves();
 
-        this._bases = [];
- 
-        this._heros = [];
-       
         this.enableSelect(this);
     }
     
@@ -93,8 +84,7 @@ class Battle extends SoldierCreator {
         this._rangeLayer.removeChildren();
 
         this._soldiers = [];
-        this._bullets = [];
-        
+
         this._enemies = [];
         
         this._entities = [];
@@ -230,11 +220,8 @@ class Battle extends SoldierCreator {
     public erase() {
         super.erase();
         
-        this._eraseEntities(this._heros);
-        this._eraseEntities(this._bases);
         this._eraseEntities(this._soldiers);
         this._eraseEntities(this._enemies);
-        this._eraseEntities(this._bullets);
         this._eraseEntities(this._entities);
     }
     
@@ -255,13 +242,10 @@ class Battle extends SoldierCreator {
         }
         
         if (this._ticks % 2 == 0) {
-            this._updateEntities(this._heros);
-            this._updateEntities(this._bases);
             this._updateEntities(this._soldiers);
             this._updateEntities(this._enemies);            
-            this._updateEntities(this._entities);            
         } else {
-            this._updateEntities(this._bullets);
+            this._updateEntities(this._entities);            
         }
     }
 
@@ -337,6 +321,11 @@ class Battle extends SoldierCreator {
         return enemy;
     }
 
+    public addHero(hero:Hero) {
+        this._soldiers.push(hero);
+        this._objLayer.addChild(hero);      
+    }
+
     public addSoldier(soldier:Soldier) {
         this._soldiers.push(soldier);
         this._objLayer.addChild(soldier);
@@ -352,23 +341,23 @@ class Battle extends SoldierCreator {
             this._enemies[i].kill();
         }
     }
-    
-    public addBullet(bullet:Bullet) {
-        this._bullets.push(bullet);
-        this._bulletLayer.addChild(bullet);     
-    }
 
     public addBase(base:Base) {
-        this._bases.push(base);
+        this._entities.push(base);
         this._baseLayer.addChild(base);
     }
-
-    public addHero(hero:Hero) {
-        this._heros.push(hero);
-        this._objLayer.addChild(hero);      
+    
+    public addBullet(bullet:Bullet) {
+        this._entities.push(bullet);
+        this._bulletLayer.addChild(bullet);
     }
 
-    public addEntity(entity:Entity) {
+    public addTip(entity:Tip) {
+        this._entities.push(entity);
+        this._rangeLayer.addChild(entity);      
+    }
+
+    public addRange(entity:Range) {
         this._entities.push(entity);
         this._rangeLayer.addChild(entity);      
     }
