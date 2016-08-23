@@ -368,10 +368,10 @@ class Battle extends SoldierCreator {
         this._dirts.push(entity);
     }
     
-    public create(child: Soldier) {
+    public create(soldier: Soldier) {
         let hero = <Hero>child.relive(100);
-        hero.x = pos[i][0];
-        hero.y = pos[i][1];
+        hero.x = child.x;
+        hero.y = child.y;
         this.addHero(hero);
     }
 }
