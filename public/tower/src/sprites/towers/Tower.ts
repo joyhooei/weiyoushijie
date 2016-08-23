@@ -1,4 +1,4 @@
-class Tower extends EntityCreator {
+class Tower extends SoldierCreator {
     protected _hitSpeed: number;
     
     protected _buildTicks: number;
