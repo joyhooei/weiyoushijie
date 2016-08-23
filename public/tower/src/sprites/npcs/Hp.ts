@@ -29,18 +29,17 @@ class Hp extends Entity {
 	}
 
 	public hitBy(damage:number): boolean{
-	    this._setHp(this._hp - damage);
-	    
-	    return hp <= 0;
+	    return this._setHp(this._hp - damage);
 	}
 	
 	private _setHp(hp:number): boolean {
-		let hp = math.max(0, math.Min(this._maxHp, hp));
+		let hp = Math.max(0, Math.min(this._maxHp, hp));
 		if (hp != this._hp) {
 	        this._hp = hp;
-	        
 	        this.stain();
-		}		
+		}
+		
+		return this._hp <= 0;
 	}
 	
 	public paint() {
