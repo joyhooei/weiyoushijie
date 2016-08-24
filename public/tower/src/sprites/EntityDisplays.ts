@@ -14,24 +14,31 @@ class EntityDisplays {
         this._defaultDisplay = null;
     }
     
-    public add(display:egret.DisplayObject, options:any) {
-        this._displays.push(display);
-        this._keys.push(options);
+    private _add(display:egret.DisplayObject, options?:any) {
+        if (options) {
+            this._displays.push(display);
+            this._keys.push(options);
+        } else {
+            this._defaultDisplay = display;
+        }
     }
     
-    public addClip(dataRes:string, textureRes:string, clipName:string, options:any) {
+    public addBitmap(bitmapRes:string, options?:any) {
+        let bm:egret.Bitmap = new egret.Bitmap();
+        bm.texture = RES.getRes(name);
+        
+        this._add(bm, options);
+    }
+    
+    public addClip(dataRes:string, textureRes:string, clipName:string, options?:any) {
         let data    = RES.getRes(dataRes);
         let texture = RES.getRes(textureRes);
         let mcf: egret.MovieClipDataFactory = new egret.MovieClipDataFactory(data, texture);
         
-        let display = new egret.MovieClip();
-        display.movieClipData = mcf.generateMovieClipData(clipName);
+        let clip = new egret.MovieClip();
+        clip.movieClipData = mcf.generateMovieClipData(clipName);
         
-        this.add(display, options);
-    }
-    
-    public setDefault(display:egret.DisplayObject) {
-        this._defaultDisplay = display;
+        this._add(clip, options);
     }
 
     public render(container: egret.DisplayObjectContainer, options:any): boolean {
