@@ -19,6 +19,17 @@ class EntityDisplays {
         this._keys.push(options);
     }
     
+    public addClip(dataRes:string, textureRes:string, clipName:string, options:any) {
+        let data    = RES.getRes(dataRes);
+        let texture = RES.getRes(textureRes);
+        let mcf: egret.MovieClipDataFactory = new egret.MovieClipDataFactory(data, texture);
+        
+        let display = new egret.MovieClip();
+        display.movieClipData = mcf.generateMovieClipData(clipName);
+        
+        this.add(display, options);
+    }
+    
     public setDefault(display:egret.DisplayObject) {
         this._defaultDisplay = display;
     }
