@@ -1,4 +1,4 @@
-class Tip extends Tip {
+class DisableTip extends Tip {
     public constructor() {
         super();
         
