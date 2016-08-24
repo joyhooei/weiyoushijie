@@ -132,9 +132,9 @@ class Battle extends SoldierCreator {
         	        }
                 } else {
                     //显示不能放置图片
-                    let tip = application.pool.get("NotMoveableTip");
-                    tip.x = x;
-                    tip.y = y;
+                    let tip = application.pool.get("DisableTip");
+                    tip.setCenterX(x);
+                    tip.setCenterY(y);
                     this.addTip(tip);
                 }
     	    } else {
