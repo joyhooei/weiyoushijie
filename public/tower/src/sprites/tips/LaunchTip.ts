@@ -3,6 +3,8 @@ class LaunchTip extends Tip {
         super();
 
         application.battle.enableSelect(this);
+        
+        this._displays.addBitmap("launch_png");
     }
 
     public select(again:boolean) {
@@ -19,9 +21,5 @@ class LaunchTip extends Tip {
         super.dying();
         
         this.rotation ++;
-    }
-    
-    public paint() {
-        this.paintBitmap("launch_png");
     }
 }
