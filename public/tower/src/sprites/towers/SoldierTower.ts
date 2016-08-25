@@ -1,4 +1,4 @@
-class SoliderTower extends Tower {
+class SoldierTower extends Tower {
     protected _guardX: number;
     protected _guardY: number;
 
