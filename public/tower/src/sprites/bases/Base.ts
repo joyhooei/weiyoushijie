@@ -8,8 +8,6 @@ class Base extends Entity {
     public constructor() {
         super();
 
-        this.width = this.height = 50;
-        
         application.battle.enableSelect(this);
     }
 
