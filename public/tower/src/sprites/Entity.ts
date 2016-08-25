@@ -28,11 +28,15 @@ class Entity extends egret.Sprite {
     protected _direction: EntityDirection;
 
     protected _displays: EntityDisplays;
+    
+    protected _sounds: EntitySounds;
 
     public constructor() {
         super();
         
         this._displays = new EntityDisplays();
+        
+        this._sounds = new EntitySounds();
 	}
 	
     public initialize(properties: any):void {
@@ -190,6 +194,8 @@ class Entity extends egret.Sprite {
 
 	    	this._ticks = 0;
 	    	this._state = state;
+	    	
+	    	this._sounds.play(this._state);
 	    	
 	    	this.stain();
     	}
