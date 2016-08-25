@@ -24,7 +24,7 @@ class EntityDisplays {
     
     public addBitmap(name:string, action?:string): EntityDisplays {
         let bm:egret.Bitmap = new egret.Bitmap();
-        bm.texture = RES.getRes(name);
+        bm.texture = RES.getRes(name + "_png");
         
         this._add(bm, action);
         
