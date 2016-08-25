@@ -1,4 +1,4 @@
-class BattleTimeoutToolItem extends BattleToolItem {
+class BattleSystemToolItem extends BattleToolItem {
     private _ticks: number;
     
     private _maxTicks: number;
@@ -36,15 +36,8 @@ class BattleTimeoutToolItem extends BattleToolItem {
     
     public use(x: number, y: number) {
         if (this._tool.category == "soldier") {
-            let soldier = <Soldier>application.pool.get("Soldier", {guardX: x - 5, guardY: y - 5});
-            soldier.x = x;
-            soldier.y = y;
-            application.battle.addSoldier(soldier);
-            
-            soldier = <Soldier>application.pool.get("Soldier", {guardX: x + 5, guardY: y + 5});
-            soldier.x = x;
-            soldier.y = y;
-            application.battle.addSoldier(soldier);            
+            application.battle.addSoldier(<Soldier>application.pool.get("Soldier1", {guardX: x - 5, guardY: y - 5, x: x, y: y}));
+            application.battle.addSoldier(<Soldier>application.pool.get("Soldier1", {guardX: x + 5, guardY: y + 5, x: x, y: y}));            
         } else if (this._tool.category == "fireball") {
         	Bullet.shoot(x, y - 200, x, y, "Fireball");
         }
