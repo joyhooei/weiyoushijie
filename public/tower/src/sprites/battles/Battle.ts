@@ -195,16 +195,34 @@ class Battle extends SoldierCreator {
 
     //增加塔基
     protected _addBases() {
+
+    }
+    
+    protected _addBasesByName(name:string) {
         let bases = this._map.getBases();
         
         for(let i = 0; i < bases.length; i++) {
-            let base = <Base>application.pool.get("Base", {"guardX": bases[i][2], "guardY": bases[i][3]});
+            let base = <Base>application.pool.get(name, {"guardX": bases[i][2], "guardY": bases[i][3]});
             base.x = bases[i][0];
             base.y = bases[i][1];
             this.addBase(base);
+        }        
+    }
+    
+    protected _addHerosByName(name:string) {
+        let pos = this._map.getExits();
+        for(let i = 0; i < pos.length; i++) {
+            let guardX = Math.min(Math.max(pos[i][0], 50), 750);
+            let guardY = Math.min(Math.max(pos[i][1], 50), 430);
+            let hero = <Hero>application.pool.get(name, {guardX: guardX, guardY: guardY});
+            hero.x = pos[i][0];
+            hero.y = pos[i][1];
+            this.addHero(hero);
+
+            hero.moveTo(guardX,guardY);
         }
     }
-
+    
     public showTool(ui:egret.DisplayObject, x:number, y:number) {
         this.hideAllTools();
         
