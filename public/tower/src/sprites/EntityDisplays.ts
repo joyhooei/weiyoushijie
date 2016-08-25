@@ -23,14 +23,16 @@ class EntityDisplays {
         }
     }
     
-    public addBitmap(bitmapRes:string, options?:any) {
+    public addBitmap(bitmapRes:string, options?:any): EntityDisplays {
         let bm:egret.Bitmap = new egret.Bitmap();
         bm.texture = RES.getRes(name);
         
         this._add(bm, options);
+        
+        return this;
     }
     
-    public addClip(dataRes:string, textureRes:string, clipName:string, options?:any) {
+    public addClip(dataRes:string, textureRes:string, clipName:string, options?:any): EntityDisplays {
         let data    = RES.getRes(dataRes);
         let texture = RES.getRes(textureRes);
         let mcf: egret.MovieClipDataFactory = new egret.MovieClipDataFactory(data, texture);
@@ -39,6 +41,8 @@ class EntityDisplays {
         clip.movieClipData = mcf.generateMovieClipData(clipName);
         
         this._add(clip, options);
+        
+        return this;
     }
 
     public render(container: egret.DisplayObjectContainer, options:any): boolean {
