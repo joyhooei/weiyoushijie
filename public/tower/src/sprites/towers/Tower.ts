@@ -12,6 +12,8 @@ class Tower extends SoldierCreator {
         super();
 
         this.width = this.height = 50;
+        
+        this._displays.addClip("building")
     }
     
     public initialize(properties:any) {
