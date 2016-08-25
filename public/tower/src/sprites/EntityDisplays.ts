@@ -14,8 +14,10 @@ class EntityDisplays {
     
     private _add(display:egret.DisplayObject, action?:string) {
         if (action) {
-            this._displays[action] = display;
-        } else {
+            this._displays[this._actionToIndex(action)] = display;
+        }
+        
+        if (!this._defaultDisplay) {
             this._defaultDisplay = display;
         }
     }
@@ -50,8 +52,8 @@ class EntityDisplays {
         return this;
     }
 
-    public render(container: egret.DisplayObjectContainer, action:string): boolean {
-        let display = this._getDisplay(action);
+    public render(container: egret.DisplayObjectContainer, direction:EntityDirection, state: EntityState): boolean {
+        let display = this._getDisplay(direction, state);
         if (display) {
             if (display != this._currentDisplay) {
                 if (this._currentDisplay) {
@@ -72,43 +74,70 @@ class EntityDisplays {
     }
     
     /*
-    east_moving
-    moving
     */
-    private _getDisplay(action:string): egret.DisplayObject {
+    private _getDisplay(direction:number, state: number): egret.DisplayObject {
         let display  = null;
         
-        for (let key in this._displays) {
-            if (key == action) {
-                display = this._displays[key];
+        let idx = direction << 3 + state;
+        if (this._displays[idx]) {
+            display = this._displays[idx];
 
-                if (egret.getQualifiedClassName(display) == "MovieClip") {
-                    (<egret.MovieClip>display).gotoAndPlay(action);
-                }
-                
-                break;
+            if (egret.getQualifiedClassName(display) == "MovieClip") {
+                (<egret.MovieClip>display).gotoAndPlay(this._indexToAction(idx));
             }
-        }
-    
-        if (display == null) {
-            let actions = action.split("_");
-            if (actions.length <= 1) {
-                if (this._defaultDisplay) {
-                    display = this._defaultDisplay;
-                } else if (this._displays.length > 0) {
-                    display = this._displays[0];
-                }
+        } else {
+            if (direction == 0) {
+                display = this._defaultDisplay;
                 
                 if (egret.getQualifiedClassName(display) == "MovieClip") {
                     (<egret.MovieClip>display).play();
                 }                
             } else {
-                actions.splice(0, 1);
-                let action = actions.join("_");
-                display = this._getDisplay(action);
+                display = this._getDisplay(0, state);
             }
         }
         
-        return display;    
+        return display;
+    }
+    
+    private _actionToIndex(action: string): number {
+        let table = {
+            idle : 0,
+            building : 1,
+            moving: 2,
+            guarding: 3,
+            fighting: 4,
+            dying: 5,
+            dead: 6,
+        
+            north: 0,
+            northeast: 1,
+            east: 2,
+            southeast: 3,
+            south: 4,
+            southwest: 5,
+            west: 6,
+            northwest: 7            
+        }
+        
+        let idx = 0;
+        
+        let actions = action.split("-");
+        for (let i = 0; i < actions.length; i++) {
+            idx = idx << 3 + table[actions[i]];
+        }
+        
+        return idx;
+    }
+    
+    private _indexToAction(idx:number): string {
+        let directions = ["idle", "building", "moving", "guarding", "fighting", "dying", "dead"];
+        let states = ["north", "northeast", "east", "southeast", "south", "southwest", "west", "northwest"];
+
+        if (idx >= 8) {
+            return directions[idx >> 3] + "-" + states[idx % 8];
+        } else {
+            return states[idx % 8];
+        }
     }
 }
