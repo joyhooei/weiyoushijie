@@ -4,20 +4,14 @@ class Battle1 extends Battle {
         
         this._url = "resource/art/sprites/battles/level2.tmx";
     }
-
+    
+    protected _addBases() {
+        this._addBasesByName("Base1");
+    }
+    
     //增加英雄
     protected _addHeros() {
-        let pos = this._map.getExits();
-        for(let i = 0; i < pos.length; i++) {
-            let guardX = Math.min(Math.max(pos[i][0], 50), 750);
-            let guardY = Math.min(Math.max(pos[i][1], 50), 430);
-            let hero = <Hero>application.pool.get("MonkeyKing", {guardX: guardX, guardY: guardY});
-            hero.x = pos[i][0];
-            hero.y = pos[i][1];
-            this.addHero(hero);
-
-            hero.moveTo(guardX,guardY);
-        }
+        this._addHerosByName("MonkeyKing");
     }
     
     protected _addStandbys() {
