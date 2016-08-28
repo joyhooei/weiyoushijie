@@ -10,6 +10,7 @@ var Base = (function (_super) {
         this._guardX = this._get(properties, "guardX", 0);
         this._guardY = this._get(properties, "guardY", 0);
         this._tower = null;
+        this.guard();
     };
     p.getGuardX = function () {
         return this._guardX;

@@ -43,9 +43,11 @@ class EntityDisplays {
         if (action) {
             this._add(clip, action);
         } else {
-            for(let i = 0; i < mcd.labels.length; i++) {
-                let label = mcd.labels[i];
-                this._add(clip, label);
+            if (mcd.labels) {
+                for(let i = 0; i < mcd.labels.length; i++) {
+                    let label = mcd.labels[i];
+                    this._add(clip, label.name);
+                }
             }
         }
         
@@ -55,17 +57,15 @@ class EntityDisplays {
     public render(container: egret.DisplayObjectContainer, direction:EntityDirection, state: EntityState): boolean {
         let display = this._getDisplay(direction, state);
         if (display) {
-            if (display != this._currentDisplay) {
-                if (this._currentDisplay) {
-                    container.removeChild(this._currentDisplay);
-                }
-                
-                if (display) {
-                    container.addChild(display);
-                }
-            
-                this._currentDisplay = display;
+            if (this._currentDisplay) {
+                container.removeChild(this._currentDisplay);
             }
+            
+            if (display) {
+                container.addChild(display);
+            }
+        
+            this._currentDisplay = display;
 
             return true;
         } else {
@@ -78,19 +78,20 @@ class EntityDisplays {
     private _getDisplay(direction:number, state: number): egret.DisplayObject {
         let display  = null;
         
-        let idx = direction << 3 + state;
+        let idx = (direction << 3) + state;
         if (this._displays[idx]) {
             display = this._displays[idx];
 
-            if (egret.getQualifiedClassName(display) == "MovieClip") {
-                (<egret.MovieClip>display).gotoAndPlay(this._indexToAction(idx));
+            if (egret.getQualifiedClassName(display) == "egret.MovieClip") {
+                let label = this._indexToAction(idx);
+                (<egret.MovieClip>display).gotoAndPlay(label, -1);
             }
         } else {
             if (direction == 0) {
                 display = this._defaultDisplay;
                 
-                if (egret.getQualifiedClassName(display) == "MovieClip") {
-                    (<egret.MovieClip>display).play();
+                if (egret.getQualifiedClassName(display) == "egret.MovieClip") {
+                    (<egret.MovieClip>display).play(-1);
                 }                
             } else {
                 display = this._getDisplay(0, state);
@@ -124,7 +125,7 @@ class EntityDisplays {
         
         let actions = action.split("-");
         for (let i = 0; i < actions.length; i++) {
-            idx = idx << 3 + table[actions[i]];
+            idx = (idx << 3) + table[actions[i]];
         }
         
         return idx;

@@ -33,10 +33,6 @@ var Entity = (function (_super) {
         this._direction = this._get(properties, "direction", EntityDirection.east);
         this._state = this._get(properties, "state", EntityState.idle);
         this._ticks = 0;
-        this.x = this._get(properties, "x", 100);
-        this.y = this._get(properties, "y", 100);
-        this.width = this._get(properties, "width", 50);
-        this.height = this._get(properties, "height", 50);
     };
     p._get = function (properties, name, defaultVal) {
         if (properties && properties[name]) {
@@ -69,10 +65,10 @@ var Entity = (function (_super) {
         }
     };
     p.setCenterX = function (x) {
-        this.x = x - this.width >> 1;
+        this.x = x - (this.width >> 1);
     };
     p.setCenterY = function (y) {
-        this.y = y - this.height >> 1;
+        this.y = y - (this.height >> 1);
     };
     p.getCenterX = function () {
         return this.getMapX() + (this.width >> 1);

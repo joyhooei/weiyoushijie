@@ -30,9 +30,11 @@ var EntityDisplays = (function () {
             this._add(clip, action);
         }
         else {
-            for (var i = 0; i < mcd.labels.length; i++) {
-                var label = mcd.labels[i];
-                this._add(clip, label);
+            if (mcd.labels) {
+                for (var i = 0; i < mcd.labels.length; i++) {
+                    var label = mcd.labels[i];
+                    this._add(clip, label.name);
+                }
             }
         }
         return this;
@@ -40,15 +42,13 @@ var EntityDisplays = (function () {
     p.render = function (container, direction, state) {
         var display = this._getDisplay(direction, state);
         if (display) {
-            if (display != this._currentDisplay) {
-                if (this._currentDisplay) {
-                    container.removeChild(this._currentDisplay);
-                }
-                if (display) {
-                    container.addChild(display);
-                }
-                this._currentDisplay = display;
+            if (this._currentDisplay) {
+                container.removeChild(this._currentDisplay);
             }
+            if (display) {
+                container.addChild(display);
+            }
+            this._currentDisplay = display;
             return true;
         }
         else {
@@ -59,18 +59,19 @@ var EntityDisplays = (function () {
     */
     p._getDisplay = function (direction, state) {
         var display = null;
-        var idx = direction << 3 + state;
+        var idx = (direction << 3) + state;
         if (this._displays[idx]) {
             display = this._displays[idx];
-            if (egret.getQualifiedClassName(display) == "MovieClip") {
-                display.gotoAndPlay(this._indexToAction(idx));
+            if (egret.getQualifiedClassName(display) == "egret.MovieClip") {
+                var label = this._indexToAction(idx);
+                display.gotoAndPlay(label, -1);
             }
         }
         else {
             if (direction == 0) {
                 display = this._defaultDisplay;
-                if (egret.getQualifiedClassName(display) == "MovieClip") {
-                    display.play();
+                if (egret.getQualifiedClassName(display) == "egret.MovieClip") {
+                    display.play(-1);
                 }
             }
             else {
@@ -100,7 +101,7 @@ var EntityDisplays = (function () {
         var idx = 0;
         var actions = action.split("-");
         for (var i = 0; i < actions.length; i++) {
-            idx = idx << 3 + table[actions[i]];
+            idx = (idx << 3) + table[actions[i]];
         }
         return idx;
     };

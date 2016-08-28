@@ -18,6 +18,8 @@ class Base extends Entity {
         this._guardY = this._get(properties, "guardY", 0);
         
         this._tower = null;
+
+        this.guard();
     }
     
     public getGuardX(): number {

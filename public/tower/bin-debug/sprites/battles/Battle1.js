@@ -15,10 +15,10 @@ var Battle1 = (function (_super) {
     p._addStandbys = function () {
         var paths = this._map.getPaths();
         var waves = [
-            [0, "Enemy", 10, 0],
-            [1, "Enemy", 10, 1],
-            [2, "Enemy", 10, 0],
-            [2, "Enemy", 10, 1],
+            [0, "Enemy1", 10, 0],
+            [1, "Enemy1", 10, 1],
+            [2, "Enemy1", 10, 0],
+            [2, "Enemy1", 10, 1],
         ];
         for (var i = 0; i < waves.length; i++) {
             var w = waves[i];

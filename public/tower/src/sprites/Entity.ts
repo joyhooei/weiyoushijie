@@ -43,12 +43,6 @@ class Entity extends egret.Sprite {
         this._direction = this._get(properties, "direction", EntityDirection.east);
         this._state 	= this._get(properties, "state", EntityState.idle);
         this._ticks 	= 0;
-        
-        this.x = this._get(properties, "x", 100);
-        this.y = this._get(properties, "y", 100);
-        
-        this.width  = this._get(properties, "width", 50);
-        this.height = this._get(properties, "height", 50);
     }
     
     protected _get(properties: any, name:string, defaultVal:any): any {
@@ -84,11 +78,11 @@ class Entity extends egret.Sprite {
     }
 
 	public setCenterX(x:number) {
-		this.x = x - this.width >> 1;
+		this.x = x - (this.width >> 1);
 	}
 
 	public setCenterY(y:number) {
-		this.y = y - this.height >> 1;
+		this.y = y - (this.height >> 1);
 	}
     
     public getCenterX(): number {

@@ -1,7 +1,7 @@
 {
 	"groups": [
 		{
-			"keys": "world_jpg",
+			"keys": "world_jpg,base3_png,base2_png,base1_png,bg_mp3,enemy1_png,enemy1_json",
 			"name": "home"
 		},
 		{
@@ -9,7 +9,7 @@
 			"name": "landing"
 		},
 		{
-			"keys": "login_png,loginb_png,world2_jpg",
+			"keys": "login_png,loginb_png,world2_jpg,base2_png,base3_png,base1_png,bg_mp3,enemy1_png",
 			"name": "preload"
 		},
 		{
@@ -44,9 +44,39 @@
 			"name": "world_jpg"
 		},
 		{
-			"name": "world2_jpg",
+			"url": "art/home/world.jpg",
 			"type": "image",
-			"url": "art/home/world.jpg"
+			"name": "world2_jpg"
+		},
+		{
+			"url": "art/sprites/bases/base2.png",
+			"type": "image",
+			"name": "base2_png"
+		},
+		{
+			"url": "art/sprites/bases/base3.png",
+			"type": "image",
+			"name": "base3_png"
+		},
+		{
+			"url": "art/sprites/bases/base1.png",
+			"type": "image",
+			"name": "base1_png"
+		},
+		{
+			"url": "art/sound/bg.mp3",
+			"type": "sound",
+			"name": "bg_mp3"
+		},
+		{
+			"url": "art/sprites/enemies/enemy1.png",
+			"type": "image",
+			"name": "enemy1_png"
+		},
+		{
+			"url": "art/sprites/enemies/enemy1.json",
+			"type": "json",
+			"name": "enemy1_json"
 		}
 	]
 }

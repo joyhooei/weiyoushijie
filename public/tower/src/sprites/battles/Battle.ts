@@ -203,8 +203,8 @@ class Battle extends SoldierCreator {
         
         for(let i = 0; i < bases.length; i++) {
             let base = <Base>application.pool.get(name, {"guardX": bases[i][2], "guardY": bases[i][3]});
-            base.x = bases[i][0];
-            base.y = bases[i][1];
+            base.setCenterX(bases[i][0]);
+            base.setCenterY(bases[i][1]);
             this.addBase(base);
         }        
     }

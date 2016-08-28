@@ -14,7 +14,7 @@ class BattleUI extends AbstractUI {
         
         let self = this;
         
-        self._music = RES.getRes("bg");
+        self._music = RES.getRes("bg_mp3");
         self._music.type = egret.Sound.MUSIC;
 
         self.grpSystemTools.addChild(new BattleSystemToolItem({category: 'soldier'}));
@@ -50,7 +50,7 @@ class BattleUI extends AbstractUI {
     }
     
     private _startBattle() {
-    	this._music.play();
+    	//this._music.play();
     	
         application.battle.start();
         
@@ -68,6 +68,8 @@ class BattleUI extends AbstractUI {
     private _onEnterFrame(e:egret.Event) {
         if (application.battle.update()) {
     		let self = this;
+
+            self._music.close();
     	
     		application.showUI(new BattleOptionUI(function(){
     			self._restartBattle();

@@ -3,7 +3,7 @@ var BattleUI = (function (_super) {
     function BattleUI() {
         _super.call(this, "battleUISkin");
         var self = this;
-        self._music = RES.getRes("bg");
+        self._music = RES.getRes("bg_mp3");
         self._music.type = egret.Sound.MUSIC;
         self.grpSystemTools.addChild(new BattleSystemToolItem({ category: 'soldier' }));
         self.grpSystemTools.addChild(new BattleSystemToolItem({ category: 'fireball' }));
@@ -44,6 +44,7 @@ var BattleUI = (function (_super) {
     p._onEnterFrame = function (e) {
         if (application.battle.update()) {
             var self_1 = this;
+            self_1._music.close();
             application.showUI(new BattleOptionUI(function () {
                 self_1._restartBattle();
             }, function () {
