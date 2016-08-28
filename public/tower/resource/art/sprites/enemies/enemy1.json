@@ -2,12 +2,12 @@
 	"enemy1":{
 		"frameRate":30,
 		"labels":[
-			{"name":"east-walking","frame":1, "end":22}
-			,{"name":"north-walking","frame":23}
-			,{"name":"south-walking","frame":45}
-			,{"name":"guarding","frame":67}
-			,{"name":"fighting","frame":68}
-			,{"name":"dying","frame":78}
+			{"name":"east-moving","frame":1, "end":22}
+			,{"name":"north-moving","frame":23, "end":44}
+			,{"name":"south-moving","frame":45, "end":66}
+			,{"name":"guarding","frame":67, "end":67}
+			,{"name":"fighting","frame":68, "end":77}
+			,{"name":"dying","frame":78, "end":78}
 			
 			],
 		"frames":[

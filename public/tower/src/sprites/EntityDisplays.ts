@@ -14,7 +14,8 @@ class EntityDisplays {
     
     private _add(display:egret.DisplayObject, action?:string) {
         if (action) {
-            this._displays[this._actionToIndex(action)] = display;
+            let idx = this._actionToIndex(action);
+            this._displays[idx] = display;
         }
         
         if (!this._defaultDisplay) {
@@ -54,7 +55,7 @@ class EntityDisplays {
         return this;
     }
 
-    public render(container: egret.DisplayObjectContainer, direction:EntityDirection, state: EntityState): boolean {
+    public render(container: egret.DisplayObjectContainer, direction:EntityDirection, state: EntityState): egret.DisplayObject  {
         let display = this._getDisplay(direction, state);
         if (display) {
             if (this._currentDisplay) {
@@ -66,15 +67,11 @@ class EntityDisplays {
             }
         
             this._currentDisplay = display;
-
-            return true;
-        } else {
-            return false;
         }
+
+        return display;
     }
     
-    /*
-    */
     private _getDisplay(direction:number, state: number): egret.DisplayObject {
         let display  = null;
         
@@ -83,8 +80,13 @@ class EntityDisplays {
             display = this._displays[idx];
 
             if (egret.getQualifiedClassName(display) == "egret.MovieClip") {
-                let label = this._indexToAction(idx);
-                (<egret.MovieClip>display).gotoAndPlay(label, -1);
+                let label = this._indexToAction(idx, true);
+                try {
+                    (<egret.MovieClip>display).gotoAndPlay(label, -1);
+                } catch (error) {
+                    label = this._indexToAction(idx, false);
+                    (<egret.MovieClip>display).gotoAndPlay(label, -1);
+                }
             }
         } else {
             if (direction == 0) {
@@ -131,11 +133,11 @@ class EntityDisplays {
         return idx;
     }
     
-    private _indexToAction(idx:number): string {
-        let directions = ["idle", "building", "moving", "guarding", "fighting", "dying", "dead"];
-        let states = ["north", "northeast", "east", "southeast", "south", "southwest", "west", "northwest"];
+    private _indexToAction(idx:number, direction:boolean): string {
+        let states = ["idle", "building", "moving", "guarding", "fighting", "dying", "dead"];
+        let directions = ["north", "northeast", "east", "southeast", "south", "southwest", "west", "northwest"];
 
-        if (idx >= 8) {
+        if (direction) {
             return directions[idx >> 3] + "-" + states[idx % 8];
         } else {
             return states[idx % 8];

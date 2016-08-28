@@ -7,7 +7,8 @@ var EntityDisplays = (function () {
     var d = __define,c=EntityDisplays,p=c.prototype;
     p._add = function (display, action) {
         if (action) {
-            this._displays[this._actionToIndex(action)] = display;
+            var idx = this._actionToIndex(action);
+            this._displays[idx] = display;
         }
         if (!this._defaultDisplay) {
             this._defaultDisplay = display;
@@ -49,22 +50,23 @@ var EntityDisplays = (function () {
                 container.addChild(display);
             }
             this._currentDisplay = display;
-            return true;
         }
-        else {
-            return false;
-        }
+        return display;
     };
-    /*
-    */
     p._getDisplay = function (direction, state) {
         var display = null;
         var idx = (direction << 3) + state;
         if (this._displays[idx]) {
             display = this._displays[idx];
             if (egret.getQualifiedClassName(display) == "egret.MovieClip") {
-                var label = this._indexToAction(idx);
-                display.gotoAndPlay(label, -1);
+                var label = this._indexToAction(idx, true);
+                try {
+                    display.gotoAndPlay(label, -1);
+                }
+                catch (error) {
+                    label = this._indexToAction(idx, false);
+                    display.gotoAndPlay(label, -1);
+                }
             }
         }
         else {
@@ -105,10 +107,10 @@ var EntityDisplays = (function () {
         }
         return idx;
     };
-    p._indexToAction = function (idx) {
-        var directions = ["idle", "building", "moving", "guarding", "fighting", "dying", "dead"];
-        var states = ["north", "northeast", "east", "southeast", "south", "southwest", "west", "northwest"];
-        if (idx >= 8) {
+    p._indexToAction = function (idx, direction) {
+        var states = ["idle", "building", "moving", "guarding", "fighting", "dying", "dead"];
+        var directions = ["north", "northeast", "east", "southeast", "south", "southwest", "west", "northwest"];
+        if (direction) {
             return directions[idx >> 3] + "-" + states[idx % 8];
         }
         else {

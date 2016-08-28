@@ -31,7 +31,7 @@ var BattleUI = (function (_super) {
         application.hideUI(this);
     };
     p._startBattle = function () {
-        this._music.play();
+        //this._music.play();
         application.battle.start();
         this.grpBattle.addChild(application.battle);
         this.stage.frameRate = application.frameRate;
