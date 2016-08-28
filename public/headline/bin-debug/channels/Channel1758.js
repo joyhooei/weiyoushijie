@@ -1,6 +1,6 @@
 window['onShareTimeline'] = function () {
-    console.log('onShareTimeline');
-    application.channel.resolve();
+    console.info('onShareTimeline');
+    application.channel.resolve("");
 };
 var Channel1758 = (function (_super) {
     __extends(Channel1758, _super);
@@ -12,7 +12,7 @@ var Channel1758 = (function (_super) {
     p.share = function (options) {
         var self = this;
         self.require(self.url).then(function () {
-            hlmy.setShareInfo();
+            hlmy.setShareInfo({ state: "", tipInfo: true, reward: ['100钻石'] });
         });
         return self.promise();
     };

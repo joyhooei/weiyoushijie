@@ -24,7 +24,7 @@ class Star {
     	return star;
     }
     
-    public static create(customer:Customer):any {
+    public static create(customer:Customer): Q.Promise<any> {
         let star:any = {};
         star.customer_id = customer.attrs.id;
         star.opened_level = 0;
@@ -33,9 +33,7 @@ class Star {
     	star.saving_hours = 0;
     	star.last_pick_time = (new Date()).toString();
     	star.sticks = 0;
-    	application.dao.save("Star", star);
-    	
-    	return star;
+    	return application.dao.save("Star", star);
     }
     
     public static refresh(customer:Customer): Q.Promise<any[]> {
@@ -43,11 +41,13 @@ class Star {
             application.dao.fetch("Star", {customer_id: customer.attrs.id}, {limit : 1}).then(function(stars){
                 if (stars.length == 1) {
                     application.star = Star.check(stars[0]);
+                    resolve(application.star);
                 } else {
-                    application.star = Star.create(customer);
-                }
-                
-                resolve(application.star);
+                    Star.create(customer).then(function(star){
+                        application.star = star;
+                        resolve(application.star);
+                    })
+                }                
             }, function(error){
                 reject(error);
             });

@@ -32,19 +32,21 @@ var Star = (function () {
         star.saving_hours = 0;
         star.last_pick_time = (new Date()).toString();
         star.sticks = 0;
-        application.dao.save("Star", star);
-        return star;
+        return application.dao.save("Star", star);
     };
     Star.refresh = function (customer) {
         return Q.Promise(function (resolve, reject, notify) {
             application.dao.fetch("Star", { customer_id: customer.attrs.id }, { limit: 1 }).then(function (stars) {
                 if (stars.length == 1) {
                     application.star = Star.check(stars[0]);
+                    resolve(application.star);
                 }
                 else {
-                    application.star = Star.create(customer);
+                    Star.create(customer).then(function (star) {
+                        application.star = star;
+                        resolve(application.star);
+                    });
                 }
-                resolve(application.star);
             }, function (error) {
                 reject(error);
             });

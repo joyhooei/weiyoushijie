@@ -2,7 +2,7 @@ var LoginRewardUI = (function (_super) {
     __extends(LoginRewardUI, _super);
     function LoginRewardUI() {
         _super.call(this, 'loginRewardUISkin');
-        this.rewardData = [300, 500, 800, 1200, 2000, 3000, 5000];
+        this.rewardData = [300, 500, 700, 900, 1100, 1300, 1500];
         this.imgPicks = [this.imgPick1, this.imgPick2, this.imgPick3, this.imgPick4, this.imgPick5, this.imgPick6, this.imgPick7];
         for (var i = 0; i < this.imgPicks.length; i++) {
             this.imgPicks[i].visible = false;

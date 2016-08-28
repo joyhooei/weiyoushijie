@@ -109,16 +109,18 @@ var AuctionUI = (function (_super) {
         this.startX = e.stageX;
     };
     p.onChangeBid = function (e) {
-        var step = e.stageX - this.startX;
-        this.startX = e.stageX;
-        var target = Math.max(this.imgThumb.x, this.grpTrack.x + step);
-        target = Math.min(this.imgThumb.width + this.imgThumb.x - this.grpTrack.width, target);
-        this.grpTrack.x = target;
-        var percent = Math.round(100 * (this.grpTrack.x - this.imgThumb.x) / (this.imgThumb.width - this.grpTrack.width));
-        this.lblTrack.text = percent.toString() + "%";
-        this.renderBid((Math.max(0, application.me.attrs.gold - this.bid.gold)) * percent / 100);
-        this.imgFront.width = this.grpTrack.x - this.imgThumb.x + 20;
-        this.nextStep();
+        if (e.stageX > this.startX) {
+            var step = e.stageX - this.startX;
+            this.startX = e.stageX;
+            var target = Math.max(this.imgThumb.x, this.grpTrack.x + step);
+            target = Math.min(this.imgThumb.width + this.imgThumb.x - this.grpTrack.width, target);
+            this.grpTrack.x = target;
+            var percent = Math.round(100 * (this.grpTrack.x - this.imgThumb.x) / (this.imgThumb.width - this.grpTrack.width));
+            this.lblTrack.text = percent.toString() + "%";
+            this.renderBid((Math.max(0, application.me.attrs.gold - this.bid.gold)) * percent / 100);
+            this.imgFront.width = this.grpTrack.x - this.imgThumb.x + 20;
+            this.nextStep();
+        }
     };
     p.nextStep = function () {
         if (application.guideUI) {
