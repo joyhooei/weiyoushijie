@@ -10,7 +10,7 @@ class Soldier extends NPC {
     
     protected _creator: SoldierCreator;
     
-    protected _range: Range;
+    protected _range: GuardRange;
 
     public constructor() {
         super();
@@ -20,7 +20,7 @@ class Soldier extends NPC {
     
     public select(again:boolean) {
         if (!again) {
-            this._range = application.pool.get("Range", {guardRadius: this._guardRadius});
+            this._range = <GuardRange>application.pool.get("GuardRange", {guardRadius: this._guardRadius});
             
             this._range.x = this.getCenterX() - this._guardRadius;
             this._range.y = this.getCenterY() - this._guardRadius >> 1;
@@ -70,7 +70,7 @@ class Soldier extends NPC {
     }
     
     public relive(idleTicks:number):Soldier {
-        let soldier = <Soldier>applicaton.pool.get(this.getClassName(), {guardX: this._guardX, guardY: this._guardY, idleTicks: idleTicks});
+        let soldier = <Soldier>application.pool.get(this.getClassName(), {guardX: this._guardX, guardY: this._guardY, idleTicks: idleTicks});
         soldier.x = this.x;
         soldier.y = this.y;
         soldier.width = this.width;

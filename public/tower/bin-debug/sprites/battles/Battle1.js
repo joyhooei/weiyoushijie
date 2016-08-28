@@ -5,18 +5,12 @@ var Battle1 = (function (_super) {
         this._url = "resource/art/sprites/battles/level2.tmx";
     }
     var d = __define,c=Battle1,p=c.prototype;
+    p._addBases = function () {
+        this._addBasesByName("Base1");
+    };
     //增加英雄
     p._addHeros = function () {
-        var pos = this._map.getExits();
-        for (var i = 0; i < pos.length; i++) {
-            var guardX = Math.min(Math.max(pos[i][0], 50), 750);
-            var guardY = Math.min(Math.max(pos[i][1], 50), 430);
-            var hero = application.pool.get("MonkeyKing", { guardX: guardX, guardY: guardY });
-            hero.x = pos[i][0];
-            hero.y = pos[i][1];
-            this.addHero(hero);
-            hero.moveTo(guardX, guardY);
-        }
+        this._addHerosByName("MonkeyKing");
     };
     p._addStandbys = function () {
         var paths = this._map.getPaths();

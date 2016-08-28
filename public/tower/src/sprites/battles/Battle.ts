@@ -132,7 +132,7 @@ class Battle extends SoldierCreator {
         	        }
                 } else {
                     //显示不能放置图片
-                    let tip = application.pool.get("DisableTip");
+                    let tip = <Tip>application.pool.get("DisableTip");
                     tip.setCenterX(x);
                     tip.setCenterY(y);
                     this.addTip(tip);
@@ -375,7 +375,7 @@ class Battle extends SoldierCreator {
         this._rangeLayer.addChild(entity);      
     }
 
-    public addRange(entity:Range) {
+    public addRange(entity:GuardRange) {
         this._entities.push(entity);
         this._rangeLayer.addChild(entity);      
     }
@@ -384,10 +384,12 @@ class Battle extends SoldierCreator {
         this._dirts.push(entity);
     }
     
-    public create(soldier: Soldier) {
-        let hero = <Hero>child.relive(this._createSpeed);
-        hero.x = child.x;
-        hero.y = child.y;
+    public create(soldier: Soldier):Soldier {
+        let hero = <Hero>soldier.relive(this._createSpeed);
+        hero.x = soldier.x;
+        hero.y = soldier.y;
         this.addHero(hero);
+
+        return hero;
     }
 }

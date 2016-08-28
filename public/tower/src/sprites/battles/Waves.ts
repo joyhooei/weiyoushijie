@@ -81,7 +81,7 @@ class Waves {
                 for(let i = 0; i < wave.length; i++) {
                     let paths = <number[][]>wave[i][2];
                     for(let j = 0; j < paths.length; j++) {
-                        let tip = application.pool.get("LaunchTip", {"dyingTicks":this._timeBetweenWaves});
+                        let tip = <Tip>application.pool.get("LaunchTip", {"dyingTicks":this._timeBetweenWaves});
                         let direction = Entity.direction4(paths[0][0], paths[0][1], paths[1][0], paths[1][1]);
                         switch(direction) {
                             case EntityDirection.east:

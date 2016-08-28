@@ -1,1 +1,1 @@
-{"version":3,"file":"BombTower1.js","sourceRoot":"","sources":["../../../src/sprites/towers/BombTower1.ts"],"names":[],"mappings":"AAAA;IAAyB,8BAAS;IAC9B;QACI,iBAAO,CAAC;IACZ,CAAC;;IACL,iBAAC;AAAD,CAAC,AAJD,CAAyB,SAAS,GAIjC;oBAJK,UAAU;AAIf"}
+{"version":3,"file":"BombTower1.js","sourceRoot":"","sources":["../../../src/sprites/towers/BombTower1.ts"],"names":[],"mappings":"AAAA;IAAyB,8BAAS;IAC9B;QACI,iBAAO,CAAC;QAER,IAAI,CAAC,SAAS,CAAC,SAAS,CAAC,YAAY,CAAC,CAAC;IAC3C,CAAC;;IACL,iBAAC;AAAD,CAAC,AAND,CAAyB,SAAS,GAMjC;oBANK,UAAU;AAMf"}

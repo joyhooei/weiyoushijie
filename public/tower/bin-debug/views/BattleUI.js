@@ -3,16 +3,15 @@ var BattleUI = (function (_super) {
     function BattleUI() {
         _super.call(this, "battleUISkin");
         var self = this;
-        self.grpBattle.addChild(application.battle);
-        self.grpSystemTools.addChild(new BattleTimeoutToolItem({ category: 'soldier' }));
-        self.grpSystemTools.addChild(new BattleTimeoutToolItem({ category: 'fireball' }));
-        /*
-        application.dao.fetch("Tool", {customer_id: application.me.attrs.id, count: {$gt: 0}}).then(function(tools){
-            for(let i = 0; i < tools.length; i++) {
+        self._music = RES.getRes("bg");
+        self._music.type = egret.Sound.MUSIC;
+        self.grpSystemTools.addChild(new BattleSystemToolItem({ category: 'soldier' }));
+        self.grpSystemTools.addChild(new BattleSystemToolItem({ category: 'fireball' }));
+        application.dao.fetch("Tool", { customer_id: application.me.attrs.id, count: { $gt: 0 } }).then(function (tools) {
+            for (var i = 0; i < tools.length; i++) {
                 self.grpBoughtTools.addChild(new BattleToolItem(tools[i]));
             }
-        })
-        */
+        });
         application.dao.addEventListener("Battle", function (evt) {
             self.lblLives.text = application.battle.getLives().toString();
             self.lblGolds.text = application.battle.getGolds().toString();
@@ -32,15 +31,21 @@ var BattleUI = (function (_super) {
         application.hideUI(this);
     };
     p._startBattle = function () {
+        this._music.play();
         application.battle.start();
+        this.grpBattle.addChild(application.battle);
         this.stage.frameRate = application.frameRate;
         this.addEventListener(egret.Event.ENTER_FRAME, this._onEnterFrame, this);
+    };
+    p._restartBattle = function () {
+        application.battle = application.pool.get(application.battle.getClassName());
+        this._startBattle();
     };
     p._onEnterFrame = function (e) {
         if (application.battle.update()) {
             var self_1 = this;
             application.showUI(new BattleOptionUI(function () {
-                self_1._startBattle();
+                self_1._restartBattle();
             }, function () {
                 self_1._quitBattle();
             }));

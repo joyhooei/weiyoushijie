@@ -26,12 +26,17 @@ var Entity = (function (_super) {
     function Entity() {
         _super.call(this);
         this._displays = new EntityDisplays();
+        this._sounds = new EntitySounds();
     }
     var d = __define,c=Entity,p=c.prototype;
     p.initialize = function (properties) {
         this._direction = this._get(properties, "direction", EntityDirection.east);
         this._state = this._get(properties, "state", EntityState.idle);
         this._ticks = 0;
+        this.x = this._get(properties, "x", 100);
+        this.y = this._get(properties, "y", 100);
+        this.width = this._get(properties, "width", 50);
+        this.height = this._get(properties, "height", 50);
     };
     p._get = function (properties, name, defaultVal) {
         if (properties && properties[name]) {
@@ -62,6 +67,12 @@ var Entity = (function (_super) {
         else {
             return this.y;
         }
+    };
+    p.setCenterX = function (x) {
+        this.x = x - this.width >> 1;
+    };
+    p.setCenterY = function (y) {
+        this.y = y - this.height >> 1;
     };
     p.getCenterX = function () {
         return this.getMapX() + (this.width >> 1);
@@ -130,7 +141,7 @@ var Entity = (function (_super) {
     };
     //根据状态、面向修改重新渲染
     p.paint = function () {
-        this._displays.render(this, { direction: this._direction, state: this._state });
+        this._displays.render(this, this._direction, this._state);
     };
     p._do = function (state) {
         if (state != this._state) {
@@ -141,6 +152,7 @@ var Entity = (function (_super) {
             }
             this._ticks = 0;
             this._state = state;
+            this._sounds.play(this._state);
             this.stain();
         }
     };
@@ -195,9 +207,9 @@ var Entity = (function (_super) {
     Entity.direction = function (x1, y1, x2, y2, angels, directions) {
         var dx = x2 - x1;
         var dy = y2 - y1;
-var angel = Math.atan2(dy, dx) * 57.29578049044297; //180 / Math.PI;
+        var angel = Math.atan2(dy, dx) * 57.29578049044297; //180 / Math.PI;
         if (angel < 0) {
-        	angel += 360;
+            angel += 360;
         }
         for (var i = 0; i < angels.length; i++) {
             if (angel <= angels[i]) {

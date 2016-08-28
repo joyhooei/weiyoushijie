@@ -14,7 +14,6 @@ class EntitySounds {
         if (name) {
             var sound_eff: egret.Sound = RES.getRes(name);
             sound_eff.type = egret.Sound.EFFECT;
-            sound_eff.volume = 1;
             sound_eff.play();
         }
     }

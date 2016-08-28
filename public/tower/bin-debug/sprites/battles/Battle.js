@@ -2,17 +2,12 @@ var Battle = (function (_super) {
     __extends(Battle, _super);
     function Battle() {
         _super.call(this);
-        //地基层
         this._baseLayer = this._addLayer();
-        //怪物层、士兵层、英雄层
         this._objLayer = this._addLayer();
-        //子弹层
         this._bulletLayer = this._addLayer();
-        //工具层
+        this._rangeLayer = this._addLayer();
         this._toolLayer = this._addLayer();
         this._waves = new Waves();
-        this._bases = [];
-        this._heros = [];
         this.enableSelect(this);
     }
     var d = __define,c=Battle,p=c.prototype;
@@ -41,9 +36,10 @@ var Battle = (function (_super) {
         this._objLayer.removeChildren();
         this._bulletLayer.removeChildren();
         this._toolLayer.removeChildren();
+        this._rangeLayer.removeChildren();
         this._soldiers = [];
-        this._bullets = [];
         this._enemies = [];
+        this._entities = [];
         this._dirts = [];
         this._addBases();
         this._addHeros();
@@ -80,9 +76,9 @@ var Battle = (function (_super) {
                 }
                 else {
                     //显示不能放置图片
-                    var tip = application.pool.get("NotMoveableTip");
-                    tip.x = x;
-                    tip.y = y;
+                    var tip = application.pool.get("DisableTip");
+                    tip.setCenterX(x);
+                    tip.setCenterY(y);
                     this.addTip(tip);
                 }
             }
@@ -113,6 +109,7 @@ var Battle = (function (_super) {
         return this._golds;
     };
     p.stain = function () {
+        this.paint();
     };
     p._addLayer = function () {
         var layer = new egret.Sprite();
@@ -131,12 +128,26 @@ var Battle = (function (_super) {
     };
     //增加塔基
     p._addBases = function () {
+    };
+    p._addBasesByName = function (name) {
         var bases = this._map.getBases();
         for (var i = 0; i < bases.length; i++) {
-            var base = application.pool.get("Base", { "guardX": bases[i][2], "guardY": bases[i][3] });
+            var base = application.pool.get(name, { "guardX": bases[i][2], "guardY": bases[i][3] });
             base.x = bases[i][0];
             base.y = bases[i][1];
             this.addBase(base);
+        }
+    };
+    p._addHerosByName = function (name) {
+        var pos = this._map.getExits();
+        for (var i = 0; i < pos.length; i++) {
+            var guardX = Math.min(Math.max(pos[i][0], 50), 750);
+            var guardY = Math.min(Math.max(pos[i][1], 50), 430);
+            var hero = application.pool.get(name, { guardX: guardX, guardY: guardY });
+            hero.x = pos[i][0];
+            hero.y = pos[i][1];
+            this.addHero(hero);
+            hero.moveTo(guardX, guardY);
         }
     };
     p.showTool = function (ui, x, y) {
@@ -150,11 +161,9 @@ var Battle = (function (_super) {
     };
     p.erase = function () {
         _super.prototype.erase.call(this);
-        this._eraseEntities(this._heros);
-        this._eraseEntities(this._bases);
         this._eraseEntities(this._soldiers);
         this._eraseEntities(this._enemies);
-        this._eraseEntities(this._bullets);
+        this._eraseEntities(this._entities);
     };
     p._eraseEntities = function (entities) {
         var i = entities.length;
@@ -170,13 +179,11 @@ var Battle = (function (_super) {
             this._waves.launch();
         }
         if (this._ticks % 2 == 0) {
-            this._updateEntities(this._heros);
-            this._updateEntities(this._bases);
             this._updateEntities(this._soldiers);
             this._updateEntities(this._enemies);
         }
         else {
-            this._updateEntities(this._bullets);
+            this._updateEntities(this._entities);
         }
     };
     p._updateEntities = function (entities) {
@@ -238,6 +245,10 @@ var Battle = (function (_super) {
         }
         return enemy;
     };
+    p.addHero = function (hero) {
+        this._soldiers.push(hero);
+        this._objLayer.addChild(hero);
+    };
     p.addSoldier = function (soldier) {
         this._soldiers.push(soldier);
         this._objLayer.addChild(soldier);
@@ -251,25 +262,33 @@ var Battle = (function (_super) {
             this._enemies[i].kill();
         }
     };
-    p.addBullet = function (bullet) {
-        this._bullets.push(bullet);
-        this._bulletLayer.addChild(bullet);
-    };
     p.addBase = function (base) {
-        this._bases.push(base);
+        this._entities.push(base);
         this._baseLayer.addChild(base);
     };
-    p.addHero = function (hero) {
-        this._heros.push(hero);
-        this._objLayer.addChild(hero);
+    p.addBullet = function (bullet) {
+        this._entities.push(bullet);
+        this._bulletLayer.addChild(bullet);
     };
-    p.addTip = function (tip) {
-        this._bulletLayer.addChild(tip);
+    p.addTip = function (entity) {
+        this._entities.push(entity);
+        this._rangeLayer.addChild(entity);
+    };
+    p.addRange = function (entity) {
+        this._entities.push(entity);
+        this._rangeLayer.addChild(entity);
     };
     p.addDirt = function (entity) {
         this._dirts.push(entity);
     };
+    p.create = function (soldier) {
+        var hero = soldier.relive(this._createSpeed);
+        hero.x = soldier.x;
+        hero.y = soldier.y;
+        this.addHero(hero);
+        return hero;
+    };
     return Battle;
-}(Entity));
+}(SoldierCreator));
 egret.registerClass(Battle,'Battle');
 //# sourceMappingURL=Battle.js.map

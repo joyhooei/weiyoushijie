@@ -8,18 +8,25 @@ var Hp = (function (_super) {
         _super.prototype.initialize.call(this, properties);
         this._maxHp = this._get(properties, "hp", 100);
         this._hp = this._maxHp;
+        this._cureSpeed = this._get(properties, "cureSpeed", 1);
         this.stain();
     };
     p.kill = function () {
-        this.hitBy(this._hp);
+        this._setHp(0);
+    };
+    p.cure = function () {
+        this._setHp(this._hp + this._cureSpeed);
     };
     p.hitBy = function (damage) {
-        var hp = Math.max(0, this._hp - damage);
+        return this._setHp(this._hp - damage);
+    };
+    p._setHp = function (hp) {
+        hp = Math.max(0, Math.min(this._maxHp, hp));
         if (hp != this._hp) {
             this._hp = hp;
             this.stain();
         }
-        return hp <= 0;
+        return this._hp <= 0;
     };
     p.paint = function () {
         this.graphics.clear();

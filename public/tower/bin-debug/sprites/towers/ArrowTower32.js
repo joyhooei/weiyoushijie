@@ -2,6 +2,7 @@ var ArrowTower32 = (function (_super) {
     __extends(ArrowTower32, _super);
     function ArrowTower32() {
         _super.call(this);
+        this._displays.addBitmap("arrowtower32");
     }
     var d = __define,c=ArrowTower32,p=c.prototype;
     return ArrowTower32;

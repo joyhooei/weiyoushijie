@@ -2,15 +2,56 @@ var Soldier = (function (_super) {
     __extends(Soldier, _super);
     function Soldier() {
         _super.call(this);
+        application.battle.enableSelect(this);
     }
     var d = __define,c=Soldier,p=c.prototype;
+    p.select = function (again) {
+        if (!again) {
+            this._range = application.pool.get("GuardRange", { guardRadius: this._guardRadius });
+            this._range.x = this.getCenterX() - this._guardRadius;
+            this._range.y = this.getCenterY() - this._guardRadius >> 1;
+            this._range.width = this._guardRadius << 1;
+            this._range.height = this._guardRadius;
+            application.battle.addRange(this._range);
+        }
+    };
+    p.deselect = function () {
+        if (this._range) {
+            this._range.erase();
+            this._range = null;
+        }
+    };
     p.initialize = function (properties) {
         _super.prototype.initialize.call(this, properties);
-        this._enemy = null;
         this._guardX = this._get(properties, 'guardX', 0);
         this._guardY = this._get(properties, 'guardY', 0);
         this._guardRadius = this._get(properties, 'guardRadius', 10);
         this._guardAltitudes = this._get(properties, 'guardAltitude', [-1, 0]);
+        this._enemy = null;
+        this._range = null;
+        this._creator = null;
+    };
+    p.setCreator = function (creator) {
+        this._creator = creator;
+    };
+    p.erase = function () {
+        _super.prototype.erase.call(this);
+        if (this._range) {
+            this._range.erase();
+            this._range = null;
+        }
+        if (this._creator) {
+            this._creator.create(this);
+        }
+    };
+    p.relive = function (idleTicks) {
+        var soldier = application.pool.get(this.getClassName(), { guardX: this._guardX, guardY: this._guardY, idleTicks: idleTicks });
+        soldier.x = this.x;
+        soldier.y = this.y;
+        soldier.width = this.width;
+        soldier.height = this.height;
+        soldier.setCreator(this._creator);
+        return soldier;
     };
     p.moveTo = function (x, y) {
         if (this._computeSteps(x, y)) {
@@ -33,11 +74,21 @@ var Soldier = (function (_super) {
         if (this._moveOneStep()) {
             this._arrive();
         }
+        if (this._range) {
+            this._range.x = this.getCenterX() - this._guardRadius;
+            this._range.y = this.getCenterY() - this._guardRadius >> 1;
+        }
+        if (this._hp) {
+            this._hp.cure();
+        }
     };
     p._guarding = function () {
         var enemy = this._findEnemy();
         if (enemy) {
             this._fightWith(enemy);
+        }
+        if (this._hp) {
+            this._hp.cure();
         }
     };
     p._fightWith = function (enemy) {

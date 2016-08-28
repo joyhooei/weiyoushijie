@@ -12,7 +12,7 @@ var Waves = (function () {
         this._enemies[wave].push([count, claz, paths]);
     };
     p._randomPaths = function (paths) {
-        var pathWidth = 60;
+        var pathWidth = 30;
         var enemyInterval = 20;
         var deltaY = Math.random() * pathWidth - pathWidth / 2;
         var deltaX = Math.random() * pathWidth - pathWidth / 2;

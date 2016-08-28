@@ -33,7 +33,7 @@ class Hp extends Entity {
 	}
 	
 	private _setHp(hp:number): boolean {
-		let hp = Math.max(0, Math.min(this._maxHp, hp));
+		hp = Math.max(0, Math.min(this._maxHp, hp));
 		if (hp != this._hp) {
 	        this._hp = hp;
 	        this.stain();

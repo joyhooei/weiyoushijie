@@ -3,6 +3,7 @@ var Tower = (function (_super) {
     function Tower() {
         _super.call(this);
         this.width = this.height = 50;
+        this._displays.addClip("building");
     }
     var d = __define,c=Tower,p=c.prototype;
     p.initialize = function (properties) {
@@ -27,6 +28,6 @@ var Tower = (function (_super) {
         }
     };
     return Tower;
-}(Entity));
+}(SoldierCreator));
 egret.registerClass(Tower,'Tower');
 //# sourceMappingURL=Tower.js.map

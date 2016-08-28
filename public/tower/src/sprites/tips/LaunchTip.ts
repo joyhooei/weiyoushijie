@@ -18,7 +18,7 @@ class LaunchTip extends Tip {
     }
     
     protected _dying() {
-        super.dying();
+        super._dying();
         
         this.rotation ++;
     }

@@ -1,70 +1,118 @@
 var EntityDisplays = (function () {
     function EntityDisplays() {
         this._displays = [];
-        this._keys = [];
         this._currentDisplay = null;
         this._defaultDisplay = null;
     }
     var d = __define,c=EntityDisplays,p=c.prototype;
-    p.add = function (display, options) {
-        this._displays.push(display);
-        this._keys.push(options);
+    p._add = function (display, action) {
+        if (action) {
+            this._displays[this._actionToIndex(action)] = display;
+        }
+        if (!this._defaultDisplay) {
+            this._defaultDisplay = display;
+        }
     };
-    p.setDefault = function (display) {
-        this._defaultDisplay = display;
+    p.addBitmap = function (name, action) {
+        var bm = new egret.Bitmap();
+        bm.texture = RES.getRes(name + "_png");
+        this._add(bm, action);
+        return this;
     };
-    p.render = function (container, options) {
-        var display = this._getDisplay(options);
-        if (display && display != this._currentDisplay) {
-            if (this._currentDisplay) {
-                container.removeChild(this._currentDisplay);
+    p.addClip = function (name, action) {
+        var data = RES.getRes(name + "_json");
+        var texture = RES.getRes(name + "_png");
+        var mcf = new egret.MovieClipDataFactory(data, texture);
+        var clip = new egret.MovieClip();
+        var mcd = mcf.generateMovieClipData(name);
+        clip.movieClipData = mcd;
+        if (action) {
+            this._add(clip, action);
+        }
+        else {
+            for (var i = 0; i < mcd.labels.length; i++) {
+                var label = mcd.labels[i];
+                this._add(clip, label);
             }
-            container.addChild(display);
-            if (egret.getQualifiedClassName(display) == "MovieClip") {
-                display.play();
+        }
+        return this;
+    };
+    p.render = function (container, direction, state) {
+        var display = this._getDisplay(direction, state);
+        if (display) {
+            if (display != this._currentDisplay) {
+                if (this._currentDisplay) {
+                    container.removeChild(this._currentDisplay);
+                }
+                if (display) {
+                    container.addChild(display);
+                }
+                this._currentDisplay = display;
             }
-            this._currentDisplay = display;
             return true;
         }
         else {
             return false;
         }
     };
-    p._getDisplay = function (options) {
+    /*
+    */
+    p._getDisplay = function (direction, state) {
         var display = null;
-        var suitable = 0;
-        for (var i = 0; i < this._keys.length; i++) {
-            var s = this._suitable(options, this._keys[i]);
-            if (s > suitable) {
-                display = this._displays[i];
-                suitable = s;
+        var idx = direction << 3 + state;
+        if (this._displays[idx]) {
+            display = this._displays[idx];
+            if (egret.getQualifiedClassName(display) == "MovieClip") {
+                display.gotoAndPlay(this._indexToAction(idx));
             }
-        }
-        if (display) {
-            return display;
         }
         else {
-            return this._defaultDisplay;
-        }
-    };
-    p._suitable = function (options, keys) {
-        var suitable = 0;
-        for (var key in options) {
-            if (keys.hasOwnProperty(key)) {
-                if (keys[key] == options[key]) {
-                    if (key == "direction") {
-                        suitable += 2;
-                    }
-                    else {
-                        suitable += 1;
-                    }
-                }
-                else {
-                    return 0;
+            if (direction == 0) {
+                display = this._defaultDisplay;
+                if (egret.getQualifiedClassName(display) == "MovieClip") {
+                    display.play();
                 }
             }
+            else {
+                display = this._getDisplay(0, state);
+            }
         }
-        return suitable;
+        return display;
+    };
+    p._actionToIndex = function (action) {
+        var table = {
+            idle: 0,
+            building: 1,
+            moving: 2,
+            guarding: 3,
+            fighting: 4,
+            dying: 5,
+            dead: 6,
+            north: 0,
+            northeast: 1,
+            east: 2,
+            southeast: 3,
+            south: 4,
+            southwest: 5,
+            west: 6,
+            northwest: 7
+        };
+        var idx = 0;
+        var actions = action.split("-");
+        for (var i = 0; i < actions.length; i++) {
+            idx = idx << 3 + table[actions[i]];
+        }
+        return idx;
+    };
+    p._indexToAction = function (idx) {
+        var directions = ["idle", "building", "moving", "guarding", "fighting", "dying", "dead"];
+        var states = ["north", "northeast", "east", "southeast", "south", "southwest", "west", "northwest"];
+        if (idx >= 8) {
+            return directions[idx >> 3] + "-" + states[idx % 8];
+        }
+        else {
+            return states[idx % 8];
+        }
     };
     return EntityDisplays;
 }());

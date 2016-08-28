@@ -1,5 +1,5 @@
-class SoldierCreator enxtends Entity {
-    private _createSpeed: number;
+class SoldierCreator extends Entity {
+    protected _createSpeed: number;
     
     public constructor() {
         super();
