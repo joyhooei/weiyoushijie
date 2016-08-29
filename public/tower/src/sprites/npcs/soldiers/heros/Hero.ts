@@ -1,14 +1,10 @@
-class Hero extends Soldier implements {
+class Hero extends Soldier implements SoldierCreator {
     public constructor() {
         super();
         
         this._warriors = [];
     }
-    
-    public addWarrior(warrior: Soldier) {
-        warrior.setCreator(this);
-    }
-    
+
     public createSoldier(soldier: Soldier): Soldier {
         let s = soldier.relive(ticks);
         s.x = this.getCenterX();
