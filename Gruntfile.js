@@ -1,5 +1,4 @@
 module.exports = function(grunt) {
-    // Project configuration.
     grunt.initConfig({
         node_optimize: {
             dist: {
@@ -42,6 +41,8 @@ module.exports = function(grunt) {
                 command: [
                     'egret publish public/headline --version bin-release',
                     'egret publish public/headline --runtime native --version bin-release',
+                    'egret publish public/tower --version bin-release',
+                    'egret publish public/tower --runtime native --version bin-release',
                 ].join('&&')
             }
         }, 
@@ -63,6 +64,11 @@ module.exports = function(grunt) {
                     
                     {expand: true, cwd: 'public/headline/bin-release/', src: ['**'], dest: 'dist/public/headline/bin-release/'},
                     {expand: true, cwd: 'public/headline/resource/art/', src: ['head.png', 'headF.png', 'headM.png', 'icon.jpg'], dest: 'dist/public/headline/resource/art/'},
+                    
+                    {expand: true, cwd: 'public/tower/', src: ['index.html'], dest: 'dist/public/tower/', filter: 'isFile'},
+                    {expand: true, cwd: 'public/tower/bin-debug/', src: ['**'], dest: 'dist/public/tower/bin-debug/'},
+                    {expand: true, cwd: 'public/tower/bin-release/', src: ['**'], dest: 'dist/public/tower/bin-release/'},
+                    {expand: true, cwd: 'public/tower/resource/art/', src: ['**'], dest: 'dist/public/tower/resource/art/'},
                 ],
             },
         },        
