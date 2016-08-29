@@ -56,6 +56,14 @@ class Soldier extends NPC {
         this._creator = creator;
     }
     
+    protected _idle() {
+        if (this._creator == null || this._creator.alive()) {
+        	if (this._ticks >= this._idleTicks) {
+            	this.move();
+        	}
+        }
+    }
+    
     public erase() {
         super.erase();
         
