@@ -132,8 +132,8 @@ class Soldier extends NPC {
         let h = this._enemy.height;
         let w = this._enemy.width;
         
-        let xDeltas:number[] = [ 0, w, w, w, 0, -w, -w, -w];
-        let yDeltas:number[] = [-h,-h, 0, h, h,  h,  0, -h];
+        let xDeltas:number[] = [-w, -w, -w, -w, -w, -w, -w, -w];
+        let yDeltas:number[] = [-h, -h,  0,  h,  h,  h,  0, -h];
         
         let direction = this._direction8(this._enemy.x, this._enemy.y);
 
