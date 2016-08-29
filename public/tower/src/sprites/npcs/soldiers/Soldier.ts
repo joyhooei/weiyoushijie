@@ -65,7 +65,7 @@ class Soldier extends NPC {
         }
         
         if (this._creator) {
-            this._creator.create(this);
+            this._creator.createSoldier(this);
         }
     }
     
