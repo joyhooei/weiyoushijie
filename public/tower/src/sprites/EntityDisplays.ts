@@ -54,9 +54,27 @@ class EntityDisplays {
         
         return this;
     }
+    
+    private _play(clip:egret.MovieClip, direction:number, state: number) {
+        let states = ["idle", "building", "moving", "guarding", "fighting", "dying", "dead"];
+        let directions = ["north", "northeast", "east", "southeast", "south", "southwest", "west", "northwest"];
+
+        if (clip.movieClipData.labels) {
+            for(let i = 0; i < clip.movieClipData.labels.length; i++) {
+                let label = mcd.labels[i];
+                if ((label.name == (directions[direction] + "-" + states[state])) || (label.name == states[state])) {
+                    clip.gotoAndPlay(label.name, -1);
+                    return;
+                }
+            }            
+        }
+        
+        clip.play(-1);
+        return;
+    }
 
     public render(container: egret.DisplayObjectContainer, direction:EntityDirection, state: EntityState): egret.DisplayObject  {
-        let display = this._getDisplay(direction, state);
+        let display:egret.DisplayObject = this._getDisplay(direction, state);
         if (display) {
             if (this._currentDisplay) {
                 container.removeChild(this._currentDisplay);
@@ -73,31 +91,23 @@ class EntityDisplays {
     }
     
     private _getDisplay(direction:number, state: number): egret.DisplayObject {
-        let display  = null;
+        let display:egret.DisplayObject  = null;
         
-        let idx = (direction << 3) + state;
+        let idx:number = (direction << 3) + state;
         if (this._displays[idx]) {
             display = this._displays[idx];
 
             if (egret.getQualifiedClassName(display) == "egret.MovieClip") {
-                let label = this._indexToAction(idx, true);
-                try {
-                    (<egret.MovieClip>display).gotoAndPlay(label, -1);
-                } catch (error) {
-                    label = this._indexToAction(idx, false);
-                    (<egret.MovieClip>display).gotoAndPlay(label, -1);
-                }
+                this._play(<egret.MovieClip>display, direction, state);
+            }
+        } else if (direction == 0) {
+            display = this._defaultDisplay;
+            
+            if (egret.getQualifiedClassName(display) == "egret.MovieClip") {
+                (<egret.MovieClip>display).play(-1);
             }
         } else {
-            if (direction == 0) {
-                display = this._defaultDisplay;
-                
-                if (egret.getQualifiedClassName(display) == "egret.MovieClip") {
-                    (<egret.MovieClip>display).play(-1);
-                }                
-            } else {
-                display = this._getDisplay(0, state);
-            }
+            display = this._getDisplay(0, state);
         }
         
         return display;
@@ -131,16 +141,5 @@ class EntityDisplays {
         }
         
         return idx;
-    }
-    
-    private _indexToAction(idx:number, direction:boolean): string {
-        let states = ["idle", "building", "moving", "guarding", "fighting", "dying", "dead"];
-        let directions = ["north", "northeast", "east", "southeast", "south", "southwest", "west", "northwest"];
-
-        if (direction) {
-            return directions[idx >> 3] + "-" + states[idx % 8];
-        } else {
-            return states[idx % 8];
-        }
     }
 }
