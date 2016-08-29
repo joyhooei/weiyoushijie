@@ -1,5 +1,7 @@
 class EntityDisplays {
     private _displays: egret.DisplayObject[];
+    
+    private _labels: string[];
 
     private _currentDisplay: egret.DisplayObject;
     
@@ -8,24 +10,22 @@ class EntityDisplays {
     public constructor() {
         this._displays = [];
         
+        this._labels = [];
+        
         this._currentDisplay = null;
         this._defaultDisplay = null;
-    }
-    
-    private _add(display:egret.DisplayObject, action?:string) {
-        if (action) {
-            let idx = this._actionToIndex(action);
-            this._displays[idx] = display;
-        } else {
-            this._defaultDisplay = display;
-        }
     }
     
     public addBitmap(name:string, action?:string): EntityDisplays {
         let bm:egret.Bitmap = new egret.Bitmap();
         bm.texture = RES.getRes(name + "_png");
         
-        this._add(bm, action);
+        if (action) {
+            let idx = this._actionToIndex(action);
+            this._displays[idx] = bm;
+        } else {
+            this._defaultDisplay = bm;
+        }
         
         return this;
     }
@@ -40,37 +40,23 @@ class EntityDisplays {
         clip.movieClipData = mcd;
         
         if (action) {
-            this._add(clip, action);
+            let idx = this._actionToIndex(action);
+            this._displays[idx] = clip;
         } else if (mcd.labels) {
             for(let i = 0; i < mcd.labels.length; i++) {
-                this._add(clip, mcd.labels[i].name);
+                action = mcd.labels[i].name;
+                
+                let idx = this._actionToIndex(action);
+                this._displays[idx] = clip;
+                this._labels[idx] = action;
             }
         } else {
-            this._add(clip);
+            this._defaultDisplay = clip;
         }
         
         return this;
     }
     
-    private _play(clip:egret.MovieClip, direction:number, state: number) {
-        let states = ["idle", "building", "moving", "guarding", "fighting", "dying", "dead"];
-        let directions = ["north", "northeast", "east", "southeast", "south", "southwest", "west", "northwest"];
-
-        let labels = clip.movieClipData.labels;
-        if (labels) {
-            for(let i = 0; i < labels.length; i++) {
-                let label = labels[i].name;
-                if ((label == (directions[direction] + "-" + states[state])) || (label == states[state])) {
-                    clip.gotoAndPlay(label, -1);
-                    return;
-                }
-            }            
-        }
-        
-        clip.play(-1);
-        return;
-    }
-
     public render(container: egret.DisplayObjectContainer, direction:EntityDirection, state: EntityState): egret.DisplayObject  {
         let display:egret.DisplayObject = this._getDisplay(direction, state);
         if (display) {
@@ -89,7 +75,7 @@ class EntityDisplays {
 
         return display;
     }
-    
+
     private _getDisplay(direction:number, state: number): egret.DisplayObject {
         let display:egret.DisplayObject  = null;
         
@@ -98,13 +84,20 @@ class EntityDisplays {
             display = this._displays[idx];
 
             if (egret.getQualifiedClassName(display) == "egret.MovieClip") {
-                this._play(<egret.MovieClip>display, direction, state);
+                let clip:egret.MovieClip = <egret.MovieClip>display;
+                let label:string = this._labels[idx];
+                if (label && label.length > 0) {
+                    clip.gotoAndPlay(label, -1);
+                } else {
+                    clip.gotoAndPlay(0, -1);
+                }
             }
         } else if (direction == 0) {
             display = this._defaultDisplay;
             
             if (egret.getQualifiedClassName(display) == "egret.MovieClip") {
-                (<egret.MovieClip>display).play(-1);
+                let clip:egret.MovieClip = <egret.MovieClip>display;
+                clip.gotoAndPlay(0, -1);
             }
         } else {
             display = this._getDisplay(0, state);
