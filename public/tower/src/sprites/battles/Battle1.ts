@@ -11,7 +11,7 @@ class Battle1 extends Battle {
     
     //增加英雄
     protected _addHeros() {
-        this._addHerosByName("MonkeyKing");
+        this._addHerosByName("MonkeyKing", "Soldier1");
     }
     
     protected _addStandbys() {
