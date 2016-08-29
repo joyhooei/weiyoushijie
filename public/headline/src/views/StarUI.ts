@@ -48,7 +48,7 @@ class StarUI extends AbstractUI {
         },this); 
 
         this.imgPickStick.addEventListener(egret.TouchEvent.TOUCH_TAP,() => {
-        	application.star.sticks += parseInt(this.lblTotalSticks.text);
+        	application.star.sticks += parseInt(this.lblSticks.text);
         	application.star.last_pick_time = (new Date()).toString();
             application.dao.save("Star",application.star);
         	
