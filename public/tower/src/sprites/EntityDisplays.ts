@@ -59,7 +59,7 @@ class EntityDisplays {
     
     public render(container: egret.DisplayObjectContainer, direction:EntityDirection, state: EntityState): egret.DisplayObject  {
         let display:egret.DisplayObject = this._getDisplay(direction, state);
-        if (display && this._currentDisplay != display) {
+        if (this._currentDisplay != display) {
             if (this._currentDisplay) {
                 container.removeChild(this._currentDisplay);
             }
