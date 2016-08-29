@@ -79,6 +79,8 @@ class EntityDisplays {
             }
             
             if (display) {
+                display.width  = container.width;
+                display.height = container.height;
                 container.addChild(display);
             }
         
