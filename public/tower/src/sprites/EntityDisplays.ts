@@ -16,9 +16,7 @@ class EntityDisplays {
         if (action) {
             let idx = this._actionToIndex(action);
             this._displays[idx] = display;
-        }
-        
-        if (!this._defaultDisplay) {
+        } else {
             this._defaultDisplay = display;
         }
     }
@@ -43,13 +41,12 @@ class EntityDisplays {
         
         if (action) {
             this._add(clip, action);
-        } else {
-            if (mcd.labels) {
-                for(let i = 0; i < mcd.labels.length; i++) {
-                    let label = mcd.labels[i];
-                    this._add(clip, label.name);
-                }
+        } else if (mcd.labels) {
+            for(let i = 0; i < mcd.labels.length; i++) {
+                this._add(clip, mcd.labels[i].name);
             }
+        } else {
+            this._add(clip);
         }
         
         return this;
@@ -59,11 +56,12 @@ class EntityDisplays {
         let states = ["idle", "building", "moving", "guarding", "fighting", "dying", "dead"];
         let directions = ["north", "northeast", "east", "southeast", "south", "southwest", "west", "northwest"];
 
-        if (clip.movieClipData.labels) {
-            for(let i = 0; i < clip.movieClipData.labels.length; i++) {
-                let label = mcd.labels[i];
-                if ((label.name == (directions[direction] + "-" + states[state])) || (label.name == states[state])) {
-                    clip.gotoAndPlay(label.name, -1);
+        let labels = clip.movieClipData.labels;
+        if (labels) {
+            for(let i = 0; i < labels.length; i++) {
+                let label = labels[i].name;
+                if ((label == (directions[direction] + "-" + states[state])) || (label == states[state])) {
+                    clip.gotoAndPlay(label, -1);
                     return;
                 }
             }            
