@@ -212,8 +212,8 @@ class Battle extends SoldierCreator {
     protected _addHerosByName(name:string) {
         let pos = this._map.getExits();
         for(let i = 0; i < pos.length; i++) {
-            let guardX = Math.min(Math.max(pos[i][0], 50), 750);
-            let guardY = Math.min(Math.max(pos[i][1], 50), 430);
+            let guardX = Math.min(Math.max(pos[i][0], 80), 720);
+            let guardY = Math.min(Math.max(pos[i][1], 80), 400);
             let hero = <Hero>application.pool.get(name, {guardX: guardX, guardY: guardY});
             hero.x = pos[i][0];
             hero.y = pos[i][1];
