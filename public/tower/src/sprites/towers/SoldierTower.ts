@@ -13,8 +13,8 @@ class SoldierTower extends Tower {
         this._guardY = this._get(properties, "guardY", 10);
     }
     
-    public create(soldier: Soldier): Soldier {
-        let s = soldier.relive(this._createSpeed);
+    public createSoldier(soldier: Soldier): Soldier {
+        let s = soldier.relive(10000);
         s.x = this.getCenterX();
         s.y = this.getCenterY();
         application.battle.addSoldier(s);
