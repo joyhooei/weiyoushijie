@@ -76,7 +76,7 @@ class EntityDisplays {
         return display;
     }
 
-    private _getDisplay(direction:number, state: number): egret.DisplayObject {
+    private _getDisplay(direction:EntityDirection, state: EntityState): egret.DisplayObject {
         let display:egret.DisplayObject  = null;
         
         let idx:number = (direction << 3) + state;
