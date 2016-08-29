@@ -8,6 +8,7 @@ class BattleUI extends AbstractUI {
     public imgBack:  eui.Image;
     
     private _music: egret.Sound;
+    private _channel: egret.SoundChannel;
     
     constructor() {
         super("battleUISkin");
@@ -50,7 +51,7 @@ class BattleUI extends AbstractUI {
     }
     
     private _startBattle() {
-    	//this._music.play();
+    	this._channel = this._music.play(0, 0);
     	
         application.battle.start();
         
@@ -69,7 +70,7 @@ class BattleUI extends AbstractUI {
         if (application.battle.update()) {
     		let self = this;
 
-            self._music.close();
+            self._channel.stop();
     	
     		application.showUI(new BattleOptionUI(function(){
     			self._restartBattle();
