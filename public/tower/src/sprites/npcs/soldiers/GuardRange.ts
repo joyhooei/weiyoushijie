@@ -10,12 +10,16 @@ class GuardRange extends Entity {
 		
 	    this._guardRadius = this._get(properties, "guardRadius", 100);
 	}
+
+    protected _idle() {
+        this.move();
+    }
 	
 	public paint() {
         this.graphics.clear();
         
         this.graphics.lineStyle(1, 0x009900);
-        this.graphics.drawEllipse(0, 0, this._guardRadius, this._guardRadius >> 1);
+        this.graphics.drawEllipse(0, 0, this._guardRadius << 1, this._guardRadius << 1);
 
         this.graphics.endFill();
 	}	

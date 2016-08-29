@@ -72,8 +72,8 @@ var TiledMap = (function (_super) {
     p._parse = function () {
         this._tileWidth = this._map.tilewidth;
         this._tileHeight = this._map.tileheight;
-        this._width = this._map.width;
-        this._height = this._map.height;
+        this._width = this._map.width / this._tileWidth;
+        this._height = this._map.height / this._tileHeight;
         this._paths = [];
         this._bases = [];
         this._heros = [];
@@ -161,8 +161,15 @@ var TiledMap = (function (_super) {
             var o = og.getObjectByIndex(i);
             var name_4 = o.name;
             var arrayOfStrings = name_4.split("-");
+            var idx = parseInt(arrayOfStrings[1]);
+            heros[idx] = heros[idx] || [-1, -1, -1, -1];
             if (arrayOfStrings[0] == 'start') {
-                heros[i] = [o.x, o.y];
+                heros[idx][0] = o.x;
+                heros[idx][1] = o.y;
+            }
+            else if (arrayOfStrings[0] == 'warriors') {
+                heros[idx][2] = o.x;
+                heros[idx][3] = o.y;
             }
         }
         return heros;
@@ -173,7 +180,7 @@ var TiledMap = (function (_super) {
         return (!this._outOfBounds(x, y) && (this._grid[x][y] == 1));
     };
     p._outOfBounds = function (x, y) {
-        return (x >= 0 && x <= this._width && y >= 0 && y <= this._height);
+        return !(x >= 0 && x <= this._width && y >= 0 && y <= this._height);
     };
     p.getBases = function () {
         return this._bases;

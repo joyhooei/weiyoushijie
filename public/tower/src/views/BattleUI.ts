@@ -51,7 +51,7 @@ class BattleUI extends AbstractUI {
     }
     
     private _startBattle() {
-    	this._channel = this._music.play(0, 0);
+    	//this._channel = this._music.play(0, 0);
     	
         application.battle.start();
         
@@ -70,7 +70,9 @@ class BattleUI extends AbstractUI {
         if (application.battle.update()) {
     		let self = this;
 
-            self._channel.stop();
+            if (self._channel) {
+                self._channel.stop();
+            }
     	
     		application.showUI(new BattleOptionUI(function(){
     			self._restartBattle();

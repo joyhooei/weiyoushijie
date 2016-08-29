@@ -2,17 +2,22 @@ var Soldier = (function (_super) {
     __extends(Soldier, _super);
     function Soldier() {
         _super.call(this);
-        application.battle.enableSelect(this);
+        this.touchEnabled = true;
     }
     var d = __define,c=Soldier,p=c.prototype;
     p.select = function (again) {
-        if (!again) {
+        if (again) {
+            this.deselect();
+            return false;
+        }
+        else {
             this._range = application.pool.get("GuardRange", { guardRadius: this._guardRadius });
             this._range.x = this.getCenterX() - this._guardRadius;
-            this._range.y = this.getCenterY() - this._guardRadius >> 1;
+            this._range.y = this.getCenterY() - this._guardRadius;
             this._range.width = this._guardRadius << 1;
-            this._range.height = this._guardRadius;
+            this._range.height = this._guardRadius << 1;
             application.battle.addRange(this._range);
+            return true;
         }
     };
     p.deselect = function () {
@@ -25,7 +30,7 @@ var Soldier = (function (_super) {
         _super.prototype.initialize.call(this, properties);
         this._guardX = this._get(properties, 'guardX', 0);
         this._guardY = this._get(properties, 'guardY', 0);
-        this._guardRadius = this._get(properties, 'guardRadius', 10);
+        this._guardRadius = this._get(properties, 'guardRadius', 20);
         this._guardAltitudes = this._get(properties, 'guardAltitude', [-1, 0]);
         this._enemy = null;
         this._range = null;
@@ -34,6 +39,13 @@ var Soldier = (function (_super) {
     p.setCreator = function (creator) {
         this._creator = creator;
     };
+    p._idle = function () {
+        if (this._creator == null || this._creator.active()) {
+            if (this._ticks >= this._idleTicks) {
+                this.moveTo(this._guardX, this._guardY);
+            }
+        }
+    };
     p.erase = function () {
         _super.prototype.erase.call(this);
         if (this._range) {
@@ -41,7 +53,7 @@ var Soldier = (function (_super) {
             this._range = null;
         }
         if (this._creator) {
-            this._creator.create(this);
+            this._creator.createSoldier(this);
         }
     };
     p.relive = function (idleTicks) {
@@ -76,7 +88,7 @@ var Soldier = (function (_super) {
         }
         if (this._range) {
             this._range.x = this.getCenterX() - this._guardRadius;
-            this._range.y = this.getCenterY() - this._guardRadius >> 1;
+            this._range.y = this.getCenterY() - this._guardRadius;
         }
         if (this._hp) {
             this._hp.cure();
@@ -98,7 +110,7 @@ var Soldier = (function (_super) {
         this._enemy = enemy;
         var h = this._enemy.height;
         var w = this._enemy.width;
-        var xDeltas = [0, w, w, w, 0, -w, -w, -w];
+        var xDeltas = [-w, -w, -w, -w, -w, -w, -w, -w];
         var yDeltas = [-h, -h, 0, h, h, h, 0, -h];
         var direction = this._direction8(this._enemy.x, this._enemy.y);
         this.moveTo(this._enemy.x - xDeltas[direction], this._enemy.y - xDeltas[direction]);
@@ -113,6 +125,7 @@ var Soldier = (function (_super) {
                     this._fightWith(enemy);
                 }
                 else {
+                    this._enemy = null;
                     this.moveTo(this._guardX, this._guardY);
                 }
             }
@@ -129,5 +142,5 @@ var Soldier = (function (_super) {
     };
     return Soldier;
 }(NPC));
-egret.registerClass(Soldier,'Soldier');
+egret.registerClass(Soldier,'Soldier',["SelectableEntity"]);
 //# sourceMappingURL=Soldier.js.map

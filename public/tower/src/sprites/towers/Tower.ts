@@ -45,4 +45,8 @@ class Tower extends Entity implements SoldierCreator {
             this.guard();
         }
     }
+
+    public createSoldier(soldier: Soldier): Soldier {
+        return null;
+    }
 }

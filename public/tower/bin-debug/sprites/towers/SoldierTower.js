@@ -9,8 +9,8 @@ var SoldierTower = (function (_super) {
         this._guardX = this._get(properties, "guardX", 10);
         this._guardY = this._get(properties, "guardY", 10);
     };
-    p.create = function (soldier) {
-        var s = soldier.relive(this._createSpeed);
+    p.createSoldier = function (soldier) {
+        var s = soldier.relive(10000);
         s.x = this.getCenterX();
         s.y = this.getCenterY();
         application.battle.addSoldier(s);

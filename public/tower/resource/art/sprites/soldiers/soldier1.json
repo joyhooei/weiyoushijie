@@ -2,10 +2,10 @@
 	"soldier1":{
 		"frameRate":30,
 		"labels":[
-			{"name":"guarding","frame":1}
-			,{"name":"moving","frame":2}
-			,{"name":"fighting","frame":7}
-			,{"name":"dying","frame":18}
+			{"name":"guarding","frame":1, "end":1}
+			,{"name":"moving","frame":2, "end":6}
+			,{"name":"fighting","frame":7, "end":17}
+			,{"name":"dying","frame":18, "end":18}
 			
 			],
 		"frames":[

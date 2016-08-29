@@ -27,7 +27,10 @@ var Tower = (function (_super) {
             this.guard();
         }
     };
+    p.createSoldier = function (soldier) {
+        return null;
+    };
     return Tower;
-}(SoldierCreator));
-egret.registerClass(Tower,'Tower');
+}(Entity));
+egret.registerClass(Tower,'Tower',["SoldierCreator"]);
 //# sourceMappingURL=Tower.js.map

@@ -1,4 +1,4 @@
-class Soldier extends NPC {
+class Soldier extends NPC implements SelectableEntity {
     protected _guardX: number;
     protected _guardY: number;
     
@@ -15,20 +15,26 @@ class Soldier extends NPC {
     public constructor() {
         super();
         
-        application.battle.enableSelect(this);
+        this.touchEnabled = true;
     }
     
-    public select(again:boolean) {
-        if (!again) {
+    public select(again:boolean): boolean {
+        if (again) {
+            this.deselect();
+
+            return false;
+        } else {
             this._range = <GuardRange>application.pool.get("GuardRange", {guardRadius: this._guardRadius});
             
             this._range.x = this.getCenterX() - this._guardRadius;
-            this._range.y = this.getCenterY() - this._guardRadius >> 1;
+            this._range.y = this.getCenterY() - this._guardRadius;
             
             this._range.width  = this._guardRadius << 1;
-            this._range.height = this._guardRadius;
+            this._range.height = this._guardRadius << 1;
             
             application.battle.addRange(this._range);
+
+            return true;            
         }
     }
     
@@ -44,7 +50,7 @@ class Soldier extends NPC {
 
         this._guardX        = this._get(properties, 'guardX', 0);
         this._guardY        = this._get(properties, 'guardY', 0);
-        this._guardRadius   = this._get(properties, 'guardRadius', 10);
+        this._guardRadius   = this._get(properties, 'guardRadius', 20);
         this._guardAltitudes = this._get(properties, 'guardAltitude', [-1, 0]);
         
         this._enemy = null;
@@ -57,9 +63,9 @@ class Soldier extends NPC {
     }
     
     protected _idle() {
-        if (this._creator == null || this._creator.alive()) {
+        if (this._creator == null || this._creator.active()) {
         	if (this._ticks >= this._idleTicks) {
-            	this.move();
+            	this.moveTo(this._guardX, this._guardY);
         	}
         }
     }
@@ -111,7 +117,7 @@ class Soldier extends NPC {
         
         if (this._range) {
             this._range.x = this.getCenterX() - this._guardRadius;
-            this._range.y = this.getCenterY() - this._guardRadius >> 1;
+            this._range.y = this.getCenterY() - this._guardRadius;
         }
         
         if (this._hp) {
@@ -158,6 +164,7 @@ class Soldier extends NPC {
                 if (enemy) {
                     this._fightWith(enemy);
                 } else {
+                    this._enemy = null;
                     this.moveTo(this._guardX, this._guardY);
                 }
             } else if (this._enemy.totalSoldiers() > 1) {

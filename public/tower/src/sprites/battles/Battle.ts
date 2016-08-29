@@ -33,7 +33,7 @@ class Battle extends Entity implements SoldierCreator {
     protected _lives: number;
     protected _golds: number;
     
-    protected _focus: Entity;
+    protected _focus: SelectableEntity;
     protected _toolItem: BattleToolItem;
 
     public constructor() {
@@ -47,7 +47,8 @@ class Battle extends Entity implements SoldierCreator {
 
         this._waves = new Waves();
 
-        this.enableSelect(this);
+        this.touchEnabled = true;
+        this.addEventListener(egret.TouchEvent.TOUCH_BEGIN, this._touch, this);    
     }
     
     public loadResource(options: any): Q.Promise<any> {
@@ -100,18 +101,15 @@ class Battle extends Entity implements SoldierCreator {
         this.fight();
     }
     
-    public enableSelect(entity: Entity) {
-        entity.touchEnabled = true;
-        this.addEventListener(egret.TouchEvent.TOUCH_BEGIN, this._touch, this);        
-    }
-    
     public readyUseTool(toolItem: BattleToolItem) {
         this._toolItem = toolItem;
     }
     
     private _touch(e:egret.TouchEvent) {
     	if (this._focus == e.target) {
-    		e.target.select(true);
+    		if (!this._focus.select(true)) {
+                this._focus = null;
+            }
     	} else {
     	    if (e.target == this) {
     	        let x = Math.round(e.localX);
@@ -138,10 +136,14 @@ class Battle extends Entity implements SoldierCreator {
                     this.addTip(tip);
                 }
     	    } else {
-        		this._focus.deselect();
+                if (this._focus) {
+        		    this._focus.deselect();
+                }
         		
-        		this._focus = this;
-        		e.target.select(false);
+        		this._focus = e.target;
+        		if (!this._focus.select(false)) {
+                    this._focus = null;
+                }
     	    }
     	}        
     }
@@ -210,7 +212,7 @@ class Battle extends Entity implements SoldierCreator {
     }
     
     protected _addHerosByName(heroName:string, warriorName:string) {
-        let pos = this._map.getExits();
+        let pos = this._map.getHeros();
         for(let i = 0; i < pos.length; i++) {
             let hero = <Hero>application.pool.get(heroName, {guardX: pos[i][0], guardY: pos[i][1]});
             hero.x = pos[i][0];
@@ -224,8 +226,6 @@ class Battle extends Entity implements SoldierCreator {
                 soldier.setCreator(hero);
                 this.addSoldier(soldier);
             }
-
-            hero.moveTo(guardX,guardY);
         }
     }
     

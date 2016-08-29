@@ -7,10 +7,10 @@ var BattleSystemToolItem = (function (_super) {
         this._maxTicks = 10;
         this.imgShield.height = 0;
         if (tool.category == "soldier") {
-            this.imgTool.source = "";
+            this.imgTool.source = "tool_soldier_png";
         }
         else if (tool.category == "fireball") {
-            this.imgTool.source = "";
+            this.imgTool.source = "tool_fireball_png";
         }
         application.stopwatch.addEventListener("second", function (event) {
             if (this._ticks > 0) {
@@ -27,8 +27,14 @@ var BattleSystemToolItem = (function (_super) {
     var d = __define,c=BattleSystemToolItem,p=c.prototype;
     p.use = function (x, y) {
         if (this._tool.category == "soldier") {
-            application.battle.addSoldier(application.pool.get("Soldier1", { guardX: x - 5, guardY: y - 5, x: x, y: y }));
-            application.battle.addSoldier(application.pool.get("Soldier1", { guardX: x + 5, guardY: y + 5, x: x, y: y }));
+            var soldier = application.pool.get("Soldier1", { guardX: x - 5, guardY: y - 5 });
+            soldier.x = x;
+            soldier.y = y;
+            application.battle.addSoldier(soldier);
+            soldier = application.pool.get("Soldier1", { guardX: x + 5, guardY: y + 5 });
+            soldier.x = x;
+            soldier.y = y;
+            application.battle.addSoldier(soldier);
         }
         else if (this._tool.category == "fireball") {
             Bullet.shoot(x, y - 200, x, y, "Fireball");

@@ -1,4 +1,4 @@
-class Base extends Entity {
+class Base extends Entity implements SelectableEntity {
     protected _tower: Tower;
     
     protected _guardX: number;
@@ -8,7 +8,7 @@ class Base extends Entity {
     public constructor() {
         super();
 
-        application.battle.enableSelect(this);
+        this.$touchEnabled = true;
     }
 
     public initialize(properties:any) {
@@ -62,10 +62,12 @@ class Base extends Entity {
         this._clearTower();
     }
 
-    public select(again:boolean) {
+    public select(again:boolean): boolean {
         if (!again) {
             application.battle.showTool(new TowerMenuUI(this), this.x, this.y);
         }
+
+        return true;
     }
     
     public deselect() {

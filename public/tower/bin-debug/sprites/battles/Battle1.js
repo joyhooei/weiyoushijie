@@ -10,7 +10,7 @@ var Battle1 = (function (_super) {
     };
     //增加英雄
     p._addHeros = function () {
-        this._addHerosByName("MonkeyKing");
+        this._addHerosByName("MonkeyKing", "Soldier1");
     };
     p._addStandbys = function () {
         var paths = this._map.getPaths();

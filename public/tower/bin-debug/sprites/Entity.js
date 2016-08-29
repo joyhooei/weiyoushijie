@@ -71,10 +71,10 @@ var Entity = (function (_super) {
         this.y = y - (this.height >> 1);
     };
     p.getCenterX = function () {
-        return this.getMapX() + (this.width >> 1);
+        return this.x + (this.width >> 1);
     };
     p.getCenterY = function () {
-        return this.getMapY() + (this.height >> 1);
+        return this.y + (this.height >> 1);
     };
     p.stain = function () {
         application.battle.addDirt(this);

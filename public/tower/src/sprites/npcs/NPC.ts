@@ -67,12 +67,4 @@ class NPC extends MovableEntity {
     protected _face(npc:NPC) {
         this._turn(this._direction4(npc.x, npc.y));
     }
-
-    public paint() {
-    	let display: egret.DisplayObject = this._displays.render(this, this._direction, this._state);
-        if (display) {
-        	display.y = this._hp.height;
-            display.height = this.height - this._hp.height;
-        }
-    }
 }

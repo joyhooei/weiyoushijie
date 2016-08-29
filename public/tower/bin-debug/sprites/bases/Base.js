@@ -2,7 +2,7 @@ var Base = (function (_super) {
     __extends(Base, _super);
     function Base() {
         _super.call(this);
-        application.battle.enableSelect(this);
+        this.$touchEnabled = true;
     }
     var d = __define,c=Base,p=c.prototype;
     p.initialize = function (properties) {
@@ -46,11 +46,12 @@ var Base = (function (_super) {
         if (!again) {
             application.battle.showTool(new TowerMenuUI(this), this.x, this.y);
         }
+        return true;
     };
     p.deselect = function () {
         application.battle.hideAllTools();
     };
     return Base;
 }(Entity));
-egret.registerClass(Base,'Base');
+egret.registerClass(Base,'Base',["SelectableEntity"]);
 //# sourceMappingURL=Base.js.map

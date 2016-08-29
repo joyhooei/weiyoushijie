@@ -2,7 +2,7 @@ class LaunchTip extends Tip {
     public constructor() {
         super();
 
-        application.battle.enableSelect(this);
+        this.touchEnabled = true;
         
         this._displays.addBitmap("launch_png");
     }

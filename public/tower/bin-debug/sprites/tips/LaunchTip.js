@@ -2,7 +2,7 @@ var LaunchTip = (function (_super) {
     __extends(LaunchTip, _super);
     function LaunchTip() {
         _super.call(this);
-        application.battle.enableSelect(this);
+        this.touchEnabled = true;
         this._displays.addBitmap("launch_png");
     }
     var d = __define,c=LaunchTip,p=c.prototype;

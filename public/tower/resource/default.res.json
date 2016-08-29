@@ -1,7 +1,7 @@
 {
 	"groups": [
 		{
-			"keys": "world_jpg,base3_png,base2_png,base1_png,bg_mp3,enemy1_png,enemy1_json",
+			"keys": "world_jpg,base3_png,base2_png,base1_png,bg_mp3,enemy1_png,enemy1_json,soldier1_json,soldier1_png,tool_soldier_png,tool_fireball_png",
 			"name": "home"
 		},
 		{
@@ -9,7 +9,7 @@
 			"name": "landing"
 		},
 		{
-			"keys": "login_png,loginb_png,world2_jpg,base2_png,base3_png,base1_png,bg_mp3,enemy1_png",
+			"keys": "login_png,loginb_png,world2_jpg,base2_png,base3_png,base1_png,bg_mp3,enemy1_png,map2_png,soldier1_png,tool_fireball_png,tool_soldier_png",
 			"name": "preload"
 		},
 		{
@@ -77,6 +77,31 @@
 			"url": "art/sprites/enemies/enemy1.json",
 			"type": "json",
 			"name": "enemy1_json"
+		},
+		{
+			"url": "art/sprites/battles/map2.png",
+			"type": "image",
+			"name": "map2_png"
+		},
+		{
+			"url": "art/sprites/soldiers/soldier1.png",
+			"type": "image",
+			"name": "soldier1_png"
+		},
+		{
+			"url": "art/sprites/soldiers/soldier1.json",
+			"type": "json",
+			"name": "soldier1_json"
+		},
+		{
+			"url": "art/home/tool_fireball.png",
+			"type": "image",
+			"name": "tool_fireball_png"
+		},
+		{
+			"url": "art/home/tool_soldier.png",
+			"type": "image",
+			"name": "tool_soldier_png"
 		}
 	]
 }

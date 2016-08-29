@@ -8,7 +8,8 @@ var Battle = (function (_super) {
         this._rangeLayer = this._addLayer();
         this._toolLayer = this._addLayer();
         this._waves = new Waves();
-        this.enableSelect(this);
+        this.touchEnabled = true;
+        this.addEventListener(egret.TouchEvent.TOUCH_BEGIN, this._touch, this);
     }
     var d = __define,c=Battle,p=c.prototype;
     p.loadResource = function (options) {
@@ -46,16 +47,14 @@ var Battle = (function (_super) {
         this._addStandbys();
         this.fight();
     };
-    p.enableSelect = function (entity) {
-        entity.touchEnabled = true;
-        this.addEventListener(egret.TouchEvent.TOUCH_BEGIN, this._touch, this);
-    };
     p.readyUseTool = function (toolItem) {
         this._toolItem = toolItem;
     };
     p._touch = function (e) {
         if (this._focus == e.target) {
-            e.target.select(true);
+            if (!this._focus.select(true)) {
+                this._focus = null;
+            }
         }
         else {
             if (e.target == this) {
@@ -83,9 +82,13 @@ var Battle = (function (_super) {
                 }
             }
             else {
-                this._focus.deselect();
-                this._focus = this;
-                e.target.select(false);
+                if (this._focus) {
+                    this._focus.deselect();
+                }
+                this._focus = e.target;
+                if (!this._focus.select(false)) {
+                    this._focus = null;
+                }
             }
         }
     };
@@ -138,16 +141,20 @@ var Battle = (function (_super) {
             this.addBase(base);
         }
     };
-    p._addHerosByName = function (name) {
-        var pos = this._map.getExits();
+    p._addHerosByName = function (heroName, warriorName) {
+        var pos = this._map.getHeros();
         for (var i = 0; i < pos.length; i++) {
-            var guardX = Math.min(Math.max(pos[i][0], 50), 750);
-            var guardY = Math.min(Math.max(pos[i][1], 50), 430);
-            var hero = application.pool.get(name, { guardX: guardX, guardY: guardY });
+            var hero = application.pool.get(heroName, { guardX: pos[i][0], guardY: pos[i][1] });
             hero.x = pos[i][0];
             hero.y = pos[i][1];
             this.addHero(hero);
-            hero.moveTo(guardX, guardY);
+            if (pos[i][2] != -1 && pos[i][3] != -1) {
+                var soldier = application.pool.get(warriorName, { guardX: pos[i][2], guardY: pos[i][3] });
+                soldier.x = pos[i][0];
+                soldier.y = pos[i][1];
+                soldier.setCreator(hero);
+                this.addSoldier(soldier);
+            }
         }
     };
     p.showTool = function (ui, x, y) {
@@ -281,14 +288,14 @@ var Battle = (function (_super) {
     p.addDirt = function (entity) {
         this._dirts.push(entity);
     };
-    p.create = function (soldier) {
-        var hero = soldier.relive(this._createSpeed);
+    p.createSoldier = function (soldier) {
+        var hero = soldier.relive(10000);
         hero.x = soldier.x;
         hero.y = soldier.y;
         this.addHero(hero);
         return hero;
     };
     return Battle;
-}(SoldierCreator));
-egret.registerClass(Battle,'Battle');
+}(Entity));
+egret.registerClass(Battle,'Battle',["SoldierCreator"]);
 //# sourceMappingURL=Battle.js.map

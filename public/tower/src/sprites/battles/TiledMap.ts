@@ -107,8 +107,8 @@ class TiledMap extends egret.Sprite {
         this._tileWidth  = this._map.tilewidth;
         this._tileHeight = this._map.tileheight;
         
-        this._width  = this._map.width;
-        this._height = this._map.height;
+        this._width  = this._map.width / this._tileWidth;
+        this._height = this._map.height / this._tileHeight;
         
         this._paths = [];
         this._bases = [];
@@ -230,7 +230,7 @@ class TiledMap extends egret.Sprite {
     }
     
     private _outOfBounds(x: number, y: number): boolean {
-        return (x >= 0 && x <= this._width && y >= 0 && y <= this._height);
+        return !(x >= 0 && x <= this._width && y >= 0 && y <= this._height);
     }
     
     public getBases(): number[][] {

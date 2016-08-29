@@ -31,7 +31,7 @@ var BattleUI = (function (_super) {
         application.hideUI(this);
     };
     p._startBattle = function () {
-        //this._music.play();
+        //this._channel = this._music.play(0, 0);
         application.battle.start();
         this.grpBattle.addChild(application.battle);
         this.stage.frameRate = application.frameRate;
@@ -44,7 +44,9 @@ var BattleUI = (function (_super) {
     p._onEnterFrame = function (e) {
         if (application.battle.update()) {
             var self_1 = this;
-            self_1._music.close();
+            if (self_1._channel) {
+                self_1._channel.stop();
+            }
             application.showUI(new BattleOptionUI(function () {
                 self_1._restartBattle();
             }, function () {

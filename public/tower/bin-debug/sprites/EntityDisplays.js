@@ -1,23 +1,21 @@
 var EntityDisplays = (function () {
     function EntityDisplays() {
         this._displays = [];
+        this._labels = [];
         this._currentDisplay = null;
         this._defaultDisplay = null;
     }
     var d = __define,c=EntityDisplays,p=c.prototype;
-    p._add = function (display, action) {
-        if (action) {
-            var idx = this._actionToIndex(action);
-            this._displays[idx] = display;
-        }
-        if (!this._defaultDisplay) {
-            this._defaultDisplay = display;
-        }
-    };
     p.addBitmap = function (name, action) {
         var bm = new egret.Bitmap();
         bm.texture = RES.getRes(name + "_png");
-        this._add(bm, action);
+        if (action) {
+            var idx = this._actionToIndex(action);
+            this._displays[idx] = bm;
+        }
+        else {
+            this._defaultDisplay = bm;
+        }
         return this;
     };
     p.addClip = function (name, action) {
@@ -28,25 +26,31 @@ var EntityDisplays = (function () {
         var mcd = mcf.generateMovieClipData(name);
         clip.movieClipData = mcd;
         if (action) {
-            this._add(clip, action);
+            var idx = this._actionToIndex(action);
+            this._displays[idx] = clip;
+        }
+        else if (mcd.labels) {
+            for (var i = 0; i < mcd.labels.length; i++) {
+                action = mcd.labels[i].name;
+                var idx = this._actionToIndex(action);
+                this._displays[idx] = clip;
+                this._labels[idx] = action;
+            }
         }
         else {
-            if (mcd.labels) {
-                for (var i = 0; i < mcd.labels.length; i++) {
-                    var label = mcd.labels[i];
-                    this._add(clip, label.name);
-                }
-            }
+            this._defaultDisplay = clip;
         }
         return this;
     };
     p.render = function (container, direction, state) {
         var display = this._getDisplay(direction, state);
-        if (display) {
+        if (this._currentDisplay != display) {
             if (this._currentDisplay) {
                 container.removeChild(this._currentDisplay);
             }
             if (display) {
+                display.width = container.width;
+                display.height = container.height;
                 container.addChild(display);
             }
             this._currentDisplay = display;
@@ -59,26 +63,25 @@ var EntityDisplays = (function () {
         if (this._displays[idx]) {
             display = this._displays[idx];
             if (egret.getQualifiedClassName(display) == "egret.MovieClip") {
-                var label = this._indexToAction(idx, true);
-                try {
-                    display.gotoAndPlay(label, -1);
+                var clip = display;
+                var label = this._labels[idx];
+                if (label && label.length > 0) {
+                    clip.gotoAndPlay(label, -1);
                 }
-                catch (error) {
-                    label = this._indexToAction(idx, false);
-                    display.gotoAndPlay(label, -1);
+                else {
+                    clip.gotoAndPlay(0, -1);
                 }
             }
         }
+        else if (direction == 0) {
+            display = this._defaultDisplay;
+            if (egret.getQualifiedClassName(display) == "egret.MovieClip") {
+                var clip = display;
+                clip.gotoAndPlay(0, -1);
+            }
+        }
         else {
-            if (direction == 0) {
-                display = this._defaultDisplay;
-                if (egret.getQualifiedClassName(display) == "egret.MovieClip") {
-                    display.play(-1);
-                }
-            }
-            else {
-                display = this._getDisplay(0, state);
-            }
+            display = this._getDisplay(0, state);
         }
         return display;
     };
@@ -106,16 +109,6 @@ var EntityDisplays = (function () {
             idx = (idx << 3) + table[actions[i]];
         }
         return idx;
-    };
-    p._indexToAction = function (idx, direction) {
-        var states = ["idle", "building", "moving", "guarding", "fighting", "dying", "dead"];
-        var directions = ["north", "northeast", "east", "southeast", "south", "southwest", "west", "northwest"];
-        if (direction) {
-            return directions[idx >> 3] + "-" + states[idx % 8];
-        }
-        else {
-            return states[idx % 8];
-        }
     };
     return EntityDisplays;
 }());
