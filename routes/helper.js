@@ -172,7 +172,7 @@ function _saveModel(model, modelName, restfulName, req, res, options) {
 	_.each(model.attributes, function(value, key) {
 		if (_.isNumber(value)) {
 			if (_.has(req.body, key)) {
-				model.set(key, parseInt(req.body[key]));
+				model.set(key, +req.body[key]);
 			}
 		} else if (_.isString(value)) {
 			if (_.has(req.body, key)) {
@@ -190,7 +190,7 @@ function _saveModel(model, modelName, restfulName, req, res, options) {
 	//防止req.body中有model中不存在的字段
 	_.each(req.body, function(value, key){
 		if (_.has(model.attributes, key) && _.isNumber(model.get(key))) {
-			model.set(key, parseInt(value));
+			model.set(key, +value);
 		} else {
 			model.set(key, value);
 		}
