@@ -1,7 +1,7 @@
 class EntityDisplays {
-    private _displays: egret.DisplayObject[];
+    private _displays: egret.DisplayObject[][];
     
-    private _labels: string[];
+    private _labels: string[][];
 
     private _currentDisplay: egret.DisplayObject;
     
@@ -22,7 +22,7 @@ class EntityDisplays {
         
         if (action) {
             let idx = this._actionToIndex(action);
-            this._displays[idx] = bm;
+            this._displays[idx] = [bm];
         } else {
             this._defaultDisplay = bm;
         }
@@ -41,14 +41,23 @@ class EntityDisplays {
         
         if (action) {
             let idx = this._actionToIndex(action);
-            this._displays[idx] = clip;
+            if (this._displays[idx]) {
+                this._displays[idx].push(clip);
+            } else {
+                this._displays[idx] = clip;
+            }
         } else if (mcd.labels) {
             for(let i = 0; i < mcd.labels.length; i++) {
                 action = mcd.labels[i].name;
                 
                 let idx = this._actionToIndex(action);
-                this._displays[idx] = clip;
-                this._labels[idx] = action;
+                if (this._displays[idx]) {
+                    this._displays[idx].push(clip);
+                    this._labels[idx].push(action);
+                } else {
+                    this._displays[idx] = [clip];
+                    this._labels[idx] = [action];
+                }
             }
         } else {
             this._defaultDisplay = clip;
@@ -57,8 +66,8 @@ class EntityDisplays {
         return this;
     }
     
-    public render(container: egret.DisplayObjectContainer, direction:EntityDirection, state: EntityState): egret.DisplayObject  {
-        let display:egret.DisplayObject = this._getDisplay(direction, state);
+    public render(container: egret.DisplayObjectContainer, direction:EntityDirection, state: EntityState, index = 0): egret.DisplayObject  {
+        let display:egret.DisplayObject = this._getDisplay(direction, state, index);
         if (this._currentDisplay != display) {
             if (this._currentDisplay) {
                 container.removeChild(this._currentDisplay);
@@ -76,16 +85,19 @@ class EntityDisplays {
         return display;
     }
 
-    private _getDisplay(direction:EntityDirection, state: EntityState): egret.DisplayObject {
+    private _getDisplay(direction:EntityDirection, state: EntityState, index = 0): egret.DisplayObject {
         let display:egret.DisplayObject  = null;
         
         let idx:number = (direction << 3) + state;
-        if (this._displays[idx]) {
-            display = this._displays[idx];
-
+        if (this._displays[idx] && this._displays[idx][0]) {
+            if (!this._displays[idx][index]) {
+                index = 0;
+            }
+            
+            display = this._displays[idx][index];
             if (egret.getQualifiedClassName(display) == "egret.MovieClip") {
                 let clip:egret.MovieClip = <egret.MovieClip>display;
-                let label:string = this._labels[idx];
+                let label:string = this._labels[idx][index];
                 if (label && label.length > 0) {
                     clip.gotoAndPlay(label, -1);
                 } else {
