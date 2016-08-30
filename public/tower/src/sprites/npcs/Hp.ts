@@ -16,8 +16,6 @@ class Hp extends Entity {
 	    this._hp = this._maxHp;
 	    
 	    this._cureSpeed = this._get(properties, "cureSpeed", 1);
-
-		this.stain();
 	}
 	
 	public kill() {
