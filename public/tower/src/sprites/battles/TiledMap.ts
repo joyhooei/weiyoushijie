@@ -225,7 +225,7 @@ class TiledMap extends egret.Sprite {
             let arrayOfStrings = name.split("-");
             
             let idx:number = parseInt(arrayOfStrings[1]);
-            heros[idx] = heros[idx] || [-1, -1, -1, -1];
+            heros[idx] = heros[idx] || [];
             if (arrayOfStrings[0] == 'start') {
                 heros[idx][0] = [o.x, o.y];
             } else if (arrayOfStrings[0] == 'warriors') {
