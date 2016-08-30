@@ -84,6 +84,18 @@ class TiledMap extends egret.Sprite {
                 let xTo = this._xP2L(path[i + 1][0]);
                 let yTo = this._yP2L(path[i + 1][1]);
                 
+                if (xFrom > xTo) {
+                    let temp = xFrom;
+                    xFrom = xTo;
+                    xTo = temp;
+                }
+                
+                if (yFrom > yTo) {
+                    let temp = yFrom;
+                    yFrom = yTo;
+                    yTo = temp;
+                }
+                
                 for(let k = xFrom; k <= xTo; k++) {
                     for(let j = yFrom; j <= yTo; j++) {
                         this._markArea(k, j, 1, 1);
