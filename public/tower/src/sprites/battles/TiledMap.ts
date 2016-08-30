@@ -10,7 +10,7 @@ class TiledMap extends egret.Sprite {
     private _height: number;
     
     private _bases: number[][];
-    private _heros: number[][];
+    private _heros: number[][][];
     private _paths: number[][][];
     
     //入口和出口
@@ -215,9 +215,10 @@ class TiledMap extends egret.Sprite {
         return bases;
     }
     
-    private _parseHeros(og:tiled.TMXObjectGroup):number[][]{
+    private _parseHeros(og:tiled.TMXObjectGroup):number[][][]{
         let heros = [];
         
+        let warriors: number = 0;
         for(let i = 0; i < og.getObjectCount(); i++) {
             let o = og.getObjectByIndex(i);
             let name = o.name;
@@ -226,11 +227,11 @@ class TiledMap extends egret.Sprite {
             let idx:number = parseInt(arrayOfStrings[1]);
             heros[idx] = heros[idx] || [-1, -1, -1, -1];
             if (arrayOfStrings[0] == 'start') {
-                heros[idx][0] = o.x;
-                heros[idx][1] = o.y;
+                heros[idx][0] = [o.x, o.y];
             } else if (arrayOfStrings[0] == 'warriors') {
-                heros[idx][2] = o.x;
-                heros[idx][3] = o.y;
+                warriors ++;
+                
+                heros[idx][warriors] = [o.x, o.y];
             }
         }
         
@@ -251,7 +252,7 @@ class TiledMap extends egret.Sprite {
         return this._bases;
     }
 
-    public getHeros(): number[][] {
+    public getHeros(): number[][][] {
         return this._heros;          
     }
 
