@@ -103,12 +103,14 @@ class TiledMap extends egret.Sprite {
                 }
             }
         }
+        
+        console.log(JSON.stringify(this._grid));
     }
     
     private _markArea(x:number, y:number, delta:number, value:number) {
         for(let i = x - delta; i <= x + delta; i++) {
             for(let j = y - delta; j <= y + delta; j++) {
-                if (!this._outOfBounds(i, j)) {
+                if ((this._grid[i][j] != value) && !this._outOfBounds(i, j)) {
                     this._grid[i][j] = value;
                 }
             }
