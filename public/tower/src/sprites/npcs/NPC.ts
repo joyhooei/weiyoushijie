@@ -14,6 +14,16 @@ class NPC extends MovableEntity {
         this.width = this.height = 20;
     }
     
+	protected _idle() {
+    	if (this._ticks >= this._idleTicks) {
+        	this.move();
+        	
+        	if (this._hp) {
+        		this._hp.move();
+        	}
+    	}
+    }
+    
     public initialize(properties:any) {
         super.initialize(properties);
         
@@ -27,7 +37,7 @@ class NPC extends MovableEntity {
         
         this._altitude  = this._get(properties, "altitude", 0);
 
-        this._idleTicks = this._get(properties, "idleTicks", Math.random() * 100);
+        this._idleTicks = this._get(properties, "idleTicks", Math.random() * 5000);
     }
 
     public kill() {
