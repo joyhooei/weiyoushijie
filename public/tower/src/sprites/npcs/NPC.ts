@@ -61,11 +61,11 @@ class NPC extends MovableEntity {
     }
     
     public shootBy(bullet: Bullet): boolean {
-    	return this._hit(bullet->getDamage());
+    	return this._hit(bullet.getDamage());
     }
 
     public hitBy(npc: NPC): boolean {
-    	return this._hit(npc->getDamage());
+    	return this._hit(npc.getDamage());
     }
     
     protected _hit(damage: number): boolean {

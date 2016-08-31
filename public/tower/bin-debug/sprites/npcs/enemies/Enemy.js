@@ -73,7 +73,7 @@ var Enemy = (function (_super) {
     p._fighting = function () {
         if (this._soldiers.length > 0) {
             if (this._ticks % this._hitSpeed == 0) {
-                if (this._soldiers[0].hitBy(this._damage)) {
+                if (this._soldiers[0].hitBy(this)) {
                     this.rmvSoldier(this._soldiers[0]);
                 }
             }

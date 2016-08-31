@@ -67,7 +67,7 @@ var Battle = (function (_super) {
                     }
                     else if (this._focus) {
                         var baseClassName = egret.getQualifiedSuperclassName(this._focus);
-                        if (baseClassName == "Hero") {
+                        if (baseClassName == "Hero" || baseClassName == "Soldier") {
                             this._focus.moveTo(x, y);
                         }
                         this._focus = null;
@@ -144,14 +144,14 @@ var Battle = (function (_super) {
     p._addHerosByName = function (heroName, warriorName) {
         var pos = this._map.getHeros();
         for (var i = 0; i < pos.length; i++) {
-            var hero = application.pool.get(heroName, { guardX: pos[i][0], guardY: pos[i][1] });
-            hero.x = pos[i][0];
-            hero.y = pos[i][1];
+            var hero = application.pool.get(heroName, { guardX: pos[i][0][0], guardY: pos[i][0][1] });
+            hero.x = pos[i][0][0];
+            hero.y = pos[i][0][1];
             this.addHero(hero);
-            if (pos[i][2] != -1 && pos[i][3] != -1) {
-                var soldier = application.pool.get(warriorName, { guardX: pos[i][2], guardY: pos[i][3] });
-                soldier.x = pos[i][0];
-                soldier.y = pos[i][1];
+            for (var j = 1; j < pos[i].length; i++) {
+                var soldier = application.pool.get(warriorName, { guardX: pos[i][j][0], guardY: pos[i][j][1] });
+                soldier.x = pos[i][0][0];
+                soldier.y = pos[i][0][1];
                 soldier.setCreator(hero);
                 this.addSoldier(soldier);
             }

@@ -137,7 +137,18 @@ var Entity = (function (_super) {
     };
     //根据状态、面向修改重新渲染
     p.paint = function () {
-        this._displays.render(this, this._direction, this._state);
+        this._display(0, 0, this.width, this.height, 0);
+    };
+    p._display = function (x, y, width, height, idx) {
+        if (idx === void 0) { idx = 0; }
+        var display = this._displays.render(this, this._direction, this._state, idx);
+        if (display) {
+            display.x = x;
+            display.y = y;
+            display.height = height;
+            display.width = width;
+        }
+        return display;
     };
     p._do = function (state) {
         if (state != this._state) {

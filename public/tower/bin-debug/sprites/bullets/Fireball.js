@@ -11,7 +11,7 @@ var Fireball = (function (_super) {
     p._hitTarget = function () {
         var enemies = application.battle.findEnemies(this.x, this.y, this._hitRadius, [0]);
         for (var i = 0; i < enemies.length; i++) {
-            enemies[i].hitBy(this._damage);
+            enemies[i].shootBy(this);
         }
     };
     return Fireball;

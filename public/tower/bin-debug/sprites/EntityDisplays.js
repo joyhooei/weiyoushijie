@@ -11,7 +11,7 @@ var EntityDisplays = (function () {
         bm.texture = RES.getRes(name + "_png");
         if (action) {
             var idx = this._actionToIndex(action);
-            this._displays[idx] = bm;
+            this._displays[idx] = [bm];
         }
         else {
             this._defaultDisplay = bm;
@@ -27,14 +27,25 @@ var EntityDisplays = (function () {
         clip.movieClipData = mcd;
         if (action) {
             var idx = this._actionToIndex(action);
-            this._displays[idx] = clip;
+            if (this._displays[idx]) {
+                this._displays[idx].push(clip);
+            }
+            else {
+                this._displays[idx] = [clip];
+            }
         }
         else if (mcd.labels) {
             for (var i = 0; i < mcd.labels.length; i++) {
                 action = mcd.labels[i].name;
                 var idx = this._actionToIndex(action);
-                this._displays[idx] = clip;
-                this._labels[idx] = action;
+                if (this._displays[idx]) {
+                    this._displays[idx].push(clip);
+                    this._labels[idx].push(action);
+                }
+                else {
+                    this._displays[idx] = [clip];
+                    this._labels[idx] = [action];
+                }
             }
         }
         else {
@@ -42,8 +53,9 @@ var EntityDisplays = (function () {
         }
         return this;
     };
-    p.render = function (container, direction, state) {
-        var display = this._getDisplay(direction, state);
+    p.render = function (container, direction, state, index) {
+        if (index === void 0) { index = 0; }
+        var display = this._getDisplay(direction, state, index);
         if (this._currentDisplay != display) {
             if (this._currentDisplay) {
                 container.removeChild(this._currentDisplay);
@@ -57,14 +69,18 @@ var EntityDisplays = (function () {
         }
         return display;
     };
-    p._getDisplay = function (direction, state) {
+    p._getDisplay = function (direction, state, index) {
+        if (index === void 0) { index = 0; }
         var display = null;
         var idx = (direction << 3) + state;
-        if (this._displays[idx]) {
-            display = this._displays[idx];
+        if (this._displays[idx] && this._displays[idx][0]) {
+            if (!this._displays[idx][index]) {
+                index = 0;
+            }
+            display = this._displays[idx][index];
             if (egret.getQualifiedClassName(display) == "egret.MovieClip") {
                 var clip = display;
-                var label = this._labels[idx];
+                var label = this._labels[idx][index];
                 if (label && label.length > 0) {
                     clip.gotoAndPlay(label, -1);
                 }

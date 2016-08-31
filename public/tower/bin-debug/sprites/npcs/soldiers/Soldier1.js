@@ -6,12 +6,7 @@ var Soldier1 = (function (_super) {
     }
     var d = __define,c=Soldier1,p=c.prototype;
     p.paint = function () {
-        var display = this._displays.render(this, this._direction, this._state);
-        if (display && this._hp) {
-            display.y = -10;
-            display.x = -26;
-            display.height = this.height - 3;
-        }
+        this._display(-10, -26, this.width, this.height);
     };
     return Soldier1;
 }(Soldier));

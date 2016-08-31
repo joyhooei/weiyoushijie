@@ -44,7 +44,7 @@ class EntityDisplays {
             if (this._displays[idx]) {
                 this._displays[idx].push(clip);
             } else {
-                this._displays[idx] = clip;
+                this._displays[idx] = [clip];
             }
         } else if (mcd.labels) {
             for(let i = 0; i < mcd.labels.length; i++) {

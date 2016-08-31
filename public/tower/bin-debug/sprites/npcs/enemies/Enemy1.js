@@ -6,12 +6,7 @@ var Enemy1 = (function (_super) {
     }
     var d = __define,c=Enemy1,p=c.prototype;
     p.paint = function () {
-        var display = this._displays.render(this, this._direction, this._state);
-        if (display && this._hp) {
-            display.y = 3;
-            display.x = -10;
-            display.height = this.height - 3;
-        }
+        this._display(-3, -10, this.width, this.height);
     };
     return Enemy1;
 }(Enemy));

@@ -40,10 +40,8 @@ var Soldier = (function (_super) {
         this._creator = creator;
     };
     p._idle = function () {
-        if (this._creator == null || this._creator.active()) {
-            if (this._ticks >= this._idleTicks) {
-                this.moveTo(this._guardX, this._guardY);
-            }
+        if ((this._creator == null || this._creator.active()) && this._ticks >= this._idleTicks) {
+            this.moveTo(this._guardX, this._guardY);
         }
     };
     p.erase = function () {
@@ -119,7 +117,7 @@ var Soldier = (function (_super) {
     p._fighting = function () {
         if (this._ticks % this._hitSpeed == 0) {
             this._enemy.fight();
-            if (this._enemy.hitBy(this._damage)) {
+            if (this._enemy.hitBy(this)) {
                 var enemy = this._findEnemy();
                 if (enemy) {
                     this._fightWith(enemy);

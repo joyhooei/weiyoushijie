@@ -12,10 +12,10 @@ var Bomb = (function (_super) {
         var enemies = application.battle.findEnemies(this.x, this.y, this._hitRadius, [0]);
         for (var i = 0; i < enemies.length; i++) {
             if (enemies[1] != this._target) {
-                enemies[i].hitBy(this._damage);
+                enemies[i].shootBy(this);
             }
         }
-        this._target.hitBy(this._damage);
+        this._target.shootBy(this);
     };
     return Bomb;
 }(CastBullet));

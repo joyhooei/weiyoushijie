@@ -52,6 +52,16 @@ var TiledMap = (function (_super) {
                 var yFrom = this._yP2L(path[i][1]);
                 var xTo = this._xP2L(path[i + 1][0]);
                 var yTo = this._yP2L(path[i + 1][1]);
+                if (xFrom > xTo) {
+                    var temp = xFrom;
+                    xFrom = xTo;
+                    xTo = temp;
+                }
+                if (yFrom > yTo) {
+                    var temp = yFrom;
+                    yFrom = yTo;
+                    yTo = temp;
+                }
                 for (var k = xFrom; k <= xTo; k++) {
                     for (var j_1 = yFrom; j_1 <= yTo; j_1++) {
                         this._markArea(k, j_1, 1, 1);
@@ -59,11 +69,12 @@ var TiledMap = (function (_super) {
                 }
             }
         }
+        console.log(JSON.stringify(this._grid));
     };
     p._markArea = function (x, y, delta, value) {
         for (var i = x - delta; i <= x + delta; i++) {
             for (var j = y - delta; j <= y + delta; j++) {
-                if (!this._outOfBounds(i, j)) {
+                if ((this._grid[i][j] != value) && !this._outOfBounds(i, j)) {
                     this._grid[i][j] = value;
                 }
             }
@@ -157,19 +168,18 @@ var TiledMap = (function (_super) {
     };
     p._parseHeros = function (og) {
         var heros = [];
+        var warriors = 0;
         for (var i = 0; i < og.getObjectCount(); i++) {
             var o = og.getObjectByIndex(i);
             var name_4 = o.name;
             var arrayOfStrings = name_4.split("-");
-            var idx = parseInt(arrayOfStrings[1]);
-            heros[idx] = heros[idx] || [-1, -1, -1, -1];
+            heros[0] = heros[0] || [];
             if (arrayOfStrings[0] == 'start') {
-                heros[idx][0] = o.x;
-                heros[idx][1] = o.y;
+                heros[0][0] = [o.x, o.y];
             }
             else if (arrayOfStrings[0] == 'warriors') {
-                heros[idx][2] = o.x;
-                heros[idx][3] = o.y;
+                warriors++;
+                heros[0][warriors] = [o.x, o.y];
             }
         }
         return heros;

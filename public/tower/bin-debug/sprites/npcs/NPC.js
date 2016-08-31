@@ -5,6 +5,14 @@ var NPC = (function (_super) {
         this.width = this.height = 20;
     }
     var d = __define,c=NPC,p=c.prototype;
+    p._idle = function () {
+        if (this._ticks >= this._idleTicks) {
+            this.move();
+            if (this._hp) {
+                this._hp.move();
+            }
+        }
+    };
     p.initialize = function (properties) {
         _super.prototype.initialize.call(this, properties);
         this._hp = application.pool.get("Hp", properties);
@@ -14,7 +22,10 @@ var NPC = (function (_super) {
         this._damage = this._get(properties, "damage", 10);
         this._hitSpeed = this._get(properties, "hitSpeed", 10);
         this._altitude = this._get(properties, "altitude", 0);
-        this._idleTicks = this._get(properties, "idleTicks", Math.random() * 100);
+        this._idleTicks = this._get(properties, "idleTicks", Math.random() * 5000);
+    };
+    p.getDamage = function () {
+        return this._damage;
     };
     p.kill = function () {
         this._hp.erase();
@@ -28,7 +39,13 @@ var NPC = (function (_super) {
         }
         _super.prototype.erase.call(this);
     };
-    p.hitBy = function (damage) {
+    p.shootBy = function (bullet) {
+        return this._hit(bullet.getDamage());
+    };
+    p.hitBy = function (npc) {
+        return this._hit(npc.getDamage());
+    };
+    p._hit = function (damage) {
         if (this.active()) {
             if (this._hp.hitBy(damage)) {
                 this.kill();

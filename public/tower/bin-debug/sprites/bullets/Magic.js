@@ -6,7 +6,7 @@ var Magic = (function (_super) {
     var d = __define,c=Magic,p=c.prototype;
     p._hitTarget = function () {
         if (this._target.active()) {
-            this._target.hitBy(this._damage);
+            this._target.shootBy(this);
         }
     };
     return Magic;

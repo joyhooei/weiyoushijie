@@ -10,7 +10,7 @@ var Arrow = (function (_super) {
     };
     p._hitTarget = function () {
         if (this._target.active()) {
-            this._target.hitBy(this._damage);
+            this._target.shootBy(this);
         }
         else {
             this._missing = true;

@@ -186,6 +186,8 @@ class Entity extends egret.Sprite {
             display.height = height;
             display.width = width;
         }
+
+		return display;
     }
     
     private _do(state:EntityState) {

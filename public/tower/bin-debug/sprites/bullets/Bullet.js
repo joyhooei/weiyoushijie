@@ -36,6 +36,9 @@ var Bullet = (function (_super) {
         this._targetY = 0;
         this._damage = this._get(properties, 'damage', 10);
     };
+    p.getDamage = function () {
+        return this._damage;
+    };
     p.setTarget = function (target) {
         this._target = target;
         this.setTargetPosition(target.getCenterX(), target.getCenterY());

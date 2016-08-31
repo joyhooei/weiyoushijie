@@ -6,6 +6,6 @@ class Soldier1 extends Soldier {
     }
 
     public paint() {
-        return this._display(-10, -26);
+        this._display(-10, -26, this.width, this.height);
     }
 }

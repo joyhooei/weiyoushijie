@@ -9,7 +9,6 @@ var Hp = (function (_super) {
         this._maxHp = this._get(properties, "hp", 100);
         this._hp = this._maxHp;
         this._cureSpeed = this._get(properties, "cureSpeed", 1);
-        this.stain();
     };
     p.kill = function () {
         this._setHp(0);
