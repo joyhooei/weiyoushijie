@@ -14,7 +14,7 @@ class Fireball extends Bullet {
     protected _hitTarget() {
         let enemies = application.battle.findEnemies(this.x, this.y, this._hitRadius, [0]);
         for (let i = 0; i < enemies.length; i++) {
-            enemies[i].hitBy(this._damage);
+            enemies[i].shootBy(this);
         }
     }
 }
