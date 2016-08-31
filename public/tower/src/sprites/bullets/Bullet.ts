@@ -51,6 +51,10 @@ class Bullet extends MovableEntity {
 
         this._damage = this._get(properties, 'damage', 10);
     }
+    
+    public getDamage(): number {
+    	return this._damage;
+    }    
 
     public setTarget(target: NPC) {
         this._target  = target;
