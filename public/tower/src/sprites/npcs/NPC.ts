@@ -90,8 +90,8 @@ class NPC extends MovableEntity {
         this._turn(this._direction4(npc.x, npc.y));
     }
     
-    protected _paintDisplay(x: number, y: number) {
-    	let display: egret.DisplayObject = this._displays.render(this, this._direction, this._state);
+    protected _paintDisplay(x: number, y: number, idx = 0) {
+    	let display: egret.DisplayObject = this._displays.render(this, this._direction, this._state, idx);
         if (display && this._hp) {
         	display.y = x;
             display.x = y;
