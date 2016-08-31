@@ -175,11 +175,17 @@ class Entity extends egret.Sprite {
 
     //根据状态、面向修改重新渲染
     public paint() {
-    	this._display(this._direction, this._state);
+    	this._display(0, 0, this.width, this.height, 0);
     }
     
-    protected _display(x: number, y: number, idx = 0): egret.DisplayObject {
-    	return this._displays.render(this, this._direction, this._state, idx);
+    protected _display(x: number, y: number, width: number, height: number, idx = 0): egret.DisplayObject {
+    	let display: egret.DisplayObject = this._displays.render(this, this._direction, this._state, idx);
+		if (display) {
+        	display.x = x;
+            display.y = y;
+            display.height = height;
+            display.width = width;
+        }
     }
     
     private _do(state:EntityState) {
