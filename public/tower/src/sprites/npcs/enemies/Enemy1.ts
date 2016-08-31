@@ -6,6 +6,6 @@ class Enemy1 extends Enemy {
     }
 
     public paint() {
-        this._paintDisplay(-3, -10);
+        return this._display(-3, -10);
     }
 }
