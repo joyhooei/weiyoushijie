@@ -39,6 +39,10 @@ class NPC extends MovableEntity {
 
         this._idleTicks = this._get(properties, "idleTicks", Math.random() * 5000);
     }
+    
+    public getDamage(): number {
+    	return this._damage;
+    }
 
     public kill() {
         this._hp.erase();
@@ -55,8 +59,16 @@ class NPC extends MovableEntity {
 
         super.erase();
     }
+    
+    public shootBy(bullet: Bullet): boolean {
+    	return this._hit(bullet->getDamage());
+    }
 
-    public hitBy(damage:number): boolean {
+    public hitBy(npc: NPC): boolean {
+    	return this._hit(npc->getDamage());
+    }
+    
+    protected _hit(damage: number): boolean {
         if (this.active()) {           
             if (this._hp.hitBy(damage)) {
                 this.kill();
@@ -67,7 +79,7 @@ class NPC extends MovableEntity {
             }
         } else {
             return true;
-        }
+        }    	
     }
     
     public reachable(x: number, y: number, radius: number, altitudes: number[]): boolean {
