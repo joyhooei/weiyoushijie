@@ -175,9 +175,13 @@ class Entity extends egret.Sprite {
 
     //根据状态、面向修改重新渲染
     public paint() {
-    	this._displays.render(this, this._direction, this._state);
+    	this._display(this._direction, this._state);
     }
-
+    
+    protected _display(x: number, y: number, idx = 0): egret.DisplayObject {
+    	return this._displays.render(this, this._direction, this._state, idx);
+    }
+    
     private _do(state:EntityState) {
     	if (state != this._state) {
     		//dead状态不需要再变更状态了
