@@ -63,10 +63,8 @@ class Soldier extends NPC implements SelectableEntity {
     }
     
     protected _idle() {
-        if (this._creator == null || this._creator.active()) {
-        	if (this._ticks >= this._idleTicks) {
-            	this.moveTo(this._guardX, this._guardY);
-        	}
+        if ((this._creator == null || this._creator.active()) && this._ticks >= this._idleTicks) {
+            this.moveTo(this._guardX, this._guardY);
         }
     }
     
