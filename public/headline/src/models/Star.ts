@@ -7,12 +7,15 @@ class Star {
         return price;
 	}
 	
+	public exceed(star:any):number {
+        let now      = new Date();
+		let openTime = new Date(star.open_time);		
+		return now.getTime() + star.saving_hours * 3600000 - (openTime.getTime() + (star.opening_level + 3) * 24 * 3600 * 1000);
+	}
+	
     public static check(star:any):any {
         if (star.opening_level > 0) {
-            let now = new Date();
-    		let openTime = new Date(star.open_time);
-            let diff = now.getTime() + star.saving_hours * 3600000 - openTime.getTime();
-            if(diff <= 0) {
+            if(Star.exceed(star) >= 0) {
             	star.opened_level = star.opening_level;
             	star.opening_level = 0;
             	star.open_time = "";
