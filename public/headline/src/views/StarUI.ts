@@ -152,13 +152,7 @@ class StarUI extends AbstractUI {
 
         this.lblUpgradeDays.text = application.star.opening_level + 3;
 		
-		let now = new Date();
-        if(!application.star.open_time) {
-            application.star.open_time = now.toString();
-        }
-		let openTime = new Date(application.star.open_time);
-        let diff = (application.star.opening_level + 3) * 24 * 3600 - Math.floor((now.getTime() - openTime.getTime()) / 1000) - application.star.saving_hours * 3600;
-        
+        let diff = Star.exceed(application.star);
         let hours = Math.floor(diff / 3600);
         if (hours > 24) {
             this.lblUpgradeHours.text = Math.floor(hours / 24) + "天" + Math.floor(hours % 24) + "时";
