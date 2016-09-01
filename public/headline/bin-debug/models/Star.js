@@ -8,12 +8,16 @@ var Star = (function () {
         }
         return price;
     };
+    Star.exceed = function (star) {
+        var now = new Date();
+        var openTime = new Date(star.open_time);
+        var deadline = openTime.getTime() + (star.opening_level + 3) * 24 * 3600000;
+        var passed = now.getTime() + star.saving_hours * 3600000;
+        return (deadline - passed) / 1000;
+    };
     Star.check = function (star) {
         if (star.opening_level > 0) {
-            var now = new Date();
-            var openTime = new Date(star.open_time);
-            var diff = now.getTime() + star.saving_hours * 3600000 - openTime.getTime();
-            if (diff <= 0) {
+            if (Star.exceed(star) <= 0) {
                 star.opened_level = star.opening_level;
                 star.opening_level = 0;
                 star.open_time = "";

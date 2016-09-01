@@ -22,7 +22,7 @@ var StarUI = (function (_super) {
             _this.refresh();
         }, this);
         this.imgPickStick.addEventListener(egret.TouchEvent.TOUCH_TAP, function () {
-            application.star.sticks += parseInt(_this.lblTotalSticks.text);
+            application.star.sticks += parseInt(_this.lblSticks.text);
             application.star.last_pick_time = (new Date()).toString();
             application.dao.save("Star", application.star);
             _this.refresh();
@@ -114,12 +114,7 @@ var StarUI = (function (_super) {
         }
         this.imgStar.source = "s" + this._level + "_png";
         this.lblUpgradeDays.text = application.star.opening_level + 3;
-        var now = new Date();
-        if (!application.star.open_time) {
-            application.star.open_time = now.toString();
-        }
-        var openTime = new Date(application.star.open_time);
-        var diff = (application.star.opening_level + 3) * 24 * 3600 - Math.floor((now.getTime() - openTime.getTime()) / 1000) - application.star.saving_hours * 3600;
+        var diff = Star.exceed(application.star);
         var hours = Math.floor(diff / 3600);
         if (hours > 24) {
             this.lblUpgradeHours.text = Math.floor(hours / 24) + "天" + Math.floor(hours % 24) + "时";

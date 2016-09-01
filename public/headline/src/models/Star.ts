@@ -7,7 +7,7 @@ class Star {
         return price;
 	}
 	
-	public exceed(star:any):number {
+    public static exceed(star:any):number {
         let now      = new Date();
 		let openTime = new Date(star.open_time);
 		let deadline = openTime.getTime() + (star.opening_level + 3) * 24 * 3600000;
