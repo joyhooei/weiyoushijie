@@ -8,10 +8,22 @@ class Star {
 	}
 	
     public static exceed(star:any):number {
-        let now      = new Date();
 		let openTime = new Date(star.open_time);
 		let deadline = openTime.getTime() + (star.opening_level + 3) * 24 * 3600000;
+		
+        let now      = new Date();
 		let passed   = now.getTime() + star.saving_hours * 3600000;
+		let vip = application.me.vip.getLevel();
+		if (vip >= 5 && vip <= 7) {
+			passed += 24 * 3600000;
+		} else if (vip >= 8 && vip <= 10) {
+			passed += 2 * 24 * 3600000;
+		} else if (vip >= 11 && vip <= 13) {
+			passed += 3 * 24 * 3600000;
+		} else if (vip >= 14 && vip <= 15) {
+			passed += 4 * 24 * 3600000;
+		}
+		
 		return (deadline - passed) / 1000;
 	}
 	
