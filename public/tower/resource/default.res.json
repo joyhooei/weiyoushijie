@@ -1,7 +1,7 @@
 {
 	"groups": [
 		{
-			"keys": "world_jpg,base3_png,base2_png,base1_png,bg_mp3,enemy1_png,enemy1_json,soldier1_json,soldier1_png,tool_soldier_png,tool_fireball_png",
+			"keys": "world_jpg,base3_png,base2_png,base1_png,bg_mp3,soldier1_json,soldier1_png,tool_soldier_png,tool_fireball_png,wolf_east_moving_png,wolf_east_moving_json,wolf_east_fighting_png,wolf_east_fighting_json,wolf_dying_png,wolf_dying_json,warrior_east_fighting_png,warrior_east_fighting_json,warrior_dying_png,warrior_dying_json,sunwukong_east_moving_png,sunwukong_east_moving_json,sunwukong_east_fighting_png,sunwukong_east_fighting_json",
 			"name": "home"
 		},
 		{
@@ -9,7 +9,7 @@
 			"name": "landing"
 		},
 		{
-			"keys": "login_png,loginb_png,world2_jpg,base2_png,base3_png,base1_png,bg_mp3,enemy1_png,map2_png,soldier1_png,tool_fireball_png,tool_soldier_png",
+			"keys": "login_png,loginb_png,world2_jpg,base2_png,base3_png,base1_png,bg_mp3,map2_png,soldier1_png,tool_fireball_png,tool_soldier_png,wolf_east_fighting_json,wolf_east_fighting_png,wolf_dying_json,wolf_dying_png,wolf_east_moving_json,wolf_east_moving_png,sunwukong_east_moving_json,sunwukong_east_moving_png,warrior_east_fighting_json,warrior_east_fighting_png,sunwukong_east_fighting_json,sunwukong_east_fighting_png,warrior_dying_json,warrior_dying_png",
 			"name": "preload"
 		},
 		{
@@ -69,16 +69,6 @@
 			"name": "bg_mp3"
 		},
 		{
-			"url": "art/sprites/enemies/enemy1.png",
-			"type": "image",
-			"name": "enemy1_png"
-		},
-		{
-			"url": "art/sprites/enemies/enemy1.json",
-			"type": "json",
-			"name": "enemy1_json"
-		},
-		{
 			"url": "art/sprites/battles/map2.png",
 			"type": "image",
 			"name": "map2_png"
@@ -102,6 +92,76 @@
 			"url": "art/home/tool_soldier.png",
 			"type": "image",
 			"name": "tool_soldier_png"
+		},
+		{
+			"url": "art/sprites/enemies/wolf_east_fighting.json",
+			"type": "json",
+			"name": "wolf_east_fighting_json"
+		},
+		{
+			"url": "art/sprites/enemies/wolf_east_fighting.png",
+			"type": "image",
+			"name": "wolf_east_fighting_png"
+		},
+		{
+			"url": "art/sprites/enemies/wolf_dying.json",
+			"type": "json",
+			"name": "wolf_dying_json"
+		},
+		{
+			"url": "art/sprites/enemies/wolf_dying.png",
+			"type": "image",
+			"name": "wolf_dying_png"
+		},
+		{
+			"url": "art/sprites/enemies/wolf_east_moving.json",
+			"type": "json",
+			"name": "wolf_east_moving_json"
+		},
+		{
+			"url": "art/sprites/enemies/wolf_east_moving.png",
+			"type": "image",
+			"name": "wolf_east_moving_png"
+		},
+		{
+			"url": "art/sprites/soldiers/heros/sunwukong_east_moving.json",
+			"type": "json",
+			"name": "sunwukong_east_moving_json"
+		},
+		{
+			"url": "art/sprites/soldiers/heros/sunwukong_east_moving.png",
+			"type": "image",
+			"name": "sunwukong_east_moving_png"
+		},
+		{
+			"url": "art/sprites/soldiers/heros/warrior_east_fighting.json",
+			"type": "json",
+			"name": "warrior_east_fighting_json"
+		},
+		{
+			"url": "art/sprites/soldiers/heros/warrior_east_fighting.png",
+			"type": "image",
+			"name": "warrior_east_fighting_png"
+		},
+		{
+			"url": "art/sprites/soldiers/heros/sunwukong_east_fighting.json",
+			"type": "json",
+			"name": "sunwukong_east_fighting_json"
+		},
+		{
+			"url": "art/sprites/soldiers/heros/sunwukong_east_fighting.png",
+			"type": "image",
+			"name": "sunwukong_east_fighting_png"
+		},
+		{
+			"url": "art/sprites/soldiers/heros/warrior_dying.json",
+			"type": "json",
+			"name": "warrior_dying_json"
+		},
+		{
+			"url": "art/sprites/soldiers/heros/warrior_dying.png",
+			"type": "image",
+			"name": "warrior_dying_png"
 		}
 	]
 }

@@ -10,15 +10,15 @@ var Battle1 = (function (_super) {
     };
     //增加英雄
     p._addHeros = function () {
-        this._addHerosByName("MonkeyKing", "Soldier1");
+        this._addHerosByName("Sunwukong", "Warrior");
     };
     p._addStandbys = function () {
         var paths = this._map.getPaths();
         var waves = [
-            [0, "Enemy1", 10, 0],
-            [1, "Enemy1", 10, 1],
-            [2, "Enemy1", 10, 0],
-            [2, "Enemy1", 10, 1],
+            [0, "Wolf", 10, 0],
+            [1, "Wolf", 10, 1],
+            [2, "Wolf", 10, 0],
+            [2, "Wolf", 10, 1],
         ];
         for (var i = 0; i < waves.length; i++) {
             var w = waves[i];

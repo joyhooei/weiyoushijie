@@ -55,49 +55,77 @@ var EntityDisplays = (function () {
     };
     p.render = function (container, direction, state, index) {
         if (index === void 0) { index = 0; }
-        var display = this._getDisplay(direction, state, index);
-        if (this._currentDisplay != display) {
-            if (this._currentDisplay) {
-                container.removeChild(this._currentDisplay);
-            }
-            if (display) {
-                display.width = container.width;
-                display.height = container.height;
-                container.addChild(display);
-            }
-            this._currentDisplay = display;
+        if (this._currentDisplay) {
+            container.removeChild(this._currentDisplay);
         }
+        var display = this._getDisplay(direction, state, index);
+        if (display) {
+            container.addChild(display);
+        }
+        this._currentDisplay = display;
         return display;
+    };
+    p._getDefaultDisplay = function () {
+        if (egret.getQualifiedClassName(this._defaultDisplay) == "egret.MovieClip") {
+            var clip = this._defaultDisplay;
+            clip.gotoAndPlay(0, -1);
+        }
+        return this._defaultDisplay;
     };
     p._getDisplay = function (direction, state, index) {
         if (index === void 0) { index = 0; }
-        var display = null;
+        var scaleX = 1;
+        var scaleY = 1;
         var idx = (direction << 3) + state;
-        if (this._displays[idx] && this._displays[idx][0]) {
-            if (!this._displays[idx][index]) {
-                index = 0;
+        if (!this._displays[idx]) {
+            //是否有镜像的资源
+            idx = (((direction + 4) % 8) << 3) + state;
+            if (!this._displays[idx]) {
+                //是否有方向相近的资源
+                idx = (((direction + 1) % 8) << 3) + state;
+                if (!this._displays[idx]) {
+                    idx = (((direction + 7) % 8) << 3) + state;
+                    if (!this._displays[idx]) {
+                        idx = state;
+                        if (!this._displays[idx]) {
+                            return this._getDefaultDisplay();
+                        }
+                    }
+                }
             }
-            display = this._displays[idx][index];
-            if (egret.getQualifiedClassName(display) == "egret.MovieClip") {
-                var clip = display;
-                var label = this._labels[idx][index];
-                if (label && label.length > 0) {
-                    clip.gotoAndPlay(label, -1);
+            else {
+                if (direction == EntityDirection.east || direction == EntityDirection.west) {
+                    scaleX = -1;
+                }
+                else if (direction == EntityDirection.north || direction == EntityDirection.south) {
+                    scaleY = -1;
                 }
                 else {
-                    clip.gotoAndPlay(0, -1);
+                    scaleX = -1;
+                    scaleY = -1;
                 }
             }
         }
-        else if (direction == 0) {
-            display = this._defaultDisplay;
-            if (egret.getQualifiedClassName(display) == "egret.MovieClip") {
-                var clip = display;
+        if (!this._displays[idx][index]) {
+            index = 0;
+        }
+        var display = this._displays[idx][index];
+        if (egret.getQualifiedClassName(display) == "egret.MovieClip") {
+            var clip = display;
+            if (this._labels[idx] && this._labels[idx][index] && this._labels[idx][index].length > 0) {
+                clip.gotoAndPlay(this._labels[idx][index], -1);
+            }
+            else {
                 clip.gotoAndPlay(0, -1);
             }
         }
-        else {
-            display = this._getDisplay(0, state);
+        display.scaleX = scaleX;
+        display.scaleY = scaleY;
+        if (scaleX == -1) {
+            display.x = -display.width;
+        }
+        if (scaleY == -1) {
+            display.y = -display.height;
         }
         return display;
     };

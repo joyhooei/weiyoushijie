@@ -148,7 +148,7 @@ var Battle = (function (_super) {
             hero.x = pos[i][0][0];
             hero.y = pos[i][0][1];
             this.addHero(hero);
-            for (var j = 1; j < pos[i].length; i++) {
+            for (var j = 1; j < pos[i].length; j++) {
                 var soldier = application.pool.get(warriorName, { guardX: pos[i][j][0], guardY: pos[i][j][1] });
                 soldier.x = pos[i][0][0];
                 soldier.y = pos[i][0][1];

@@ -11,19 +11,19 @@ class Battle1 extends Battle {
     
     //增加英雄
     protected _addHeros() {
-        this._addHerosByName("MonkeyKing", "Soldier1");
+        this._addHerosByName("Sunwukong", "Warrior");
     }
     
     protected _addStandbys() {
         let paths = this._map.getPaths();
         
         let waves = [
-            [0, "Enemy1", 10, 0],
+            [0, "Wolf", 10, 0],
             
-            [1, "Enemy1", 10, 1],
+            [1, "Wolf", 10, 1],
             
-            [2, "Enemy1", 10, 0],
-            [2, "Enemy1", 10, 1],
+            [2, "Wolf", 10, 0],
+            [2, "Wolf", 10, 1],
         ];
         
         for(let i = 0; i < waves.length; i++) {

@@ -17,21 +17,23 @@ var application;
         else {
             application.baseUrl = window.location.protocol + "//" + window.location.hostname + (window.location.port ? ':' + window.location.port : '') + "/";
         }
-        var logger = log4javascript.getLogger("larksoft");
-        var appender = new log4javascript.AjaxAppender(application.baseUrl + "logs");
+        /*
+        let logger = log4javascript.getLogger("larksoft");
+        let appender = new log4javascript.AjaxAppender(application.baseUrl + "logs");
         appender.setWaitForResponse(false);
         appender.setThreshold(log4javascript.Level.ERROR);
-        var layout = new log4javascript.HttpPostDataLayout();
+        let layout = new log4javascript.HttpPostDataLayout();
         layout.setCustomField("version", application.version);
         layout.setCustomField("game", application.game);
         appender.setLayout(layout);
         logger.addAppender(appender);
         Utility.takeOverConsole(logger);
+        */
         application.dao = new Dao(application.baseUrl + "api/");
         application.channel = Channel.create();
         application.characters = Character.createAll();
         application.pool = new EntityPool();
-        application.frameRate = 60;
+        application.frameRate = 30;
         application.stopwatch = new egret.EventDispatcher();
         var timer = new egret.Timer(1000, 0);
         timer.addEventListener(egret.TimerEvent.TIMER, function (event) {

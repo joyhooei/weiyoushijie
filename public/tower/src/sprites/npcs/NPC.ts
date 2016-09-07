@@ -37,7 +37,7 @@ class NPC extends MovableEntity {
         
         this._altitude  = this._get(properties, "altitude", 0);
 
-        this._idleTicks = this._get(properties, "idleTicks", Math.random() * 5000);
+        this._idleTicks = this._get(properties, "idleTicks", Math.random() * 500);
     }
     
     public getDamage(): number {

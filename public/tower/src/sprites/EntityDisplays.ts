@@ -104,7 +104,10 @@ class EntityDisplays {
                 if (!this._displays[idx]) {
                     idx = (((direction + 7) % 8) << 3) + state;
                     if (!this._displays[idx]) {
-                        return this._getDefaultDisplay();
+                        idx = state;
+                        if (!this._displays[idx]) {
+                            return this._getDefaultDisplay();
+                        }
                     }
                 }
             } else {
@@ -127,9 +130,8 @@ class EntityDisplays {
         
         if (egret.getQualifiedClassName(display) == "egret.MovieClip") {
             let clip:egret.MovieClip = <egret.MovieClip>display;
-            let label:string = this._labels[idx][index];
-            if (label && label.length > 0) {
-                clip.gotoAndPlay(label, -1);
+            if (this._labels[idx] && this._labels[idx][index] && this._labels[idx][index].length > 0) {
+                clip.gotoAndPlay(this._labels[idx][index], -1);
             } else {
                 clip.gotoAndPlay(0, -1);
             }

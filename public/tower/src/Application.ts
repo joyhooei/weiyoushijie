@@ -46,6 +46,7 @@ module application {
             application.baseUrl = window.location.protocol + "//" + window.location.hostname + (window.location.port ? ':' + window.location.port: '') + "/";
 		}
 		
+        /*
 		let logger = log4javascript.getLogger("larksoft");
 		let appender = new log4javascript.AjaxAppender(application.baseUrl + "logs");
 		appender.setWaitForResponse(false);
@@ -56,6 +57,7 @@ module application {
 		appender.setLayout(layout);
 		logger.addAppender(appender);
 		Utility.takeOverConsole(logger);
+        */
 		
         application.dao = new Dao(application.baseUrl + "api/");
         
@@ -65,7 +67,7 @@ module application {
         
         application.pool = new EntityPool();
         
-        application.frameRate = 60;
+        application.frameRate = 30;
 
         application.stopwatch = new egret.EventDispatcher();
         var timer: egret.Timer = new egret.Timer(1000,0);
