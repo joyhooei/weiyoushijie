@@ -67,54 +67,83 @@ class EntityDisplays {
     }
     
     public render(container: egret.DisplayObjectContainer, direction:EntityDirection, state: EntityState, index = 0): egret.DisplayObject  {
-        let display:egret.DisplayObject = this._getDisplay(direction, state, index);
-        if (this._currentDisplay != display) {
-            if (this._currentDisplay) {
-                container.removeChild(this._currentDisplay);
-            }
-            
-            if (display) {
-                display.width  = container.width;
-                display.height = container.height;
-                container.addChild(display);
-            }
-        
-            this._currentDisplay = display;
+        if (this._currentDisplay) {
+            container.removeChild(this._currentDisplay);
         }
+        
+        let display:egret.DisplayObject = this._getDisplay(direction, state, index);
+        if (display) {
+            container.addChild(display);
+        }
+    
+        this._currentDisplay = display;
 
         return display;
     }
-
-    private _getDisplay(direction:EntityDirection, state: EntityState, index = 0): egret.DisplayObject {
-        let display:egret.DisplayObject  = null;
-        
-        let idx:number = (direction << 3) + state;
-        if (this._displays[idx] && this._displays[idx][0]) {
-            if (!this._displays[idx][index]) {
-                index = 0;
-            }
-            
-            display = this._displays[idx][index];
-            if (egret.getQualifiedClassName(display) == "egret.MovieClip") {
-                let clip:egret.MovieClip = <egret.MovieClip>display;
-                let label:string = this._labels[idx][index];
-                if (label && label.length > 0) {
-                    clip.gotoAndPlay(label, -1);
-                } else {
-                    clip.gotoAndPlay(0, -1);
-                }
-            }
-        } else if (direction == 0) {
-            display = this._defaultDisplay;
-            
-            if (egret.getQualifiedClassName(display) == "egret.MovieClip") {
-                let clip:egret.MovieClip = <egret.MovieClip>display;
-                clip.gotoAndPlay(0, -1);
-            }
-        } else {
-            display = this._getDisplay(0, state);
+    
+    private _getDefaultDisplay(): egret.DisplayObject {
+        if (egret.getQualifiedClassName(this._defaultDisplay) == "egret.MovieClip") {
+            let clip:egret.MovieClip = <egret.MovieClip>this._defaultDisplay;
+            clip.gotoAndPlay(0, -1);
         }
         
+        return this._defaultDisplay;
+    }
+
+    private _getDisplay(direction:EntityDirection, state: EntityState, index = 0): egret.DisplayObject {
+        let scaleX:number = 1;
+        let scaleY:number = 1;
+        
+        let idx:number = (direction << 3) + state;
+        if (!this._displays[idx]) {
+            //是否有镜像的资源
+            idx = (((direction + 4) % 8) << 3) + state;
+            if (!this._displays[idx]) {
+                //是否有方向相近的资源
+                idx = (((direction + 1) % 8) << 3) + state;
+                if (!this._displays[idx]) {
+                    idx = (((direction + 7) % 8) << 3) + state;
+                    if (!this._displays[idx]) {
+                        return this._getDefaultDisplay();
+                    }
+                }
+            } else {
+                if (direction == EntityDirection.east || direction == EntityDirection.west) {
+                    scaleX = -1;
+                } else if (direction == EntityDirection.north || direction == EntityDirection.south) {
+                    scaleY = -1;
+                } else {
+                    scaleX = -1;
+                    scaleY = -1;
+                }
+            }
+        }
+        
+        if (!this._displays[idx][index]) {
+            index = 0;
+        }
+        
+        let display:egret.DisplayObject  = this._displays[idx][index];
+        
+        if (egret.getQualifiedClassName(display) == "egret.MovieClip") {
+            let clip:egret.MovieClip = <egret.MovieClip>display;
+            let label:string = this._labels[idx][index];
+            if (label && label.length > 0) {
+                clip.gotoAndPlay(label, -1);
+            } else {
+                clip.gotoAndPlay(0, -1);
+            }
+        }
+        
+        display.scaleX = scaleX;
+        display.scaleY = scaleY;
+        if (scaleX == -1) {
+            display.x = - display.width;
+        } 
+        if (scaleY == -1) {
+            display.y = - display.height;
+        }
+
         return display;
     }
     
