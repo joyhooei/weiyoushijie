@@ -3,5 +3,7 @@ class SoldierTower1 extends SoldierTower {
         super();
         
         this._displays.addBitmap("soldiertower1");
+        
+        this._soldierClaz = "Soldier1";
     }
 }
