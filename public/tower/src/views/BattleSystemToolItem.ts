@@ -36,12 +36,12 @@ class BattleSystemToolItem extends BattleToolItem {
     
     public use(x: number, y: number) {
         if (this._tool.category == "soldier") {
-            let soldier = <Soldier>application.pool.get("Soldier1", {guardX: x - 5, guardY: y - 5});
+            let soldier = <Soldier>application.pool.get("Reinforce", {guardX: x - 5, guardY: y - 5});
             soldier.x = x;
             soldier.y = y;
             application.battle.addSoldier(soldier);
 
-            soldier = <Soldier>application.pool.get("Soldier1", {guardX: x + 5, guardY: y + 5});
+            soldier = <Soldier>application.pool.get("Reinforce", {guardX: x + 5, guardY: y + 5});
             soldier.x = x;
             soldier.y = y;
             application.battle.addSoldier(soldier);            
