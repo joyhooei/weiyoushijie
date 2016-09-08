@@ -1,6 +1,8 @@
 class SoldierTower extends Tower {
     protected _guardX: number;
     protected _guardY: number;
+    
+    protected _soldierClaz: string;
 
     public constructor() {
         super();
@@ -24,7 +26,7 @@ class SoldierTower extends Tower {
     
     public guard() {
         for(let i = 0; i < 3; i++) {
-            let soldier = <Soldier>application.pool.get("Soldier", {"guardX": this._guardX, "guardY": this._guardY});
+            let soldier = <Soldier>application.pool.get(this._soldierClaz, {"guardX": this._guardX, "guardY": this._guardY});
             soldier.setCreator(this);
             soldier.x = this.getCenterX();
             soldier.y = this.getCenterY();            
