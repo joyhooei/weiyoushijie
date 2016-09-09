@@ -42,7 +42,7 @@ module.exports.login = function(game, options) {
 module.exports.pay = function(options) {
 	return Q.Promise(function(resolve, reject, notify) {
 		Helper.pay("huhuh5", options.orderId, options.money, true).then(function(message){
-			resolve('succeed');
+			resolve('success');
 		}, function(message){
 			reject("fail");
 		});
