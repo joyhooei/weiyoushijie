@@ -24,7 +24,7 @@ class Battle1 extends Battle {
             
             [2, "Hogs", 10, 0],
             
-            [4, "Rhino", 10, 1],
+            [3, "Rhino", 10, 1],
             
             [4, "Wolf", 10, 0],
             [4, "Wolf", 10, 1],

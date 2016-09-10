@@ -1,7 +1,7 @@
 {
 	"groups": [
 		{
-			"keys": "world_jpg,base3_png,base2_png,base1_png,bg_mp3,soldier1_json,soldier1_png,tool_soldier_png,tool_fireball_png,wolf_east_moving_png,wolf_east_moving_json,wolf_east_fighting_png,wolf_east_fighting_json,wolf_dying_png,wolf_dying_json,warrior_east_fighting_png,warrior_east_fighting_json,warrior_dying_png,warrior_dying_json,sunwukong_east_moving_png,sunwukong_east_moving_json,sunwukong_east_fighting_3_png,sunwukong_east_fighting_3_json,sunwukong_east_fighting_2_png,sunwukong_east_fighting_2_json,sunwukong_east_fighting_1_png,sunwukong_east_fighting_1_json",
+			"keys": "world_jpg,base3_png,base2_png,base1_png,bg_mp3,soldier1_json,soldier1_png,tool_soldier_png,tool_fireball_png,wolf_east_moving_png,wolf_east_moving_json,wolf_east_fighting_png,wolf_east_fighting_json,wolf_dying_png,wolf_dying_json,warrior_east_fighting_png,warrior_east_fighting_json,warrior_dying_png,warrior_dying_json,sunwukong_east_moving_png,sunwukong_east_moving_json,sunwukong_east_fighting_3_png,sunwukong_east_fighting_3_json,sunwukong_east_fighting_2_png,sunwukong_east_fighting_2_json,sunwukong_east_fighting_1_png,sunwukong_east_fighting_1_json,base4_png,arrowtower31_png,arrowtower32_png,arrowtower1_png,arrowtower2_png,rhino_east_moving_png,rhino_east_moving_json,rhino_east_fighting_png,rhino_east_fighting_json,rhino_dying_png,rhino_dying_json,hogs_east_moving_png,hogs_east_moving_json,hogs_east_fighting_png,hogs_east_fighting_json,hogs_dying_png,hogs_dying_json,reinforce_east_moving_png,reinforce_east_moving_json,reinforce_east_fighting_png,reinforce_east_fighting_json,reinforce_dying_png,reinforce_dying_json",
 			"name": "home"
 		},
 		{
@@ -9,7 +9,7 @@
 			"name": "landing"
 		},
 		{
-			"keys": "login_png,loginb_png,world2_jpg,base2_png,base3_png,base1_png,bg_mp3,map2_png,soldier1_png,tool_fireball_png,tool_soldier_png,wolf_east_fighting_json,wolf_east_fighting_png,wolf_dying_json,wolf_dying_png,wolf_east_moving_json,wolf_east_moving_png,sunwukong_east_moving_json,sunwukong_east_moving_png,warrior_east_fighting_json,warrior_east_fighting_png,warrior_dying_json,warrior_dying_png,sunwukong_east_fighting_1_json,sunwukong_east_fighting_1_png,sunwukong_east_fighting_2_json,sunwukong_east_fighting_2_png,sunwukong_east_fighting_3_json,sunwukong_east_fighting_3_png",
+			"keys": "login_png,loginb_png,world2_jpg,base2_png,base3_png,base1_png,bg_mp3,map2_png,soldier1_png,tool_fireball_png,tool_soldier_png,wolf_east_fighting_json,wolf_east_fighting_png,wolf_dying_json,wolf_dying_png,wolf_east_moving_json,wolf_east_moving_png,sunwukong_east_moving_json,sunwukong_east_moving_png,warrior_east_fighting_json,warrior_east_fighting_png,warrior_dying_json,warrior_dying_png,sunwukong_east_fighting_1_json,sunwukong_east_fighting_1_png,sunwukong_east_fighting_2_json,sunwukong_east_fighting_2_png,sunwukong_east_fighting_3_json,sunwukong_east_fighting_3_png,fireball_moving_json,fireball_moving_png,fireball_dying_json,fireball_dying_png,base4_png,arrowtower1_png,arrowtower2_png,arrowtower31_png,arrowtower32_png,reinforce_east_fighting_json,reinforce_east_fighting_png,reinforce_east_moving_json,reinforce_east_moving_png,reinforce_dying_json,reinforce_dying_png,rhino_east_moving_json,rhino_east_moving_png,rhino_dying_json,rhino_dying_png,rhino_east_fighting_json,rhino_east_fighting_png,hogs_east_fighting_json,hogs_east_fighting_png,hogs_dying_json,hogs_dying_png,hogs_east_moving_json,hogs_east_moving_png",
 			"name": "preload"
 		},
 		{
@@ -182,6 +182,141 @@
 			"url": "art/sprites/soldiers/heros/sunwukong_east_fighting_3.png",
 			"type": "image",
 			"name": "sunwukong_east_fighting_3_png"
+		},
+		{
+			"url": "art/sprites/bullets/fireball_moving.json",
+			"type": "json",
+			"name": "fireball_moving_json"
+		},
+		{
+			"url": "art/sprites/bullets/fireball_moving.png",
+			"type": "image",
+			"name": "fireball_moving_png"
+		},
+		{
+			"url": "art/sprites/bullets/fireball_dying.json",
+			"type": "json",
+			"name": "fireball_dying_json"
+		},
+		{
+			"url": "art/sprites/bullets/fireball_dying.png",
+			"type": "image",
+			"name": "fireball_dying_png"
+		},
+		{
+			"url": "art/sprites/bases/base4.png",
+			"type": "image",
+			"name": "base4_png"
+		},
+		{
+			"url": "art/sprites/towers/arrowtower1.png",
+			"type": "image",
+			"name": "arrowtower1_png"
+		},
+		{
+			"url": "art/sprites/towers/arrowtower2.png",
+			"type": "image",
+			"name": "arrowtower2_png"
+		},
+		{
+			"url": "art/sprites/towers/arrowtower31.png",
+			"type": "image",
+			"name": "arrowtower31_png"
+		},
+		{
+			"url": "art/sprites/towers/arrowtower32.png",
+			"type": "image",
+			"name": "arrowtower32_png"
+		},
+		{
+			"url": "art/sprites/soldiers/reinforce_east_fighting.json",
+			"type": "json",
+			"name": "reinforce_east_fighting_json"
+		},
+		{
+			"url": "art/sprites/soldiers/reinforce_east_fighting.png",
+			"type": "image",
+			"name": "reinforce_east_fighting_png"
+		},
+		{
+			"url": "art/sprites/soldiers/reinforce_east_moving.json",
+			"type": "json",
+			"name": "reinforce_east_moving_json"
+		},
+		{
+			"url": "art/sprites/soldiers/reinforce_east_moving.png",
+			"type": "image",
+			"name": "reinforce_east_moving_png"
+		},
+		{
+			"url": "art/sprites/soldiers/reinforce_dying.json",
+			"type": "json",
+			"name": "reinforce_dying_json"
+		},
+		{
+			"url": "art/sprites/soldiers/reinforce_dying.png",
+			"type": "image",
+			"name": "reinforce_dying_png"
+		},
+		{
+			"url": "art/sprites/enemies/rhino_east_moving.json",
+			"type": "json",
+			"name": "rhino_east_moving_json"
+		},
+		{
+			"url": "art/sprites/enemies/rhino_east_moving.png",
+			"type": "image",
+			"name": "rhino_east_moving_png"
+		},
+		{
+			"url": "art/sprites/enemies/rhino_dying.json",
+			"type": "json",
+			"name": "rhino_dying_json"
+		},
+		{
+			"url": "art/sprites/enemies/rhino_dying.png",
+			"type": "image",
+			"name": "rhino_dying_png"
+		},
+		{
+			"url": "art/sprites/enemies/rhino_east_fighting.json",
+			"type": "json",
+			"name": "rhino_east_fighting_json"
+		},
+		{
+			"url": "art/sprites/enemies/rhino_east_fighting.png",
+			"type": "image",
+			"name": "rhino_east_fighting_png"
+		},
+		{
+			"url": "art/sprites/enemies/hogs_east_fighting.json",
+			"type": "json",
+			"name": "hogs_east_fighting_json"
+		},
+		{
+			"url": "art/sprites/enemies/hogs_east_fighting.png",
+			"type": "image",
+			"name": "hogs_east_fighting_png"
+		},
+		{
+			"url": "art/sprites/enemies/hogs_dying.json",
+			"type": "json",
+			"name": "hogs_dying_json"
+		},
+		{
+			"url": "art/sprites/enemies/hogs_dying.png",
+			"type": "image",
+			"name": "hogs_dying_png"
+		},
+		{
+			"url": "art/sprites/enemies/hogs_east_moving.json",
+			"type": "json",
+			"name": "hogs_east_moving_json"
+		},
+		{
+			"url": "art/sprites/enemies/hogs_east_moving.png",
+			"type": "image",
+			"name": "hogs_east_moving_png"
 		}
 	]
 }

@@ -4,7 +4,7 @@ class Reinforce extends Soldier {
         
         this._displays.addClip("reinforce_east_fighting", "east-fighting")
                 .addClip("reinforce_east_moving", "east-moving")
-                .addClip("reinforce_east_guarding", "east-guarding")
+                .addClip("reinforce_east_moving", "guarding")
                 .addClip("reinforce_dying", "dying");
     }
 

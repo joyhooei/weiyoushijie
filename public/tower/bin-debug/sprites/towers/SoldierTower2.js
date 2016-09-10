@@ -3,6 +3,7 @@ var SoldierTower2 = (function (_super) {
     function SoldierTower2() {
         _super.call(this);
         this._displays.addBitmap("soldiertower2");
+        this._soldierClaz = "Soldier2";
     }
     var d = __define,c=SoldierTower2,p=c.prototype;
     return SoldierTower2;

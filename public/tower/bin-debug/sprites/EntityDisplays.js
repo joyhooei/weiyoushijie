@@ -1,9 +1,10 @@
 var EntityDisplays = (function () {
-    function EntityDisplays() {
+    function EntityDisplays(entityName) {
         this._displays = [];
         this._labels = [];
         this._currentDisplay = null;
         this._defaultDisplay = null;
+        this._entityName = entityName;
     }
     var d = __define,c=EntityDisplays,p=c.prototype;
     p.addBitmap = function (name, action) {
@@ -61,6 +62,9 @@ var EntityDisplays = (function () {
         var display = this._getDisplay(direction, state, index);
         if (display) {
             container.addChild(display);
+        }
+        else {
+            console.log("display dosn't exist for " + this._entityName + " direction = " + Entity.directionName(direction) + " state = " + Entity.stateName(state));
         }
         this._currentDisplay = display;
         return display;

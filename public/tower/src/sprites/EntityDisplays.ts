@@ -6,14 +6,18 @@ class EntityDisplays {
     private _currentDisplay: egret.DisplayObject;
     
     private _defaultDisplay: egret.DisplayObject;
+
+    private _entityName: string;
     
-    public constructor() {
+    public constructor(entityName:string) {
         this._displays = [];
         
         this._labels = [];
         
         this._currentDisplay = null;
         this._defaultDisplay = null;
+
+        this._entityName = entityName;
     }
     
     public addBitmap(name:string, action?:string): EntityDisplays {
@@ -74,6 +78,9 @@ class EntityDisplays {
         let display:egret.DisplayObject = this._getDisplay(direction, state, index);
         if (display) {
             container.addChild(display);
+        } else {
+
+            console.log("display dosn't exist for " + this._entityName + " direction = " + Entity.directionName(direction) + " state = " + Entity.stateName(state));
         }
     
         this._currentDisplay = display;

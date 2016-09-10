@@ -25,7 +25,7 @@ var Entity = (function (_super) {
     __extends(Entity, _super);
     function Entity() {
         _super.call(this);
-        this._displays = new EntityDisplays();
+        this._displays = new EntityDisplays(this.getClassName());
         this._sounds = new EntitySounds();
     }
     var d = __define,c=Entity,p=c.prototype;
@@ -152,6 +152,7 @@ var Entity = (function (_super) {
     };
     p._do = function (state) {
         if (state != this._state) {
+            console.log(this.getClassName() + " changed from " + Entity.stateName(this._state) + " to state " + Entity.stateName(state));
             //dead状态不需要再变更状态了
             //当前状态如果是dying，新状态只能是dead
             if (this._state == EntityState.dead || (this._state == EntityState.dying && state != EntityState.dead)) {
@@ -166,6 +167,7 @@ var Entity = (function (_super) {
     //转向
     p._turn = function (direction) {
         if (direction != this._direction) {
+            console.log(this.getClassName() + " trun from " + Entity.directionName(this._direction) + " to direction " + Entity.directionName(direction));
             this._direction = direction;
             this.stain();
         }
@@ -223,6 +225,14 @@ var Entity = (function (_super) {
                 return directions[i];
             }
         }
+    };
+    Entity.directionName = function (direction) {
+        var directions = ['north', 'northeast', 'east', 'southeast', 'south', 'southwest', 'west', 'northwest'];
+        return directions[direction];
+    };
+    Entity.stateName = function (state) {
+        var states = ['idle', 'building', 'moving', 'guarding', 'fighting', 'dying', 'dead'];
+        return states[state];
     };
     return Entity;
 }(egret.Sprite));

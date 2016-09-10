@@ -27,11 +27,11 @@ var BattleSystemToolItem = (function (_super) {
     var d = __define,c=BattleSystemToolItem,p=c.prototype;
     p.use = function (x, y) {
         if (this._tool.category == "soldier") {
-            var soldier = application.pool.get("Soldier1", { guardX: x - 5, guardY: y - 5 });
+            var soldier = application.pool.get("Reinforce", { guardX: x - 5, guardY: y - 5 });
             soldier.x = x;
             soldier.y = y;
             application.battle.addSoldier(soldier);
-            soldier = application.pool.get("Soldier1", { guardX: x + 5, guardY: y + 5 });
+            soldier = application.pool.get("Reinforce", { guardX: x + 5, guardY: y + 5 });
             soldier.x = x;
             soldier.y = y;
             application.battle.addSoldier(soldier);

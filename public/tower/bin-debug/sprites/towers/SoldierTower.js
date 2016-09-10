@@ -18,7 +18,7 @@ var SoldierTower = (function (_super) {
     };
     p.guard = function () {
         for (var i = 0; i < 3; i++) {
-            var soldier = application.pool.get("Soldier", { "guardX": this._guardX, "guardY": this._guardY });
+            var soldier = application.pool.get(this._soldierClaz, { "guardX": this._guardX, "guardY": this._guardY });
             soldier.setCreator(this);
             soldier.x = this.getCenterX();
             soldier.y = this.getCenterY();

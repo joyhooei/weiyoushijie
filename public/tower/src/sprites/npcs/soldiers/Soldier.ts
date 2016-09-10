@@ -52,6 +52,8 @@ class Soldier extends NPC implements SelectableEntity {
         this._guardY        = this._get(properties, 'guardY', 0);
         this._guardRadius   = this._get(properties, 'guardRadius', 20);
         this._guardAltitudes = this._get(properties, 'guardAltitude', [-1, 0]);
+
+        this._idleTicks = 0;
         
         this._enemy = null;
         this._range = null;

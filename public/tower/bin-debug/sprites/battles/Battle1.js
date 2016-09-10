@@ -17,8 +17,10 @@ var Battle1 = (function (_super) {
         var waves = [
             [0, "Wolf", 10, 0],
             [1, "Wolf", 10, 1],
-            [2, "Wolf", 10, 0],
-            [2, "Wolf", 10, 1],
+            [2, "Hogs", 10, 0],
+            [3, "Rhino", 10, 1],
+            [4, "Wolf", 10, 0],
+            [4, "Wolf", 10, 1],
         ];
         for (var i = 0; i < waves.length; i++) {
             var w = waves[i];

@@ -34,7 +34,7 @@ class Entity extends egret.Sprite {
     public constructor() {
         super();
         
-        this._displays = new EntityDisplays();
+        this._displays = new EntityDisplays(this.getClassName());
         
         this._sounds = new EntitySounds();
 	}
@@ -192,6 +192,8 @@ class Entity extends egret.Sprite {
     
     private _do(state:EntityState) {
     	if (state != this._state) {
+			console.log(this.getClassName() + " changed from " + Entity.stateName(this._state) + " to state " + Entity.stateName(state));
+
     		//dead状态不需要再变更状态了
     		//当前状态如果是dying，新状态只能是dead
     		if (this._state == EntityState.dead || (this._state == EntityState.dying && state != EntityState.dead)) {
@@ -210,6 +212,8 @@ class Entity extends egret.Sprite {
     //转向
     protected _turn(direction: EntityDirection) {
     	if (direction != this._direction) {
+			console.log(this.getClassName() + " trun from " + Entity.directionName(this._direction) + " to direction " + Entity.directionName(direction));
+
     		this._direction = direction;
     		
     		this.stain();
@@ -284,4 +288,17 @@ class Entity extends egret.Sprite {
         	}
         }
     }
+
+	public static directionName(direction:EntityDirection): string {
+		let directions = ['north', 'northeast', 'east', 'southeast', 'south', 'southwest', 'west', 'northwest'];
+
+		return directions[direction];
+	}
+
+
+	public static stateName(state:EntityState): string {
+		let states = ['idle', 'building', 'moving', 'guarding', 'fighting', 'dying', 'dead'];
+
+		return states[state];
+	}	
 }

@@ -2,6 +2,7 @@ var Fireball = (function (_super) {
     __extends(Fireball, _super);
     function Fireball() {
         _super.call(this);
+        this._displays.addClip("fireball_moving", "moving").addClip("fireball_dying", "dying");
     }
     var d = __define,c=Fireball,p=c.prototype;
     p.initialize = function (properties) {
