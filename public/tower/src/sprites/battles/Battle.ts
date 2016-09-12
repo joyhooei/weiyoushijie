@@ -201,7 +201,7 @@ class Battle extends Entity implements SoldierCreator {
     }
     
     //增加特效
-    protected _addEffect() {
+    protected _addEffects() {
     }
     
     protected _addBasesByName(name:string) {
@@ -225,7 +225,7 @@ class Battle extends Entity implements SoldierCreator {
         }
     }
     
-    protected _addWarriorsByName(warriorName:string, hero: Hero) {
+    public addWarriorsByName(warriorName:string, hero: Hero) {
         let pos = this._map.getHeros();
         for(let i = 0; i < pos.length; i++) {
             for(let j = 1; j < pos[i].length; j++) {
@@ -238,10 +238,10 @@ class Battle extends Entity implements SoldierCreator {
         }
     }    
     
-    protected _addEffectByName(effectName:string, x: number, y:number, direction:EntityD) {
+    protected _addEffectByName(effectName:string, x: number, y:number, direction:EntityDirection) {
         let effect:Effect = <Effect>application.pool.get(effectName, {direction:direction});
-        soldier.x = x;
-        soldier.y = y;
+        effect.x = x;
+        effect.y = y;
         this.addEffect(effect);
     }    
     
@@ -408,7 +408,9 @@ class Battle extends Entity implements SoldierCreator {
     }
     
     public addDirt(entity: Entity) {
-        this._dirts.push(entity);
+        if (!entity.dead()) {
+            this._dirts.push(entity);
+        }
     }
     
     public createSoldier(soldier: Soldier):Soldier {

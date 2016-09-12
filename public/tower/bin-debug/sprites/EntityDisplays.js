@@ -64,7 +64,7 @@ var EntityDisplays = (function () {
             container.addChild(display);
         }
         else {
-            console.log("display dosn't exist for " + this._entityName + " direction = " + Entity.directionName(direction) + " state = " + Entity.stateName(state));
+            console.error("display dosn't exist for " + this._entityName + " direction = " + Entity.directionName(direction) + " state = " + Entity.stateName(state));
         }
         this._currentDisplay = display;
         return display;

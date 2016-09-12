@@ -22,7 +22,6 @@ var NPC = (function (_super) {
         this._damage = this._get(properties, "damage", 10);
         this._hitSpeed = this._get(properties, "hitSpeed", 10);
         this._altitude = this._get(properties, "altitude", 0);
-        this._idleTicks = this._get(properties, "idleTicks", Math.random() * 500);
     };
     p.getDamage = function () {
         return this._damage;

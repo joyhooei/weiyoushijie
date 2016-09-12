@@ -45,6 +45,7 @@ var Battle = (function (_super) {
         this._addBases();
         this._addHeros();
         this._addStandbys();
+        this._addEffects();
         this.fight();
     };
     p.readyUseTool = function (toolItem) {
@@ -132,6 +133,9 @@ var Battle = (function (_super) {
     //增加塔基
     p._addBases = function () {
     };
+    //增加特效
+    p._addEffects = function () {
+    };
     p._addBasesByName = function (name) {
         var bases = this._map.getBases();
         for (var i = 0; i < bases.length; i++) {
@@ -141,13 +145,18 @@ var Battle = (function (_super) {
             this.addBase(base);
         }
     };
-    p._addHerosByName = function (heroName, warriorName) {
+    p._addHerosByName = function (heroName) {
         var pos = this._map.getHeros();
         for (var i = 0; i < pos.length; i++) {
             var hero = application.pool.get(heroName, { guardX: pos[i][0][0], guardY: pos[i][0][1] });
             hero.x = pos[i][0][0];
             hero.y = pos[i][0][1];
             this.addHero(hero);
+        }
+    };
+    p.addWarriorsByName = function (warriorName, hero) {
+        var pos = this._map.getHeros();
+        for (var i = 0; i < pos.length; i++) {
             for (var j = 1; j < pos[i].length; j++) {
                 var soldier = application.pool.get(warriorName, { guardX: pos[i][j][0], guardY: pos[i][j][1] });
                 soldier.x = pos[i][0][0];
@@ -156,6 +165,12 @@ var Battle = (function (_super) {
                 this.addSoldier(soldier);
             }
         }
+    };
+    p._addEffectByName = function (effectName, x, y, direction) {
+        var effect = application.pool.get(effectName, { direction: direction });
+        effect.x = x;
+        effect.y = y;
+        this.addEffect(effect);
     };
     p.showTool = function (ui, x, y) {
         this.hideAllTools();
@@ -285,8 +300,14 @@ var Battle = (function (_super) {
         this._entities.push(entity);
         this._rangeLayer.addChild(entity);
     };
+    p.addEffect = function (entity) {
+        this._entities.push(entity);
+        this._rangeLayer.addChild(entity);
+    };
     p.addDirt = function (entity) {
-        this._dirts.push(entity);
+        if (!entity.dead()) {
+            this._dirts.push(entity);
+        }
     };
     p.createSoldier = function (soldier) {
         var hero = soldier.relive(10000);

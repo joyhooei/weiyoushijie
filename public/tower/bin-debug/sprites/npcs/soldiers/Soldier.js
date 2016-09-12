@@ -117,6 +117,7 @@ var Soldier = (function (_super) {
     };
     p._fighting = function () {
         if (this._ticks % this._hitSpeed == 0) {
+            this._useSkill();
             this._enemy.fight();
             if (this._enemy.hitBy(this)) {
                 var enemy = this._findEnemy();
@@ -135,6 +136,8 @@ var Soldier = (function (_super) {
                 }
             }
         }
+    };
+    p._useSkill = function () {
     };
     p._findEnemy = function () {
         return application.battle.findSuitableEnemy(this._guardX, this._guardY, this._guardRadius, this._guardAltitudes);

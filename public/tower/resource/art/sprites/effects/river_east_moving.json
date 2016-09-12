@@ -1,0 +1,1 @@
+{"file":"river_east_moving.png","mc":{"river_east_moving":{"frameRate":24,"events":[],"frames":[{"res":"newAnimation_0","y":-99,"duration":1,"x":-158},{"res":"newAnimation_1","y":-92,"duration":1,"x":-159}],"labels":[{"end":2,"name":"newAnimation","frame":1}]}},"res":{"newAnimation_1":{"x":1,"y":199,"w":323,"h":190},"newAnimation_0":{"x":1,"y":1,"w":314,"h":196}}}

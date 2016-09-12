@@ -10,7 +10,12 @@ var Battle1 = (function (_super) {
     };
     //增加英雄
     p._addHeros = function () {
-        this._addHerosByName("Sunwukong", "Warrior");
+        this._addHerosByName("Sunwukong");
+    };
+    p._addEffects = function () {
+        this._addEffectByName("River", 0, 280, EntityDirection.east);
+        this._addEffectByName("Cock", 120, 70, EntityDirection.east);
+        this._addEffectByName("Cock", 540, 400, EntityDirection.west);
     };
     p._addStandbys = function () {
         var paths = this._map.getPaths();

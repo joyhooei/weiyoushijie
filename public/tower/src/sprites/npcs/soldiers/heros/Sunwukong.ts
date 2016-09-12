@@ -25,7 +25,7 @@ class Sunwukong extends Hero {
             
             this._skill = 2;
             
-            application.battle._addWarriorsByName("Warrior", this);
+            application.battle.addWarriorsByName("Warrior", this);
         }
     }
     
