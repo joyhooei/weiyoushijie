@@ -1,6 +1,18 @@
 class Hero extends Soldier implements SoldierCreator {
+    protected _skill : number;
+    
+    protected _defaultDamage: number;
+    
     public constructor() {
         super();
+    }
+    
+    public initialize(properties:any) {
+        super.initialize(properties);
+        
+        this._skill = 0;
+        
+        this._defaultDamage = this._damage;
     }
 
     public createSoldier(soldier: Soldier): Soldier {

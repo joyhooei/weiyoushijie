@@ -8,4 +8,28 @@ class Sunwukong extends Hero {
                         .addClip("sunwukong_east_fighting_2", "east-fighting")
                         .addClip("sunwukong_east_fighting_3", "east-fighting");
     }
+    
+    protected _useSkill() {
+        let random = Math.round(Math.random() * 10);
+        
+        if (random <= 5) {
+            this._damage = this._defaultDamage;
+            
+            this._skill = 0;
+        } else if (random <= 8) {
+            this._damage = this._defaultDamage << 1;
+            
+            this._skill = 1;
+        } else {
+            this._damage = 0;
+            
+            this._skill = 2;
+            
+            application.battle._addWarriorsByName("Warrior", this);
+        }
+    }
+    
+    public paint() {
+        this._display(-10, -26, this.width, this._skill);
+    }    
 }

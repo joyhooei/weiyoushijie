@@ -67,7 +67,7 @@ module application {
         
         application.pool = new EntityPool();
         
-        application.frameRate = 30;
+        application.frameRate = 24;
 
         application.stopwatch = new egret.EventDispatcher();
         var timer: egret.Timer = new egret.Timer(1000,0);

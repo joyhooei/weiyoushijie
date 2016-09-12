@@ -16,8 +16,8 @@ class Waves {
         this._enemies = [];
         this._currentWave = 0;
         
-        this._timeToNextWave = 1000;
-        this._timeBetweenWaves = 1000;
+        this._timeBetweenWaves = 10 * application.frameRate;
+        this._timeToNextWave   = this._timeBetweenWaves;
         
         this._rounds = 0;
     }

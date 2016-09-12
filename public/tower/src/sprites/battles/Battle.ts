@@ -97,6 +97,8 @@ class Battle extends Entity implements SoldierCreator {
         this._addHeros();
         
         this._addStandbys();
+        
+        this._addEffects();
 
         this.fight();
     }
@@ -192,12 +194,14 @@ class Battle extends Entity implements SoldierCreator {
     
     //增加敌人
     protected _addStandbys() {
-        
     }
 
     //增加塔基
     protected _addBases() {
-
+    }
+    
+    //增加特效
+    protected _addEffect() {
     }
     
     protected _addBasesByName(name:string) {
@@ -211,14 +215,19 @@ class Battle extends Entity implements SoldierCreator {
         }        
     }
     
-    protected _addHerosByName(heroName:string, warriorName:string) {
+    protected _addHerosByName(heroName:string) {
         let pos = this._map.getHeros();
         for(let i = 0; i < pos.length; i++) {
             let hero = <Hero>application.pool.get(heroName, {guardX: pos[i][0][0], guardY: pos[i][0][1]});
             hero.x = pos[i][0][0];
             hero.y = pos[i][0][1];
             this.addHero(hero);
-            
+        }
+    }
+    
+    protected _addWarriorsByName(warriorName:string, hero: Hero) {
+        let pos = this._map.getHeros();
+        for(let i = 0; i < pos.length; i++) {
             for(let j = 1; j < pos[i].length; j++) {
                 let soldier = <Soldier>application.pool.get(warriorName, {guardX: pos[i][j][0], guardY: pos[i][j][1]});
                 soldier.x = pos[i][0][0];
@@ -227,7 +236,14 @@ class Battle extends Entity implements SoldierCreator {
                 this.addSoldier(soldier);
             }
         }
-    }
+    }    
+    
+    protected _addEffectByName(effectName:string, x: number, y:number, direction:EntityD) {
+        let effect:Effect = <Effect>application.pool.get(effectName, {direction:direction});
+        soldier.x = x;
+        soldier.y = y;
+        this.addEffect(effect);
+    }    
     
     public showTool(ui:egret.DisplayObject, x:number, y:number) {
         this.hideAllTools();
@@ -382,6 +398,11 @@ class Battle extends Entity implements SoldierCreator {
     }
 
     public addRange(entity:GuardRange) {
+        this._entities.push(entity);
+        this._rangeLayer.addChild(entity);      
+    }
+
+    public addEffect(entity:Effect) {
         this._entities.push(entity);
         this._rangeLayer.addChild(entity);      
     }
