@@ -155,6 +155,8 @@ class Soldier extends NPC implements SelectableEntity {
 
     protected _fighting() {
         if (this._ticks % this._hitSpeed == 0) {
+            this._useSkill();
+            
             this._enemy.fight();
             
             if (this._enemy.hitBy(this)) {
@@ -172,6 +174,10 @@ class Soldier extends NPC implements SelectableEntity {
                 }
             }
         }
+    }
+    
+    protected _useSkill() {
+        
     }
     
     private _findEnemy(): Enemy {
