@@ -17,6 +17,8 @@ class Enemy extends NPC {
         super.initialize(properties);
         
         this._bonus = this._get(properties, "bonus", 10);
+
+        this._idleTicks = this._get(properties, "idleTicks", Math.random() * 500);
         
         this._soldiers = [];
         
