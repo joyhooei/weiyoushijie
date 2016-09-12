@@ -14,6 +14,12 @@ class Battle1 extends Battle {
         this._addHerosByName("Sunwukong");
     }
     
+    protected _addEffects() {
+        this._addEffectByName("River", 0, 280, EntityDirection.east);
+        this._addEffectByName("Cock", 120, 70, EntityDirection.east);
+        this._addEffectByName("Cock", 540, 400, EntityDirection.west);
+    }
+    
     protected _addStandbys() {
         let paths = this._map.getPaths();
         
