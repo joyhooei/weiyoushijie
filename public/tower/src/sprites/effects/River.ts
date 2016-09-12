@@ -8,7 +8,6 @@ class River extends Entity {
     public initialize(properties: any) {
         super.initialize(properties);
         
-        this._turn(EntityDirection.east);
         this.move();
     }
 }
