@@ -13,15 +13,19 @@ class Sunwukong extends Hero {
         let random = Math.floor(Math.random() * 10);
         
         if (random <= 5) {
+            this._damage = this._defaultDamage;
+            
             this._skill = 0;
         } else if (random <= 7) {
+            this._damage = this._defaultDamage << 1;
+            
             this._skill = 1;
         } else {
-            this._skill = 2;
-        }
-        
-        if (this._skill == 2) {
+            this._damage = 0;
+            
             application.battle._addWarriorsByName("Warrior", this);
+            
+            this._skill = 2;
         }
     }
     
