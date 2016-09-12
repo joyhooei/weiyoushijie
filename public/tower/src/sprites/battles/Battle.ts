@@ -97,6 +97,8 @@ class Battle extends Entity implements SoldierCreator {
         this._addHeros();
         
         this._addStandbys();
+        
+        this._addEffects();
 
         this.fight();
     }
@@ -192,12 +194,14 @@ class Battle extends Entity implements SoldierCreator {
     
     //增加敌人
     protected _addStandbys() {
-        
     }
 
     //增加塔基
     protected _addBases() {
-
+    }
+    
+    //增加特效
+    protected _addEffect() {
     }
     
     protected _addBasesByName(name:string) {
@@ -232,6 +236,13 @@ class Battle extends Entity implements SoldierCreator {
                 this.addSoldier(soldier);
             }
         }
+    }    
+    
+    protected _addEffectByName(effectName:string, x: number, y:number, direction:EntityD) {
+        let effect:Effect = <Effect>application.pool.get(effectName, {direction:direction});
+        soldier.x = x;
+        soldier.y = y;
+        this.addEffect(effect);
     }    
     
     public showTool(ui:egret.DisplayObject, x:number, y:number) {
@@ -387,6 +398,11 @@ class Battle extends Entity implements SoldierCreator {
     }
 
     public addRange(entity:GuardRange) {
+        this._entities.push(entity);
+        this._rangeLayer.addChild(entity);      
+    }
+
+    public addEffect(entity:Effect) {
         this._entities.push(entity);
         this._rangeLayer.addChild(entity);      
     }
