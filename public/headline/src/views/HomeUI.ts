@@ -55,6 +55,7 @@ class HomeUI extends eui.Component{
     private imgGift: eui.Image;
     
     private btnReward: eui.Button;
+    private imgRewardLogo: eui.Image;
     private imgReward: eui.Image;
     
     private btnHelp: eui.Button;
@@ -85,6 +86,12 @@ class HomeUI extends eui.Component{
         self.imgHit.visible = false;
         self.imgGift.visible = false;
         self.imgReward.visible = false;
+        
+        if (Utility.isMidAutumnFestival()) {
+        	self.imgRewardLogo.source = "moonlogo_png";
+        } else {
+	        self.imgRewardLogo.source = "7dayslogo_png";
+        }
         
         self.imgHasMessage.visible = false;
         
@@ -214,6 +221,12 @@ class HomeUI extends eui.Component{
 		
 		application.stopwatch.addEventListener("hour", function(event:egret.Event){
 			this.renderGift();
+        
+	        if (Utility.isMidAutumnFestival()) {
+	        	self.imgRewardLogo.source = "moonlogo_png";
+	        } else {
+	        	self.imgRewardLogo.source = "7dayslogo_png";
+	        }
 			
 			Star.check(application.star);
 		}, this);
