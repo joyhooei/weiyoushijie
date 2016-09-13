@@ -90,6 +90,7 @@ class EntityDisplays {
     private _getDefaultDisplay(): egret.DisplayObject {
         if (egret.getQualifiedClassName(this._defaultDisplay) == "egret.MovieClip") {
             let clip:egret.MovieClip = <egret.MovieClip>this._defaultDisplay;
+            clip.frameRate = 12;
             clip.gotoAndPlay(0, -1);
         }
         
@@ -136,6 +137,7 @@ class EntityDisplays {
         
         if (egret.getQualifiedClassName(display) == "egret.MovieClip") {
             let clip:egret.MovieClip = <egret.MovieClip>display;
+            clip.frameRate = 12;
             if (this._labels[idx] && this._labels[idx][index] && this._labels[idx][index].length > 0) {
                 clip.gotoAndPlay(this._labels[idx][index], -1);
             } else {
