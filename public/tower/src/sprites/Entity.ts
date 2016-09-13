@@ -29,12 +29,17 @@ class Entity extends egret.Sprite {
 
     protected _displays: EntityDisplays;
     
+    protected _display: egret.Sprite;
+    
     protected _sounds: EntitySounds;
 
     public constructor() {
         super();
         
         this._displays = new EntityDisplays(this.getClassName());
+        
+        this._display = new egret.Sprite();
+        this.addChild(this._display);
         
         this._sounds = new EntitySounds();
 	}
@@ -179,15 +184,12 @@ class Entity extends egret.Sprite {
     }
     
     protected _display(x: number, y: number, width: number, height: number, idx = 0): egret.DisplayObject {
-    	let display: egret.DisplayObject = this._displays.render(this, this._direction, this._state, idx);
-		if (display) {
-        	display.x = x;
-            display.y = y;
-            display.height = height;
-            display.width = width;
-        }
+    	this._display.x = x;
+        this._display.y = y;
+        this._display.height = height;
+        this._display.width  = width;
 
-		return display;
+		return this._displays.render(this._display, this._direction, this._state, idx);
     }
     
     private _do(state:EntityState) {
