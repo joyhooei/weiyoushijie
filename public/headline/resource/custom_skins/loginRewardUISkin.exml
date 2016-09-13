@@ -1,6 +1,6 @@
 <?xml version='1.0' encoding='utf-8'?>
 <e:Skin class="loginRewardUISkin" width="467" height="696" xmlns:e="http://ns.egret.com/eui" xmlns:w="http://ns.egret.com/wing">
-	<e:Image width="467" height="696" x="0" y="0" fillMode="clip" source="7days_png"/>
+	<e:Image id="imgBg" width="467" height="696" x="0" y="0" fillMode="clip" source="7days_png"/>
 	
 	<e:Image id="imgPick1" width="120" height="65" x="44" y="274"  fillMode="clip" source="picked_png"/>
 	<e:Image id="imgPick2" width="120" height="65" x="163" y="274" fillMode="clip" source="picked_png"/>
