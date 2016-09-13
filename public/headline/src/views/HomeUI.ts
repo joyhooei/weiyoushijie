@@ -87,12 +87,6 @@ class HomeUI extends eui.Component{
         self.imgGift.visible = false;
         self.imgReward.visible = false;
         
-        if (Utility.isMidAutumnFestival()) {
-        	self.imgRewardLogo.source = "moonlogo_png";
-        } else {
-	        self.imgRewardLogo.source = "7dayslogo_png";
-        }
-        
         self.imgHasMessage.visible = false;
         
         self.imgVip.source = "VIP" + application.me.vip.getLevel().toString() + "_png";
@@ -221,13 +215,7 @@ class HomeUI extends eui.Component{
 		
 		application.stopwatch.addEventListener("hour", function(event:egret.Event){
 			this.renderGift();
-        
-	        if (Utility.isMidAutumnFestival()) {
-	        	self.imgRewardLogo.source = "moonlogo_png";
-	        } else {
-	        	self.imgRewardLogo.source = "7dayslogo_png";
-	        }
-			
+
 			Star.check(application.star);
 		}, this);
 	}
@@ -239,9 +227,22 @@ class HomeUI extends eui.Component{
             self.imgGift.visible = Gift.hasGift(gifts);
         });
 	}
+    
+    private renderRewardLogo(): void {
+        if (Utility.isMidAutumnFestival()) {
+        	this.imgRewardLogo.source = "moonlogo_png";
+        } else {
+        	this.imgRewardLogo.source = "7dayslogo_png";
+        }    	
+    }
 	
 	private renderReward(): void {
 		var self = this;
+        
+        self.renderRewardLogo();
+		application.stopwatch.addEventListener("hour", function(event:egret.Event){
+			self.renderRewardLogo();
+		}, self);
 		
         Audit.check(application.me).then(function(audits){
             self.imgReward.visible = Audit.hasRewards(audits);
