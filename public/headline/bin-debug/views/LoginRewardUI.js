@@ -3,6 +3,12 @@ var LoginRewardUI = (function (_super) {
     function LoginRewardUI() {
         _super.call(this, 'loginRewardUISkin');
         this.rewardData = [300, 500, 700, 900, 1100, 1300, 1500];
+        if (Utility.isMidAutumnFestival()) {
+            this.imgBg.source = "moonB_png";
+        }
+        else {
+            this.imgBg.source = "7days_png";
+        }
         this.imgPicks = [this.imgPick1, this.imgPick2, this.imgPick3, this.imgPick4, this.imgPick5, this.imgPick6, this.imgPick7];
         for (var i = 0; i < this.imgPicks.length; i++) {
             this.imgPicks[i].visible = false;
@@ -39,6 +45,7 @@ var LoginRewardUI = (function (_super) {
                 Audit.claim(this.audits[i]);
                 this.renderAudit(this.audits[i]);
                 application.me.attrs.diamond += this.rewardData[index];
+                application.me.attrs.metal += 0.2;
                 application.me.saveNow();
                 application.channel.track(TRACK_CATEGORY_DIAMOND, TRACK_ACTION_INC, "连续登录", this.audits[i].rewards);
             }

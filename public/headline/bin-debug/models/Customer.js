@@ -118,7 +118,7 @@ var Customer = (function () {
     };
     Customer.avatarUrl = function (customer) {
         if (customer.avatar && customer.avatar.length > 1) {
-            return customer.avatar;
+            return decodeURIComponent(customer.avatar);
         }
         else {
             var url = application.baseUrl + "headline/resource/art/";

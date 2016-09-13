@@ -137,6 +137,13 @@ var Utility = (function () {
             }
         });
     };
+    Utility.isMidAutumnFestival = function () {
+        var now = new Date();
+        if (now.getTime() >= (new Date("2016-9-15")).getTime() && now.getTime() < (new Date("2016-9-22")).getTime()) {
+            return true;
+        }
+        return false;
+    };
     Utility.loadedFiles = [];
     Utility.units = [
         'k', 'm', 'b', 't',

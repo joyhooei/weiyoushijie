@@ -9,10 +9,24 @@ var Star = (function () {
         return price;
     };
     Star.exceed = function (star) {
-        var now = new Date();
+        var oneday = 24 * 3600000;
         var openTime = new Date(star.open_time);
-        var deadline = openTime.getTime() + (star.opening_level + 3) * 24 * 3600000;
+        var deadline = openTime.getTime() + (star.opening_level + 3) * oneday;
+        var now = new Date();
         var passed = now.getTime() + star.saving_hours * 3600000;
+        var vip = application.me.vip.getLevel();
+        if (vip >= 5) {
+            passed += oneday;
+        }
+        if (vip >= 8) {
+            passed += oneday;
+        }
+        if (vip >= 11) {
+            passed += oneday;
+        }
+        if (vip >= 14) {
+            passed += oneday;
+        }
         return (deadline - passed) / 1000;
     };
     Star.check = function (star) {

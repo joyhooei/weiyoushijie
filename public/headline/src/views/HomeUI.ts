@@ -54,7 +54,6 @@ class HomeUI extends eui.Component{
     private btnGift: eui.Button;
     private imgGift: eui.Image;
     
-    private btnReward: eui.Button;
     private imgRewardLogo: eui.Image;
     private imgReward: eui.Image;
     
@@ -119,7 +118,7 @@ class HomeUI extends eui.Component{
 			application.showUI(new GiftUI(), this);
         }, this);
                 
-        self.btnReward.addEventListener(egret.TouchEvent.TOUCH_BEGIN, function() {
+        self.imgRewardLogo.addEventListener(egret.TouchEvent.TOUCH_BEGIN, function() {
 			application.showUI(new LoginRewardUI(), this);
         }, this);
 

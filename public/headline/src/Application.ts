@@ -20,7 +20,7 @@ module application {
     export var ticks: number = 0;
     export var stopwatch: egret.EventDispatcher;
     
-    export var version: string = '2.6.4';
+    export var version: string = '2.6.5';
     
     export var game: string = 'headline';
     

@@ -40,7 +40,7 @@ var HomeUI = (function (_super) {
         self.btnGift.addEventListener(egret.TouchEvent.TOUCH_BEGIN, function () {
             application.showUI(new GiftUI(), this);
         }, this);
-        self.btnReward.addEventListener(egret.TouchEvent.TOUCH_BEGIN, function () {
+        self.imgRewardLogo.addEventListener(egret.TouchEvent.TOUCH_BEGIN, function () {
             application.showUI(new LoginRewardUI(), this);
         }, this);
         self.btnHelp.addEventListener(egret.TouchEvent.TOUCH_BEGIN, function () {
@@ -122,8 +122,20 @@ var HomeUI = (function (_super) {
             self.imgGift.visible = Gift.hasGift(gifts);
         });
     };
+    p.renderRewardLogo = function () {
+        if (Utility.isMidAutumnFestival()) {
+            this.imgRewardLogo.source = "moonlogo_png";
+        }
+        else {
+            this.imgRewardLogo.source = "7dayslogo_png";
+        }
+    };
     p.renderReward = function () {
         var self = this;
+        self.renderRewardLogo();
+        application.stopwatch.addEventListener("hour", function (event) {
+            self.renderRewardLogo();
+        }, self);
         Audit.check(application.me).then(function (audits) {
             self.imgReward.visible = Audit.hasRewards(audits);
         });

@@ -1,7 +1,7 @@
 var application;
 (function (application) {
     application.ticks = 0;
-    application.version = '2.6.3';
+    application.version = '2.6.5';
     application.game = 'headline';
     application.token = "";
     function init(main) {

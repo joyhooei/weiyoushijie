@@ -1253,6 +1253,16 @@
 					"isFolder":false,
 					"key":"got_png",
 					"name":"got_png"
+				},
+				{
+					"isFolder":false,
+					"key":"moonB_png",
+					"name":"moonB_png"
+				},
+				{
+					"isFolder":false,
+					"key":"moonlogo_png",
+					"name":"moonlogo_png"
 				}
 			]
 		}
