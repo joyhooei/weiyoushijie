@@ -147,9 +147,13 @@ class EntityDisplays {
         display.scaleY = scaleY;
         if (scaleX == -1) {
             display.x = - display.width;
-        } 
+        } else {
+            display.x = 0;
+        }
         if (scaleY == -1) {
             display.y = - display.height;
+        } else {
+            display.y = 0;
         }
 
         return display;
