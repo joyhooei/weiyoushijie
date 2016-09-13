@@ -8,9 +8,6 @@ var Hogs = (function (_super) {
             .addClip("hogs_east_fighting", "east-fighting");
     }
     var d = __define,c=Hogs,p=c.prototype;
-    p.paint = function () {
-        this._display(20, 20, this.width, this.height);
-    };
     return Hogs;
 }(Enemy));
 egret.registerClass(Hogs,'Hogs');

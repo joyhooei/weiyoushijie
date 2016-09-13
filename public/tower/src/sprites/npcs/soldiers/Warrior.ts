@@ -5,8 +5,4 @@ class Warrior extends Soldier {
         this._displays.addClip("warrior_east_fighting", "east-fighting")
                 .addClip("warrior_dying", "dying");
     }
-
-    public paint() {
-        this._display(-10, -26, this.width, this.height);
-    }
 }

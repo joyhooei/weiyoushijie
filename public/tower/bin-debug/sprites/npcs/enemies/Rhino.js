@@ -8,9 +8,6 @@ var Rhino = (function (_super) {
             .addClip("rhino_east_fighting", "east-fighting");
     }
     var d = __define,c=Rhino,p=c.prototype;
-    p.paint = function () {
-        this._display(20, 20, this.width, this.height);
-    };
     return Rhino;
 }(Enemy));
 egret.registerClass(Rhino,'Rhino');

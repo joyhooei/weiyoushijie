@@ -29,7 +29,7 @@ class Entity extends egret.Sprite {
 
     protected _displays: EntityDisplays;
     
-    protected _display: egret.Sprite;
+    protected _displaySprite: egret.Sprite;
     
     protected _sounds: EntitySounds;
 
@@ -38,8 +38,8 @@ class Entity extends egret.Sprite {
         
         this._displays = new EntityDisplays(this.getClassName());
         
-        this._display = new egret.Sprite();
-        this.addChild(this._display);
+        this._displaySprite = new egret.Sprite();
+        this.addChild(this._displaySprite);
         
         this._sounds = new EntitySounds();
 	}
@@ -97,6 +97,10 @@ class Entity extends egret.Sprite {
     public getCenterY(): number {
     	return this.y + (this.height >> 1);
     }
+
+	public setBottomY(y:number) {
+		this.y = y - this.height;
+	}
 
     public stain() {
     	application.battle.addDirt(this);
@@ -184,12 +188,15 @@ class Entity extends egret.Sprite {
     }
     
     protected _display(x: number, y: number, width: number, height: number, idx = 0): egret.DisplayObject {
-    	this._display.x = x;
-        this._display.y = y;
-        this._display.height = height;
-        this._display.width  = width;
+		this._displaySprite.width = width;
+		this._displaySprite.height = height;
 
-		return this._displays.render(this._display, this._direction, this._state, idx);
+		let d = this._displays.render(this._displaySprite, this._direction, this._state, idx);
+
+		this._displaySprite.x += x;
+		this._displaySprite.y += y;
+
+		return d;
     }
     
     private _do(state:EntityState) {

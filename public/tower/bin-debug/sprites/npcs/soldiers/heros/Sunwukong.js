@@ -26,7 +26,7 @@ var Sunwukong = (function (_super) {
         }
     };
     p.paint = function () {
-        this._display(-10, -26, this.width, this._skill);
+        this._display(0, 5, this.width, this.height, this._skill);
     };
     return Sunwukong;
 }(Hero));

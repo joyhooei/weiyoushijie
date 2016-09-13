@@ -7,8 +7,4 @@ class Rhino extends Enemy {
                     .addClip("rhino_east_moving", "guarding")
                     .addClip("rhino_east_fighting", "east-fighting");
     }
-
-    public paint() {
-        this._display(20, 20, this.width, this.height);
-    }
 }

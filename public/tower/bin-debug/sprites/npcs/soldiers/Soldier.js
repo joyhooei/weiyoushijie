@@ -32,7 +32,7 @@ var Soldier = (function (_super) {
         this._guardY = this._get(properties, 'guardY', 0);
         this._guardRadius = this._get(properties, 'guardRadius', 20);
         this._guardAltitudes = this._get(properties, 'guardAltitude', [-1, 0]);
-        this._idleTicks = 0;
+        this._idleTicks = 1;
         this._enemy = null;
         this._range = null;
         this._creator = null;
@@ -43,6 +43,9 @@ var Soldier = (function (_super) {
     p._idle = function () {
         if ((this._creator == null || this._creator.active()) && this._ticks >= this._idleTicks) {
             this.moveTo(this._guardX, this._guardY);
+            if (this._hp) {
+                this._hp.move();
+            }
         }
     };
     p.erase = function () {

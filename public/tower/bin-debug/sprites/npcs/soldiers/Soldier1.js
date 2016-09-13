@@ -8,9 +8,6 @@ var Soldier1 = (function (_super) {
             .addClip("soldier1_dying", "dying");
     }
     var d = __define,c=Soldier1,p=c.prototype;
-    p.paint = function () {
-        this._display(-10, -26, this.width, this.height);
-    };
     return Soldier1;
 }(Soldier));
 egret.registerClass(Soldier1,'Soldier1');

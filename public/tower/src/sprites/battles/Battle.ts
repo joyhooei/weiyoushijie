@@ -219,8 +219,8 @@ class Battle extends Entity implements SoldierCreator {
         let pos = this._map.getHeros();
         for(let i = 0; i < pos.length; i++) {
             let hero = <Hero>application.pool.get(heroName, {guardX: pos[i][0][0], guardY: pos[i][0][1]});
-            hero.x = pos[i][0][0];
-            hero.y = pos[i][0][1];
+            hero.setCenterX(pos[i][0][0]);
+            hero.setBottomY(pos[i][0][1]);
             this.addHero(hero);
         }
     }

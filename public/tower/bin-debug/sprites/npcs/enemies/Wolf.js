@@ -8,9 +8,6 @@ var Wolf = (function (_super) {
             .addClip("wolf_east_fighting", "east-fighting");
     }
     var d = __define,c=Wolf,p=c.prototype;
-    p.paint = function () {
-        this._display(20, 20, this.width, this.height);
-    };
     return Wolf;
 }(Enemy));
 egret.registerClass(Wolf,'Wolf');

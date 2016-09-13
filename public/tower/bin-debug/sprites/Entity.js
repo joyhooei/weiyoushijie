@@ -26,6 +26,8 @@ var Entity = (function (_super) {
     function Entity() {
         _super.call(this);
         this._displays = new EntityDisplays(this.getClassName());
+        this._displaySprite = new egret.Sprite();
+        this.addChild(this._displaySprite);
         this._sounds = new EntitySounds();
     }
     var d = __define,c=Entity,p=c.prototype;
@@ -75,6 +77,9 @@ var Entity = (function (_super) {
     };
     p.getCenterY = function () {
         return this.y + (this.height >> 1);
+    };
+    p.setBottomY = function (y) {
+        this.y = y - this.height;
     };
     p.stain = function () {
         application.battle.addDirt(this);
@@ -141,14 +146,12 @@ var Entity = (function (_super) {
     };
     p._display = function (x, y, width, height, idx) {
         if (idx === void 0) { idx = 0; }
-        var display = this._displays.render(this, this._direction, this._state, idx);
-        if (display) {
-            display.x = x;
-            display.y = y;
-            display.height = height;
-            display.width = width;
-        }
-        return display;
+        this._displaySprite.width = width;
+        this._displaySprite.height = height;
+        var d = this._displays.render(this._displaySprite, this._direction, this._state, idx);
+        this._displaySprite.x += x;
+        this._displaySprite.y += y;
+        return d;
     };
     p._do = function (state) {
         if (state != this._state) {

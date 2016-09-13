@@ -80,8 +80,11 @@ class EntityDisplays {
             container.addChild(display);
             
             if (egret.getQualifiedClassName(display) == "egret.MovieClip") {
-                container.x = container.width >> 1;
-                container.y = container.height >> 1;
+                container.x = display.width >> 1;
+                container.y = display.height >> 1;
+            } else {
+                container.x = 0;
+                container.y = 0;
             }
         } else {
             console.error("display dosn't exist for " + this._entityName + " direction = " + Entity.directionName(direction) + " state = " + Entity.stateName(state));
@@ -95,7 +98,7 @@ class EntityDisplays {
     private _playClip(display:egret.DisplayObject, label?:string): egret.DisplayObject {
         if (egret.getQualifiedClassName(display) == "egret.MovieClip") {
             let clip:egret.MovieClip = <egret.MovieClip>display;
-            clip.frameRate = 12;
+            clip.frameRate = 8;
             if (label) {
                 clip.gotoAndPlay(label, -1);
             } else {

@@ -64,6 +64,9 @@ var NPC = (function (_super) {
     p._face = function (npc) {
         this._turn(this._direction4(npc.x, npc.y));
     };
+    p.paint = function () {
+        this._display(0, 5, this.width, this.height, 0);
+    };
     return NPC;
 }(MovableEntity));
 egret.registerClass(NPC,'NPC');

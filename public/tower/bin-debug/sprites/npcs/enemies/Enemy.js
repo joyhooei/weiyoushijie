@@ -37,8 +37,8 @@ var Enemy = (function (_super) {
     p._nextPath = function () {
         if (this._path < this._paths.length - 1) {
             var path = this._paths[this._path];
-            this.x = path[0];
-            this.y = path[1];
+            this.setCenterX(path[0]);
+            this.setBottomY(path[1]);
             this._path++;
             this._readToMove();
             return true;

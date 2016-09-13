@@ -30,6 +30,6 @@ class Sunwukong extends Hero {
     }
     
     public paint() {
-        this._display(-10, -26, this.width, this._skill);
+        this._display(0, 5, this.width, this.height, this._skill);
     }    
 }

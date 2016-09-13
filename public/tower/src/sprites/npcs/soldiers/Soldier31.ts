@@ -7,8 +7,4 @@ class Soldier31 extends Soldier {
                 .addClip("soldier31_east_moving", "east-guarding")
                 .addClip("soldier31_dying", "dying");
     }
-
-    public paint() {
-        this._display(-10, -26, this.width, this.height);
-    }
 }

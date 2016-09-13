@@ -13,7 +13,7 @@ var Battle1 = (function (_super) {
         this._addHerosByName("Sunwukong");
     };
     p._addEffects = function () {
-        this._addEffectByName("River", 0, 280, EntityDirection.east);
+        this._addEffectByName("River", 0, 290, EntityDirection.east);
         this._addEffectByName("Cock", 120, 70, EntityDirection.east);
         this._addEffectByName("Cock", 540, 400, EntityDirection.west);
     };

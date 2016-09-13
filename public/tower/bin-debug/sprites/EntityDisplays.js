@@ -62,6 +62,14 @@ var EntityDisplays = (function () {
         var display = this._getDisplay(direction, state, index);
         if (display) {
             container.addChild(display);
+            if (egret.getQualifiedClassName(display) == "egret.MovieClip") {
+                container.x = display.width >> 1;
+                container.y = display.height >> 1;
+            }
+            else {
+                container.x = 0;
+                container.y = 0;
+            }
         }
         else {
             console.error("display dosn't exist for " + this._entityName + " direction = " + Entity.directionName(direction) + " state = " + Entity.stateName(state));
@@ -69,12 +77,18 @@ var EntityDisplays = (function () {
         this._currentDisplay = display;
         return display;
     };
-    p._getDefaultDisplay = function () {
-        if (egret.getQualifiedClassName(this._defaultDisplay) == "egret.MovieClip") {
-            var clip = this._defaultDisplay;
-            clip.gotoAndPlay(0, -1);
+    p._playClip = function (display, label) {
+        if (egret.getQualifiedClassName(display) == "egret.MovieClip") {
+            var clip = display;
+            clip.frameRate = 8;
+            if (label) {
+                clip.gotoAndPlay(label, -1);
+            }
+            else {
+                clip.gotoAndPlay(0, -1);
+            }
         }
-        return this._defaultDisplay;
+        return display;
     };
     p._getDisplay = function (direction, state, index) {
         if (index === void 0) { index = 0; }
@@ -92,7 +106,7 @@ var EntityDisplays = (function () {
                     if (!this._displays[idx]) {
                         idx = state;
                         if (!this._displays[idx]) {
-                            return this._getDefaultDisplay();
+                            return this._playClip(this._defaultDisplay);
                         }
                     }
                 }
@@ -114,23 +128,14 @@ var EntityDisplays = (function () {
             index = 0;
         }
         var display = this._displays[idx][index];
-        if (egret.getQualifiedClassName(display) == "egret.MovieClip") {
-            var clip = display;
-            if (this._labels[idx] && this._labels[idx][index] && this._labels[idx][index].length > 0) {
-                clip.gotoAndPlay(this._labels[idx][index], -1);
-            }
-            else {
-                clip.gotoAndPlay(0, -1);
-            }
+        if (this._labels[idx] && this._labels[idx][index] && this._labels[idx][index].length > 0) {
+            this._playClip(display, this._labels[idx][index]);
+        }
+        else {
+            this._playClip(display);
         }
         display.scaleX = scaleX;
         display.scaleY = scaleY;
-        if (scaleX == -1) {
-            display.x = -display.width;
-        }
-        if (scaleY == -1) {
-            display.y = -display.height;
-        }
         return display;
     };
     p._actionToIndex = function (action) {

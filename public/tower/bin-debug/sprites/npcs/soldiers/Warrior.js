@@ -6,9 +6,6 @@ var Warrior = (function (_super) {
             .addClip("warrior_dying", "dying");
     }
     var d = __define,c=Warrior,p=c.prototype;
-    p.paint = function () {
-        this._display(-10, -26, this.width, this.height);
-    };
     return Warrior;
 }(Soldier));
 egret.registerClass(Warrior,'Warrior');

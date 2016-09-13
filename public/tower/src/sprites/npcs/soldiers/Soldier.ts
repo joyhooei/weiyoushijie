@@ -53,7 +53,7 @@ class Soldier extends NPC implements SelectableEntity {
         this._guardRadius   = this._get(properties, 'guardRadius', 20);
         this._guardAltitudes = this._get(properties, 'guardAltitude', [-1, 0]);
 
-        this._idleTicks = 0;
+        this._idleTicks = 1;
         
         this._enemy = null;
         this._range = null;
@@ -67,6 +67,10 @@ class Soldier extends NPC implements SelectableEntity {
     protected _idle() {
         if ((this._creator == null || this._creator.active()) && this._ticks >= this._idleTicks) {
             this.moveTo(this._guardX, this._guardY);
+
+        	if (this._hp) {
+        		this._hp.move();
+        	}
         }
     }
     
