@@ -144,7 +144,7 @@ class Customer {
     
 	public static avatarUrl(customer: any): string {
 		if (customer.avatar && customer.avatar.length > 1) {
-			return customer.avatar;
+			return decodeURIComponent(customer.avatar);
 		} else {
             var url = application.baseUrl + "headline/resource/art/";
 			if (customer.sex == 1) {
