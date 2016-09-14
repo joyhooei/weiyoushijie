@@ -3,6 +3,8 @@ class NPC extends MovableEntity {
     
     protected _damage: number;
     
+    protected _armor: number
+    
     protected _hitSpeed: number;
 
     //海拔高度，地表：0，地下：-1，空中：1
@@ -36,6 +38,8 @@ class NPC extends MovableEntity {
         this._hitSpeed  = this._get(properties, "hitSpeed", 10);
         
         this._altitude  = this._get(properties, "altitude", 0);
+        
+        this._armor  = this._get(properties, "armor", 0);
     }
     
     public getDamage(): number {
@@ -59,11 +63,15 @@ class NPC extends MovableEntity {
     }
     
     public shootBy(bullet: Bullet): boolean {
-    	return this._hit(bullet.getDamage());
+    	return this._hit(bullet._actualDamage(npc.getDamage()));
     }
 
     public hitBy(npc: NPC): boolean {
-    	return this._hit(npc.getDamage());
+    	return this._hit(this._actualDamage(npc.getDamage()));
+    }
+    
+    protected _actualDamage(damage: number): number {
+    	return Math.round(damage * (100 - this._armor) / 100);
     }
     
     protected _hit(damage: number): boolean {
