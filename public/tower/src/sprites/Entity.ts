@@ -184,10 +184,18 @@ class Entity extends egret.Sprite {
 
     //根据状态、面向修改重新渲染
     public paint() {
-    	this._display();
+    	this._play(this._render(), -1);
     }
     
-    protected _display(xDelta = 0, yDelta = 0, idx = 0, times=-1): egret.DisplayObject {
+    protected _play(display: egret.DisplayObject, times = -1) {
+        if (egret.getQualifiedClassName(display) == "egret.MovieClip") {
+            let clip:egret.MovieClip = <egret.MovieClip>display;
+            clip.frameRate = 8;
+            clip.gotoAndPlay(0, times);
+        }
+    }
+    
+    protected _render(xDelta = 0, yDelta = 0, idx = 0): egret.DisplayObject {
 		let display = this._displays.getDisplay(this._direction, this._state, idx);
         if (display) {
 			this._displaySprite.removeChildren();
@@ -196,10 +204,6 @@ class Entity extends egret.Sprite {
             if (egret.getQualifiedClassName(display) == "egret.MovieClip") {
                 this._displaySprite.x = (display.width >> 1) + xDelta;
                 this._displaySprite.y = (display.height >> 1) + yDelta;
-                
-	            let clip:egret.MovieClip = <egret.MovieClip>display;
-	            clip.frameRate = 8;
-	            clip.gotoAndPlay(0, times);
             } else {
                 this._displaySprite.x = xDelta;
                 this._displaySprite.y = yDelta;
