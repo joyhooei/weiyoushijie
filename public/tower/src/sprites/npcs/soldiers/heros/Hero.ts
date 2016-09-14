@@ -5,6 +5,8 @@ class Hero extends Soldier implements SoldierCreator {
     
     protected _damageLow: number;
     
+    protected _legend: Legend;
+    
     public constructor() {
         super();
     }
@@ -16,6 +18,10 @@ class Hero extends Soldier implements SoldierCreator {
         this._damageLow    = this._get(properties, "damageLow", 6);
         
         this._skill = 0;
+    }
+    
+    public setLegend(legend: Legend) {
+        this._legend = legend;
     }
 
     public createSoldier(soldier: Soldier): Soldier {
