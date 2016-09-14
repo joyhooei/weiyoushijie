@@ -187,15 +187,17 @@ class Entity extends egret.Sprite {
     	this._display(0, 0, this.width, this.height, 0);
     }
     
-    protected _display(x: number, y: number, width: number, height: number, idx = 0): egret.DisplayObject {
-		this._displaySprite.width = width;
-		this._displaySprite.height = height;
-
+    protected _display(xDelta: number, yDelta: number, idx = 0): egret.DisplayObject {
 		let d = this._displays.render(this._displaySprite, this._direction, this._state, idx);
 
-		this._displaySprite.x += x;
-		this._displaySprite.y += y;
+		this._displaySprite.x += xDelta;
+		this._displaySprite.y += yDelta;
+		this._displaySprite.width  = d.width;
+		this._displaySprite.height = d.height;
 
+		this.width  = d.width;
+		this.height = d.height;
+		
 		return d;
     }
     
