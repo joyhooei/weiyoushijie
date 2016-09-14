@@ -162,32 +162,23 @@ class Soldier extends NPC implements SelectableEntity {
         this._enemy.addSoldier(this);
     }
 
-    protected _fighting() {
-        if (this._ticks % this._hitSpeed == 0) {
-            this._useSkill();
-            
-            this._enemy.fight();
-            
-            if (this._enemy.hitBy(this)) {
-                let enemy = this._findEnemy();
-                if (enemy) {
-                    this._fightWith(enemy);
-                } else {
-                    this._enemy = null;
-                    this.moveTo(this._guardX, this._guardY);
-                }
-            } else if (this._enemy.totalSoldiers() > 1) {
-                let enemy = this._findEnemy();
-                if (enemy && enemy.totalSoldiers() == 0) {
-                    this._fightWith(enemy);
-                }
+    protected _hitOpponents() {
+        if (this._enemy.hitBy(this)) {
+            let enemy = this._findEnemy();
+            if (enemy) {
+                this._fightWith(enemy);
+            } else {
+                this._enemy = null;
+                this.moveTo(this._guardX, this._guardY);
+            }
+        } else if (this._enemy.totalSoldiers() > 1) {
+            let enemy = this._findEnemy();
+            if (enemy && enemy.totalSoldiers() == 0) {
+                this._fightWith(enemy);
             }
         }
     }
-    
-    protected _useSkill() {
-    }
-    
+
     private _findEnemy(): Enemy {
         return application.battle.findSuitableEnemy(this._guardX, this._guardY, this._guardRadius, this._guardAltitudes);
     }
