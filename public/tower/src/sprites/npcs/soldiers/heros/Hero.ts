@@ -1,7 +1,9 @@
 class Hero extends Soldier implements SoldierCreator {
     protected _skill : number;
     
-    protected _defaultDamage: number;
+    protected _damageHigh: number;
+    
+    protected _damageLow: number;
     
     public constructor() {
         super();
@@ -10,9 +12,10 @@ class Hero extends Soldier implements SoldierCreator {
     public initialize(properties:any) {
         super.initialize(properties);
         
-        this._skill = 0;
+        this._damageHigh   = this._get(properties, "damageHigh", 10);
+        this._damageLow    = this._get(properties, "damageLow", 6);
         
-        this._defaultDamage = this._damage;
+        this._skill = 0;
     }
 
     public createSoldier(soldier: Soldier): Soldier {
@@ -22,6 +25,10 @@ class Hero extends Soldier implements SoldierCreator {
         application.battle.addSoldier(s);
 
         return s;        
+    }
+    
+    public getDamage(): number {
+        return this._damageLow + Math.round(Math.random() * (this._damageHigh - this._damageLow));
     }
     
     public paint() {
