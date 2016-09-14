@@ -1,9 +1,11 @@
 class NPC extends MovableEntity {
     protected _hp: Hp;
     
-    protected _damage: number;
+    protected _force: number;
+
+    protected _armor: number;
     
-    protected _armor: number
+    protected _resistance: number;
     
     protected _hitSpeed: number;
 
@@ -34,16 +36,19 @@ class NPC extends MovableEntity {
 		this._hp.y = 0;
         this.addChild(this._hp);
         
-        this._damage    = this._get(properties, "damage", 10);
-        this._hitSpeed  = this._get(properties, "hitSpeed", 10);
+        this._hitSpeed  = this._get(properties, "hitSpeed", 900);
+        
+        this._force    = this._get(properties, "force", 10);
+
+        this._armor  = this._get(properties, "armor", 0);
+        
+        this._resistance  = this._get(properties, "_resistance", 0);
         
         this._altitude  = this._get(properties, "altitude", 0);
-        
-        this._armor  = this._get(properties, "armor", 0);
     }
     
-    public getDamage(): number {
-    	return this._damage;
+    public getForce(): number {
+    	return this._force;
     }
 
     public kill() {
@@ -63,20 +68,26 @@ class NPC extends MovableEntity {
     }
     
     public shootBy(bullet: Bullet): boolean {
-    	return this._hit(bullet._actualDamage(npc.getDamage()));
+    	return this.damage(bullet._actualForce(npc.getForce()));
     }
 
     public hitBy(npc: NPC): boolean {
-    	return this._hit(this._actualDamage(npc.getDamage()));
+    	let d = npc.getForce();
+    	
+    	if (this._resistance > 0) {
+    		npc.damage(Math.round(d * (100 - this._resistance) / 100));
+    	}
+    	
+    	return this.damage(this._actualForce(d));
     }
     
-    protected _actualDamage(damage: number): number {
-    	return Math.round(damage * (100 - this._armor) / 100);
+    protected _actualForce(d: number): number {
+    	return Math.round(d * (100 - this._armor) / 100);
     }
     
-    protected _hit(damage: number): boolean {
+    public damage(d: number): boolean {
         if (this.active()) {           
-            if (this._hp.hitBy(damage)) {
+            if (this._hp.hitBy(d)) {
                 this.kill();
                 
                 return true;
