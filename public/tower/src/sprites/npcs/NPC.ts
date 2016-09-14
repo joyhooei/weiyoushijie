@@ -76,6 +76,8 @@ class NPC extends MovableEntity {
     }
 
     public hitBy(npc: NPC): boolean {
+    	this.fight();
+    	
     	let d = npc.getForce();
     	
     	if (this._resistance > 0) {
