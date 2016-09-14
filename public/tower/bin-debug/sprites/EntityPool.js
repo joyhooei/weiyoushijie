@@ -3,19 +3,19 @@ var EntityPool = (function () {
         this._entities = [];
     }
     var d = __define,c=EntityPool,p=c.prototype;
-    p.get = function (className, properties) {
+    p.get = function (claz, properties) {
         var entity = null;
         for (var i = 0; i < this._entities.length; i++) {
             entity = this._entities[i];
-            if (className == entity.getClassName()) {
+            if (claz == entity.getClassName()) {
                 this._entities.splice(i, 1);
                 break;
             }
             entity = null;
         }
-        var character = application.characters[className];
+        var character = application.characters[claz];
         if (!entity) {
-            entity = Object.create(window[className].prototype);
+            entity = Object.create(window[claz].prototype);
             entity.constructor.apply(entity);
         }
         var props = {};

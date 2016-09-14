@@ -65,10 +65,14 @@ class Soldier extends NPC implements SelectableEntity {
     }
     
     public update():boolean {
-        if (this._totalTicks > 0) {
-            this._totalTicks --;
-            if (this._totalTicks == 0) {
-                this.kill();
+        if (this._liveTicks > 0) {
+            this._liveTicks --;
+            if (this._liveTicks == 0) {
+                if (this._enemy) {
+                    this._enemy.rmvSoldier(this);
+                }
+                
+                this.erase();
             }
         }
         
@@ -117,7 +121,10 @@ class Soldier extends NPC implements SelectableEntity {
     }
     
     public moveTo(x:number, y:number) {
-        if (this._computeSteps(this.x, this.y, x - (this.width >> 1), y - this.height)) {
+        let x1 = x - (this.width >> 1);
+        let y1 = y - this.height;
+        this._turn(this._direction8(x1, y1));
+        if (this._computeSteps(this.x, this.y, x1, y1)) {
             this.move();
         } else {
             this._arrive();
@@ -179,7 +186,7 @@ class Soldier extends NPC implements SelectableEntity {
     }
 
     protected _hitOpponents() {
-        if (this._enemy.hitBy(this)) {
+        if (!this._enemy || this._enemy.hitBy(this)) {
             let enemy = this._findEnemy();
             if (enemy) {
                 this._fightWith(enemy);
@@ -190,12 +197,13 @@ class Soldier extends NPC implements SelectableEntity {
         } else if (this._enemy.totalSoldiers() > 1) {
             let enemy = this._findEnemy();
             if (enemy && enemy.totalSoldiers() == 0) {
+                this._enemy.rmvSoldier(this);
                 this._fightWith(enemy);
             }
         }
     }
 
     private _findEnemy(): Enemy {
-        return application.battle.findSuitableEnemy(this._guardX, this._guardY, this._guardRadius, this._guardAltitudes);
+        return application.battle.findSuitableEnemy(this.x, this.y, this._guardRadius, this._guardAltitudes);
     }
 }

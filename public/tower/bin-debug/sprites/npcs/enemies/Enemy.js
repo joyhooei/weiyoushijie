@@ -36,21 +36,18 @@ var Enemy = (function (_super) {
     };
     p._nextPath = function () {
         if (this._path < this._paths.length - 1) {
-            var path = this._paths[this._path];
-            this.setCenterX(path[0]);
-            this.setBottomY(path[1]);
+            var p0 = this._paths[this._path];
+            this.setCenterX(p0[0]);
+            this.setBottomY(p0[1]);
             this._path++;
-            this._readToMove();
+            var p1 = this._paths[this._path];
+            this._computeSteps(p0[0], p0[1], p1[0], p1[1]);
+            this._turn(this._direction8(p1[0], p1[1]));
             return true;
         }
         else {
             return false;
         }
-    };
-    p._readToMove = function () {
-        var path = this._paths[this._path];
-        this._turn(this._direction8(path[0], path[1]));
-        this._computeSteps(path[0], path[1]);
     };
     p.move = function () {
         _super.prototype.move.call(this);
@@ -71,12 +68,10 @@ var Enemy = (function (_super) {
     p._moveOneStep = function () {
         return _super.prototype._moveOneStep.call(this) && !this._nextPath();
     };
-    p._fighting = function () {
+    p._hitOpponents = function () {
         if (this._soldiers.length > 0) {
-            if (this._ticks % this._hitSpeed == 0) {
-                if (this._soldiers[0].hitBy(this)) {
-                    this.rmvSoldier(this._soldiers[0]);
-                }
+            if (this._soldiers[0].hitBy(this)) {
+                this.rmvSoldier(this._soldiers[0]);
             }
         }
         else {

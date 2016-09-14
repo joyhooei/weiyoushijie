@@ -34,10 +34,10 @@ var Bullet = (function (_super) {
         this._target = null;
         this._targetX = 0;
         this._targetY = 0;
-        this._damage = this._get(properties, 'damage', 10);
+        this._force = this._get(properties, 'force', 10);
     };
-    p.getDamage = function () {
-        return this._damage;
+    p.getForce = function () {
+        return this._force;
     };
     p.setTarget = function (target) {
         this._target = target;
@@ -46,7 +46,7 @@ var Bullet = (function (_super) {
     p.setTargetPosition = function (targetX, targetY) {
         this._targetX = targetX;
         this._targetY = targetY;
-        this._computeSteps(this._targetX, this._targetY);
+        this._computeSteps(this.x, this.y, this._targetX, this._targetY);
     };
     p._moving = function () {
         if (this._moveOneStep()) {

@@ -58,12 +58,12 @@ class MovableEntity extends Entity {
 	    
 	    if (this._totalSteps > 0) {
 	        stepX = dx / this._totalSteps;
-	        if (x < this.x) {
+	        if (x2 < x1) {
 	            stepX = 0 - stepX;
 	        }
 	        
 	        stepY = dy / this._totalSteps;
-	        if (y < this.y) {
+	        if (y2 < y1) {
 	            stepY = 0 - stepY;
 	        }
 	

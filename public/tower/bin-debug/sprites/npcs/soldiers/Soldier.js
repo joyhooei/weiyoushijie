@@ -32,10 +32,23 @@ var Soldier = (function (_super) {
         this._guardY = this._get(properties, 'guardY', 0);
         this._guardRadius = this._get(properties, 'guardRadius', 20);
         this._guardAltitudes = this._get(properties, 'guardAltitude', [-1, 0]);
+        this._liveTicks = this._get(properties, 'liveTicks', -1);
         this._idleTicks = 1;
         this._enemy = null;
         this._range = null;
         this._creator = null;
+    };
+    p.update = function () {
+        if (this._liveTicks > 0) {
+            this._liveTicks--;
+            if (this._liveTicks == 0) {
+                if (this._enemy) {
+                    this._enemy.rmvSoldier(this);
+                }
+                this.erase();
+            }
+        }
+        return _super.prototype.update.call(this);
     };
     p.setCreator = function (creator) {
         this._creator = creator;
@@ -59,6 +72,10 @@ var Soldier = (function (_super) {
         }
     };
     p.relive = function (idleTicks) {
+        if (idleTicks === void 0) { idleTicks = 0; }
+        if (idleTicks == 0) {
+            idleTicks = this._idleTicks;
+        }
         var soldier = application.pool.get(this.getClassName(), { guardX: this._guardX, guardY: this._guardY, idleTicks: idleTicks });
         soldier.x = this.x;
         soldier.y = this.y;
@@ -68,7 +85,10 @@ var Soldier = (function (_super) {
         return soldier;
     };
     p.moveTo = function (x, y) {
-        if (this._computeSteps(x, y)) {
+        var x1 = x - (this.width >> 1);
+        var y1 = y - this.height;
+        this._turn(this._direction8(x1, y1));
+        if (this._computeSteps(this.x, this.y, x1, y1)) {
             this.move();
         }
         else {
@@ -118,32 +138,27 @@ var Soldier = (function (_super) {
         this.moveTo(this._enemy.x - xDeltas[direction], this._enemy.y - xDeltas[direction]);
         this._enemy.addSoldier(this);
     };
-    p._fighting = function () {
-        if (this._ticks % this._hitSpeed == 0) {
-            this._useSkill();
-            this._enemy.fight();
-            if (this._enemy.hitBy(this)) {
-                var enemy = this._findEnemy();
-                if (enemy) {
-                    this._fightWith(enemy);
-                }
-                else {
-                    this._enemy = null;
-                    this.moveTo(this._guardX, this._guardY);
-                }
+    p._hitOpponents = function () {
+        if (!this._enemy || this._enemy.hitBy(this)) {
+            var enemy = this._findEnemy();
+            if (enemy) {
+                this._fightWith(enemy);
             }
-            else if (this._enemy.totalSoldiers() > 1) {
-                var enemy = this._findEnemy();
-                if (enemy && enemy.totalSoldiers() == 0) {
-                    this._fightWith(enemy);
-                }
+            else {
+                this._enemy = null;
+                this.moveTo(this._guardX, this._guardY);
+            }
+        }
+        else if (this._enemy.totalSoldiers() > 1) {
+            var enemy = this._findEnemy();
+            if (enemy && enemy.totalSoldiers() == 0) {
+                this._enemy.rmvSoldier(this);
+                this._fightWith(enemy);
             }
         }
     };
-    p._useSkill = function () {
-    };
     p._findEnemy = function () {
-        return application.battle.findSuitableEnemy(this._guardX, this._guardY, this._guardRadius, this._guardAltitudes);
+        return application.battle.findSuitableEnemy(this.x, this.y, this._guardRadius, this._guardAltitudes);
     };
     return Soldier;
 }(NPC));

@@ -1,5 +1,7 @@
 var application;
 (function (application) {
+    application.legends = [];
+    application.frameRate = 36;
     application.ticks = 0;
     application.version = '1.1.1';
     application.game = 'tower';
@@ -33,7 +35,6 @@ var application;
         application.channel = Channel.create();
         application.characters = Character.createAll();
         application.pool = new EntityPool();
-        application.frameRate = 24;
         application.stopwatch = new egret.EventDispatcher();
         var timer = new egret.Timer(1000, 0);
         timer.addEventListener(egret.TimerEvent.TIMER, function (event) {
@@ -60,6 +61,21 @@ var application;
             if (customers.length > 0) {
                 application.me = new Customer(customers[0]);
                 application.channel.track(TRACK_CATEGORY_PLAYER, TRACK_ACTION_ENTER);
+                application.legends = [];
+                application.dao.fetch("Legend", { customer_id: account.customer_id }).then(function (legends) {
+                    for (var i = 0; i < legends.length; i++) {
+                        application.legends.push(new Legend(legends[i]));
+                    }
+                    application.dao.fetch("Skill", { customer_id: account.customer_id }).then(function (skills) {
+                        for (var i = 0; i < skills.length; i++) {
+                            for (var j = 0; j < application.legends.length; j++) {
+                                if (application.legends[j].attrs.id == skills[i].legend_id) {
+                                    application.legends[j].addSkill(skills[i]);
+                                }
+                            }
+                        }
+                    });
+                });
                 //首次登录，需要显示引导页面
                 if (application.me.attrs.metal == 0) {
                     application.guideUI = new GuideUI();

@@ -26,11 +26,11 @@ var MovableEntity = (function (_super) {
         }
     };
     //计一步走的距离
-    p._computeSteps = function (x, y) {
+    p._computeSteps = function (x1, y1, x2, y2) {
         var stepX = 0;
         var stepY = 0;
-        var dx = Math.abs(this.x - x);
-        var dy = Math.abs(this.y - y);
+        var dx = Math.abs(x1 - x2);
+        var dy = Math.abs(y1 - y2);
         if (dx >= dy) {
             this._totalSteps = Math.floor(dx / this._step);
         }
@@ -39,11 +39,11 @@ var MovableEntity = (function (_super) {
         }
         if (this._totalSteps > 0) {
             stepX = dx / this._totalSteps;
-            if (x < this.x) {
+            if (x2 < x1) {
                 stepX = 0 - stepX;
             }
             stepY = dy / this._totalSteps;
-            if (y < this.y) {
+            if (y2 < y1) {
                 stepY = 0 - stepY;
             }
             this._delta = [stepX, stepY];

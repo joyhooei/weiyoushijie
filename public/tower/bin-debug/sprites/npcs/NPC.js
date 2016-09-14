@@ -2,7 +2,6 @@ var NPC = (function (_super) {
     __extends(NPC, _super);
     function NPC() {
         _super.call(this);
-        this.width = this.height = 20;
     }
     var d = __define,c=NPC,p=c.prototype;
     p._idle = function () {
@@ -18,13 +17,18 @@ var NPC = (function (_super) {
         this._hp = application.pool.get("Hp", properties);
         this._hp.height = 3;
         this._hp.width = 20;
+        this._hp.x = 0;
+        this._hp.y = 0;
         this.addChild(this._hp);
-        this._damage = this._get(properties, "damage", 10);
-        this._hitSpeed = this._get(properties, "hitSpeed", 10);
+        this._skill = 0;
+        this._hitSpeed = this._get(properties, "hitSpeed", Math.round(0.9 * application.frameRate));
+        this._force = this._get(properties, "force", 10);
+        this._armor = this._get(properties, "armor", 0);
+        this._resistance = this._get(properties, "_resistance", 0);
         this._altitude = this._get(properties, "altitude", 0);
     };
-    p.getDamage = function () {
-        return this._damage;
+    p.getForce = function () {
+        return this._force;
     };
     p.kill = function () {
         this._hp.erase();
@@ -39,14 +43,22 @@ var NPC = (function (_super) {
         _super.prototype.erase.call(this);
     };
     p.shootBy = function (bullet) {
-        return this._hit(bullet.getDamage());
+        return this.damage(this._actualForce(bullet.getForce()));
     };
     p.hitBy = function (npc) {
-        return this._hit(npc.getDamage());
+        this.fight();
+        var d = npc.getForce();
+        if (this._resistance > 0) {
+            npc.damage(Math.round(d * (100 - this._resistance) / 100));
+        }
+        return this.damage(this._actualForce(d));
     };
-    p._hit = function (damage) {
+    p._actualForce = function (d) {
+        return Math.round(d * (100 - this._armor) / 100);
+    };
+    p.damage = function (d) {
         if (this.active()) {
-            if (this._hp.hitBy(damage)) {
+            if (this._hp.damage(d)) {
                 this.kill();
                 return true;
             }
@@ -64,8 +76,38 @@ var NPC = (function (_super) {
     p._face = function (npc) {
         this._turn(this._direction4(npc.x, npc.y));
     };
+    p._readyFight = function () {
+        return this._state == EntityState.fighting && this._ticks % this._hitSpeed == 0;
+    };
+    p._fighting = function () {
+        if (this._readyFight()) {
+            this._playFightMovieClip();
+        }
+    };
+    p._playFightMovieClip = function () {
+        var clip = this._play(this._displaySprite.getChildAt(0), 1);
+        if (clip) {
+            clip.once(egret.Event.COMPLETE, function () {
+                this._hitOpponents();
+            }, this);
+        }
+    };
+    p._hitOpponents = function () {
+    };
     p.paint = function () {
-        this._display(0, 5, this.width, this.height, 0);
+        var display = this._render(0, 5, this._skill);
+        if (this._state != EntityState.fighting) {
+            this._play(display, -1);
+        }
+        this._centerHp();
+    };
+    p._centerHp = function () {
+        if (this._hp) {
+            var x = Math.min(0, (this.width - this._hp.width) >> 1);
+            if (x != this._hp.x) {
+                this._hp.x = x;
+            }
+        }
     };
     return NPC;
 }(MovableEntity));

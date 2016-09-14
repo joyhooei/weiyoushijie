@@ -24,6 +24,6 @@ class Legend {
     		}
     	}
     	
-    	return null;
+    	return new Legend({level: 1});
     }
 }

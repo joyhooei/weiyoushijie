@@ -6,9 +6,15 @@ var Hp = (function (_super) {
     var d = __define,c=Hp,p=c.prototype;
     p.initialize = function (properties) {
         _super.prototype.initialize.call(this, properties);
-        this._maxHp = this._get(properties, "hp", 100);
-        this._hp = this._maxHp;
+        this.setMaxHp(this._get(properties, "maxHp", 10));
         this._cureSpeed = this._get(properties, "cureSpeed", 1);
+    };
+    p.setMaxHp = function (hp) {
+        this._maxHp = hp;
+        this._hp = hp;
+    };
+    p.getMaxHp = function () {
+        return this._maxHp;
     };
     p.kill = function () {
         this._setHp(0);
@@ -16,8 +22,8 @@ var Hp = (function (_super) {
     p.cure = function () {
         this._setHp(this._hp + this._cureSpeed);
     };
-    p.hitBy = function (damage) {
-        return this._setHp(this._hp - damage);
+    p.damage = function (force) {
+        return this._setHp(this._hp - force);
     };
     p._setHp = function (hp) {
         hp = Math.max(0, Math.min(this._maxHp, hp));

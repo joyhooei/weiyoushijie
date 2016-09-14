@@ -7,11 +7,11 @@ module application {
     
     export var me: Customer;
     
-    export var legends: Legend[];
+    export var legends: Legend[] = [];
 
     export var battle: Battle;
     
-    export var frameRate: number;
+    export var frameRate: number = 36;
     
     export var characters: Character[];
     
@@ -68,8 +68,6 @@ module application {
         application.characters = Character.createAll();
         
         application.pool = new EntityPool();
-        
-        application.frameRate = 24;
 
         application.stopwatch = new egret.EventDispatcher();
         var timer: egret.Timer = new egret.Timer(1000,0);
@@ -104,20 +102,20 @@ module application {
                 application.channel.track(TRACK_CATEGORY_PLAYER,TRACK_ACTION_ENTER);
                 
                 application.legends = [];
-                application.dao.fetch("Legend", {customer_id, account.customer_id}).then(function(legends) {
+                application.dao.fetch("Legend", {customer_id: account.customer_id}).then(function(legends) {
                 	for(let i = 0; i < legends.length; i++) {
                 		application.legends.push(new Legend(legends[i]));
                 	}
                 	
-                	application.dao.fetch("Skill", {customer_id, account.customer_id}).then(function(skills) {
+                	application.dao.fetch("Skill", {customer_id: account.customer_id}).then(function(skills) {
 	                	for(let i = 0; i < skills.length; i++) {
 	                		for (let j = 0; j < application.legends.length; j++) {
 	                			if (application.legends[j].attrs.id == skills[i].legend_id) {
-	                				application.legends[j].addSill(skills[i]);
+	                				application.legends[j].addSkill(skills[i]);
 	                			}
 	                		}
 	                	}
-                	}
+                	})
                 });
                 
                 //首次登录，需要显示引导页面

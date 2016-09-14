@@ -54,27 +54,23 @@ class Enemy extends NPC {
     
     private _nextPath(): boolean {
     	if (this._path < this._paths.length - 1) {
-	    	let path = this._paths[this._path];
+	    	let p0 = this._paths[this._path];
 	    	
-	   		this.setCenterX(path[0]);
-	   		this.setBottomY(path[1]);
+	   		this.setCenterX(p0[0]);
+	   		this.setBottomY(p0[1]);
 
 	        this._path ++;
 	        
-	        this._readToMove();
+            let p1 = this._paths[this._path];
+
+	        this._computeSteps(p0[0], p0[1], p1[0], p1[1]);
+
+            this._turn(this._direction8(p1[0], p1[1]));
 	        
 	        return true;
     	} else {
     		return false;
     	}
-    }
-    
-    private _readToMove() {
-        let path = this._paths[this._path];
-        this._turn(this._direction8(path[0], path[1]));
-        
-        let lastPath = this._paths[this._path - 1];
-        this._computeSteps(lastPath[0], lastPath[1], path[0], path[1]);
     }
     
     public move() {

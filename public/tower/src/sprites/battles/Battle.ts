@@ -127,6 +127,8 @@ class Battle extends Entity implements SoldierCreator {
         	            if (baseClassName == "Hero" || baseClassName == "Soldier") {
         	                (<Soldier>this._focus).moveTo(x, y);
         	            }
+
+                        this._focus.deselect();
         	            
         	            this._focus = null;
         	        }
@@ -226,11 +228,13 @@ class Battle extends Entity implements SoldierCreator {
         }
     }
     
-    public addWarriorsByName(warriorName:string, hero: Hero) {
+    public addWarriorsByName(warriorName:string, hero: Hero, options:any) {
         let pos = this._map.getHeros();
         for(let i = 0; i < pos.length; i++) {
             for(let j = 1; j < pos[i].length; j++) {
-                let soldier = <Soldier>application.pool.get(warriorName, {guardX: pos[i][j][0], guardY: pos[i][j][1]});
+                options.guardX = pos[i][j][0];
+                options.guardY = pos[i][j][1];
+                let soldier = <Soldier>application.pool.get(warriorName, options);
                 soldier.x = pos[i][0][0];
                 soldier.y = pos[i][0][1];
                 soldier.setCreator(hero);

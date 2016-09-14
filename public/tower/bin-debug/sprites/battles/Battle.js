@@ -71,6 +71,7 @@ var Battle = (function (_super) {
                         if (baseClassName == "Hero" || baseClassName == "Soldier") {
                             this._focus.moveTo(x, y);
                         }
+                        this._focus.deselect();
                         this._focus = null;
                     }
                 }
@@ -151,14 +152,17 @@ var Battle = (function (_super) {
             var hero = application.pool.get(heroName, { guardX: pos[i][0][0], guardY: pos[i][0][1] });
             hero.setCenterX(pos[i][0][0]);
             hero.setBottomY(pos[i][0][1]);
+            hero.setLegend(Legend.getByName(application.legends, heroName));
             this.addHero(hero);
         }
     };
-    p.addWarriorsByName = function (warriorName, hero) {
+    p.addWarriorsByName = function (warriorName, hero, options) {
         var pos = this._map.getHeros();
         for (var i = 0; i < pos.length; i++) {
             for (var j = 1; j < pos[i].length; j++) {
-                var soldier = application.pool.get(warriorName, { guardX: pos[i][j][0], guardY: pos[i][j][1] });
+                options.guardX = pos[i][j][0];
+                options.guardY = pos[i][j][1];
+                var soldier = application.pool.get(warriorName, options);
                 soldier.x = pos[i][0][0];
                 soldier.y = pos[i][0][1];
                 soldier.setCreator(hero);

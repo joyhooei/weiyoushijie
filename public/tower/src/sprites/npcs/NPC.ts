@@ -72,7 +72,7 @@ class NPC extends MovableEntity {
     }
     
     public shootBy(bullet: Bullet): boolean {
-    	return this.damage(bullet._actualForce(npc.getForce()));
+    	return this.damage(this._actualForce(bullet.getForce()));
     }
 
     public hitBy(npc: NPC): boolean {
@@ -93,7 +93,7 @@ class NPC extends MovableEntity {
     
     public damage(d: number): boolean {
         if (this.active()) {           
-            if (this._hp.hitBy(d)) {
+            if (this._hp.damage(d)) {
                 this.kill();
                 
                 return true;
@@ -124,7 +124,7 @@ class NPC extends MovableEntity {
     }
     
     protected _playFightMovieClip() {
-        let clip:egret.MovieClip = this._play(this._displayEntity.getChildAt(0), 1);
+        let clip:egret.MovieClip = this._play(this._displaySprite.getChildAt(0), 1);
         if (clip) {
         	clip.once(egret.Event.COMPLETE, function(){
         		this._hitOpponents();
@@ -136,7 +136,7 @@ class NPC extends MovableEntity {
     }
     
     public paint() {
-    	let display = this._render(0, this._hp.height + 2, this._skill);
+    	let display = this._render(0, 5, this._skill);
     	
     	if (this._state != EntityState.fighting) {
     		this._play(display, -1);	
@@ -146,9 +146,11 @@ class NPC extends MovableEntity {
     }
     
     protected _centerHp() {
-    	let x =  Math.min(0, (this.width - this._hp.width) >> 1);
-        if (x != this._hp.x) {
-        	this._hp.x = x;
+        if (this._hp) {
+            let x =  Math.min(0, (this.width - this._hp.width) >> 1);
+            if (x != this._hp.x) {
+                this._hp.x = x;
+            }
         }
     }
 }

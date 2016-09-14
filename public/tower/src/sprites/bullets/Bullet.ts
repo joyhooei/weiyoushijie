@@ -4,7 +4,7 @@ class Bullet extends MovableEntity {
     protected _targetX: number;
     protected _targetY: number;
     
-    protected _damage: number;
+    protected _force: number;
     
     public static shootAtNPC(sourceX: number, sourceY: number, target: NPC, claz:string): Bullet {
         let bullet = <Bullet>application.pool.get(claz);
@@ -49,11 +49,11 @@ class Bullet extends MovableEntity {
         this._targetX = 0;
         this._targetY = 0;
 
-        this._damage = this._get(properties, 'damage', 10);
+        this._force = this._get(properties, 'force', 10);
     }
     
-    public getDamage(): number {
-    	return this._damage;
+    public getForce(): number {
+    	return this._force;
     }    
 
     public setTarget(target: NPC) {

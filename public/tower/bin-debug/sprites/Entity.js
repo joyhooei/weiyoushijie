@@ -142,16 +142,43 @@ var Entity = (function (_super) {
     };
     //根据状态、面向修改重新渲染
     p.paint = function () {
-        this._display(0, 0, this.width, this.height, 0);
+        this._play(this._render(), -1);
     };
-    p._display = function (x, y, width, height, idx) {
+    p._play = function (display, times) {
+        if (times === void 0) { times = -1; }
+        if (egret.getQualifiedClassName(display) == "egret.MovieClip") {
+            var clip = display;
+            clip.frameRate = 8;
+            clip.gotoAndPlay(0, times);
+            return clip;
+        }
+        return null;
+    };
+    p._render = function (xDelta, yDelta, idx) {
+        if (xDelta === void 0) { xDelta = 0; }
+        if (yDelta === void 0) { yDelta = 0; }
         if (idx === void 0) { idx = 0; }
-        this._displaySprite.width = width;
-        this._displaySprite.height = height;
-        var d = this._displays.render(this._displaySprite, this._direction, this._state, idx);
-        this._displaySprite.x += x;
-        this._displaySprite.y += y;
-        return d;
+        var display = this._displays.getDisplay(this._direction, this._state, idx);
+        if (display) {
+            this._displaySprite.removeChildren();
+            this._displaySprite.addChild(display);
+            if (egret.getQualifiedClassName(display) == "egret.MovieClip") {
+                this._displaySprite.x = (display.width >> 1) + xDelta;
+                this._displaySprite.y = (display.height >> 1) + yDelta;
+            }
+            else {
+                this._displaySprite.x = xDelta;
+                this._displaySprite.y = yDelta;
+            }
+            this._displaySprite.width = display.width;
+            this._displaySprite.height = display.height;
+            this.width = display.width;
+            this.height = display.height;
+        }
+        else {
+            console.error("display dosn't exist for " + this.getClassName() + " direction = " + Entity.directionName(this._direction) + " state = " + Entity.stateName(this._state));
+        }
+        return display;
     };
     p._do = function (state) {
         if (state != this._state) {

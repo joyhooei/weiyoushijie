@@ -10,7 +10,8 @@ var Character = (function () {
         var characters = new Array();
         var config = [
             //name, properties
-            { name: 'Sunwukong', properties: { hp: 1000, damage: 40, guardRadius: 50 } },
+            { name: 'Sunwukong', properties: { hp: 245, forceHigh: 10, forceLow: 6, armor: 15, idleTicks: 20 * application.frameRate, guardRadius: 50 } },
+            { name: 'Reinforce', properties: { hp: 245, force: 6, armor: 0, liveTicks: 20 * application.frameRate, guardRadius: 40 } },
         ];
         for (var i = 0; i < config.length; i++) {
             var d = config[i];

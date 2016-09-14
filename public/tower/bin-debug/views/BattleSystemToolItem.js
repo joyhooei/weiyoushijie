@@ -27,13 +27,13 @@ var BattleSystemToolItem = (function (_super) {
     var d = __define,c=BattleSystemToolItem,p=c.prototype;
     p.use = function (x, y) {
         if (this._tool.category == "soldier") {
-            var soldier = application.pool.get("Reinforce", { guardX: x - 5, guardY: y - 5 });
-            soldier.x = x;
-            soldier.y = y;
+            var soldier = application.pool.get("Reinforce", { guardX: x - 10, guardY: y - 10 });
+            soldier.setCenterX(x);
+            soldier.setBottomY(y);
             application.battle.addSoldier(soldier);
-            soldier = application.pool.get("Reinforce", { guardX: x + 5, guardY: y + 5 });
-            soldier.x = x;
-            soldier.y = y;
+            soldier = application.pool.get("Reinforce", { guardX: x + 10, guardY: y + 10 });
+            soldier.setCenterX(x);
+            soldier.setBottomY(y);
             application.battle.addSoldier(soldier);
         }
         else if (this._tool.category == "fireball") {

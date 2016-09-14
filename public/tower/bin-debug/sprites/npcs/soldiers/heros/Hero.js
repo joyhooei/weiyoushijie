@@ -6,15 +6,18 @@ var Hero = (function (_super) {
     var d = __define,c=Hero,p=c.prototype;
     p.initialize = function (properties) {
         _super.prototype.initialize.call(this, properties);
-        this._skill = 0;
-        this._defaultDamage = this._damage;
+        this._forceHigh = this._get(properties, "forceHigh", 10);
+        this._forceLow = this._get(properties, "forceLow", 6);
+        this._force = 0;
+    };
+    p.setLegend = function (legend) {
+        this._legend = legend;
     };
     p.createSoldier = function (soldier) {
-        var s = soldier.relive(5000);
-        s.x = this.getCenterX();
-        s.y = this.getCenterY();
-        application.battle.addSoldier(s);
-        return s;
+        return null;
+    };
+    p.getForce = function () {
+        return this._forceLow + Math.round(Math.random() * (this._forceHigh - this._forceLow)) + this._force;
     };
     return Hero;
 }(Soldier));
