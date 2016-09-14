@@ -465,6 +465,7 @@ module.exports = function() {
 			
 			//英雄技能
 			self.addModel("Skill", {
+				customer_id: String,
 				legend_id: String,
 				name: String,
 				level:  {type: Number, default: 1},
