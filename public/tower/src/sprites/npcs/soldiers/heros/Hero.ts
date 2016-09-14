@@ -32,7 +32,5 @@ class Hero extends Soldier implements SoldierCreator {
         } else {
             super.paint();
         }
-        
-        
     }      
 }
