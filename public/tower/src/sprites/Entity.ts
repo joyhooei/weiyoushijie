@@ -187,12 +187,16 @@ class Entity extends egret.Sprite {
     	this._play(this._render(), -1);
     }
     
-    protected _play(display: egret.DisplayObject, times = -1) {
+    protected _play(display: egret.DisplayObject, times = -1): egret.MovieClip {
         if (egret.getQualifiedClassName(display) == "egret.MovieClip") {
             let clip:egret.MovieClip = <egret.MovieClip>display;
             clip.frameRate = 8;
             clip.gotoAndPlay(0, times);
+            
+            return clip;
         }
+        
+        return null;
     }
     
     protected _render(xDelta = 0, yDelta = 0, idx = 0): egret.DisplayObject {
