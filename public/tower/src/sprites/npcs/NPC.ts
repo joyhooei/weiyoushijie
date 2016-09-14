@@ -9,6 +9,8 @@ class NPC extends MovableEntity {
     
     protected _hitSpeed: number;
 
+    protected _skill : number;
+    
     //海拔高度，地表：0，地下：-1，空中：1
     protected _altitude: number;
 
@@ -35,6 +37,8 @@ class NPC extends MovableEntity {
 		this._hp.x = 0;
 		this._hp.y = 0;
         this.addChild(this._hp);
+        
+        this._skill = 0;
         
         this._hitSpeed  = this._get(properties, "hitSpeed", 900);
         
@@ -126,7 +130,7 @@ class NPC extends MovableEntity {
     }
     
     public paint() {
-    	let display = this._render(0, this._hp.height + 2);
+    	let display = this._render(0, this._hp.height + 2, this._skill);
     	
     	if (this._state != EntityState.fighting) {
     		this._play(display, -1);	
