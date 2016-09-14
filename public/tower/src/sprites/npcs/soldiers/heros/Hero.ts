@@ -26,9 +26,13 @@ class Hero extends Soldier implements SoldierCreator {
     
     public paint() {
         if (EntityState.fighting == this._state) {
-            this._display(0, 5, this._skill);
+            this._display(0, this._hp.height + 2, this._skill);
+            
+            this._centerHp();
         } else {
-            this._display(0, 5);
+            super.paint();
         }
+        
+        
     }      
 }
