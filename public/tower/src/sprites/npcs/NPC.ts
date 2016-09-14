@@ -106,9 +106,32 @@ class NPC extends MovableEntity {
     protected _face(npc:NPC) {
         this._turn(this._direction4(npc.x, npc.y));
     }
+    
+    protected _readyFight() {
+    	return this._state == EntityState.fighting && this._ticks % this._hitSpeed == 0;
+    }
 
+    protected _fighting() {
+        if (this._readyFight()) {
+            let clip:egret.MovieClip = this._play(this._displayEntity.getChildAt(0), 1);
+            if (clip) {
+            	clip.once(egret.Event.COMPLETE, function(){
+            		this._hitOpponents();
+            	}, this);
+            }
+        }
+    }
+    
+    protected _hitOpponents() {
+    }
+    
     public paint() {
-        this._display(0, this._hp.height + 2);
+    	let display = this._render(0, this._hp.height + 2);
+    	
+    	if (this._state != EntityState.fighting) {
+    		this._play(display, -1);	
+    	}
+    	
         this._centerHp();
     }
     
