@@ -187,18 +187,34 @@ class Entity extends egret.Sprite {
     	this._display();
     }
     
-    protected _display(xDelta = 0, yDelta = 0, idx = 0): egret.DisplayObject {
-		let d = this._displays.render(this._displaySprite, this._direction, this._state, idx);
+    protected _display(xDelta = 0, yDelta = 0, idx = 0, times=-1): egret.DisplayObject {
+		let display = this._displays.getDisplay(this._direction, this._state, idx);
+        if (display) {
+			this._displaySprite.removeChildren();
+            this._displaySprite.addChild(display);
+            
+            if (egret.getQualifiedClassName(display) == "egret.MovieClip") {
+                this._displaySprite.x = (display.width >> 1) + xDelta;
+                this._displaySprite.y = (display.height >> 1) + yDelta;
+                
+	            let clip:egret.MovieClip = <egret.MovieClip>display;
+	            clip.frameRate = 8;
+	            clip.gotoAndPlay(0, times);
+            } else {
+                this._displaySprite.x = xDelta;
+                this._displaySprite.y = yDelta;
+            }
+            
+			this._displaySprite.width  = display.width;
+			this._displaySprite.height = display.height;
+			
+			this.width  = display.width;
+			this.height = display.height;			
+        } else {
+            console.error("display dosn't exist for " + this.getClassName() + " direction = " + Entity.directionName(this._direction) + " state = " + Entity.stateName(this._state));
+        }		
 
-		this._displaySprite.x += xDelta;
-		this._displaySprite.y += yDelta;
-		this._displaySprite.width  = d.width;
-		this._displaySprite.height = d.height;
-
-		this.width  = d.width;
-		this.height = d.height;
-		
-		return d;
+		return display;
     }
     
     private _do(state:EntityState) {
