@@ -28,8 +28,4 @@ class Sunwukong extends Hero {
             application.battle.addWarriorsByName("Warrior", this);
         }
     }
-    
-    public paint() {
-        this._display(0, 5, this.width, this.height, this._skill);
-    }    
 }
