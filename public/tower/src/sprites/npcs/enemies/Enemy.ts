@@ -102,16 +102,14 @@ class Enemy extends NPC {
     protected _moveOneStep(): boolean {
         return super._moveOneStep() && !this._nextPath();
     }
-    
-    protected _fighting() {
-        if (this._soldiers.length > 0) {
-            if (this._ticks % this._hitSpeed == 0) {
-                if (this._soldiers[0].hitBy(this)) {
-                    this.rmvSoldier(this._soldiers[0]);
-                }
-            }
-        } else {
-            this.move();
-        }
-    }
+
+    protected _hitOpponents() {
+    	if (this._soldiers.length > 0) {
+	        if (this._soldiers[0].hitBy(this)) {
+	            this.rmvSoldier(this._soldiers[0]);
+	        }
+    	} else {
+    		this.move();
+    	}
+    }    
 }
