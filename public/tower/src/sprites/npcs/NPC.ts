@@ -28,6 +28,8 @@ class NPC extends MovableEntity {
         this._hp = <Hp>application.pool.get("Hp", properties);
 		this._hp.height = 3;
 		this._hp.width  = 20;
+		this._hp.x = 0;
+		this._hp.y = 0;
         this.addChild(this._hp);
         
         this._damage    = this._get(properties, "damage", 10);
@@ -88,10 +90,13 @@ class NPC extends MovableEntity {
 
     public paint() {
         this._display(0, this._hp.height + 2);
-        
-        if (this.width != this._hp.width) {
-        	this._hp.width = this.width;
-        	this._hp.stain();
+        this._centerHp();
+    }
+    
+    protected _centerHp() {
+    	let x =  Math.min(0, (this.width - this._hp.width) >> 1);
+        if (x != this._hp.x) {
+        	this._hp.x = x;
         }
     }
 }
