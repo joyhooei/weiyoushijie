@@ -7,7 +7,7 @@ module application {
     
     export var me: Customer;
     
-    export var legend: Legend;
+    export var legends: Legend[];
 
     export var battle: Battle;
     
@@ -103,8 +103,21 @@ module application {
                 application.me = new Customer(customers[0]);
                 application.channel.track(TRACK_CATEGORY_PLAYER,TRACK_ACTION_ENTER);
                 
-                application.dao.fetch("Legend", {customer_id, account.customer_id},{ limit: 1 }).then(function(legends) {
-                	application.legend = new Legend(legends[0]);
+                application.legends = [];
+                application.dao.fetch("Legend", {customer_id, account.customer_id}).then(function(legends) {
+                	for(let i = 0; i < legends.length; i++) {
+                		application.legends.push(new Legend(legends[i]));
+                	}
+                	
+                	application.dao.fetch("Skill", {customer_id, account.customer_id}).then(function(skills) {
+	                	for(let i = 0; i < skills.length; i++) {
+	                		for (let j = 0; j < application.legends.length; j++) {
+	                			if (application.legends[j].attrs.id == skills[i].legend_id) {
+	                				application.legends[j].addSill(skills[i]);
+	                			}
+	                		}
+	                	}
+                	}
                 });
                 
                 //首次登录，需要显示引导页面
