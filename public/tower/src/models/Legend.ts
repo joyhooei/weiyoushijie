@@ -16,4 +16,14 @@ class Legend {
     public save() {
         application.dao.save("Legend", this.attrs);
     }
+    
+    public static getByName(legends: Legend[], name: string): Legend {
+    	for(let i = 0; i < legends.length; i++) {
+    		if (legends[i].attrs.name == name) {
+    			return legends[i];
+    		}
+    	}
+    	
+    	return null;
+    }
 }
