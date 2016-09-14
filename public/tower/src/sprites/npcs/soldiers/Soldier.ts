@@ -98,7 +98,7 @@ class Soldier extends NPC implements SelectableEntity {
     }
     
     public moveTo(x:number, y:number) {
-        if (this._computeSteps(x, y)) {
+        if (this._computeSteps(this.x, this.y, x - (this.width >> 1), y - this.height)) {
             this.move();
         } else {
             this._arrive();
