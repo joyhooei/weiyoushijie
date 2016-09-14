@@ -11,6 +11,8 @@ class Soldier extends NPC implements SelectableEntity {
     protected _creator: SoldierCreator;
     
     protected _range: GuardRange;
+    
+    protected _liveTicks: number;
 
     public constructor() {
         super();
@@ -53,12 +55,26 @@ class Soldier extends NPC implements SelectableEntity {
         this._guardRadius   = this._get(properties, 'guardRadius', 20);
         this._guardAltitudes = this._get(properties, 'guardAltitude', [-1, 0]);
 
+        this._liveTicks = this._get(properties, 'liveTicks', -1);
+
         this._idleTicks = 1;
         
         this._enemy = null;
         this._range = null;
         this._creator = null;
     }
+    
+    public update():boolean {
+        if (this._totalTicks > 0) {
+            this._totalTicks --;
+            if (this._totalTicks == 0) {
+                this.kill();
+            }
+        }
+        
+        return super.update();
+    }
+
     
     public setCreator(creator: SoldierCreator) {
         this._creator = creator;
