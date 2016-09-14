@@ -7,19 +7,23 @@ class Hp extends Entity {
     
 	public constructor() {
         super();
-        
-        this.setMaxHp(100);
 	}
 	
 	public initialize(properties:any) {
 		super.initialize(properties);
 
+	    this.setMaxHp(this._get(properties, "maxHp", 10));
+	    
 	    this._cureSpeed = this._get(properties, "cureSpeed", 1);
 	}
 	
 	public setMaxHp(hp: number) {
 		this._maxHp = hp;
 		this._hp = hp;
+	}
+	
+	public getMaxHp(): number {
+		return this._maxHp;
 	}
 	
 	public kill() {
