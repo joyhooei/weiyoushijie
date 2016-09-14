@@ -16,6 +16,7 @@ class Hero extends Soldier implements SoldierCreator {
         
         this._forceHigh   = this._get(properties, "forceHigh", 10);
         this._forceLow    = this._get(properties, "forceLow", 6);
+        this._force = 0;
         
         this._skill = 0;
     }
@@ -33,8 +34,8 @@ class Hero extends Soldier implements SoldierCreator {
         return s;        
     }
     
-    public getDamage(): number {
-        return this._damageLow + Math.round(Math.random() * (this._damageHigh - this._damageLow));
+    public getForce(): number {
+        return this._forceLow + Math.round(Math.random() * (this._forceHigh - this._forceLow)) + this._force;
     }
     
     public paint() {
