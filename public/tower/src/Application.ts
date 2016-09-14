@@ -6,6 +6,8 @@ module application {
     export var channel: Channel;
     
     export var me: Customer;
+    
+    export var legend: Legend;
 
     export var battle: Battle;
     
@@ -99,8 +101,11 @@ module application {
         application.dao.fetch("Customer",{ id: account.customer_id },{ limit: 1 }).then(function(customers) {
             if(customers.length > 0) {
                 application.me = new Customer(customers[0]);
-
                 application.channel.track(TRACK_CATEGORY_PLAYER,TRACK_ACTION_ENTER);
+                
+                application.dao.fetch("Legend", {customer_id, account.customer_id},{ limit: 1 }).then(function(legends) {
+                	application.legend = new Legend(legends[0]);
+                });
                 
                 //首次登录，需要显示引导页面
                 if(application.me.attrs.metal == 0) {
