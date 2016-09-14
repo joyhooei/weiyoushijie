@@ -40,7 +40,7 @@ class NPC extends MovableEntity {
         
         this._skill = 0;
         
-        this._hitSpeed  = this._get(properties, "hitSpeed", 900);
+        this._hitSpeed  = this._get(properties, "hitSpeed", Math.round(0.9 * application.frameRate));
         
         this._force    = this._get(properties, "force", 10);
 
