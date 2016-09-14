@@ -87,7 +87,10 @@ class Soldier extends NPC implements SelectableEntity {
         }
     }
     
-    public relive(idleTicks:number):Soldier {
+    public relive(idleTicks = 0):Soldier {
+        if (idleTicks == 0) {
+            idleTicks = this._idleTicks;
+        }
         let soldier = <Soldier>application.pool.get(this.getClassName(), {guardX: this._guardX, guardY: this._guardY, idleTicks: idleTicks});
         soldier.x = this.x;
         soldier.y = this.y;
@@ -183,7 +186,6 @@ class Soldier extends NPC implements SelectableEntity {
     }
     
     protected _useSkill() {
-        
     }
     
     private _findEnemy(): Enemy {
