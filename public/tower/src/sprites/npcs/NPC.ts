@@ -10,8 +10,6 @@ class NPC extends MovableEntity {
 
     public constructor() {
         super();
-
-        this.width = this.height = 20;
     }
     
 	protected _idle() {
@@ -89,6 +87,11 @@ class NPC extends MovableEntity {
     }
 
     public paint() {
-        this._display(0, 5);
+        this._display(0, this._hp.height + 2);
+        
+        if (this.width != this._hp.width) {
+        	this._hp.width = this.width;
+        	this._hp.stain();
+        }
     }
 }
