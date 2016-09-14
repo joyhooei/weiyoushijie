@@ -72,7 +72,9 @@ class Enemy extends NPC {
     private _readToMove() {
         let path = this._paths[this._path];
         this._turn(this._direction8(path[0], path[1]));
-        this._computeSteps(path[0], path[1]);    	
+        
+        let lastPath = this._paths[this._path - 1];
+        this._computeSteps(lastPath[0], lastPath[1], path[0], path[1]);
     }
     
     public move() {
