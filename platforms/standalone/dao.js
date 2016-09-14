@@ -373,6 +373,18 @@ module.exports = function() {
 				category: 1
 			});
 			
+			//英雄
+			self.addModel("Legend", {
+				customer_id: String,
+				name: String,
+				level:  {type: Number, default: 1},
+				game: String
+			}, {
+				game: 1,
+				customer_id: 1,
+				name: 1
+			});
+			
 			self.addModel("Log", {
 				url: String,
 				version: String,
@@ -449,6 +461,18 @@ module.exports = function() {
 				content: String,
 				state:  {type: Number, default: 0},
 				game: String
+			});
+			
+			//英雄技能
+			self.addModel("Skill", {
+				legend_id: String,
+				name: String,
+				level:  {type: Number, default: 1},
+				game: String
+			}, {
+				game: 1,
+				legend_id: 1,
+				name: 1
 			});
 			
 			self.addModel("Star", {
