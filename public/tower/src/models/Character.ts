@@ -14,7 +14,7 @@ class Character {
         
         let config = [
             //name, properties
-            {name: 'Sunwukong', properties:{hp:1000, damage:40, guardRadius: 50}},
+            {name: 'Sunwukong', properties:{hp:245, damageHigh:10, damageLow:6, armor: 15, idleTicks: 20 * application.frameRate}},
         ];   
 
         for(let i = 0; i < config.length; i++) {
