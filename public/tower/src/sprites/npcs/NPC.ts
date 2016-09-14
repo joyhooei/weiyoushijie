@@ -89,6 +89,6 @@ class NPC extends MovableEntity {
     }
 
     public paint() {
-        this._display(0, 5, this.width, this.height, 0);
-    }   
+        this._display(0, 5);
+    }
 }
