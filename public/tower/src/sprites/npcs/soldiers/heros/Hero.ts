@@ -1,9 +1,9 @@
 class Hero extends Soldier implements SoldierCreator {
     protected _skill : number;
     
-    protected _damageHigh: number;
+    protected _forceHigh: number;
     
-    protected _damageLow: number;
+    protected _forceLow: number;
     
     protected _legend: Legend;
     
@@ -14,8 +14,8 @@ class Hero extends Soldier implements SoldierCreator {
     public initialize(properties:any) {
         super.initialize(properties);
         
-        this._damageHigh   = this._get(properties, "damageHigh", 10);
-        this._damageLow    = this._get(properties, "damageLow", 6);
+        this._forceHigh   = this._get(properties, "forceHigh", 10);
+        this._forceLow    = this._get(properties, "forceLow", 6);
         
         this._skill = 0;
     }
