@@ -5,21 +5,23 @@ class EntityPool {
         this._entities = [];
     }
     
-    public get(className:string, properties?:any): Entity {
+    public get(claz:string, characterName?: string, properties?:any): Entity {
+        characterName = characterName || claz;
+        
         let entity: Entity = null;
         for(let i = 0; i < this._entities.length; i++) {
             entity = this._entities[i];
-            if (className == entity.getClassName()) {
+            if (claz == entity.getClassName()) {
                 this._entities.splice(i, 1);
                 break;
             }
             entity = null;
         }
         
-        let character = application.characters[className];
+        let character = application.characters[characterName];
         
         if (!entity) {
-            entity = <Entity>Object.create(window[className].prototype);
+            entity = <Entity>Object.create(window[claz].prototype);
             entity.constructor.apply(entity);
         }
 
