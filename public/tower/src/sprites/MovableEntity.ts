@@ -44,12 +44,12 @@ class MovableEntity extends Entity {
     }
 
     //计一步走的距离
-    protected _computeSteps(x:number, y:number): boolean {
+    protected _computeSteps(x1:number, y1:number, x2:number, y2:number): boolean {
 	    let stepX = 0;
 	    let stepY = 0;
 	    
-	    let dx = Math.abs(this.x - x);
-	    let dy = Math.abs(this.y - y);
+	    let dx = Math.abs(x1 - x2);
+	    let dy = Math.abs(y1 - y2);
 	    if (dx >= dy) {
 	    	this._totalSteps = Math.floor(dx / this._step);
 	    } else {
