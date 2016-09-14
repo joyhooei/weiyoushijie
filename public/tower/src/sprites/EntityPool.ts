@@ -5,9 +5,7 @@ class EntityPool {
         this._entities = [];
     }
     
-    public get(claz:string, characterName?: string, properties?:any): Entity {
-        characterName = characterName || claz;
-        
+    public get(claz:string, properties?:any): Entity {
         let entity: Entity = null;
         for(let i = 0; i < this._entities.length; i++) {
             entity = this._entities[i];
@@ -18,7 +16,7 @@ class EntityPool {
             entity = null;
         }
         
-        let character = application.characters[characterName];
+        let character = application.characters[claz];
         
         if (!entity) {
             entity = <Entity>Object.create(window[claz].prototype);
