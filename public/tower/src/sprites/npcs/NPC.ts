@@ -20,16 +20,6 @@ class NPC extends MovableEntity {
         super();
     }
     
-	protected _idle() {
-    	if (this._ticks >= this._idleTicks) {
-        	this.move();
-        	
-        	if (this._hp) {
-        		this._hp.move();
-        	}
-    	}
-    }
-    
     public initialize(properties:any) {
         super.initialize(properties);
         
@@ -118,11 +108,27 @@ class NPC extends MovableEntity {
     protected _readyFight() {
     	return this._ticks % this._hitSpeed == 0;
     }
+    
+	protected _idle() {
+		super._idle();
+		
+    	if (this._ticks >= this._idleTicks) {
+        	this.move();
+        	
+        	if (this._hp) {
+        		this._hp.move();
+        	}
+    	}
+    }
 
     protected _fighting() {
-        if (this._readyFight()) {
-        	this._playFightMovieClip();
-        }
+    	if (this._fightClip) {
+	        if (this._readyFight()) {
+	        	this._playFightMovieClip();
+	        }
+	        
+	        super._fighting();
+	    }
     }
     
     protected _playFightMovieClip() {
