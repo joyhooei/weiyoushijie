@@ -1,4 +1,7 @@
 class Waves {
+    private _mapWidth: number;
+    private _mapHeight: number;
+    
     private _rounds: number;
     
     private _enemies: any[][];
@@ -12,7 +15,7 @@ class Waves {
     //两波敌人发动攻击的时间间隔
     private _timeBetweenWaves: number; 
     
-    public constructor() {
+    public constructor(mapWidth: number, mapHeight: number) {
         this._enemies = [];
         this._currentWave = 0;
         
@@ -20,6 +23,9 @@ class Waves {
         this._timeToNextWave   = this._timeBetweenWaves;
         
         this._rounds = 0;
+        
+        this._mapWidth  = mapWidth;
+        this._mapHeight = mapHeight;
     }
     
     public add(wave:number, claz:string, count:number, paths:number[][]) {
@@ -31,27 +37,55 @@ class Waves {
         let pathWidth = 30;
         let enemyInterval = 20;
         
+        let entityWidth = 50;
+        
         let deltaY = Math.random() * pathWidth - pathWidth / 2;
         let deltaX = Math.random() * pathWidth - pathWidth / 2;
         
         let newPaths = [];
-        for(let j = 0; j < paths.length - 1; j++) {
-            newPaths.push([paths[j][0] + deltaX, paths[j][1] + deltaY]);
-        }
         
-        let direction = Entity.direction4(paths[paths.length - 2][0], paths[paths.length - 2][1], paths[paths.length - 1][0], paths[paths.length - 1][1]);
+        direction = Entity.direction4(paths[0][0], paths[0][1], paths[1][0], paths[1][1]);
         switch(direction) {
             case EntityDirection.east:
+                newPaths.push([-entityWidth, paths[0][1] + deltaY]);
+                break;
+                
             case EntityDirection.west:
-                deltaX = 0;
+                newPaths.push([this._mapWidth + entityWidth, paths[0][1] + deltaY]);
+                break;
+                
+            case EntityDirection.south:
+                newPaths.push(paths[0][0] + deltaX, -entityWidth]);
                 break;
                 
             case EntityDirection.north:
-            case EntityDirection.south:
-                deltaY = 0;
+                newPaths.push(paths[0][0] + deltaX, this._mapHeight + entityWidth]);
                 break;
         }
-        newPaths.push([paths[paths.length - 1][0] + deltaX, paths[paths.length - 1][1] + deltaY]);        
+        
+        for(let j = 1; j < paths.length - 1; j++) {
+            newPaths.push([paths[j][0] + deltaX, paths[j][1] + deltaY]);
+        }
+        
+        direction = Entity.direction4(paths[paths.length - 2][0], paths[paths.length - 2][1], paths[paths.length - 1][0], paths[paths.length - 1][1]);
+        switch(direction) {
+            case EntityDirection.east:
+                newPaths.push([this._mapWidth + entityWidth, paths[paths.length - 1][1] + deltaY]);        
+                break;
+                
+            case EntityDirection.west:
+                newPaths.push([- entityWidth, paths[paths.length - 1][1] + deltaY]);        
+                break;
+                
+            case EntityDirection.north:
+                 newPaths.push(paths[paths.length - 1][0] + deltaX, -entityWidth]);
+                 break;
+                 
+            case EntityDirection.south:
+                newPaths.push(paths[paths.length - 1][0] + deltaX, this._mapHeight + entityWidth]);
+                break;
+        }
+        
         
         return newPaths;
     }
