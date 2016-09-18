@@ -79,14 +79,13 @@ class Soldier extends NPC implements SelectableEntity {
         return super.update();
     }
 
-    
     public setCreator(creator: SoldierCreator) {
         this._creator = creator;
     }
     
     protected _idle() {
         this._ticks ++;
-        if ((this._creator == null || this._creator.active()) && this._ticks >= this._idleTicks) {
+        if (this._ticks >= this._idleTicks) {
             this.moveTo(this._guardX, this._guardY);
 
         	if (this._hp) {
@@ -142,8 +141,6 @@ class Soldier extends NPC implements SelectableEntity {
     }
     
     protected _moving() {
-        this._ticks ++;
-        
         if (this._moveOneStep()) {
             this._arrive();
         }
@@ -159,8 +156,6 @@ class Soldier extends NPC implements SelectableEntity {
     }
     
     protected _guarding() {
-        this._ticks ++;
-        
         let enemy = this._findEnemy();
         if (enemy) {
             this._fightWith(enemy);
