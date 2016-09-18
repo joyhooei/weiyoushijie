@@ -45,10 +45,10 @@ class Battle extends Entity implements SoldierCreator {
         this._rangeLayer    = this._addLayer();
         this._toolLayer     = this._addLayer();
 
-        this._waves = new Waves();
-
         this.touchEnabled = true;
         this.addEventListener(egret.TouchEvent.TOUCH_BEGIN, this._touch, this);    
+        
+        this._waves = new Waves(800, 480);
     }
     
     public loadResource(options: any): Q.Promise<any> {
@@ -77,6 +77,8 @@ class Battle extends Entity implements SoldierCreator {
     public start() {
         this._lives = this._maxLives;
         this._golds = this._maxGolds;
+
+        this._waves = new Waves();
          
         this._baseLayer.removeChildren();
         this._objLayer.removeChildren();
