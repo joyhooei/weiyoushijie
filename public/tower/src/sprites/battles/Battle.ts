@@ -237,7 +237,6 @@ class Battle extends Entity implements SoldierCreator {
                 let soldier = <Soldier>application.pool.get(warriorName, options);
                 soldier.x = pos[i][0][0];
                 soldier.y = pos[i][0][1];
-                soldier.setCreator(hero);
                 this.addSoldier(soldier);
             }
         }
