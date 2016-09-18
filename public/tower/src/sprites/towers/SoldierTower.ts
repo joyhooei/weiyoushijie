@@ -16,23 +16,23 @@ class SoldierTower extends Tower implements SoldierCreator {
     }
     
     public createSoldier(soldier: Soldier): Soldier {
-        let s = soldier.relive(10 * application.frameRate);
-        s.x = this.getCenterX();
-        s.y = this.getBottomY();
-        application.battle.addSoldier(s);
-
-        return s;
+        return this._addSoldier(soldier.relive(10 * application.frameRate));
     }
     
     public guard() {
-        for(let i = 0; i < 3; i++) {
-            let soldier = <Soldier>application.pool.get(this._soldierClaz, {"guardX": this._guardX, "guardY": this._guardY});
-            soldier.setCreator(this);
-            soldier.x = this.getCenterX();
-            soldier.y = this.getBottomY();            
-            application.battle.addSoldier(soldier);
+        for(let i = 0; i <= 2; i++) {
+            this._addSoldier(<Soldier>application.pool.get(this._soldierClaz, {guardX: this._guardX, guardY: this._guardY, idleTicks: i * application.frameRate}));
         }
         
         super.guard();
+    }
+    
+    private _addSoldier(s:Soldier): Soldier {
+        s.setCreator(this);
+        s.setCenterX(this.getCenterX());
+        s.setBottomY(this.getBottomY());
+        application.battle.addSoldier(s);
+        
+        return s;
     }
 }
