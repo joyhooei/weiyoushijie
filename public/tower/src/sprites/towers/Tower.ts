@@ -1,4 +1,4 @@
-class Tower extends Entity implements SoldierCreator {
+class Tower extends Entity {
     protected _hitSpeed: number;
     
     protected _buildTicks: number;
@@ -45,9 +45,5 @@ class Tower extends Entity implements SoldierCreator {
         if (this._ticks > this._buildTicks) {
             this.guard();
         }
-    }
-
-    public createSoldier(soldier: Soldier): Soldier {
-        return null;
     }
 }
