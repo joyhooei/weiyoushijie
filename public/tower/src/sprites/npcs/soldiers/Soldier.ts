@@ -178,7 +178,13 @@ class Soldier extends NPC implements SelectableEntity {
     }
     
     protected _moveToEnemy(enemy:Enemy) {
-        this.moveTo(enemy.x + enemy.width + 5, enemy.y);
+        if (enemy.totalSoldiers() == 0) {
+            this.moveTo(enemy.x + enemy.width + 5, enemy.y);
+        } else if (enemy.totalSoldiers() == 1) {
+            this.moveTo(enemy.x + enemy.width + 5, enemy.y - enemy.height);
+        } else {
+            this.moveTo(enemy.x + enemy.width + 5, enemy.y + enemy.height);
+        }
     }
 
     protected _hitOpponents() {
