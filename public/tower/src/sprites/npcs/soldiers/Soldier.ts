@@ -171,18 +171,14 @@ class Soldier extends NPC implements SelectableEntity {
             this._enemy.rmvSoldier(this);
         }
         
+        this._moveToEnemy(enemy);
+        
         this._enemy = enemy;
-        
-        let h = this._enemy.height;
-        let w = this._enemy.width;
-        
-        let xDeltas:number[] = [-w, -w, -w, -w, -w, -w, -w, -w];
-        let yDeltas:number[] = [-h, -h,  0,  h,  h,  h,  0, -h];
-        
-        let direction = this._direction8(this._enemy.x, this._enemy.y);
-
-        this.moveTo(this._enemy.x - xDeltas[direction], this._enemy.y - xDeltas[direction]);
         this._enemy.addSoldier(this);
+    }
+    
+    protected _moveToEnemy(enemy:Enemy) {
+        this.moveTo(enemy.x + enemy.width + 5, enemy.y);
     }
 
     protected _hitOpponents() {
