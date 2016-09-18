@@ -86,6 +86,7 @@ class Enemy extends NPC {
     }
 
     protected _moving() {
+    	this._ticks ++;
         if (this._moveOneStep() && !this._nextPath()) {
             application.battle.incLives(-1);
 
