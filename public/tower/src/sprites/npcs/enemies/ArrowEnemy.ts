@@ -32,5 +32,7 @@ class ArrowEnemy extends Enemy {
                 this.rmvSoldier(this._soldiers[0]);
             }
         }
+        
+        this._ticks++;
     }    
 }
