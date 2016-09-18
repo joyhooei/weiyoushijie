@@ -206,6 +206,11 @@ class Soldier extends NPC implements SelectableEntity {
     }
 
     private _findEnemy(): Enemy {
-        return application.battle.findSuitableEnemy(this.x, this.y, this._guardRadius, this._guardAltitudes);
+        let enemy = application.battle.findSuitableEnemy(this.x, this.y, this._guardRadius, this._guardAltitudes);
+        if (enemy.totalSoldiers() >= 3) {
+            return null;
+        } else {
+            return enemy;
+        }
     }
 }
