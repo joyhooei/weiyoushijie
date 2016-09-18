@@ -1,4 +1,4 @@
-class SoldierTower extends Tower {
+class SoldierTower extends Tower implements SoldierCreator {
     protected _guardX: number;
     protected _guardY: number;
     
@@ -16,9 +16,9 @@ class SoldierTower extends Tower {
     }
     
     public createSoldier(soldier: Soldier): Soldier {
-        let s = soldier.relive(10000);
+        let s = soldier.relive(10 * application.frameRate);
         s.x = this.getCenterX();
-        s.y = this.getCenterY();
+        s.y = this.getBottomY();
         application.battle.addSoldier(s);
 
         return s;
@@ -29,7 +29,7 @@ class SoldierTower extends Tower {
             let soldier = <Soldier>application.pool.get(this._soldierClaz, {"guardX": this._guardX, "guardY": this._guardY});
             soldier.setCreator(this);
             soldier.x = this.getCenterX();
-            soldier.y = this.getCenterY();            
+            soldier.y = this.getBottomY();            
             application.battle.addSoldier(soldier);
         }
         
