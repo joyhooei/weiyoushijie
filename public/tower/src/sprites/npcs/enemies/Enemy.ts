@@ -64,7 +64,6 @@ class Enemy extends NPC {
             let p1 = this._paths[this._path];
 
 	        this._computeSteps(p0[0], p0[1], p1[0], p1[1]);
-
             this._turn(this._direction8(p1[0], p1[1]));
 	        
 	        return true;
@@ -87,18 +86,13 @@ class Enemy extends NPC {
     }
 
     protected _moving() {
-        if (this._moveOneStep()) {
+        if (this._moveOneStep() && !this._nextPath()) {
             application.battle.incLives(-1);
 
             this.erase();
         }
     }
     
-    //走一步，true表示已经到了终点
-    protected _moveOneStep(): boolean {
-        return super._moveOneStep() && !this._nextPath();
-    }
-
     protected _hitOpponents() {
     	if (this._soldiers.length > 0) {
 	        if (this._soldiers[0].hitBy(this)) {
