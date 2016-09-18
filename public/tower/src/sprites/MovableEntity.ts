@@ -24,7 +24,7 @@ class MovableEntity extends Entity {
         
         this._step       = this._get(properties, "step", 1);
         this._idleTicks  = this._get(properties, "idleTicks", 0);
-        this._dyingTicks = this._get(properties, "idleTicks", 5);
+        this._dyingTicks = this._get(properties, "dyingTicks", 5);
 
         this._stepX = 0;
         this._stepY = 0;
