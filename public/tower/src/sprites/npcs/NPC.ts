@@ -13,6 +13,8 @@ class NPC extends MovableEntity {
     
     //海拔高度，地表：0，地下：-1，空中：1
     protected _altitude: number;
+    
+    protected _fightClip: egret.MovieClip;
 
     public constructor() {
         super();
@@ -114,7 +116,7 @@ class NPC extends MovableEntity {
     }
     
     protected _readyFight() {
-    	return this._state == EntityState.fighting && this._ticks % this._hitSpeed == 0;
+    	return this._ticks % this._hitSpeed == 0;
     }
 
     protected _fighting() {
@@ -124,12 +126,12 @@ class NPC extends MovableEntity {
     }
     
     protected _playFightMovieClip() {
-        let clip:egret.MovieClip = this._play(this._displaySprite.getChildAt(0), 1);
-        if (clip) {
-        	clip.once(egret.Event.COMPLETE, function(){
-        		this._hitOpponents();
-        	}, this);
-        }
+    	if (this._fightClip) {
+	    	this._fightClip.play(0, 1);
+	    	this._fightClip.once(egret.Event.COMPLETE, function(){
+	    		this._hitOpponents();
+	    	}, this);
+	    }
     }
     
     protected _hitOpponents() {
@@ -139,7 +141,9 @@ class NPC extends MovableEntity {
     	let display = this._render(0, 5, this._skill);
     	
     	if (this._state != EntityState.fighting) {
-    		this._play(display, -1);	
+    		this._play(display, -1);
+    	} else {
+    		this._fightClip = <egret.MovieClip>display;
     	}
     	
         this._centerHp();
