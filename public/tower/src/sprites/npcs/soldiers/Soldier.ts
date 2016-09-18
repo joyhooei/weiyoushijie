@@ -55,7 +55,7 @@ class Soldier extends NPC implements SelectableEntity {
         this._guardRadius   = this._get(properties, 'guardRadius', 20);
         this._guardAltitudes = this._get(properties, 'guardAltitude', [-1, 0]);
 
-        this._liveTicks = this._get(properties, 'liveTicks', -1);
+        this._liveTicks = this._get(properties, 'liveTicks', 3600 * application.frameRate);
 
         this._idleTicks = 1;
         
@@ -65,15 +65,9 @@ class Soldier extends NPC implements SelectableEntity {
     }
     
     public update():boolean {
-        if (this._liveTicks > 0) {
-            this._liveTicks --;
-            if (this._liveTicks == 0) {
-                if (this._enemy) {
-                    this._enemy.rmvSoldier(this);
-                }
-                
-                this.erase();
-            }
+        this._liveTicks --;
+        if (this._liveTicks <= 0) {
+            this.erase();
         }
         
         return super.update();
@@ -97,6 +91,11 @@ class Soldier extends NPC implements SelectableEntity {
     public erase() {
         super.erase();
         
+        if (this._enemy) {
+            this._enemy.rmvSoldier(this);
+            this._enemy = null;
+        }
+
         if (this._range) {
             this._range.erase();
             this._range = null;
