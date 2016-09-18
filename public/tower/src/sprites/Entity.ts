@@ -254,27 +254,21 @@ class Entity extends egret.Sprite {
     }
 
     protected _idle() {
-    	this._ticks ++;
     }
     
     protected _building() {
-    	this._ticks ++;
     }
 
     protected _moving() {
-    	this._ticks ++;
     }
 
     protected _guarding() {
-    	this._ticks ++;
     }
     
     protected _fighting() {
-    	this._ticks ++;
     }
     
     protected _dying() {
-    	this._ticks ++;
     }
 	
 	public within(x: number, y: number, radius: number):boolean {
