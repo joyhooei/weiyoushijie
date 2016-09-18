@@ -151,8 +151,6 @@ class Entity extends egret.Sprite {
     }
     
     public update():boolean {
-    	this._ticks++;
-    	
     	switch(this._state) {
 		    case EntityState.idle:
 		    	this._idle();
@@ -179,6 +177,8 @@ class Entity extends egret.Sprite {
 		    	break;
     	}
 
+    	this._ticks++;
+    	
     	return this.dead();
     }
 
