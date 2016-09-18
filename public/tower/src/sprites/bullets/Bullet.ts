@@ -70,6 +70,7 @@ class Bullet extends MovableEntity {
     }
     
     protected _moving() {
+        this._ticks ++;
         if (this._moveOneStep()) {
             this._hitTarget();
             
