@@ -52,45 +52,41 @@ class Enemy extends NPC {
         }
     }
     
-    private _nextPath(): boolean {
-    	if (this._path < this._paths.length - 1) {
-	    	let p0 = this._paths[this._path];
-	    	
-	   		this.setCenterX(p0[0]);
-	   		this.setBottomY(p0[1]);
-
-	        this._path ++;
-	        
-            let p1 = this._paths[this._path];
-
-	        this._computeSteps(p0[0], p0[1], p1[0], p1[1]);
-            this._turn(this._direction8(p1[0], p1[1]));
-	        
-	        return true;
-    	} else {
-    		return false;
-    	}
-    }
-    
-    public move() {
-    	super.move();
+    private _nextPath() {
+    	let p0 = this._paths[this._path];
     	
-        let path = this._paths[this._path];
-        this._turn(this._direction8(path[0], path[1]));
+   		this.setCenterX(p0[0]);
+   		this.setBottomY(p0[1]);
+
+        this._path ++;
+        
+        let p1 = this._paths[this._path];
+
+        this._computeSteps(p0[0], p0[1], p1[0], p1[1]);
+        this._turn(this._direction8(p1[0], p1[1]));
     }
-    
+
     public kill() {
     	super.kill();
     	
     	application.battle.incGolds(this._bonus);
     }
+    
+    public move() {
+    	super.move();
+    	
+    	//格斗结束后，继续行走需要转向
+    	this._turn(this._direction8(this._paths[this._path][0], this._paths[this._path][1]));
+    }
 
     protected _moving() {
-    	this._ticks ++;
-        if (this._moveOneStep() && !this._nextPath()) {
-            application.battle.incLives(-1);
-
-            this.erase();
+        if (this._moveOneStep()) {
+        	if (this._path < this._paths.length - 1) {
+        		this._nextPath();
+        	} else {
+            	application.battle.incLives(-1);
+            	this.erase();
+        	}
         }
     }
     
@@ -102,5 +98,5 @@ class Enemy extends NPC {
     	} else {
     		this.move();
     	}
-    }    
+    }
 }
