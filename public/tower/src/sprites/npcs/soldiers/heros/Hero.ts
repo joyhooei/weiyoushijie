@@ -1,4 +1,4 @@
-class Hero extends Soldier implements SoldierCreator {
+class Hero extends Soldier {
     protected _forceHigh: number;
     
     protected _forceLow: number;
@@ -21,10 +21,6 @@ class Hero extends Soldier implements SoldierCreator {
         this._legend = legend;
     }
 
-    public createSoldier(soldier: Soldier): Soldier {
-        return null;        
-    }
-    
     public getForce(): number {
         return this._forceLow + Math.round(Math.random() * (this._forceHigh - this._forceLow)) + this._force;
     }
