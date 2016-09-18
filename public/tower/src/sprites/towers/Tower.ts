@@ -35,8 +35,6 @@ class Tower extends Entity implements SoldierCreator {
     }
 
     protected _idle() {
-        this._ticks ++;
-        
         this.build();
         
         application.battle.incGolds(-this._buyPrice);
