@@ -110,8 +110,7 @@ class NPC extends MovableEntity {
     }
     
 	protected _idle() {
-		super._idle();
-		
+		this._ticks ++;
     	if (this._ticks >= this._idleTicks) {
         	this.move();
         	
@@ -127,7 +126,7 @@ class NPC extends MovableEntity {
 	        	this._playFightMovieClip();
 	        }
 	        
-	        super._fighting();
+	        this._ticks ++;
 	    }
     }
     
