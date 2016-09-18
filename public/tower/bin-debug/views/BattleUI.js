@@ -19,10 +19,14 @@ var BattleUI = (function (_super) {
         self.imgBack.addEventListener(egret.TouchEvent.TOUCH_TAP, function () {
             self._quitBattle();
         }, self);
+        self.imgStart.addEventListener(egret.TouchEvent.TOUCH_TAP, function () {
+            self._startBattle();
+            self.imgStart.visible = false;
+        }, self);
     }
     var d = __define,c=BattleUI,p=c.prototype;
     p.onRefresh = function () {
-        this._startBattle();
+        this.grpBattle.addChild(application.battle);
     };
     p._quitBattle = function () {
         this.removeEventListener(egret.Event.ENTER_FRAME, this._onEnterFrame, this);
@@ -33,7 +37,6 @@ var BattleUI = (function (_super) {
     p._startBattle = function () {
         //this._channel = this._music.play(0, 0);
         application.battle.start();
-        this.grpBattle.addChild(application.battle);
         this.stage.frameRate = application.frameRate;
         this.addEventListener(egret.Event.ENTER_FRAME, this._onEnterFrame, this);
     };

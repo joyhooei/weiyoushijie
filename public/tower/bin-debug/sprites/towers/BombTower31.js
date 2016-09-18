@@ -2,7 +2,7 @@ var BombTower31 = (function (_super) {
     __extends(BombTower31, _super);
     function BombTower31() {
         _super.call(this);
-        this._displays.addBitmap("bombtower31");
+        this.addBitmap("bombtower31");
     }
     var d = __define,c=BombTower31,p=c.prototype;
     return BombTower31;

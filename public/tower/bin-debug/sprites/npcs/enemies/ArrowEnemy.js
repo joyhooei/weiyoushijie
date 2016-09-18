@@ -27,6 +27,7 @@ var ArrowEnemy = (function (_super) {
                 this.rmvSoldier(this._soldiers[0]);
             }
         }
+        this._ticks++;
     };
     return ArrowEnemy;
 }(Enemy));

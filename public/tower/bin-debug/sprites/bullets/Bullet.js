@@ -50,8 +50,8 @@ var Bullet = (function (_super) {
     };
     p._moving = function () {
         if (this._moveOneStep()) {
-            this._hitTarget();
             this.kill();
+            this._hitTarget();
         }
         else {
             //如果目标移动，重新调整方向和路径

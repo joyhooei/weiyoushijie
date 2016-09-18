@@ -28,6 +28,7 @@ var ArrowSoldier = (function (_super) {
             }
             if (this._enemy) {
                 Bullet.shootByNPC(this, this._enemy, "Arrow");
+                this._ticks++;
             }
             else {
                 this.guard();

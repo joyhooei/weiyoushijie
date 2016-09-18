@@ -10,6 +10,7 @@ var Tip = (function (_super) {
         this.kill();
     };
     p._dying = function () {
+        this._ticks++;
         if (this._ticks > this._dyingTicks) {
             this.erase();
         }

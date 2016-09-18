@@ -1,10 +1,12 @@
 var Waves = (function () {
-    function Waves() {
+    function Waves(mapWidth, mapHeight) {
         this._enemies = [];
         this._currentWave = 0;
         this._timeBetweenWaves = 10 * application.frameRate;
         this._timeToNextWave = this._timeBetweenWaves;
         this._rounds = 0;
+        this._mapWidth = mapWidth;
+        this._mapHeight = mapHeight;
     }
     var d = __define,c=Waves,p=c.prototype;
     p.add = function (wave, claz, count, paths) {
@@ -14,24 +16,43 @@ var Waves = (function () {
     p._randomPaths = function (paths) {
         var pathWidth = 30;
         var enemyInterval = 20;
+        var entityWidth = 50;
         var deltaY = Math.random() * pathWidth - pathWidth / 2;
         var deltaX = Math.random() * pathWidth - pathWidth / 2;
         var newPaths = [];
-        for (var j = 0; j < paths.length - 1; j++) {
-            newPaths.push([paths[j][0] + deltaX, paths[j][1] + deltaY]);
-        }
-        var direction = Entity.direction4(paths[paths.length - 2][0], paths[paths.length - 2][1], paths[paths.length - 1][0], paths[paths.length - 1][1]);
+        var direction = Entity.direction4(paths[0][0], paths[0][1], paths[1][0], paths[1][1]);
         switch (direction) {
             case EntityDirection.east:
+                newPaths.push([-entityWidth, paths[0][1] + deltaY]);
+                break;
             case EntityDirection.west:
-                deltaX = 0;
+                newPaths.push([this._mapWidth + entityWidth, paths[0][1] + deltaY]);
+                break;
+            case EntityDirection.south:
+                newPaths.push([paths[0][0] + deltaX, -entityWidth]);
                 break;
             case EntityDirection.north:
-            case EntityDirection.south:
-                deltaY = 0;
+                newPaths.push([paths[0][0] + deltaX, this._mapHeight + entityWidth]);
                 break;
         }
-        newPaths.push([paths[paths.length - 1][0] + deltaX, paths[paths.length - 1][1] + deltaY]);
+        for (var j = 1; j < paths.length - 1; j++) {
+            newPaths.push([paths[j][0] + deltaX, paths[j][1] + deltaY]);
+        }
+        direction = Entity.direction4(paths[paths.length - 2][0], paths[paths.length - 2][1], paths[paths.length - 1][0], paths[paths.length - 1][1]);
+        switch (direction) {
+            case EntityDirection.east:
+                newPaths.push([this._mapWidth + entityWidth, paths[paths.length - 1][1] + deltaY]);
+                break;
+            case EntityDirection.west:
+                newPaths.push([-entityWidth, paths[paths.length - 1][1] + deltaY]);
+                break;
+            case EntityDirection.north:
+                newPaths.push([paths[paths.length - 1][0] + deltaX, -entityWidth]);
+                break;
+            case EntityDirection.south:
+                newPaths.push([paths[paths.length - 1][0] + deltaX, this._mapHeight + entityWidth]);
+                break;
+        }
         return newPaths;
     };
     p.launchNow = function (cycle) {

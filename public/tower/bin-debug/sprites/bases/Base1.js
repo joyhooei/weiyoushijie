@@ -2,9 +2,7 @@ var Base1 = (function (_super) {
     __extends(Base1, _super);
     function Base1() {
         _super.call(this);
-        this._displays.addBitmap("base1");
-        this.width = 80;
-        this.height = 42;
+        this.addBitmap("base1");
     }
     var d = __define,c=Base1,p=c.prototype;
     return Base1;

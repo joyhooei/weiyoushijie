@@ -8,27 +8,27 @@ var MovableEntity = (function (_super) {
         _super.prototype.initialize.call(this, properties);
         this._step = this._get(properties, "step", 1);
         this._idleTicks = this._get(properties, "idleTicks", 0);
-        this._dyingTicks = this._get(properties, "idleTicks", 5);
-        this._delta = [];
+        this._dyingTicks = this._get(properties, "dyingTicks", 5);
+        this._stepX = 0;
+        this._stepY = 0;
         this._totalSteps = 0;
         this._steps = 0;
     };
     //走一步，true表示已经到了终点
     p._moveOneStep = function () {
         this._steps++;
-        if (this._steps >= this._totalSteps) {
+        if (this._steps > this._totalSteps) {
             return true;
         }
         else {
-            this.x += this._delta[0];
-            this.y += this._delta[1];
+            this.x += this._stepX;
+            this.y += this._stepY;
             return false;
         }
     };
     //计一步走的距离
     p._computeSteps = function (x1, y1, x2, y2) {
-        var stepX = 0;
-        var stepY = 0;
+        this._steps = 0;
         var dx = Math.abs(x1 - x2);
         var dy = Math.abs(y1 - y2);
         if (dx >= dy) {
@@ -38,16 +38,14 @@ var MovableEntity = (function (_super) {
             this._totalSteps = Math.floor(dy / this._step);
         }
         if (this._totalSteps > 0) {
-            stepX = dx / this._totalSteps;
+            this._stepX = dx / this._totalSteps;
             if (x2 < x1) {
-                stepX = 0 - stepX;
+                this._stepX = 0 - this._stepX;
             }
-            stepY = dy / this._totalSteps;
+            this._stepY = dy / this._totalSteps;
             if (y2 < y1) {
-                stepY = 0 - stepY;
+                this._stepY = 0 - this._stepY;
             }
-            this._delta = [stepX, stepY];
-            this._steps = 0;
             return true;
         }
         else {
@@ -55,11 +53,13 @@ var MovableEntity = (function (_super) {
         }
     };
     p._idle = function () {
+        this._ticks++;
         if (this._ticks >= this._idleTicks) {
             this.move();
         }
     };
     p._dying = function () {
+        this._ticks++;
         if (this._ticks >= this._dyingTicks) {
             this.erase();
         }

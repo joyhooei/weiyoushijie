@@ -20,7 +20,7 @@ var Battle1 = (function (_super) {
     p._addStandbys = function () {
         var paths = this._map.getPaths();
         var waves = [
-            [0, "Wolf", 10, 0],
+            [0, "Wolf", 1, 0],
             [1, "Wolf", 10, 1],
             [2, "Hogs", 10, 0],
             [3, "Rhino", 10, 1],

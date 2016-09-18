@@ -44,7 +44,7 @@ var Base = (function (_super) {
     };
     p.select = function (again) {
         if (!again) {
-            application.battle.showTool(new TowerMenuUI(this), this.x, this.y);
+            application.battle.showTool(new TowerMenuUI(this), this.getCenterX(), this.getCenterY());
         }
         return true;
     };

@@ -2,7 +2,7 @@ var Soldier32 = (function (_super) {
     __extends(Soldier32, _super);
     function Soldier32() {
         _super.call(this);
-        this._displays.addClip("soldier32_east_fighting", "east-fighting")
+        this.addClip("soldier32_east_fighting", "east-fighting")
             .addClip("soldier32_east_moving", "east-moving")
             .addClip("soldier32_east_moving", "east-guarding")
             .addClip("soldier32_dying", "dying");

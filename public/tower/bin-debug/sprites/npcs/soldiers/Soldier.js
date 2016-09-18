@@ -32,21 +32,16 @@ var Soldier = (function (_super) {
         this._guardY = this._get(properties, 'guardY', 0);
         this._guardRadius = this._get(properties, 'guardRadius', 20);
         this._guardAltitudes = this._get(properties, 'guardAltitude', [-1, 0]);
-        this._liveTicks = this._get(properties, 'liveTicks', -1);
+        this._liveTicks = this._get(properties, 'liveTicks', 3600 * application.frameRate);
         this._idleTicks = 1;
         this._enemy = null;
         this._range = null;
         this._creator = null;
     };
     p.update = function () {
-        if (this._liveTicks > 0) {
-            this._liveTicks--;
-            if (this._liveTicks == 0) {
-                if (this._enemy) {
-                    this._enemy.rmvSoldier(this);
-                }
-                this.erase();
-            }
+        this._liveTicks--;
+        if (this._liveTicks <= 0) {
+            this.erase();
         }
         return _super.prototype.update.call(this);
     };
@@ -54,7 +49,8 @@ var Soldier = (function (_super) {
         this._creator = creator;
     };
     p._idle = function () {
-        if ((this._creator == null || this._creator.active()) && this._ticks >= this._idleTicks) {
+        this._ticks++;
+        if (this._ticks >= this._idleTicks) {
             this.moveTo(this._guardX, this._guardY);
             if (this._hp) {
                 this._hp.move();
@@ -63,6 +59,10 @@ var Soldier = (function (_super) {
     };
     p.erase = function () {
         _super.prototype.erase.call(this);
+        if (this._enemy) {
+            this._enemy.rmvSoldier(this);
+            this._enemy = null;
+        }
         if (this._range) {
             this._range.erase();
             this._range = null;
@@ -87,7 +87,7 @@ var Soldier = (function (_super) {
     p.moveTo = function (x, y) {
         var x1 = x - (this.width >> 1);
         var y1 = y - this.height;
-        this._turn(this._direction8(x1, y1));
+        this._turn(this._direction8(x, y));
         if (this._computeSteps(this.x, this.y, x1, y1)) {
             this.move();
         }
@@ -129,14 +129,20 @@ var Soldier = (function (_super) {
         if (this._enemy) {
             this._enemy.rmvSoldier(this);
         }
+        this._moveToEnemy(enemy);
         this._enemy = enemy;
-        var h = this._enemy.height;
-        var w = this._enemy.width;
-        var xDeltas = [-w, -w, -w, -w, -w, -w, -w, -w];
-        var yDeltas = [-h, -h, 0, h, h, h, 0, -h];
-        var direction = this._direction8(this._enemy.x, this._enemy.y);
-        this.moveTo(this._enemy.x - xDeltas[direction], this._enemy.y - xDeltas[direction]);
         this._enemy.addSoldier(this);
+    };
+    p._moveToEnemy = function (enemy) {
+        var x = enemy.getCenterX() + enemy.width + 5;
+        var y = enemy.getBottomY();
+        if (enemy.totalSoldiers() == 1) {
+            y -= enemy.height;
+        }
+        else if (enemy.totalSoldiers() == 2) {
+            y += enemy.height;
+        }
+        this.moveTo(x, y);
     };
     p._hitOpponents = function () {
         if (!this._enemy || this._enemy.hitBy(this)) {
@@ -158,7 +164,13 @@ var Soldier = (function (_super) {
         }
     };
     p._findEnemy = function () {
-        return application.battle.findSuitableEnemy(this.x, this.y, this._guardRadius, this._guardAltitudes);
+        var enemy = application.battle.findSuitableEnemy(this.x, this.y, this._guardRadius, this._guardAltitudes);
+        if (!enemy || enemy.totalSoldiers() >= 3) {
+            return null;
+        }
+        else {
+            return enemy;
+        }
     };
     return Soldier;
 }(NPC));

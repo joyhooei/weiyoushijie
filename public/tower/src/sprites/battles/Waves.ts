@@ -44,7 +44,7 @@ class Waves {
         
         let newPaths = [];
         
-        direction = Entity.direction4(paths[0][0], paths[0][1], paths[1][0], paths[1][1]);
+        let direction = Entity.direction4(paths[0][0], paths[0][1], paths[1][0], paths[1][1]);
         switch(direction) {
             case EntityDirection.east:
                 newPaths.push([-entityWidth, paths[0][1] + deltaY]);
@@ -55,11 +55,11 @@ class Waves {
                 break;
                 
             case EntityDirection.south:
-                newPaths.push(paths[0][0] + deltaX, -entityWidth]);
+                newPaths.push([paths[0][0] + deltaX, -entityWidth]);
                 break;
                 
             case EntityDirection.north:
-                newPaths.push(paths[0][0] + deltaX, this._mapHeight + entityWidth]);
+                newPaths.push([paths[0][0] + deltaX, this._mapHeight + entityWidth]);
                 break;
         }
         
@@ -78,11 +78,11 @@ class Waves {
                 break;
                 
             case EntityDirection.north:
-                 newPaths.push(paths[paths.length - 1][0] + deltaX, -entityWidth]);
+                 newPaths.push([paths[paths.length - 1][0] + deltaX, -entityWidth]);
                  break;
                  
             case EntityDirection.south:
-                newPaths.push(paths[paths.length - 1][0] + deltaX, this._mapHeight + entityWidth]);
+                newPaths.push([paths[paths.length - 1][0] + deltaX, this._mapHeight + entityWidth]);
                 break;
         }
         

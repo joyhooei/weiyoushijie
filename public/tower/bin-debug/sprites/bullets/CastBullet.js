@@ -16,18 +16,17 @@ var CastBullet = (function (_super) {
         _super.prototype._idle.call(this);
     };
     p._computeSteps = function (x, y) {
-        var stepX = (x - this._initX) / this._flyHeight;
-        var stepY = ((y - this._initY) - (this._gravity * this._flyHeight * this._flyHeight / 2)) / this._flyHeight;
-        this._delta = [stepX, stepY];
-        return stepX != 0 && stepY != 0;
+        this._stepX = (x - this._initX) / this._flyHeight;
+        this._stepY = ((y - this._initY) - (this._gravity * this._flyHeight * this._flyHeight / 2)) / this._flyHeight;
+        return this._stepX != 0 && this._stepY != 0;
     };
     p._moveOneStep = function () {
         this._flyTicks += 0.5;
-        this.x = this._initX + this._flyTicks * this._delta[0];
-        this.y = this._initY + this._flyTicks * this._delta[1] + this._gravity * this._flyTicks * this._flyTicks / 2;
+        this.x = this._initX + this._flyTicks * this._stepX;
+        this.y = this._initY + this._flyTicks * this._stepY + this._gravity * this._flyTicks * this._flyTicks / 2;
         this._flyTicks += 0.5;
-        var sx = this._initX + this._flyTicks * this._delta[0];
-        var sy = this._initY + this._flyTicks * this._delta[1] + this._gravity * this._flyTicks * this._flyTicks / 2;
+        var sx = this._initX + this._flyTicks * this._stepX;
+        var sy = this._initY + this._flyTicks * this._stepY + this._gravity * this._flyTicks * this._flyTicks / 2;
         var dx = sx - this.x;
         var dy = sy - this.y;
         this._flyTicks -= 0.5;
@@ -35,7 +34,7 @@ var CastBullet = (function (_super) {
         if (angle > 180 && angle < 360) {
             var disx = this.x - this._target.x < 0 ? this._target.x - this.x : this.x - this._target.x;
             var disy = this.y - this._target.y < 0 ? this._target.y - this.y : this.y - this._target.y;
-            if (disx <= this._delta[0] && disy < this._delta[1]) {
+            if (disx <= this._stepX && disy < this._stepY) {
                 return true;
             }
         }

@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <map version="1.0" orientation="orthogonal" renderorder="right-down" width="25" height="15" tilewidth="32" tileheight="32" nextobjectid="53">
  <tileset firstgid="1" name="Scenebg001" tilewidth="32" tileheight="32" tilecount="375" columns="25">
-  <image source="map2.png" trans="ff00ff" width="800" height="480"/>
+  <image source="map2.jpg" trans="ff00ff" width="800" height="480"/>
   <tile id="304" probability="0.5"/>
  </tileset>
  <layer name="background" width="25" height="15">

@@ -122,7 +122,7 @@ class Soldier extends NPC implements SelectableEntity {
     public moveTo(x:number, y:number) {
         let x1 = x - (this.width >> 1);
         let y1 = y - this.height;
-        this._turn(this._direction8(x1, y1));
+        this._turn(this._direction8(x, y));
         if (this._computeSteps(this.x, this.y, x1, y1)) {
             this.move();
         } else {
@@ -177,13 +177,15 @@ class Soldier extends NPC implements SelectableEntity {
     }
     
     protected _moveToEnemy(enemy:Enemy) {
-        if (enemy.totalSoldiers() == 0) {
-            this.moveTo(enemy.x + enemy.width + 5, enemy.y);
-        } else if (enemy.totalSoldiers() == 1) {
-            this.moveTo(enemy.x + enemy.width + 5, enemy.y - enemy.height);
-        } else {
-            this.moveTo(enemy.x + enemy.width + 5, enemy.y + enemy.height);
+        let x = enemy.getCenterX() + enemy.width + 5;
+        let y = enemy.getBottomY();
+        if (enemy.totalSoldiers() == 1) {
+            y -= enemy.height;
+        } else if (enemy.totalSoldiers() == 2) {
+            y += enemy.height;
         }
+
+        this.moveTo(x, y);
     }
 
     protected _hitOpponents() {
@@ -206,7 +208,7 @@ class Soldier extends NPC implements SelectableEntity {
 
     private _findEnemy(): Enemy {
         let enemy = application.battle.findSuitableEnemy(this.x, this.y, this._guardRadius, this._guardAltitudes);
-        if (enemy.totalSoldiers() >= 3) {
+        if (!enemy || enemy.totalSoldiers() >= 3) {
             return null;
         } else {
             return enemy;

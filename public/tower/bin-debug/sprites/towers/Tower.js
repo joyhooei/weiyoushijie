@@ -23,14 +23,12 @@ var Tower = (function (_super) {
         application.battle.incGolds(-this._buyPrice);
     };
     p._building = function () {
+        this._ticks++;
         if (this._ticks > this._buildTicks) {
             this.guard();
         }
     };
-    p.createSoldier = function (soldier) {
-        return null;
-    };
     return Tower;
 }(Entity));
-egret.registerClass(Tower,'Tower',["SoldierCreator"]);
+egret.registerClass(Tower,'Tower');
 //# sourceMappingURL=Tower.js.map

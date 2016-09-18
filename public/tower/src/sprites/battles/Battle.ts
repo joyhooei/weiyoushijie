@@ -77,8 +77,6 @@ class Battle extends Entity implements SoldierCreator {
     public start() {
         this._lives = this._maxLives;
         this._golds = this._maxGolds;
-
-        this._waves = new Waves();
          
         this._baseLayer.removeChildren();
         this._objLayer.removeChildren();
@@ -254,8 +252,8 @@ class Battle extends Entity implements SoldierCreator {
     public showTool(ui:egret.DisplayObject, x:number, y:number) {
         this.hideAllTools();
         
-        ui.x = x;
-        ui.y = y;
+        ui.x = x - ui.width / 2;
+        ui.y = y - ui.height / 2;
         this._toolLayer.addChild(ui);
     }
     

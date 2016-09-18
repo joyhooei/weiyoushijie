@@ -4,7 +4,7 @@ class Fireball extends Bullet {
     public constructor() {
         super();
         
-        this._displays.addClip("fireball_moving", "south-moving").addClip("fireball_dying", "south-dying");        
+        this.addClip("fireball_moving", "south-moving").addClip("fireball_dying", "south-dying");        
     }
     
     public initialize(properties:any) {

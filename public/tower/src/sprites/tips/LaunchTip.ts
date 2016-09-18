@@ -4,7 +4,7 @@ class LaunchTip extends Tip {
 
         this.touchEnabled = true;
         
-        this._displays.addBitmap("launch_png");
+        this.addBitmap("launch_png");
     }
 
     public select(again:boolean) {

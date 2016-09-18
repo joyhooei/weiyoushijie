@@ -7,14 +7,11 @@ class Sunwukong extends Hero {
     public constructor() {
         super();
         
-        this._displays.addClip("sunwukong_east_moving", "east-moving")
-                        .addClip("sunwukong_east_moving", "east-guarding")
+        this.addClip("sunwukong_east_moving", "east-moving")
+                        .addClip("sunwukong_east_moving", "guarding")
                         .addClip("sunwukong_east_fighting_1", "east-fighting")
                         .addClip("sunwukong_east_fighting_2", "east-fighting")
                         .addClip("sunwukong_east_fighting_3", "east-fighting");
-
-        this.height = 34;
-        this.width  = 24;
     }
     
     public setLegend(legend: Legend) {
@@ -26,6 +23,7 @@ class Sunwukong extends Hero {
         this._forceLow += level;
         
         this._force = 0;
+        this._skill = 0;
         this._resistance = 10;
         this._skill1 = 2;
         this._skill2 = 1;
@@ -74,7 +72,7 @@ class Sunwukong extends Hero {
             super._hitOpponents();
             
             this._skill1Times ++;
-            if (this._skill1Times < this._skill1) {
+            if (this._skill1Times < this._skill1 && this._enemy && this._enemy.active()) {
                 this._playFightMovieClip();
             } else {
                 this._nextSkill();

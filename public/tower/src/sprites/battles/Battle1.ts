@@ -24,7 +24,7 @@ class Battle1 extends Battle {
         let paths = this._map.getPaths();
         
         let waves = [
-            [0, "Wolf", 10, 0],
+            [0, "Wolf", 1, 0],
             
             [1, "Wolf", 10, 1],
             

@@ -7,9 +7,9 @@ var Battle = (function (_super) {
         this._bulletLayer = this._addLayer();
         this._rangeLayer = this._addLayer();
         this._toolLayer = this._addLayer();
-        this._waves = new Waves();
         this.touchEnabled = true;
         this.addEventListener(egret.TouchEvent.TOUCH_BEGIN, this._touch, this);
+        this._waves = new Waves(800, 480);
     }
     var d = __define,c=Battle,p=c.prototype;
     p.loadResource = function (options) {
@@ -165,7 +165,6 @@ var Battle = (function (_super) {
                 var soldier = application.pool.get(warriorName, options);
                 soldier.x = pos[i][0][0];
                 soldier.y = pos[i][0][1];
-                soldier.setCreator(hero);
                 this.addSoldier(soldier);
             }
         }
@@ -178,8 +177,8 @@ var Battle = (function (_super) {
     };
     p.showTool = function (ui, x, y) {
         this.hideAllTools();
-        ui.x = x;
-        ui.y = y;
+        ui.x = x - ui.width / 2;
+        ui.y = y - ui.height / 2;
         this._toolLayer.addChild(ui);
     };
     p.hideAllTools = function () {

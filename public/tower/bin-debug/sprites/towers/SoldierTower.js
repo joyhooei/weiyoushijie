@@ -10,23 +10,22 @@ var SoldierTower = (function (_super) {
         this._guardY = this._get(properties, "guardY", 10);
     };
     p.createSoldier = function (soldier) {
-        var s = soldier.relive(10000);
-        s.x = this.getCenterX();
-        s.y = this.getCenterY();
-        application.battle.addSoldier(s);
-        return s;
+        return this._addSoldier(soldier.relive(10 * application.frameRate));
     };
     p.guard = function () {
-        for (var i = 0; i < 3; i++) {
-            var soldier = application.pool.get(this._soldierClaz, { "guardX": this._guardX, "guardY": this._guardY });
-            soldier.setCreator(this);
-            soldier.x = this.getCenterX();
-            soldier.y = this.getCenterY();
-            application.battle.addSoldier(soldier);
+        for (var i = 0; i <= 2; i++) {
+            this._addSoldier(application.pool.get(this._soldierClaz, { guardX: this._guardX, guardY: this._guardY, idleTicks: i * application.frameRate }));
         }
         _super.prototype.guard.call(this);
     };
+    p._addSoldier = function (s) {
+        s.setCreator(this);
+        s.setCenterX(this.getCenterX());
+        s.setBottomY(this.getBottomY());
+        application.battle.addSoldier(s);
+        return s;
+    };
     return SoldierTower;
 }(Tower));
-egret.registerClass(SoldierTower,'SoldierTower');
+egret.registerClass(SoldierTower,'SoldierTower',["SoldierCreator"]);
 //# sourceMappingURL=SoldierTower.js.map

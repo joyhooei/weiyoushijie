@@ -81,6 +81,9 @@ var Entity = (function (_super) {
     p.setBottomY = function (y) {
         this.y = y - this.height;
     };
+    p.getBottomY = function () {
+        return this.y + this.height;
+    };
     p.stain = function () {
         application.battle.addDirt(this);
     };
@@ -117,7 +120,6 @@ var Entity = (function (_super) {
     p.deselect = function () {
     };
     p.update = function () {
-        this._ticks++;
         switch (this._state) {
             case EntityState.idle:
                 this._idle();
@@ -144,11 +146,23 @@ var Entity = (function (_super) {
     p.paint = function () {
         this._play(this._render(), -1);
     };
+    p.addBitmap = function (name, action) {
+        var bm = this._displays.addBitmap(name, action);
+        this.width = bm.width;
+        this.height = bm.height;
+        return this;
+    };
+    p.addClip = function (name, action) {
+        var clip = this._displays.addClip(name, action);
+        this.width = clip.width;
+        this.height = clip.height;
+        return this;
+    };
     p._play = function (display, times) {
         if (times === void 0) { times = -1; }
         if (egret.getQualifiedClassName(display) == "egret.MovieClip") {
             var clip = display;
-            clip.frameRate = 8;
+            clip.frameRate = 16;
             clip.gotoAndPlay(0, times);
             return clip;
         }
@@ -239,7 +253,7 @@ var Entity = (function (_super) {
         return Entity.direction4(this.x, this.y, x, y);
     };
     Entity.direction4 = function (x1, y1, x2, y2) {
-        var angels = [60, 120, 240, 300, 360];
+        var angels = [45, 135, 225, 315, 360];
         var directions = [EntityDirection.east, EntityDirection.north, EntityDirection.west, EntityDirection.south, EntityDirection.east];
         return Entity.direction(x1, y1, x2, y2, angels, directions);
     };

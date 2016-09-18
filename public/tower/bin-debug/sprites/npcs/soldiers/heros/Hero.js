@@ -13,13 +13,10 @@ var Hero = (function (_super) {
     p.setLegend = function (legend) {
         this._legend = legend;
     };
-    p.createSoldier = function (soldier) {
-        return null;
-    };
     p.getForce = function () {
         return this._forceLow + Math.round(Math.random() * (this._forceHigh - this._forceLow)) + this._force;
     };
     return Hero;
 }(Soldier));
-egret.registerClass(Hero,'Hero',["SoldierCreator"]);
+egret.registerClass(Hero,'Hero');
 //# sourceMappingURL=Hero.js.map

@@ -188,11 +188,29 @@ class Entity extends egret.Sprite {
     public paint() {
     	this._play(this._render(), -1);
     }
+
+	public addBitmap(name:string, action?:string): Entity {
+		let bm = this._displays.addBitmap(name, action);
+
+		this.width  = bm.width;
+		this.height = bm.height;
+
+		return this;
+	}
+
+	public addClip(name:string, action?:string): Entity {
+		let clip = this._displays.addClip(name, action);
+
+		this.width  = clip.width;
+		this.height = clip.height;
+
+		return this;
+	}
     
     protected _play(display: egret.DisplayObject, times = -1): egret.MovieClip {
         if (egret.getQualifiedClassName(display) == "egret.MovieClip") {
             let clip:egret.MovieClip = <egret.MovieClip>display;
-            clip.frameRate = 8;
+            clip.frameRate = 16;
             clip.gotoAndPlay(0, times);
             
             return clip;
@@ -305,8 +323,8 @@ class Entity extends egret.Sprite {
     }
     
     public static direction4(x1:number, y1:number, x2:number, y2:number):EntityDirection {
-        let angels = [60, 120, 240, 300, 360];
-        let directions = [EntityDirection.east, EntityDirection.north, EntityDirection.west, EntityDirection.south, EntityDirection.east ];
+        let angels = [45, 135, 225, 315, 360];
+        let directions = [EntityDirection.east, EntityDirection.north, EntityDirection.west, EntityDirection.south, EntityDirection.east];
         
         return Entity.direction(x1, y1, x2, y2, angels, directions);
     }

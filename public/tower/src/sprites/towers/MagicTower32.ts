@@ -2,6 +2,6 @@ class MagicTower32 extends MagicTower {
     public constructor() {
         super();
         
-        this._displays.addBitmap("magictower32");
+        this.addBitmap("magictower32");
     }
 }

@@ -2,7 +2,7 @@ var Bomb31 = (function (_super) {
     __extends(Bomb31, _super);
     function Bomb31() {
         _super.call(this);
-        this._displays.addClip("bomb31");
+        this.addClip("bomb31");
     }
     var d = __define,c=Bomb31,p=c.prototype;
     return Bomb31;

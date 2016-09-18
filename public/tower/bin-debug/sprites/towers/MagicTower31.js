@@ -2,7 +2,7 @@ var MagicTower31 = (function (_super) {
     __extends(MagicTower31, _super);
     function MagicTower31() {
         _super.call(this);
-        this._displays.addBitmap("magictower31");
+        this.addBitmap("magictower31");
     }
     var d = __define,c=MagicTower31,p=c.prototype;
     return MagicTower31;

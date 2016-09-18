@@ -13,7 +13,7 @@ class EntityDisplays {
         this._entityName = entityName;
     }
     
-    public addBitmap(name:string, action?:string): EntityDisplays {
+    public addBitmap(name:string, action?:string): egret.Bitmap {
         let bm:egret.Bitmap = new egret.Bitmap();
         bm.texture = RES.getRes(name + "_png");
         
@@ -24,10 +24,10 @@ class EntityDisplays {
             this._defaultDisplay = bm;
         }
         
-        return this;
+        return bm;
     }
     
-    public addClip(name:string, action?:string): EntityDisplays {
+    public addClip(name:string, action?:string): egret.MovieClip {
         let data    = RES.getRes(name + "_json");
         let texture = RES.getRes(name + "_png");
         let mcf: egret.MovieClipDataFactory = new egret.MovieClipDataFactory(data, texture);
@@ -47,7 +47,7 @@ class EntityDisplays {
             this._defaultDisplay = clip;
         }
         
-        return this;
+        return clip;
     }
 
     public getDisplay(direction:EntityDirection, state: EntityState, index = 0): egret.DisplayObject {

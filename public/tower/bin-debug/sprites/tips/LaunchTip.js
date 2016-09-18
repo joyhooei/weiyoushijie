@@ -3,7 +3,7 @@ var LaunchTip = (function (_super) {
     function LaunchTip() {
         _super.call(this);
         this.touchEnabled = true;
-        this._displays.addBitmap("launch_png");
+        this.addBitmap("launch_png");
     }
     var d = __define,c=LaunchTip,p=c.prototype;
     p.select = function (again) {

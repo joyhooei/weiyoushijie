@@ -15,7 +15,7 @@ var EntityDisplays = (function () {
         else {
             this._defaultDisplay = bm;
         }
-        return this;
+        return bm;
     };
     p.addClip = function (name, action) {
         var data = RES.getRes(name + "_json");
@@ -36,7 +36,7 @@ var EntityDisplays = (function () {
         else {
             this._defaultDisplay = clip;
         }
-        return this;
+        return clip;
     };
     p.getDisplay = function (direction, state, index) {
         if (index === void 0) { index = 0; }

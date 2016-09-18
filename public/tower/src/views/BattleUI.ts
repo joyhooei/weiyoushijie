@@ -6,6 +6,7 @@ class BattleUI extends AbstractUI {
     public grpBattle: eui.Group;
 
     public imgBack:  eui.Image;
+    public imgStart: eui.Image;
     
     private _music: egret.Sound;
     private _channel: egret.SoundChannel;
@@ -35,10 +36,16 @@ class BattleUI extends AbstractUI {
 		self.imgBack.addEventListener(egret.TouchEvent.TOUCH_TAP,() => {
 		    self._quitBattle();
 		}, self);
+
+		self.imgStart.addEventListener(egret.TouchEvent.TOUCH_TAP,() => {
+		    self._startBattle();
+
+            self.imgStart.visible = false;
+		}, self);
     }
 
     protected onRefresh() {
-        this._startBattle();
+        this.grpBattle.addChild(application.battle);
     }
     
     private _quitBattle() {
@@ -54,8 +61,6 @@ class BattleUI extends AbstractUI {
     	//this._channel = this._music.play(0, 0);
     	
         application.battle.start();
-        
-    	this.grpBattle.addChild(application.battle);
     	
     	this.stage.frameRate = application.frameRate;
     	this.addEventListener(egret.Event.ENTER_FRAME,this._onEnterFrame, this);

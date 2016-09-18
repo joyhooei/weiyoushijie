@@ -4,14 +4,6 @@ var NPC = (function (_super) {
         _super.call(this);
     }
     var d = __define,c=NPC,p=c.prototype;
-    p._idle = function () {
-        if (this._ticks >= this._idleTicks) {
-            this.move();
-            if (this._hp) {
-                this._hp.move();
-            }
-        }
-    };
     p.initialize = function (properties) {
         _super.prototype.initialize.call(this, properties);
         this._hp = application.pool.get("Hp", properties);
@@ -77,20 +69,30 @@ var NPC = (function (_super) {
         this._turn(this._direction4(npc.x, npc.y));
     };
     p._readyFight = function () {
-        return this._state == EntityState.fighting && this._ticks % this._hitSpeed == 0;
+        return this._ticks % this._hitSpeed == 0;
+    };
+    p._idle = function () {
+        this._ticks++;
+        if (this._ticks >= this._idleTicks) {
+            this.move();
+            if (this._hp) {
+                this._hp.move();
+            }
+        }
     };
     p._fighting = function () {
-        if (this._readyFight()) {
-            this._playFightMovieClip();
+        if (this._fightClip) {
+            if (this._readyFight()) {
+                this._playFightMovieClip();
+            }
+            this._ticks++;
         }
     };
     p._playFightMovieClip = function () {
-        var clip = this._play(this._displaySprite.getChildAt(0), 1);
-        if (clip) {
-            clip.once(egret.Event.COMPLETE, function () {
-                this._hitOpponents();
-            }, this);
-        }
+        this._play(this._fightClip, 1);
+        this._fightClip.once(egret.Event.COMPLETE, function () {
+            this._hitOpponents();
+        }, this);
     };
     p._hitOpponents = function () {
     };
@@ -98,6 +100,9 @@ var NPC = (function (_super) {
         var display = this._render(0, 5, this._skill);
         if (this._state != EntityState.fighting) {
             this._play(display, -1);
+        }
+        else {
+            this._fightClip = display;
         }
         this._centerHp();
     };
