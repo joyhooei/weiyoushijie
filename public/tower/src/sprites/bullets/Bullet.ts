@@ -70,11 +70,9 @@ class Bullet extends MovableEntity {
     }
     
     protected _moving() {
-        this._ticks ++;
         if (this._moveOneStep()) {
-            this._hitTarget();
-            
             this.kill();
+            this._hitTarget();
         } else {
             //如果目标移动，重新调整方向和路径
             if (this._target && (this._targetX != this._target.x || this._targetY != this._target.y)) {
