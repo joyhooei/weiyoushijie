@@ -101,6 +101,10 @@ class Entity extends egret.Sprite {
 	public setBottomY(y:number) {
 		this.y = y - this.height;
 	}
+	
+	public getBottomY(): number {
+		return this.y + this.height;
+	}
 
     public stain() {
     	application.battle.addDirt(this);
