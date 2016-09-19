@@ -28,6 +28,10 @@ class Waves {
         this._mapHeight = mapHeight;
     }
     
+    public getRounds(): number {
+        return this._rounds;
+    }
+    
     public add(wave:number, claz:string, count:number, paths:number[][]) {
         this._enemies[wave] = this._enemies[wave] || [];
         this._enemies[wave].push([count, claz, paths]);
@@ -104,6 +108,8 @@ class Waves {
         
         this._currentWave ++;
         this._timeToNextWave = this._timeBetweenWaves; 
+        
+        application.dao.dispatchEventWith("Battle", true, {waves: this._rounds});
     }
     
     public launch(cycle?:boolean) {
