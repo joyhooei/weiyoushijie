@@ -25,7 +25,7 @@ class BattleSystemToolItem extends BattleToolItem {
 		        this._ticks --;
 		    }
 		    
-		    this._drawProgress(this._shapeShield, this.width / 2, this.height / 2, this.width / 2, this._ticks, this._maxTicks);
+		    this._drawProgress(this._ticks, this._maxTicks);
 		}, this);
 		
 		this.addEventListener(egret.TouchEvent.TOUCH_TAP,() => {
@@ -53,9 +53,9 @@ class BattleSystemToolItem extends BattleToolItem {
         this._ticks = this._maxTicks;
     }
     
-    private _drawProgress(graphics: egret.Graphics, x: number, y: number, radius: number, percent:number, total:number) {
-    	graphics.beginFill(0xff0000, 0.1);
-    	graphics.drawArc(x, y, radius, -0.5 * Math.PI, ((percent / total) - 0.5) * Math.PI, false);
-    	graphics.endFill();
+    private _drawProgress(percent:number, total:number) {
+    	this._shapeShield.graphics.beginFill(0x000000, 0.1);
+    	this._shapeShield.graphics.drawArc(this.width / 2, this.height / 2, this.width / 2, ((2 * percent / total) - 0.5) * Math.PI, 1.5 * Math.PI, false);
+    	this._shapeShield.graphics.endFill();
     }
 }
