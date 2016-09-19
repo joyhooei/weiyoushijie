@@ -47,6 +47,7 @@ var Bullet = (function (_super) {
         this._targetX = targetX;
         this._targetY = targetY;
         this._computeSteps(this.x, this.y, this._targetX, this._targetY);
+        this._turn(this._direction4(targetX, targetY));
     };
     p._moving = function () {
         if (this._moveOneStep()) {

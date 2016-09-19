@@ -27,6 +27,7 @@ var Base = (function (_super) {
         if (this._tower) {
             this.removeChildren();
             this.addChild(this._tower);
+            this._tower.build();
         }
         else {
             this.stain();
@@ -43,8 +44,11 @@ var Base = (function (_super) {
         this._clearTower();
     };
     p.select = function (again) {
-        if (!again) {
-            application.battle.showTool(new TowerMenuUI(this), this.getCenterX(), this.getCenterY());
+        if (this._tower) {
+            application.showUI(new TowerMenuUI(this._tower), application.battle.parent, this.getCenterX(), this.getCenterY());
+        }
+        else {
+            application.showUI(new BuildTowerUI(this), application.battle.parent, this.getCenterX(), this.getCenterY());
         }
         return true;
     };

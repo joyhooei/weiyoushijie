@@ -43,6 +43,8 @@ class Base extends Entity implements SelectableEntity {
             this.removeChildren();
             
             this.addChild(this._tower);
+
+            this._tower.build();
         } else {
             this.stain();
         }
@@ -64,9 +66,9 @@ class Base extends Entity implements SelectableEntity {
 
     public select(again:boolean): boolean {
         if (this._tower) {
-            application.battle.showTool(new TowerOptionUI(this), this.getCenterX(), this.getCenterY());
+            application.showUI(new TowerMenuUI(this._tower), application.battle.parent, this.getCenterX(), this.getCenterY());
         } else {
-            application.battle.showTool(new BuildTowerUI(this), this.getCenterX(), this.getCenterY());
+            application.showUI(new BuildTowerUI(this), application.battle.parent, this.getCenterX(), this.getCenterY());
         }
 
         return true;

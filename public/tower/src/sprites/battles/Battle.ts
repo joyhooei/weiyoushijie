@@ -186,7 +186,7 @@ class Battle extends Entity implements SoldierCreator {
     }
     
     public getWaves(): number {
-        return this._waves.getRounds();
+        return this._waves.getCurrentWave();
     }
     
     public stain() {
@@ -289,8 +289,8 @@ class Battle extends Entity implements SoldierCreator {
         }
     }
     
-    public launch() {
-        this._waves.launchNow();
+    public launch(wave: number, queue:number) {
+        this._waves.launchQueueNow(wave, queue);
     }
     
     public _fighting() {
@@ -298,12 +298,9 @@ class Battle extends Entity implements SoldierCreator {
             this._waves.launch();
         }
         
-        if (this._ticks % 2 == 0) {
-            this._updateEntities(this._soldiers);
-            this._updateEntities(this._enemies);            
-        } else {
-            this._updateEntities(this._entities);            
-        }
+        this._updateEntities(this._soldiers);
+        this._updateEntities(this._enemies);            
+        this._updateEntities(this._entities);            
     }
 
     private _updateEntities(entities: Entity[]){

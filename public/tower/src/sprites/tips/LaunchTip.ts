@@ -1,5 +1,9 @@
 class LaunchTip extends Tip {
-    private _shapeShield: eui.Shape;
+    private _shapeShield: egret.Shape;
+
+    private _queue: number;
+
+    private _wave: number;
     
     public constructor() {
         super();
@@ -12,24 +16,30 @@ class LaunchTip extends Tip {
         this.addChild(this._shapeShield);
     }
 
+    public initialize(properties:any) {
+        super.initialize(properties);
+        
+        this._queue = this._get(properties, "queue", 0);
+        this._wave = this._get(properties, "wave", 0);
+    }
+
     public select(again:boolean) {
         if (again) {
             this.erase();
+
+            application.battle.launch(this._wave, this._queue);
         } else {
             Toast.launch("再次点击开始下一波");
         }
     }
     
     protected _dying() {
-        super._dying();
-        
-        this.stain();
-    }
-    
-    public erase() {
-        super.erase();
-        
-        application.battle.launchNow();
+        this._ticks ++;
+        if (this._ticks > this._dyingTicks) {
+            this.erase();
+
+            application.battle.launch(this._wave, this._queue);
+        }
     }
     
     public paint() {

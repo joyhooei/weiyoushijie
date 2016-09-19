@@ -5,6 +5,7 @@
     "resource/custom_skins/battleToolItemSkin.exml",
     "resource/custom_skins/battleUISkin.exml",
     "resource/custom_skins/blockUISkin.exml",
+    "resource/custom_skins/buildTowerUISkin.exml",
     "resource/custom_skins/buyAchieveUISkin.exml",
     "resource/custom_skins/buyToolUISkin.exml",
     "resource/custom_skins/chargeTipUISkin.exml",

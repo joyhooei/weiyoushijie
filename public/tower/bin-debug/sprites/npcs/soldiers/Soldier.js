@@ -164,7 +164,7 @@ var Soldier = (function (_super) {
         }
     };
     p._findEnemy = function () {
-        var enemy = application.battle.findSuitableEnemy(this.x, this.y, this._guardRadius, this._guardAltitudes);
+        var enemy = application.battle.findSuitableEnemy(this.getCenterX(), this.getCenterY(), this._guardRadius, this._guardAltitudes);
         if (!enemy || enemy.totalSoldiers() >= 3) {
             return null;
         }

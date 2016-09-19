@@ -18,8 +18,6 @@ module application {
     export var pool: EntityPool;
 	
 	export var baseUrl: string;
-
-	export var blockUI: BlockUI;
     
     export var guideUI: GuideUI;
     
@@ -128,31 +126,33 @@ module application {
         })
     }
 
-    export function showUI(ui: eui.Component,parent?: egret.DisplayObjectContainer): egret.DisplayObjectContainer {
-        ui.horizontalCenter = 0;
-        ui.verticalCenter   = 0;
-        
-        if (!application.blockUI) {
-            application.blockUI = new BlockUI();
+    export function showUI(ui: eui.Component,parent?: egret.DisplayObjectContainer, x?:number, y?:number): egret.DisplayObjectContainer {
+        if (x && y) {
+            ui.x = x - ui.width / 2;
+            ui.y = y - ui.height / 2;
+        } else {
+            ui.horizontalCenter = 0;
+            ui.verticalCenter   = 0;
         }
         
-        application.blockUI.addChild(ui);
+        let blockUI = new BlockUI();
+        blockUI.addChild(ui);
         
         if (application.guideUI) {
 			if (parent) {
 				if (parent.contains(application.guideUI)) {
-					parent.addChildAt(application.blockUI, parent.getChildIndex(application.guideUI));
+					parent.addChildAt(blockUI, parent.getChildIndex(application.guideUI));
 				} else {
-					parent.addChild(application.blockUI); 
+					parent.addChild(blockUI); 
 				}
 			} else {
-				application.main.homeUI.addChildAt(application.blockUI, parent.getChildIndex(application.guideUI));
+				application.main.homeUI.addChildAt(blockUI, parent.getChildIndex(application.guideUI));
 			}
         } else {
 			if (parent) {
-				parent.addChild(application.blockUI); 
+				parent.addChild(blockUI); 
 			} else {
-				application.main.homeUI.addChild(application.blockUI);
+				application.main.homeUI.addChild(blockUI);
 			}
 		}
         
@@ -161,17 +161,14 @@ module application {
     
     export function hideUI(ui: eui.Component): egret.DisplayObjectContainer {
         if (ui && ui.parent) {
-            if(ui.parent == application.blockUI) {
-                if (application.blockUI.numChildren <= 2) {
-					if (ui.parent.parent) {
-						ui.parent.parent.removeChild(application.blockUI);
-					}
-				}
+            if(egret.getQualifiedClassName(ui.parent) == "BlockUI") {
+                if (ui.parent.parent) {
+                    ui.parent.parent.removeChild(ui.parent);
+                }
                 
-                application.blockUI.removeChild(ui);
-            } else {
-                ui.parent.removeChild(ui);
             }
+
+            ui.parent.removeChild(ui);
         }
         
         return ui;

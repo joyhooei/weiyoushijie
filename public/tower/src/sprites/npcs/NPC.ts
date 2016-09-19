@@ -131,10 +131,12 @@ class NPC extends MovableEntity {
     }
 
     protected _playFightMovieClip() {
-        this._play(this._fightClip, 1);
-        this._fightClip.once(egret.Event.COMPLETE, function(){
-            this._hitOpponents();
-        }, this);        
+        if (this._fightClip) {
+            this._play(this._fightClip, 1);
+            this._fightClip.once(egret.Event.COMPLETE, function(){
+                this._hitOpponents();
+            }, this);        
+        }
     }
 
     protected _hitOpponents() {

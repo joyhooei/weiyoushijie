@@ -3,15 +3,18 @@ var Waves = (function () {
         this._enemies = [];
         this._currentWave = 0;
         this._timeBetweenWaves = 10 * application.frameRate;
-        this._timeToNextWave = this._timeBetweenWaves;
         this._rounds = 0;
+        this._launching = false;
         this._mapWidth = mapWidth;
         this._mapHeight = mapHeight;
     }
     var d = __define,c=Waves,p=c.prototype;
+    p.getCurrentWave = function () {
+        return this._currentWave;
+    };
     p.add = function (wave, claz, count, paths) {
         this._enemies[wave] = this._enemies[wave] || [];
-        this._enemies[wave].push([count, claz, paths]);
+        this._enemies[wave].push([count, claz, paths, 0]);
     };
     p._randomPaths = function (paths) {
         var pathWidth = 30;
@@ -41,69 +44,70 @@ var Waves = (function () {
         direction = Entity.direction4(paths[paths.length - 2][0], paths[paths.length - 2][1], paths[paths.length - 1][0], paths[paths.length - 1][1]);
         switch (direction) {
             case EntityDirection.east:
-                newPaths.push([this._mapWidth + entityWidth, paths[paths.length - 1][1] + deltaY]);
+                newPaths.push([this._mapWidth, paths[paths.length - 1][1] + deltaY]);
                 break;
             case EntityDirection.west:
-                newPaths.push([-entityWidth, paths[paths.length - 1][1] + deltaY]);
+                newPaths.push([0, paths[paths.length - 1][1] + deltaY]);
                 break;
             case EntityDirection.north:
-                newPaths.push([paths[paths.length - 1][0] + deltaX, -entityWidth]);
+                newPaths.push([paths[paths.length - 1][0] + deltaX, 0]);
                 break;
             case EntityDirection.south:
-                newPaths.push([paths[paths.length - 1][0] + deltaX, this._mapHeight + entityWidth]);
+                newPaths.push([paths[paths.length - 1][0] + deltaX, this._mapHeight]);
                 break;
         }
         return newPaths;
     };
-    p.launchNow = function (cycle) {
-        var wave = this._enemies[this._currentWave];
+    p.launchQueueNow = function (w, queue) {
+        var wave = this._enemies[w];
+        if (wave[queue][3] == 1) {
+            return;
+        }
+        var count = wave[queue][0] * (1 + this._rounds * 0.5);
+        var claz = wave[queue][1];
+        var paths = wave[queue][2];
+        for (var j = 0; j < count; j++) {
+            var enemy = application.pool.get(claz, { "paths": this._randomPaths(paths) });
+            application.battle.addEnemy(enemy);
+        }
+        wave[queue][3] = 1;
         for (var i = 0; i < wave.length; i++) {
-            var count = wave[i][0] * (1 + this._rounds * 0.5);
-            var claz = wave[i][1];
-            var paths = wave[i][2];
-            for (var j = 0; j < count; j++) {
-                var enemy = application.pool.get(claz, { "paths": this._randomPaths(paths) });
-                application.battle.addEnemy(enemy);
+            if (wave[i][3] == 0) {
+                return;
             }
         }
         this._currentWave++;
-        this._timeToNextWave = this._timeBetweenWaves;
+        this._launching = false;
+        application.dao.dispatchEventWith("Battle", true, { waves: this._currentWave });
     };
     p.launch = function (cycle) {
-        if (this._nextWave(cycle)) {
-            if (this._timeToNextWave <= 0) {
-                this.launchNow(cycle);
-            }
-            else if (this._timeToNextWave == this._timeBetweenWaves) {
-                var wave = this._enemies[this._currentWave];
-                for (var i = 0; i < wave.length; i++) {
-                    var paths = wave[i][2];
-                    for (var j = 0; j < paths.length; j++) {
-                        var tip = application.pool.get("LaunchTip", { "dyingTicks": this._timeBetweenWaves });
-                        var direction = Entity.direction4(paths[0][0], paths[0][1], paths[1][0], paths[1][1]);
-                        switch (direction) {
-                            case EntityDirection.east:
-                                tip.x = paths[0][0] + 50;
-                                tip.y = paths[0][1];
-                                break;
-                            case EntityDirection.west:
-                                tip.x = paths[0][0] - 50;
-                                tip.y = paths[0][1];
-                                break;
-                            case EntityDirection.north:
-                                tip.x = paths[0][0];
-                                tip.y = paths[0][1] - 50;
-                                break;
-                            case EntityDirection.south:
-                                tip.x = paths[0][0];
-                                tip.y = paths[0][1] + 50;
-                                break;
-                        }
-                        application.battle.addTip(tip);
-                    }
+        if (this._nextWave(cycle) && !this._launching) {
+            var wave = this._enemies[this._currentWave];
+            for (var i = 0; i < wave.length; i++) {
+                var paths = wave[i][2];
+                var tip = application.pool.get("LaunchTip", { dyingTicks: this._timeBetweenWaves, queue: i, wave: this._currentWave });
+                var direction = Entity.direction4(paths[0][0], paths[0][1], paths[1][0], paths[1][1]);
+                switch (direction) {
+                    case EntityDirection.east:
+                        tip.x = paths[0][0] + 50;
+                        tip.y = paths[0][1];
+                        break;
+                    case EntityDirection.west:
+                        tip.x = paths[0][0] - 50;
+                        tip.y = paths[0][1];
+                        break;
+                    case EntityDirection.north:
+                        tip.x = paths[0][0];
+                        tip.y = paths[0][1] - 50;
+                        break;
+                    case EntityDirection.south:
+                        tip.x = paths[0][0];
+                        tip.y = paths[0][1] + 50;
+                        break;
                 }
+                application.battle.addTip(tip);
             }
-            this._timeToNextWave--;
+            this._launching = true;
         }
     };
     p._nextWave = function (cycle) {
@@ -114,6 +118,7 @@ var Waves = (function () {
             }
             else {
                 application.battle.erase();
+                application.battle.getResult().attrs.result = 2;
                 return false;
             }
         }

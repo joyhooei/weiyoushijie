@@ -89,10 +89,12 @@ var NPC = (function (_super) {
         }
     };
     p._playFightMovieClip = function () {
-        this._play(this._fightClip, 1);
-        this._fightClip.once(egret.Event.COMPLETE, function () {
-            this._hitOpponents();
-        }, this);
+        if (this._fightClip) {
+            this._play(this._fightClip, 1);
+            this._fightClip.once(egret.Event.COMPLETE, function () {
+                this._hitOpponents();
+            }, this);
+        }
     };
     p._hitOpponents = function () {
     };

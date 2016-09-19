@@ -87,32 +87,36 @@ var application;
         });
     }
     application.logined = logined;
-    function showUI(ui, parent) {
-        ui.horizontalCenter = 0;
-        ui.verticalCenter = 0;
-        if (!application.blockUI) {
-            application.blockUI = new BlockUI();
+    function showUI(ui, parent, x, y) {
+        if (x && y) {
+            ui.x = x - ui.width / 2;
+            ui.y = y - ui.height / 2;
         }
-        application.blockUI.addChild(ui);
+        else {
+            ui.horizontalCenter = 0;
+            ui.verticalCenter = 0;
+        }
+        var blockUI = new BlockUI();
+        blockUI.addChild(ui);
         if (application.guideUI) {
             if (parent) {
                 if (parent.contains(application.guideUI)) {
-                    parent.addChildAt(application.blockUI, parent.getChildIndex(application.guideUI));
+                    parent.addChildAt(blockUI, parent.getChildIndex(application.guideUI));
                 }
                 else {
-                    parent.addChild(application.blockUI);
+                    parent.addChild(blockUI);
                 }
             }
             else {
-                application.main.homeUI.addChildAt(application.blockUI, parent.getChildIndex(application.guideUI));
+                application.main.homeUI.addChildAt(blockUI, parent.getChildIndex(application.guideUI));
             }
         }
         else {
             if (parent) {
-                parent.addChild(application.blockUI);
+                parent.addChild(blockUI);
             }
             else {
-                application.main.homeUI.addChild(application.blockUI);
+                application.main.homeUI.addChild(blockUI);
             }
         }
         return ui;
@@ -120,17 +124,12 @@ var application;
     application.showUI = showUI;
     function hideUI(ui) {
         if (ui && ui.parent) {
-            if (ui.parent == application.blockUI) {
-                if (application.blockUI.numChildren <= 2) {
-                    if (ui.parent.parent) {
-                        ui.parent.parent.removeChild(application.blockUI);
-                    }
+            if (egret.getQualifiedClassName(ui.parent) == "BlockUI") {
+                if (ui.parent.parent) {
+                    ui.parent.parent.removeChild(ui.parent);
                 }
-                application.blockUI.removeChild(ui);
             }
-            else {
-                ui.parent.removeChild(ui);
-            }
+            ui.parent.removeChild(ui);
         }
         return ui;
     }

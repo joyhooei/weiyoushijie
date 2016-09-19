@@ -5,8 +5,8 @@ var BattleUI = (function (_super) {
         var self = this;
         self._music = RES.getRes("bg_mp3");
         self._music.type = egret.Sound.MUSIC;
-        self.grpSystemTools.addChild(new BattleSystemToolItem({ category: 'soldier' }));
-        self.grpSystemTools.addChild(new BattleSystemToolItem({ category: 'fireball' }));
+        self.grpSystemTools.addChild(new BattleSystemToolItem({ category: 'soldier', image: 'tool_soldier_png' }));
+        self.grpSystemTools.addChild(new BattleSystemToolItem({ category: 'fireball', image: 'tool_fireball_png' }));
         application.dao.fetch("Tool", { customer_id: application.me.attrs.id, count: { $gt: 0 } }).then(function (tools) {
             for (var i = 0; i < tools.length; i++) {
                 self.grpBoughtTools.addChild(new BattleToolItem(tools[i]));
@@ -15,9 +15,13 @@ var BattleUI = (function (_super) {
         application.dao.addEventListener("Battle", function (evt) {
             self.lblLives.text = application.battle.getLives().toString();
             self.lblGolds.text = application.battle.getGolds().toString();
+            self.lblWaves.text = application.battle.getWaves().toString();
         }, self);
         self.imgBack.addEventListener(egret.TouchEvent.TOUCH_TAP, function () {
             self._quitBattle();
+        }, self);
+        self.imgHelp.addEventListener(egret.TouchEvent.TOUCH_TAP, function () {
+            HelpUI.showMainHelp();
         }, self);
         self.imgStart.addEventListener(egret.TouchEvent.TOUCH_TAP, function () {
             self._startBattle();

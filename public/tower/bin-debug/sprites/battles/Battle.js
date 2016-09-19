@@ -47,6 +47,7 @@ var Battle = (function (_super) {
         this._addStandbys();
         this._addEffects();
         this.fight();
+        this._result = new Result({ customer_id: application.me.attrs.id, battle: this.getClassName(), result: 0, score: 0, unused_bases: this._map.getBases().length, stars: 0 });
     };
     p.readyUseTool = function (toolItem) {
         this._toolItem = toolItem;
@@ -94,9 +95,13 @@ var Battle = (function (_super) {
             }
         }
     };
+    p.getResult = function () {
+        return this._result;
+    };
     p.incLives = function (lives) {
         this._lives += lives;
         if (this._lives <= 0) {
+            this._result.attrs.result = 1;
             this.erase();
         }
         else {
@@ -112,6 +117,9 @@ var Battle = (function (_super) {
     };
     p.getGolds = function () {
         return this._golds;
+    };
+    p.getWaves = function () {
+        return this._waves.getCurrentWave();
     };
     p.stain = function () {
         this.paint();
@@ -196,20 +204,16 @@ var Battle = (function (_super) {
             entities[--i].erase();
         }
     };
-    p.launch = function () {
-        this._waves.launchNow();
+    p.launch = function (wave, queue) {
+        this._waves.launchQueueNow(wave, queue);
     };
     p._fighting = function () {
         if (this._enemies.length == 0) {
             this._waves.launch();
         }
-        if (this._ticks % 2 == 0) {
-            this._updateEntities(this._soldiers);
-            this._updateEntities(this._enemies);
-        }
-        else {
-            this._updateEntities(this._entities);
-        }
+        this._updateEntities(this._soldiers);
+        this._updateEntities(this._enemies);
+        this._updateEntities(this._entities);
     };
     p._updateEntities = function (entities) {
         var i = entities.length;

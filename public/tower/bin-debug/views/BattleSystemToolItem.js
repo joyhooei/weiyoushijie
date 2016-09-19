@@ -4,22 +4,20 @@ var BattleSystemToolItem = (function (_super) {
         var _this = this;
         _super.call(this, tool);
         this._ticks = 0;
-        this._maxTicks = 10;
-        this.imgShield.height = 0;
-        if (tool.category == "soldier") {
-            this.imgTool.source = "tool_soldier_png";
-        }
-        else if (tool.category == "fireball") {
-            this.imgTool.source = "tool_fireball_png";
-        }
+        this._maxTicks = 15;
+        this._shapeShield = new egret.Shape();
+        this._shapeShield.width = this.width;
+        this._shapeShield.height = this.height;
+        this.addChild(this._shapeShield);
+        this.imgTool.source = tool.image;
         application.stopwatch.addEventListener("second", function (event) {
-            if (this._ticks > 0) {
-                this._ticks--;
+            if (this._ticks < this._maxTicks) {
+                this._ticks++;
             }
-            this.imgShield.height = this.imgTool.height * this._ticks / this._maxTicks;
+            this._drawProgress(this._ticks, this._maxTicks);
         }, this);
         this.addEventListener(egret.TouchEvent.TOUCH_TAP, function () {
-            if (_this._ticks == 0) {
+            if (_this._ticks == _this._maxTicks) {
                 application.battle.readyUseTool(_this);
             }
         }, this);
@@ -39,7 +37,19 @@ var BattleSystemToolItem = (function (_super) {
         else if (this._tool.category == "fireball") {
             Bullet.shoot(x, y - 200, x, y, "Fireball");
         }
-        this._ticks = this._maxTicks;
+        this._ticks = 0;
+    };
+    p._drawProgress = function (percent, total) {
+        var x = this.width / 2;
+        var y = this.height / 2;
+        var r = this.height / 2 - 5;
+        this._shapeShield.graphics.clear();
+        this._shapeShield.graphics.beginFill(0x000000, 0.3);
+        this._shapeShield.graphics.moveTo(x, y);
+        this._shapeShield.graphics.lineTo(x, y - 2 * r);
+        this._shapeShield.graphics.drawArc(x, y, r, ((2 * percent / total) - 0.5) * Math.PI, 1.5 * Math.PI, false);
+        this._shapeShield.graphics.lineTo(x, y);
+        this._shapeShield.graphics.endFill();
     };
     return BattleSystemToolItem;
 }(BattleToolItem));

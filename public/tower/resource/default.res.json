@@ -1,7 +1,7 @@
 {
 	"groups": [
 		{
-			"keys": "world_jpg,base3_png,base2_png,base1_png,bg_mp3,soldier1_json,soldier1_png,tool_soldier_png,tool_fireball_png,wolf_east_moving_png,wolf_east_moving_json,wolf_east_fighting_png,wolf_east_fighting_json,wolf_dying_png,wolf_dying_json,warrior_east_fighting_png,warrior_east_fighting_json,warrior_dying_png,warrior_dying_json,sunwukong_east_moving_png,sunwukong_east_moving_json,sunwukong_east_fighting_3_png,sunwukong_east_fighting_3_json,sunwukong_east_fighting_2_png,sunwukong_east_fighting_2_json,sunwukong_east_fighting_1_png,sunwukong_east_fighting_1_json,base4_png,arrowtower31_png,arrowtower32_png,arrowtower1_png,arrowtower2_png,rhino_east_moving_png,rhino_east_moving_json,rhino_east_fighting_png,rhino_east_fighting_json,rhino_dying_png,rhino_dying_json,hogs_east_moving_png,hogs_east_moving_json,hogs_east_fighting_png,hogs_east_fighting_json,hogs_dying_png,hogs_dying_json,reinforce_east_moving_png,reinforce_east_moving_json,reinforce_east_fighting_png,reinforce_east_fighting_json,reinforce_dying_png,reinforce_dying_json,river_east_moving_png,river_east_moving_json,cock_east_moving_png,cock_east_moving_json,waves_png,hero_png,back_png,start_png,map2_jpg",
+			"keys": "world_jpg,base3_png,base2_png,base1_png,bg_mp3,soldier1_json,soldier1_png,tool_soldier_png,tool_fireball_png,wolf_east_moving_png,wolf_east_moving_json,wolf_east_fighting_png,wolf_east_fighting_json,wolf_dying_png,wolf_dying_json,warrior_east_fighting_png,warrior_east_fighting_json,warrior_dying_png,warrior_dying_json,sunwukong_east_moving_png,sunwukong_east_moving_json,sunwukong_east_fighting_3_png,sunwukong_east_fighting_3_json,sunwukong_east_fighting_2_png,sunwukong_east_fighting_2_json,sunwukong_east_fighting_1_png,sunwukong_east_fighting_1_json,base4_png,arrowtower31_png,arrowtower32_png,arrowtower1_png,arrowtower2_png,rhino_east_moving_png,rhino_east_moving_json,rhino_east_fighting_png,rhino_east_fighting_json,rhino_dying_png,rhino_dying_json,hogs_east_moving_png,hogs_east_moving_json,hogs_east_fighting_png,hogs_east_fighting_json,hogs_dying_png,hogs_dying_json,reinforce_east_moving_png,reinforce_east_moving_json,reinforce_east_fighting_png,reinforce_east_fighting_json,reinforce_dying_png,reinforce_dying_json,river_east_moving_png,river_east_moving_json,cock_east_moving_png,cock_east_moving_json,waves_png,hero_png,back_png,start_png,map2_jpg,arrow_tower_json,bomb_tower_json,bomb_tower_png,magic_tower_json,magic_tower_png,soldier_tower_json,soldier_tower_png,arrow_tower_png,fireball_moving_png,fireball_moving_json,fireball_dying_png,fireball_dying_json",
 			"name": "home"
 		},
 		{
@@ -9,7 +9,7 @@
 			"name": "landing"
 		},
 		{
-			"keys": "login_png,loginb_png,world2_jpg,base2_png,base3_png,base1_png,bg_mp3,soldier1_png,tool_fireball_png,tool_soldier_png,wolf_east_fighting_json,wolf_east_fighting_png,wolf_dying_json,wolf_dying_png,wolf_east_moving_json,wolf_east_moving_png,sunwukong_east_moving_json,sunwukong_east_moving_png,warrior_east_fighting_json,warrior_east_fighting_png,warrior_dying_json,warrior_dying_png,sunwukong_east_fighting_1_json,sunwukong_east_fighting_1_png,sunwukong_east_fighting_2_json,sunwukong_east_fighting_2_png,sunwukong_east_fighting_3_json,sunwukong_east_fighting_3_png,fireball_moving_json,fireball_moving_png,fireball_dying_json,fireball_dying_png,base4_png,arrowtower1_png,arrowtower2_png,arrowtower31_png,arrowtower32_png,reinforce_east_fighting_json,reinforce_east_fighting_png,reinforce_east_moving_json,reinforce_east_moving_png,reinforce_dying_json,reinforce_dying_png,rhino_east_moving_json,rhino_east_moving_png,rhino_dying_json,rhino_dying_png,rhino_east_fighting_json,rhino_east_fighting_png,hogs_east_fighting_json,hogs_east_fighting_png,hogs_dying_json,hogs_dying_png,hogs_east_moving_json,hogs_east_moving_png,cock_east_moving_json,cock_east_moving_png,river_east_moving_json,river_east_moving_png,waves_png,hero_png,back_png,help_png,start_png,map2_jpg,towerbuild_png",
+			"keys": "login_png,loginb_png,world2_jpg,base2_png,base3_png,base1_png,bg_mp3,soldier1_png,tool_fireball_png,tool_soldier_png,wolf_east_fighting_json,wolf_east_fighting_png,wolf_dying_json,wolf_dying_png,wolf_east_moving_json,wolf_east_moving_png,sunwukong_east_moving_json,sunwukong_east_moving_png,warrior_east_fighting_json,warrior_east_fighting_png,warrior_dying_json,warrior_dying_png,sunwukong_east_fighting_1_json,sunwukong_east_fighting_1_png,sunwukong_east_fighting_2_json,sunwukong_east_fighting_2_png,sunwukong_east_fighting_3_json,sunwukong_east_fighting_3_png,fireball_moving_json,fireball_moving_png,fireball_dying_json,fireball_dying_png,base4_png,arrowtower1_png,arrowtower2_png,arrowtower31_png,arrowtower32_png,reinforce_east_fighting_json,reinforce_east_fighting_png,reinforce_east_moving_json,reinforce_east_moving_png,reinforce_dying_json,reinforce_dying_png,rhino_east_moving_json,rhino_east_moving_png,rhino_dying_json,rhino_dying_png,rhino_east_fighting_json,rhino_east_fighting_png,hogs_east_fighting_json,hogs_east_fighting_png,hogs_dying_json,hogs_dying_png,hogs_east_moving_json,hogs_east_moving_png,cock_east_moving_json,cock_east_moving_png,river_east_moving_json,river_east_moving_png,waves_png,hero_png,back_png,help_png,start_png,map2_jpg,towerbuild_png,arrow_tower_json,bomb_tower_json,bomb_tower_png,soldier_tower_json,soldier_tower_png,magic_tower_json,magic_tower_png,arrow_tower_png",
 			"name": "preload"
 		},
 		{
@@ -364,9 +364,49 @@
 			"name": "map2_jpg"
 		},
 		{
-			"name": "towerbuild_png",
+			"url": "art/home/towerbuild.png",
 			"type": "image",
-			"url": "art/home/towerbuild.png"
+			"name": "towerbuild_png"
+		},
+		{
+			"url": "art/home/arrow_tower.json",
+			"type": "json",
+			"name": "arrow_tower_json"
+		},
+		{
+			"url": "art/home/bomb_tower.json",
+			"type": "json",
+			"name": "bomb_tower_json"
+		},
+		{
+			"url": "art/home/bomb_tower.png",
+			"type": "image",
+			"name": "bomb_tower_png"
+		},
+		{
+			"url": "art/home/soldier_tower.json",
+			"type": "json",
+			"name": "soldier_tower_json"
+		},
+		{
+			"url": "art/home/soldier_tower.png",
+			"type": "image",
+			"name": "soldier_tower_png"
+		},
+		{
+			"url": "art/home/magic_tower.json",
+			"type": "json",
+			"name": "magic_tower_json"
+		},
+		{
+			"url": "art/home/magic_tower.png",
+			"type": "image",
+			"name": "magic_tower_png"
+		},
+		{
+			"url": "art/home/arrow_tower.png",
+			"type": "image",
+			"name": "arrow_tower_png"
 		}
 	]
 }

@@ -15,8 +15,10 @@ var Enemy = (function (_super) {
     };
     p.addSoldier = function (soldier) {
         this._soldiers.push(soldier);
-        this.guard();
-        this._face(this._soldiers[0]);
+        if (this._state == EntityState.moving) {
+            this.guard();
+            this._face(soldier);
+        }
     };
     p.totalSoldiers = function () {
         return this._soldiers.length;
@@ -28,7 +30,7 @@ var Enemy = (function (_super) {
             }
         }
         if (this._soldiers.length == 0) {
-            this.move();
+            this._moveAgain();
         }
         else {
             this._face(this._soldiers[0]);
@@ -41,16 +43,16 @@ var Enemy = (function (_super) {
         this._path++;
         var p1 = this._paths[this._path];
         this._computeSteps(p0[0], p0[1], p1[0], p1[1]);
-        this._turn(this._direction8(p1[0], p1[1]));
+        this._turn(this._direction4(p1[0], p1[1]));
     };
     p.kill = function () {
         _super.prototype.kill.call(this);
         application.battle.incGolds(this._bonus);
     };
-    p.move = function () {
-        _super.prototype.move.call(this);
+    p._moveAgain = function () {
         //格斗结束后，继续行走需要转向
-        this._turn(this._direction8(this._paths[this._path][0], this._paths[this._path][1]));
+        this._turn(this._direction4(this._paths[this._path][0], this._paths[this._path][1]));
+        this.move();
     };
     p._moving = function () {
         if (this._moveOneStep()) {
@@ -70,7 +72,7 @@ var Enemy = (function (_super) {
             }
         }
         else {
-            this.move();
+            this._moveAgain();
         }
     };
     return Enemy;

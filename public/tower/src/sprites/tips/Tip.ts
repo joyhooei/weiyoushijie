@@ -1,5 +1,5 @@
 class Tip extends Entity {
-    private _dyingTicks: number;
+    protected _dyingTicks: number;
     
     public constructor() {
         super();
@@ -8,7 +8,7 @@ class Tip extends Entity {
     public initialize(properties:any) {
         super.initialize(properties);
         
-        this._dyingTicks = this._get(properties, "dyingTicks", 1000);
+        this._dyingTicks = this._get(properties, "dyingTicks", 1000 * application.frameRate);
         
         this.kill();
     }
