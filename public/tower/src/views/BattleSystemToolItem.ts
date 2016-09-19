@@ -9,7 +9,7 @@ class BattleSystemToolItem extends BattleToolItem {
         super(tool);
         
         this._ticks = 0;
-        this._maxTicks = 10;
+        this._maxTicks = 10 * application.frameRate;
         
         this._shapeShield= new egret.Shape();
         this.addChild(this._shapeShield);
@@ -54,6 +54,7 @@ class BattleSystemToolItem extends BattleToolItem {
     }
     
     private _drawProgress(percent:number, total:number) {
+    	this._shapeShield.graphics.clear();
     	this._shapeShield.graphics.beginFill(0x000000, 0.1);
     	this._shapeShield.graphics.drawArc(this.width / 2, this.height / 2, this.width / 2, ((2 * percent / total) - 0.5) * Math.PI, 1.5 * Math.PI, false);
     	this._shapeShield.graphics.endFill();
