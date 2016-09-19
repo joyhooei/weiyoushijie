@@ -29,9 +29,12 @@ class Enemy extends NPC {
     
     public addSoldier(soldier: Soldier) {
         this._soldiers.push(soldier);
-        this.guard();
         
-        this._face(this._soldiers[0]);
+        if (this._state == EntityState.moving) {
+        	this.guard();
+
+        	this._face(soldier);
+        }
     }
     
     public totalSoldiers(): number {
@@ -46,7 +49,7 @@ class Enemy extends NPC {
         }
         
         if (this._soldiers.length == 0) {
-            this.move();
+            this._moveAgain();
         } else {
             this._face(this._soldiers[0]);
         }
@@ -63,7 +66,7 @@ class Enemy extends NPC {
         let p1 = this._paths[this._path];
 
         this._computeSteps(p0[0], p0[1], p1[0], p1[1]);
-        this._turn(this._direction8(p1[0], p1[1]));
+        this._turn(this._direction4(p1[0], p1[1]));
     }
 
     public kill() {
@@ -72,11 +75,11 @@ class Enemy extends NPC {
     	application.battle.incGolds(this._bonus);
     }
     
-    public move() {
-    	super.move();
-    	
+    protected _moveAgain() {
     	//格斗结束后，继续行走需要转向
-    	this._turn(this._direction8(this._paths[this._path][0], this._paths[this._path][1]));
+    	this._turn(this._direction4(this._paths[this._path][0], this._paths[this._path][1]));
+    	
+    	this.move();
     }
 
     protected _moving() {
@@ -96,7 +99,7 @@ class Enemy extends NPC {
 	            this.rmvSoldier(this._soldiers[0]);
 	        }
     	} else {
-    		this.move();
+    		this._moveAgain();
     	}
     }
 }
