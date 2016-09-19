@@ -1,12 +1,16 @@
 class BattleUI extends AbstractUI {
 	public lblLives: eui.Label;
 	public lblGolds: eui.Label;
+	public lblWaves: eui.Label;
+	
     public grpSystemTools: eui.Group;
     public grpBoughtTools: eui.Group;
+    
     public grpBattle: eui.Group;
 
     public imgBack:  eui.Image;
     public imgStart: eui.Image;
+    public imgHelp: eui.Image;
     
     private _music: egret.Sound;
     private _channel: egret.SoundChannel;
@@ -31,12 +35,17 @@ class BattleUI extends AbstractUI {
         application.dao.addEventListener("Battle",function(evt: egret.Event) {
             self.lblLives.text = application.battle.getLives().toString();
             self.lblGolds.text = application.battle.getGolds().toString();
+            self.lblWaves.text = application.battle.getWaves().toString();
         }, self);
         
 		self.imgBack.addEventListener(egret.TouchEvent.TOUCH_TAP,() => {
 		    self._quitBattle();
 		}, self);
-
+        
+		self.imgHelp.addEventListener(egret.TouchEvent.TOUCH_TAP,() => {
+		    HelpUI.showMainHelp();
+		}, self);
+		
 		self.imgStart.addEventListener(egret.TouchEvent.TOUCH_TAP,() => {
 		    self._startBattle();
 
