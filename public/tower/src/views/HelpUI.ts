@@ -24,23 +24,7 @@ class HelpUI extends eui.Component{
             application.hideUI(this);
         }, this );        
     }
-    
-    
-    public static showAuctionHelp() {
-		let content = "1： 拍卖每天中午12点结束。\n";
-        content += "2： 前10名将获得钻石和勋章奖励，其余玩家的拍卖金币自动返还。\n";
-		content += "3： 拍卖期间，系统显示截至上个小时的最高出价，为新出价的玩家提供参考。\n";
-		content += "4： 玩家在拍卖结束前可以反复加价，每次加价最高为当前拥有的所有金币。\n";
-		content += "5： 每天首次参加拍卖可以在礼物页面中领取100钻石奖励。（每天12:00刷新）\n";
-		content += "－－－－－拍卖奖励 －－－－－\n";
-		content += "第1名 2000钻，1枚勋章\n";
-		content += "第2名 1500钻，500勋章碎片\n";
-		content += "第3名 1200钻，400勋章碎片\n";
-		content += "第4名 1000钻，300勋章碎片\n";
-		content += "第5-10名 1000钻，200勋章碎片\n";
-		application.showUI(new HelpUI(content));
-    }
-    
+
     public static showMainHelp() {
         let content = "玩法\n"
         content += "1. 点击中间舞者可产生金币，金币用来升级运营项目，而运营项目随等级提高从而产生更多的金币。\n"
