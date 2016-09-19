@@ -462,6 +462,16 @@ module.exports = function() {
 				state:  {type: Number, default: 0},
 				game: String
 			});
+
+			self.addModel("Result", {
+				customer_id: String,
+				battle: {type: Number, default: 1},
+				result:  {type: Number, default: 1},
+				score:  {type: Number, default: 0},
+				unused_bases:  {type: Number, default: 0},
+				stars:  {type: Number, default: 0},
+				game: String
+			});
 			
 			//英雄技能
 			self.addModel("Skill", {
