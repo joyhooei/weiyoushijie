@@ -23,8 +23,8 @@ class BattleUI extends AbstractUI {
         self._music = RES.getRes("bg_mp3");
         self._music.type = egret.Sound.MUSIC;
 
-        self.grpSystemTools.addChild(new BattleSystemToolItem({category: 'soldier'}));
-        self.grpSystemTools.addChild(new BattleSystemToolItem({category: 'fireball'}));
+        self.grpSystemTools.addChild(new BattleSystemToolItem({category: 'soldier', image: 'tool_soldier_png'}));
+        self.grpSystemTools.addChild(new BattleSystemToolItem({category: 'fireball', image: 'tool_fireball_png'}));
         
         application.dao.fetch("Tool", {customer_id: application.me.attrs.id, count: {$gt: 0}}).then(function(tools){
             for(let i = 0; i < tools.length; i++) {
