@@ -465,7 +465,7 @@ module.exports = function() {
 
 			self.addModel("Result", {
 				customer_id: String,
-				battle: {type: Number, default: 1},
+				battle: String,
 				result:  {type: Number, default: 1},
 				score:  {type: Number, default: 0},
 				unused_bases:  {type: Number, default: 0},
