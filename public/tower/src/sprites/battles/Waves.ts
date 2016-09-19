@@ -163,6 +163,8 @@ class Waves {
             } else {
                 application.battle.erase();
                 
+                application.battle.getResult().attrs.result = 2;
+                
                 return false;
             }
         }
