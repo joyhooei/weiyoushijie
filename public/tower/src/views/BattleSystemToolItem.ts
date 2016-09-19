@@ -13,12 +13,8 @@ class BattleSystemToolItem extends BattleToolItem {
         
         this._shapeShield= new egret.Shape();
         this.addChild(this._shapeShield);
-        
-        if (tool.category == "soldier") {
-        	this.imgTool.source = "tool_soldier_png";
-        } else if (tool.category == "fireball") {
-        	this.imgTool.source = "tool_fireball_png";
-        }
+
+        this.imgTool.source = tool.image;
         
 		application.stopwatch.addEventListener("second", function(event:egret.Event){
 		    if (this._ticks > 0) {
