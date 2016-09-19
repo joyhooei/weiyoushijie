@@ -8,10 +8,10 @@ class Sunwukong extends Hero {
         super();
         
         this.addClip("sunwukong_east_moving", "east-moving")
-                        .addClip("sunwukong_east_moving", "guarding")
-                        .addClip("sunwukong_east_fighting_1", "east-fighting")
-                        .addClip("sunwukong_east_fighting_2", "east-fighting")
-                        .addClip("sunwukong_east_fighting_3", "east-fighting");
+            .addClip("sunwukong_east_moving", "guarding")
+            .addClip("sunwukong_east_fighting_1", "west-fighting")
+            .addClip("sunwukong_east_fighting_2", "east-fighting")
+            .addClip("sunwukong_east_fighting_3", "east-fighting");
     }
     
     public setLegend(legend: Legend) {
@@ -64,7 +64,7 @@ class Sunwukong extends Hero {
             this._nextSkill();
         } else if (this._skill == 2) {
             for(let i = 0; i < this._skill2; i++) {
-                application.battle.addWarriorsByName("Warrior", this, {maxHp: 60 + (this._skill2 - 1) * 40, liveTicks:8 * application.frameRate});
+                application.battle.addWarriorsByName("Warrior", this, {maxHp: 60 + (this._skill2 - 1) * 40, guardRadius: this._guardRadius, liveTicks: 8 * application.frameRate});
             }
             
             this._nextSkill();
