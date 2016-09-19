@@ -70,19 +70,19 @@ class Waves {
         direction = Entity.direction4(paths[paths.length - 2][0], paths[paths.length - 2][1], paths[paths.length - 1][0], paths[paths.length - 1][1]);
         switch(direction) {
             case EntityDirection.east:
-                newPaths.push([this._mapWidth + entityWidth, paths[paths.length - 1][1] + deltaY]);        
+                newPaths.push([this._mapWidth, paths[paths.length - 1][1] + deltaY]);        
                 break;
                 
             case EntityDirection.west:
-                newPaths.push([- entityWidth, paths[paths.length - 1][1] + deltaY]);        
+                newPaths.push([0, paths[paths.length - 1][1] + deltaY]);        
                 break;
                 
             case EntityDirection.north:
-                 newPaths.push([paths[paths.length - 1][0] + deltaX, -entityWidth]);
+                 newPaths.push([paths[paths.length - 1][0] + deltaX, 0]);
                  break;
                  
             case EntityDirection.south:
-                newPaths.push([paths[paths.length - 1][0] + deltaX, this._mapHeight + entityWidth]);
+                newPaths.push([paths[paths.length - 1][0] + deltaX, this._mapHeight]);
                 break;
         }
         
