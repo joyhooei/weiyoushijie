@@ -104,7 +104,7 @@ class Battle extends Entity implements SoldierCreator {
 
         this.fight();
         
-        this._result = new Result({customer_id: application.me.attrs.id, battle: this._level, result: 0, score: 0, unused_bases: this._map.getBases().length, stars: 0});
+        this._result = new Result({customer_id: application.me.attrs.id, battle: this.getClassName(), result: 0, score: 0, unused_bases: this._map.getBases().length, stars: 0});
     }
     
     public readyUseTool(toolItem: BattleToolItem) {
