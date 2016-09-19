@@ -175,7 +175,11 @@ class Battle extends Entity implements SoldierCreator {
     public getGolds(): number {
         return this._golds;
     }
-
+    
+    public getWaves(): number {
+        return this._waves.getRounds();
+    }
+    
     public stain() {
         this.paint();
     }
