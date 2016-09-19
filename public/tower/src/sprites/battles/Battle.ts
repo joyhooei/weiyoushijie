@@ -35,6 +35,8 @@ class Battle extends Entity implements SoldierCreator {
     
     protected _focus: SelectableEntity;
     protected _toolItem: BattleToolItem;
+    
+    protected _result: Result;
 
     public constructor() {
         super();
@@ -101,6 +103,8 @@ class Battle extends Entity implements SoldierCreator {
         this._addEffects();
 
         this.fight();
+        
+        this._result = new Result({customer_id: application.me.attrs.id, battle: this._level, result: 0, score: 0, unused_bases: this._map.getBases().length, stars: 0});
     }
     
     public readyUseTool(toolItem: BattleToolItem) {
@@ -152,10 +156,15 @@ class Battle extends Entity implements SoldierCreator {
     	}        
     }
     
+    public getResult(): Result {
+        return this._result;
+    }
+    
     public incLives(lives: number) {
         this._lives += lives;
         
         if (this._lives <= 0) {
+            this._result.attrs.result = 1;
             this.erase();
         } else {
             application.dao.dispatchEventWith("Battle", true, {lives: this._lives});
