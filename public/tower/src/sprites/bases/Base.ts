@@ -5,6 +5,8 @@ class Base extends Entity implements SelectableEntity {
     
     protected _guardY: number;
     
+    protected _unused: boolean;
+    
     public constructor() {
         super();
 
@@ -18,8 +20,14 @@ class Base extends Entity implements SelectableEntity {
         this._guardY = this._get(properties, "guardY", 0);
         
         this._tower = null;
+        
+        this._unused = true;
 
         this.guard();
+    }
+    
+    public unused() : boolean {
+        return this._unused;
     }
     
     public getGuardX(): number {
@@ -35,6 +43,8 @@ class Base extends Entity implements SelectableEntity {
     }
     
     public setTower(tower: Tower) {
+        this._unused = false;
+        
         this._clearTower();
         
         this._tower = tower;
