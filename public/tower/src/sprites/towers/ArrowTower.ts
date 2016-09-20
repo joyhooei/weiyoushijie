@@ -23,18 +23,18 @@ class ArrowTower extends Tower {
     public guard(){
         super.guard();
 
-        this._addSoldier(this._soldierClaz, 36, 15);
-        this._addSoldier(this._soldierClaz, 50, 15);
+        this._addSoldier(this._soldierClaz, this.x + 36, this.y + 15);
+        this._addSoldier(this._soldierClaz, this.x + 50, this.y + 15);
     }
 
     protected _addSoldier(className:string, x: number, y: number) {
-        let soldier =  <ArrowSoldier>application.pool.get(className, {"guardX": this.getMapX(), "guardY": this.getMapY(), "guardRadius": this._guardRadius});
+        let soldier =  <ArrowSoldier>application.pool.get(className, {"guardX": x, "guardY": y, "guardRadius": this._guardRadius});
                 
-        soldier.x = x;
-        soldier.y = y;
+        soldier.setCenterX(x);
+        soldier.setBottomY(y);
         
         this._soldiers.push(soldier);
-        this.addChild(soldier);
+        application.battle.addChild(soldier);
     }
     
     public update() : boolean {       
