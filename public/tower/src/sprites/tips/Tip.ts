@@ -8,7 +8,7 @@ class Tip extends Entity {
     public initialize(properties:any) {
         super.initialize(properties);
         
-        this._dyingTicks = this._get(properties, "dyingTicks", 1000 * application.frameRate);
+        this._dyingTicks = this._get(properties, "dyingTicks", 3 * application.frameRate);
         
         this.kill();
     }
