@@ -20,19 +20,22 @@ class SoldierTower extends Tower implements SoldierCreator {
     }
     
     public guard() {
-        for(let i = 0; i <= 2; i++) {
-            this._addSoldier(<Soldier>application.pool.get(this._soldierClaz, {guardX: this._guardX, guardY: this._guardY, idleTicks: i * application.frameRate}));
-        }
-        
         super.guard();
+        
+        this._createSoldier(this._soldierClaz, {guardX: this._guardX + 10, guardY: this._guardY + 10, idleTicks: 0});
+        this._createSoldier(this._soldierClaz, {guardX: this._guardX - 10, guardY: this._guardY + 10, idleTicks:  application.frameRate});
+        this._createSoldier(this._soldierClaz, {guardX: this._guardX + 10, guardY: this._guardY - 10, idleTicks: 2 * application.frameRate});
+    }
+
+    private _createSoldier(claz:string, options:any) {
+        this._addSoldier(<Soldier>application.pool.get(claz, options));
     }
     
-    private _addSoldier(s:Soldier): Soldier {
+    private _addSoldier(s: Soldier) {
         s.setCreator(this);
         s.setCenterX(this.getCenterX());
         s.setBottomY(this.getBottomY());
-        application.battle.addSoldier(s);
         
-        return s;
+        application.battle.addSoldier(s);
     }
 }
