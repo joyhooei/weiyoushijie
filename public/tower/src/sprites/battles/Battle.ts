@@ -381,11 +381,7 @@ class Battle extends Entity implements SoldierCreator {
     }
     
     public createSoldier(soldier: Soldier):Soldier {
-        let hero = <Hero>soldier.relive(10000);
-        hero.x = soldier.x;
-        hero.y = soldier.y;
-        this.addSoldier(hero);
-
-        return hero;
+        this.addSoldier(soldier.relive(10 * application.frameRate));
+        return soldier;
     }
 }
