@@ -87,6 +87,18 @@ class Battle extends Entity implements SoldierCreator {
         this.fight();
     }
     
+    public lose() {
+        this._result.attrs.result = 2;
+
+        this.erase();
+    }
+    
+    public win() {
+        this._result.attrs.result = 1;
+
+        this.erase();        
+    }
+    
     public readyUseTool(toolItem: BattleToolItem) {
         this._toolItem = toolItem;
     }
@@ -144,8 +156,7 @@ class Battle extends Entity implements SoldierCreator {
         this._lives += lives;
         
         if (this._lives <= 0) {
-            this._result.attrs.result = 1;
-            this.erase();
+            this.lose();
         } else {
             application.dao.dispatchEventWith("Battle", true, {lives: this._lives});
         }
@@ -156,7 +167,7 @@ class Battle extends Entity implements SoldierCreator {
     }
     
     public incGolds(golds: number) {
-        this._golds += golds;
+        this._golds = math.Max(0, this._gold + golds);
         
         application.dao.dispatchEventWith("Battle", true, {golds: this._golds});
     }
@@ -258,7 +269,7 @@ class Battle extends Entity implements SoldierCreator {
     }
     
     public launch(wave: number, queue:number) {
-        this._waves.launchQueueNow(wave, queue);
+        this._waves.launchQueue(wave, queue);
     }
     
     public _fighting() {
