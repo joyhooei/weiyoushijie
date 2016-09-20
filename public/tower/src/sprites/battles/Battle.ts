@@ -3,6 +3,7 @@ class Battle extends Entity implements SoldierCreator {
 
     //己方
     protected _soldiers:  Soldier[];
+    protected _bases: Base[];
     
     //敌方
     protected _waves: Waves;
@@ -74,6 +75,7 @@ class Battle extends Entity implements SoldierCreator {
         this._soldiers = [];
         this._enemies = [];
         this._entities = [];
+        this._bases = [];
 
         this._dirts = [];
 
@@ -95,6 +97,12 @@ class Battle extends Entity implements SoldierCreator {
     
     public win() {
         this._result.attrs.result = 1;
+        
+        for(let i = 0; i < this._bases.length; i++) {
+            if (this._bases[i].unused()) {
+                this._result.attrs.unused_bases ++;
+            }
+        }
 
         this.erase();        
     }
@@ -258,6 +266,7 @@ class Battle extends Entity implements SoldierCreator {
         
         this._eraseEntities(this._soldiers);
         this._eraseEntities(this._enemies);
+        this._eraseEntities(this._bases);
         this._eraseEntities(this._entities);
     }
     
@@ -278,7 +287,8 @@ class Battle extends Entity implements SoldierCreator {
         }
         
         this._updateEntities(this._soldiers);
-        this._updateEntities(this._enemies);            
+        this._updateEntities(this._enemies);    
+        this._updateEntities(this._bases);   
         this._updateEntities(this._entities);            
     }
 
@@ -361,23 +371,23 @@ class Battle extends Entity implements SoldierCreator {
     }
 
     public addBase(base:Base) {
-        this._entities.push(base);
+        this._bases.push(base);
         this._layers[0].addChild(base);
     }
 
     public addSoldier(soldier:Soldier) {
         this._soldiers.push(soldier);
-        this._layers[0].addChild(soldier);
+        this._layers[1].addChild(soldier);
     }
     
     public addEnemy(enemy:Enemy) {
         this._enemies.push(enemy);
-        this._layers[0].addChild(enemy);          
+        this._layers[1].addChild(enemy);          
     }
     
     public addBullet(bullet:Bullet) {
         this._entities.push(bullet);
-        this._layers[1].addChild(bullet);
+        this._layers[2].addChild(bullet);
     }
 
     public addEntity(entity:Entity) {
