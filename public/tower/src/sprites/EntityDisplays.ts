@@ -3,14 +3,10 @@ class EntityDisplays {
 
     private _defaultDisplay: egret.DisplayObject;
 
-    private _entityName: string;
-    
-    public constructor(entityName:string) {
+    public constructor() {
         this._displays = [];
 
         this._defaultDisplay = null;
-
-        this._entityName = entityName;
     }
     
     public addBitmap(name:string, action?:string): egret.Bitmap {
@@ -27,7 +23,7 @@ class EntityDisplays {
         return bm;
     }
     
-    public addClip(name:string, action?:string): egret.MovieClip {
+    public addClip(name:string, action?:string, frameRate=16): egret.MovieClip {
         let data    = RES.getRes(name + "_json");
         let texture = RES.getRes(name + "_png");
         let mcf: egret.MovieClipDataFactory = new egret.MovieClipDataFactory(data, texture);
@@ -35,6 +31,8 @@ class EntityDisplays {
         let clip = new egret.MovieClip();
         let mcd: egret.MovieClipData = mcf.generateMovieClipData(name);
         clip.movieClipData = mcd;
+        
+        clip.frameRate = frameRate;
         
         if (action) {
             let idx = this._actionToIndex(action);
