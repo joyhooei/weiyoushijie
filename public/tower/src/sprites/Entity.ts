@@ -36,7 +36,7 @@ class Entity extends egret.Sprite {
     public constructor() {
         super();
         
-        this._displays = new EntityDisplays(this.getClassName());
+        this._displays = new EntityDisplays();
         
         this._displaySprite = new egret.Sprite();
         this.addChild(this._displaySprite);
@@ -210,7 +210,6 @@ class Entity extends egret.Sprite {
     protected _play(display: egret.DisplayObject, times = -1): egret.MovieClip {
         if (egret.getQualifiedClassName(display) == "egret.MovieClip") {
             let clip:egret.MovieClip = <egret.MovieClip>display;
-            clip.frameRate = 16;
             clip.gotoAndPlay(0, times);
             
             return clip;
