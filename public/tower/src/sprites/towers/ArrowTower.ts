@@ -6,11 +6,7 @@ class ArrowTower extends Tower {
     public constructor() {
         super();
     }
-    
-    public initialize(properties:any) {
-        super.initialize(properties);
-    }
-    
+
     public erase() {
         super.erase();
         
@@ -27,21 +23,13 @@ class ArrowTower extends Tower {
         this._addSoldier(this._soldierClaz, this.x + 50, this.y + 15);
     }
 
-    protected _addSoldier(className:string, x: number, y: number) {
-        let soldier =  <ArrowSoldier>application.pool.get(className, {"guardX": x, "guardY": y, "guardRadius": this._guardRadius});
+    protected _addSoldier(claz:string, x: number, y: number) {
+        let soldier =  <ArrowSoldier>application.pool.get(claz, {guardX: x, guardY: y, guardRadius: this._guardRadius});
                 
         soldier.setCenterX(x);
         soldier.setBottomY(y);
         
         this._soldiers.push(soldier);
-        application.battle.addChild(soldier);
-    }
-    
-    public update() : boolean {       
-        for(let i = 0; i < this._soldiers.length; i++) {
-            this._soldiers[i].update();
-        }
-
-        return super.update();
+        application.battle.addEntity(soldier);
     }
 }
