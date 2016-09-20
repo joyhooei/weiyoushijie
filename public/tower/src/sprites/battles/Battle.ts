@@ -1,14 +1,5 @@
 class Battle extends Entity implements SoldierCreator {
-    /**地基层*/
-    protected _baseLayer: egret.Sprite;
-    /**怪物层、士兵层层级排序)*/
-    protected _objLayer: egret.Sprite;
-    /**弓箭、炮弹层*/
-    protected _bulletLayer: egret.Sprite;
-    /**提示、范围层*/
-    protected _rangeLayer: egret.Sprite;
-    /**工具层*/
-    protected _toolLayer: egret.Sprite;
+    protected _layers: egret.Sprite[];
 
     //己方
     protected _soldiers:  Soldier[];
@@ -41,11 +32,7 @@ class Battle extends Entity implements SoldierCreator {
     public constructor() {
         super();
 
-        this._baseLayer     = this._addLayer();
-        this._objLayer      = this._addLayer();
-        this._bulletLayer   = this._addLayer();
-        this._rangeLayer    = this._addLayer();
-        this._toolLayer     = this._addLayer();
+        this._layers    = [this._addLayer(), this._addLayer(), this._addLayer()];
 
         this.touchEnabled = true;
         this.addEventListener(egret.TouchEvent.TOUCH_BEGIN, this._touch, this);    
@@ -79,32 +66,25 @@ class Battle extends Entity implements SoldierCreator {
     public start() {
         this._lives = this._maxLives;
         this._golds = this._maxGolds;
-         
-        this._baseLayer.removeChildren();
-        this._objLayer.removeChildren();
-        this._bulletLayer.removeChildren();
-        this._toolLayer.removeChildren();
-        this._rangeLayer.removeChildren();
+        
+        for(let i = 0; i < this._layers; i++) {
+            this._layers[i].removeChildren();
+        }
 
         this._soldiers = [];
-
         this._enemies = [];
-        
         this._entities = [];
-        
+
         this._dirts = [];
 
         this._addBases();
-
         this._addHeros();
-        
         this._addStandbys();
-        
         this._addEffects();
-
-        this.fight();
         
         this._result = new Result({customer_id: application.me.attrs.id, battle: this.getClassName(), result: 0, score: 0, unused_bases: this._map.getBases().length, stars: 0});
+
+        this.fight();
     }
     
     public readyUseTool(toolItem: BattleToolItem) {
@@ -141,7 +121,7 @@ class Battle extends Entity implements SoldierCreator {
                     let tip = <Tip>application.pool.get("DisableTip");
                     tip.setCenterX(x);
                     tip.setCenterY(y);
-                    this.addTip(tip);
+                    this.addEntity(tip);
                 }
     	    } else {
                 if (this._focus) {
@@ -237,7 +217,7 @@ class Battle extends Entity implements SoldierCreator {
             hero.setCenterX(pos[i][0][0]);
             hero.setBottomY(pos[i][0][1]);
             hero.setLegend(Legend.getByName(application.legends, heroName));
-            this.addHero(hero);
+            this.addSoldier(hero);
         }
     }
     
@@ -259,21 +239,9 @@ class Battle extends Entity implements SoldierCreator {
         let effect:Effect = <Effect>application.pool.get(effectName, {direction:direction});
         effect.x = x;
         effect.y = y;
-        this.addEffect(effect);
+        this.addEntity(effect);
     }    
-    
-    public showTool(ui:egret.DisplayObject, x:number, y:number) {
-        this.hideAllTools();
-        
-        ui.x = x - ui.width / 2;
-        ui.y = y - ui.height / 2;
-        this._toolLayer.addChild(ui);
-    }
-    
-    public hideAllTools() {
-        this._toolLayer.removeChildren();
-    }
-    
+
     public erase() {
         super.erase();
         
@@ -374,21 +342,6 @@ class Battle extends Entity implements SoldierCreator {
         
         return enemy;
     }
-
-    public addHero(hero:Hero) {
-        this._soldiers.push(hero);
-        this._objLayer.addChild(hero);      
-    }
-
-    public addSoldier(soldier:Soldier) {
-        this._soldiers.push(soldier);
-        this._objLayer.addChild(soldier);
-    }
-    
-    public addEnemy(enemy:Enemy) {
-        this._enemies.push(enemy);
-        this._objLayer.addChild(enemy);          
-    }
     
     public killAllEnemies() {
         for(let i = 0; i < this._enemies.length; i++) {
@@ -398,27 +351,27 @@ class Battle extends Entity implements SoldierCreator {
 
     public addBase(base:Base) {
         this._entities.push(base);
-        this._baseLayer.addChild(base);
+        this._layers[0].addChild(base);
+    }
+
+    public addSoldier(soldier:Soldier) {
+        this._soldiers.push(soldier);
+        this._layers[0].addChild(soldier);
+    }
+    
+    public addEnemy(enemy:Enemy) {
+        this._enemies.push(enemy);
+        this._layers[0].addChild(enemy);          
     }
     
     public addBullet(bullet:Bullet) {
         this._entities.push(bullet);
-        this._bulletLayer.addChild(bullet);
+        this._layers[1].addChild(bullet);
     }
 
-    public addTip(entity:Tip) {
+    public addEntity(entity:Entity) {
         this._entities.push(entity);
-        this._rangeLayer.addChild(entity);      
-    }
-
-    public addRange(entity:GuardRange) {
-        this._entities.push(entity);
-        this._rangeLayer.addChild(entity);      
-    }
-
-    public addEffect(entity:Effect) {
-        this._entities.push(entity);
-        this._rangeLayer.addChild(entity);      
+        this._layers[2].addChild(entity);          
     }
     
     public addDirt(entity: Entity) {
@@ -431,7 +384,7 @@ class Battle extends Entity implements SoldierCreator {
         let hero = <Hero>soldier.relive(10000);
         hero.x = soldier.x;
         hero.y = soldier.y;
-        this.addHero(hero);
+        this.addSoldier(hero);
 
         return hero;
     }
