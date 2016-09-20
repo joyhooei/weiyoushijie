@@ -34,12 +34,17 @@ class LaunchTip extends Tip {
     }
     
     protected _dying() {
-        this._ticks ++;
         if (this._ticks > this._dyingTicks) {
             this.erase();
 
             application.battle.launch(this._wave, this._queue);
+        } else {
+            if (this._ticks % 3 == 0) {
+                this.stain();
+            }
         }
+        
+        this._ticks ++;
     }
     
     public paint() {
