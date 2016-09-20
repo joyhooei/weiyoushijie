@@ -1,4 +1,4 @@
 <?xml version='1.0' encoding='utf-8'?>
 <e:Skin class="blockUISkin" width="800" height="480" xmlns:e="http://ns.egret.com/eui">
-	<e:Rect width="800" height="480" x="0" y="0" fillAlpha="0.21" enabled="true"/>
+	<e:Rect width="800" height="480" x="0" y="0" fillAlpha="0.01" enabled="true" id="rcBlock"/>
 </e:Skin>
