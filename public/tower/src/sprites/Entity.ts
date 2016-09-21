@@ -309,13 +309,6 @@ class Entity extends egret.Sprite {
 	public static intersect(x1:number, y1:number, width1:number, height1:number, x2:number, y2:number, width2:number, height2:number):boolean {
 		return !(x1 > x2 + width2 ||  x1 + width1 < x2 || y1 > y2 + height2 || y1 + height1 < y2);		
 	}
-	
-    protected _direction8(x:number, y:number):EntityDirection {
-        let angels = [22.5, 67.5, 112.5, 157.5, 202.5, 247.5, 292.5, 337.5, 360];
-        let directions = [EntityDirection.east, EntityDirection.northeast, EntityDirection.north, EntityDirection.northwest, EntityDirection.west, EntityDirection.southwest, EntityDirection.south, EntityDirection.southeast, EntityDirection.east ];
-        
-        return Entity.direction(this.x, this.y, x, y, angels, directions);
-    }
     
     protected _direction4(x:number, y:number):EntityDirection {
         return Entity.direction4(this.x, this.y, x, y);

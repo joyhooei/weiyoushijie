@@ -10,20 +10,24 @@ var SoldierTower = (function (_super) {
         this._guardY = this._get(properties, "guardY", 10);
     };
     p.createSoldier = function (soldier) {
-        return this._addSoldier(soldier.relive(10 * application.frameRate));
+        soldier.relive(10 * application.frameRate);
+        this._addSoldier(soldier);
+        return soldier;
     };
     p.guard = function () {
-        for (var i = 0; i <= 2; i++) {
-            this._addSoldier(application.pool.get(this._soldierClaz, { guardX: this._guardX, guardY: this._guardY, idleTicks: i * application.frameRate }));
-        }
         _super.prototype.guard.call(this);
+        this._createSoldier(this._soldierClaz, { guardX: this._guardX + 10, guardY: this._guardY + 10, idleTicks: 0 });
+        this._createSoldier(this._soldierClaz, { guardX: this._guardX - 10, guardY: this._guardY + 10, idleTicks: application.frameRate });
+        this._createSoldier(this._soldierClaz, { guardX: this._guardX + 10, guardY: this._guardY - 10, idleTicks: 2 * application.frameRate });
+    };
+    p._createSoldier = function (claz, options) {
+        this._addSoldier(application.pool.get(claz, options));
     };
     p._addSoldier = function (s) {
         s.setCreator(this);
         s.setCenterX(this.getCenterX());
         s.setBottomY(this.getBottomY());
         application.battle.addSoldier(s);
-        return s;
     };
     return SoldierTower;
 }(Tower));

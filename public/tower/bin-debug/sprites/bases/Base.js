@@ -10,7 +10,17 @@ var Base = (function (_super) {
         this._guardX = this._get(properties, "guardX", 0);
         this._guardY = this._get(properties, "guardY", 0);
         this._tower = null;
+        this._unused = true;
         this.guard();
+    };
+    p.update = function () {
+        if (this._tower) {
+            this._tower.update();
+        }
+        return _super.prototype.update.call(this);
+    };
+    p.unused = function () {
+        return this._unused;
     };
     p.getGuardX = function () {
         return this._guardX;
@@ -22,6 +32,7 @@ var Base = (function (_super) {
         return this._tower;
     };
     p.setTower = function (tower) {
+        this._unused = false;
         this._clearTower();
         this._tower = tower;
         if (this._tower) {
@@ -53,7 +64,6 @@ var Base = (function (_super) {
         return true;
     };
     p.deselect = function () {
-        application.battle.hideAllTools();
     };
     return Base;
 }(Entity));

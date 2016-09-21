@@ -73,6 +73,7 @@ var game_file_list = [
 	"bin-debug/sprites/npcs/enemies/bosses/Boss.js",
 	"bin-debug/sprites/npcs/soldiers/Soldier.js",
 	"bin-debug/sprites/npcs/soldiers/ArrowSoldier.js",
+	"bin-debug/sprites/npcs/soldiers/ArrowSoldier1.js",
 	"bin-debug/sprites/npcs/soldiers/GuardRange.js",
 	"bin-debug/sprites/npcs/soldiers/Reinforce.js",
 	"bin-debug/sprites/npcs/soldiers/Soldier1.js",

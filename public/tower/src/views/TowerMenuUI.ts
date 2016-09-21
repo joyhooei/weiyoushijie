@@ -19,7 +19,7 @@ class TowerMenuUI extends AbstractUI{
 		    let price = parseInt(this.lblSellPrice.text);
 	        application.battle.incGolds(price);
 
-	        application.battle.hideAllTools();
+	        application.hideUI(this);
 		}, this);
     }
     

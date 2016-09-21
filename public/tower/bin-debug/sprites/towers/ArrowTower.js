@@ -6,34 +6,26 @@ var ArrowTower = (function (_super) {
     var d = __define,c=ArrowTower,p=c.prototype;
     p.initialize = function (properties) {
         _super.prototype.initialize.call(this, properties);
+        this._soldiers = [];
     };
     p.erase = function () {
         _super.prototype.erase.call(this);
         for (var i = 0; i < this._soldiers.length; i++) {
             this._soldiers[i].erase();
         }
+        this._soldiers = [];
     };
     p.guard = function () {
         _super.prototype.guard.call(this);
-        for (var i = 0; i < this._soldiers.length; i++) {
-            this.addChild(this._soldiers[i]);
-        }
+        this._addSoldier(this._soldierClaz, this.x + 36, this.y + 15);
+        this._addSoldier(this._soldierClaz, this.x + 50, this.y + 15);
     };
-    p._createSoliders = function (className) {
-        this._soldiers.push(this._createSoldier(className, 36, 15));
-        this._soldiers.push(this._createSoldier(className, 50, 15));
-    };
-    p._createSoldier = function (className, x, y) {
-        var soldier = application.pool.get(className, { "guardX": this.getMapX(), "guardY": this.getMapY(), "guardRadius": this._guardRadius });
-        soldier.x = x;
-        soldier.y = y;
-        return soldier;
-    };
-    p.update = function () {
-        for (var i = 0; i < this._soldiers.length; i++) {
-            this._soldiers[i].update();
-        }
-        return _super.prototype.update.call(this);
+    p._addSoldier = function (claz, x, y) {
+        var soldier = application.pool.get(claz, { guardX: x, guardY: y, guardRadius: this._guardRadius });
+        soldier.setCenterX(x);
+        soldier.setBottomY(y);
+        this._soldiers.push(soldier);
+        application.battle.addEntity(soldier);
     };
     return ArrowTower;
 }(Tower));

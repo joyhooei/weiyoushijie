@@ -23,9 +23,9 @@ var Bullet = (function (_super) {
     };
     Bullet.shoot = function (sourceX, sourceY, targetX, targetY, claz) {
         var bullet = application.pool.get(claz);
-        bullet.x = sourceX;
-        bullet.y = sourceY;
-        bullet.setTargetPosition(targetX, targetY);
+        bullet.setCenterX(sourceX);
+        bullet.setCenterY(sourceY);
+        bullet.setTargetPosition(targetX - bullet.width / 2, targetY - bullet.height / 2);
         application.battle.addBullet(bullet);
         return bullet;
     };

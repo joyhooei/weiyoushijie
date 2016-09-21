@@ -25,6 +25,14 @@ class Base extends Entity implements SelectableEntity {
 
         this.guard();
     }
+
+    public update():boolean {
+        if (this._tower) {
+            this._tower.update();
+        }
+        
+    	return super.update();
+    }
     
     public unused() : boolean {
         return this._unused;
@@ -85,6 +93,5 @@ class Base extends Entity implements SelectableEntity {
     }
     
     public deselect() {
-        application.battle.hideAllTools();
     }
 }

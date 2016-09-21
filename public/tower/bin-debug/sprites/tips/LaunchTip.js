@@ -23,11 +23,16 @@ var LaunchTip = (function (_super) {
         }
     };
     p._dying = function () {
-        this._ticks++;
         if (this._ticks > this._dyingTicks) {
             this.erase();
             application.battle.launch(this._wave, this._queue);
         }
+        else {
+            if (this._ticks % 3 == 0) {
+                this.stain();
+            }
+        }
+        this._ticks++;
     };
     p.paint = function () {
         this._shapeShield.graphics.clear();

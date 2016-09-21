@@ -28,9 +28,9 @@ class Bullet extends MovableEntity {
     
     public static shoot(sourceX: number, sourceY: number, targetX: number, targetY: number, claz:string): Bullet {
         let bullet = <Bullet>application.pool.get(claz);
-        bullet.x = sourceX;
-        bullet.y = sourceY;
-        bullet.setTargetPosition(targetX, targetY);
+        bullet.setCenterX(sourceX);
+        bullet.setCenterY(sourceY);
+        bullet.setTargetPosition(targetX - bullet.width / 2, targetY - bullet.height / 2);
         application.battle.addBullet(bullet);
         
         return bullet;

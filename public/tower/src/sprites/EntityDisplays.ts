@@ -23,7 +23,7 @@ class EntityDisplays {
         return bm;
     }
     
-    public addClip(name:string, action?:string, frameRate=16): egret.MovieClip {
+    public addClip(name:string, action?:string): egret.MovieClip {
         let data    = RES.getRes(name + "_json");
         let texture = RES.getRes(name + "_png");
         let mcf: egret.MovieClipDataFactory = new egret.MovieClipDataFactory(data, texture);
@@ -31,8 +31,6 @@ class EntityDisplays {
         let clip = new egret.MovieClip();
         let mcd: egret.MovieClipData = mcf.generateMovieClipData(name);
         clip.movieClipData = mcd;
-        
-        clip.frameRate = frameRate;
         
         if (action) {
             let idx = this._actionToIndex(action);

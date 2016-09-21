@@ -1,6 +1,6 @@
 class MovableEntity extends Entity {
     //一步走多远
-    protected _step: number;
+    protected _moveSpeed: number;
     
     //等待多少时间开始显示
     protected _idleTicks: number;
@@ -22,7 +22,7 @@ class MovableEntity extends Entity {
     public initialize(properties:any) {
         super.initialize(properties);
         
-        this._step       = this._get(properties, "step", 1);
+        this._moveSpeed  = this._get(properties, "moveSpeed", 1);
         this._idleTicks  = this._get(properties, "idleTicks", 0);
         this._dyingTicks = this._get(properties, "dyingTicks", 5);
 
@@ -52,9 +52,9 @@ class MovableEntity extends Entity {
 	    let dx = Math.abs(x1 - x2);
 	    let dy = Math.abs(y1 - y2);
 	    if (dx >= dy) {
-	    	this._totalSteps = Math.floor(dx / this._step);
+	    	this._totalSteps = Math.floor(dx / this._moveSpeed);
 	    } else {
-	    	this._totalSteps = Math.floor(dy / this._step);
+	    	this._totalSteps = Math.floor(dy / this._moveSpeed);
 	    }
 	    
 	    if (this._totalSteps > 0) {

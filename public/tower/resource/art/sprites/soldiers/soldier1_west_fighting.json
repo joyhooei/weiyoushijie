@@ -1,0 +1,1 @@
+{"mc":{"defencetower_1_att":{"frameRate":3,"events":[],"frames":[{"duration":1,"y":-16,"res":"newAnimation_0","x":-11},{"duration":1,"y":-16,"res":"newAnimation_1","x":-12}],"labels":[{"end":2,"name":"newAnimation","frame":1}]}},"file":"texture.png","res":{"newAnimation_0":{"x":30,"y":1,"w":24,"h":31},"newAnimation_1":{"x":1,"y":1,"w":27,"h":31}}}

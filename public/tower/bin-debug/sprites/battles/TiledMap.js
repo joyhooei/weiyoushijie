@@ -149,7 +149,7 @@ var TiledMap = (function (_super) {
             var o = og.getObjectByIndex(i);
             var name_3 = o.name;
             var arrayOfStrings = name_3.split("-");
-            if (arrayOfStrings.length == 2 && arrayOfStrings[0] == 'base' || arrayOfStrings[0] == 'guarder') {
+            if (arrayOfStrings.length == 2 && (arrayOfStrings[0] == 'base' || arrayOfStrings[0] == 'guard')) {
                 var idx = +arrayOfStrings[1];
                 if (!bases[idx]) {
                     bases[idx] = [];

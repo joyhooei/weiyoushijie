@@ -43,7 +43,7 @@ class BuildTowerUI extends AbstractUI{
 		    if (application.battle.getGolds() > price) {
 		        application.battle.incGolds(-price);
 		        
-		        this._base.setTower(<Tower>application.pool.get(claz));
+		        this._base.setTower(<Tower>application.pool.get(claz, {guardX: this._base.getGuardX(), guardY: this._base.getGuardY()}));
 		        
 		        application.hideUI(this);
 		    }

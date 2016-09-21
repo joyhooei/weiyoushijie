@@ -6,6 +6,12 @@ class ArrowTower extends Tower {
     public constructor() {
         super();
     }
+    
+    public initialize(properties:any) {
+        super.initialize(properties);
+        
+        this._soldiers = [];
+    }
 
     public erase() {
         super.erase();

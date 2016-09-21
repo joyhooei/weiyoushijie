@@ -14,6 +14,15 @@ var Tower = (function (_super) {
         this._sellPrice = this._get(properties, "sellPrice", 100);
         this._guardRadius = this._get(properties, "guardRadius", 10);
     };
+    p.getCenterX = function () {
+        return this.parent.x + (this.width >> 1);
+    };
+    p.getCenterY = function () {
+        return this.parent.y + (this.height >> 1);
+    };
+    p.getBottomY = function () {
+        return this.parent.y + this.height;
+    };
     p.erase = function () {
         _super.prototype.erase.call(this);
         application.battle.incGolds(this._sellPrice);

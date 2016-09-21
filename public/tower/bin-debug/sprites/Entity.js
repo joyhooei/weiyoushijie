@@ -25,7 +25,7 @@ var Entity = (function (_super) {
     __extends(Entity, _super);
     function Entity() {
         _super.call(this);
-        this._displays = new EntityDisplays(this.getClassName());
+        this._displays = new EntityDisplays();
         this._displaySprite = new egret.Sprite();
         this.addChild(this._displaySprite);
         this._sounds = new EntitySounds();
@@ -162,7 +162,6 @@ var Entity = (function (_super) {
         if (times === void 0) { times = -1; }
         if (egret.getQualifiedClassName(display) == "egret.MovieClip") {
             var clip = display;
-            clip.frameRate = 16;
             clip.gotoAndPlay(0, times);
             return clip;
         }
@@ -243,11 +242,6 @@ var Entity = (function (_super) {
     };
     Entity.intersect = function (x1, y1, width1, height1, x2, y2, width2, height2) {
         return !(x1 > x2 + width2 || x1 + width1 < x2 || y1 > y2 + height2 || y1 + height1 < y2);
-    };
-    p._direction8 = function (x, y) {
-        var angels = [22.5, 67.5, 112.5, 157.5, 202.5, 247.5, 292.5, 337.5, 360];
-        var directions = [EntityDirection.east, EntityDirection.northeast, EntityDirection.north, EntityDirection.northwest, EntityDirection.west, EntityDirection.southwest, EntityDirection.south, EntityDirection.southeast, EntityDirection.east];
-        return Entity.direction(this.x, this.y, x, y, angels, directions);
     };
     p._direction4 = function (x, y) {
         return Entity.direction4(this.x, this.y, x, y);

@@ -25,7 +25,7 @@ var BuildTowerUI = (function (_super) {
         clip.addEventListener(egret.TouchEvent.TOUCH_TAP, function () {
             if (application.battle.getGolds() > price) {
                 application.battle.incGolds(-price);
-                _this._base.setTower(application.pool.get(claz));
+                _this._base.setTower(application.pool.get(claz, { guardX: _this._base.getGuardX(), guardY: _this._base.getGuardY() }));
                 application.hideUI(_this);
             }
         }, this);

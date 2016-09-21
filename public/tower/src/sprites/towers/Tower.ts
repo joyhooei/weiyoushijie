@@ -28,6 +28,18 @@ class Tower extends Entity {
         this._guardRadius = this._get(properties, "guardRadius", 10);
     }
 
+    public getCenterX(): number {
+    	return this.parent.x + (this.width >> 1);
+    }
+    
+    public getCenterY(): number {
+    	return this.parent.y + (this.height >> 1);
+    }
+	
+	public getBottomY(): number {
+		return this.parent.y + this.height;
+	}
+
     public erase() {
         super.erase();
         

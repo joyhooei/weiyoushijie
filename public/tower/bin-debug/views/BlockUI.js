@@ -6,7 +6,7 @@ var BlockUI = (function (_super) {
         this.addEventListener(egret.TouchEvent.TOUCH_TAP, function (event) {
             for (var i = 0; i < _this.numChildren; i++) {
                 var child = _this.getChildAt(i);
-                if (egret.getQualifiedClassName(child) != "eui.Rect" && child.hitTestPoint(event.stageX, event.stageY)) {
+                if (child != _this.rcBlock && child.hitTestPoint(event.stageX, event.stageY)) {
                     return;
                 }
             }

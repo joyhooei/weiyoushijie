@@ -68,7 +68,7 @@ class Battle extends Entity implements SoldierCreator {
         this._lives = this._maxLives;
         this._golds = this._maxGolds;
         
-        for(let i = 0; i < this._layers; i++) {
+        for(let i = 0; i < this._layers.length; i++) {
             this._layers[i].removeChildren();
         }
 
@@ -175,7 +175,7 @@ class Battle extends Entity implements SoldierCreator {
     }
     
     public incGolds(golds: number) {
-        this._golds = math.Max(0, this._gold + golds);
+        this._golds = Math.max(0, this._golds + golds);
         
         application.dao.dispatchEventWith("Battle", true, {golds: this._golds});
     }

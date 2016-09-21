@@ -1,7 +1,7 @@
 {
 	"groups": [
 		{
-			"keys": "world_jpg,base3_png,base2_png,base1_png,bg_mp3,soldier1_json,soldier1_png,tool_soldier_png,tool_fireball_png,wolf_east_moving_png,wolf_east_moving_json,wolf_east_fighting_png,wolf_east_fighting_json,wolf_dying_png,wolf_dying_json,warrior_east_fighting_png,warrior_east_fighting_json,warrior_dying_png,warrior_dying_json,sunwukong_east_moving_png,sunwukong_east_moving_json,sunwukong_east_fighting_3_png,sunwukong_east_fighting_3_json,sunwukong_east_fighting_2_png,sunwukong_east_fighting_2_json,sunwukong_east_fighting_1_png,sunwukong_east_fighting_1_json,base4_png,arrowtower31_png,arrowtower32_png,arrowtower1_png,arrowtower2_png,rhino_east_moving_png,rhino_east_moving_json,rhino_east_fighting_png,rhino_east_fighting_json,rhino_dying_png,rhino_dying_json,hogs_east_moving_png,hogs_east_moving_json,hogs_east_fighting_png,hogs_east_fighting_json,hogs_dying_png,hogs_dying_json,reinforce_east_moving_png,reinforce_east_moving_json,reinforce_east_fighting_png,reinforce_east_fighting_json,reinforce_dying_png,reinforce_dying_json,river_east_moving_png,river_east_moving_json,cock_east_moving_png,cock_east_moving_json,waves_png,hero_png,back_png,start_png,map2_jpg,arrow_tower_json,bomb_tower_json,bomb_tower_png,magic_tower_json,magic_tower_png,soldier_tower_json,soldier_tower_png,arrow_tower_png,fireball_moving_png,fireball_moving_json,fireball_dying_png,fireball_dying_json",
+			"keys": "world_jpg,base3_png,base2_png,base1_png,bg_mp3,tool_soldier_png,tool_fireball_png,wolf_east_moving_png,wolf_east_moving_json,wolf_east_fighting_png,wolf_east_fighting_json,wolf_dying_png,wolf_dying_json,warrior_east_fighting_png,warrior_east_fighting_json,warrior_dying_png,warrior_dying_json,sunwukong_east_moving_png,sunwukong_east_moving_json,sunwukong_east_fighting_3_png,sunwukong_east_fighting_3_json,sunwukong_east_fighting_2_png,sunwukong_east_fighting_2_json,sunwukong_east_fighting_1_png,sunwukong_east_fighting_1_json,base4_png,arrowtower1_png,arrowtower2_png,rhino_east_moving_png,rhino_east_moving_json,rhino_east_fighting_png,rhino_east_fighting_json,rhino_dying_png,rhino_dying_json,hogs_east_moving_png,hogs_east_moving_json,hogs_east_fighting_png,hogs_east_fighting_json,hogs_dying_png,hogs_dying_json,reinforce_east_moving_png,reinforce_east_moving_json,reinforce_east_fighting_png,reinforce_east_fighting_json,reinforce_dying_png,reinforce_dying_json,river_east_moving_png,river_east_moving_json,cock_east_moving_png,cock_east_moving_json,waves_png,hero_png,back_png,start_png,map2_jpg,arrow_tower_json,bomb_tower_json,bomb_tower_png,magic_tower_json,magic_tower_png,soldier_tower_json,soldier_tower_png,arrow_tower_png,fireball_moving_png,fireball_moving_json,fireball_dying_png,fireball_dying_json,soldiertower5_png,soldiertower4_png,soldiertower3_png,soldiertower2_png,soldiertower1_png,magictower5_png,magictower4_png,magictower3_png,magictower2_png,magictower1_png,bombtower5_png,bombtower4_png,bombtower3_png,bombtower2_png,bombtower1_png,arrowtower5_png,arrowtower4_png,arrowtower3_png,soldier1_west_moving_png,soldier1_west_moving_json,soldier1_west_fighting_png,soldier1_west_fighting_json,soldier1_dying_png,soldier1_dying_json",
 			"name": "home"
 		},
 		{
@@ -9,7 +9,7 @@
 			"name": "landing"
 		},
 		{
-			"keys": "login_png,loginb_png,world2_jpg,base2_png,base3_png,base1_png,bg_mp3,soldier1_png,tool_fireball_png,tool_soldier_png,wolf_east_fighting_json,wolf_east_fighting_png,wolf_dying_json,wolf_dying_png,wolf_east_moving_json,wolf_east_moving_png,sunwukong_east_moving_json,sunwukong_east_moving_png,warrior_east_fighting_json,warrior_east_fighting_png,warrior_dying_json,warrior_dying_png,sunwukong_east_fighting_1_json,sunwukong_east_fighting_1_png,sunwukong_east_fighting_2_json,sunwukong_east_fighting_2_png,sunwukong_east_fighting_3_json,sunwukong_east_fighting_3_png,fireball_moving_json,fireball_moving_png,fireball_dying_json,fireball_dying_png,base4_png,arrowtower1_png,arrowtower2_png,arrowtower31_png,arrowtower32_png,reinforce_east_fighting_json,reinforce_east_fighting_png,reinforce_east_moving_json,reinforce_east_moving_png,reinforce_dying_json,reinforce_dying_png,rhino_east_moving_json,rhino_east_moving_png,rhino_dying_json,rhino_dying_png,rhino_east_fighting_json,rhino_east_fighting_png,hogs_east_fighting_json,hogs_east_fighting_png,hogs_dying_json,hogs_dying_png,hogs_east_moving_json,hogs_east_moving_png,cock_east_moving_json,cock_east_moving_png,river_east_moving_json,river_east_moving_png,waves_png,hero_png,back_png,help_png,start_png,map2_jpg,towerbuild_png,arrow_tower_json,bomb_tower_json,bomb_tower_png,soldier_tower_json,soldier_tower_png,magic_tower_json,magic_tower_png,arrow_tower_png",
+			"keys": "login_png,loginb_png,world2_jpg,base2_png,base3_png,base1_png,bg_mp3,tool_fireball_png,tool_soldier_png,wolf_east_fighting_json,wolf_east_fighting_png,wolf_dying_json,wolf_dying_png,wolf_east_moving_json,wolf_east_moving_png,sunwukong_east_moving_json,sunwukong_east_moving_png,warrior_east_fighting_json,warrior_east_fighting_png,warrior_dying_json,warrior_dying_png,sunwukong_east_fighting_1_json,sunwukong_east_fighting_1_png,sunwukong_east_fighting_2_json,sunwukong_east_fighting_2_png,sunwukong_east_fighting_3_json,sunwukong_east_fighting_3_png,fireball_moving_json,fireball_moving_png,fireball_dying_json,fireball_dying_png,base4_png,arrowtower1_png,arrowtower2_png,reinforce_east_fighting_json,reinforce_east_fighting_png,reinforce_east_moving_json,reinforce_east_moving_png,reinforce_dying_json,reinforce_dying_png,rhino_east_moving_json,rhino_east_moving_png,rhino_dying_json,rhino_dying_png,rhino_east_fighting_json,rhino_east_fighting_png,hogs_east_fighting_json,hogs_east_fighting_png,hogs_dying_json,hogs_dying_png,hogs_east_moving_json,hogs_east_moving_png,cock_east_moving_json,cock_east_moving_png,river_east_moving_json,river_east_moving_png,waves_png,hero_png,back_png,help_png,start_png,map2_jpg,towerbuild_png,arrow_tower_json,bomb_tower_json,bomb_tower_png,soldier_tower_json,soldier_tower_png,magic_tower_json,magic_tower_png,arrow_tower_png,arrowtower3_png,arrowtower4_png,arrowtower5_png,soldiertower1_png,soldiertower2_png,soldiertower3_png,soldiertower4_png,soldiertower5_png,bombtower1_png,bombtower2_png,bombtower3_png,bombtower4_png,bombtower5_png,magictower1_png,magictower2_png,magictower3_png,magictower4_png,magictower5_png,soldier1_west_moving_json,soldier1_west_moving_png,soldier1_dying_json,soldier1_dying_png,soldier1_west_fighting_json,soldier1_west_fighting_png",
 			"name": "preload"
 		},
 		{
@@ -67,16 +67,6 @@
 			"url": "art/sound/bg.mp3",
 			"type": "sound",
 			"name": "bg_mp3"
-		},
-		{
-			"url": "art/sprites/soldiers/soldier1.png",
-			"type": "image",
-			"name": "soldier1_png"
-		},
-		{
-			"url": "art/sprites/soldiers/soldier1.json",
-			"type": "json",
-			"name": "soldier1_json"
 		},
 		{
 			"url": "art/home/tool_fireball.png",
@@ -212,16 +202,6 @@
 			"url": "art/sprites/towers/arrowtower2.png",
 			"type": "image",
 			"name": "arrowtower2_png"
-		},
-		{
-			"url": "art/sprites/towers/arrowtower31.png",
-			"type": "image",
-			"name": "arrowtower31_png"
-		},
-		{
-			"url": "art/sprites/towers/arrowtower32.png",
-			"type": "image",
-			"name": "arrowtower32_png"
 		},
 		{
 			"url": "art/sprites/soldiers/reinforce_east_fighting.json",
@@ -407,6 +387,126 @@
 			"url": "art/home/arrow_tower.png",
 			"type": "image",
 			"name": "arrow_tower_png"
+		},
+		{
+			"url": "art/sprites/towers/arrowtower3.png",
+			"type": "image",
+			"name": "arrowtower3_png"
+		},
+		{
+			"url": "art/sprites/towers/arrowtower4.png",
+			"type": "image",
+			"name": "arrowtower4_png"
+		},
+		{
+			"url": "art/sprites/towers/arrowtower5.png",
+			"type": "image",
+			"name": "arrowtower5_png"
+		},
+		{
+			"url": "art/sprites/towers/soldiertower1.png",
+			"type": "image",
+			"name": "soldiertower1_png"
+		},
+		{
+			"url": "art/sprites/towers/soldiertower2.png",
+			"type": "image",
+			"name": "soldiertower2_png"
+		},
+		{
+			"url": "art/sprites/towers/soldiertower3.png",
+			"type": "image",
+			"name": "soldiertower3_png"
+		},
+		{
+			"url": "art/sprites/towers/soldiertower4.png",
+			"type": "image",
+			"name": "soldiertower4_png"
+		},
+		{
+			"url": "art/sprites/towers/soldiertower5.png",
+			"type": "image",
+			"name": "soldiertower5_png"
+		},
+		{
+			"url": "art/sprites/towers/bombtower1.png",
+			"type": "image",
+			"name": "bombtower1_png"
+		},
+		{
+			"url": "art/sprites/towers/bombtower2.png",
+			"type": "image",
+			"name": "bombtower2_png"
+		},
+		{
+			"url": "art/sprites/towers/bombtower3.png",
+			"type": "image",
+			"name": "bombtower3_png"
+		},
+		{
+			"url": "art/sprites/towers/bombtower4.png",
+			"type": "image",
+			"name": "bombtower4_png"
+		},
+		{
+			"url": "art/sprites/towers/bombtower5.png",
+			"type": "image",
+			"name": "bombtower5_png"
+		},
+		{
+			"url": "art/sprites/towers/magictower1.png",
+			"type": "image",
+			"name": "magictower1_png"
+		},
+		{
+			"url": "art/sprites/towers/magictower2.png",
+			"type": "image",
+			"name": "magictower2_png"
+		},
+		{
+			"url": "art/sprites/towers/magictower3.png",
+			"type": "image",
+			"name": "magictower3_png"
+		},
+		{
+			"url": "art/sprites/towers/magictower4.png",
+			"type": "image",
+			"name": "magictower4_png"
+		},
+		{
+			"url": "art/sprites/towers/magictower5.png",
+			"type": "image",
+			"name": "magictower5_png"
+		},
+		{
+			"url": "art/sprites/soldiers/soldier1_west_moving.json",
+			"type": "json",
+			"name": "soldier1_west_moving_json"
+		},
+		{
+			"url": "art/sprites/soldiers/soldier1_west_moving.png",
+			"type": "image",
+			"name": "soldier1_west_moving_png"
+		},
+		{
+			"url": "art/sprites/soldiers/soldier1_dying.json",
+			"type": "json",
+			"name": "soldier1_dying_json"
+		},
+		{
+			"url": "art/sprites/soldiers/soldier1_dying.png",
+			"type": "image",
+			"name": "soldier1_dying_png"
+		},
+		{
+			"url": "art/sprites/soldiers/soldier1_west_fighting.json",
+			"type": "json",
+			"name": "soldier1_west_fighting_json"
+		},
+		{
+			"url": "art/sprites/soldiers/soldier1_west_fighting.png",
+			"type": "image",
+			"name": "soldier1_west_fighting_png"
 		}
 	]
 }

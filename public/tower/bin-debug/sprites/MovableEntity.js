@@ -6,7 +6,7 @@ var MovableEntity = (function (_super) {
     var d = __define,c=MovableEntity,p=c.prototype;
     p.initialize = function (properties) {
         _super.prototype.initialize.call(this, properties);
-        this._step = this._get(properties, "step", 1);
+        this._moveSpeed = this._get(properties, "moveSpeed", 1);
         this._idleTicks = this._get(properties, "idleTicks", 0);
         this._dyingTicks = this._get(properties, "dyingTicks", 5);
         this._stepX = 0;
@@ -32,10 +32,10 @@ var MovableEntity = (function (_super) {
         var dx = Math.abs(x1 - x2);
         var dy = Math.abs(y1 - y2);
         if (dx >= dy) {
-            this._totalSteps = Math.floor(dx / this._step);
+            this._totalSteps = Math.floor(dx / this._moveSpeed);
         }
         else {
-            this._totalSteps = Math.floor(dy / this._step);
+            this._totalSteps = Math.floor(dy / this._moveSpeed);
         }
         if (this._totalSteps > 0) {
             this._stepX = dx / this._totalSteps;

@@ -10,7 +10,7 @@ var Waves = (function () {
     }
     var d = __define,c=Waves,p=c.prototype;
     p.getCurrentWave = function () {
-        return this._currentWave;
+        return this._rounds * this._enemies.length + this._currentWave;
     };
     p.add = function (wave, claz, count, paths) {
         this._enemies[wave] = this._enemies[wave] || [];
@@ -58,7 +58,7 @@ var Waves = (function () {
         }
         return newPaths;
     };
-    p.launchQueueNow = function (w, queue) {
+    p.launchQueue = function (w, queue) {
         var wave = this._enemies[w];
         if (wave[queue][3] == 1) {
             return;
@@ -71,57 +71,59 @@ var Waves = (function () {
             application.battle.addEnemy(enemy);
         }
         wave[queue][3] = 1;
-        for (var i = 0; i < wave.length; i++) {
-            if (wave[i][3] == 0) {
-                return;
-            }
-        }
-        this._currentWave++;
         this._launching = false;
-        application.dao.dispatchEventWith("Battle", true, { waves: this._currentWave });
     };
     p.launch = function (cycle) {
-        if (this._nextWave(cycle) && !this._launching) {
-            var wave = this._enemies[this._currentWave];
-            for (var i = 0; i < wave.length; i++) {
-                var paths = wave[i][2];
-                var tip = application.pool.get("LaunchTip", { dyingTicks: this._timeBetweenWaves, queue: i, wave: this._currentWave });
-                var direction = Entity.direction4(paths[0][0], paths[0][1], paths[1][0], paths[1][1]);
-                switch (direction) {
-                    case EntityDirection.east:
-                        tip.x = paths[0][0] + 50;
-                        tip.y = paths[0][1];
-                        break;
-                    case EntityDirection.west:
-                        tip.x = paths[0][0] - 50;
-                        tip.y = paths[0][1];
-                        break;
-                    case EntityDirection.north:
-                        tip.x = paths[0][0];
-                        tip.y = paths[0][1] - 50;
-                        break;
-                    case EntityDirection.south:
-                        tip.x = paths[0][0];
-                        tip.y = paths[0][1] + 50;
-                        break;
-                }
-                application.battle.addTip(tip);
+        if (this._launching || !this._nextWave(cycle)) {
+            return;
+        }
+        this._launching = true;
+        var wave = this._enemies[this._currentWave];
+        for (var i = 0; i < wave.length; i++) {
+            var paths = wave[i][2];
+            var tip = application.pool.get("LaunchTip", { dyingTicks: this._timeBetweenWaves, queue: i, wave: this._currentWave });
+            var direction = Entity.direction4(paths[0][0], paths[0][1], paths[1][0], paths[1][1]);
+            switch (direction) {
+                case EntityDirection.east:
+                    tip.x = 50;
+                    tip.y = paths[0][1];
+                    break;
+                case EntityDirection.west:
+                    tip.x = this._mapWidth - tip.width - 50;
+                    tip.y = paths[0][1];
+                    break;
+                case EntityDirection.north:
+                    tip.x = paths[0][0];
+                    tip.y = this._mapHeight - tip.height - 50;
+                    break;
+                case EntityDirection.south:
+                    tip.x = paths[0][0];
+                    tip.y = 50;
+                    break;
             }
-            this._launching = true;
+            application.battle.addEntity(tip);
         }
     };
     p._nextWave = function (cycle) {
-        if (this._currentWave >= this._enemies.length) {
+        if (this._currentWave < this._enemies.length) {
+            this._currentWave++;
+        }
+        else {
             if (cycle) {
                 this._currentWave = 0;
                 this._rounds += 1;
+                for (var w = 0; w < this._enemies.length; w++) {
+                    for (var q = 0; q < this._enemies[w].length; q++) {
+                        this._enemies[w][q][3] = 0;
+                    }
+                }
             }
             else {
-                application.battle.erase();
-                application.battle.getResult().attrs.result = 2;
+                application.battle.win();
                 return false;
             }
         }
+        application.dao.dispatchEventWith("Battle", true, { waves: this.getCurrentWave() });
         return true;
     };
     return Waves;

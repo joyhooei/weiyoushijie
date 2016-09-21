@@ -10,7 +10,7 @@ var TowerMenuUI = (function (_super) {
         this.imgSell.addEventListener(egret.TouchEvent.TOUCH_TAP, function () {
             var price = parseInt(_this.lblSellPrice.text);
             application.battle.incGolds(price);
-            application.battle.hideAllTools();
+            application.hideUI(_this);
         }, this);
     }
     var d = __define,c=TowerMenuUI,p=c.prototype;

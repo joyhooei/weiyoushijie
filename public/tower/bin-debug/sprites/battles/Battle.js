@@ -2,11 +2,7 @@ var Battle = (function (_super) {
     __extends(Battle, _super);
     function Battle() {
         _super.call(this);
-        this._baseLayer = this._addLayer();
-        this._objLayer = this._addLayer();
-        this._bulletLayer = this._addLayer();
-        this._rangeLayer = this._addLayer();
-        this._toolLayer = this._addLayer();
+        this._layers = [this._addLayer(), this._addLayer(), this._addLayer()];
         this.touchEnabled = true;
         this.addEventListener(egret.TouchEvent.TOUCH_BEGIN, this._touch, this);
         this._waves = new Waves(800, 480);
@@ -33,21 +29,33 @@ var Battle = (function (_super) {
     p.start = function () {
         this._lives = this._maxLives;
         this._golds = this._maxGolds;
-        this._baseLayer.removeChildren();
-        this._objLayer.removeChildren();
-        this._bulletLayer.removeChildren();
-        this._toolLayer.removeChildren();
-        this._rangeLayer.removeChildren();
+        for (var i = 0; i < this._layers.length; i++) {
+            this._layers[i].removeChildren();
+        }
         this._soldiers = [];
         this._enemies = [];
         this._entities = [];
+        this._bases = [];
         this._dirts = [];
         this._addBases();
         this._addHeros();
         this._addStandbys();
         this._addEffects();
-        this.fight();
         this._result = new Result({ customer_id: application.me.attrs.id, battle: this.getClassName(), result: 0, score: 0, unused_bases: this._map.getBases().length, stars: 0 });
+        this.fight();
+    };
+    p.lose = function () {
+        this._result.attrs.result = 2;
+        this.erase();
+    };
+    p.win = function () {
+        this._result.attrs.result = 1;
+        for (var i = 0; i < this._bases.length; i++) {
+            if (this._bases[i].unused()) {
+                this._result.attrs.unused_bases++;
+            }
+        }
+        this.erase();
     };
     p.readyUseTool = function (toolItem) {
         this._toolItem = toolItem;
@@ -81,7 +89,7 @@ var Battle = (function (_super) {
                     var tip = application.pool.get("DisableTip");
                     tip.setCenterX(x);
                     tip.setCenterY(y);
-                    this.addTip(tip);
+                    this.addEntity(tip);
                 }
             }
             else {
@@ -101,8 +109,7 @@ var Battle = (function (_super) {
     p.incLives = function (lives) {
         this._lives += lives;
         if (this._lives <= 0) {
-            this._result.attrs.result = 1;
-            this.erase();
+            this.lose();
         }
         else {
             application.dao.dispatchEventWith("Battle", true, { lives: this._lives });
@@ -112,7 +119,7 @@ var Battle = (function (_super) {
         return this._lives;
     };
     p.incGolds = function (golds) {
-        this._golds += golds;
+        this._golds = Math.max(0, this._golds + golds);
         application.dao.dispatchEventWith("Battle", true, { golds: this._golds });
     };
     p.getGolds = function () {
@@ -161,7 +168,7 @@ var Battle = (function (_super) {
             hero.setCenterX(pos[i][0][0]);
             hero.setBottomY(pos[i][0][1]);
             hero.setLegend(Legend.getByName(application.legends, heroName));
-            this.addHero(hero);
+            this.addSoldier(hero);
         }
     };
     p.addWarriorsByName = function (warriorName, hero, options) {
@@ -181,21 +188,13 @@ var Battle = (function (_super) {
         var effect = application.pool.get(effectName, { direction: direction });
         effect.x = x;
         effect.y = y;
-        this.addEffect(effect);
-    };
-    p.showTool = function (ui, x, y) {
-        this.hideAllTools();
-        ui.x = x - ui.width / 2;
-        ui.y = y - ui.height / 2;
-        this._toolLayer.addChild(ui);
-    };
-    p.hideAllTools = function () {
-        this._toolLayer.removeChildren();
+        this.addEntity(effect);
     };
     p.erase = function () {
         _super.prototype.erase.call(this);
         this._eraseEntities(this._soldiers);
         this._eraseEntities(this._enemies);
+        this._eraseEntities(this._bases);
         this._eraseEntities(this._entities);
     };
     p._eraseEntities = function (entities) {
@@ -205,7 +204,7 @@ var Battle = (function (_super) {
         }
     };
     p.launch = function (wave, queue) {
-        this._waves.launchQueueNow(wave, queue);
+        this._waves.launchQueue(wave, queue);
     };
     p._fighting = function () {
         if (this._enemies.length == 0) {
@@ -213,6 +212,7 @@ var Battle = (function (_super) {
         }
         this._updateEntities(this._soldiers);
         this._updateEntities(this._enemies);
+        this._updateEntities(this._bases);
         this._updateEntities(this._entities);
     };
     p._updateEntities = function (entities) {
@@ -274,42 +274,30 @@ var Battle = (function (_super) {
         }
         return enemy;
     };
-    p.addHero = function (hero) {
-        this._soldiers.push(hero);
-        this._objLayer.addChild(hero);
-    };
-    p.addSoldier = function (soldier) {
-        this._soldiers.push(soldier);
-        this._objLayer.addChild(soldier);
-    };
-    p.addEnemy = function (enemy) {
-        this._enemies.push(enemy);
-        this._objLayer.addChild(enemy);
-    };
     p.killAllEnemies = function () {
         for (var i = 0; i < this._enemies.length; i++) {
             this._enemies[i].kill();
         }
     };
     p.addBase = function (base) {
-        this._entities.push(base);
-        this._baseLayer.addChild(base);
+        this._bases.push(base);
+        this._layers[0].addChild(base);
+    };
+    p.addSoldier = function (soldier) {
+        this._soldiers.push(soldier);
+        this._layers[1].addChild(soldier);
+    };
+    p.addEnemy = function (enemy) {
+        this._enemies.push(enemy);
+        this._layers[1].addChild(enemy);
     };
     p.addBullet = function (bullet) {
         this._entities.push(bullet);
-        this._bulletLayer.addChild(bullet);
+        this._layers[2].addChild(bullet);
     };
-    p.addTip = function (entity) {
+    p.addEntity = function (entity) {
         this._entities.push(entity);
-        this._rangeLayer.addChild(entity);
-    };
-    p.addRange = function (entity) {
-        this._entities.push(entity);
-        this._rangeLayer.addChild(entity);
-    };
-    p.addEffect = function (entity) {
-        this._entities.push(entity);
-        this._rangeLayer.addChild(entity);
+        this._layers[2].addChild(entity);
     };
     p.addDirt = function (entity) {
         if (!entity.dead()) {
@@ -317,11 +305,8 @@ var Battle = (function (_super) {
         }
     };
     p.createSoldier = function (soldier) {
-        var hero = soldier.relive(10000);
-        hero.x = soldier.x;
-        hero.y = soldier.y;
-        this.addHero(hero);
-        return hero;
+        this.addSoldier(soldier.relive(10 * application.frameRate));
+        return soldier;
     };
     return Battle;
 }(Entity));

@@ -16,7 +16,7 @@ var Soldier = (function (_super) {
             this._range.y = this.getCenterY() - this._guardRadius;
             this._range.width = this._guardRadius << 1;
             this._range.height = this._guardRadius << 1;
-            application.battle.addRange(this._range);
+            application.battle.addEntity(this._range);
             return true;
         }
     };
@@ -87,7 +87,7 @@ var Soldier = (function (_super) {
     p.moveTo = function (x, y) {
         var x1 = x - (this.width >> 1);
         var y1 = y - this.height;
-        this._turn(this._direction8(x, y));
+        this._turn(this._direction4(x, y));
         if (this._computeSteps(this.x, this.y, x1, y1)) {
             this.move();
         }

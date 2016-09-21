@@ -196,7 +196,7 @@ class TiledMap extends egret.Sprite {
             let name = o.name;
             let arrayOfStrings = name.split("-");
             
-            if (arrayOfStrings.length == 2 && arrayOfStrings[0] == 'base' || arrayOfStrings[0] == 'guarder') {
+            if (arrayOfStrings.length == 2 && (arrayOfStrings[0] == 'base' || arrayOfStrings[0] == 'guard')) {
                 let idx = + arrayOfStrings[1];
                 if (!bases[idx]) {
                     bases[idx] = [];

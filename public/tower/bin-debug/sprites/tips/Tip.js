@@ -6,7 +6,7 @@ var Tip = (function (_super) {
     var d = __define,c=Tip,p=c.prototype;
     p.initialize = function (properties) {
         _super.prototype.initialize.call(this, properties);
-        this._dyingTicks = this._get(properties, "dyingTicks", 1000 * application.frameRate);
+        this._dyingTicks = this._get(properties, "dyingTicks", 3 * application.frameRate);
         this.kill();
     };
     p._dying = function () {

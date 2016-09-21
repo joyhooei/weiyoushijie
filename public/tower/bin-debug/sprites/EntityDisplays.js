@@ -1,8 +1,7 @@
 var EntityDisplays = (function () {
-    function EntityDisplays(entityName) {
+    function EntityDisplays() {
         this._displays = [];
         this._defaultDisplay = null;
-        this._entityName = entityName;
     }
     var d = __define,c=EntityDisplays,p=c.prototype;
     p.addBitmap = function (name, action) {
