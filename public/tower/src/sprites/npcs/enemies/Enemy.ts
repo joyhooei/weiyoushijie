@@ -28,6 +28,12 @@ class Enemy extends NPC {
     }
     
     public addSoldier(soldier: Soldier) {
+        for(let i = 0;i < this._soldiers.length; i++) {
+            if (this._soldiers[i] == soldier) {
+                return;
+            }
+        }
+        
         this._soldiers.push(soldier);
         
         if (this._state == EntityState.moving) {
