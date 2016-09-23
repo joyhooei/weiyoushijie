@@ -26,9 +26,9 @@ class Character {
             {name: 'Warrior',   properties:{hp:245, force:6, armor: 0, cureSpeed:1, moveSpeed:1, liveTicks: 8 * application.frameRate, guardRadius: 40}},
 
             //enemies
-            {name: 'Hogs',  properties:{hp:100, force:6, cureSpeed:0, moveSpeed:1, idleTick:0, dyingTicks:10}},
-            {name: 'Rhino', properties:{hp:100, force:6, cureSpeed:0, moveSpeed:1, idleTick:0, dyingTicks:10}},
-            {name: 'Wolf',  properties:{hp:100, force:6, cureSpeed:0, moveSpeed:1, idleTick:0, dyingTicks:10}},
+            {name: 'Hogs',  properties:{bonus:10, hp:100, force:6, cureSpeed:0, moveSpeed:1, idleTick:0, dyingTicks:10}},
+            {name: 'Rhino', properties:{bonus:10, hp:100, force:6, cureSpeed:0, moveSpeed:1, idleTick:0, dyingTicks:10}},
+            {name: 'Wolf',  properties:{bonus:10, hp:100, force:6, cureSpeed:0, moveSpeed:1, idleTick:0, dyingTicks:10}},
 
             //bullets
             {name: 'Fireball', properties:{force:6, hitRadius:10, moveSpeed:5, idleTick:0, dyingTicks:10}},
