@@ -166,10 +166,6 @@ class Soldier extends NPC implements SelectableEntity {
     }
     
     protected _fightWith(enemy:Enemy) {
-        if (this._enemy) {
-            this._enemy.rmvSoldier(this);
-        }
-        
         this._moveToEnemy(enemy);
         
         this._enemy = enemy;
@@ -189,19 +185,30 @@ class Soldier extends NPC implements SelectableEntity {
     }
 
     protected _hitOpponents() {
-        if (!this._enemy || this._enemy.hitBy(this)) {
+        if (this._enemy) {
+            if (this._enemy.hitBy(this)) {
+                // enemy is dying
+                let enemy = this._findEnemy();
+                if (enemy) {
+                    this._fightWith(enemy);
+                } else {
+                    this._enemy = null;
+                    this.moveTo(this._guardX, this._guardY);
+                }                
+            } else if (this._enemy.totalSoldiers() > 1) {
+                // find new enemy without soldiers
+                let enemy = this._findEnemy();
+                if (enemy && enemy.totalSoldiers() == 0) {
+                    this._enemy.rmvSoldier(this);
+                    this._fightWith(enemy);
+                } 
+            }
+        } else {
             let enemy = this._findEnemy();
             if (enemy) {
                 this._fightWith(enemy);
             } else {
-                this._enemy = null;
                 this.moveTo(this._guardX, this._guardY);
-            }
-        } else if (this._enemy.totalSoldiers() > 1) {
-            let enemy = this._findEnemy();
-            if (enemy && enemy.totalSoldiers() == 0) {
-                this._enemy.rmvSoldier(this);
-                this._fightWith(enemy);
             }
         }
     }
