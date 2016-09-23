@@ -41,32 +41,36 @@ var EntityDisplays = (function () {
         if (index === void 0) { index = 0; }
         var scaleX = 1;
         var scaleY = 1;
+        var rotation = 0;
         var idx = (direction << 3) + state;
         if (!this._displays[idx]) {
             //是否有镜像的资源
             idx = (((direction + 4) % 8) << 3) + state;
             if (!this._displays[idx]) {
-                //是否有方向相近的资源
-                idx = (((direction + 1) % 8) << 3) + state;
+                //是否有顺时针90度的资源
+                idx = (((direction + 2) % 8) << 3) + state;
                 if (!this._displays[idx]) {
-                    idx = (((direction + 7) % 8) << 3) + state;
+                    //是否有顺时针90度的资源
+                    idx = (((direction + 6) % 8) << 3) + state;
                     if (!this._displays[idx]) {
                         idx = state;
                         if (!this._displays[idx]) {
                             return this._defaultDisplay;
                         }
                     }
+                    else {
+                        rotation = -90;
+                    }
+                }
+                else {
+                    rotation = 90;
                 }
             }
             else {
                 if (direction == EntityDirection.east || direction == EntityDirection.west) {
                     scaleX = -1;
                 }
-                else if (direction == EntityDirection.north || direction == EntityDirection.south) {
-                    scaleY = -1;
-                }
                 else {
-                    scaleX = -1;
                     scaleY = -1;
                 }
             }
@@ -77,6 +81,7 @@ var EntityDisplays = (function () {
         var display = this._displays[idx][index];
         display.scaleX = scaleX;
         display.scaleY = scaleY;
+        display.rotation = rotation;
         return display;
     };
     p._actionToIndex = function (action) {

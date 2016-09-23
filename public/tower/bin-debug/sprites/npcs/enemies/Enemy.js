@@ -14,6 +14,11 @@ var Enemy = (function (_super) {
         this._nextPath();
     };
     p.addSoldier = function (soldier) {
+        for (var i = 0; i < this._soldiers.length; i++) {
+            if (this._soldiers[i] == soldier) {
+                return;
+            }
+        }
         this._soldiers.push(soldier);
         if (this._state == EntityState.moving) {
             this.guard();

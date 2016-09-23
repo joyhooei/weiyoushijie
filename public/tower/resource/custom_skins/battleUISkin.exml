@@ -6,9 +6,9 @@
 	<e:Group width="801" height="98" x="0" y="0">
 		<e:Image width="184" height="44" x="293" y="5" source="waves_png" fillMode="clip"/>
 		<e:Image width="244" height="98" x="0" y="0" source="hero_png" fillMode="clip"/>
-		<e:Label id="lblLives" text="20" x="95" y="12" name="lblLives" size="20" textAlign="center" width="52"/>
-		<e:Label id="lblWaves" text="1" x="368" y="15" name="lblLives" size="20" textAlign="center" width="52"/>
-		<e:Label text="20" x="95" y="41" name="lblGolds" size="20" id="lblGolds" textAlign="center" width="52"/>
+		<e:Label id="lblGolds" text="20" x="95" y="12" name="lblGolds" size="20" textAlign="center" width="52"/>
+		<e:Label id="lblWaves" text="1" x="368" y="15" name="lblWaves" size="20" textAlign="center" width="52"/>
+		<e:Label text="20" x="95" y="41" name="lblLives" size="20" id="lblLives" textAlign="center" width="52"/>
 		<e:Image id="imgBack" width="43" height="46" x="687" y="5" source="back_png" fillMode="clip"/>
 		<e:Image id="imgHelp" width="54" height="51" x="746" y="5" fillMode="clip" source="help_png"/>
 	</e:Group>

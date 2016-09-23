@@ -6,7 +6,7 @@ var Hp = (function (_super) {
     var d = __define,c=Hp,p=c.prototype;
     p.initialize = function (properties) {
         _super.prototype.initialize.call(this, properties);
-        this.setMaxHp(this._get(properties, "maxHp", 10));
+        this.setMaxHp(this._get(properties, "hp", 10));
         this._cureSpeed = this._get(properties, "cureSpeed", 1);
     };
     p.setMaxHp = function (hp) {
