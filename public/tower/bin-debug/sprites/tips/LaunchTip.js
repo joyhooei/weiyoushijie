@@ -35,8 +35,9 @@ var LaunchTip = (function (_super) {
         this._ticks++;
     };
     p.paint = function () {
+        _super.prototype.paint.call(this);
         this._shapeShield.graphics.clear();
-        this._shapeShield.graphics.lineStyle(2, 0xffff00);
+        this._shapeShield.graphics.lineStyle(2, 0xff0000);
         this._shapeShield.graphics.drawArc(this.width / 2, this.height / 2, this.width / 2, 0, (2 * this._ticks / this._dyingTicks) * Math.PI, false);
         this._shapeShield.graphics.endFill();
     };

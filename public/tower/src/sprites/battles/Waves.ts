@@ -16,7 +16,7 @@ class Waves {
     
     public constructor(mapWidth: number, mapHeight: number) {
         this._enemies = [];
-        this._currentWave = 0;
+        this._currentWave = -1;
         
         this._timeBetweenWaves = 10 * application.frameRate;
         

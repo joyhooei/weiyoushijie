@@ -6,7 +6,7 @@ var EntityDisplays = (function () {
     var d = __define,c=EntityDisplays,p=c.prototype;
     p.addBitmap = function (name, action) {
         var bm = new egret.Bitmap();
-        bm.texture = RES.getRes(name + "_png");
+        bm.texture = RES.getRes(name);
         if (action) {
             var idx = this._actionToIndex(action);
             this._displays[idx] = [bm];

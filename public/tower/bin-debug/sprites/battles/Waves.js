@@ -1,7 +1,7 @@
 var Waves = (function () {
     function Waves(mapWidth, mapHeight) {
         this._enemies = [];
-        this._currentWave = 0;
+        this._currentWave = -1;
         this._timeBetweenWaves = 10 * application.frameRate;
         this._rounds = 0;
         this._launching = false;

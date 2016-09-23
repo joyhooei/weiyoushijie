@@ -13,14 +13,14 @@ class Tower extends Entity {
 
         this.width = this.height = 50;
         
-        this._displays.addClip("building")
+        this._displays.addClip("tower_building", "building")
     }
     
     public initialize(properties:any) {
         super.initialize(properties);
         
         this._hitSpeed   = this._get(properties, "hitSpeed", 60);
-        this._buildTicks = this._get(properties, "buildTicks", 100);
+        this._buildTicks = this._get(properties, "buildTicks", 5 * application.frameRate);
         
         this._buyPrice = this._get(properties, "buyPrice", 100);
         this._sellPrice = this._get(properties, "sellPrice", 100);

@@ -3,13 +3,13 @@ var Tower = (function (_super) {
     function Tower() {
         _super.call(this);
         this.width = this.height = 50;
-        this._displays.addClip("building");
+        this._displays.addClip("tower_building", "building");
     }
     var d = __define,c=Tower,p=c.prototype;
     p.initialize = function (properties) {
         _super.prototype.initialize.call(this, properties);
         this._hitSpeed = this._get(properties, "hitSpeed", 60);
-        this._buildTicks = this._get(properties, "buildTicks", 100);
+        this._buildTicks = this._get(properties, "buildTicks", 5 * application.frameRate);
         this._buyPrice = this._get(properties, "buyPrice", 100);
         this._sellPrice = this._get(properties, "sellPrice", 100);
         this._guardRadius = this._get(properties, "guardRadius", 10);
