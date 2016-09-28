@@ -2,6 +2,6 @@ class ArrowTower31 extends ArrowTower {
     public constructor() {
         super();
         
-        this.addBitmap("arrowtower31");
+        this.addBitmap("arrowtower31_png");
     }
 }

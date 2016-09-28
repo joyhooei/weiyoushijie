@@ -9,13 +9,20 @@ class EntityDisplays {
         this._defaultDisplay = null;
     }
     
-    public addBitmap(name:string, action?:string): egret.Bitmap {
+    public addBitmap(name:string, action?): egret.Bitmap {
         let bm:egret.Bitmap = new egret.Bitmap();
         bm.texture = RES.getRes(name);
         
         if (action) {
-            let idx = this._actionToIndex(action);
-            this._displays[idx] = [bm];
+            if (egret.getQualifiedClassName(action) == "Array"){
+                for (let i = 0; i < action.length; i++) {
+                    let idx = this._actionToIndex(action[i]);
+                    this._displays[idx] = [bm];
+                }
+            } else {
+                let idx = this._actionToIndex(action);
+                this._displays[idx] = [bm];                
+            }
         } else {
             this._defaultDisplay = bm;
         }
@@ -23,7 +30,7 @@ class EntityDisplays {
         return bm;
     }
     
-    public addClip(name:string, action?:string): egret.MovieClip {
+    public addClip(name:string, action?): egret.MovieClip {
         let data    = RES.getRes(name + "_json");
         let texture = RES.getRes(name + "_png");
         let mcf: egret.MovieClipDataFactory = new egret.MovieClipDataFactory(data, texture);
@@ -33,11 +40,22 @@ class EntityDisplays {
         clip.movieClipData = mcd;
         
         if (action) {
-            let idx = this._actionToIndex(action);
-            if (this._displays[idx]) {
-                this._displays[idx].push(clip);
-            } else {
-                this._displays[idx] = [clip];
+            if (egret.getQualifiedClassName(action) == "Array"){
+                for (let i = 0; i < action.length; i++) {
+                    let idx = this._actionToIndex(action[i]);
+                    if (this._displays[idx]) {
+                        this._displays[idx].push(clip);
+                    } else {
+                        this._displays[idx] = [clip];
+                    }
+                }
+           } else {
+                let idx = this._actionToIndex(action);
+                if (this._displays[idx]) {
+                    this._displays[idx].push(clip);
+                } else {
+                    this._displays[idx] = [clip];
+                }
             }
         } else {
             this._defaultDisplay = clip;

@@ -2,6 +2,6 @@ class Base2 extends Base {
     public constructor() {
         super();
         
-        this.addBitmap("base2");
+        this.addBitmap("base2_png");
     }
 }

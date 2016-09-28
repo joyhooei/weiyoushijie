@@ -189,7 +189,7 @@ class Entity extends egret.Sprite {
     	this._play(this._render(), -1);
     }
 
-	public addBitmap(name:string, action?:string): Entity {
+	public addBitmap(name:string, action?): Entity {
 		let bm = this._displays.addBitmap(name, action);
 
 		this.width  = bm.width;
@@ -198,7 +198,7 @@ class Entity extends egret.Sprite {
 		return this;
 	}
 
-	public addClip(name:string, action?:string): Entity {
+	public addClip(name:string, action?): Entity {
 		let clip = this._displays.addClip(name, action);
 
 		this.width  = clip.width;

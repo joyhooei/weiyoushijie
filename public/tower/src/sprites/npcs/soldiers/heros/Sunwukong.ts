@@ -8,7 +8,7 @@ class Sunwukong extends Hero {
         super();
         
         this.addClip("sunwukong_east_moving", "east-moving")
-            .addClip("sunwukong_east_moving", "guarding")
+            .addBitmap("sunwukong_guarding_png", ["east-guarding", "west-guarding", "south-guarding", "north-guarding"])
             .addClip("sunwukong_east_fighting_1", "west-fighting")
             .addClip("sunwukong_east_fighting_2", "east-fighting")
             .addClip("sunwukong_east_fighting_3", "east-fighting");

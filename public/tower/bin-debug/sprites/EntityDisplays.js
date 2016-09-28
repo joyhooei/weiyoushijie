@@ -8,8 +8,16 @@ var EntityDisplays = (function () {
         var bm = new egret.Bitmap();
         bm.texture = RES.getRes(name);
         if (action) {
-            var idx = this._actionToIndex(action);
-            this._displays[idx] = [bm];
+            if (egret.getQualifiedClassName(action) == "Array") {
+                for (var i = 0; i < action.length; i++) {
+                    var idx = this._actionToIndex(action[i]);
+                    this._displays[idx] = [bm];
+                }
+            }
+            else {
+                var idx = this._actionToIndex(action);
+                this._displays[idx] = [bm];
+            }
         }
         else {
             this._defaultDisplay = bm;
@@ -24,12 +32,25 @@ var EntityDisplays = (function () {
         var mcd = mcf.generateMovieClipData(name);
         clip.movieClipData = mcd;
         if (action) {
-            var idx = this._actionToIndex(action);
-            if (this._displays[idx]) {
-                this._displays[idx].push(clip);
+            if (egret.getQualifiedClassName(action) == "Array") {
+                for (var i = 0; i < action.length; i++) {
+                    var idx = this._actionToIndex(action[i]);
+                    if (this._displays[idx]) {
+                        this._displays[idx].push(clip);
+                    }
+                    else {
+                        this._displays[idx] = [clip];
+                    }
+                }
             }
             else {
-                this._displays[idx] = [clip];
+                var idx = this._actionToIndex(action);
+                if (this._displays[idx]) {
+                    this._displays[idx].push(clip);
+                }
+                else {
+                    this._displays[idx] = [clip];
+                }
             }
         }
         else {

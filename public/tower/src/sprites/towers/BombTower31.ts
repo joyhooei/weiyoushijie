@@ -2,6 +2,6 @@ class BombTower31 extends BombTower {
     public constructor() {
         super();
         
-        this.addBitmap("bombtower31");
+        this.addBitmap("bombtower31_png");
     }
 }

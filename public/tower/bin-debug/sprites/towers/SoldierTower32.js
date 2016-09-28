@@ -2,7 +2,7 @@ var SoldierTower32 = (function (_super) {
     __extends(SoldierTower32, _super);
     function SoldierTower32() {
         _super.call(this);
-        this.addBitmap("soldiertower32");
+        this.addBitmap("soldiertower32_png");
         this._soldierClaz = "Soldier32";
     }
     var d = __define,c=SoldierTower32,p=c.prototype;

@@ -8,9 +8,9 @@ class BattleOptionUI extends AbstractUI {
         super("battleOptionUISkin");
         
         if (application.battle.getLives() > 0) {
-        	this.imgResult.source = "win_png";
+        	this.imgResult.source = "end_win_png";
         } else {
-        	this.imgResult.source = "lose_png";
+        	this.imgResult.source = "end_defeat_png";
         }
         
 		this.imgStart.addEventListener(egret.TouchEvent.TOUCH_TAP,() => {
