@@ -1,7 +1,7 @@
-class Bomb32 extends Bomb {
+class Bomb4 extends Bomb {
     public constructor() {
         super();
         
-        this.addClip("bomb32");
+        this.addClip("bomb4");
     }
 }
