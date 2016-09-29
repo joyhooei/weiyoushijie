@@ -2,7 +2,7 @@ class BombSoldier2 extends ShootSoldier {
     public constructor() {
         super();
         
-        this._bulletClaz = "Bomb";
+        this._bulletClaz = "Bomb2";
         
         this.addClip("bombsoldier2_fighting", "fighting")
             .addClip("bombsoldier2_east_guarding_png", ["east-guarding", "south-guarding"])
