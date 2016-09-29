@@ -294,8 +294,8 @@ class Entity extends egret.Sprite {
 	
 	public within(x: number, y: number, radius: number):boolean {
 		if (Entity.intersect(this.x, this.y, this.width, this.height, x - radius, y - radius, radius + radius, radius + radius)) {
-			let dx = this.x + this.width / 2  - x;
-			let dy = this.y + this.height / 2 - y;
+			let dx = this.getCenterX() - x;
+			let dy = this.getBottomY() - y;
 			return (dx * dx + dy * dy <= radius * radius);
 		} else {
 			return false;
