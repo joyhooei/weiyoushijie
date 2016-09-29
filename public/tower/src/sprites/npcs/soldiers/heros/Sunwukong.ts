@@ -11,11 +11,11 @@ class Sunwukong extends Hero {
     public constructor() {
         super();
         
-        this.addClip("sunwukong_east_moving", "east-moving")
+        this.addClip("sunwukong_east_moving", ["east-moving", "south-moving","north-moving"])
             .addBitmap("sunwukong_guarding_png", ["east-guarding", "west-guarding", "south-guarding", "north-guarding"])
-            .addClip("sunwukong_east_fighting_1", "west-fighting")
-            .addClip("sunwukong_east_fighting_2", "east-fighting")
-            .addClip("sunwukong_east_fighting_3", "east-fighting");
+            .addClip("sunwukong_east_fighting_1", ["west-fighting", "south-fighting","north-fighting"])
+            .addClip("sunwukong_east_fighting_2", ["east-fighting", "south-fighting","north-fighting"])
+            .addClip("sunwukong_east_fighting_3", ["east-fighting", "south-fighting","north-fighting"]);
     }
     
     public setLegend(legend: Legend) {
