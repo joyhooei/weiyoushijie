@@ -44,9 +44,16 @@ class Character {
 
             //bullets
             {name: 'Fireball', properties:{force:6, hitRadius:10, moveSpeed:5, idleTick:0, dyingTicks:10}},
-            {name: 'Bomb',     properties:{force:6, hitRadius:10, moveSpeed:5, idleTick:0, dyingTicks:10}},
-            {name: 'Magic',    properties:{force:6, moveSpeed:5, idleTick:0, dyingTicks:10}},
-            {name: 'Arrow',    properties:{force:6, moveSpeed:5, idleTick:0, dyingTicks:10}},
+            {name: 'Bomb1',     properties:{force:6, hitRadius:10, moveSpeed:5, idleTick:0, dyingTicks:10}},
+            {name: 'Bomb2',     properties:{force:6, hitRadius:10, moveSpeed:5, idleTick:0, dyingTicks:10}},
+            {name: 'Bomb3',     properties:{force:6, hitRadius:10, moveSpeed:5, idleTick:0, dyingTicks:10}},
+            {name: 'Bomb4',     properties:{force:6, hitRadius:10, moveSpeed:5, idleTick:0, dyingTicks:10}},
+            {name: 'Bomb5',     properties:{force:6, hitRadius:10, moveSpeed:5, idleTick:0, dyingTicks:10}},
+            {name: 'Arrow1',    properties:{force:6, moveSpeed:5, idleTick:0, dyingTicks:10}},
+            {name: 'Arrow2',    properties:{force:6, moveSpeed:5, idleTick:0, dyingTicks:10}},
+            {name: 'Arrow3',    properties:{force:6, moveSpeed:5, idleTick:0, dyingTicks:10}},
+            {name: 'Arrow4',    properties:{force:6, moveSpeed:5, idleTick:0, dyingTicks:10}},
+            {name: 'Arrow5',    properties:{force:6, moveSpeed:5, idleTick:0, dyingTicks:10}},
         ]; 
 
         for(let i = 0; i < config.length; i++) {
