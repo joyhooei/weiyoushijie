@@ -45,6 +45,8 @@ class Character {
             //bullets
             {name: 'Fireball', properties:{force:6, hitRadius:10, moveSpeed:5, idleTick:0, dyingTicks:10}},
             {name: 'Bomb', properties:{force:6, hitRadius:10, moveSpeed:5, idleTick:0, dyingTicks:10}},
+            {name: 'Magic', properties:{force:6, moveSpeed:5, idleTick:0, dyingTicks:10}},
+            {name: 'Arrow', properties:{force:6, moveSpeed:5, idleTick:0, dyingTicks:10}},
         ]; 
 
         for(let i = 0; i < config.length; i++) {
