@@ -1,6 +1,7 @@
 class Sunwukong extends Hero {
     private _skill1 : number;
     private _skill1Times: number;
+    private _skill1Ticks: number;
 
     private _skill2 : number;
     private _skill2Ticks: number;
@@ -48,24 +49,29 @@ class Sunwukong extends Hero {
     }
 
     protected _nextSkill() {
-        //每10秒召唤一次
-        this._skill2Ticks --;
         if (this._skill2Ticks <= 0) {
+            //猴毛冷却:10秒
             this._skill = 2;
             
             this._skill2Ticks = 10 * application.frameRate;
+        } else if (this._skill1Ticks <= 0) {
+            //腾云突击冷却:8秒，7秒，6秒
+            this._skill = 1;
+            
+            this._skill1Ticks = (9 - this._skill1 / 2) * application.frameRate;
+            this._skill1Times = 0;
         } else {
-            let random = Math.round(Math.random() * 10);
-        
-            if (random <= 7) {
-                this._skill = 0;
-            } else {
-                this._skill = 1;
-                this._skill1Times = 0;
-            }
+            this._skill = 0;
         }
     }
-    
+
+    protected _fighting() {
+    	super._fighting();
+        
+        this._skill1Ticks --;
+        this._skill2Ticks --;
+    }
+
     protected _hitOpponents() {
         if (this._skill == 0) {
             super._hitOpponents();
