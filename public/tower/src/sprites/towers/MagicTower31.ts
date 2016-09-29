@@ -1,7 +1,7 @@
-class MagicTower31 extends MagicTower {
+class MagicTower3 extends MagicTower {
     public constructor() {
         super();
         
-        this.addBitmap("magictower31_png");
+        this.addBitmap("magictower3_png");
     }
 }
