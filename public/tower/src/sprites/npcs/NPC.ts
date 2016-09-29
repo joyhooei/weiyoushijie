@@ -15,6 +15,7 @@ class NPC extends MovableEntity {
     protected _altitude: number;
     
     protected _fightClip: egret.MovieClip;
+	protected _playingFightClip: boolean;
 
     public constructor() {
         super();
@@ -122,7 +123,7 @@ class NPC extends MovableEntity {
 
     protected _fighting() {
     	if (this._fightClip) {
-	        if (this._readyFight()) {
+	        if (!this._playingFightClip && this._readyFight()) {
 	    		this._playFightMovieClip();
 	        }
 	        
@@ -132,8 +133,11 @@ class NPC extends MovableEntity {
 
     protected _playFightMovieClip() {
         if (this._fightClip) {
+			this._playingFightClip = true;
             this._play(this._fightClip, 1);
             this._fightClip.once(egret.Event.COMPLETE, function(){
+				this._playingFightClip = false;
+				
                 this._hitOpponents();
             }, this);        
         }
@@ -149,6 +153,7 @@ class NPC extends MovableEntity {
     		this._play(display, -1);
     	} else {
     		this._fightClip = <egret.MovieClip>display;
+			this._playingFightClip = false;
     	}
     	
         this._centerHp();
