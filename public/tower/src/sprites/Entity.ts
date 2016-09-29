@@ -322,7 +322,7 @@ class Entity extends egret.Sprite {
     }
     
     public static direction(x1:number, y1:number, x2:number, y2:number, angels:number[], directions:EntityDirection[]):EntityDirection {
-        let dx: number = x1 - x2;
+        let dx: number = x2 - x1;
         let dy: number = y1 - y2;
         let angel = Math.atan2(dy, dx) * 57.29578049044297; //180 / Math.PI;
         if (angel < 0) {
