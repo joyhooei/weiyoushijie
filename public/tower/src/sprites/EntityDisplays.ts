@@ -68,29 +68,13 @@ class EntityDisplays {
         let scaleX:number = 1;
         let scaleY:number = 1;
         
-        let rotation:number = 0;
-        
         let idx:number = (direction << 3) + state;
         if (!this._displays[idx]) {
             //是否有镜像的资源
             idx = (((direction + 4) % 8) << 3) + state;
             if (!this._displays[idx]) {
-                //是否有顺时针90度的资源
-                idx = (((direction + 2) % 8) << 3) + state;
-                if (!this._displays[idx]) {
-                    //是否有顺时针90度的资源
-                    idx = (((direction + 6) % 8) << 3) + state;
-                    if (!this._displays[idx]) {
-                        idx = state;
-                        if (!this._displays[idx]) {
-                            return this._defaultDisplay;
-                        }
-                    } else {
-                        rotation = -90;
-                    }
-                } else {
-                    rotation = 90;
-                }
+                //没有当前方向的资源，也没有镜像资源，则显示缺省资源
+                return this._defaultDisplay;
             } else {
                 if (direction == EntityDirection.east || direction == EntityDirection.west) {
                     scaleX = -1;
@@ -108,8 +92,6 @@ class EntityDisplays {
 
         display.scaleX = scaleX;
         display.scaleY = scaleY;
-        
-        display.rotation = rotation;
 
         return display;
     }
