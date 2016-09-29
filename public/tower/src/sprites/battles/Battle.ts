@@ -148,8 +148,13 @@ class Battle extends Entity implements SoldierCreator {
         		    this._focus.deselect();
                 }
         		
-        		this._focus = e.target;
-        		if (!this._focus.select(false)) {
+                this._focus = e.target;
+                try {
+                    if (!this._focus.select(false)) {
+                        this._focus = null;
+                    }
+                } catch (error) {
+                    console.error("select failed! " + error.message);
                     this._focus = null;
                 }
     	    }
