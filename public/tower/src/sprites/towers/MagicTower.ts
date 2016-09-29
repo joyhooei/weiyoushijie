@@ -1,4 +1,4 @@
-class MagicTower extends RemoteHitTower {
+class MagicTower extends ShootTower {
     public constructor() {
         super();
     }
