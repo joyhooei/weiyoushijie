@@ -1,4 +1,6 @@
-class ArrowSoldier extends Soldier {
+class ShootSoldier extends Soldier {
+    protected _bulletClaz: string;
+
     public constructor() {
         super();
     }
@@ -30,7 +32,7 @@ class ArrowSoldier extends Soldier {
             }
 
             if (this._enemy) {
-                Bullet.shootByNPC(this, this._enemy, "Arrow");
+                Bullet.shootByNPC(this, this._enemy, this._bulletClaz);
                 
                 this._ticks++;
             } else {
