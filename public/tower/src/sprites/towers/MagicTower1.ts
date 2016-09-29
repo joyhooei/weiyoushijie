@@ -1,8 +1,6 @@
-class MagicTower1 extends MagicTower {
+class MagicTower1 extends Tower {
     public constructor() {
         super();
-        
-        this._soldierClaz = "MagicSoldier1";
         
         this.addBitmap("magictower1_png");
     }
