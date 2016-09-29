@@ -41,7 +41,7 @@ class Waves {
         let pathWidth = 30;
         let enemyInterval = 20;
         
-        let entityWidth = 50;
+        let entityWidth = 30;
         
         let deltaY = Math.random() * pathWidth - pathWidth / 2;
         let deltaX = Math.random() * pathWidth - pathWidth / 2;
@@ -127,23 +127,23 @@ class Waves {
             let direction = Entity.direction4(paths[0][0], paths[0][1], paths[1][0], paths[1][1]);
             switch(direction) {
                 case EntityDirection.east:
-                    tip.x = 50;
+                    tip.x = 20;
                     tip.y = paths[0][1];
                     break;
                     
                 case EntityDirection.west:
-                    tip.x = this._mapWidth - tip.width - 50;
+                    tip.x = this._mapWidth - tip.width - 20;
                     tip.y = paths[0][1];
                     break;
                     
                 case EntityDirection.north:
                     tip.x = paths[0][0];
-                    tip.y = this._mapHeight - tip.height - 50;
+                    tip.y = this._mapHeight - tip.height - 20;
                     break;
                     
                 case EntityDirection.south:
                     tip.x = paths[0][0];
-                    tip.y = 50;
+                    tip.y = 20;
                     break;
             }
 
