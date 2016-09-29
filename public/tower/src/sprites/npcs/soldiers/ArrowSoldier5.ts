@@ -4,7 +4,7 @@ class ArrowSoldier5 extends ShootSoldier {
         
         this._bulletClaz = "Arrow5";
         
-        this.addClip("arrowsoldier5_east_fighting", ["east-fighting", "south-fighting"])
+        this.addClip("arrowsoldier5_east_fighting", ["east-fighting", "south-fighting", "guarding"])
             .addClip("arrowsoldier5_west_fighting", ["west-fighting", "north-fighting"])
             .addBitmap("arrowsoldier5_guarding_png");
     }

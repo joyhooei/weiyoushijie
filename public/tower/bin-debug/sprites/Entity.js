@@ -229,8 +229,8 @@ var Entity = (function (_super) {
     };
     p.within = function (x, y, radius) {
         if (Entity.intersect(this.x, this.y, this.width, this.height, x - radius, y - radius, radius + radius, radius + radius)) {
-            var dx = this.x + this.width / 2 - x;
-            var dy = this.y + this.height / 2 - y;
+            var dx = this.getCenterX() - x;
+            var dy = this.getBottomY() - y;
             return (dx * dx + dy * dy <= radius * radius);
         }
         else {

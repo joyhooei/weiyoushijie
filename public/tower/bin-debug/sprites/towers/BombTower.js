@@ -5,6 +5,6 @@ var BombTower = (function (_super) {
     }
     var d = __define,c=BombTower,p=c.prototype;
     return BombTower;
-}(RemoteHitTower));
+}(ShootTower));
 egret.registerClass(BombTower,'BombTower');
 //# sourceMappingURL=BombTower.js.map

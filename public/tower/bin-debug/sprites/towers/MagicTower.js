@@ -5,6 +5,6 @@ var MagicTower = (function (_super) {
     }
     var d = __define,c=MagicTower,p=c.prototype;
     return MagicTower;
-}(RemoteHitTower));
+}(Tower));
 egret.registerClass(MagicTower,'MagicTower');
 //# sourceMappingURL=MagicTower.js.map

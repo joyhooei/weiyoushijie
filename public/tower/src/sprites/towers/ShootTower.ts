@@ -19,7 +19,7 @@ class ShootTower extends Tower {
     public guard(){
         super.guard();
 
-        this._soldier =  <ShootSoldier>application.pool.get(claz, {guardX: this.getCenterX(), guardY: this.getCenterY(), guardRadius: this._guardRadius});
+        this._soldier =  <ShootSoldier>application.pool.get(this._soldierClaz, {guardX: this.getCenterX(), guardY: this.getCenterY(), guardRadius: this._guardRadius});
                 
         this._soldier.setCenterX(this.getCenterX());
         this._soldier.setBottomY(this.getCenterY());

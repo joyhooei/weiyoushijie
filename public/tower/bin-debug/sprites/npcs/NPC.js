@@ -82,18 +82,15 @@ var NPC = (function (_super) {
     };
     p._fighting = function () {
         if (this._fightClip) {
-            if (this._readyFight()) {
-                this._playFightMovieClip();
+            if (!this._playingFightClip && this._readyFight()) {
+                this._playingFightClip = true;
+                this._play(this._fightClip, 1);
+                this._fightClip.once(egret.Event.COMPLETE, function () {
+                    this._hitOpponents();
+                    this._playingFightClip = false;
+                }, this);
             }
             this._ticks++;
-        }
-    };
-    p._playFightMovieClip = function () {
-        if (this._fightClip) {
-            this._play(this._fightClip, 1);
-            this._fightClip.once(egret.Event.COMPLETE, function () {
-                this._hitOpponents();
-            }, this);
         }
     };
     p._hitOpponents = function () {
@@ -105,6 +102,7 @@ var NPC = (function (_super) {
         }
         else {
             this._fightClip = display;
+            this._playingFightClip = false;
         }
         this._centerHp();
     };

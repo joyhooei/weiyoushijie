@@ -62,29 +62,15 @@ var EntityDisplays = (function () {
         if (index === void 0) { index = 0; }
         var scaleX = 1;
         var scaleY = 1;
-        var rotation = 0;
         var idx = (direction << 3) + state;
         if (!this._displays[idx]) {
             //是否有镜像的资源
             idx = (((direction + 4) % 8) << 3) + state;
             if (!this._displays[idx]) {
-                //是否有顺时针90度的资源
-                idx = (((direction + 2) % 8) << 3) + state;
+                idx = state;
                 if (!this._displays[idx]) {
-                    //是否有顺时针90度的资源
-                    idx = (((direction + 6) % 8) << 3) + state;
-                    if (!this._displays[idx]) {
-                        idx = state;
-                        if (!this._displays[idx]) {
-                            return this._defaultDisplay;
-                        }
-                    }
-                    else {
-                        rotation = -90;
-                    }
-                }
-                else {
-                    rotation = 90;
+                    //没有当前方向的资源，也没有镜像资源，则显示缺省资源
+                    return this._defaultDisplay;
                 }
             }
             else {
@@ -102,7 +88,6 @@ var EntityDisplays = (function () {
         var display = this._displays[idx][index];
         display.scaleX = scaleX;
         display.scaleY = scaleY;
-        display.rotation = rotation;
         return display;
     };
     p._actionToIndex = function (action) {

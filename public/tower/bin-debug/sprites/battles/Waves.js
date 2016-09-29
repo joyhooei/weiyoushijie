@@ -19,7 +19,7 @@ var Waves = (function () {
     p._randomPaths = function (paths) {
         var pathWidth = 30;
         var enemyInterval = 20;
-        var entityWidth = 50;
+        var entityWidth = 30;
         var deltaY = Math.random() * pathWidth - pathWidth / 2;
         var deltaX = Math.random() * pathWidth - pathWidth / 2;
         var newPaths = [];
@@ -85,20 +85,20 @@ var Waves = (function () {
             var direction = Entity.direction4(paths[0][0], paths[0][1], paths[1][0], paths[1][1]);
             switch (direction) {
                 case EntityDirection.east:
-                    tip.x = 50;
+                    tip.x = 20;
                     tip.y = paths[0][1];
                     break;
                 case EntityDirection.west:
-                    tip.x = this._mapWidth - tip.width - 50;
+                    tip.x = this._mapWidth - tip.width - 20;
                     tip.y = paths[0][1];
                     break;
                 case EntityDirection.north:
                     tip.x = paths[0][0];
-                    tip.y = this._mapHeight - tip.height - 50;
+                    tip.y = this._mapHeight - tip.height - 20;
                     break;
                 case EntityDirection.south:
                     tip.x = paths[0][0];
-                    tip.y = 50;
+                    tip.y = 20;
                     break;
             }
             application.battle.addEntity(tip);
