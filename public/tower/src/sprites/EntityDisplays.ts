@@ -73,8 +73,11 @@ class EntityDisplays {
             //是否有镜像的资源
             idx = (((direction + 4) % 8) << 3) + state;
             if (!this._displays[idx]) {
-                //没有当前方向的资源，也没有镜像资源，则显示缺省资源
-                return this._defaultDisplay;
+                idx = state;
+                if (!this._displays[idx]) {
+                    //没有当前方向的资源，也没有镜像资源，则显示缺省资源
+                    return this._defaultDisplay;
+                }
             } else {
                 if (direction == EntityDirection.east || direction == EntityDirection.west) {
                     scaleX = -1;
