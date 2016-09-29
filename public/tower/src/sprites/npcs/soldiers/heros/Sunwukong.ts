@@ -1,8 +1,9 @@
 class Sunwukong extends Hero {
     private _skill1 : number;
-    
-    private _skill2 : number;
     private _skill1Times: number;
+
+    private _skill2 : number;
+    private _skill2Ticks: number;
     
     public constructor() {
         super();
@@ -26,7 +27,9 @@ class Sunwukong extends Hero {
         this._skill = 0;
         this._resistance = 10;
         this._skill1 = 2;
+        this._skill1Times = 0;
         this._skill2 = 1;
+        this._skill2Ticks = 10 * application.frameRate;
         for (let i = 0; i < legend.skills.length; i++) {
             let skill = legend.skills[i];
             
@@ -45,16 +48,22 @@ class Sunwukong extends Hero {
     }
 
     protected _nextSkill() {
-        let random = Math.round(Math.random() * 10);
-        
-        if (random <= 5) {
-            this._skill = 0;
-        } else if (random <= 8) {
-            this._skill = 1;
-            this._skill1Times = 0;
-        } else {
+        //每10秒召唤一次
+        this._skill2Ticks --;
+        if (this._skill2Ticks <= 0) {
             this._skill = 2;
-        }        
+            
+            this._skill2Ticks = 10 * application.frameRate;
+        } else {
+            let random = Math.round(Math.random() * 10);
+        
+            if (random <= 7) {
+                this._skill = 0;
+            } else {
+                this._skill = 1;
+                this._skill1Times = 0;
+            }
+        }
     }
     
     protected _hitOpponents() {
