@@ -24,10 +24,6 @@ class Tower extends Entity {
         this._guardRadius = this._get(properties, "guardRadius", 10);
     }
 
-	public snapshot(): string {
-		return this._displays.snapshot();
-	}
-
 	public getNextLevelTowerClaz(): string {
 		let claz = this.getClassName();
 		
