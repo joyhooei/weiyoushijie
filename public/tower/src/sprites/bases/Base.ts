@@ -27,14 +27,6 @@ class Base extends Entity implements SelectableEntity {
 
         this.guard();
     }
-
-    public update():boolean {
-        if (this._tower) {
-            this._tower.update();
-        }
-        
-    	return super.update();
-    }
     
     public unused() : boolean {
         return this._unused;
@@ -55,27 +47,15 @@ class Base extends Entity implements SelectableEntity {
     public setTower(tower: Tower) {
         this._unused = false;
         
-        this._clearTower();
-        
-        this._tower = tower;
-        
-        if (this._tower) {
-            this.removeChildren();
-            
-            this.addChild(this._tower);
-
-            this._tower.build();
-        } else {
-            this.stain();
-        }
-    }
-    
-    private _clearTower() {
         if (this._tower) {
             this._tower.erase();
-            
-            this._tower = null;
-        }        
+        } 
+        
+        this._tower = tower;  
+        
+        if (this._tower) {
+            application.battle.addEntity(this._tower);
+        }
     }
     
     public erase() {
@@ -86,7 +66,10 @@ class Base extends Entity implements SelectableEntity {
             this._range = null;
         }
         
-        this._clearTower();
+        if (this._tower) {
+            this._tower.erase();
+            this._tower = null;
+        }   
     }
 
     public select(again:boolean): boolean {
