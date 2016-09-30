@@ -29,6 +29,7 @@ class Battle extends Entity implements SoldierCreator {
     protected _toolItem: BattleToolItem;
     
     protected _result: Result;
+    protected _options: any;
 
     public constructor() {
         super();
@@ -43,6 +44,8 @@ class Battle extends Entity implements SoldierCreator {
     
     public loadResource(options: any): Q.Promise<any> {
         let self = this;
+        
+        self._options = options;
 
         return Q.Promise<any>(function(resolve,reject,notify) {
             TiledMap.load(self._url, 800, 480).then(function(map){
@@ -84,7 +87,7 @@ class Battle extends Entity implements SoldierCreator {
         this._addStandbys();
         this._addEffects();
         
-        this._result = new Result({customer_id: application.me.attrs.id, battle: this.getClassName(), result: 0, score: 0, unused_bases: this._map.getBases().length, stars: 0});
+        this._result = new Result({customer_id: application.me.attrs.id, stage: this._options.stage, level: this._options.level, result: 0, score: 0, unused_bases: this._map.getBases().length, stars: 0});
 
         this.fight();
     }
@@ -101,6 +104,16 @@ class Battle extends Entity implements SoldierCreator {
         for(let i = 0; i < this._bases.length; i++) {
             if (this._bases[i].unused()) {
                 this._result.attrs.unused_bases ++;
+            }
+        }
+        
+        if (this._result.level = 1) {
+            if (this._lives >= 18) {
+                this._result.attrs.stars = 3;
+            } else if (this._lives >= 6) {
+                this._result.attrs.stars = 2;
+            } else {
+                this._result.attrs.stars = 1;
             }
         }
 
