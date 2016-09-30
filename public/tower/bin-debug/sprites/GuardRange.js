@@ -13,8 +13,15 @@ var GuardRange = (function (_super) {
     };
     p.paint = function () {
         this.graphics.clear();
-        this.graphics.lineStyle(1, 0x009900);
-        this.graphics.drawEllipse(0, 0, this._guardRadius << 1, this._guardRadius << 1);
+        var x = 0;
+        var y = Math.round(this._guardRadius * 0.3);
+        var width = this._guardRadius << 1;
+        var height = (this._guardRadius - y) << 1;
+        this.graphics.beginFill(0x009900, 0.2);
+        this.graphics.drawEllipse(x, y, width, height);
+        this.graphics.endFill();
+        this.graphics.lineStyle(3, 0x990000);
+        this.graphics.drawEllipse(x, y, width, height);
         this.graphics.endFill();
     };
     return GuardRange;

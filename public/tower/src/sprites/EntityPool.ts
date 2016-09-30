@@ -9,7 +9,7 @@ class EntityPool {
         let entity: Entity = null;
         for(let i = 0; i < this._entities.length; i++) {
             entity = this._entities[i];
-            if (claz == entity.getClassName()) {
+            if (claz == entity.getClaz()) {
                 this._entities.splice(i, 1);
                 break;
             }

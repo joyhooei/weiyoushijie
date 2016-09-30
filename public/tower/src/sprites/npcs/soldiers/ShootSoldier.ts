@@ -8,6 +8,10 @@ class ShootSoldier extends Soldier {
     public initialize(properties:any) {
         super.initialize(properties);
     }
+    
+    protected _idle() {
+        this.guard();
+    }
 
     protected _guarding() {
         this._enemy = application.battle.findEnemy(this.getCenterX(), this.getCenterY(), this._guardRadius, [0]);
@@ -19,13 +23,10 @@ class ShootSoldier extends Soldier {
 
     protected _fighting() {
         if (this._ticks % this._hitSpeed == 0) {
-            let x = this.getMapX();
-            let y = this.getMapY();
-
-            if (this._enemy == null 
+             if (this._enemy == null 
                     || !this._enemy.active() 
-                    || !this._enemy.within(x, y, this._guardRadius)) {
-                this._enemy = application.battle.findEnemy(x, y, this._guardRadius, [0]);
+                    || !this._enemy.within(this.x, this.y, this._guardRadius)) {
+                this._enemy = application.battle.findEnemy(this.x, this.y, this._guardRadius, [0]);
                 if (this._enemy) {
                     this._face(this._enemy);
                 }

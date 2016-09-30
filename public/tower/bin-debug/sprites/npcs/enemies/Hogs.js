@@ -2,7 +2,7 @@ var Hogs = (function (_super) {
     __extends(Hogs, _super);
     function Hogs() {
         _super.call(this);
-        this.addClip("hogs_east_moving", ["east-moving", "south-moving", "north-moving", "guarding"])
+        this.addClip("hogs_east_moving", ["east-moving", "south-moving", "guarding"])
             .addClip("hogs_dying", "dying")
             .addClip("hogs_east_fighting", ["east-fighting", "south-fighting", "north-fighting"]);
     }

@@ -50,7 +50,7 @@ class SoldierTower extends Tower implements SoldierCreator {
     }
     
     private _addSoldier(s: Soldier) {
-        boolean found = false;
+        let found = false;
         for(let i = 0;i < this._soldiers.length;i++) {
             if (this._soldiers[i] == s) {
                 found = true;

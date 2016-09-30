@@ -76,7 +76,7 @@ var Soldier = (function (_super) {
         if (idleTicks == 0) {
             idleTicks = this._idleTicks;
         }
-        var soldier = application.pool.get(this.getClassName(), { guardX: this._guardX, guardY: this._guardY, idleTicks: idleTicks });
+        var soldier = application.pool.get(this.getClaz(), { guardX: this._guardX, guardY: this._guardY, idleTicks: idleTicks });
         soldier.x = this.x;
         soldier.y = this.y;
         soldier.width = this.width;

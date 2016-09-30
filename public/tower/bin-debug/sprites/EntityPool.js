@@ -7,7 +7,7 @@ var EntityPool = (function () {
         var entity = null;
         for (var i = 0; i < this._entities.length; i++) {
             entity = this._entities[i];
-            if (claz == entity.getClassName()) {
+            if (claz == entity.getClaz()) {
                 this._entities.splice(i, 1);
                 break;
             }

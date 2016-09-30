@@ -14,6 +14,8 @@ class BattleUI extends AbstractUI {
     
     private _music: egret.Sound;
     private _channel: egret.SoundChannel;
+
+    private _running: boolean;
     
     constructor() {
         super("battleUISkin");
@@ -60,14 +62,18 @@ class BattleUI extends AbstractUI {
     private _quitBattle() {
 	    this.removeEventListener(egret.Event.ENTER_FRAME,this._onEnterFrame, this);
 	    
-	    application.battle.erase();
-	    application.battle = null;
+        if (application.battle) {
+            application.battle.erase();
+            application.battle = null;
+        }
 
 	    application.hideUI(this);
     }
     
     private _startBattle() {
     	//this._channel = this._music.play(0, 0);
+
+        this._running = true;
     	
         application.battle.start();
     	
@@ -76,7 +82,7 @@ class BattleUI extends AbstractUI {
     }
     
     private _restartBattle() {
-		application.battle = <Battle>application.pool.get(application.battle.getClassName());
+		application.battle = <Battle>application.pool.get(application.battle.getClaz());
         this._startBattle();
     }
 
@@ -84,15 +90,19 @@ class BattleUI extends AbstractUI {
         if (application.battle.update()) {
     		let self = this;
 
-            if (self._channel) {
-                self._channel.stop();
+            if (self._running) {
+                self._running = false;
+
+                if (self._channel) {
+                    self._channel.stop();
+                }
+            
+                application.showUI(new BattleOptionUI(function(){
+                    self._restartBattle();
+                }, function(){
+                    self._quitBattle();
+                }));
             }
-    	
-    		application.showUI(new BattleOptionUI(function(){
-    			self._restartBattle();
-    		}, function(){
-    			self._quitBattle();
-    		}));        	
         } else {
         	application.battle.paint();
         }

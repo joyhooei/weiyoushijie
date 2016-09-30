@@ -66,22 +66,6 @@ class Entity extends egret.Sprite {
 		return egret.getQualifiedSuperclassName(this);
 	}
 
-    public getMapX(): number {
-    	if (this.parent != application.battle) {
-    		return (<Entity>this.parent).getMapX() + this.x;
-    	} else {
-    		return this.x;
-    	}
-    }
-    
-    public getMapY(): number {
-    	if (this.parent != application.battle) {
-    		return (<Entity>this.parent).getMapY() + this.y;
-    	} else {
-    		return this.y;
-    	}
-    }
-
 	public setCenterX(x:number) {
 		this.x = x - (this.width >> 1);
 	}
@@ -188,16 +172,14 @@ class Entity extends egret.Sprite {
     public paint() {
     	this._play(this._render(), -1);
     }
-	
-	public snapshot(): string {
-		return this._displays.snapshot();
-	}		
 
 	public addBitmap(name:string, action?): Entity {
 		let bm = this._displays.addBitmap(name, action);
 
-		this.width  = bm.width;
-		this.height = bm.height;
+		if (bm && bm.width > 0 && bm.height > 0) {
+			this.width  = bm.width;
+			this.height = bm.height;
+		}
 
 		return this;
 	}
@@ -205,8 +187,10 @@ class Entity extends egret.Sprite {
 	public addClip(name:string, action?): Entity {
 		let clip = this._displays.addClip(name, action);
 
-		this.width  = clip.width;
-		this.height = clip.height;
+		if (clip && clip.width > 0 && clip.height > 0) {
+			this.width  = clip.width;
+			this.height = clip.height;
+		}
 
 		return this;
 	}
@@ -242,7 +226,7 @@ class Entity extends egret.Sprite {
 			this.width  = display.width;
 			this.height = display.height;			
         } else {
-            console.error("display dosn't exist for " + this.getClassName() + " direction = " + Entity.directionName(this._direction) + " state = " + Entity.stateName(this._state));
+            console.error("display dosn't exist for " + this.getClaz() + " direction = " + Entity.directionName(this._direction) + " state = " + Entity.stateName(this._state));
         }		
 
 		return display;
@@ -250,7 +234,7 @@ class Entity extends egret.Sprite {
     
     private _do(state:EntityState) {
     	if (state != this._state) {
-			console.log(this.getClassName() + " changed from " + Entity.stateName(this._state) + " to state " + Entity.stateName(state));
+			console.log(this.getClaz() + " changed from " + Entity.stateName(this._state) + " to state " + Entity.stateName(state));
 
     		//dead状态不需要再变更状态了
     		//当前状态如果是dying，新状态只能是dead
@@ -270,7 +254,7 @@ class Entity extends egret.Sprite {
     //转向
     protected _turn(direction: EntityDirection) {
     	if (direction != this._direction) {
-			console.log(this.getClassName() + " trun from " + Entity.directionName(this._direction) + " to direction " + Entity.directionName(direction));
+			console.log(this.getClaz() + " trun from " + Entity.directionName(this._direction) + " to direction " + Entity.directionName(direction));
 
     		this._direction = direction;
     		

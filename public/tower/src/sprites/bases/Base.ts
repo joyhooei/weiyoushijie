@@ -6,13 +6,11 @@ class Base extends Entity implements SelectableEntity {
     protected _guardY: number;
     
     protected _unused: boolean;
-    
-    protected _range: GuardRange;
-    
+
     public constructor() {
         super();
 
-        this.$touchEnabled = true;
+        this.touchEnabled = true;
     }
 
     public initialize(properties:any) {
@@ -54,17 +52,15 @@ class Base extends Entity implements SelectableEntity {
         this._tower = tower;  
         
         if (this._tower) {
+            this._tower.setCenterX(this.getCenterX());
+            this._tower.setCenterY(this.getCenterY());
+            this._tower.setBase(this);
             application.battle.addEntity(this._tower);
         }
     }
     
     public erase() {
         super.erase();
-  
-        if (this._range) {
-            this._range.erase();
-            this._range = null;
-        }
         
         if (this._tower) {
             this._tower.erase();
@@ -78,32 +74,12 @@ class Base extends Entity implements SelectableEntity {
 
             return false;
         } else {
-            if (this._tower) {
-                let guardRadius = this._tower.getGuardRadius();
-
-                this._range = <GuardRange>application.pool.get("GuardRange", {guardRadius: guardRadius});
-
-                this._range.x = this.getCenterX() - guardRadius;
-                this._range.y = this.getCenterY() - guardRadius;
-
-                this._range.width  = guardRadius << 1;
-                this._range.height = guardRadius << 1;
-
-                application.battle.addEntity(this._range);
-
-                application.showUI(new TowerMenuUI(this), application.battle.parent, this.getCenterX(), this.getCenterY());
-            } else {
-                application.showUI(new BuildTowerUI(this), application.battle.parent, this.getCenterX(), this.getCenterY());
-            }
+            application.showUI(new BuildTowerUI(this), application.battle.parent, this.getCenterX(), this.getCenterY());
             
             return true;
         }
     }
     
     public deselect() {
-        if (this._range) {
-            this._range.erase();
-            this._range = null;
-        }
     }
 }

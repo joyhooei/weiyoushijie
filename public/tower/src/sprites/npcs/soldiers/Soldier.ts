@@ -110,7 +110,7 @@ class Soldier extends NPC implements SelectableEntity {
         if (idleTicks == 0) {
             idleTicks = this._idleTicks;
         }
-        let soldier = <Soldier>application.pool.get(this.getClassName(), {guardX: this._guardX, guardY: this._guardY, idleTicks: idleTicks});
+        let soldier = <Soldier>application.pool.get(this.getClaz(), {guardX: this._guardX, guardY: this._guardY, idleTicks: idleTicks});
         soldier.x = this.x;
         soldier.y = this.y;
         soldier.width = this.width;

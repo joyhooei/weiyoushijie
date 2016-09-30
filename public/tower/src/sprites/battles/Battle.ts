@@ -107,7 +107,7 @@ class Battle extends Entity implements SoldierCreator {
             }
         }
         
-        if (this._result.level = 1) {
+        if (this._result.attrs.level == 1) {
             if (this._lives >= 18) {
                 this._result.attrs.stars = 3;
             } else if (this._lives >= 6) {

@@ -44,27 +44,11 @@ var Entity = (function (_super) {
             return defaultVal;
         }
     };
-    p.getClassName = function () {
+    p.getClaz = function () {
         return egret.getQualifiedClassName(this);
     };
-    p.getSuperClassName = function () {
+    p.getSuperClaz = function () {
         return egret.getQualifiedSuperclassName(this);
-    };
-    p.getMapX = function () {
-        if (this.parent != application.battle) {
-            return this.parent.getMapX() + this.x;
-        }
-        else {
-            return this.x;
-        }
-    };
-    p.getMapY = function () {
-        if (this.parent != application.battle) {
-            return this.parent.getMapY() + this.y;
-        }
-        else {
-            return this.y;
-        }
     };
     p.setCenterX = function (x) {
         this.x = x - (this.width >> 1);
@@ -148,14 +132,18 @@ var Entity = (function (_super) {
     };
     p.addBitmap = function (name, action) {
         var bm = this._displays.addBitmap(name, action);
-        this.width = bm.width;
-        this.height = bm.height;
+        if (bm && bm.width > 0 && bm.height > 0) {
+            this.width = bm.width;
+            this.height = bm.height;
+        }
         return this;
     };
     p.addClip = function (name, action) {
         var clip = this._displays.addClip(name, action);
-        this.width = clip.width;
-        this.height = clip.height;
+        if (clip && clip.width > 0 && clip.height > 0) {
+            this.width = clip.width;
+            this.height = clip.height;
+        }
         return this;
     };
     p._play = function (display, times) {
@@ -189,13 +177,13 @@ var Entity = (function (_super) {
             this.height = display.height;
         }
         else {
-            console.error("display dosn't exist for " + this.getClassName() + " direction = " + Entity.directionName(this._direction) + " state = " + Entity.stateName(this._state));
+            console.error("display dosn't exist for " + this.getClaz() + " direction = " + Entity.directionName(this._direction) + " state = " + Entity.stateName(this._state));
         }
         return display;
     };
     p._do = function (state) {
         if (state != this._state) {
-            console.log(this.getClassName() + " changed from " + Entity.stateName(this._state) + " to state " + Entity.stateName(state));
+            console.log(this.getClaz() + " changed from " + Entity.stateName(this._state) + " to state " + Entity.stateName(state));
             //dead状态不需要再变更状态了
             //当前状态如果是dying，新状态只能是dead
             if (this._state == EntityState.dead || (this._state == EntityState.dying && state != EntityState.dead)) {
@@ -210,7 +198,7 @@ var Entity = (function (_super) {
     //转向
     p._turn = function (direction) {
         if (direction != this._direction) {
-            console.log(this.getClassName() + " trun from " + Entity.directionName(this._direction) + " to direction " + Entity.directionName(direction));
+            console.log(this.getClaz() + " trun from " + Entity.directionName(this._direction) + " to direction " + Entity.directionName(direction));
             this._direction = direction;
             this.stain();
         }

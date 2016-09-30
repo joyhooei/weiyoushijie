@@ -1,4 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
-<e:Skin class="buildTowerUISkin" width="233" height="202" xmlns:e="http://ns.egret.com/eui">
+<e:Skin class="buildTowerUISkin" width="233" height="202" xmlns:e="http://ns.egret.com/eui" xmlns:w="http://ns.egret.com/wing">
 	<e:Image width="233" height="202" x="0" y="0" source="towerbuild_png" fillMode="clip"/>
+	<e:Label id="lblSoldierTower" text="300" x="140" y="26" size="11"/>
+	<e:Label id="lblBombTower" text="300" x="74" y="158" size="11"/>
+	<e:Label id="lblMagicTower" text="300" x="205" y="92" size="11"/>
+	<e:Label id="lblArrowTower" text="300" x="11" y="93" size="11"/>
 </e:Skin>

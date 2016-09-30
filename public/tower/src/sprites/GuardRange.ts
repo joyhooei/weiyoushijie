@@ -19,7 +19,7 @@ class GuardRange extends Entity {
         this.graphics.clear();
         
 		let x = 0;
-		let y = Math.round(this._guardRadius * 0.9);
+		let y = Math.round(this._guardRadius * 0.3);
 		let width  = this._guardRadius << 1;
 		let height = (this._guardRadius - y) << 1;
 		

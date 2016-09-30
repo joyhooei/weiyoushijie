@@ -39,19 +39,19 @@ class BuildTowerUI extends AbstractUI{
 		let options = {guardX: this._base.getGuardX(), guardY: this._base.getGuardY()};
 		
 		this._soldierTower = <Tower>application.pool.get("SoldierTower1",options);
-		this.lblSoldierTower.text = this._soldierTower.getPrice();
+		this.lblSoldierTower.text = this._soldierTower.getPrice().toString();
 		this._mcTowers.push(this._renderTower(96, 15, "soldier_tower", this._soldierTower));
 		
 		this._arrowTower = <Tower>application.pool.get("ArrowTower1", options);
-		this.lblArrowTower.text = this._arrowTower.getPrice();
+		this.lblArrowTower.text = this._arrowTower.getPrice().toString();
 		this._mcTowers.push(this._renderTower(32, 80, "arrow_tower", this._arrowTower));
 		
 		this._bombTower = <Tower>application.pool.get("BombTower1", options);
-		this.lblBombTower.text = this._bombTower.getPrice();
+		this.lblBombTower.text = this._bombTower.getPrice().toString();
 		this._mcTowers.push(this._renderTower(160, 80, "bomb_tower", this._bombTower));
 		
 		this._magicTower = <Tower>application.pool.get("MagicTower1", options);
-		this.lblMagicTower.text = this._magicTower.getPrice();
+		this.lblMagicTower.text = this._magicTower.getPrice().toString();
 		this._mcTowers.push(this._renderTower(96, 145, "magic_tower", this._magicTower));
     }
 

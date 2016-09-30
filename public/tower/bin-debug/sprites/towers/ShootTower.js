@@ -13,9 +13,11 @@ var ShootTower = (function (_super) {
     };
     p.guard = function () {
         _super.prototype.guard.call(this);
-        this._soldier = application.pool.get(this._soldierClaz, { guardX: this.getCenterX(), guardY: this.getCenterY(), guardRadius: this._guardRadius });
-        this._soldier.setCenterX(this.getCenterX());
-        this._soldier.setBottomY(this.getCenterY());
+        var x = this.getCenterX() - 10;
+        var y = this.y + 10;
+        this._soldier = application.pool.get(this._soldierClaz, { guardRadius: this._guardRadius });
+        this._soldier.setCenterX(x);
+        this._soldier.setBottomY(y);
         application.battle.addEntity(this._soldier);
     };
     return ShootTower;

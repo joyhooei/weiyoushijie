@@ -1,10 +1,10 @@
-var Battle1 = (function (_super) {
-    __extends(Battle1, _super);
-    function Battle1() {
+var Battle2 = (function (_super) {
+    __extends(Battle2, _super);
+    function Battle2() {
         _super.call(this);
-        this._url = "resource/art/sprites/battles/battle1.tmx";
+        this._url = "resource/art/sprites/battles/battle2.tmx";
     }
-    var d = __define,c=Battle1,p=c.prototype;
+    var d = __define,c=Battle2,p=c.prototype;
     p._addBases = function () {
         this._addBasesByName("Base1");
     };
@@ -32,7 +32,7 @@ var Battle1 = (function (_super) {
             this._waves.add(w[0], w[1], w[2], paths[w[3]]);
         }
     };
-    return Battle1;
+    return Battle2;
 }(Battle));
-egret.registerClass(Battle1,'Battle1');
-//# sourceMappingURL=Battle1.js.map
+egret.registerClass(Battle2,'Battle2');
+//# sourceMappingURL=Battle2.js.map

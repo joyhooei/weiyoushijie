@@ -34,31 +34,37 @@ var BattleUI = (function (_super) {
     };
     p._quitBattle = function () {
         this.removeEventListener(egret.Event.ENTER_FRAME, this._onEnterFrame, this);
-        application.battle.erase();
-        application.battle = null;
+        if (application.battle) {
+            application.battle.erase();
+            application.battle = null;
+        }
         application.hideUI(this);
     };
     p._startBattle = function () {
         //this._channel = this._music.play(0, 0);
+        this._running = true;
         application.battle.start();
         this.stage.frameRate = application.frameRate;
         this.addEventListener(egret.Event.ENTER_FRAME, this._onEnterFrame, this);
     };
     p._restartBattle = function () {
-        application.battle = application.pool.get(application.battle.getClassName());
+        application.battle = application.pool.get(application.battle.getClaz());
         this._startBattle();
     };
     p._onEnterFrame = function (e) {
         if (application.battle.update()) {
             var self_1 = this;
-            if (self_1._channel) {
-                self_1._channel.stop();
+            if (self_1._running) {
+                self_1._running = false;
+                if (self_1._channel) {
+                    self_1._channel.stop();
+                }
+                application.showUI(new BattleOptionUI(function () {
+                    self_1._restartBattle();
+                }, function () {
+                    self_1._quitBattle();
+                }));
             }
-            application.showUI(new BattleOptionUI(function () {
-                self_1._restartBattle();
-            }, function () {
-                self_1._quitBattle();
-            }));
         }
         else {
             application.battle.paint();

@@ -2,7 +2,7 @@ var Base = (function (_super) {
     __extends(Base, _super);
     function Base() {
         _super.call(this);
-        this.$touchEnabled = true;
+        this.touchEnabled = true;
     }
     var d = __define,c=Base,p=c.prototype;
     p.initialize = function (properties) {
@@ -12,12 +12,6 @@ var Base = (function (_super) {
         this._tower = null;
         this._unused = true;
         this.guard();
-    };
-    p.update = function () {
-        if (this._tower) {
-            this._tower.update();
-        }
-        return _super.prototype.update.call(this);
     };
     p.unused = function () {
         return this._unused;
@@ -33,35 +27,33 @@ var Base = (function (_super) {
     };
     p.setTower = function (tower) {
         this._unused = false;
-        this._clearTower();
+        if (this._tower) {
+            this._tower.erase();
+        }
         this._tower = tower;
         if (this._tower) {
-            this.removeChildren();
-            this.addChild(this._tower);
-            this._tower.build();
-        }
-        else {
-            this.stain();
+            this._tower.setCenterX(this.getCenterX());
+            this._tower.setCenterY(this.getCenterY());
+            this._tower.setBase(this);
+            application.battle.addEntity(this._tower);
         }
     };
-    p._clearTower = function () {
+    p.erase = function () {
+        _super.prototype.erase.call(this);
         if (this._tower) {
             this._tower.erase();
             this._tower = null;
         }
     };
-    p.erase = function () {
-        _super.prototype.erase.call(this);
-        this._clearTower();
-    };
     p.select = function (again) {
-        if (this._tower) {
-            application.showUI(new TowerMenuUI(this._tower), application.battle.parent, this.getCenterX(), this.getCenterY());
+        if (again) {
+            this.deselect();
+            return false;
         }
         else {
             application.showUI(new BuildTowerUI(this), application.battle.parent, this.getCenterX(), this.getCenterY());
+            return true;
         }
-        return true;
     };
     p.deselect = function () {
     };
