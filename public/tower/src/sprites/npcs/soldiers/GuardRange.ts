@@ -18,9 +18,14 @@ class GuardRange extends Entity {
 	public paint() {
         this.graphics.clear();
         
-        this.graphics.lineStyle(1, 0x009900);
-        this.graphics.drawEllipse(0, 0, this._guardRadius << 1, this._guardRadius << 1);
-
+		let delta = Math.round(this._guardRadius * 0.8);
+		
+		this.graphics.beginFill(0x009900, 0.2);
+		this.graphics.drawEllipse(0, delta, this._guardRadius << 1, (this._guardRadius - delta) << 1);
+		this.graphics.endFill();
+		
+        this.graphics.lineStyle(3, 0x990000);
+        this.graphics.drawEllipse(0, delta, this._guardRadius << 1, (this._guardRadius - delta) << 1);
         this.graphics.endFill();
 	}	
 }
