@@ -3,16 +3,13 @@ class Tower extends Entity {
     
     protected _buildTicks: number;
     
-    protected _buyPrice: number;
-    protected _sellPrice: number;
+    protected _price: number;
     
     protected _guardRadius: number;
 
     public constructor() {
         super();
-
-        this.width = this.height = 50;
-        
+      
         this._displays.addClip("tower_building", "building")
     }
     
@@ -22,11 +19,18 @@ class Tower extends Entity {
         this._hitSpeed   = this._get(properties, "hitSpeed", 60);
         this._buildTicks = this._get(properties, "buildTicks", 5 * application.frameRate);
         
-        this._buyPrice = this._get(properties, "buyPrice", 100);
-        this._sellPrice = this._get(properties, "sellPrice", 100);
+        this._price = this._get(properties, "price", 100);
         
         this._guardRadius = this._get(properties, "guardRadius", 10);
     }
+
+	public getPrice(): number {
+		return this._price;
+	}
+
+	public getSellPrice(): number {
+		return Math.round(this._price * 0.6);
+	}
 
     public getCenterX(): number {
     	return this.parent.x + (this.width >> 1);
@@ -43,13 +47,13 @@ class Tower extends Entity {
     public erase() {
         super.erase();
         
-        application.battle.incGolds(this._sellPrice);
+        application.battle.incGolds(this.getSellPrice());
     }
 
     protected _idle() {
         this.build();
         
-        application.battle.incGolds(-this._buyPrice);
+        application.battle.incGolds(-this.getPrice());
     }
     
     protected _building() {
