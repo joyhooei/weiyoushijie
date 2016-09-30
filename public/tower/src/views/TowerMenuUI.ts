@@ -13,7 +13,12 @@ class TowerMenuUI extends AbstractUI{
         
         this._base = base;
 		
-		this._nextLevelTower = application.pools.get(this._base.getTower().getNextLevelTowerClaz());
+		let claz = this._base.getTower().getNextLevelTowerClaz();
+		if (claz) {
+			this._nextLevelTower = application.pools.get();
+		} else {
+			this._nextLevelTower = null;
+		}
         
         application.dao.addEventListener("Battle",function(evt: egret.Event) {
             this.refresh();
@@ -26,19 +31,28 @@ class TowerMenuUI extends AbstractUI{
 		}, this);
 		
 		this.imgUpgrade.addEventListener(egret.TouchEvent.TOUCH_TAP,() => {
-			if (application.battle.getGolds() > this._nextLevelTower.getPrice()) {
-				this._base.setTower(this._nextLevelTower);
+			if (this._nextLevelTower) {
+				if (application.battle.getGolds() > this._nextLevelTower.getPrice()) {
+					this._base.setTower(this._nextLevelTower);
 
-				application.hideUI(this);
+					application.hideUI(this);
+				} else {
+					Toast.launch("需要更多的金币");
+				}
 			} else {
-				Toast.launch("需要更多的金币");
-			}
+				Toast.launch("已经是最高级了");
+			}				
 		}, this);
     }
     
     protected _onRefresh() {
-		this.imgUpgrade.source = this._nextLevelTower.snapshot();
-		this.lblUpgradePrice.text   = this._nextLevelTower.getPrice();
+		if (this._nextLevelTower) {
+			this.imgUpgrade.source = this._nextLevelTower.snapshot();
+			this.lblUpgradePrice.text   = this._nextLevelTower.getPrice();
+		} else {
+			this.imgUpgrade.source = "";
+			this.lblUpgradePrice.text   = "";		
+		}
 		
 		this.lblSellPrice.text = this._base.getTower().getSellPrice();
     }
