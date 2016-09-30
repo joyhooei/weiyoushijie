@@ -37,7 +37,7 @@ class TowerMenuUI extends AbstractUI{
     }
     
     protected _onRefresh() {
-		this.imgUpgrade.source = this._nextLevelTower.snapshot();
+		this.imgUpgrade.addChild(this._nextLevelTower.snapshot());
 		this.lblUpgradePrice.text   = this._nextLevelTower.getPrice();
 		this.lblSellPrice.text = Math.round(this._base.getTower().getPrice() * 0.8);
     }
