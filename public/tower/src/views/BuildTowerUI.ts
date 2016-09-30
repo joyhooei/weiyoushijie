@@ -24,9 +24,10 @@ class BuildTowerUI extends AbstractUI{
 		
         this._mcTowers = [];
 		application.stopwatch.addEventListener("second", function(event:egret.Event){
-			let i = Math.round(Math.random() * this._mcTowers.length * 10);
-			if (i < this._mcTowers.length) {
-				this._mcTowers[i].gotoAndPlay(0, 1);
+			if (event.data % 10 == 0) {
+				for (let i = 0; i < this._mcTowers.length; i++) {
+					this._mcTowers[i].gotoAndPlay(0, 1);
+				}
 			}
 		}, this);
     }
@@ -77,6 +78,8 @@ class BuildTowerUI extends AbstractUI{
 		clip.frameRate = 6;
 
 		this.addChild(clip);
+		
+		clip.gotoAndPlay(0, 1);
 
 		return clip;
 	}
