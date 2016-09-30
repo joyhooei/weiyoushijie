@@ -3,10 +3,18 @@ class EntityDisplays {
 
     private _defaultDisplay: egret.DisplayObject;
 
+    private _snapshot: string;
+
     public constructor() {
         this._displays = [];
 
         this._defaultDisplay = null;
+        
+        this._snapshot = "";
+    }
+
+    public snapshot(): string {
+        return this._snapshot;
     }
     
     public addBitmap(name:string, action?): egret.Bitmap {
@@ -26,6 +34,8 @@ class EntityDisplays {
         } else {
             this._defaultDisplay = bm;
         }
+        
+        this._snapshot = name;
         
         return bm;
     }
