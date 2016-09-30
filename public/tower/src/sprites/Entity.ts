@@ -58,11 +58,11 @@ class Entity extends egret.Sprite {
     	}
     }
 	
-	public getClassName() {
+	public getClaz() {
 		return egret.getQualifiedClassName(this);
 	}
 	
-	public getSuperClassName() {
+	public getSuperClaz() {
 		return egret.getQualifiedSuperclassName(this);
 	}
 
@@ -188,6 +188,10 @@ class Entity extends egret.Sprite {
     public paint() {
     	this._play(this._render(), -1);
     }
+	
+	public snapshot(): string {
+		return this._displays.snapshot();
+	}		
 
 	public addBitmap(name:string, action?): Entity {
 		let bm = this._displays.addBitmap(name, action);
