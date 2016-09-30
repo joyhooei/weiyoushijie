@@ -29,9 +29,10 @@ class SoldierTower extends Tower implements SoldierCreator {
     public guard() {
         super.guard();
         
-        this._createSoldier(this._soldierClaz, {guardX: this._guardX + 10, guardY: this._guardY + 10, idleTicks: 0});
-        this._createSoldier(this._soldierClaz, {guardX: this._guardX - 10, guardY: this._guardY + 10, idleTicks:  application.frameRate});
-        this._createSoldier(this._soldierClaz, {guardX: this._guardX + 10, guardY: this._guardY - 10, idleTicks: 2 * application.frameRate});
+        let delta = 25;
+        this._createSoldier(this._soldierClaz, {guardX: this._guardX + delta, guardY: this._guardY + delta, idleTicks: 0});
+        this._createSoldier(this._soldierClaz, {guardX: this._guardX - delta, guardY: this._guardY + delta, idleTicks:  application.frameRate});
+        this._createSoldier(this._soldierClaz, {guardX: this._guardX + delta, guardY: this._guardY - delta, idleTicks: 2 * application.frameRate});
     }
     
     public erase() {
