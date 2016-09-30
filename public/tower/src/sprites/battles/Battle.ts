@@ -270,12 +270,7 @@ class Battle extends Entity implements SoldierCreator {
         super.erase();
         
         this._eraseEntities(this._bases);
-        
-        for(let i = 0; i < this._soldiers.length; i++) {
-            this._soldiers[i].setCreator(null);
-        }
         this._eraseEntities(this._soldiers);
-        
         this._eraseEntities(this._enemies);
         this._eraseEntities(this._entities);
     }
