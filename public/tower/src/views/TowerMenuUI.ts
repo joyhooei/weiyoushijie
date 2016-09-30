@@ -15,7 +15,7 @@ class TowerMenuUI extends AbstractUI{
 		
 		let claz = this._base.getTower().getNextLevelTowerClaz();
 		if (claz) {
-			this._nextLevelTower = application.pools.get();
+			this._nextLevelTower = application.pools.get(claz);
 		} else {
 			this._nextLevelTower = null;
 		}
@@ -47,10 +47,8 @@ class TowerMenuUI extends AbstractUI{
     
     protected _onRefresh() {
 		if (this._nextLevelTower) {
-			this.imgUpgrade.source = this._nextLevelTower.snapshot();
 			this.lblUpgradePrice.text   = this._nextLevelTower.getPrice();
 		} else {
-			this.imgUpgrade.source = "";
 			this.lblUpgradePrice.text   = "";		
 		}
 		
