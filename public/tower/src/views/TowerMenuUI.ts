@@ -20,25 +20,26 @@ class TowerMenuUI extends AbstractUI{
         },this);
 		
 		this.imgSell.addEventListener(egret.TouchEvent.TOUCH_TAP,() => {
-	        application.battle.incGolds(Math.round(this._base.getTower().getPrice() * 0.8));
-			
 			this._base.setTower(null);
 
 	        application.hideUI(this);
 		}, this);
 		
 		this.imgUpgrade.addEventListener(egret.TouchEvent.TOUCH_TAP,() => {
-	        application.battle.incGolds(this._nextLevelTower.getPrice());
-			
-			this._base.setTower(this._nextLevelTower);
+			if (application.battle.getGolds() > this._nextLevelTower.getPrice()) {
+				this._base.setTower(this._nextLevelTower);
 
-	        application.hideUI(this);
+				application.hideUI(this);
+			} else {
+				Toast.launch("需要更多的金币");
+			}
 		}, this);
     }
     
     protected _onRefresh() {
-		this.imgUpgrade.addChild(this._nextLevelTower.snapshot());
+		this.imgUpgrade.source = this._nextLevelTower.snapshot();
 		this.lblUpgradePrice.text   = this._nextLevelTower.getPrice();
-		this.lblSellPrice.text = Math.round(this._base.getTower().getPrice() * 0.8);
+		
+		this.lblSellPrice.text = this._base.getTower().getSellPrice();
     }
 }
