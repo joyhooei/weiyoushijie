@@ -90,25 +90,31 @@ class Base extends Entity implements SelectableEntity {
     }
 
     public select(again:boolean): boolean {
-        if (this._tower) {
-            let guardRadius = this._tower.getGuardRadius();
-            
-            this._range = <GuardRange>application.pool.get("GuardRange", {guardRadius: guardRadius});
-            
-            this._range.x = this.getCenterX() - guardRadius;
-            this._range.y = this.getCenterY() - guardRadius;
-            
-            this._range.width  = guardRadius << 1;
-            this._range.height = guardRadius << 1;
-            
-            application.battle.addEntity(this._range);
-            
-            application.showUI(new TowerMenuUI(this), application.battle.parent, this.getCenterX(), this.getCenterY());
-        } else {
-            application.showUI(new BuildTowerUI(this), application.battle.parent, this.getCenterX(), this.getCenterY());
-        }
+         if (again) {
+            this.deselect();
 
-       return true;
+            return false;
+        } else {
+            if (this._tower) {
+                let guardRadius = this._tower.getGuardRadius();
+
+                this._range = <GuardRange>application.pool.get("GuardRange", {guardRadius: guardRadius});
+
+                this._range.x = this.getCenterX() - guardRadius;
+                this._range.y = this.getCenterY() - guardRadius;
+
+                this._range.width  = guardRadius << 1;
+                this._range.height = guardRadius << 1;
+
+                application.battle.addEntity(this._range);
+
+                application.showUI(new TowerMenuUI(this), application.battle.parent, this.getCenterX(), this.getCenterY());
+            } else {
+                application.showUI(new BuildTowerUI(this), application.battle.parent, this.getCenterX(), this.getCenterY());
+            }
+            
+            return true;
+        }
     }
     
     public deselect() {
