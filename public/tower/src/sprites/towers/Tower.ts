@@ -35,6 +35,10 @@ class Tower extends Entity {
 		}
 	}
 
+	public getGuardRadius(): number {
+		return this._guardRadius;
+	}
+
 	public getPrice(): number {
 		return this._price;
 	}
