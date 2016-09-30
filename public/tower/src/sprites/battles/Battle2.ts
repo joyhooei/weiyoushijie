@@ -1,8 +1,8 @@
-class Battle1 extends Battle {
+class Battle2 extends Battle {
     public constructor() {
         super();
         
-        this._url = "resource/art/sprites/battles/level2.tmx";
+        this._url = "resource/art/sprites/battles/battle2.tmx";
     }
     
     protected _addBases() {
