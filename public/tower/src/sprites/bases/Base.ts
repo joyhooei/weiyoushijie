@@ -84,7 +84,7 @@ class Base extends Entity implements SelectableEntity {
 
     public select(again:boolean): boolean {
         if (this._tower) {
-            application.showUI(new TowerMenuUI(this._tower), application.battle.parent, this.getCenterX(), this.getCenterY());
+            application.showUI(new TowerMenuUI(this), application.battle.parent, this.getCenterX(), this.getCenterY());
         } else {
             application.showUI(new BuildTowerUI(this), application.battle.parent, this.getCenterX(), this.getCenterY());
         }
