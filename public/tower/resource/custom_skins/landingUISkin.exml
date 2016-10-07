@@ -1,6 +1,6 @@
 <?xml version='1.0' encoding='utf-8'?>
 <e:Skin class="landingUISkin" width="800" height="480" xmlns:e="http://ns.egret.com/eui" xmlns:w="http://ns.egret.com/wing">
-	<e:Image width="800" height="480" x="0" y="0" source="loginb_png" fillMode="scale"/>
+	<e:Image width="800" height="480" x="0" y="0" source="loginb_jpg" fillMode="scale"/>
 	<e:Button id="btnLogin" x="315" y="297">
 		<e:skinName>
 			<e:Skin states="up,down,disabled">

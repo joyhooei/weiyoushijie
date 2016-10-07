@@ -24,7 +24,7 @@ class TrueLoadingUI extends eui.Group {
         super.createChildren();
         
         this._imgBg = new eui.Image();
-        this._imgBg.source = "loginb_png";
+        this._imgBg.source = "loginb_jpg";
         this.addChild(this._imgBg);
 
         this._loadingRun = new egret.Bitmap(RES.getRes("loading_run_png"));
