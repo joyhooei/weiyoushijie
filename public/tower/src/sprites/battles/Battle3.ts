@@ -1,3 +1,4 @@
+//黄风怪
 class Battle3 extends Battle {
     public constructor() {
         super();

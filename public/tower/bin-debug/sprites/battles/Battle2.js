@@ -1,3 +1,4 @@
+//高老庄（获得hero——猪八戒）
 var Battle2 = (function (_super) {
     __extends(Battle2, _super);
     function Battle2() {

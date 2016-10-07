@@ -1,3 +1,4 @@
+//黄风怪
 var Battle3 = (function (_super) {
     __extends(Battle3, _super);
     function Battle3() {

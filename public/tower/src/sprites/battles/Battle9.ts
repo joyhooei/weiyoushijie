@@ -1,9 +1,9 @@
-//高老庄（获得hero——猪八戒）
-class Battle2 extends Battle {
+//平顶山
+class Battle9 extends Battle {
     public constructor() {
         super();
         
-        this._url = "resource/art/sprites/battles/battle2.tmx";
+        this._url = "resource/art/sprites/battles/battle1.tmx";
     }
     
     protected _addBases() {

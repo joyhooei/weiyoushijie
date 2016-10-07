@@ -1,11 +1,11 @@
-//长安市郊（初始获得hero——孙悟空）
-var Battle1 = (function (_super) {
-    __extends(Battle1, _super);
-    function Battle1() {
+//火焰山
+var Battle11 = (function (_super) {
+    __extends(Battle11, _super);
+    function Battle11() {
         _super.call(this);
         this._url = "resource/art/sprites/battles/battle1.tmx";
     }
-    var d = __define,c=Battle1,p=c.prototype;
+    var d = __define,c=Battle11,p=c.prototype;
     p._addBases = function () {
         this._addBasesByName("Base1");
     };
@@ -33,7 +33,7 @@ var Battle1 = (function (_super) {
             this._waves.add(w[0], w[1], w[2], paths[w[3]]);
         }
     };
-    return Battle1;
+    return Battle11;
 }(Battle));
-egret.registerClass(Battle1,'Battle1');
-//# sourceMappingURL=Battle1.js.map
+egret.registerClass(Battle11,'Battle11');
+//# sourceMappingURL=Battle11.js.map
