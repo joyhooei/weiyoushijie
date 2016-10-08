@@ -15,8 +15,7 @@ class Battle extends Entity implements SoldierCreator {
     //需要重画的对象
     protected _dirts: Entity[];
 
-    //地图文件地址
-    protected _url: string;
+    //地图
     protected _map: TiledMap;
     
     protected _maxLives: number;
@@ -46,9 +45,11 @@ class Battle extends Entity implements SoldierCreator {
         let self = this;
         
         self._options = options;
+        
+        let url = "resource/art/sprites/battles/battle" + options.stage.toString() + ".tmx";
 
         return Q.Promise<any>(function(resolve,reject,notify) {
-            TiledMap.load(self._url, 800, 480).then(function(map){
+            TiledMap.load(_url, 800, 480).then(function(map){
                 self._map = map;
                 self.addChildAt(self._map, 0);
                 self._map.paint();
