@@ -23,6 +23,7 @@ class Battle extends Entity implements SoldierCreator {
     
     protected _lives: number;
     protected _golds: number;
+    protected _heroWinned: string;
     
     protected _focus: SelectableEntity;
     protected _toolItem: BattleToolItem;
@@ -64,6 +65,7 @@ class Battle extends Entity implements SoldierCreator {
         
         this._maxLives = this._get(properties, "lives", 20);
         this._maxGolds = this._get(properties, "golds", 1000);
+        this._heroWinned = this._get(properties, "heroWinned", null);
     }
 
     public start() {
@@ -116,7 +118,18 @@ class Battle extends Entity implements SoldierCreator {
             }
         }
 
-        this.erase();        
+        this.erase();   
+        
+        if (this._heroWinned) {
+            application.dao.find("Legend", {customer_id: application.me.attrs.id, name:this._heroWinned}).then(function(legends){
+                if (legends.length == 0) {
+                    let legend = new Legend({customer_id: application.me.attrs.id, name:this._heroWinned, level: 1});
+                    legend.save();
+                    
+                    Toast.launch("恭喜您，获得了英雄：" + this._heroWinned);
+                }
+            });
+        }
     }
     
     public readyUseTool(toolItem: BattleToolItem) {
