@@ -15,10 +15,10 @@ class Character {
         let config = [
             //battle
             {name: 'Battle1',   properties:{lives: 20, golds:1000, heroWinned: 'Sunwukong'}},
-            {name: 'Battle2',   properties:{lives: 20, golds:1000}},
+            {name: 'Battle2',   properties:{lives: 20, golds:1000, heroWinned: 'Zhubajie'}},
             {name: 'Battle3',   properties:{lives: 20, golds:1000}},
             {name: 'Battle4',   properties:{lives: 20, golds:1000}},
-            {name: 'Battle5',   properties:{lives: 20, golds:1000}},
+            {name: 'Battle5',   properties:{lives: 20, golds:1000, heroWinned: 'Shaseng'}},
             {name: 'Battle6',   properties:{lives: 20, golds:1000}},
             {name: 'Battle7',   properties:{lives: 20, golds:1000}},
             {name: 'Battle8',   properties:{lives: 20, golds:1000}},
