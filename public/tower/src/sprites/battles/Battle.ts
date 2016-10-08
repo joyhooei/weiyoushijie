@@ -230,6 +230,7 @@ class Battle extends Entity implements SoldierCreator {
 
     //增加塔基
     protected _addBases() {
+        this._addBasesByName("Base1");        
     }
     
     //增加特效
