@@ -6,10 +6,6 @@ class Battle2 extends Battle {
         this._url = "resource/art/sprites/battles/battle2.tmx";
     }
     
-    protected _addBases() {
-        this._addBasesByName("Base1");
-    }
-    
     //增加英雄
     protected _addHeros() {
         this._addHerosByName("Sunwukong");
