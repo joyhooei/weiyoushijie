@@ -8,7 +8,7 @@ class Effect extends Entity {
     public initialize(properties: any) {
         super.initialize(properties);
         
-        this._idleTicks = (Math.random() * 10) * application.frameRate;
+        this._idleTicks = this._get(properties, "idleTicks", (Math.random() * 10) * application.frameRate);
     }
     
     public paint() {
