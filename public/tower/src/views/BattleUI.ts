@@ -1,7 +1,7 @@
 class BattleUI extends AbstractUI {
-	public lblLives: eui.Label;
-	public lblGolds: eui.Label;
-	public lblWaves: eui.Label;
+    public lblLives: eui.Label;
+    public lblGolds: eui.Label;
+    public lblWaves: eui.Label;
 	
     public grpSystemTools: eui.Group;
     public grpBoughtTools: eui.Group;
@@ -49,9 +49,8 @@ class BattleUI extends AbstractUI {
 		}, self);
 		
 		self.imgStart.addEventListener(egret.TouchEvent.TOUCH_TAP,() => {
-			self.stage.frameRate = application.frameRate;
-			self.addEventListener(egret.Event.ENTER_FRAME,this._onEnterFrame, this);
-
+			application.battle.start();
+			
             self.imgStart.visible = false;
 		}, self);
     }
@@ -59,42 +58,55 @@ class BattleUI extends AbstractUI {
     protected onRefresh() {
         this.grpBattle.addChild(application.battle);
 		
-		this._startBattle();
+		this._readyBattle();
     }
     
-    private _startBattle() {
+    private _readyBattle() {
     	//this._channel = this._music.play(0, 0);
 
         this._running = true;
     	
-        application.battle.start();
+        application.battle.ready();
+		
+		this.stage.frameRate = application.frameRate;
+		this.addEventListener(egret.Event.ENTER_FRAME,this._onEnterFrame, this);
+	}
+
+	private _overBattle() {
+		let self = this;
+
+		if (self._running) {
+			self._running = false;
+
+			if (self._channel) {
+				self._channel.stop();
+			}
+
+			self.removeEventListener(egret.Event.ENTER_FRAME, self._onEnterFrame, self);
+
+			application.showUI(new BattleOptionUI(function(){
+				application.battle = <Battle>application.pool.get(application.battle.getClaz());
+				self._readyBattle();
+			}, function(){
+				self._quitBattle();
+			}));
+		}
+	}
+
+	private _quitBattle() {
+		this.removeEventListener(egret.Event.ENTER_FRAME, this._onEnterFrame, this);
+		
+		if (application.battle) {
+			application.battle.erase();
+			application.battle = null;
+		}
+
+		application.hideUI(this);
 	}
 
     private _onEnterFrame(e:egret.Event) {
         if (application.battle.update()) {
-    		let self = this;
-
-            if (self._running) {
-                self._running = false;
-
-                if (self._channel) {
-                    self._channel.stop();
-                }
- 					
-				self.removeEventListener(egret.Event.ENTER_FRAME, self._onEnterFrame, self);
-           
-                application.showUI(new BattleOptionUI(function(){
-					application.battle = <Battle>application.pool.get(application.battle.getClaz());
-					self._startBattle();
-                }, function(){
-					if (application.battle) {
-						application.battle.erase();
-						application.battle = null;
-					}
-
-					application.hideUI(self);
-                }));
-            }
+    		this._overBattle();
         } else {
         	application.battle.paint();
         }
