@@ -1,11 +1,5 @@
 //黑风山
 class Battle4 extends Battle {
-    public constructor() {
-        super();
-        
-        this._url = "resource/art/sprites/battles/battle1.tmx";
-    }
-    
     //增加英雄
     protected _addHeros() {
         this._addHerosByName("Sunwukong");
