@@ -1,11 +1,5 @@
 //火焰山
 class Battle11 extends Battle {
-    public constructor() {
-        super();
-        
-        this._url = "resource/art/sprites/battles/battle1.tmx";
-    }
-    
     //增加英雄
     protected _addHeros() {
         this._addHerosByName("Sunwukong");
