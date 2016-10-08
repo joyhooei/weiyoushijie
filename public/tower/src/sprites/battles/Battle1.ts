@@ -20,11 +20,4 @@ class Battle1 extends Battle {
             this._waves.add(<number>w[0], <string>w[1], <number>w[2], paths[w[3]]);
         }
     }
-    
-    public win() {
-        super.win();
-        
-        let legend = new Legend({customer_id: application.me.attrs.id, name:"Sunwukong", level: 1});
-        legend.save();
-    }
 }
