@@ -1,11 +1,5 @@
 //雷音寺
 class Battle15 extends Battle {
-    public constructor() {
-        super();
-        
-        this._url = "resource/art/sprites/battles/battle1.tmx";
-    }
-    
     //增加英雄
     protected _addHeros() {
         this._addHerosByName("Sunwukong");
