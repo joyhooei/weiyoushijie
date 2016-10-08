@@ -13,8 +13,27 @@ class Character {
         let characters = new Array<Character>();
         
         let config = [
+            //battle
+            {name: 'Battle1',   properties:{lives: 20, golds:1000}},
+            {name: 'Battle2',   properties:{lives: 20, golds:1000}},
+            {name: 'Battle3',   properties:{lives: 20, golds:1000}},
+            {name: 'Battle4',   properties:{lives: 20, golds:1000}},
+            {name: 'Battle5',   properties:{lives: 20, golds:1000}},
+            {name: 'Battle6',   properties:{lives: 20, golds:1000}},
+            {name: 'Battle7',   properties:{lives: 20, golds:1000}},
+            {name: 'Battle8',   properties:{lives: 20, golds:1000}},
+            {name: 'Battle9',   properties:{lives: 20, golds:1000}},
+            {name: 'Battle10',  properties:{lives: 20, golds:1000}},
+            {name: 'Battle11',  properties:{lives: 20, golds:1000}},
+            {name: 'Battle12',  properties:{lives: 20, golds:1000}},
+            {name: 'Battle13',  properties:{lives: 20, golds:1000}},
+            {name: 'Battle14',  properties:{lives: 20, golds:1000}},
+            {name: 'Battle15',  properties:{lives: 20, golds:1000}},
+            
             //heros
-            {name: 'Sunwukong', properties:{hp:245, forceHigh:10, forceLow:6, armor: 15, cureSpeed:1, moveSpeed:1, idleTicks: 20 * application.frameRate, guardRadius: 50, guardAltitude:[-1, 0]}},
+            {name: 'Sunwukong',  properties:{hp:245, forceHigh:10, forceLow:6, armor: 15, cureSpeed:1, moveSpeed:1, idleTicks: 20 * application.frameRate, guardRadius: 50, guardAltitude:[-1, 0]}},
+            {name: 'Zhubajie',   properties:{hp:245, forceHigh:10, forceLow:6, armor: 15, cureSpeed:1, moveSpeed:1, idleTicks: 20 * application.frameRate, guardRadius: 50, guardAltitude:[-1, 0]}},
+            {name: 'Shaheshang', properties:{hp:245, forceHigh:10, forceLow:6, armor: 15, cureSpeed:1, moveSpeed:1, idleTicks: 20 * application.frameRate, guardRadius: 50, guardAltitude:[-1, 0]}},
 
             //soldiers
             {name: 'Reinforce', properties:{hp:100, force:6, armor: 0, cureSpeed:1, moveSpeed:1, liveTicks: 20 * application.frameRate, guardRadius: 40, guardAltitude:[-1, 0]}},
