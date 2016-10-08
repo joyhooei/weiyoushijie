@@ -21,9 +21,7 @@ class Battle2 extends Battle {
         this._addEffectByName("Cock", 540, 400, EntityDirection.west);
     }
     
-    protected _addStandbys() {
-        let paths = this._map.getPaths();
-        
+    protected _addWaves(paths:number[][][]) {        
         let waves = [
             [0, "Wolf", 1, 0],
             
