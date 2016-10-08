@@ -94,22 +94,37 @@ class Waves {
         return newPaths;
     }
 
-    public launchQueue(w: number, queue:number) {
+    public launchFirst() {
+        this._currentWave = 0;
+        
+        let wave = this._enemies[this._currentWave];
+        for(let i = 0; i < wave.length; i++) {
+            this.launchQueue(this._currentWave, i);
+        }
+    }
+
+    public launchQueue(w: number, q:number) {
         let wave = this._enemies[w];
-        if (wave[queue][3] == 1) {
+        if (wave[q][3] == 1) {
             return;
         }
 
-        let count = <number>wave[queue][0] * (1 + this._rounds * 0.5);
-        let claz  = <string>wave[queue][1];
-        let paths = <number[][]>wave[queue][2];
+        let count = <number>wave[q][0] * (1 + this._rounds * 0.5);
+        let claz  = <string>wave[q][1];
+        let paths = <number[][]>wave[q][2];
         for(let j = 0; j < count; j++) {
             let enemy = <Enemy>application.pool.get(claz, {"paths": this._randomPaths(paths)});
             application.battle.addEnemy(enemy);
         }
 
-        wave[queue][3] = 1;
+        wave[q][3] = 1;
 
+        //检查是否本波所有怪物都已经出来了
+        for(let i = 0; i < wave.length; i++) {
+            if (wave[i][3] != 1) {
+                return;
+            }
+        }
         this._launching = false;
     }
     
