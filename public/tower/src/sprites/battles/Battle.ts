@@ -95,6 +95,7 @@ class Battle extends Entity implements SoldierCreator {
 
     public start() {
         this._addWaves(this._map.getPaths());
+        this._waves.launchFirst();
     }
     
     public lose() {
