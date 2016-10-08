@@ -49,7 +49,8 @@ class BattleUI extends AbstractUI {
 		}, self);
 		
 		self.imgStart.addEventListener(egret.TouchEvent.TOUCH_TAP,() => {
-		    self._startBattle();
+			self.stage.frameRate = application.frameRate;
+			self.addEventListener(egret.Event.ENTER_FRAME,this._onEnterFrame, this);
 
             self.imgStart.visible = false;
 		}, self);
@@ -57,17 +58,8 @@ class BattleUI extends AbstractUI {
 
     protected onRefresh() {
         this.grpBattle.addChild(application.battle);
-    }
-    
-    private _quitBattle() {
-	    this.removeEventListener(egret.Event.ENTER_FRAME,this._onEnterFrame, this);
-	    
-        if (application.battle) {
-            application.battle.erase();
-            application.battle = null;
-        }
-
-	    application.hideUI(this);
+		
+		this._startBattle();
     }
     
     private _startBattle() {
@@ -76,15 +68,7 @@ class BattleUI extends AbstractUI {
         this._running = true;
     	
         application.battle.start();
-    	
-    	this.stage.frameRate = application.frameRate;
-    	this.addEventListener(egret.Event.ENTER_FRAME,this._onEnterFrame, this);
-    }
-    
-    private _restartBattle() {
-		application.battle = <Battle>application.pool.get(application.battle.getClaz());
-        this._startBattle();
-    }
+	}
 
     private _onEnterFrame(e:egret.Event) {
         if (application.battle.update()) {
@@ -96,11 +80,19 @@ class BattleUI extends AbstractUI {
                 if (self._channel) {
                     self._channel.stop();
                 }
-            
+ 					
+				self.removeEventListener(egret.Event.ENTER_FRAME, self._onEnterFrame, self);
+           
                 application.showUI(new BattleOptionUI(function(){
-                    self._restartBattle();
+					application.battle = <Battle>application.pool.get(application.battle.getClaz());
+					self._startBattle();
                 }, function(){
-                    self._quitBattle();
+					if (application.battle) {
+						application.battle.erase();
+						application.battle = null;
+					}
+
+					application.hideUI(self);
                 }));
             }
         } else {
