@@ -58,23 +58,36 @@ var Waves = (function () {
         }
         return newPaths;
     };
-    p.launchQueue = function (w, queue) {
+    p.launchFirst = function () {
+        this._currentWave = 0;
+        var wave = this._enemies[this._currentWave];
+        for (var i = 0; i < wave.length; i++) {
+            this.launchQueue(this._currentWave, i);
+        }
+    };
+    p.launchQueue = function (w, q) {
         var wave = this._enemies[w];
-        if (wave[queue][3] == 1) {
+        if (wave[q][3] == 1) {
             return;
         }
-        var count = wave[queue][0] * (1 + this._rounds * 0.5);
-        var claz = wave[queue][1];
-        var paths = wave[queue][2];
+        var count = wave[q][0] * (1 + this._rounds * 0.5);
+        var claz = wave[q][1];
+        var paths = wave[q][2];
         for (var j = 0; j < count; j++) {
             var enemy = application.pool.get(claz, { "paths": this._randomPaths(paths) });
             application.battle.addEnemy(enemy);
         }
-        wave[queue][3] = 1;
+        wave[q][3] = 1;
+        //检查是否本波所有怪物都已经出来了
+        for (var i = 0; i < wave.length; i++) {
+            if (wave[i][3] != 1) {
+                return;
+            }
+        }
         this._launching = false;
     };
     p.launch = function (cycle) {
-        if (this._launching || !this._nextWave(cycle)) {
+        if (this._enemies.length == 0 || this._launching || !this._nextWave(cycle)) {
             return;
         }
         this._launching = true;

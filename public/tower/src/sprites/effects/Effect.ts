@@ -12,7 +12,7 @@ class Effect extends Entity {
     }
     
     public paint() {
-    	this._play(this._render(), 10);
+    	this._play(this._render(), 5);
     }
     
     protected _idle() {

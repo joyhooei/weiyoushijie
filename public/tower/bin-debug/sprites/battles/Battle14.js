@@ -2,13 +2,9 @@
 var Battle14 = (function (_super) {
     __extends(Battle14, _super);
     function Battle14() {
-        _super.call(this);
-        this._url = "resource/art/sprites/battles/battle1.tmx";
+        _super.apply(this, arguments);
     }
     var d = __define,c=Battle14,p=c.prototype;
-    p._addBases = function () {
-        this._addBasesByName("Base1");
-    };
     //增加英雄
     p._addHeros = function () {
         this._addHerosByName("Sunwukong");

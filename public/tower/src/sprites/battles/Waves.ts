@@ -129,7 +129,7 @@ class Waves {
     }
     
     public launch(cycle?:boolean) {
-        if (this._launching || !this._nextWave(cycle)) {
+        if (this._enemies.length == 0 || this._launching || !this._nextWave(cycle)) {
             return ;
         }
         

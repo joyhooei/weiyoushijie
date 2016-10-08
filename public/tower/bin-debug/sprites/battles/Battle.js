@@ -12,7 +12,7 @@ var Battle = (function (_super) {
         var self = this;
         self._options = options;
         return Q.Promise(function (resolve, reject, notify) {
-            TiledMap.load(self._url, 800, 480).then(function (map) {
+            TiledMap.load("resource/art/sprites/battles/battle" + options.stage.toString() + ".tmx", 800, 480).then(function (map) {
                 self._map = map;
                 self.addChildAt(self._map, 0);
                 self._map.paint();
@@ -26,8 +26,9 @@ var Battle = (function (_super) {
         _super.prototype.initialize.call(this, properties);
         this._maxLives = this._get(properties, "lives", 20);
         this._maxGolds = this._get(properties, "golds", 1000);
+        this._heroWinned = this._get(properties, "heroWinned", null);
     };
-    p.start = function () {
+    p.ready = function () {
         this._lives = this._maxLives;
         this._golds = this._maxGolds;
         for (var i = 0; i < this._layers.length; i++) {
@@ -40,10 +41,13 @@ var Battle = (function (_super) {
         this._dirts = [];
         this._addBases();
         this._addHeros();
-        this._addStandbys();
         this._addEffects();
         this._result = new Result({ customer_id: application.me.attrs.id, stage: this._options.stage, level: this._options.level, result: 0, score: 0, unused_bases: this._map.getBases().length, stars: 0 });
         this.fight();
+    };
+    p.start = function () {
+        this._addWaves(this._map.getPaths());
+        this._waves.launchFirst();
     };
     p.lose = function () {
         this._result.attrs.result = 2;
@@ -68,6 +72,15 @@ var Battle = (function (_super) {
             }
         }
         this.erase();
+        if (this._heroWinned) {
+            application.dao.fetch("Legend", { customer_id: application.me.attrs.id, name: this._heroWinned }).then(function (legends) {
+                if (legends.length == 0) {
+                    var legend = new Legend({ customer_id: application.me.attrs.id, name: this._heroWinned, level: 1 });
+                    legend.save();
+                    Toast.launch("恭喜您，获得了英雄：" + this._heroWinned);
+                }
+            });
+        }
     };
     p.readyUseTool = function (toolItem) {
         this._toolItem = toolItem;
@@ -162,10 +175,11 @@ var Battle = (function (_super) {
     p._addHeros = function () {
     };
     //增加敌人
-    p._addStandbys = function () {
+    p._addWaves = function (paths) {
     };
     //增加塔基
     p._addBases = function () {
+        this._addBasesByName("Base1");
     };
     //增加特效
     p._addEffects = function () {

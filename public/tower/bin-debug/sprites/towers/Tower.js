@@ -9,7 +9,7 @@ var Tower = (function (_super) {
     p.initialize = function (properties) {
         _super.prototype.initialize.call(this, properties);
         this._hitSpeed = this._get(properties, "hitSpeed", 60);
-        this._buildTicks = this._get(properties, "buildTicks", 5 * application.frameRate);
+        this._buildTicks = this._get(properties, "buildTicks", application.frameRate);
         this._price = this._get(properties, "price", 100);
         this._guardRadius = this._get(properties, "guardRadius", 10);
         this._base = null;

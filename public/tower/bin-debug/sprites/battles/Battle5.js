@@ -2,13 +2,9 @@
 var Battle5 = (function (_super) {
     __extends(Battle5, _super);
     function Battle5() {
-        _super.call(this);
-        this._url = "resource/art/sprites/battles/battle1.tmx";
+        _super.apply(this, arguments);
     }
     var d = __define,c=Battle5,p=c.prototype;
-    p._addBases = function () {
-        this._addBasesByName("Base1");
-    };
     //增加英雄
     p._addHeros = function () {
         this._addHerosByName("Sunwukong");
@@ -18,8 +14,7 @@ var Battle5 = (function (_super) {
         this._addEffectByName("Cock", 120, 70, EntityDirection.east);
         this._addEffectByName("Cock", 540, 400, EntityDirection.west);
     };
-    p._addStandbys = function () {
-        var paths = this._map.getPaths();
+    p._addWaves = function (paths) {
         var waves = [
             [0, "Wolf", 1, 0],
             [1, "Wolf", 10, 1],
