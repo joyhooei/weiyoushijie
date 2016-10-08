@@ -1,11 +1,5 @@
 //长安市郊（初始获得hero——孙悟空）
 class Battle1 extends Battle {
-    public constructor() {
-        super();
-        
-        this._url = "resource/art/sprites/battles/battle1.tmx";
-    }
-    
     protected _addWaves(paths:number[][][]) {        
         let waves = [
             [0, "Wolf", 1, 0],
