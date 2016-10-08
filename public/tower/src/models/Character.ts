@@ -14,7 +14,7 @@ class Character {
         
         let config = [
             //battle
-            {name: 'Battle1',   properties:{lives: 20, golds:1000}},
+            {name: 'Battle1',   properties:{lives: 20, golds:1000, heroWinned: 'Sunwukong'}},
             {name: 'Battle2',   properties:{lives: 20, golds:1000}},
             {name: 'Battle3',   properties:{lives: 20, golds:1000}},
             {name: 'Battle4',   properties:{lives: 20, golds:1000}},
