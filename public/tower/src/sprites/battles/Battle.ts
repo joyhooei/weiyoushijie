@@ -84,7 +84,7 @@ class Battle extends Entity implements SoldierCreator {
 
         this._addBases();
         this._addHeros();
-        this._addStandbys();
+        this._addWaves(this._map.getPaths());
         this._addEffects();
         
         this._result = new Result({customer_id: application.me.attrs.id, stage: this._options.stage, level: this._options.level, result: 0, score: 0, unused_bases: this._map.getBases().length, stars: 0});
@@ -225,7 +225,7 @@ class Battle extends Entity implements SoldierCreator {
     }
     
     //增加敌人
-    protected _addStandbys() {
+    protected _addWaves(paths:number[][][]) {
     }
 
     //增加塔基
