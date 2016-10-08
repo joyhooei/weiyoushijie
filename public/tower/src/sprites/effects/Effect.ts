@@ -8,4 +8,16 @@ class Effect extends Entity {
         
         this.move();
     }
+    
+    public paint() {
+    	this._play(this._render(), 10);
+    }
+    
+    protected _moving() {
+        if (this._ticks % (application.frameRate << 3) == 0) {
+            this.stain();
+        }
+        
+        this._ticks ++;
+    }    
 }
