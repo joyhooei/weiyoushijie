@@ -46,10 +46,8 @@ class Battle extends Entity implements SoldierCreator {
         
         self._options = options;
         
-        let url = "resource/art/sprites/battles/battle" + options.stage.toString() + ".tmx";
-
         return Q.Promise<any>(function(resolve,reject,notify) {
-            TiledMap.load(_url, 800, 480).then(function(map){
+            TiledMap.load("resource/art/sprites/battles/battle" + options.stage.toString() + ".tmx", 800, 480).then(function(map){
                 self._map = map;
                 self.addChildAt(self._map, 0);
                 self._map.paint();
