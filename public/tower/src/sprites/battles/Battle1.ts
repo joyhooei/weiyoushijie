@@ -6,9 +6,7 @@ class Battle1 extends Battle {
         this._url = "resource/art/sprites/battles/battle1.tmx";
     }
     
-    protected _addStandbys() {
-        let paths = this._map.getPaths();
-        
+    protected _addWaves(paths:number[][][]) {        
         let waves = [
             [0, "Wolf", 1, 0],
             
