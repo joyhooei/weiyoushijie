@@ -41,6 +41,8 @@ class BattleUI extends AbstractUI {
         }, self);
         
 		self.imgBack.addEventListener(egret.TouchEvent.TOUCH_TAP,() => {
+			self.removeEventListener(egret.Event.ENTER_FRAME, self._onEnterFrame, self);
+		
 		    self._quitBattle();
 		}, self);
         
@@ -94,8 +96,6 @@ class BattleUI extends AbstractUI {
 	}
 
 	private _quitBattle() {
-		this.removeEventListener(egret.Event.ENTER_FRAME, this._onEnterFrame, this);
-		
 		if (application.battle) {
 			application.battle.erase();
 			application.battle = null;
