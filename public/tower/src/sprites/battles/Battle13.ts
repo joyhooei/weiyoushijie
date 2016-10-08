@@ -1,11 +1,5 @@
 //狮驼岭
 class Battle13 extends Battle {
-    public constructor() {
-        super();
-        
-        this._url = "resource/art/sprites/battles/battle1.tmx";
-    }
-    
     protected _addBases() {
         this._addBasesByName("Base1");
     }
