@@ -1,11 +1,5 @@
 //高老庄（获得hero——猪八戒）
 class Battle2 extends Battle {
-    public constructor() {
-        super();
-        
-        this._url = "resource/art/sprites/battles/battle2.tmx";
-    }
-    
     //增加英雄
     protected _addHeros() {
         this._addHerosByName("Sunwukong");
