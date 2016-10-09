@@ -36,17 +36,6 @@ class Tower extends Entity implements SelectableEntity {
         this._base = base;
     }
 
-	public getNextLevelTowerClaz(): string {
-		let claz = this.getClaz();
-		
-		let idx = parseInt(claz.charAt(claz.length - 1));
-		if (idx >= 1 && idx <= 4) {
-			return claz.slice(0, claz.length - 1) + (idx + 1).toString();
-		} else {
-			return null;
-		}
-	}
-
 	public getGuardRadius(): number {
 		return this._guardRadius;
 	}
