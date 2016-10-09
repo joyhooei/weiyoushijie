@@ -20,6 +20,14 @@ class Soldier extends NPC implements SelectableEntity {
         this.touchEnabled = true;
     }
     
+    public getGuardX(): number {
+        return this._guardX;
+    }
+     
+    public getGuardY(): number {
+        return this._guardY;
+    }
+    
     public select(again:boolean): boolean {
         if (again) {
             this.deselect();
