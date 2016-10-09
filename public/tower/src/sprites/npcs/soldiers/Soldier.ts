@@ -119,6 +119,16 @@ class Soldier extends NPC implements SelectableEntity {
         return soldier;
     }
     
+    public guardAt(x:number, y:number) {
+        this._guardX = x;
+        this._guardY = y;
+        
+        //还没有敌人，直接走到新的守护地址
+        if (this._enemy == null) {
+            this.moveTo(x, y);
+        }
+    }
+    
     public moveTo(x:number, y:number) {
         let x1 = x - (this.width >> 1);
         let y1 = y - this.height;
