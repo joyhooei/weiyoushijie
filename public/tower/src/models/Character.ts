@@ -57,11 +57,11 @@ class Character {
             {name: 'ArrowSoldier5',  properties:{hp:100, force:6, armor: 0, cureSpeed:1, moveSpeed:1, guardAltitude:[-1, 0, 1]}},            
 
             //防护塔
-            {name: 'SoldierTower1',  properties:{guardRadius: 160, price: 100, upgradePrice: 100}},
-            {name: 'SoldierTower2',  properties:{guardRadius: 160, price: 200, upgradePrice: 100}},
-            {name: 'SoldierTower3',  properties:{guardRadius: 160, price: 300, upgradePrice: 100}},
-            {name: 'SoldierTower4',  properties:{guardRadius: 160, price: 530}},
-            {name: 'SoldierTower5',  properties:{guardRadius: 160, price: 530}},
+            {name: 'SoldierTower1',  properties:{force: 3, guardRadius: 160, price: 100, upgradePrice: 100}},
+            {name: 'SoldierTower2',  properties:{force: 6,guardRadius: 160, price: 200, upgradePrice: 100}},
+            {name: 'SoldierTower3',  properties:{force: 9,guardRadius: 160, price: 300, upgradePrice: 100}},
+            {name: 'SoldierTower4',  properties:{force: 12,guardRadius: 160, price: 530}},
+            {name: 'SoldierTower5',  properties:{force: 15,guardRadius: 160, price: 530}},
             
             //炮塔
             {name: 'BombTower1',  properties:{force: 20, guardRadius: 160, price: 120, upgradePrice: 150}},
