@@ -56,22 +56,33 @@ class Character {
             {name: 'ArrowSoldier4',  properties:{hp:100, force:6, armor: 0, cureSpeed:1, moveSpeed:1, guardAltitude:[-1, 0, 1]}},
             {name: 'ArrowSoldier5',  properties:{hp:100, force:6, armor: 0, cureSpeed:1, moveSpeed:1, guardAltitude:[-1, 0, 1]}},            
 
-            //tower
-            {name: 'SoldierTower1',  properties:{guardRadius: 100}},
-            {name: 'SoldierTower2',  properties:{guardRadius: 100}},
-            {name: 'SoldierTower3',  properties:{guardRadius: 100}},
-            {name: 'SoldierTower4',  properties:{guardRadius: 100}},
-            {name: 'SoldierTower5',  properties:{guardRadius: 100}},
-            {name: 'BombTower1',  properties:{guardRadius: 100}},
-            {name: 'BombTower2',  properties:{uardRadius: 100}},
-            {name: 'BombTower3',  properties:{guardRadius: 100}},
-            {name: 'BombTower4',  properties:{guardRadius: 100}},
-            {name: 'BombTower5',  properties:{guardRadius: 100}},
-            {name: 'ArrowTower1',  properties:{guardRadius: 100}},
-            {name: 'ArrowTower2',  properties:{guardRadius: 100}},
-            {name: 'ArrowTower3',  properties:{guardRadius: 100}},
-            {name: 'ArrowTower4',  properties:{guardRadius: 100}},
-            {name: 'ArrowTower5',  properties:{guardRadius: 100}},            
+            //防护塔
+            {name: 'SoldierTower1',  properties:{guardRadius: 160, price: 100, upgradePrice: 100}},
+            {name: 'SoldierTower2',  properties:{guardRadius: 160, price: 200, upgradePrice: 100}},
+            {name: 'SoldierTower3',  properties:{guardRadius: 160, price: 300, upgradePrice: 100}},
+            {name: 'SoldierTower4',  properties:{guardRadius: 160, price: 530}},
+            {name: 'SoldierTower5',  properties:{guardRadius: 160, price: 530}},
+            
+            //炮塔
+            {name: 'BombTower1',  properties:{force: 20, guardRadius: 160, price: 120, upgradePrice: 150}},
+            {name: 'BombTower2',  properties:{force: 30, guardRadius: 180, price: 270, upgradePrice: 150}},
+            {name: 'BombTower3',  properties:{force: 40, guardRadius: 200, price: 320, upgradePrice: 230}},
+            {name: 'BombTower4',  properties:{force: 30, guardRadius: 220, price: 550}},
+            {name: 'BombTower5',  properties:{force: 30, guardRadius: 220, price: 550}},
+            
+            //箭塔
+            {name: 'ArrowTower1',  properties:{force: 8, guardRadius: 160, price: 70, upgradePrice: 100}},
+            {name: 'ArrowTower2',  properties:{force: 12, guardRadius: 200, price: 170, upgradePrice: 150}},
+            {name: 'ArrowTower3',  properties:{force: 16, guardRadius: 240, price: 320, upgradePrice: 230}},
+            {name: 'ArrowTower4',  properties:{force: 24, guardRadius: 200, price: 550}},
+            {name: 'ArrowTower5',  properties:{force: 24, guardRadius: 200, price: 550}},            
+            
+            //魔法塔
+            {name: 'MagicTower1',  properties:{force: 15, guardRadius: 160, price: 100, upgradePrice: 160}},
+            {name: 'MagicTower2',  properties:{force: 30, guardRadius: 180, price: 260, upgradePrice: 240}},
+            {name: 'MagicTower3',  properties:{force: 60, guardRadius: 250, price: 500, upgradePrice: 230}},
+            {name: 'MagicTower4',  properties:{force: 80, guardRadius: 220, price: 730}},
+            {name: 'MagicTower5',  properties:{force: 80, guardRadius: 220, price: 730}},            
 
             //enemies
             {name: 'Hogs',  properties:{bonus:10, hp:100, force:6, cureSpeed:0, moveSpeed:1, idleTick:0, dyingTicks:10}},
