@@ -19,6 +19,22 @@ class SoldierTower extends Tower implements SoldierCreator {
         this._soldiers = [];
     }
     
+    public getGuardX(): number {
+        return this._guardX;
+    }
+     
+    public getGuardY(): number {
+        return this._guardY;
+    }
+    
+    public setGuardX(x: number) {
+        this._guardX = x;
+    }
+    
+    public setGuardY(y: number) {
+        this._guardY = y;
+    }
+    
     public createSoldier(soldier: Soldier): Soldier {
         soldier.relive(10 * application.frameRate);
         this._addSoldier(soldier);
