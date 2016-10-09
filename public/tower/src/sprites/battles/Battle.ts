@@ -157,8 +157,7 @@ class Battle extends Entity implements SoldierCreator {
                         
                         this._toolItem = null;
                     } else if (this._focus) {
-    	                let baseClassName = egret.getQualifiedSuperclassName(this._focus);
-        	            if (baseClassName == "Hero") {
+        	            if (this._focus.getSuperClaz() == "Hero") {
         	                (<Hero>this._focus).moveTo(x, y);
         	            }
 
