@@ -44,8 +44,11 @@ class SoldierTower extends Tower implements SoldierCreator {
     }
     
     public guardAt(x: number, y: number) {
+        let deltaX = x - this._guardX;
+        let deltaY = y - this._guardY;
+        
         for(let i = 0; i < this._soldiers.length; i++) {
-            this._soldiers[i].guardAt(x, y);
+            this._soldiers[i].guardAt(this._soldiers[i].getGuardX() + deltaX, this._soldiers[i].getGuardY() + deltaY);
         }
         
         this._guardX = x;
