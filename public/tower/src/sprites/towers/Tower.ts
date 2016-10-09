@@ -4,6 +4,8 @@ class Tower extends Entity implements SelectableEntity {
     protected _buildTicks: number;
     
     protected _price: number;
+	
+	protected _sellPrice: number;
     
     protected _guardRadius: number;
     
@@ -26,6 +28,7 @@ class Tower extends Entity implements SelectableEntity {
         this._buildTicks = this._get(properties, "buildTicks", application.frameRate);
         
         this._price = this._get(properties, "price", 100);
+        this._sellPrice = this._get(properties, "sellPrice", Math.round(this._price * 0.6));
         
         this._guardRadius = this._get(properties, "guardRadius", 10);
 
@@ -45,7 +48,7 @@ class Tower extends Entity implements SelectableEntity {
 	}
 
 	public getSellPrice(): number {
-		return Math.round(this._price * 0.6);
+		return this._sellPrice;
 	}
 
     public erase() {
