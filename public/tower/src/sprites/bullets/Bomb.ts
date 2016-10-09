@@ -8,7 +8,7 @@ class Bomb extends CastBullet {
     public initialize(properties:any) {
         super.initialize(properties);
 
-        this._hitRadius = this._get(properties, 'hitRadius', 40);
+        this._hitRadius = this._get(properties, 'hitRadius', 50);
     }
     
     protected _hitTarget() {
