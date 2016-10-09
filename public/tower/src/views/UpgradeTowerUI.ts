@@ -1,4 +1,4 @@
-class TowerMenuUI extends AbstractUI{
+class UpgradeTowerUI extends AbstractUI{
     private _base: Base;
 
 	private _nextLevelTower: Tower;
@@ -9,7 +9,7 @@ class TowerMenuUI extends AbstractUI{
     public lblUpgraePrice:eui.Label;
 
     constructor(base: Base) {
-        super("towerMenuUISkin");
+        super("upgradeTowerUISkin");
         
         this._base = base;
 		
