@@ -31,6 +31,10 @@ class UpgradeTowerUI extends AbstractUI{
 			
 			this.imgFlag.x = soldierTower.getGuardX() - this.imgFlag.height;
 			this.imgFlag.y = soldierTower.getGuardY() - this.imgFlag.width / 2;
+			
+			if (this._nextLevelTower) {
+				this._nextLevelTower.guardAt(soldierTower.getGuardX(), soldierTower.getGuardY());
+			}
 		} else {
 			this.imgFlag.visible = false;
 		}
@@ -50,14 +54,12 @@ class UpgradeTowerUI extends AbstractUI{
 				let soldierTower = <SoldierTower>this._tower;
 			
 				if (x != soldierTower.getGuardX() || y != soldierTower.getGuardY()) {
-					soldierTower.setGuardX(x);
-					soldierTower.setGuardY(y);
+					soldierTower.guardAt(x, y);
+					if (this._nextLevelTower) {
+						this._nextLevelTower.guardAt(x, y);
+					}
 				}
-				
-				if (this._nextLevelTower) {
-					this._nextLevelTower.setGuardX(x);
-					this._nextLevelTower.setGuardY(y);
-				}
+
 			} else {
 				application.hideUI(this);
 			}
@@ -83,7 +85,7 @@ class UpgradeTowerUI extends AbstractUI{
 			}				
 		}, this);
     }
-    
+
     protected _onRefresh() {
 		if (this._nextLevelTower) {
 			this.lblUpgraePrice.text   = this._nextLevelTower.getPrice().toString();
