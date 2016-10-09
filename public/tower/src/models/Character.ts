@@ -45,12 +45,14 @@ class Character {
             {name: 'Soldier3',  properties:{hp:50, force:9, armor: 0, cureSpeed:1, moveSpeed:1, guardAltitude:[-1, 0]}},
             {name: 'Soldier4',  properties:{hp:50, force:12, armor: 0, cureSpeed:1, moveSpeed:1, guardAltitude:[-1, 0]}},
             {name: 'Soldier5',  properties:{hp:50, force:15, armor: 0, cureSpeed:1, moveSpeed:1, guardAltitude:[-1, 0]}},
+            
             //炮塔士兵
             {name: 'BombSoldier1',  properties:{force:6, armor: 0, cureSpeed:1, moveSpeed:1, guardAltitude:[0]}},
             {name: 'BombSoldier2',  properties:{force:6, armor: 0, cureSpeed:1, moveSpeed:1, guardAltitude:[0]}},
             {name: 'BombSoldier3',  properties:{force:6, armor: 0, cureSpeed:1, moveSpeed:1, guardAltitude:[0]}},
             {name: 'BombSoldier4',  properties:{force:6, armor: 0, cureSpeed:1, moveSpeed:1, guardAltitude:[0]}},
             {name: 'BombSoldier5',  properties:{force:6, armor: 0, cureSpeed:1, moveSpeed:1, guardAltitude:[0]}},
+            
             //箭塔士兵
             {name: 'ArrowSoldier1',  properties:{force:6, armor: 0, cureSpeed:1, moveSpeed:1, guardAltitude:[0, 1]}},
             {name: 'ArrowSoldier2',  properties:{force:6, armor: 0, cureSpeed:1, moveSpeed:1, guardAltitude:[0, 1]}},
@@ -92,17 +94,17 @@ class Character {
             {name: 'Wolf',  properties:{bonus:10, hp:100, force:6, cureSpeed:0, moveSpeed:1, idleTick:0, dyingTicks:10}},
 
             //bullets
-            {name: 'Fireball', properties:{force:6, hitRadius:10, moveSpeed:5, idleTick:0, dyingTicks:10}},
-            {name: 'Bomb1',     properties:{force:6, hitRadius:10, moveSpeed:5, idleTick:0, dyingTicks:10}},
-            {name: 'Bomb2',     properties:{force:6, hitRadius:10, moveSpeed:5, idleTick:0, dyingTicks:10}},
-            {name: 'Bomb3',     properties:{force:6, hitRadius:10, moveSpeed:5, idleTick:0, dyingTicks:10}},
-            {name: 'Bomb4',     properties:{force:6, hitRadius:10, moveSpeed:5, idleTick:0, dyingTicks:10}},
-            {name: 'Bomb5',     properties:{force:6, hitRadius:10, moveSpeed:5, idleTick:0, dyingTicks:10}},
-            {name: 'Arrow1',    properties:{force:6, moveSpeed:5, idleTick:0, dyingTicks:10}},
-            {name: 'Arrow2',    properties:{force:6, moveSpeed:5, idleTick:0, dyingTicks:10}},
-            {name: 'Arrow3',    properties:{force:6, moveSpeed:5, idleTick:0, dyingTicks:10}},
-            {name: 'Arrow4',    properties:{force:6, moveSpeed:5, idleTick:0, dyingTicks:10}},
-            {name: 'Arrow5',    properties:{force:6, moveSpeed:5, idleTick:0, dyingTicks:10}},
+            {name: 'Fireball',  properties:{force:500, hitRadius:50, moveSpeed:5, idleTick:0, dyingTicks:10}},
+            {name: 'Bomb1',     properties:{force:20, hitRadius:50, moveSpeed:5, idleTick:0, dyingTicks:10}},
+            {name: 'Bomb2',     properties:{force:30, hitRadius:50, moveSpeed:5, idleTick:0, dyingTicks:10}},
+            {name: 'Bomb3',     properties:{force:40, hitRadius:50, moveSpeed:5, idleTick:0, dyingTicks:10}},
+            {name: 'Bomb4',     properties:{force:30, hitRadius:50, moveSpeed:5, idleTick:0, dyingTicks:10}},
+            {name: 'Bomb5',     properties:{force:30, hitRadius:50, moveSpeed:5, idleTick:0, dyingTicks:10}},
+            {name: 'Arrow1',    properties:{force:8,  moveSpeed:5, idleTick:0, dyingTicks:10}},
+            {name: 'Arrow2',    properties:{force:12, moveSpeed:5, idleTick:0, dyingTicks:10}},
+            {name: 'Arrow3',    properties:{force:16, moveSpeed:5, idleTick:0, dyingTicks:10}},
+            {name: 'Arrow4',    properties:{force:24, moveSpeed:5, idleTick:0, dyingTicks:10}},
+            {name: 'Arrow5',    properties:{force:24, moveSpeed:5, idleTick:0, dyingTicks:10}},
         ]; 
 
         for(let i = 0; i < config.length; i++) {
