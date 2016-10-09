@@ -8,6 +8,8 @@ class Enemy extends NPC {
     
     //击毙后可以获取的金币
     protected _bonus: number;
+
+	protected _frozenTicks: number;
     
     public constructor() {
         super();
@@ -25,7 +27,23 @@ class Enemy extends NPC {
         this._paths = this._get(properties, "paths", 10);
         this._path  = 0;
         this._nextPath();
+		
+		this._frozenTicks = 0;
     }
+
+	public frozen() {
+		this._frozenTicks = 3 * application.frameRate;
+	}
+
+	public update():boolean {
+		if (this._frozenTicks <= 0) {
+			return super.update();
+		} else {
+			this._frozenTicks --;
+			
+			return false;
+		}
+	}
     
     public addSoldier(soldier: Soldier) {
         for(let i = 0;i < this._soldiers.length; i++) {
