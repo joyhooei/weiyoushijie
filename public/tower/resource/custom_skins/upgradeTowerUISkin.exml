@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<e:Skin class="towerMenuUISkin" width="135" height="202" xmlns:e="http://ns.egret.com/eui" xmlns:w="http://ns.egret.com/wing">
+<e:Skin class="upgradeTowerUISkin" width="135" height="202" xmlns:e="http://ns.egret.com/eui" xmlns:w="http://ns.egret.com/wing">
 	<e:Image width="134" height="202" x="0" y="0" fillMode="clip" source="towerselect2_png"/>
 	<e:Image id="imgUpgrade" width="32" height="35" x="53" y="15" source="upgrade_png" fillMode="clip"/>
 	<e:Image id="imgSell" width="32" height="35" x="51" y="146" fillMode="clip" source="remove_png"/>
