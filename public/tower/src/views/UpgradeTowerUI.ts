@@ -117,7 +117,7 @@ class UpgradeTowerUI extends AbstractUI{
     protected _onRefresh() {
 		if (this._nextLevelTower) {
 			if (this._nextLevelTower2) {
-				this.imgBg.source = "";
+				this.imgBg.source = "towerselect3_png";
 				
 				this.lblUpgraePrice1.text   = this._nextLevelTower.getPrice().toString();
 				this.lblUpgraePrice2.text   = this._nextLevelTower2.getPrice().toString();
@@ -130,7 +130,7 @@ class UpgradeTowerUI extends AbstractUI{
 				this.imgUpgrade.visible = false;
 				
 			} else {
-				this.imgBg.source = "";
+				this.imgBg.source = "towerselect2_png";
 				
 				this.lblUpgraePrice.text   = this._nextLevelTower.getPrice().toString();
 				
@@ -142,7 +142,7 @@ class UpgradeTowerUI extends AbstractUI{
 				this.imgUpgrade.visible = true;
 			}
 		} else {
-			this.imgBg.source = "";
+			this.imgBg.source = "towerselect2_png";
 			
 				
 			this.lblUpgraePrice1.visible = false;
