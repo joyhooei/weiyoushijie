@@ -10,7 +10,7 @@ class Fireball extends Bullet {
     public initialize(properties:any) {
         super.initialize(properties);
 
-        this._hitRadius = this._get(properties, 'hitRadius', 20);
+        this._hitRadius = this._get(properties, 'hitRadius', 50);
     }
     
     protected _hitTarget() {
