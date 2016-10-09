@@ -27,14 +27,6 @@ class SoldierTower extends Tower implements SoldierCreator {
         return this._guardY;
     }
     
-    public setGuardX(x: number) {
-        this._guardX = x;
-    }
-    
-    public setGuardY(y: number) {
-        this._guardY = y;
-    }
-    
     public createSoldier(soldier: Soldier): Soldier {
         soldier.relive(10 * application.frameRate);
         this._addSoldier(soldier);
@@ -45,10 +37,19 @@ class SoldierTower extends Tower implements SoldierCreator {
     public guard() {
         super.guard();
         
-        let delta = 25;
+        let delta = 15;
         this._createSoldier(this._soldierClaz, {guardX: this._guardX + delta, guardY: this._guardY + delta, idleTicks: 0});
         this._createSoldier(this._soldierClaz, {guardX: this._guardX - delta, guardY: this._guardY + delta, idleTicks:  application.frameRate});
         this._createSoldier(this._soldierClaz, {guardX: this._guardX + delta, guardY: this._guardY - delta, idleTicks: 2 * application.frameRate});
+    }
+    
+    public guardAt(x: number, y: number) {
+        for(let i = 0; i < this._soldiers.length; i++) {
+            this._soldiers[i].guardAt(x, y);
+        }
+        
+        this._guardX = x;
+        this._guardY = y;
     }
     
     public erase() {
