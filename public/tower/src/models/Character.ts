@@ -39,22 +39,24 @@ class Character {
             {name: 'Reinforce', properties:{hp:100, force:6, armor: 0, cureSpeed:1, moveSpeed:1, liveTicks: 20 * application.frameRate, guardRadius: 40, guardAltitude:[-1, 0]}},
             {name: 'Warrior',   properties:{hp:100, force:6, armor: 0, cureSpeed:1, moveSpeed:1, liveTicks: 8 * application.frameRate, guardRadius: 40, guardAltitude:[-1, 0]}},
 
-            //tower soldiers
-            {name: 'Soldier1',  properties:{hp:100, force:6, armor: 0, cureSpeed:1, moveSpeed:1, guardAltitude:[-1, 0]}},
-            {name: 'Soldier2',  properties:{hp:100, force:6, armor: 0, cureSpeed:1, moveSpeed:1, guardAltitude:[-1, 0]}},
-            {name: 'Soldier3',  properties:{hp:100, force:6, armor: 0, cureSpeed:1, moveSpeed:1, guardAltitude:[-1, 0]}},
-            {name: 'Soldier4',  properties:{hp:100, force:6, armor: 0, cureSpeed:1, moveSpeed:1, guardAltitude:[-1, 0]}},
-            {name: 'Soldier5',  properties:{hp:100, force:6, armor: 0, cureSpeed:1, moveSpeed:1, guardAltitude:[-1, 0]}},
-            {name: 'BombSoldier1',  properties:{hp:100, force:6, armor: 0, cureSpeed:1, moveSpeed:1, guardAltitude:[-1, 0]}},
-            {name: 'BombSoldier2',  properties:{hp:100, force:6, armor: 0, cureSpeed:1, moveSpeed:1, guardAltitude:[-1, 0]}},
-            {name: 'BombSoldier3',  properties:{hp:100, force:6, armor: 0, cureSpeed:1, moveSpeed:1, guardAltitude:[-1, 0]}},
-            {name: 'BombSoldier4',  properties:{hp:100, force:6, armor: 0, cureSpeed:1, moveSpeed:1, guardAltitude:[-1, 0]}},
-            {name: 'BombSoldier5',  properties:{hp:100, force:6, armor: 0, cureSpeed:1, moveSpeed:1, guardAltitude:[-1, 0]}},
-            {name: 'ArrowSoldier1',  properties:{hp:100, force:6, armor: 0, cureSpeed:1, moveSpeed:1, guardAltitude:[-1, 0, 1]}},
-            {name: 'ArrowSoldier2',  properties:{hp:100, force:6, armor: 0, cureSpeed:1, moveSpeed:1, guardAltitude:[-1, 0, 1]}},
-            {name: 'ArrowSoldier3',  properties:{hp:100, force:6, armor: 0, cureSpeed:1, moveSpeed:1, guardAltitude:[-1, 0, 1]}},
-            {name: 'ArrowSoldier4',  properties:{hp:100, force:6, armor: 0, cureSpeed:1, moveSpeed:1, guardAltitude:[-1, 0, 1]}},
-            {name: 'ArrowSoldier5',  properties:{hp:100, force:6, armor: 0, cureSpeed:1, moveSpeed:1, guardAltitude:[-1, 0, 1]}},            
+            //守护塔士兵
+            {name: 'Soldier1',  properties:{hp:50, force:3, armor: 0, cureSpeed:1, moveSpeed:1, guardAltitude:[-1, 0]}},
+            {name: 'Soldier2',  properties:{hp:50, force:6, armor: 0, cureSpeed:1, moveSpeed:1, guardAltitude:[-1, 0]}},
+            {name: 'Soldier3',  properties:{hp:50, force:9, armor: 0, cureSpeed:1, moveSpeed:1, guardAltitude:[-1, 0]}},
+            {name: 'Soldier4',  properties:{hp:50, force:12, armor: 0, cureSpeed:1, moveSpeed:1, guardAltitude:[-1, 0]}},
+            {name: 'Soldier5',  properties:{hp:50, force:15, armor: 0, cureSpeed:1, moveSpeed:1, guardAltitude:[-1, 0]}},
+            //炮塔士兵
+            {name: 'BombSoldier1',  properties:{force:6, armor: 0, cureSpeed:1, moveSpeed:1, guardAltitude:[0]}},
+            {name: 'BombSoldier2',  properties:{force:6, armor: 0, cureSpeed:1, moveSpeed:1, guardAltitude:[0]}},
+            {name: 'BombSoldier3',  properties:{force:6, armor: 0, cureSpeed:1, moveSpeed:1, guardAltitude:[0]}},
+            {name: 'BombSoldier4',  properties:{force:6, armor: 0, cureSpeed:1, moveSpeed:1, guardAltitude:[0]}},
+            {name: 'BombSoldier5',  properties:{force:6, armor: 0, cureSpeed:1, moveSpeed:1, guardAltitude:[0]}},
+            //箭塔士兵
+            {name: 'ArrowSoldier1',  properties:{force:6, armor: 0, cureSpeed:1, moveSpeed:1, guardAltitude:[0, 1]}},
+            {name: 'ArrowSoldier2',  properties:{force:6, armor: 0, cureSpeed:1, moveSpeed:1, guardAltitude:[0, 1]}},
+            {name: 'ArrowSoldier3',  properties:{force:6, armor: 0, cureSpeed:1, moveSpeed:1, guardAltitude:[0, 1]}},
+            {name: 'ArrowSoldier4',  properties:{force:6, armor: 0, cureSpeed:1, moveSpeed:1, guardAltitude:[0, 1]}},
+            {name: 'ArrowSoldier5',  properties:{force:6, armor: 0, cureSpeed:1, moveSpeed:1, guardAltitude:[0, 1]}},            
 
             //防护塔
             {name: 'SoldierTower1',  properties:{force: 3, guardRadius: 160, price: 100, upgradePrice: 100}},
