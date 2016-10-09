@@ -2,7 +2,7 @@ class UpgradeTowerUI extends AbstractUI{
     private _base: Base;
 	private _tower: Tower;
 
-	private _nextLevelTower: Tower;
+	private _nextLevelTower1: Tower;
 	private _nextLevelTower2: Tower;
 
 	private imgBg: eui.Image;
@@ -30,13 +30,13 @@ class UpgradeTowerUI extends AbstractUI{
 		let claz = this._tower.getClaz();
 		let idx = parseInt(claz.charAt(claz.length - 1));
 		if (idx == 1 || idx == 2) {
-			this._nextLevelTower = <Tower>application.pool.get(claz.slice(0, claz.length - 1) + (idx + 1).toString());
+			this._nextLevelTower1 = <Tower>application.pool.get(claz.slice(0, claz.length - 1) + (idx + 1).toString());
 			this._nextLevelTower2 = null;
 		} else if (idx == 3) {
-			this._nextLevelTower  = <Tower>application.pool.get(claz.slice(0, claz.length - 1) + (idx + 1).toString());
-			this._nextLevelTower2 = <Tower>application.pool.get(claz.slice(0, claz.length - 1) + (idx + 2).toString());
+			this._nextLevelTower1 = <Tower>application.pool.get(claz.slice(0, claz.length - 1) + 4.toString());
+			this._nextLevelTower2 = <Tower>application.pool.get(claz.slice(0, claz.length - 1) + 5.toString());
 		} else {
-			this._nextLevelTower = null;
+			this._nextLevelTower1 = null;
 			this._nextLevelTower2 = null;
 		}
 		
@@ -115,7 +115,7 @@ class UpgradeTowerUI extends AbstractUI{
 	}
 
     protected _onRefresh() {
-		if (this._nextLevelTower) {
+		if (this._nextLevelTower1) {
 			if (this._nextLevelTower2) {
 				this.imgBg.source = "towerselect3_png";
 				
@@ -143,7 +143,6 @@ class UpgradeTowerUI extends AbstractUI{
 			}
 		} else {
 			this.imgBg.source = "towerselect2_png";
-			
 				
 			this.lblUpgraePrice1.visible = false;
 			this.lblUpgraePrice2.visible = false;
