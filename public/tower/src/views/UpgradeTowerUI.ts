@@ -88,47 +88,31 @@ class UpgradeTowerUI extends AbstractUI{
 		}, this);
 		
 		this.imgUpgrade.addEventListener(egret.TouchEvent.TOUCH_TAP,() => {
-			if (this._nextLevelTower) {
-				if (application.battle.getGolds() > this._nextLevelTower.getPrice()) {
-					this._base.setTower(this._nextLevelTower);
-
-					application.hideUI(this);
-				} else {
-					Toast.launch("需要更多的金币");
-				}
-			} else {
-				Toast.launch("已经是最高级了");
-			}				
+			this._upgradeTo(this._nextLevelTower);				
 		}, this);
 		
 		this.imgUpgrade1.addEventListener(egret.TouchEvent.TOUCH_TAP,() => {
-			if (this._nextLevelTower) {
-				if (application.battle.getGolds() > this._nextLevelTower.getPrice()) {
-					this._base.setTower(this._nextLevelTower);
-
-					application.hideUI(this);
-				} else {
-					Toast.launch("需要更多的金币");
-				}
-			} else {
-				Toast.launch("已经是最高级了");
-			}				
+			this._upgradeTo(this._nextLevelTower);							
 		}, this);
 		
 		this.imgUpgrade2.addEventListener(egret.TouchEvent.TOUCH_TAP,() => {
-			if (this._nextLevelTower) {
-				if (application.battle.getGolds() > this._nextLevelTower2.getPrice()) {
-					this._base.setTower(this._nextLevelTower2);
-
-					application.hideUI(this);
-				} else {
-					Toast.launch("需要更多的金币");
-				}
-			} else {
-				Toast.launch("已经是最高级了");
-			}				
+			this._upgradeTo(this._nextLevelTower2);				
 		}, this);		
     }
+
+	private _upgradeTo(tower: Tower) {
+		if (tower) {
+			if (application.battle.getGolds() > tower.getPrice()) {
+				this._base.setTower(tower);
+
+				application.hideUI(this);
+			} else {
+				Toast.launch("需要更多的金币");
+			}
+		} else {
+			Toast.launch("已经是最高级了");
+		}
+	}
 
     protected _onRefresh() {
 		if (this._nextLevelTower) {
