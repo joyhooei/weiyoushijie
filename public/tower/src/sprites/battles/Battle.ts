@@ -363,6 +363,10 @@ class Battle extends Entity implements SoldierCreator {
         return null;
     }
 
+    public getEnemies(): Enemy[] {
+        return this._enemies;
+    }
+
     public findEnemies(x: number, y: number, radius: number, altitudes: number[]) : Enemy[] {
         let enemies = [];
         
