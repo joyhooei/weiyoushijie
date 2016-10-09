@@ -99,7 +99,7 @@ class Tower extends Entity {
 
             application.battle.addEntity(this._range);
 
-            application.showUI(new TowerMenuUI(this._base), application.battle.parent, this.getCenterX(), this.getCenterY());
+            application.showUI(new UpgradeTowerUI(this._base), application.battle.parent, this.getCenterX(), this.getCenterY());
             
             return true;
         }
