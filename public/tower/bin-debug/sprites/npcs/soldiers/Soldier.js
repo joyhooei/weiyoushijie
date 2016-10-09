@@ -5,6 +5,12 @@ var Soldier = (function (_super) {
         this.touchEnabled = true;
     }
     var d = __define,c=Soldier,p=c.prototype;
+    p.getGuardX = function () {
+        return this._guardX;
+    };
+    p.getGuardY = function () {
+        return this._guardY;
+    };
     p.select = function (again) {
         if (again) {
             this.deselect();
@@ -83,6 +89,14 @@ var Soldier = (function (_super) {
         soldier.height = this.height;
         soldier.setCreator(this._creator);
         return soldier;
+    };
+    p.guardAt = function (x, y) {
+        this._guardX = x;
+        this._guardY = y;
+        //还没有敌人，直接走到新的守护地址
+        if (this._enemy == null) {
+            this.moveTo(x, y);
+        }
     };
     p.moveTo = function (x, y) {
         var x1 = x - (this.width >> 1);

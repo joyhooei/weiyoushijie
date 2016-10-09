@@ -1,8 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
-<e:Skin class="upgradeTowerUISkin" width="135" height="202" xmlns:e="http://ns.egret.com/eui" xmlns:w="http://ns.egret.com/wing">
-	<e:Image width="134" height="202" x="0" y="0" fillMode="clip" source="towerselect2_png"/>
-	<e:Image id="imgUpgrade" width="32" height="35" x="53" y="15" source="upgrade_png" fillMode="clip"/>
-	<e:Image id="imgSell" width="32" height="35" x="51" y="146" fillMode="clip" source="remove_png"/>
-	<e:Label id="lblUpgradePrice" text="300" x="91" y="25" size="11"/>
-	<e:Label id="lblSellPrice" text="300" x="91" y="157" size="11"/>
+<e:Skin class="upgradeTowerUISkin" width="162" height="202" xmlns:e="http://ns.egret.com/eui" xmlns:w="http://ns.egret.com/wing">
+	<e:Image id="imgBg" width="134" height="202" x="15" y="0" fillMode="clip" source="towerselect2_png"/>
+	<e:Image id="imgUpgrade2" width="32" height="35" x="106" y="51" source="upgrade_png" fillMode="clip"/>
+	<e:Image id="imgFlag" width="42" height="41" x="64" y="86" fillMode="clip" source="guardflag_png"/>
+	<e:Label id="lblUpgradePrice2" text="300" x="144" y="61" size="11"/>
+	<e:Image id="imgUpgrade1" width="32" height="35" x="10" y="55" source="upgrade_png" fillMode="clip"/>
+	<e:Label id="lblUpgradePrice1" text="300" x="48" y="65" size="11"/>
+	<e:Image id="imgUpgrade" width="32" height="35" x="68" y="15" source="upgrade_png" fillMode="clip"/>
+	<e:Image id="imgSell" width="32" height="35" x="66" y="146" fillMode="clip" source="remove_png"/>
+	<e:Label id="lblUpgradePrice" text="300" x="106" y="25" size="11"/>
+	<e:Label id="lblSellPrice" text="300" x="106" y="157" size="11"/>
 </e:Skin>

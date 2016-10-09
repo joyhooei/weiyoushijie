@@ -2,12 +2,13 @@ var Fireball = (function (_super) {
     __extends(Fireball, _super);
     function Fireball() {
         _super.call(this);
-        this.addClip("fireball_moving", "south-moving").addClip("fireball_dying", "south-dying");
+        this.addClip("fireball_moving", ["south-moving", "east-moving", "west-moving", "north-moving"])
+            .addClip("fireball_fighting", ["south-fighting", "east-fighting", "west-fighting", "north-fighting"]);
     }
     var d = __define,c=Fireball,p=c.prototype;
     p.initialize = function (properties) {
         _super.prototype.initialize.call(this, properties);
-        this._hitRadius = this._get(properties, 'hitRadius', 20);
+        this._hitRadius = this._get(properties, 'hitRadius', 50);
     };
     p._hitTarget = function () {
         var enemies = application.battle.findEnemies(this.x, this.y, this._hitRadius, [0]);

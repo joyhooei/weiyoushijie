@@ -11,13 +11,13 @@ class UpgradeTowerUI extends AbstractUI{
     public lblSellPrice: eui.Label;
 
     public imgUpgrade: eui.Image;
-    public lblUpgraePrice:eui.Label;
+    public lblUpgradePrice:eui.Label;
 
     public imgUpgrade1: eui.Image;
-    public lblUpgraePrice1:eui.Label;
+    public lblUpgradePrice1:eui.Label;
 
     public imgUpgrade2: eui.Image;
-    public lblUpgraePrice2:eui.Label;
+    public lblUpgradePrice2:eui.Label;
 
 	public imgFlag: eui.Image;
 
@@ -33,26 +33,11 @@ class UpgradeTowerUI extends AbstractUI{
 			this._nextLevelTower1 = <Tower>application.pool.get(claz.slice(0, claz.length - 1) + (idx + 1).toString());
 			this._nextLevelTower2 = null;
 		} else if (idx == 3) {
-			this._nextLevelTower1 = <Tower>application.pool.get(claz.slice(0, claz.length - 1) + 4.toString());
-			this._nextLevelTower2 = <Tower>application.pool.get(claz.slice(0, claz.length - 1) + 5.toString());
+			this._nextLevelTower1 = <Tower>application.pool.get(claz.slice(0, claz.length - 1) + "4");
+			this._nextLevelTower2 = <Tower>application.pool.get(claz.slice(0, claz.length - 1) + "5");
 		} else {
 			this._nextLevelTower1 = null;
 			this._nextLevelTower2 = null;
-		}
-		
-		if (this._tower.getSuperClaz() == "SoldierTower") {
-			this.imgFlag.visible = true;
-			
-			let soldierTower = <SoldierTower>this._tower;
-			
-			this.imgFlag.x = soldierTower.getGuardX() - this.imgFlag.height;
-			this.imgFlag.y = soldierTower.getGuardY() - this.imgFlag.width / 2;
-			
-			if (this._nextLevelTower) {
-				this._nextLevelTower.guardAt(soldierTower.getGuardX(), soldierTower.getGuardY());
-			}
-		} else {
-			this.imgFlag.visible = false;
 		}
 		        
         application.dao.addEventListener("Battle",function(evt: egret.Event) {
@@ -61,18 +46,21 @@ class UpgradeTowerUI extends AbstractUI{
 		
 		this.addEventListener(egret.TouchEvent.TOUCH_TAP,(e:egret.TouchEvent) => {
 			if (this.imgFlag.visible) {
-    	        let x = Math.round(e.localX);
-                let y = Math.round(e.localY);
+    	        let x = Math.round(e.localX) + this.x;
+                let y = Math.round(e.localY) + this.y;
 			
-				this.imgFlag.x = x - this.imgFlag.height;
-				this.imgFlag.y = y - this.imgFlag.width / 2;
+				this.imgFlag.x = x - this.imgFlag.height - this.x;
+				this.imgFlag.y = y - this.imgFlag.width / 2 - this.y;
 				
 				let soldierTower = <SoldierTower>this._tower;
 			
 				if (x != soldierTower.getGuardX() || y != soldierTower.getGuardY()) {
 					soldierTower.guardAt(x, y);
-					if (this._nextLevelTower) {
-						this._nextLevelTower.guardAt(x, y);
+					if (this._nextLevelTower1) {
+						(<SoldierTower>this._nextLevelTower1).guardAt(x, y);
+					}
+					if (this._nextLevelTower2) {
+						(<SoldierTower>this._nextLevelTower2).guardAt(x, y);
 					}
 				}
 
@@ -88,11 +76,11 @@ class UpgradeTowerUI extends AbstractUI{
 		}, this);
 		
 		this.imgUpgrade.addEventListener(egret.TouchEvent.TOUCH_TAP,() => {
-			this._upgradeTo(this._nextLevelTower);				
+			this._upgradeTo(this._nextLevelTower1);				
 		}, this);
 		
 		this.imgUpgrade1.addEventListener(egret.TouchEvent.TOUCH_TAP,() => {
-			this._upgradeTo(this._nextLevelTower);							
+			this._upgradeTo(this._nextLevelTower1);							
 		}, this);
 		
 		this.imgUpgrade2.addEventListener(egret.TouchEvent.TOUCH_TAP,() => {
@@ -114,41 +102,58 @@ class UpgradeTowerUI extends AbstractUI{
 		}
 	}
 
-    protected _onRefresh() {
+    protected onRefresh() {
+		if (this._tower.getSuperClaz() == "SoldierTower") {
+			let soldierTower = <SoldierTower>this._tower;
+			
+			this.imgFlag.x = soldierTower.getGuardX() - this.imgFlag.height - this.x;
+			this.imgFlag.y = soldierTower.getGuardY() - this.imgFlag.width / 2 - this.y;
+			
+			if (this._nextLevelTower1) {
+				(<SoldierTower>this._nextLevelTower1).guardAt(soldierTower.getGuardX(), soldierTower.getGuardY());
+			}
+			
+			if (this._nextLevelTower2) {
+				(<SoldierTower>this._nextLevelTower2).guardAt(soldierTower.getGuardX(), soldierTower.getGuardY());
+			}
+		} else {
+			this.imgFlag.visible = false;
+		}
+
 		if (this._nextLevelTower1) {
 			if (this._nextLevelTower2) {
 				this.imgBg.source = "towerselect3_png";
 				
-				this.lblUpgraePrice1.text   = this._tower.getUpgradePrice().toString();
-				this.lblUpgraePrice2.text   = this._tower.getUpgradePrice().toString();
+				this.lblUpgradePrice1.text   = this._tower.getUpgradePrice().toString();
+				this.lblUpgradePrice2.text   = this._tower.getUpgradePrice().toString();
 				
-				this.lblUpgraePrice1.visible = true;
-				this.lblUpgraePrice2.visible = true;
+				this.lblUpgradePrice1.visible = true;
+				this.lblUpgradePrice2.visible = true;
 				this.imgUpgrade1.visible = true;
 				this.imgUpgrade2.visible = true;
-				this.lblUpgraePrice.visible = false;
+				this.lblUpgradePrice.visible = false;
 				this.imgUpgrade.visible = false;
 				
 			} else {
 				this.imgBg.source = "towerselect2_png";
 				
-				this.lblUpgraePrice.text   = this._tower.getUpgradePrice().toString();
+				this.lblUpgradePrice.text   = this._tower.getUpgradePrice().toString();
 				
-				this.lblUpgraePrice1.visible = false;
-				this.lblUpgraePrice2.visible = false;
+				this.lblUpgradePrice1.visible = false;
+				this.lblUpgradePrice2.visible = false;
 				this.imgUpgrade1.visible = false;
 				this.imgUpgrade2.visible = false;
-				this.lblUpgraePrice.visible = true;
+				this.lblUpgradePrice.visible = true;
 				this.imgUpgrade.visible = true;
 			}
 		} else {
 			this.imgBg.source = "towerselect2_png";
 				
-			this.lblUpgraePrice1.visible = false;
-			this.lblUpgraePrice2.visible = false;
+			this.lblUpgradePrice1.visible = false;
+			this.lblUpgradePrice2.visible = false;
 			this.imgUpgrade1.visible = false;
 			this.imgUpgrade2.visible = false;
-			this.lblUpgraePrice.visible = false;
+			this.lblUpgradePrice.visible = false;
 			this.imgUpgrade.visible = false;
 		}
 		

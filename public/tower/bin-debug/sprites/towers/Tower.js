@@ -11,21 +11,13 @@ var Tower = (function (_super) {
         this._hitSpeed = this._get(properties, "hitSpeed", 60);
         this._buildTicks = this._get(properties, "buildTicks", application.frameRate);
         this._price = this._get(properties, "price", 100);
+        this._force = this._get(properties, "force", 10);
+        this._upgradePrice = this._get(properties, "upgradePrice", 100);
         this._guardRadius = this._get(properties, "guardRadius", 10);
         this._base = null;
     };
     p.setBase = function (base) {
         this._base = base;
-    };
-    p.getNextLevelTowerClaz = function () {
-        var claz = this.getClaz();
-        var idx = parseInt(claz.charAt(claz.length - 1));
-        if (idx >= 1 && idx <= 4) {
-            return claz.slice(0, claz.length - 1) + (idx + 1).toString();
-        }
-        else {
-            return null;
-        }
     };
     p.getGuardRadius = function () {
         return this._guardRadius;
@@ -34,7 +26,10 @@ var Tower = (function (_super) {
         return this._price;
     };
     p.getSellPrice = function () {
-        return Math.round(this._price * 0.6);
+        return Math.round(this._price / 2);
+    };
+    p.getUpgradePrice = function () {
+        return this._upgradePrice;
     };
     p.erase = function () {
         _super.prototype.erase.call(this);
@@ -60,13 +55,7 @@ var Tower = (function (_super) {
             return false;
         }
         else {
-            this._range = application.pool.get("GuardRange", { guardRadius: this._guardRadius });
-            this._range.x = this.getCenterX() - this._guardRadius;
-            this._range.y = this.getCenterY() - this._guardRadius;
-            this._range.width = this._guardRadius << 1;
-            this._range.height = this._guardRadius << 1;
-            application.battle.addEntity(this._range);
-            application.showUI(new TowerMenuUI(this._base), application.battle.parent, this.getCenterX(), this.getCenterY());
+            application.showUI(new UpgradeTowerUI(this._base), application.battle.parent, this.getCenterX(), this.getCenterY());
             return true;
         }
     };
@@ -78,5 +67,5 @@ var Tower = (function (_super) {
     };
     return Tower;
 }(Entity));
-egret.registerClass(Tower,'Tower');
+egret.registerClass(Tower,'Tower',["SelectableEntity"]);
 //# sourceMappingURL=Tower.js.map

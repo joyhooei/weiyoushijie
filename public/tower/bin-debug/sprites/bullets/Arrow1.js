@@ -2,7 +2,7 @@ var Arrow1 = (function (_super) {
     __extends(Arrow1, _super);
     function Arrow1() {
         _super.call(this);
-        this.addClip("arrow1");
+        this.addBitmap("arrow_png");
     }
     var d = __define,c=Arrow1,p=c.prototype;
     return Arrow1;

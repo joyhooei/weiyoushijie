@@ -90,16 +90,6 @@ class Tower extends Entity implements SelectableEntity {
 
             return false;
         } else {
-            this._range = <GuardRange>application.pool.get("GuardRange", {guardRadius: this._guardRadius});
-
-            this._range.x = this.getCenterX() - this._guardRadius;
-            this._range.y = this.getCenterY() - this._guardRadius;
-
-            this._range.width  = this._guardRadius << 1;
-            this._range.height = this._guardRadius << 1;
-
-            application.battle.addEntity(this._range);
-
             application.showUI(new UpgradeTowerUI(this._base), application.battle.parent, this.getCenterX(), this.getCenterY());
             
             return true;

@@ -72,7 +72,7 @@ class Bullet extends MovableEntity {
     
     protected _moving() {
         if (this._moveOneStep()) {
-            this.kill();
+            this.fight();
             this._hitTarget();
         } else {
             //如果目标移动，重新调整方向和路径
@@ -80,6 +80,18 @@ class Bullet extends MovableEntity {
                 this.setTarget(this._target);
             }
         }
+    }
+
+    protected _fighting() {
+        if (this._ticks > 3) {
+            this.kill();
+        } else {
+            this._ticks ++;
+        }
+    }
+
+    protected _dying() {
+        this.erase();
     }
     
     protected _hitTarget() {

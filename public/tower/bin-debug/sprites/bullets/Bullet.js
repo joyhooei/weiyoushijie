@@ -51,7 +51,7 @@ var Bullet = (function (_super) {
     };
     p._moving = function () {
         if (this._moveOneStep()) {
-            this.kill();
+            this.fight();
             this._hitTarget();
         }
         else {
@@ -60,6 +60,17 @@ var Bullet = (function (_super) {
                 this.setTarget(this._target);
             }
         }
+    };
+    p._fighting = function () {
+        if (this._ticks > 3) {
+            this.kill();
+        }
+        else {
+            this._ticks++;
+        }
+    };
+    p._dying = function () {
+        this.erase();
     };
     p._hitTarget = function () {
     };

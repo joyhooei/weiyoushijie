@@ -2,6 +2,6 @@ class Arrow1 extends Arrow {
     public constructor() {
         super();
         
-        this.addClip("arrow1");
+        this.addBitmap("arrow_png");
     }
 }

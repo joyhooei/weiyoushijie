@@ -101,8 +101,7 @@ var Battle = (function (_super) {
                         this._toolItem = null;
                     }
                     else if (this._focus) {
-                        var baseClassName = egret.getQualifiedSuperclassName(this._focus);
-                        if (baseClassName == "Hero" || baseClassName == "Soldier") {
+                        if (egret.getQualifiedSuperclassName(this._focus) == "Hero") {
                             this._focus.moveTo(x, y);
                         }
                         this._focus.deselect();
@@ -274,6 +273,9 @@ var Battle = (function (_super) {
             }
         }
         return null;
+    };
+    p.getEnemies = function () {
+        return this._enemies;
     };
     p.findEnemies = function (x, y, radius, altitudes) {
         var enemies = [];

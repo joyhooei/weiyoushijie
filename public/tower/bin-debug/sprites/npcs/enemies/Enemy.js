@@ -12,6 +12,19 @@ var Enemy = (function (_super) {
         this._paths = this._get(properties, "paths", 10);
         this._path = 0;
         this._nextPath();
+        this._frozenTicks = 0;
+    };
+    p.frozen = function () {
+        this._frozenTicks = 3 * application.frameRate;
+    };
+    p.update = function () {
+        if (this._frozenTicks <= 0) {
+            return _super.prototype.update.call(this);
+        }
+        else {
+            this._frozenTicks--;
+            return false;
+        }
     };
     p.addSoldier = function (soldier) {
         for (var i = 0; i < this._soldiers.length; i++) {
