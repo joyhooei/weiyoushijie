@@ -1,13 +1,10 @@
 class CastBullet extends Bullet {
-    /**起始坐标*/
-    protected _initX: number;
-    protected _initY: number;
+	//y = a * x * x + b * x + c
+    protected _a: number;
+    protected _b: number;
 
-    protected _flyHeight: number;
-    
-    protected _gravity: number;
-    
-    protected _flyTicks: number;
+	protected _startX: number;
+	protected _startY: number;
 
     public constructor() {
         super();
@@ -16,51 +13,52 @@ class CastBullet extends Bullet {
     public initialize(properties:any) {
         super.initialize(properties);
 
-        this._flyHeight = this._get(properties, 'flyHeight', 25);
-        this._gravity   = this._get(properties, 'gravity', 1);
-
-        this._flyTicks = 0;
+        this._a = 0.001;
+		this._b = 0;
     }
 
-    protected _idle() {
-        this._initX = this.x;
-        this._initY = this.y;
-        
-        super._idle();
-    }
+	protected _idle() {
+		this._startX = this.x;
+		this._startY = this.y;
+		
+		super._idle();
+	}
     
     protected _computeSteps(x:number, y:number): boolean {
-	    this._stepX = (x - this._initX) / this._flyHeight;
-	    this._stepY = ((y - this._initY) - (this._gravity * this._flyHeight * this._flyHeight / 2)) / this._flyHeight;
+		let dx = x - this.x;
+		let dy = y - this.y;
+		
+		if (Math.abs(dx) < this._moveSpeed && Math.abs(dy) < this._moveSpeed) {
+			return true;
+		} else {
+			this._b     = (dy - this._a * dx * dx) / dx;
+			this._rate  = dx > 0 ? 1: -1;
+			this._stepX = 0;
 
-        return this._stepX != 0 && this._stepY != 0;
+        	return false;
+		}
     }
     
     protected _moveOneStep():boolean {
-        this._flyTicks += 0.5;
-        
-        this.x = this._initX + this._flyTicks * this._stepX;
-        this.y = this._initY + this._flyTicks * this._stepY + this._gravity * this._flyTicks * this._flyTicks / 2;
-        
-        this._flyTicks += 0.5;
-        
-        var sx: number = this._initX + this._flyTicks * this._stepX;
-        var sy: number = this._initY + this._flyTicks * this._stepY + this._gravity * this._flyTicks * this._flyTicks / 2;
-        var dx: number = sx - this.x;
-        var dy: number = sy - this.y;
-        
-        this._flyTicks -= 0.5;
-        
-        let angle = Math.atan2(dy, dx) * 180 / Math.PI + 180;
-        if(angle > 180 && angle < 360) {
-            var disx: number = this.x - this._target.x < 0 ? this._target.x - this.x : this.x - this._target.x;
-            var disy: number = this.y - this._target.y < 0 ? this._target.y - this.y : this.y - this._target.y;
-    
-            if(disx <= this._stepX && disy < this._stepY) {
-                return true;
-            }
-        }
-        
-        return false;
+		// 切线 y'=2ax+b
+		let y = 2 * this._a * this._stepX + this._b;
+		
+		// y*y + x*x = speed
+		// (tangent * x)^2 + x*x = speed
+		// x = Math.sqr(speed / (tangent * tangent + 1));
+		this._stepX += this._rate * Math.sqrt(this._moveSpeed / (y * y + 1));
+
+		// 防止过界
+		this.x = this._startX + this._stepX;
+		if ((this._rate == 1 && this.x > this._targetX) || (this._rate == -1 && this.x < this._targetX)) {
+			this.x = this._targetX;
+			this.y = this._targetY;
+			
+			return true;
+		} else {
+			this.y = this._startY + this._a * this._stepX * this._stepX + this._b * this._stepX;
+
+			return false;
+		}
     }
 }
