@@ -26,7 +26,7 @@ class CastBullet extends Bullet {
     
     protected _computeSteps(x:number, y:number): boolean {
 		let dx = x - this.x;
-		let dy = y - this.y;
+		let dy = this.y - y;
 		
 		if (Math.abs(dx) < this._moveSpeed && Math.abs(dy) < this._moveSpeed) {
 			return true;
@@ -43,10 +43,12 @@ class CastBullet extends Bullet {
 		// 切线 y=2ax+b
 		let stepY = 2 * this._a * this._stepX + this._b;
 		
+		let tan = stepY / (this._stepX + this._b / (2 * this._a));
+		
 		// y*y + x*x = speed * speed
 		// (tangent * x)^2 + x*x = speed * speed
 		// x = Math.sqr(speed / (tangent * tangent + 1));
-		this._stepX += this._rate * this._moveSpeed * Math.sqrt( 1 / ((stepY * stepY) / (this._stepX * this._stepX) + 1));
+		this._stepX += this._rate * this._moveSpeed / Math.sqrt(tan * tan + 1);
 
 		// 防止过界
 		this.x = this._startX + this._stepX;
