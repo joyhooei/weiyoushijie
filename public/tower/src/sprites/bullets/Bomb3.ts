@@ -6,12 +6,4 @@ class Bomb3 extends Bomb {
             .addClip("bomb_dying", ["south-fighting", "east-fighting", "west-fighting", "north-fighting"])
             .addBitmap("bomb3_dying_png", "dying");  
     }
-
-    protected _dying() {
-        if (this._ticks >= (application.frameRate << 1)) {
-            this.erase();
-        } else {
-            this._ticks ++;
-        }
-    }
 }
