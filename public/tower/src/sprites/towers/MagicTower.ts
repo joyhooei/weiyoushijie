@@ -5,6 +5,8 @@ class MagicTower extends Tower {
 
     public constructor() {
         super();
+               
+        this._bulletClaz = "Magic1";
     }
     
     protected _guarding() {
@@ -23,7 +25,7 @@ class MagicTower extends Tower {
             }
 
             if (this._enemy) {
-                Bullet.shootByNPC(this, this._enemy, this._bulletClaz);
+                Bullet.shootByNPC(this, this._enemy, this._bulletClaz, {force: this._force});
                 
                 this._ticks++;
             } else {
