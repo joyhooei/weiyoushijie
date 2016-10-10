@@ -67,11 +67,13 @@ class Bullet extends MovableEntity {
     }
     
     public setTargetPosition(targetX: number, targetY: number) {
-        this._targetX = targetX;
-        this._targetY = targetY;
-        
-        this._computeSteps(this.x, this.y, this._targetX, this._targetY);    
-        this._turn(this._direction4(targetX, targetY));    
+        if (this._targetX != targetX|| this._targetY != targetY) {
+            this._targetX = targetX;
+            this._targetY = targetY;
+            
+            this._computeSteps(this.x, this.y, this._targetX, this._targetY);    
+            this._turn(this._direction4(targetX, targetY));
+        }    
     }
     
     protected _moving() {
@@ -79,18 +81,13 @@ class Bullet extends MovableEntity {
             this.fight();
             
             this._hitTarget();
-        } else {
-            //如果目标移动，重新调整方向和路径
-            if (this._target && (this._targetX != this._target.x || this._targetY != this._target.y)) {
-                this.setTarget(this._target);
-            }
         }
     }
 
     protected _fighting() {
         this._ticks ++;
         if (this._ticks >= this._fightTicks) {
-            this.kill();
+            this.erase();
         }
     }
     

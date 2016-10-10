@@ -2,8 +2,8 @@ var Magic1 = (function (_super) {
     __extends(Magic1, _super);
     function Magic1() {
         _super.call(this);
-        this.addBitmap("magic_moving_png", ["south-moving", "east-moving", "west-moving", "north-moving"])
-            .addBitmap("magic_fighting", ["south-fighting", "east-fighting", "west-fighting", "north-fighting"]);
+        this.addAllBitmaps("magic_moving_png", "moving")
+            .addAllBitmaps("magic_fighting_png", "fighting");
     }
     var d = __define,c=Magic1,p=c.prototype;
     return Magic1;

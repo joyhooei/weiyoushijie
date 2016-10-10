@@ -16,6 +16,13 @@ var Arrow = (function (_super) {
             this._missing = true;
         }
     };
+    p._moveOneStep = function () {
+        var dx = this._startX - this.x;
+        var dy = this.y - this._startY;
+        var angel = Math.atan2(dy, dx);
+        this.rotation = angel * 180 / Math.PI + 180;
+        return _super.prototype._moveOneStep.call(this);
+    };
     return Arrow;
 }(CastBullet));
 egret.registerClass(Arrow,'Arrow');

@@ -25,12 +25,12 @@ class MagicTower extends Tower {
             }
 
             if (this._enemy) {
-                Bullet.shootByNPC(this, this._enemy, this._bulletClaz, {force: this._force});
-                
-                this._ticks++;
+                Bullet.shootAtNPC(this.getCenterX(), this.getCenterY(), this._enemy, this._bulletClaz, {force: this._force});
             } else {
                 this.guard();
             }
         }
+
+        this._ticks ++;
     }  
 }

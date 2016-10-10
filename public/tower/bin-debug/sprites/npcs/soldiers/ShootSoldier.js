@@ -11,7 +11,7 @@ var ShootSoldier = (function (_super) {
         this.guard();
     };
     p._guarding = function () {
-        this._enemy = application.battle.findEnemy(this.getCenterX(), this.getCenterY(), this._guardRadius, [0]);
+        this._enemy = application.battle.findEnemy(this.getCenterX(), this.getCenterY(), this._guardRadius, [0, 1]);
         if (this._enemy) {
             this._face(this._enemy);
             this.fight();
@@ -22,19 +22,19 @@ var ShootSoldier = (function (_super) {
             if (this._enemy == null
                 || !this._enemy.active()
                 || !this._enemy.within(this.x, this.y, this._guardRadius)) {
-                this._enemy = application.battle.findEnemy(this.x, this.y, this._guardRadius, [0]);
+                this._enemy = application.battle.findEnemy(this.x, this.y, this._guardRadius, [0, 1]);
                 if (this._enemy) {
                     this._face(this._enemy);
                 }
             }
             if (this._enemy) {
-                Bullet.shootByNPC(this, this._enemy, this._bulletClaz);
-                this._ticks++;
+                Bullet.shootByNPC(this, this._enemy, this._bulletClaz, { force: this._force });
             }
             else {
                 this.guard();
             }
         }
+        this._ticks++;
     };
     return ShootSoldier;
 }(Soldier));

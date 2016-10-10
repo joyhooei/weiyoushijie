@@ -29,9 +29,9 @@ class CastBullet extends Bullet {
 		super._idle();
 	}
     
-    protected _computeSteps(x:number, y:number): boolean {
-		this._targetX = x;
-		this._targetY = y;
+    protected _computeSteps(x:number, y:number, targetX:number, targetY:number): boolean {
+		this._targetX = targetX;
+		this._targetY = targetY;
 		
 		this._vertexY = Math.min(this._startY, this._targetY) - Math.abs(this._startX - this._targetX) / 3;
 		if (this._vertexY < 20) {
@@ -60,16 +60,23 @@ class CastBullet extends Bullet {
     }
     
     protected _moveOneStep():boolean {
-		this.x = this._startX + (this._targetX - this._startX) * this._steps / this._totalSteps;
-		
-		if (this._curvature == 0) {
-			this.y = this._startY + (this._targetY - this._startY) * this._steps / this._totalSteps;
-		} else {
-			this.y = this._curvature * Math.pow(this.x - this._vertexX, 2) + this._vertexY;
-		}
+		if (this._steps < this._totalSteps - 1) {
+			this.x = this._startX + (this._targetX - this._startX) * this._steps / this._totalSteps;
+			
+			if (this._curvature == 0) {
+				this.y = this._startY + (this._targetY - this._startY) * this._steps / this._totalSteps;
+			} else {
+				this.y = this._curvature * Math.pow(this.x - this._vertexX, 2) + this._vertexY;
+			}
 
-		this._steps++;
-		
-		return this._steps >= this._totalSteps - 1;
+			this._steps++;
+
+			return false;
+		} else {
+			this.x = this._targetX;
+			this.y = this._targetY;
+
+			return true;
+		}
     }
 }

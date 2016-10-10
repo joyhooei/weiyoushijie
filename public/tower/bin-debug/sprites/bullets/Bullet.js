@@ -5,24 +5,24 @@ var Bullet = (function (_super) {
         this.width = this.height = 5;
     }
     var d = __define,c=Bullet,p=c.prototype;
-    Bullet.shootAtNPC = function (sourceX, sourceY, target, claz) {
-        var bullet = application.pool.get(claz);
+    Bullet.shootAtNPC = function (sourceX, sourceY, target, claz, properties) {
+        var bullet = application.pool.get(claz, properties);
         bullet.x = sourceX;
         bullet.y = sourceY;
         bullet.setTarget(target);
         application.battle.addBullet(bullet);
         return bullet;
     };
-    Bullet.shootByNPC = function (shooter, target, claz) {
-        var bullet = application.pool.get(claz);
+    Bullet.shootByNPC = function (shooter, target, claz, properties) {
+        var bullet = application.pool.get(claz, properties);
         bullet.x = shooter.getCenterX();
         bullet.y = shooter.getCenterY();
         bullet.setTarget(target);
         application.battle.addBullet(bullet);
         return bullet;
     };
-    Bullet.shoot = function (sourceX, sourceY, targetX, targetY, claz) {
-        var bullet = application.pool.get(claz);
+    Bullet.shoot = function (sourceX, sourceY, targetX, targetY, claz, properties) {
+        var bullet = application.pool.get(claz, properties);
         bullet.setCenterX(sourceX);
         bullet.setCenterY(sourceY);
         bullet.setTargetPosition(targetX - bullet.width / 2, targetY - bullet.height / 2);
@@ -35,6 +35,7 @@ var Bullet = (function (_super) {
         this._targetX = 0;
         this._targetY = 0;
         this._force = this._get(properties, 'force', 10);
+        this._fightTicks = this._get(properties, 'fightTicks', 10);
     };
     p.getForce = function () {
         return this._force;
@@ -44,33 +45,24 @@ var Bullet = (function (_super) {
         this.setTargetPosition(target.getCenterX(), target.getCenterY());
     };
     p.setTargetPosition = function (targetX, targetY) {
-        this._targetX = targetX;
-        this._targetY = targetY;
-        this._computeSteps(this.x, this.y, this._targetX, this._targetY);
-        this._turn(this._direction4(targetX, targetY));
+        if (this._targetX != targetX || this._targetY != targetY) {
+            this._targetX = targetX;
+            this._targetY = targetY;
+            this._computeSteps(this.x, this.y, this._targetX, this._targetY);
+            this._turn(this._direction4(targetX, targetY));
+        }
     };
     p._moving = function () {
         if (this._moveOneStep()) {
             this.fight();
             this._hitTarget();
         }
-        else {
-            //如果目标移动，重新调整方向和路径
-            if (this._target && (this._targetX != this._target.x || this._targetY != this._target.y)) {
-                this.setTarget(this._target);
-            }
-        }
     };
     p._fighting = function () {
-        if (this._ticks > 3) {
-            this.kill();
+        this._ticks++;
+        if (this._ticks >= this._fightTicks) {
+            this.erase();
         }
-        else {
-            this._ticks++;
-        }
-    };
-    p._dying = function () {
-        this.erase();
     };
     p._hitTarget = function () {
     };

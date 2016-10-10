@@ -1,3 +1,4 @@
+//https://github.com/amibug/fly/blob/master/src/fly.js
 var CastBullet = (function (_super) {
     __extends(CastBullet, _super);
     function CastBullet() {
@@ -6,39 +7,58 @@ var CastBullet = (function (_super) {
     var d = __define,c=CastBullet,p=c.prototype;
     p.initialize = function (properties) {
         _super.prototype.initialize.call(this, properties);
-        this._flyHeight = this._get(properties, 'flyHeight', 25);
-        this._gravity = this._get(properties, 'gravity', 1);
-        this._flyTicks = 0;
+        this._startX = 0;
+        this._startY = 0;
+        this._curvature = 0;
+        this._vertexX = 0;
+        this._vertexY = 0;
     };
     p._idle = function () {
-        this._initX = this.x;
-        this._initY = this.y;
+        this._startX = this.x;
+        this._startY = this.y;
         _super.prototype._idle.call(this);
     };
-    p._computeSteps = function (x, y) {
-        this._stepX = (x - this._initX) / this._flyHeight;
-        this._stepY = ((y - this._initY) - (this._gravity * this._flyHeight * this._flyHeight / 2)) / this._flyHeight;
-        return this._stepX != 0 && this._stepY != 0;
+    p._computeSteps = function (x, y, targetX, targetY) {
+        this._targetX = targetX;
+        this._targetY = targetY;
+        this._vertexY = Math.min(this._startY, this._targetY) - Math.abs(this._startX - this._targetX) / 3;
+        if (this._vertexY < 20) {
+            // 可能出现起点或者终点就是运动曲线顶点的情况
+            this._vertexY = Math.min(20, Math.min(this._startY, this._targetY));
+        }
+        // 元素移动次数
+        var distance = Math.sqrt(Math.pow(this._startY - this._targetY, 2) + Math.pow(this._startX - this._targetX, 2));
+        this._totalSteps = Math.ceil(Math.min(Math.max(Math.log(distance) / 0.05 - 75, 30), 100) / this._moveSpeed);
+        var ratio = 0;
+        if (this._startY != this._vertexY) {
+            ratio = -Math.sqrt((this._targetY - this._vertexY) / (this._startY - this._vertexY));
+        }
+        this._vertexX = (ratio * this._startX - this._targetX) / (ratio - 1);
+        // 特殊情况，出现顶点left==终点left，将曲率设置为0，做直线运动。
+        this._curvature = 0;
+        if (this._targetX != this._vertexX) {
+            this._curvature = (this._targetY - this._vertexY) / Math.pow(this._targetX - this._vertexX, 2);
+        }
+        this._steps = -1;
+        return this._totalSteps > 0;
     };
     p._moveOneStep = function () {
-        this._flyTicks += 0.5;
-        this.x = this._initX + this._flyTicks * this._stepX;
-        this.y = this._initY + this._flyTicks * this._stepY + this._gravity * this._flyTicks * this._flyTicks / 2;
-        this._flyTicks += 0.5;
-        var sx = this._initX + this._flyTicks * this._stepX;
-        var sy = this._initY + this._flyTicks * this._stepY + this._gravity * this._flyTicks * this._flyTicks / 2;
-        var dx = sx - this.x;
-        var dy = sy - this.y;
-        this._flyTicks -= 0.5;
-        var angle = Math.atan2(dy, dx) * 180 / Math.PI + 180;
-        if (angle > 180 && angle < 360) {
-            var disx = this.x - this._target.x < 0 ? this._target.x - this.x : this.x - this._target.x;
-            var disy = this.y - this._target.y < 0 ? this._target.y - this.y : this.y - this._target.y;
-            if (disx <= this._stepX && disy < this._stepY) {
-                return true;
+        if (this._steps < this._totalSteps - 1) {
+            this.x = this._startX + (this._targetX - this._startX) * this._steps / this._totalSteps;
+            if (this._curvature == 0) {
+                this.y = this._startY + (this._targetY - this._startY) * this._steps / this._totalSteps;
             }
+            else {
+                this.y = this._curvature * Math.pow(this.x - this._vertexX, 2) + this._vertexY;
+            }
+            this._steps++;
+            return false;
         }
-        return false;
+        else {
+            this.x = this._targetX;
+            this.y = this._targetY;
+            return true;
+        }
     };
     return CastBullet;
 }(Bullet));

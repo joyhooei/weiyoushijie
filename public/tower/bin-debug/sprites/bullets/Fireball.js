@@ -2,8 +2,8 @@ var Fireball = (function (_super) {
     __extends(Fireball, _super);
     function Fireball() {
         _super.call(this);
-        this.addClip("fireball_moving", ["south-moving", "east-moving", "west-moving", "north-moving"])
-            .addClip("fireball_fighting", ["south-fighting", "east-fighting", "west-fighting", "north-fighting"]);
+        this.addAllClips("fireball_moving", "moving")
+            .addAllClips("fireball_fighting", "fighting");
     }
     var d = __define,c=Fireball,p=c.prototype;
     p.initialize = function (properties) {

@@ -138,12 +138,26 @@ var Entity = (function (_super) {
         }
         return this;
     };
+    p.addAllBitmaps = function (name, action) {
+        this.addBitmap(name, "east-" + action);
+        this.addBitmap(name, "west-" + action);
+        this.addBitmap(name, "north-" + action);
+        this.addBitmap(name, "south-" + action);
+        return this;
+    };
     p.addClip = function (name, action) {
         var clip = this._displays.addClip(name, action);
         if (clip && clip.width > 0 && clip.height > 0) {
             this.width = clip.width;
             this.height = clip.height;
         }
+        return this;
+    };
+    p.addAllClips = function (name, action) {
+        this.addClip(name, "east-" + action);
+        this.addClip(name, "west-" + action);
+        this.addClip(name, "north-" + action);
+        this.addClip(name, "south-" + action);
         return this;
     };
     p._play = function (display, times) {
