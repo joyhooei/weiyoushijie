@@ -183,6 +183,15 @@ class Entity extends egret.Sprite {
 
 		return this;
 	}
+	
+	public addAllBitmaps(name:string, action:string): Entity {
+		this.addBitmap(name, "east-" + action);
+		this.addBitmap(name, "west-" + action);
+		this.addBitmap(name, "north-" + action);
+		this.addBitmap(name, "south-" + action);
+		
+		return this;
+	}
 
 	public addClip(name:string, action?): Entity {
 		let clip = this._displays.addClip(name, action);
@@ -192,6 +201,15 @@ class Entity extends egret.Sprite {
 			this.height = clip.height;
 		}
 
+		return this;
+	}
+	
+	public addAllClips(name:string, action:string): Entity {
+		this.addClip(name, "east-" + action);
+		this.addClip(name, "west-" + action);
+		this.addClip(name, "north-" + action);
+		this.addClip(name, "south-" + action);
+		
 		return this;
 	}
     
