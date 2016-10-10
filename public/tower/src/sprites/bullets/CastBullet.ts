@@ -1,7 +1,8 @@
+//https://github.com/amibug/fly/blob/master/src/fly.js
 class CastBullet extends Bullet {
-	//y = a * x * x + b * x + c
-    protected _a: number;
-    protected _b: number;
+    protected _curvature: number;
+    protected _vertexX: number;
+	protected _vertexY: number;
 
 	protected _startX: number;
 	protected _startY: number;
@@ -13,8 +14,12 @@ class CastBullet extends Bullet {
     public initialize(properties:any) {
         super.initialize(properties);
 
-        this._a = 0.001;
-		this._b = 0;
+		this._startX = 0;
+		this._startY = 0;
+		
+        this._curvature = 0;
+		this._vertexX = 0;
+		this._vertexY = 0;
     }
 
 	protected _idle() {
@@ -25,42 +30,46 @@ class CastBullet extends Bullet {
 	}
     
     protected _computeSteps(x:number, y:number): boolean {
-		let dx = x - this.x;
-		let dy = this.y - y;
+		this._targetX = x;
+		this._targetY = y;
 		
-		if (Math.abs(dx) < this._moveSpeed && Math.abs(dy) < this._moveSpeed) {
-			return true;
-		} else {
-			this._b     = (dy - this._a * dx * dx) / dx;
-			this._rate  = dx > 0 ? 1: -1;
-			this._stepX = 0;
-
-        	return false;
+		this._vertexY = Math.min(this._startY, this._targetY) - Math.abs(this._startX - this._targetX) / 3;
+		if (this._vertexY < 20) {
+        	// 可能出现起点或者终点就是运动曲线顶点的情况
+        	this._vertexY = Math.min(20, Math.min(this._startY, this._targetY));
+      	}
+		
+        // 元素移动次数
+		let distance = Math.sqrt(Math.pow(this._startY - this._targetY, 2) + Math.pow(this._startX - this._targetX, 2));
+        this._totalSteps = Math.ceil(Math.min(Math.max(Math.log(distance) / 0.05 - 75, 30), 100) / this._moveSpeed);
+		
+		let ratio = 0;
+		if (this._startY != this._vertexY) {
+        	ratio = -Math.sqrt((this._targetY - this._vertexY) / (this._startY - this._vertexY));
 		}
+        this._vertexX = (ratio * this._startX - this._targetX) / (ratio - 1);
+			
+        // 特殊情况，出现顶点left==终点left，将曲率设置为0，做直线运动。
+        this._curvature = 0;
+		if (this._targetX != this._vertexX) {
+			this._curvature = (this._targetY - this._vertexY) / Math.pow(this._targetX - this._vertexX, 2);
+		}
+		
+		this._steps = -1;
+		return this._totalSteps > 0;
     }
     
     protected _moveOneStep():boolean {
-		// 切线 y=2ax+b
-		let stepY = 2 * this._a * this._stepX + this._b;
+		this.x = this._startX + (this._targetX - this._startX) * this._steps / this._totalSteps;
 		
-		let tan = stepY / (this._stepX + this._b / (2 * this._a));
-		
-		// y*y + x*x = speed * speed
-		// (tangent * x)^2 + x*x = speed * speed
-		// x = Math.sqr(speed / (tangent * tangent + 1));
-		this._stepX += this._rate * this._moveSpeed / Math.sqrt(tan * tan + 1);
-
-		// 防止过界
-		this.x = this._startX + this._stepX;
-		if ((this._rate == 1 && this.x > this._targetX) || (this._rate == -1 && this.x < this._targetX)) {
-			this.x = this._targetX;
-			this.y = this._targetY;
-			
-			return true;
+		if (this._curvature == 0) {
+			this.y = this._startY + (this._targetY - this._startY) * this._steps / this._totalSteps;
 		} else {
-			this.y = this._startY + this._a * this._stepX * this._stepX + this._b * this._stepX;
-
-			return false;
+			this.y = this._curvature * Math.pow(this.x - this._vertexX, 2) + this._vertexY;
 		}
+
+		this._steps++;
+		
+		return this._steps >= this._totalSteps - 1;
     }
 }
