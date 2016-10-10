@@ -241,6 +241,11 @@ class Entity extends egret.Sprite {
 			this._displaySprite.width  = display.width;
 			this._displaySprite.height = display.height;
 			
+			if (this.width > 0) {
+				this.x -= (display.width - this.width) / 2
+				this.y -= (display.height - this.height) / 2
+			}
+
 			this.width  = display.width;
 			this.height = display.height;			
         } else {

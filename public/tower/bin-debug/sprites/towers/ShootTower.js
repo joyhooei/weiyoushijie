@@ -13,8 +13,11 @@ var ShootTower = (function (_super) {
     };
     p.guard = function () {
         _super.prototype.guard.call(this);
-        var x = this.getCenterX() - 10;
-        var y = this.y + 10;
+        var x = this.getCenterX();
+        var y = this.y + 20;
+        this._addSoldier(x, y);
+    };
+    p._addSoldier = function (x, y) {
         this._soldier = application.pool.get(this._soldierClaz, { guardRadius: this._guardRadius });
         this._soldier.setCenterX(x);
         this._soldier.setBottomY(y);
