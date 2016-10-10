@@ -6,8 +6,8 @@ class Bullet extends MovableEntity {
     
     protected _force: number;
     
-    public static shootAtNPC(sourceX: number, sourceY: number, target: NPC, claz:string): Bullet {
-        let bullet = <Bullet>application.pool.get(claz);
+    public static shootAtNPC(sourceX: number, sourceY: number, target: NPC, claz:string, properties?): Bullet {
+        let bullet = <Bullet>application.pool.get(claz, properties);
         bullet.x = sourceX;
         bullet.y = sourceY;
         bullet.setTarget(target);
@@ -16,8 +16,8 @@ class Bullet extends MovableEntity {
         return bullet;
     }
     
-    public static shootByNPC(shooter: NPC, target: NPC, claz:string): Bullet {
-        let bullet = <Bullet>application.pool.get(claz);
+    public static shootByNPC(shooter: NPC, target: NPC, claz:string, properties?): Bullet {
+        let bullet = <Bullet>application.pool.get(claz, properties);
         bullet.x = shooter.getCenterX();
         bullet.y = shooter.getCenterY();
         bullet.setTarget(target);
@@ -26,8 +26,8 @@ class Bullet extends MovableEntity {
         return bullet;
     }
     
-    public static shoot(sourceX: number, sourceY: number, targetX: number, targetY: number, claz:string): Bullet {
-        let bullet = <Bullet>application.pool.get(claz);
+    public static shoot(sourceX: number, sourceY: number, targetX: number, targetY: number, claz:string, properties?): Bullet {
+        let bullet = <Bullet>application.pool.get(claz, properties);
         bullet.setCenterX(sourceX);
         bullet.setCenterY(sourceY);
         bullet.setTargetPosition(targetX - bullet.width / 2, targetY - bullet.height / 2);
