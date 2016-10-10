@@ -17,5 +17,14 @@ class Arrow extends CastBullet {
         } else {
             this._missing = true;
         }
-    }    
+    }
+
+    protected _moveOneStep():boolean {
+        let dx: number = this._startX - this.x;
+        let dy: number = this._startY - this.y;
+        let angel: number = Math.atan2(dy,dx);
+        this.rotation = angel * 180 / Math.PI + 180;
+        
+        return super._moveOneStep();
+    }
 }
