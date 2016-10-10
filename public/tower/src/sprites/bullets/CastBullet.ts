@@ -40,13 +40,13 @@ class CastBullet extends Bullet {
     }
     
     protected _moveOneStep():boolean {
-		// 切线 y'=2ax+b
-		let y = 2 * this._a * this._stepX + this._b;
+		// 切线 y=2ax+b
+		let stepY = 2 * this._a * this._stepX + this._b;
 		
-		// y*y + x*x = speed
-		// (tangent * x)^2 + x*x = speed
+		// y*y + x*x = speed * speed
+		// (tangent * x)^2 + x*x = speed * speed
 		// x = Math.sqr(speed / (tangent * tangent + 1));
-		this._stepX += this._rate * Math.sqrt(this._moveSpeed / (y * y + 1));
+		this._stepX += this._rate * this._moveSpeed * Math.sqrt( 1 / ((stepY * stepY) / (this._stepX * this._stepX) + 1));
 
 		// 防止过界
 		this.x = this._startX + this._stepX;
