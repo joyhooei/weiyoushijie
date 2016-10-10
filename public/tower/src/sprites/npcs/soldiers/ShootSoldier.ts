@@ -33,7 +33,7 @@ class ShootSoldier extends Soldier {
             }
 
             if (this._enemy) {
-                Bullet.shootByNPC(this, this._enemy, this._bulletClaz);
+                Bullet.shootByNPC(this, this._enemy, this._bulletClaz, {force: this._force});
                 
                 this._ticks++;
             } else {
