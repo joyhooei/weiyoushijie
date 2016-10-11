@@ -31,20 +31,20 @@ class Character {
             {name: 'Battle15',  properties:{lives: 20, golds:1000}},
             
             //heros
-            {name: 'Sunwukong',  properties:{hp:245, forceHigh:10, forceLow:6, armor: 15, cureSpeed:1, moveSpeed:1, idleTicks: 20 * application.frameRate, guardRadius: 50, guardAltitude:[-1, 0]}},
-            {name: 'Zhubajie',   properties:{hp:245, forceHigh:10, forceLow:6, armor: 15, cureSpeed:1, moveSpeed:1, idleTicks: 20 * application.frameRate, guardRadius: 50, guardAltitude:[-1, 0]}},
-            {name: 'Shaseng',    properties:{hp:245, forceHigh:10, forceLow:6, armor: 15, cureSpeed:1, moveSpeed:1, idleTicks: 20 * application.frameRate, guardRadius: 50, guardAltitude:[-1, 0]}},
+            {name: 'Sunwukong',  properties:{hp:245, forceHigh:10, forceLow:6, armor: 15, magicArmor: 15, cureSpeed:1, moveSpeed:1, idleTicks: 20 * application.frameRate, guardRadius: 50, guardAltitude:[-1, 0]}},
+            {name: 'Zhubajie',   properties:{hp:245, forceHigh:10, forceLow:6, armor: 15, magicArmor: 15, cureSpeed:1, moveSpeed:1, idleTicks: 20 * application.frameRate, guardRadius: 50, guardAltitude:[-1, 0]}},
+            {name: 'Shaseng',    properties:{hp:245, forceHigh:10, forceLow:6, armor: 15, magicArmor: 15, cureSpeed:1, moveSpeed:1, idleTicks: 20 * application.frameRate, guardRadius: 50, guardAltitude:[-1, 0]}},
 
             //soldiers
-            {name: 'Reinforce', properties:{hp:100, force:6, armor: 0, cureSpeed:1, moveSpeed:1, liveTicks: 20 * application.frameRate, guardRadius: 40, guardAltitude:[-1, 0]}},
-            {name: 'Warrior',   properties:{hp:100, force:6, armor: 0, cureSpeed:1, moveSpeed:1, liveTicks: 8 * application.frameRate, guardRadius: 40, guardAltitude:[-1, 0]}},
+            {name: 'Reinforce', properties:{hp:100, force:6, armor: 0, magicArmor: 0, cureSpeed:1, moveSpeed:1, liveTicks: 20 * application.frameRate, guardRadius: 40, guardAltitude:[-1, 0]}},
+            {name: 'Warrior',   properties:{hp:100, force:6, armor: 0, magicArmor: 0, cureSpeed:1, moveSpeed:1, liveTicks: 8 * application.frameRate, guardRadius: 40, guardAltitude:[-1, 0]}},
 
             //守护塔士兵
-            {name: 'Soldier1',  properties:{hp:50, force:3, armor: 0, cureSpeed:1, moveSpeed:1, guardAltitude:[-1, 0]}},
-            {name: 'Soldier2',  properties:{hp:50, force:6, armor: 0, cureSpeed:1, moveSpeed:1, guardAltitude:[-1, 0]}},
-            {name: 'Soldier3',  properties:{hp:50, force:9, armor: 0, cureSpeed:1, moveSpeed:1, guardAltitude:[-1, 0]}},
-            {name: 'Soldier4',  properties:{hp:50, force:12, armor: 0, cureSpeed:1, moveSpeed:1, guardAltitude:[-1, 0]}},
-            {name: 'Soldier5',  properties:{hp:50, force:15, armor: 0, cureSpeed:1, moveSpeed:1, guardAltitude:[-1, 0]}},
+            {name: 'Soldier1',  properties:{hp:50, force:3, armor: 0, magicArmor: 0, cureSpeed:1, moveSpeed:1, guardAltitude:[-1, 0]}},
+            {name: 'Soldier2',  properties:{hp:50, force:6, armor: 0, magicArmor: 3, cureSpeed:1, moveSpeed:1, guardAltitude:[-1, 0]}},
+            {name: 'Soldier3',  properties:{hp:50, force:9, armor: 0, magicArmor: 6, cureSpeed:1, moveSpeed:1, guardAltitude:[-1, 0]}},
+            {name: 'Soldier4',  properties:{hp:50, force:12, armor: 0, magicArmor: 9, cureSpeed:1, moveSpeed:1, guardAltitude:[-1, 0]}},
+            {name: 'Soldier5',  properties:{hp:50, force:15, armor: 0, magicArmor: 12, cureSpeed:1, moveSpeed:1, guardAltitude:[-1, 0]}},
             
             //炮塔士兵
             {name: 'BombSoldier1',  properties:{force:6, armor: 0, cureSpeed:1, moveSpeed:1, guardAltitude:[0]}},
@@ -89,9 +89,9 @@ class Character {
             {name: 'MagicTower5',  properties:{force: 80, guardRadius: 220, price: 730}},            
 
             //enemies
-            {name: 'Hogs',  properties:{bonus:10, hp:100, force:6, cureSpeed:0, moveSpeed:1, idleTicks:0, dyingTicks:10}},
-            {name: 'Rhino', properties:{bonus:10, hp:100, force:6, cureSpeed:0, moveSpeed:1, idleTicks:0, dyingTicks:10}},
-            {name: 'Wolf',  properties:{bonus:10, hp:100, force:6, cureSpeed:0, moveSpeed:1, idleTicks:0, dyingTicks:10}},
+            {name: 'Hogs',  properties:{bonus:10, hp:100, force:6, armor: 0, magicArmor: 0, cureSpeed:0, moveSpeed:1, idleTicks:0, dyingTicks:10}},
+            {name: 'Rhino', properties:{bonus:10, hp:100, force:6, armor: 0, magicArmor: 0, cureSpeed:0, moveSpeed:1, idleTicks:0, dyingTicks:10}},
+            {name: 'Wolf',  properties:{bonus:10, hp:100, force:6, armor: 0, magicArmor: 0, cureSpeed:0, moveSpeed:1, idleTicks:0, dyingTicks:10}},
 
             //bullets
             {name: 'Fireball',  properties:{force:500, hitType:HitType.normal, hitRadius:50, moveSpeed:5, idleTicks:0, fightTicks: 10, dyingTicks:0}},
