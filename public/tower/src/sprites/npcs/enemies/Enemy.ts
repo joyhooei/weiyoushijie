@@ -33,6 +33,13 @@ class Enemy extends NPC {
 
 	public frozen() {
 		this._frozenTicks = 3 * application.frameRate;
+		
+		let display = this.getCurrentDisplay();
+		if (display) {
+			if (egret.getQualifiedClassName(display) == "egret.MovieClip") {
+				(<egret.MovieClip>display).stop();
+			}
+		}
 	}
 
 	public update():boolean {
@@ -40,6 +47,15 @@ class Enemy extends NPC {
 			return super.update();
 		} else {
 			this._frozenTicks --;
+			
+			if (this._frozenTicks <= 0) {
+				let display = this.getCurrentDisplay();
+				if (display) {
+					if (egret.getQualifiedClassName(display) == "egret.MovieClip") {
+						(<egret.MovieClip>display).play();
+					}
+				}
+			}
 			
 			return false;
 		}
