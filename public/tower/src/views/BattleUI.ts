@@ -88,6 +88,7 @@ class BattleUI extends AbstractUI {
 
 			application.showUI(new BattleOptionUI(function(){
 				application.battle = <Battle>application.pool.get(application.battle.getClaz());
+				self.grpBattle.addChild(application.battle);
 				self._readyBattle();
 			}, function(){
 				self._quitBattle();
