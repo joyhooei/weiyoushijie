@@ -324,8 +324,8 @@ class Battle extends Entity implements SoldierCreator {
         }
     }
     
-    public launch(wave: number, queue:number) {
-        this._waves.launchQueue(wave, queue);
+    public launch(wave: number, path:number) {
+        this._waves.launchPath(wave, path);
     }
     
     public _fighting() {
