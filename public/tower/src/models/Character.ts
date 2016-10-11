@@ -94,22 +94,22 @@ class Character {
             {name: 'Wolf',  properties:{bonus:10, hp:100, force:6, cureSpeed:0, moveSpeed:1, idleTicks:0, dyingTicks:10}},
 
             //bullets
-            {name: 'Fireball',  properties:{force:500, hitRadius:50, moveSpeed:5, idleTicks:0, fightTicks: 10, dyingTicks:0}},
+            {name: 'Fireball',  properties:{force:500, hitType:HitType.normal, hitRadius:50, moveSpeed:5, idleTicks:0, fightTicks: 10, dyingTicks:0}},
             
             //炮塔炮弹
-            {name: 'Bomb1',     properties:{force:20, hitRadius:50, moveSpeed:5, idleTicks:0, fightTicks: 10, dyingTicks:0}},
-            {name: 'Bomb2',     properties:{force:30, hitRadius:50, moveSpeed:5, idleTicks:0, fightTicks: 10, dyingTicks:0}},
-            {name: 'Bomb3',     properties:{force:40, hitRadius:50, moveSpeed:5, idleTicks:0, fightTicks: 10, dyingTicks:3 * application.frameRate}},
-            {name: 'Bomb4',     properties:{force:30, hitRadius:50, moveSpeed:5, idleTicks:0, fightTicks: 10, dyingTicks:0}},
-            {name: 'Bomb5',     properties:{force:30, hitRadius:50, moveSpeed:5, idleTicks:0, fightTicks: 10, dyingTicks:0}},
+            {name: 'Bomb1',     properties:{force:20, hitType:HitType.normal, hitRadius:50, moveSpeed:5, idleTicks:0, fightTicks: 10, dyingTicks:0}},
+            {name: 'Bomb2',     properties:{force:30, hitType:HitType.normal, hitRadius:50, moveSpeed:5, idleTicks:0, fightTicks: 10, dyingTicks:0}},
+            {name: 'Bomb3',     properties:{force:40, hitType:HitType.normal, hitRadius:50, moveSpeed:5, idleTicks:0, fightTicks: 10, dyingTicks:3 * application.frameRate}},
+            {name: 'Bomb4',     properties:{force:30, hitType:HitType.normal, hitRadius:50, moveSpeed:5, idleTicks:0, fightTicks: 10, dyingTicks:0}},
+            {name: 'Bomb5',     properties:{force:30, hitType:HitType.normal, hitRadius:50, moveSpeed:5, idleTicks:0, fightTicks: 10, dyingTicks:0}},
             
             //弓箭
-            {name: 'Arrow1',    properties:{force:8,  moveSpeed:5, idleTicks:0, fightTicks: 10, dyingTicks:0}},
-            {name: 'Arrow4',    properties:{force:24, moveSpeed:5, idleTicks:0, fightTicks: 10, dyingTicks:0}},
-            {name: 'Arrow5',    properties:{force:24, moveSpeed:5, idleTicks:0, fightTicks: 10, dyingTicks:0}},
+            {name: 'Arrow1',    properties:{force:8,  hitType:HitType.normal,moveSpeed:5, idleTicks:0, fightTicks: 10, dyingTicks:0}},
+            {name: 'Arrow4',    properties:{force:24, hitType:HitType.normal,moveSpeed:5, idleTicks:0, fightTicks: 10, dyingTicks:0}},
+            {name: 'Arrow5',    properties:{force:24, hitType:HitType.normal,moveSpeed:5, idleTicks:0, fightTicks: 10, dyingTicks:0}},
             
             //魔法塔魔法
-            {name: 'Magic1',    properties:{moveSpeed:5, idleTicks:0, fightTicks: 10, dyingTicks:0}},
+            {name: 'Magic1',    properties:{hitType:HitType.magic, moveSpeed:5, idleTicks:0, fightTicks: 10, dyingTicks:0}},
         ]; 
 
         for(let i = 0; i < config.length; i++) {
