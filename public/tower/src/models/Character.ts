@@ -105,8 +105,6 @@ class Character {
             
             //弓箭
             {name: 'Arrow1',    properties:{force:8,  moveSpeed:5, idleTicks:0, fightTicks: 10, dyingTicks:0}},
-            {name: 'Arrow2',    properties:{force:12, moveSpeed:5, idleTicks:0, fightTicks: 10, dyingTicks:0}},
-            {name: 'Arrow3',    properties:{force:16, moveSpeed:5, idleTicks:0, fightTicks: 10, dyingTicks:0}},
             {name: 'Arrow4',    properties:{force:24, moveSpeed:5, idleTicks:0, fightTicks: 10, dyingTicks:0}},
             {name: 'Arrow5',    properties:{force:24, moveSpeed:5, idleTicks:0, fightTicks: 10, dyingTicks:0}},
             
