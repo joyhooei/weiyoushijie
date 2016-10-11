@@ -170,7 +170,9 @@ class Entity extends egret.Sprite {
 
     //根据状态、面向修改重新渲染
     public paint() {
-    	this._play(this._render(), -1);
+		if (this._state > EntityState.idle && this._state < EntityState.dead) {
+    		this._play(this._render(), -1);
+		}
     }
 
 	public addBitmap(name:string, action?): Entity {
