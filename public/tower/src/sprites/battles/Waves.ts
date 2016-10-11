@@ -17,23 +17,21 @@ class Waves {
     private _launching: boolean;
     
     public constructor(mapWidth: number, mapHeight: number) {
-        this._paths = [];
-        
-        this._enemies = [];
-        this._currentWave = -1;
-        
-        this._timeBetweenWaves = 10 * application.frameRate;
-        
-        this._rounds = 0;
-
-        this._launching = false;
-        
         this._mapWidth  = mapWidth;
         this._mapHeight = mapHeight;
     }
 
     public setPaths(paths: number[][][]) {
         this._paths = paths;
+        
+        this._enemies = [];
+        this._currentWave = -1;
+        
+        this._rounds = 0;
+
+        this._timeBetweenWaves = 10 * application.frameRate;
+        
+        this._launching = false;
     }
     
     public getCurrentWave(): number {
