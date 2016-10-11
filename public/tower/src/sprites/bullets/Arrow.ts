@@ -1,10 +1,6 @@
 class Arrow extends CastBullet {
     protected _missing: boolean;
     
-    public constructor() {
-        super();
-    }
-    
     public initialize(properties:any) {
         super.initialize(properties);
 
@@ -16,6 +12,14 @@ class Arrow extends CastBullet {
             this._target.shootBy(this);
         } else {
             this._missing = true;
+        }
+    }
+
+    protected _fighting() {
+        if (this._missing) {
+            super._fighting();
+        } else {
+            this.erase();
         }
     }
 
