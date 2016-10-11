@@ -43,33 +43,13 @@ class UpgradeTowerUI extends AbstractUI{
         application.dao.addEventListener("Battle",function(evt: egret.Event) {
             this.refresh();
         },this);
-		
-		this.addEventListener(egret.TouchEvent.TOUCH_TAP,(e:egret.TouchEvent) => {
-			if (this.imgFlag.visible) {
-    	        let x = Math.round(e.localX) + this.x;
-                let y = Math.round(e.localY) + this.y;
 			
-				this.imgFlag.x = x - this.x - this.imgFlag.width / 2;
-				this.imgFlag.y = y - this.y - this.imgFlag.height / 2;
-				
-				let soldierTower = <SoldierTower>this._tower;
-			
-				if (x != soldierTower.getGuardX() || y != soldierTower.getGuardY()) {
-					soldierTower.guardAt(x, y);
-					
-					if (this._nextLevelTower1) {
-						(<SoldierTower>this._nextLevelTower1).guardAt(x, y);
-					}
-					
-					if (this._nextLevelTower2) {
-						(<SoldierTower>this._nextLevelTower2).guardAt(x, y);
-					}
-				}
-			} else {
-				application.hideUI(this);
-			}
+		this.imgFlag.addEventListener(egret.TouchEvent.TOUCH_TAP,() => {
+			(<SoldierTower>this._tower).showFlag();
+
+	        application.hideUI(this);
 		}, this);
-		
+			
 		this.imgSell.addEventListener(egret.TouchEvent.TOUCH_TAP,() => {
 			this._base.setTower(null);
 
@@ -105,18 +85,7 @@ class UpgradeTowerUI extends AbstractUI{
 
     protected onRefresh() {
 		if (this._tower.getSuperClaz() == "SoldierTower") {
-			let soldierTower = <SoldierTower>this._tower;
-			
-			this.imgFlag.x = soldierTower.getGuardX() - this.x - this.imgFlag.width / 2;
-			this.imgFlag.y = soldierTower.getGuardY() - this.y - this.imgFlag.height / 2;
-			
-			if (this._nextLevelTower1) {
-				(<SoldierTower>this._nextLevelTower1).guardAt(soldierTower.getGuardX(), soldierTower.getGuardY());
-			}
-			
-			if (this._nextLevelTower2) {
-				(<SoldierTower>this._nextLevelTower2).guardAt(soldierTower.getGuardX(), soldierTower.getGuardY());
-			}
+			this.imgFlag.visible = true;
 		} else {
 			this.imgFlag.visible = false;
 		}
