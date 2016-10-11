@@ -33,7 +33,7 @@ class Character {
             //heros
             {name: 'Sunwukong',  properties:{hp:245, forceHigh:10, forceLow:6, armor: 15, cureSpeed:1, moveSpeed:1, idleTicks: 20 * application.frameRate, guardRadius: 50, guardAltitude:[-1, 0]}},
             {name: 'Zhubajie',   properties:{hp:245, forceHigh:10, forceLow:6, armor: 15, cureSpeed:1, moveSpeed:1, idleTicks: 20 * application.frameRate, guardRadius: 50, guardAltitude:[-1, 0]}},
-            {name: 'Shaheshang', properties:{hp:245, forceHigh:10, forceLow:6, armor: 15, cureSpeed:1, moveSpeed:1, idleTicks: 20 * application.frameRate, guardRadius: 50, guardAltitude:[-1, 0]}},
+            {name: 'Shaseng',    properties:{hp:245, forceHigh:10, forceLow:6, armor: 15, cureSpeed:1, moveSpeed:1, idleTicks: 20 * application.frameRate, guardRadius: 50, guardAltitude:[-1, 0]}},
 
             //soldiers
             {name: 'Reinforce', properties:{hp:100, force:6, armor: 0, cureSpeed:1, moveSpeed:1, liveTicks: 20 * application.frameRate, guardRadius: 40, guardAltitude:[-1, 0]}},
