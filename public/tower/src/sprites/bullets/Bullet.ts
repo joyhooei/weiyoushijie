@@ -1,3 +1,12 @@
+enum HitType {
+    //物理伤害，可以被护甲armor减少
+    normal = 0,
+    //魔法伤害，可以被魔抗magicArmor减少
+    magic,
+    //真实伤害，无视护甲和魔抗
+    damage
+};
+
 class Bullet extends MovableEntity {
     protected _target: NPC;
     
@@ -5,6 +14,8 @@ class Bullet extends MovableEntity {
     protected _targetY: number;
     
     protected _force: number;
+
+    protected _hitType: number;
 
     protected _fightTicks: number;
     
@@ -52,13 +63,19 @@ class Bullet extends MovableEntity {
         this._targetY = 0;
 
         this._force = this._get(properties, 'force', 10);
-        
+ 
+        this._hitType = this._get(properties, 'hitType', HitType.normal);
+       
         this._fightTicks = this._get(properties, 'fightTicks', 10);
     }
     
     public getForce(): number {
     	return this._force;
-    }    
+    }
+
+    public getHitType(): HitType {
+        return this._hitType;
+    }
 
     public setTarget(target: NPC) {
         this._target  = target;
