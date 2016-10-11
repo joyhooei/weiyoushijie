@@ -49,21 +49,22 @@ class UpgradeTowerUI extends AbstractUI{
     	        let x = Math.round(e.localX) + this.x;
                 let y = Math.round(e.localY) + this.y;
 			
-				this.imgFlag.x = x - this.imgFlag.height - this.x;
-				this.imgFlag.y = y - this.imgFlag.width / 2 - this.y;
+				this.imgFlag.x = x - this.x - this.imgFlag.width / 2;
+				this.imgFlag.y = y - this.y - this.imgFlag.height / 2;
 				
 				let soldierTower = <SoldierTower>this._tower;
 			
 				if (x != soldierTower.getGuardX() || y != soldierTower.getGuardY()) {
 					soldierTower.guardAt(x, y);
+					
 					if (this._nextLevelTower1) {
 						(<SoldierTower>this._nextLevelTower1).guardAt(x, y);
 					}
+					
 					if (this._nextLevelTower2) {
 						(<SoldierTower>this._nextLevelTower2).guardAt(x, y);
 					}
 				}
-
 			} else {
 				application.hideUI(this);
 			}
@@ -106,8 +107,8 @@ class UpgradeTowerUI extends AbstractUI{
 		if (this._tower.getSuperClaz() == "SoldierTower") {
 			let soldierTower = <SoldierTower>this._tower;
 			
-			this.imgFlag.x = soldierTower.getGuardX() - this.imgFlag.height - this.x;
-			this.imgFlag.y = soldierTower.getGuardY() - this.imgFlag.width / 2 - this.y;
+			this.imgFlag.x = soldierTower.getGuardX() - this.x - this.imgFlag.width / 2;
+			this.imgFlag.y = soldierTower.getGuardY() - this.y - this.imgFlag.height / 2;
 			
 			if (this._nextLevelTower1) {
 				(<SoldierTower>this._nextLevelTower1).guardAt(soldierTower.getGuardX(), soldierTower.getGuardY());
