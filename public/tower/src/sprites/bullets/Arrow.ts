@@ -20,10 +20,9 @@ class Arrow extends CastBullet {
     }
 
     protected _moveOneStep():boolean {
-        let dx: number = this._startX - this.x;
-        let dy: number = this.y - this._startY;
-        let angel: number = Math.atan2(dy, dx);
-        this.rotation = angel * 180 / Math.PI + 180;
+        let dx: number = this.x - this._startX;
+        let dy: number = this._startY - this.y;
+        this.rotation = Math.atan2(dy, dx) * 180 / Math.PI + 180;
         
         return super._moveOneStep();
     }
