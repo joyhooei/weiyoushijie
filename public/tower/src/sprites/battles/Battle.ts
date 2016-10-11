@@ -255,8 +255,8 @@ class Battle extends Entity implements SoldierCreator {
     protected _addEffects() {
     }
 
-    protected _addWave(wave: number, claz: string, quantity: number, path: number) {
-        this._waves.add(wave, claz, quantity, path);
+    protected _addWave(wave: number, claz: string, count: number, path: number) {
+        this._waves.add(wave, claz, count, path);
     }
     
     protected _addBasesByName(name:string) {
