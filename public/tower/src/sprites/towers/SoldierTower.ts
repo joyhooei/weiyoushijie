@@ -5,6 +5,8 @@ class SoldierTower extends Tower implements SoldierCreator {
     protected _soldierClaz: string;
     
     protected _soldiers: Soldier[];
+    
+    protected _flag: FlagTip;
 
     public constructor() {
         super();
@@ -25,6 +27,29 @@ class SoldierTower extends Tower implements SoldierCreator {
      
     public getGuardY(): number {
         return this._guardY;
+    }
+    
+    public showFlag() {
+        this._range = <GuardRange>application.pool.get("GuardRange", {guardRadius: this._guardRadius});
+        this._range.x = this.getCenterX() - this._guardRadius;
+        this._range.y = this.getCenterY() - this._guardRadius;
+        this._range.width  = this._guardRadius << 1;
+        this._range.height = this._guardRadius << 1;
+        application.battle.addEntity(this._range);
+        
+        this._flag = <FlagTip>application.pool.get("FlagTip");
+        this._flag.setCenterX(this._guardX);
+        this._flag.setCenterY(this._guardY);
+        application.battle.addEntity(this._flag);
+    }
+
+    public deselect() {
+        super.deselect();
+        
+        if (this._flag) {
+            this._flag.erase();
+            this._flag = null;
+        }
     }
     
     public createSoldier(soldier: Soldier): Soldier {
