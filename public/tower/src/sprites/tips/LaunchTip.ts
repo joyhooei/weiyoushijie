@@ -24,13 +24,12 @@ class LaunchTip extends Tip {
     }
 
     public select(again:boolean) {
-        if (again) {
-            this.erase();
+        this.erase();
 
-            application.battle.launch(this._wave, this._path);
-        } else {
-            Toast.launch("再次点击开始下一波");
-        }
+        application.battle.launch(this._wave, this._path);
+        
+        let gold = Math.round(50 * (this._dyingTicks - this._ticks) / this._dyingTicks);
+        application.battle.incGolds(gold);
     }
     
     protected _dying() {
