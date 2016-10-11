@@ -4,7 +4,9 @@ class Waves {
     
     private _rounds: number;
     
-    private _enemies: any[][];
+    private _enemies: Queue[][][];
+
+    private _paths: number[][][];
     
     //当前一波敌人
     private _currentWave: number;
@@ -15,6 +17,8 @@ class Waves {
     private _launching: boolean;
     
     public constructor(mapWidth: number, mapHeight: number) {
+        this._paths = [];
+        
         this._enemies = [];
         this._currentWave = -1;
         
@@ -27,104 +31,48 @@ class Waves {
         this._mapWidth  = mapWidth;
         this._mapHeight = mapHeight;
     }
+
+    public setPaths(paths: number[][][]) {
+        this._paths = paths;
+    }
     
     public getCurrentWave(): number {
         return this._rounds * this._enemies.length + this._currentWave;
     }
     
-    public add(wave:number, claz:string, count:number, paths:number[][]) {
+    public add(wave:number, claz:string, count:number, path: number) {
         this._enemies[wave] = this._enemies[wave] || [];
-        this._enemies[wave].push([count, claz, paths, 0]);
+        this._enemies[wave][path] = this._enemies[wave][path] || [];
+        
+        this._enemies[wave][path].push(new Queue(claz, count));
     }
     
-    private _randomPaths(paths: number[][]): number[][]{
-        let pathWidth = 30;
-        let enemyInterval = 20;
-        
-        let entityWidth = 30;
-        
-        let deltaY = Math.random() * pathWidth - pathWidth / 2;
-        let deltaX = Math.random() * pathWidth - pathWidth / 2;
-        
-        let newPaths = [];
-        
-        let direction = Entity.direction4(paths[0][0], paths[0][1], paths[1][0], paths[1][1]);
-        switch(direction) {
-            case EntityDirection.east:
-                newPaths.push([-entityWidth, paths[0][1] + deltaY]);
-                break;
-                
-            case EntityDirection.west:
-                newPaths.push([this._mapWidth + entityWidth, paths[0][1] + deltaY]);
-                break;
-                
-            case EntityDirection.south:
-                newPaths.push([paths[0][0] + deltaX, -entityWidth]);
-                break;
-                
-            case EntityDirection.north:
-                newPaths.push([paths[0][0] + deltaX, this._mapHeight + entityWidth]);
-                break;
-        }
-        
-        for(let j = 1; j < paths.length - 1; j++) {
-            newPaths.push([paths[j][0] + deltaX, paths[j][1] + deltaY]);
-        }
-        
-        direction = Entity.direction4(paths[paths.length - 2][0], paths[paths.length - 2][1], paths[paths.length - 1][0], paths[paths.length - 1][1]);
-        switch(direction) {
-            case EntityDirection.east:
-                newPaths.push([this._mapWidth, paths[paths.length - 1][1] + deltaY]);        
-                break;
-                
-            case EntityDirection.west:
-                newPaths.push([0, paths[paths.length - 1][1] + deltaY]);        
-                break;
-                
-            case EntityDirection.north:
-                 newPaths.push([paths[paths.length - 1][0] + deltaX, 0]);
-                 break;
-                 
-            case EntityDirection.south:
-                newPaths.push([paths[paths.length - 1][0] + deltaX, this._mapHeight]);
-                break;
-        }
-        
-        
-        return newPaths;
-    }
-
     public launchFirst() {
         this._currentWave = 0;
         
         let wave = this._enemies[this._currentWave];
-        for(let i = 0; i < wave.length; i++) {
-            this.launchQueue(this._currentWave, i);
+        for(let path = 0; path < wave.length; path++) {
+            this.launchPath(this._currentWave, path);
         }
     }
 
-    public launchQueue(w: number, q:number) {
-        let wave = this._enemies[w];
-        if (wave[q][3] == 1) {
-            return;
-        }
-
-        let count = <number>wave[q][0] * (1 + this._rounds * 0.5);
-        let claz  = <string>wave[q][1];
-        let paths = <number[][]>wave[q][2];
-        for(let j = 0; j < count; j++) {
-            let enemy = <Enemy>application.pool.get(claz, {"paths": this._randomPaths(paths)});
-            application.battle.addEnemy(enemy);
-        }
-
-        wave[q][3] = 1;
-
-        //检查是否本波所有怪物都已经出来了
-        for(let i = 0; i < wave.length; i++) {
-            if (wave[i][3] != 1) {
-                return;
+    public launchPath(wave: number, path:number) {
+        let queues:Queue[] = this._enemies[wave][path];
+        for(let q = 0; q < queues.length; q++) {
+            if (!queues[q].launched()) {
+                queues[q].launch(this._paths[path], q * (application.frameRate << 2));
             }
         }
+
+        //检查是否本波所有怪物都已经出来了
+        for(let p = 0; p < this._enemies[wave].length; p++) {
+            for(let q = 0; q < this._enemies[wave][p].length; q++) {
+                if (!this._enemies[wave][p][q].launched()) {
+                    return;
+                }
+            }
+        }
+        
         this._launching = false;
     }
     
@@ -136,28 +84,29 @@ class Waves {
         this._launching = true;
         
         let wave = this._enemies[this._currentWave];
-        for(let i = 0; i < wave.length; i++) {
-            let paths = <number[][]>wave[i][2];
-            let tip = <Tip>application.pool.get("LaunchTip", {dyingTicks:this._timeBetweenWaves, queue: i, wave: this._currentWave});
-            let direction = Entity.direction4(paths[0][0], paths[0][1], paths[1][0], paths[1][1]);
+        for(let p = 0; p < wave.length; p++) {
+            let tip = <Tip>application.pool.get("LaunchTip", {dyingTicks:this._timeBetweenWaves, path: p, wave: this._currentWave});
+
+            let path = this._paths[p];
+            let direction = Entity.direction4(path[0][0], path[0][1], path[1][0], path[1][1]);
             switch(direction) {
                 case EntityDirection.east:
                     tip.x = 20;
-                    tip.y = paths[0][1];
+                    tip.y = path[0][1];
                     break;
                     
                 case EntityDirection.west:
                     tip.x = this._mapWidth - tip.width - 20;
-                    tip.y = paths[0][1];
+                    tip.y = path[0][1];
                     break;
                     
                 case EntityDirection.north:
-                    tip.x = paths[0][0];
+                    tip.x = path[0][0];
                     tip.y = this._mapHeight - tip.height - 20;
                     break;
                     
                 case EntityDirection.south:
-                    tip.x = paths[0][0];
+                    tip.x = path[0][0];
                     tip.y = 20;
                     break;
             }
@@ -175,8 +124,10 @@ class Waves {
                 this._rounds += 1;
                 
                 for(let w = 0; w < this._enemies.length; w++) {
-                    for(let q = 0; q < this._enemies[w].length; q++) {
-                        this._enemies[w][q][3] = 0;
+                    for(let p = 0; p < this._enemies[w].length; p++) {
+                        for(let q = 0; q < this._enemies[w][p]; q++) {
+                            this._enemies[w][p][q].cycle();
+                        }
                     }
                 }
             } else {
