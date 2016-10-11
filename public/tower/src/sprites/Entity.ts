@@ -225,6 +225,14 @@ class Entity extends egret.Sprite {
         
         return null;
     }
+	
+	protected getCurrentDisplay(): egret.DisplayObject {
+		if (this._displaySprite.numChildren > 0) {
+			return this._displaySprite.getChildAt(0);
+		} else {
+			return null;
+		}
+	}
     
     protected _render(xDelta = 0, yDelta = 0, idx = 0): egret.DisplayObject {
 		let display = this._displays.getDisplay(this._direction, this._state, idx);
