@@ -24,12 +24,12 @@ class LaunchTip extends Tip {
     }
 
     public select(again:boolean) {
-        this.erase();
-
         application.battle.launch(this._wave, this._path);
         
         let gold = Math.round(50 * (this._dyingTicks - this._ticks) / this._dyingTicks);
         application.battle.incGolds(gold);
+        
+        this.erase();
     }
     
     protected _dying() {
