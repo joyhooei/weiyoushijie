@@ -159,20 +159,22 @@ class Battle extends Entity implements SoldierCreator {
                         
                         this._toolItem = null;
                     } else if (this._focus) {
-        	            if (egret.getQualifiedSuperclassName(this._focus) == "Hero") {
-        	                (<Hero>this._focus).moveTo(x, y);
-        	            }
+                        let focusClaz = egret.getQualifiedSuperclassName(this._focus);
+        	            if (focusClaz == "Hero") {
+        	                (<Hero>this._focus).guardAt(x, y);
+        	            } else if (focusClaz == "SoldierTower") {
+                            if ((<SoldierTower>this._focus).guardAt(x, y) == false) {
+                                this.showDisableTip(x, y);
+                                
+                                return;
+                            }
+                        }
 
                         this._focus.deselect();
-        	            
         	            this._focus = null;
         	        }
                 } else {
-                    //显示不能放置图片
-                    let tip = <Tip>application.pool.get("DisableTip");
-                    tip.setCenterX(x);
-                    tip.setCenterY(y);
-                    this.addEntity(tip);
+                    this.showDisableTip(x, y);
                 }
     	    } else {
                 if (this._focus) {
@@ -190,6 +192,13 @@ class Battle extends Entity implements SoldierCreator {
                 }
     	    }
     	}        
+    }
+
+    public showDisableTip(x:number, y:number) {
+        let tip = <Tip>application.pool.get("DisableTip");
+        tip.setCenterX(x);
+        tip.setCenterY(y);
+        this.addEntity(tip);        
     }
     
     public getResult(): Result {
