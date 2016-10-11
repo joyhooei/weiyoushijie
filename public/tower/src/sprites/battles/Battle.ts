@@ -94,7 +94,9 @@ class Battle extends Entity implements SoldierCreator {
     }
 
     public start() {
-        this._addWaves(this._map.getPaths());
+        this._waves.setPaths(this._map.getPaths());
+        this._addWaves();
+        
         this._waves.launchFirst();
     }
     
@@ -241,7 +243,7 @@ class Battle extends Entity implements SoldierCreator {
     }
     
     //增加敌人
-    protected _addWaves(paths:number[][][]) {
+    protected _addWaves() {
     }
 
     //增加塔基
