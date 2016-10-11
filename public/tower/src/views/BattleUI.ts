@@ -35,9 +35,17 @@ class BattleUI extends AbstractUI {
         })
         
         application.dao.addEventListener("Battle",function(evt: egret.Event) {
-            self.lblLives.text = application.battle.getLives().toString();
-            self.lblGolds.text = application.battle.getGolds().toString();
-            self.lblWaves.text = application.battle.getWaves().toString();
+			if (parseInt(self.lblLives.text) != application.battle.getLives()) {
+				self._animateStep(self.lblLives, parseInt(self.lblLives.text), application.battle.getLives());
+			}
+			
+			if (parseInt(self.lblGolds.text) != application.battle.getLives()) {
+				self._animateStep(self.lblGolds, parseInt(self.lblGolds.text), application.battle.getGolds());
+			}
+			
+			if (parseInt(self.lblWaves.text) != application.battle.getLives()) {
+				self._animateStep(self.lblWaves, parseInt(self.lblWaves.text), application.battle.getWaves());
+			}
         }, self);
         
 		self.imgBack.addEventListener(egret.TouchEvent.TOUCH_TAP,() => {
@@ -62,11 +70,34 @@ class BattleUI extends AbstractUI {
 		
 		this._readyBattle();
     }
+
+	private _animateStep(lbl:eui.Label, from:number, to:number): void {
+		if (from == to) {
+			return;
+		}
+		
+		let step:number = Math.min(Math.abs(from - to), 20);
+		var delta = (to - from) / step;
+		var timer: egret.Timer = new egret.Timer(50, step);
+        timer.addEventListener(egret.TimerEvent.TIMER, function(event:egret.TimerEvent){
+			lbl.text = Math.round(from + delta * (<egret.Timer>event.target).currentCount);
+		}, this);
+		
+        timer.addEventListener(egret.TimerEvent.TIMER_COMPLETE, function(event:egret.TimerEvent){
+			lbl.text = to;
+		}, this);
+
+        timer.start();
+	}
     
     private _readyBattle() {
     	//this._channel = this._music.play(0, 0);
 
         this._running = true;
+		
+		this.lblLives.text = "0";
+		this.lblGolds.text = "0";
+		this.lblWaves.text = "0";
     	
         application.battle.ready();
 		
