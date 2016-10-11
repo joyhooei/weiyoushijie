@@ -12,23 +12,71 @@ class Battle2 extends Battle {
     }
     
     protected _addWaves(paths:number[][][]) {        
-        let waves = [
-            [0, "Wolf", 1, 0],
-            
-            [1, "Wolf", 10, 1],
-            
-            [2, "Hogs", 10, 0],
-            
-            [3, "Rhino", 10, 1],
-            
-            [4, "Wolf", 10, 0],
-            [4, "Wolf", 10, 1],
-        ];
+        this._addWave(0, "Wolf", 5, 0);
+        this._addWave(0, "Wolf", 5, 0);
+        this._addWave(0, "Wolf", 10, 0);
         
-        for(let i = 0; i < waves.length; i++) {
-            let w = waves[i];
-            
-            this._waves.add(<number>w[0], <string>w[1], <number>w[2], paths[w[3]]);
-        }
+        this._addWave(1, "Wolf", 5, 1);
+        this._addWave(1, "Wolf", 10, 1);
+        this._addWave(1, "Wolf", 15, 1);
+        
+        this._addWave(2, "Wolf", 4, 0);
+        this._addWave(2, "Rhino", 2, 0);
+        this._addWave(2, "Wolf", 4, 0);
+        this._addWave(2, "Rhino", 2, 0);
+        this._addWave(2, "Rhino", 4, 0);
+        this._addWave(2, "Wolf", 5, 1);
+        this._addWave(2, "Wolf", 5, 1);
+        this._addWave(2, "Wolf", 5, 1);
+        
+        this._addWave(3, "Hogs", 3, 1);
+        this._addWave(3, "Hogs", 5, 1);
+        this._addWave(3, "Hogs", 6, 1);
+        this._addWave(3, "Hogs", 6, 1);
+        this._addWave(3, "Hogs", 8, 1);
+        this._addWave(3, "Hogs", 8, 1);
+        
+        this._addWave(4, "Wolf", 2, 0);
+        this._addWave(4, "Rhino", 2, 0);
+        this._addWave(4, "Wolf", 2, 0);
+        this._addWave(4, "Rhino", 2, 0);
+        this._addWave(4, "Rhino", 5, 0);
+        this._addWave(4, "Hogs", 5, 1);
+        this._addWave(4, "Hogs", 5, 1);
+        this._addWave(4, "Hogs", 5, 1);        
+        this._addWave(4, "Hogs", 5, 1);        
+        
+        this._addWave(5, "Rhino", 2, 0);
+        this._addWave(5, "Wolf", 3, 0);
+        this._addWave(5, "Rhino", 2, 0);
+        this._addWave(5, "Wolf", 9, 0);
+        this._addWave(5, "Wolf", 1, 0);
+        this._addWave(5, "Rhino", 1, 0);
+        this._addWave(5, "Rhino", 2, 1);
+        this._addWave(5, "Wolf", 3, 1);
+        this._addWave(5, "Rhino", 2, 1);        
+        this._addWave(5, "Wolf", 9, 1);        
+        this._addWave(5, "Wolf", 1, 1);        
+        this._addWave(5, "Rhino", 1, 1);        
+        
+        this._addWave(6, "Hogs", 6, 0);
+        this._addWave(6, "Hogs", 6, 0);
+        this._addWave(6, "Hogs", 6, 0);
+        this._addWave(6, "Hogs", 6, 0);
+        this._addWave(6, "Hogs", 6, 0);
+        this._addWave(6, "Hogs", 6, 1);
+        this._addWave(6, "Hogs", 6, 1);
+        this._addWave(6, "Hogs", 6, 1);        
+        this._addWave(6, "Hogs", 6, 1);        
+        this._addWave(6, "Hogs", 6, 1);         
+        
+        this._addWave(7, "Hogs", 9, 0);
+        this._addWave(7, "Hogs", 6, 0);
+        this._addWave(7, "Hogs", 6, 0);
+        this._addWave(7, "Hogs", 6, 0);
+        this._addWave(7, "Hogs", 12, 0);
+        this._addWave(7, "Rhino", 5, 1);
+        this._addWave(7, "Rhino", 5, 1);
+        this._addWave(7, "Wolf", 10, 1);                 
     }
 }
