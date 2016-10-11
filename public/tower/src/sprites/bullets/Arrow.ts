@@ -26,7 +26,7 @@ class Arrow extends CastBullet {
     protected _moveOneStep():boolean {
         let dx: number = this.x - this._startX;
         let dy: number = this._startY - this.y;
-        this.rotation = Math.atan2(dy, dx) * 180 / Math.PI + 180;
+        this.rotation = Math.atan2(dy, dx) * 180 / Math.PI;
         
         return super._moveOneStep();
     }
