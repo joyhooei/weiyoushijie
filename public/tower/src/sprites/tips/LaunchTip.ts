@@ -1,7 +1,7 @@
 class LaunchTip extends Tip {
     private _shapeShield: egret.Shape;
 
-    private _queue: number;
+    private _path: number;
 
     private _wave: number;
     
@@ -19,7 +19,7 @@ class LaunchTip extends Tip {
     public initialize(properties:any) {
         super.initialize(properties);
         
-        this._queue = this._get(properties, "queue", 0);
+        this._path = this._get(properties, "path", 0);
         this._wave = this._get(properties, "wave", 0);
     }
 
@@ -27,7 +27,7 @@ class LaunchTip extends Tip {
         if (again) {
             this.erase();
 
-            application.battle.launch(this._wave, this._queue);
+            application.battle.launch(this._wave, this._path);
         } else {
             Toast.launch("再次点击开始下一波");
         }
@@ -37,7 +37,7 @@ class LaunchTip extends Tip {
         if (this._ticks > this._dyingTicks) {
             this.erase();
 
-            application.battle.launch(this._wave, this._queue);
+            application.battle.launch(this._wave, this._path);
         } else {
             if (this._ticks % 3 == 0) {
                 this.stain();
