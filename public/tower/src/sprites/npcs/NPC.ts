@@ -4,6 +4,8 @@ class NPC extends MovableEntity {
     protected _force: number;
 
     protected _armor: number;
+
+	protected _magicArmor: number;
     
     protected _resistance: number;
     
@@ -38,6 +40,8 @@ class NPC extends MovableEntity {
         this._force    = this._get(properties, "force", 10);
 
         this._armor  = this._get(properties, "armor", 0);
+		
+		this._magicArmor  = this._get(properties, "magicArmor", 0);
         
         this._resistance  = this._get(properties, "_resistance", 0);
         
@@ -65,7 +69,7 @@ class NPC extends MovableEntity {
     }
     
     public shootBy(bullet: Bullet): boolean {
-    	return this.damage(this._actualForce(bullet.getForce()));
+		return this.damage(this._actualForce(bullet.getForce(), bullet.getHitType()));
     }
 
     public hitBy(npc: NPC): boolean {
@@ -77,11 +81,17 @@ class NPC extends MovableEntity {
     		npc.damage(Math.round(d * (100 - this._resistance) / 100));
     	}
     	
-    	return this.damage(this._actualForce(d));
+    	return this.damage(this._actualForce(d, HitType.normal));
     }
     
-    protected _actualForce(d: number): number {
-    	return Math.round(d * (100 - this._armor) / 100);
+    protected _actualForce(d: number, hitType:HitType): number {
+		if (hitType == HitType.normal) {
+    		return Math.round(d * (100 - this._armor) / 100);
+		} else if (hitType == HitType.magic) {
+			return Math.round(d * (100 - this._magicArmor) / 100);
+		} else {
+			return d;
+		}
     }
     
     public damage(d: number): boolean {
