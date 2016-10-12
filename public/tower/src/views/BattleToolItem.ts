@@ -21,16 +21,7 @@ class BattleToolItem extends AbstractUI {
     }
 
 	protected onRefresh() {
-        if (this._tool.attr.category == "nectar") {
-        	this.imgTool.source = "";
-        } else if (this._tool.attr.category == "frezze") {
-        	this.imgTool.source = "";
-        } else if (this._tool.attr.category == "thunder") {
-        	this.imgTool.source = "";
-        } else if (this._tool.attr.category == "mammon") {
-        	this.imgTool.source = "";
-        }
-		
+		this.imgTool.source = this._tool.attr.category + "_png";
 		this.lblCount.text = this._too.attrs.count.toString();
 	}
     
