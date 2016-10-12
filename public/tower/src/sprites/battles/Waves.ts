@@ -14,7 +14,9 @@ class Waves {
     //两波敌人发动攻击的时间间隔
     private _timeBetweenWaves: number; 
 
-    private _launching: boolean;
+    private _launchTicks: number;
+
+    private _tips: LaunchTip[];
     
     public constructor(mapWidth: number, mapHeight: number) {
         this._mapWidth  = mapWidth;
@@ -31,7 +33,9 @@ class Waves {
 
         this._timeBetweenWaves = 40 * application.frameRate;
         
-        this._launching = false;
+        this._launchTicks = 0;
+        
+        this._tips = [];
     }
     
     public getCurrentWave(): number {
@@ -47,43 +51,53 @@ class Waves {
     
     public launchFirst() {
         this._currentWave = 0;
-        
-        let wave = this._enemies[this._currentWave];
-        for(let path = 0; path < wave.length; path++) {
-            this.launchPath(this._currentWave, path);
-        }
+        this.launchWave(this._currentWave);
     }
 
-    public launchPath(wave: number, path:number) {
-        let queues:Queue[] = this._enemies[wave][path];
-        for(let q = 0; q < queues.length; q++) {
-            if (!queues[q].launched()) {
-                queues[q].launch(this._paths[path], q * (application.frameRate << 2));
-            }
-        }
-
+    public launchWave(wave: number) {
+        let maxQueues:number = 0;
+        
         //检查是否本波所有怪物都已经出来了
         for(let p = 0; p < this._enemies[wave].length; p++) {
             for(let q = 0; q < this._enemies[wave][p].length; q++) {
                 if (!this._enemies[wave][p][q].launched()) {
-                    return;
+                    queues[q].launch(this._paths[p], q * (application.frameRate << 2));
                 }
             }
+            
+            if (maxQueues < this._enemies[wave][p].length) {
+                maxQueues = this._enemies[wave][p].length;
+            }
         }
-        
-        this._launching = false;
+         
+        this._launchTicks = maxQueues * (application.frameRate << 2);
     }
     
-    public launch(cycle?:boolean) {
-        if (this._enemies.length == 0 || this._launching || !this._nextWave(cycle)) {
-            return ;
+    public launch(cycle?:boolean): boolean {
+        //还没有开战
+        if (this._enemies.length == 0) {
+            return false;
         }
         
-        this._launching = true;
+        //上一波还没有全部走出来
+        this._launchTicks --;
+        if (this._launchTicks > 0) {
+            return false;
+        }
+        
+        //检查是否有下一波游戏
+        if (false == this._nextWave(cycle)) {
+            return true;
+        }
+                  
+        for(let i = 0; i < this._tips.length; i++) {
+            this._tips[i].erase();
+        }
+        this._tips = [];
         
         let wave = this._enemies[this._currentWave];
         for(let p = 0; p < wave.length; p++) {
-            let tip = <Tip>application.pool.get("LaunchTip", {dyingTicks:this._timeBetweenWaves, path: p, wave: this._currentWave});
+            let tip = <Tip>application.pool.get("LaunchTip", {dyingTicks:this._timeBetweenWaves, wave: this._currentWave});
 
             let path = this._paths[p];
             let direction = Entity.direction4(path[0][0], path[0][1], path[1][0], path[1][1]);
@@ -110,7 +124,10 @@ class Waves {
             }
 
             application.battle.addEntity(tip);
+            this._tips.push(tip);
         }
+
+        return false;
     }
     
     private _nextWave(cycle?:boolean): boolean {
@@ -129,13 +146,11 @@ class Waves {
                     }
                 }
             } else {
-                application.battle.win();
                 return false;
             }
         }
         
         application.dao.dispatchEventWith("Battle", true, {waves: this.getCurrentWave()});
-        
         return true;
     }
 }
