@@ -29,7 +29,7 @@ class Waves {
         
         this._rounds = 0;
 
-        this._timeBetweenWaves = 10 * application.frameRate;
+        this._timeBetweenWaves = 40 * application.frameRate;
         
         this._launching = false;
     }
