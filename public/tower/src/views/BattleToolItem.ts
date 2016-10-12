@@ -2,6 +2,7 @@ class BattleToolItem extends AbstractUI {
     protected _tool: any;
     
     public imgTool: eui.Image;
+	public lblCount: eui.Label;
 
     public constructor(tool:any) {
         super("battleToolItemSkin");
@@ -9,26 +10,44 @@ class BattleToolItem extends AbstractUI {
         this._tool = tool;
         
 		this.addEventListener(egret.TouchEvent.TOUCH_TAP,() => {
-		    application.battle.readyUseTool(this);
+			if (this._tool.attrs.count > 0) {
+				if (this._tool.attr.category == "nectar" || this._tool.attr.category == "mammon"){
+					this.use(0, 0);
+				} else {
+					application.battle.readyUseTool(this);
+				}
+			}
 		}, this);
-		
-        if (tool.category == "bomb") {
+    }
+
+	protected onRefresh() {
+        if (this._tool.attr.category == "nectar") {
         	this.imgTool.source = "";
-        } else if (tool.category == "gold") {
+        } else if (this._tool.attr.category == "frezze") {
+        	this.imgTool.source = "";
+        } else if (this._tool.attr.category == "thunder") {
+        	this.imgTool.source = "";
+        } else if (this._tool.attr.category == "mammon") {
         	this.imgTool.source = "";
         }
-    }
+		
+		this.lblCount.text = this._too.attrs.count.toString();
+	}
     
     public use(x:number, y:number) {
-        this._tool.count -= 1;
-        application.dao.save("Tool", this._tool);
+        this._tool.attrs.count -= 1;
+        this._tool.save();
         
-        if (this._tool.category == "bomb") {
-        } else if (this._tool.category == "gold") {
+        if (tool.category == "nectar") {
+			application.battle.incLives(5);
+        } else if (tool.category == "frezze") {
+			Bullet.shoot(x, y - 200, x, y, "Frezze");
+        } else if (tool.category == "thunder") {
+			Bullet.shoot(x, y - 200, x, y, "Thunder");
+        } else if (tool.category == "mammon") {
+			application.battle.incGolds(500);
         }
         
-        if (this._tool.count <= 0) {
-            this.parent.removeChild(this);
-        }
+        this.lblCount.text = this._too.attrs.count.toString();
     }
 }
