@@ -3,16 +3,13 @@ class BattleOptionUI extends AbstractUI {
     public imgQuit: eui.Image;
     
     public imgResult: eui.Image;
+
+	private _result: Result;
     
     constructor(cbStart:Function, cbQuit:Function) {
         super("battleOptionUISkin");
         
-        if (application.battle.getLives() > 0) {
-        	this.imgResult.source = "end_win_png";
-        } else {
-        	this.imgResult.source = "end_defeat_png";
-        }
-        
+		this._result = application.battle.getResult();
 		this.imgStart.addEventListener(egret.TouchEvent.TOUCH_TAP,() => {
 		    cbStart();
 		    
@@ -24,5 +21,13 @@ class BattleOptionUI extends AbstractUI {
 		    
 		    application.hideUI(this);
 		}, this);
-    }    
+    }
+
+	protected onRefresh() {
+        if (this._result.attrs.result == 1) {
+        	this.imgResult.source = "end_win_png";
+        } else {
+        	this.imgResult.source = "end_defeat_png";
+        }
+	}
 }
