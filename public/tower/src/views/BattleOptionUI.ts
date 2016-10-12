@@ -10,6 +10,8 @@ class BattleOptionUI extends AbstractUI {
         super("battleOptionUISkin");
         
 		this._result = application.battle.getResult();
+		this._result.save();
+		
 		this.imgStart.addEventListener(egret.TouchEvent.TOUCH_TAP,() => {
 		    cbStart();
 		    
