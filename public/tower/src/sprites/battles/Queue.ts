@@ -3,30 +3,16 @@ class Queue {
     
     private _count: number;
     
-    private _launched: boolean;
-    
     public constructor(claz: string, count: number) {
         this._claz = claz;
         this._count = count;
-        
-        this._launched = false;
     }
-    
-    public launched(): boolean {
-        return _launched;
-    }
-    
-    public cycle() {
-        this._launched = false;
-    }
-    
+   
     public launch(path: number[][], idleTicks: number) {
         for(let j = 0; j < this._count; j++) {
             let enemy = <Enemy>application.pool.get(this._claz, {"paths": this._randomPath(path), idleTicks: idleTicks + Math.random() * (application.frameRate << 2)});
             application.battle.addEnemy(enemy);
         }
-        
-        this._launched = true;
     }
     
     private _randomPath(path: number[][]): number[][]{
@@ -81,8 +67,7 @@ class Queue {
                 newPath.push([path[path.length - 1][0] + deltaX, this._mapHeight]);
                 break;
         }
-        
-        
+
         return newPath;
     }    
 }
