@@ -15,7 +15,7 @@ module.exports = function(grunt) {
         uglify: {
             options: {
                 //添加banner
-                banner: '/*! author:liweihai weiyoushijie <%= grunt.template.today("yyyy-mm-dd") %> */\n'
+                banner: '/*! author:liweihai <%= grunt.template.today("yyyy-mm-dd") %> */\n'
             },    
             release: {// 合并压缩a.js和b.js
                 files: {
