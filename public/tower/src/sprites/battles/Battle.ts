@@ -333,14 +333,12 @@ class Battle extends Entity implements SoldierCreator {
         }
     }
     
-    public launch(wave: number, path:number) {
-        this._waves.launchPath(wave, path);
+    public launchWave(wave: number) {
+        this._waves.launchWave(wave);
     }
     
     public _fighting() {
-        if (this._enemies.length == 0) {
-            this._waves.launch();
-        }
+        this._waves.launch();
         
         this._updateEntities(this._soldiers);
         this._updateEntities(this._enemies);    
