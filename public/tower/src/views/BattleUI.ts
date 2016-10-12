@@ -35,17 +35,12 @@ class BattleUI extends AbstractUI {
         })
         
         application.dao.addEventListener("Battle",function(evt: egret.Event) {
-			if (parseInt(self.lblLives.text) != application.battle.getLives()) {
-				self._animateStep(self.lblLives, parseInt(self.lblLives.text), application.battle.getLives());
-			}
-			
-			if (parseInt(self.lblGolds.text) != application.battle.getLives()) {
+			if (parseInt(self.lblGolds.text) != application.battle.getGolds()) {
 				self._animateStep(self.lblGolds, parseInt(self.lblGolds.text), application.battle.getGolds());
 			}
 			
-			if (parseInt(self.lblWaves.text) != application.battle.getLives()) {
-				self._animateStep(self.lblWaves, parseInt(self.lblWaves.text), application.battle.getWaves());
-			}
+			self.lblLives.text = application.battle.getLives();
+			self.lblWaves.text = application.battle.getWaves();
         }, self);
         
 		self.imgBack.addEventListener(egret.TouchEvent.TOUCH_TAP,() => {
