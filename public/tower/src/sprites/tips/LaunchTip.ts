@@ -1,8 +1,6 @@
 class LaunchTip extends Tip {
     private _shapeShield: egret.Shape;
 
-    private _path: number;
-
     private _wave: number;
     
     public constructor() {
@@ -19,12 +17,11 @@ class LaunchTip extends Tip {
     public initialize(properties:any) {
         super.initialize(properties);
         
-        this._path = this._get(properties, "path", 0);
         this._wave = this._get(properties, "wave", 0);
     }
 
     public select(again:boolean) {
-        application.battle.launch(this._wave, this._path);
+        application.battle.launchWave(this._wave);
         
         let gold = Math.round(40 * (this._dyingTicks - this._ticks) / this._dyingTicks);
         application.battle.incGolds(gold);
@@ -34,9 +31,9 @@ class LaunchTip extends Tip {
     
     protected _dying() {
         if (this._ticks > this._dyingTicks) {
+            application.battle.launchWave(this._wave);
+            
             this.erase();
-
-            application.battle.launch(this._wave, this._path);
         } else {
             if (this._ticks % 3 == 0) {
                 this.stain();
