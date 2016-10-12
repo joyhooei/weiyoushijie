@@ -10,7 +10,8 @@ class BattleUI extends AbstractUI {
 
     public imgBack:  eui.Image;
     public imgStart: eui.Image;
-    public imgHelp: eui.Image;
+    public imgHelp:  eui.Image;
+	public imgTool:  eui.Image;
     
     private _music: egret.Sound;
     private _channel: egret.SoundChannel;
@@ -28,10 +29,22 @@ class BattleUI extends AbstractUI {
         self.grpSystemTools.addChild(new BattleSystemToolItem({category: 'soldier', image: 'tool_soldier_png'}));
         self.grpSystemTools.addChild(new BattleSystemToolItem({category: 'fireball', image: 'tool_fireball_png'}));
         
-        application.dao.fetch("Tool", {customer_id: application.me.attrs.id, count: {$gt: 0}}).then(function(tools){
-            for(let i = 0; i < tools.length; i++) {
-                self.grpBoughtTools.addChild(new BattleToolItem(tools[i]));
-            }
+        application.dao.fetch("Tool", {customer_id: application.me.attrs.id}).then(function(tools){
+			let toolCategories = ["thunder", "freeze", "nectar", "mammon"];
+			for(let i = 0; i < toolCategories.length; i++) {
+				let tool:any = null;
+				for(let j = 0; j < tools.length; j++) {
+					if (tools[j].attrs.category == toolCategories[i]) {
+						tool = tools[j];
+					}
+				}
+				
+				if (null == toolItem) {
+					tool = {category: toolCategories[i], count: 0, customer_id: application.me.attrs.id};
+				}
+				
+				self.grpBoughtTools.addChild(new BattleToolItem(tool));
+			}
         })
         
         application.dao.addEventListener("Battle",function(evt: egret.Event) {
@@ -42,6 +55,10 @@ class BattleUI extends AbstractUI {
 			self.lblLives.text = application.battle.getLives();
 			self.lblWaves.text = application.battle.getWaves();
         }, self);
+        
+		self.imgTool.addEventListener(egret.TouchEvent.TOUCH_TAP,() => {
+			self.grpBoughtTools.visible = !self.grpBoughtTools.visible; 
+		}, self);
         
 		self.imgBack.addEventListener(egret.TouchEvent.TOUCH_TAP,() => {
 			self.removeEventListener(egret.Event.ENTER_FRAME, self._onEnterFrame, self);
@@ -61,6 +78,8 @@ class BattleUI extends AbstractUI {
     }
 
     protected onRefresh() {
+		this.grpBoughtTools.visible = false;
+		
         this.grpBattle.addChild(application.battle);
 		
 		this._buildBattle();
