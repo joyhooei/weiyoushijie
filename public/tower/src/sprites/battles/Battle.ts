@@ -67,7 +67,7 @@ class Battle extends Entity implements SoldierCreator {
         super.initialize(properties);
         
         this._maxLives   = this._get(properties, "lives", 20);
-        this._golds   = this._get(properties, "golds", 1000);
+        this._maxGolds   = this._get(properties, "golds", 1000);
         this._heroWinned = this._get(properties, "heroWinned", null);
     }
 
