@@ -59,7 +59,7 @@ class BattleUI extends AbstractUI {
 		}, self);
 		
 		self.imgStart.addEventListener(egret.TouchEvent.TOUCH_TAP,() => {
-			application.battle.start();
+			application.battle.fight();
 			
             self.imgStart.visible = false;
 		}, self);
@@ -68,7 +68,7 @@ class BattleUI extends AbstractUI {
     protected onRefresh() {
         this.grpBattle.addChild(application.battle);
 		
-		this._readyBattle();
+		this._buildBattle();
     }
 
 	private _animateStep(lbl:eui.Label, from:number, to:number): void {
@@ -90,7 +90,7 @@ class BattleUI extends AbstractUI {
         timer.start();
 	}
     
-    private _readyBattle() {
+    private _buildBattle() {
     	//this._channel = this._music.play(0, 0);
 
         this._running = true;
@@ -99,7 +99,7 @@ class BattleUI extends AbstractUI {
 		this.lblGolds.text = "0";
 		this.lblWaves.text = "0";
     	
-        application.battle.ready();
+        application.battle.build();
 		
 		this.stage.frameRate = application.frameRate;
 		this.addEventListener(egret.Event.ENTER_FRAME,this._onEnterFrame, this);
@@ -120,7 +120,7 @@ class BattleUI extends AbstractUI {
 			application.showUI(new BattleOptionUI(function(){
 				application.battle = <Battle>application.pool.get(application.battle.getClaz());
 				self.grpBattle.addChild(application.battle);
-				self._readyBattle();
+				self._buildBattle();
 			}, function(){
 				self._quitBattle();
 			}));
