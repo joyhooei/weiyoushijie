@@ -338,7 +338,15 @@ class Battle extends Entity implements SoldierCreator {
     }
     
     public _fighting() {
-        this._waves.launch();
+        if(this._waves.launch()) {
+            //最后一波已经走出来了
+            if (this._enemies.length == 0) {
+                //所有怪物都已经死掉了
+                this.win();
+                
+                return;
+            }
+        }
         
         this._updateEntities(this._soldiers);
         this._updateEntities(this._enemies);    
