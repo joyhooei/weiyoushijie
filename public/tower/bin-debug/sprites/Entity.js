@@ -128,7 +128,9 @@ var Entity = (function (_super) {
     };
     //根据状态、面向修改重新渲染
     p.paint = function () {
-        this._play(this._render(), -1);
+        if (this._state > EntityState.idle && this._state < EntityState.dead) {
+            this._play(this._render(), -1);
+        }
     };
     p.addBitmap = function (name, action) {
         var bm = this._displays.addBitmap(name, action);
@@ -168,6 +170,14 @@ var Entity = (function (_super) {
             return clip;
         }
         return null;
+    };
+    p._getCurrentDisplay = function () {
+        if (this._displaySprite.numChildren > 0) {
+            return this._displaySprite.getChildAt(0);
+        }
+        else {
+            return null;
+        }
     };
     p._render = function (xDelta, yDelta, idx) {
         if (xDelta === void 0) { xDelta = 0; }

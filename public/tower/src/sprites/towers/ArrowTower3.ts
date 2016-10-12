@@ -4,6 +4,6 @@ class ArrowTower3 extends ArrowTower {
         
         this.addBitmap("arrowtower3_png");
         
-        this._soldierClaz = "ArrowSoldier3";
+        this._bulletClaz = "Arrow1";
     }
 }

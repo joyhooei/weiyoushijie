@@ -7,6 +7,8 @@ class Base extends Entity implements SelectableEntity {
     
     protected _unused: boolean;
 
+    protected _parent: egret.DisplayObjectContainer;
+
     public constructor() {
         super();
 
@@ -47,6 +49,10 @@ class Base extends Entity implements SelectableEntity {
         
         if (this._tower) {
             this._tower.erase();
+
+            if (this._parent) {
+                this._parent.addChild(this);
+            }
         } 
         
         this._tower = tower;  
@@ -56,6 +62,11 @@ class Base extends Entity implements SelectableEntity {
             this._tower.setCenterY(this.getCenterY());
             this._tower.setBase(this);
             application.battle.addEntity(this._tower);
+
+            if (this.parent) {
+                this._parent = this.parent;
+                this._parent.removeChild(this);
+            }
         }
     }
     

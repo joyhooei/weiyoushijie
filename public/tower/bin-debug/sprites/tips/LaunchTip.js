@@ -10,22 +10,18 @@ var LaunchTip = (function (_super) {
     var d = __define,c=LaunchTip,p=c.prototype;
     p.initialize = function (properties) {
         _super.prototype.initialize.call(this, properties);
-        this._queue = this._get(properties, "queue", 0);
         this._wave = this._get(properties, "wave", 0);
     };
     p.select = function (again) {
-        if (again) {
-            this.erase();
-            application.battle.launch(this._wave, this._queue);
-        }
-        else {
-            Toast.launch("再次点击开始下一波");
-        }
+        application.battle.launchWave(this._wave);
+        var gold = Math.round(40 * (this._dyingTicks - this._ticks) / this._dyingTicks);
+        application.battle.incGolds(gold);
+        this.erase();
     };
     p._dying = function () {
         if (this._ticks > this._dyingTicks) {
+            application.battle.launchWave(this._wave);
             this.erase();
-            application.battle.launch(this._wave, this._queue);
         }
         else {
             if (this._ticks % 3 == 0) {

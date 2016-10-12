@@ -3,7 +3,7 @@ var MagicTower2 = (function (_super) {
     function MagicTower2() {
         _super.call(this);
         this.addBitmap("magictower2_png");
-        this._bulletClaz = "Magic1";
+        this._bulletClaz = "Magic2";
     }
     var d = __define,c=MagicTower2,p=c.prototype;
     return MagicTower2;

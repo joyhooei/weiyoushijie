@@ -1,3 +1,13 @@
+var HitType;
+(function (HitType) {
+    //物理伤害，可以被护甲armor减少
+    HitType[HitType["normal"] = 0] = "normal";
+    //魔法伤害，可以被魔抗magicArmor减少
+    HitType[HitType["magic"] = 1] = "magic";
+    //真实伤害，无视护甲和魔抗
+    HitType[HitType["damage"] = 2] = "damage";
+})(HitType || (HitType = {}));
+;
 var Bullet = (function (_super) {
     __extends(Bullet, _super);
     function Bullet() {
@@ -35,10 +45,14 @@ var Bullet = (function (_super) {
         this._targetX = 0;
         this._targetY = 0;
         this._force = this._get(properties, 'force', 10);
+        this._hitType = this._get(properties, 'hitType', HitType.normal);
         this._fightTicks = this._get(properties, 'fightTicks', 10);
     };
     p.getForce = function () {
         return this._force;
+    };
+    p.getHitType = function () {
+        return this._hitType;
     };
     p.setTarget = function (target) {
         this._target = target;

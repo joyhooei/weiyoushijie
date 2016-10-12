@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
-<e:Skin class="battleToolItemSkin" width="85" height="76" xmlns:e="http://ns.egret.com/eui" xmlns:w="http://ns.egret.com/wing">
-	<e:Image id="imgTool" width="85" height="76" x="0" y="0" source="tool_soldier_png"/>
-	<e:Image id="imgShield" width="85" height="76" x="0" y="0"/>
+<e:Skin class="battleToolItemSkin" width="46" height="46" xmlns:e="http://ns.egret.com/eui" xmlns:w="http://ns.egret.com/wing">
+	<e:Image id="imgTool" width="46" height="46" x="0" y="0" source="thunder_png" fillMode="scale"/>
+	<e:Image id="imgShield" width="46" height="46" x="0" y="0" fillMode="clip"/>
+	<e:Label id="lblCount" text="0" x="18" y="18" size="18"/>
 </e:Skin>

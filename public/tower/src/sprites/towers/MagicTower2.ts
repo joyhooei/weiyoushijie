@@ -4,6 +4,6 @@ class MagicTower2 extends MagicTower {
         
         this.addBitmap("magictower2_png");
         
-        this._bulletClaz = "Magic1";        
+        this._bulletClaz = "Magic2";        
     }
 }

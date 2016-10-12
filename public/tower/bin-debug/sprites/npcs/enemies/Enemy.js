@@ -7,7 +7,7 @@ var Enemy = (function (_super) {
     p.initialize = function (properties) {
         _super.prototype.initialize.call(this, properties);
         this._bonus = this._get(properties, "bonus", 10);
-        this._idleTicks = this._get(properties, "idleTicks", Math.random() * 10 * application.frameRate);
+        this._idleTicks = this._get(properties, "idleTicks", 0);
         this._soldiers = [];
         this._paths = this._get(properties, "paths", 10);
         this._path = 0;
@@ -16,6 +16,12 @@ var Enemy = (function (_super) {
     };
     p.frozen = function () {
         this._frozenTicks = 3 * application.frameRate;
+        var display = this._getCurrentDisplay();
+        if (display) {
+            if (egret.getQualifiedClassName(display) == "egret.MovieClip") {
+                display.stop();
+            }
+        }
     };
     p.update = function () {
         if (this._frozenTicks <= 0) {
@@ -23,6 +29,14 @@ var Enemy = (function (_super) {
         }
         else {
             this._frozenTicks--;
+            if (this._frozenTicks <= 0) {
+                var display = this._getCurrentDisplay();
+                if (display) {
+                    if (egret.getQualifiedClassName(display) == "egret.MovieClip") {
+                        display.play();
+                    }
+                }
+            }
             return false;
         }
     };

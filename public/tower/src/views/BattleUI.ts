@@ -4,6 +4,7 @@ class BattleUI extends AbstractUI {
     public lblWaves: eui.Label;
 	
     public grpSystemTools: eui.Group;
+	public grpTools:eui.Group;
     public grpBoughtTools: eui.Group;
     
     public grpBattle: eui.Group;
@@ -26,8 +27,8 @@ class BattleUI extends AbstractUI {
         self._music = RES.getRes("bg_mp3");
         self._music.type = egret.Sound.MUSIC;
 
-        self.grpSystemTools.addChild(new BattleSystemToolItem({category: 'soldier', image: 'tool_soldier_png'}));
-        self.grpSystemTools.addChild(new BattleSystemToolItem({category: 'fireball', image: 'tool_fireball_png'}));
+        self.grpSystemTools.addChild(new BattleSystemToolItem({category: 'soldier', count: 1}));
+        self.grpSystemTools.addChild(new BattleSystemToolItem({category: 'fireball', count: 1}));
         
         application.dao.fetch("Tool", {customer_id: application.me.attrs.id}).then(function(tools){
 			let toolCategories = ["thunder", "freeze", "nectar", "mammon"];
@@ -39,8 +40,8 @@ class BattleUI extends AbstractUI {
 					}
 				}
 				
-				if (null == toolItem) {
-					tool = {category: toolCategories[i], count: 0, customer_id: application.me.attrs.id};
+				if (null == tool) {
+					tool = {category: toolCategories[i], count: 1, customer_id: application.me.attrs.id};
 				}
 				
 				self.grpBoughtTools.addChild(new BattleToolItem(tool));
@@ -52,12 +53,12 @@ class BattleUI extends AbstractUI {
 				self._animateStep(self.lblGolds, parseInt(self.lblGolds.text), application.battle.getGolds());
 			}
 			
-			self.lblLives.text = application.battle.getLives();
-			self.lblWaves.text = application.battle.getWaves();
+			self.lblLives.text = application.battle.getLives().toString();
+			self.lblWaves.text = application.battle.getWaves().toString();
         }, self);
         
 		self.imgTool.addEventListener(egret.TouchEvent.TOUCH_TAP,() => {
-			self.grpBoughtTools.visible = !self.grpBoughtTools.visible; 
+			self.grpTools.visible = !self.grpTools.visible; 
 		}, self);
         
 		self.imgBack.addEventListener(egret.TouchEvent.TOUCH_TAP,() => {
@@ -72,13 +73,17 @@ class BattleUI extends AbstractUI {
 		
 		self.imgStart.addEventListener(egret.TouchEvent.TOUCH_TAP,() => {
 			application.battle.fight();
+
+			this.imgTool.visible = true;
 			
             self.imgStart.visible = false;
 		}, self);
     }
 
     protected onRefresh() {
-		this.grpBoughtTools.visible = false;
+		this.grpTools.visible = false;
+
+		this.imgTool.visible = false;
 		
         this.grpBattle.addChild(application.battle);
 		
@@ -94,11 +99,11 @@ class BattleUI extends AbstractUI {
 		var delta = (to - from) / step;
 		var timer: egret.Timer = new egret.Timer(50, step);
         timer.addEventListener(egret.TimerEvent.TIMER, function(event:egret.TimerEvent){
-			lbl.text = Math.round(from + delta * (<egret.Timer>event.target).currentCount);
+			lbl.text = Math.round(from + delta * (<egret.Timer>event.target).currentCount).toString();
 		}, this);
 		
         timer.addEventListener(egret.TimerEvent.TIMER_COMPLETE, function(event:egret.TimerEvent){
-			lbl.text = to;
+			lbl.text = to.toString();
 		}, this);
 
         timer.start();
@@ -115,7 +120,7 @@ class BattleUI extends AbstractUI {
     	
         application.battle.build();
 		
-		this.stage.frameRate = application.frameRate;
+		//this.stage.frameRate = application.frameRate;
 		this.addEventListener(egret.Event.ENTER_FRAME,this._onEnterFrame, this);
 	}
 

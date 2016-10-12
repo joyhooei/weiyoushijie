@@ -1,27 +1,30 @@
 var ShootTower = (function (_super) {
     __extends(ShootTower, _super);
     function ShootTower() {
-        _super.call(this);
+        _super.apply(this, arguments);
     }
     var d = __define,c=ShootTower,p=c.prototype;
-    p.erase = function () {
-        _super.prototype.erase.call(this);
-        if (this._soldier) {
-            this._soldier.erase();
+    p._guarding = function () {
+        this._enemy = application.battle.findEnemy(this.getCenterX(), this.getCenterY(), this._guardRadius, [0, 1]);
+        if (this._enemy) {
+            this.fight();
         }
-        this._soldier = null;
     };
-    p.guard = function () {
-        _super.prototype.guard.call(this);
-        var x = this.getCenterX();
-        var y = this.y + 20;
-        this._addSoldier(x, y);
-    };
-    p._addSoldier = function (x, y) {
-        this._soldier = application.pool.get(this._soldierClaz, { guardRadius: this._guardRadius });
-        this._soldier.setCenterX(x);
-        this._soldier.setBottomY(y);
-        application.battle.addEntity(this._soldier);
+    p._fighting = function () {
+        if (this._ticks % this._hitSpeed == 0) {
+            if (this._enemy == null
+                || !this._enemy.active()
+                || !this._enemy.within(this.getCenterX(), this.getCenterY(), this._guardRadius)) {
+                this._enemy = application.battle.findEnemy(this.getCenterX(), this.getCenterY(), this._guardRadius, [0, 1]);
+            }
+            if (this._enemy) {
+                Bullet.shootAtNPC(this.getCenterX(), this.getCenterY(), this._enemy, this._bulletClaz, { force: this._force });
+            }
+            else {
+                this.guard();
+            }
+        }
+        this._ticks++;
     };
     return ShootTower;
 }(Tower));

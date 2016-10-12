@@ -16,6 +16,25 @@ var SoldierTower = (function (_super) {
     p.getGuardY = function () {
         return this._guardY;
     };
+    p.showFlag = function () {
+        this._range = application.pool.get("GuardRange", { guardRadius: this._guardRadius });
+        this._range.x = this.getCenterX() - this._guardRadius;
+        this._range.y = this.getCenterY() - this._guardRadius;
+        this._range.width = this._guardRadius << 1;
+        this._range.height = this._guardRadius << 1;
+        application.battle.addEntity(this._range);
+        this._flag = application.pool.get("FlagTip");
+        this._flag.setCenterX(this._guardX);
+        this._flag.setCenterY(this._guardY);
+        application.battle.addEntity(this._flag);
+    };
+    p.deselect = function () {
+        _super.prototype.deselect.call(this);
+        if (this._flag) {
+            this._flag.erase();
+            this._flag = null;
+        }
+    };
     p.createSoldier = function (soldier) {
         soldier.relive(10 * application.frameRate);
         this._addSoldier(soldier);
@@ -29,13 +48,19 @@ var SoldierTower = (function (_super) {
         this._createSoldier(this._soldierClaz, { force: this._force, guardX: this._guardX + delta, guardY: this._guardY - delta, idleTicks: 2 * application.frameRate });
     };
     p.guardAt = function (x, y) {
-        var deltaX = x - this._guardX;
-        var deltaY = y - this._guardY;
-        for (var i = 0; i < this._soldiers.length; i++) {
-            this._soldiers[i].guardAt(this._soldiers[i].getGuardX() + deltaX, this._soldiers[i].getGuardY() + deltaY);
+        if (this.within(x, y, this._guardRadius)) {
+            var deltaX = x - this._guardX;
+            var deltaY = y - this._guardY;
+            for (var i = 0; i < this._soldiers.length; i++) {
+                this._soldiers[i].guardAt(this._soldiers[i].getGuardX() + deltaX, this._soldiers[i].getGuardY() + deltaY);
+            }
+            this._guardX = x;
+            this._guardY = y;
+            return true;
         }
-        this._guardX = x;
-        this._guardY = y;
+        else {
+            return false;
+        }
     };
     p.erase = function () {
         for (var i = 0; i < this._soldiers.length; i++) {

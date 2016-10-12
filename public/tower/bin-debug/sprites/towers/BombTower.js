@@ -1,7 +1,7 @@
 var BombTower = (function (_super) {
     __extends(BombTower, _super);
     function BombTower() {
-        _super.call(this);
+        _super.apply(this, arguments);
     }
     var d = __define,c=BombTower,p=c.prototype;
     return BombTower;

@@ -16,6 +16,8 @@ var Battle = (function (_super) {
                 self._map = map;
                 self.addChildAt(self._map, 0);
                 self._map.paint();
+                self._waves.setPaths(self._map.getPaths());
+                self._addWaves();
                 resolve(self);
             }, function (error) {
                 reject(error);
@@ -28,7 +30,7 @@ var Battle = (function (_super) {
         this._maxGolds = this._get(properties, "golds", 1000);
         this._heroWinned = this._get(properties, "heroWinned", null);
     };
-    p.ready = function () {
+    p.build = function () {
         this._lives = this._maxLives;
         this._golds = this._maxGolds;
         for (var i = 0; i < this._layers.length; i++) {
@@ -42,12 +44,12 @@ var Battle = (function (_super) {
         this._addBases();
         this._addHeros();
         this._addEffects();
-        this._result = new Result({ customer_id: application.me.attrs.id, stage: this._options.stage, level: this._options.level, result: 0, score: 0, unused_bases: this._map.getBases().length, stars: 0 });
-        this.fight();
+        this._result = new Result({ customer_id: application.me.attrs.id, stage: this._options.stage, level: this._options.level, result: 0, score: 0, unused_bases: 0, stars: 0 });
+        _super.prototype.build.call(this);
     };
-    p.start = function () {
-        this._addWaves(this._map.getPaths());
-        this._waves.launchFirst();
+    p.fight = function () {
+        this._waves.launchFirstWave();
+        _super.prototype.fight.call(this);
     };
     p.lose = function () {
         this._result.attrs.result = 2;
@@ -101,19 +103,22 @@ var Battle = (function (_super) {
                         this._toolItem = null;
                     }
                     else if (this._focus) {
-                        if (egret.getQualifiedSuperclassName(this._focus) == "Hero") {
-                            this._focus.moveTo(x, y);
+                        var focusClaz = egret.getQualifiedSuperclassName(this._focus);
+                        if (focusClaz == "Hero") {
+                            this._focus.guardAt(x, y);
+                        }
+                        else if (focusClaz == "SoldierTower") {
+                            if (this._focus.guardAt(x, y) == false) {
+                                this.showDisableTip(x, y);
+                                return;
+                            }
                         }
                         this._focus.deselect();
                         this._focus = null;
                     }
                 }
                 else {
-                    //显示不能放置图片
-                    var tip = application.pool.get("DisableTip");
-                    tip.setCenterX(x);
-                    tip.setCenterY(y);
-                    this.addEntity(tip);
+                    this.showDisableTip(x, y);
                 }
             }
             else {
@@ -132,6 +137,12 @@ var Battle = (function (_super) {
                 }
             }
         }
+    };
+    p.showDisableTip = function (x, y) {
+        var tip = application.pool.get("DisableTip");
+        tip.setCenterX(x);
+        tip.setCenterY(y);
+        this.addEntity(tip);
     };
     p.getResult = function () {
         return this._result;
@@ -174,7 +185,7 @@ var Battle = (function (_super) {
     p._addHeros = function () {
     };
     //增加敌人
-    p._addWaves = function (paths) {
+    p._addWaves = function () {
     };
     //增加塔基
     p._addBases = function () {
@@ -182,6 +193,9 @@ var Battle = (function (_super) {
     };
     //增加特效
     p._addEffects = function () {
+    };
+    p._addWave = function (wave, claz, count, path) {
+        this._waves.add(wave, claz, count, path);
     };
     p._addBasesByName = function (name) {
         var bases = this._map.getBases();
@@ -237,12 +251,22 @@ var Battle = (function (_super) {
             entities[--i].erase();
         }
     };
-    p.launch = function (wave, queue) {
-        this._waves.launchQueue(wave, queue);
+    p.launchWave = function (wave) {
+        this._waves.launchWave(wave);
+    };
+    p._building = function () {
+        this._updateEntities(this._soldiers);
+        this._updateEntities(this._bases);
+        this._updateEntities(this._entities);
     };
     p._fighting = function () {
-        if (this._enemies.length == 0) {
-            this._waves.launch();
+        if (this._waves.launch()) {
+            //最后一波已经走出来了
+            if (this._enemies.length == 0) {
+                //所有怪物都已经死掉了
+                this.win();
+                return;
+            }
         }
         this._updateEntities(this._soldiers);
         this._updateEntities(this._enemies);

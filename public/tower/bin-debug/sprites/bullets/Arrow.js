@@ -1,7 +1,7 @@
 var Arrow = (function (_super) {
     __extends(Arrow, _super);
     function Arrow() {
-        _super.call(this);
+        _super.apply(this, arguments);
     }
     var d = __define,c=Arrow,p=c.prototype;
     p.initialize = function (properties) {
@@ -16,11 +16,18 @@ var Arrow = (function (_super) {
             this._missing = true;
         }
     };
+    p._fighting = function () {
+        if (this._missing) {
+            _super.prototype._fighting.call(this);
+        }
+        else {
+            this.erase();
+        }
+    };
     p._moveOneStep = function () {
-        var dx = this._startX - this.x;
-        var dy = this.y - this._startY;
-        var angel = Math.atan2(dy, dx);
-        this.rotation = angel * 180 / Math.PI + 180;
+        var dx = this.x - this._startX;
+        var dy = this._startY - this.y;
+        this.rotation = Math.atan2(dy, dx) * 180 / Math.PI;
         return _super.prototype._moveOneStep.call(this);
     };
     return Arrow;

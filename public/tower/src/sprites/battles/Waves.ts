@@ -23,8 +23,6 @@ class Waves {
     public constructor(mapWidth: number, mapHeight: number) {
         this._mapWidth  = mapWidth;
         this._mapHeight = mapHeight;
-        
-        this._running = false;
     }
 
     public setPaths(paths: number[][][]) {
@@ -70,9 +68,9 @@ class Waves {
             let idleTicks:number = 0;
             
             for(let q = 0; q < this._enemies[wave][p].length; q++) {
-                queues[q].launch(this._paths[p], idleTicks);
+                this._enemies[wave][p][q].launch(this._paths[p], idleTicks);
                 
-                idelTicks += this._ticksBetweenQueues;
+                idleTicks += this._ticksBetweenQueues;
             }
             
             if (this._launchTicks < idleTicks) {
@@ -98,7 +96,7 @@ class Waves {
     
     private _addWaveTips(wave:number) {
         for(let p = 0; p < this._enemies[wave].length; p++) {
-            let tip = <Tip>application.pool.get("LaunchTip", {dyingTicks:this._ticksBetweenWaves, wave: wave});
+            let tip = <LaunchTip>application.pool.get("LaunchTip", {dyingTicks:this._ticksBetweenWaves, wave: wave});
 
             let path = this._paths[p];
             let direction = Entity.direction4(path[0][0], path[0][1], path[1][0], path[1][1]);

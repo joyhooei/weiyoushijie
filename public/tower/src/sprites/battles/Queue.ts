@@ -33,7 +33,7 @@ class Queue {
                 break;
                 
             case EntityDirection.west:
-                newPath.push([this._mapWidth + entityWidth, path[0][1] + deltaY]);
+                newPath.push([800 + entityWidth, path[0][1] + deltaY]);
                 break;
                 
             case EntityDirection.south:
@@ -41,7 +41,7 @@ class Queue {
                 break;
                 
             case EntityDirection.north:
-                newPath.push([path[0][0] + deltaX, this._mapHeight + entityWidth]);
+                newPath.push([path[0][0] + deltaX, 480 + entityWidth]);
                 break;
         }
         
@@ -49,10 +49,10 @@ class Queue {
             newPath.push([path[j][0] + deltaX, path[j][1] + deltaY]);
         }
         
-        direction = Entity.direction4(paths[path.length - 2][0], path[path.length - 2][1], path[path.length - 1][0], path[path.length - 1][1]);
+        direction = Entity.direction4(path[path.length - 2][0], path[path.length - 2][1], path[path.length - 1][0], path[path.length - 1][1]);
         switch(direction) {
             case EntityDirection.east:
-                newPath.push([this._mapWidth, path[path.length - 1][1] + deltaY]);        
+                newPath.push([800, path[path.length - 1][1] + deltaY]);        
                 break;
                 
             case EntityDirection.west:
@@ -64,7 +64,7 @@ class Queue {
                  break;
                  
             case EntityDirection.south:
-                newPath.push([path[path.length - 1][0] + deltaX, this._mapHeight]);
+                newPath.push([path[path.length - 1][0] + deltaX, 480]);
                 break;
         }
 

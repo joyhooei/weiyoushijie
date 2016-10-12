@@ -29,6 +29,9 @@ var Base = (function (_super) {
         this._unused = false;
         if (this._tower) {
             this._tower.erase();
+            if (this._parent) {
+                this._parent.addChild(this);
+            }
         }
         this._tower = tower;
         if (this._tower) {
@@ -36,6 +39,10 @@ var Base = (function (_super) {
             this._tower.setCenterY(this.getCenterY());
             this._tower.setBase(this);
             application.battle.addEntity(this._tower);
+            if (this.parent) {
+                this._parent = this.parent;
+                this._parent.removeChild(this);
+            }
         }
     };
     p.erase = function () {

@@ -1,21 +1,37 @@
 var BattleUI = (function (_super) {
     __extends(BattleUI, _super);
     function BattleUI() {
+        var _this = this;
         _super.call(this, "battleUISkin");
         var self = this;
         self._music = RES.getRes("bg_mp3");
         self._music.type = egret.Sound.MUSIC;
-        self.grpSystemTools.addChild(new BattleSystemToolItem({ category: 'soldier', image: 'tool_soldier_png' }));
-        self.grpSystemTools.addChild(new BattleSystemToolItem({ category: 'fireball', image: 'tool_fireball_png' }));
-        application.dao.fetch("Tool", { customer_id: application.me.attrs.id, count: { $gt: 0 } }).then(function (tools) {
-            for (var i = 0; i < tools.length; i++) {
-                self.grpBoughtTools.addChild(new BattleToolItem(tools[i]));
+        self.grpSystemTools.addChild(new BattleSystemToolItem({ category: 'soldier', count: 1 }));
+        self.grpSystemTools.addChild(new BattleSystemToolItem({ category: 'fireball', count: 1 }));
+        application.dao.fetch("Tool", { customer_id: application.me.attrs.id }).then(function (tools) {
+            var toolCategories = ["thunder", "freeze", "nectar", "mammon"];
+            for (var i = 0; i < toolCategories.length; i++) {
+                var tool = null;
+                for (var j = 0; j < tools.length; j++) {
+                    if (tools[j].attrs.category == toolCategories[i]) {
+                        tool = tools[j];
+                    }
+                }
+                if (null == tool) {
+                    tool = { category: toolCategories[i], count: 1, customer_id: application.me.attrs.id };
+                }
+                self.grpBoughtTools.addChild(new BattleToolItem(tool));
             }
         });
         application.dao.addEventListener("Battle", function (evt) {
+            if (parseInt(self.lblGolds.text) != application.battle.getGolds()) {
+                self._animateStep(self.lblGolds, parseInt(self.lblGolds.text), application.battle.getGolds());
+            }
             self.lblLives.text = application.battle.getLives().toString();
-            self.lblGolds.text = application.battle.getGolds().toString();
             self.lblWaves.text = application.battle.getWaves().toString();
+        }, self);
+        self.imgTool.addEventListener(egret.TouchEvent.TOUCH_TAP, function () {
+            self.grpTools.visible = !self.grpTools.visible;
         }, self);
         self.imgBack.addEventListener(egret.TouchEvent.TOUCH_TAP, function () {
             self.removeEventListener(egret.Event.ENTER_FRAME, self._onEnterFrame, self);
@@ -25,20 +41,41 @@ var BattleUI = (function (_super) {
             HelpUI.showMainHelp();
         }, self);
         self.imgStart.addEventListener(egret.TouchEvent.TOUCH_TAP, function () {
-            application.battle.start();
+            application.battle.fight();
+            _this.imgTool.visible = true;
             self.imgStart.visible = false;
         }, self);
     }
     var d = __define,c=BattleUI,p=c.prototype;
     p.onRefresh = function () {
+        this.grpTools.visible = false;
+        this.imgTool.visible = false;
         this.grpBattle.addChild(application.battle);
-        this._readyBattle();
+        this._buildBattle();
     };
-    p._readyBattle = function () {
+    p._animateStep = function (lbl, from, to) {
+        if (from == to) {
+            return;
+        }
+        var step = Math.min(Math.abs(from - to), 20);
+        var delta = (to - from) / step;
+        var timer = new egret.Timer(50, step);
+        timer.addEventListener(egret.TimerEvent.TIMER, function (event) {
+            lbl.text = Math.round(from + delta * event.target.currentCount).toString();
+        }, this);
+        timer.addEventListener(egret.TimerEvent.TIMER_COMPLETE, function (event) {
+            lbl.text = to.toString();
+        }, this);
+        timer.start();
+    };
+    p._buildBattle = function () {
         //this._channel = this._music.play(0, 0);
         this._running = true;
-        application.battle.ready();
-        this.stage.frameRate = application.frameRate;
+        this.lblLives.text = "0";
+        this.lblGolds.text = "0";
+        this.lblWaves.text = "0";
+        application.battle.build();
+        //this.stage.frameRate = application.frameRate;
         this.addEventListener(egret.Event.ENTER_FRAME, this._onEnterFrame, this);
     };
     p._overBattle = function () {
@@ -51,7 +88,8 @@ var BattleUI = (function (_super) {
             self.removeEventListener(egret.Event.ENTER_FRAME, self._onEnterFrame, self);
             application.showUI(new BattleOptionUI(function () {
                 application.battle = application.pool.get(application.battle.getClaz());
-                self._readyBattle();
+                self.grpBattle.addChild(application.battle);
+                self._buildBattle();
             }, function () {
                 self._quitBattle();
             }));

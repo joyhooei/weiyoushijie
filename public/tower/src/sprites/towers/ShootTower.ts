@@ -1,27 +1,30 @@
 class ShootTower extends Tower {
-    protected _soldier: ShootSoldier;
+    protected _enemy : Enemy;
+
+    protected _bulletClaz: string;
     
-    protected _soldierClaz: string;
-
-    public constructor() {
-        super();
-    }
-
-    public erase() {
-        super.erase();
-        
-        if (this._soldier) {
-            this._soldier.erase();
+    protected _guarding() {
+        this._enemy = application.battle.findEnemy(this.getCenterX(), this.getCenterY(), this._guardRadius, [0, 1]);
+        if (this._enemy) {
+            this.fight();
         }
-        this._soldier = null;
     }
 
-    protected _addSoldier(x: number, y: number) {
-        this._soldier =  <ShootSoldier>application.pool.get(this._soldierClaz, {guardRadius: this._guardRadius});
-        
-        this._soldier.setCenterX(x);
-        this._soldier.setBottomY(y);
-        
-        application.battle.addEntity(this._soldier);
-    }
+    protected _fighting() {
+        if (this._ticks % this._hitSpeed == 0) {
+             if (this._enemy == null 
+                    || !this._enemy.active() 
+                    || !this._enemy.within(this.getCenterX(), this.getCenterY(), this._guardRadius)) {
+                this._enemy = application.battle.findEnemy(this.getCenterX(), this.getCenterY(), this._guardRadius, [0, 1]);
+            }
+
+            if (this._enemy) {
+                Bullet.shootAtNPC(this.getCenterX(), this.getCenterY(), this._enemy, this._bulletClaz, {force: this._force});
+            } else {
+                this.guard();
+            }
+        }
+
+        this._ticks ++;
+    }  
 }

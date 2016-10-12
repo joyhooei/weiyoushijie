@@ -16,6 +16,7 @@ var NPC = (function (_super) {
         this._hitSpeed = this._get(properties, "hitSpeed", Math.round(0.9 * application.frameRate));
         this._force = this._get(properties, "force", 10);
         this._armor = this._get(properties, "armor", 0);
+        this._magicArmor = this._get(properties, "magicArmor", 0);
         this._resistance = this._get(properties, "_resistance", 0);
         this._altitude = this._get(properties, "altitude", 0);
     };
@@ -35,7 +36,7 @@ var NPC = (function (_super) {
         _super.prototype.erase.call(this);
     };
     p.shootBy = function (bullet) {
-        return this.damage(this._actualForce(bullet.getForce()));
+        return this.damage(this._actualForce(bullet.getForce(), bullet.getHitType()));
     };
     p.hitBy = function (npc) {
         this.fight();
@@ -43,10 +44,18 @@ var NPC = (function (_super) {
         if (this._resistance > 0) {
             npc.damage(Math.round(d * (100 - this._resistance) / 100));
         }
-        return this.damage(this._actualForce(d));
+        return this.damage(this._actualForce(d, HitType.normal));
     };
-    p._actualForce = function (d) {
-        return Math.round(d * (100 - this._armor) / 100);
+    p._actualForce = function (d, hitType) {
+        if (hitType == HitType.normal) {
+            return Math.round(d * (100 - this._armor) / 100);
+        }
+        else if (hitType == HitType.magic) {
+            return Math.round(d * (100 - this._magicArmor) / 100);
+        }
+        else {
+            return d;
+        }
     };
     p.damage = function (d) {
         if (this.active()) {

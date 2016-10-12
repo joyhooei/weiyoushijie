@@ -501,7 +501,7 @@ module.exports = function() {
 			self.addModel("Tool", {
 				customer_id: String,
 				catetory: String,
-				quantity: {type: Number, default: 0},
+				count: {type: Number, default: 0},
 				game: String
 			});
 

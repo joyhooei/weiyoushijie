@@ -22,26 +22,9 @@ var UpgradeTowerUI = (function (_super) {
         application.dao.addEventListener("Battle", function (evt) {
             this.refresh();
         }, this);
-        this.addEventListener(egret.TouchEvent.TOUCH_TAP, function (e) {
-            if (_this.imgFlag.visible) {
-                var x = Math.round(e.localX) + _this.x;
-                var y = Math.round(e.localY) + _this.y;
-                _this.imgFlag.x = x - _this.imgFlag.height - _this.x;
-                _this.imgFlag.y = y - _this.imgFlag.width / 2 - _this.y;
-                var soldierTower = _this._tower;
-                if (x != soldierTower.getGuardX() || y != soldierTower.getGuardY()) {
-                    soldierTower.guardAt(x, y);
-                    if (_this._nextLevelTower1) {
-                        _this._nextLevelTower1.guardAt(x, y);
-                    }
-                    if (_this._nextLevelTower2) {
-                        _this._nextLevelTower2.guardAt(x, y);
-                    }
-                }
-            }
-            else {
-                application.hideUI(_this);
-            }
+        this.imgFlag.addEventListener(egret.TouchEvent.TOUCH_TAP, function () {
+            _this._tower.showFlag();
+            application.hideUI(_this);
         }, this);
         this.imgSell.addEventListener(egret.TouchEvent.TOUCH_TAP, function () {
             _this._base.setTower(null);
@@ -74,15 +57,7 @@ var UpgradeTowerUI = (function (_super) {
     };
     p.onRefresh = function () {
         if (this._tower.getSuperClaz() == "SoldierTower") {
-            var soldierTower = this._tower;
-            this.imgFlag.x = soldierTower.getGuardX() - this.imgFlag.height - this.x;
-            this.imgFlag.y = soldierTower.getGuardY() - this.imgFlag.width / 2 - this.y;
-            if (this._nextLevelTower1) {
-                this._nextLevelTower1.guardAt(soldierTower.getGuardX(), soldierTower.getGuardY());
-            }
-            if (this._nextLevelTower2) {
-                this._nextLevelTower2.guardAt(soldierTower.getGuardX(), soldierTower.getGuardY());
-            }
+            this.imgFlag.visible = true;
         }
         else {
             this.imgFlag.visible = false;

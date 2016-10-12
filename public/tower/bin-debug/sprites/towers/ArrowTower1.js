@@ -3,7 +3,7 @@ var ArrowTower1 = (function (_super) {
     function ArrowTower1() {
         _super.call(this);
         this.addBitmap("arrowtower1_png");
-        this._soldierClaz = "ArrowSoldier1";
+        this._bulletClaz = "Arrow1";
     }
     var d = __define,c=ArrowTower1,p=c.prototype;
     return ArrowTower1;

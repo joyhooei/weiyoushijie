@@ -11,7 +11,7 @@ class Battle2 extends Battle {
         this._addEffectByName("Cock", 540, 400, EntityDirection.west);
     }
     
-    protected _addWaves(paths:number[][][]) {        
+    protected _addWaves() {        
         this._addWave(0, "Wolf", 5, 0);
         this._addWave(0, "Wolf", 5, 0);
         this._addWave(0, "Wolf", 10, 0);
