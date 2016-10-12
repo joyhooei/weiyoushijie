@@ -19,8 +19,6 @@ class Waves {
     private _launchTicks: number;
 
     private _tips: LaunchTip[];
-
-    private _running: boolean;
     
     public constructor(mapWidth: number, mapHeight: number) {
         this._mapWidth  = mapWidth;
@@ -56,15 +54,9 @@ class Waves {
         this._enemies[wave][path].push(new Queue(claz, count));
     }
     
-    public start() {
+    public launchFirstWave() {
         this._currentWave = 0;
         this.launchWave(this._currentWave);
-        
-        this._running = true;
-    }
-
-    public stop() {
-        this._running = false;
     }
 
     public launchWave(wave: number) {
