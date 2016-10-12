@@ -82,11 +82,6 @@ class Waves {
     }
     
     public launch(cycle?:boolean): boolean {
-        //还没有开战
-        if (!this._running) {
-            return false;
-        }
-        
         //上一波还没有全部走出来
         this._launchTicks --;
         if (this._launchTicks > 0) {
