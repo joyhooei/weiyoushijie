@@ -68,7 +68,7 @@ class Battle extends Entity implements SoldierCreator {
         this._heroWinned = this._get(properties, "heroWinned", null);
     }
 
-    public ready() {
+    public build() {
         this._lives = this._maxLives;
         this._golds = this._maxGolds;
         
@@ -93,16 +93,18 @@ class Battle extends Entity implements SoldierCreator {
        
         this._result = new Result({customer_id: application.me.attrs.id, stage: this._options.stage, level: this._options.level, result: 0, score: 0, unused_bases: this._map.getBases().length, stars: 0});
 
-        this.fight();
+        super.build();
     }
 
-    public start() {
-        this._waves.launchFirst();
+    public fight() {
+        this._waves.launchFirstWave();
+        
+        super.fight();
     }
     
     public lose() {
         this._result.attrs.result = 2;
-
+        
         this.erase();
     }
     
@@ -335,6 +337,12 @@ class Battle extends Entity implements SoldierCreator {
     
     public launchWave(wave: number) {
         this._waves.launchWave(wave);
+    }
+
+    public _building() {
+        this._updateEntities(this._soldiers);
+        this._updateEntities(this._bases);   
+        this._updateEntities(this._entities);  
     }
     
     public _fighting() {
