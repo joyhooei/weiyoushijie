@@ -82,8 +82,7 @@ class BattleUI extends AbstractUI {
 
     protected onRefresh() {
 		this.grpTools.visible = false;
-
-		this.imgTool.visible = false;
+		this.imgTool.visible  = false;
 		
         this.grpBattle.addChild(application.battle);
 		
