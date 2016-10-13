@@ -9,8 +9,9 @@ class Queue {
     }
    
     public launch(path: number[][], idleTicks: number) {
+        let ticks = application.frameRate << 1;
         for(let j = 0; j < this._count; j++) {
-            let enemy = <Enemy>application.pool.get(this._claz, {"paths": this._randomPath(path), idleTicks: idleTicks + Math.random() * (application.frameRate << 2)});
+            let enemy = <Enemy>application.pool.get(this._claz, {"paths": this._randomPath(path), idleTicks: idleTicks + Math.random() * ticks});
             application.battle.addEnemy(enemy);
         }
     }
