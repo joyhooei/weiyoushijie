@@ -38,8 +38,8 @@ class HomeUI extends AbstractUI{
     }
 
     protected onRefresh() {
-        for (let i = 1; i <= 15; i++) {
-            this._battles[i - 1].visible = false;
+        for (let i = 0; i < 15; i++) {
+            this._battles[i].visible = false;
         }
         
         application.dao.fetch("Result", {customer_id: application.me.attrs.id, result: 1}, {order: 'stage DESC', limit: 1}).then(results){
