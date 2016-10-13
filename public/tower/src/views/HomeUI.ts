@@ -27,21 +27,29 @@ class HomeUI extends AbstractUI{
                 }
             }
         }, this);
+        
+        application.dao.addEventListener("Result",function(evt: egret.Event) {
+            let result = evt.data;
+            if (result.result == 1) {
+                let stage = Math.min(15, results.stage + 1);
+                this._battles[stage].visible = true;
+            }
+        }, self);        
     }
 
     protected onRefresh() {
         for (let i = 1; i <= 15; i++) {
-            this.battles[i - 1].visible = false;
+            this._battles[i - 1].visible = false;
         }
         
         application.dao.fetch("Result", {customer_id: application.me.attrs.id, result: 1}, {order: 'stage DESC', limit: 1}).then(results){
             if (results.length == 1) {
                 let maxStage = Math.min(15, results[0].stage + 1);
                 for (let i = 2; i <= maxStage; i++) {
-                    this.battles[i - 1].visible = true;
+                    this._battles[i - 1].visible = true;
                 }
             } else {
-                this.battles[0].visible = true;
+                this._battles[0].visible = true;
             }
         });
     }
