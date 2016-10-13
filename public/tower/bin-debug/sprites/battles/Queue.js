@@ -5,8 +5,9 @@ var Queue = (function () {
     }
     var d = __define,c=Queue,p=c.prototype;
     p.launch = function (path, idleTicks) {
+        var ticks = application.frameRate << 1;
         for (var j = 0; j < this._count; j++) {
-            var enemy = application.pool.get(this._claz, { "paths": this._randomPath(path), idleTicks: idleTicks + Math.random() * (application.frameRate << 2) });
+            var enemy = application.pool.get(this._claz, { "paths": this._randomPath(path), idleTicks: idleTicks + Math.random() * ticks });
             application.battle.addEnemy(enemy);
         }
     };

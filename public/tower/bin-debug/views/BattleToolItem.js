@@ -26,8 +26,8 @@ var BattleToolItem = (function (_super) {
         if (this._tool.category == "nectar") {
             application.battle.incLives(5);
         }
-        else if (this._tool.category == "frezze") {
-            Bullet.shoot(x, y, x, y, "Frezze");
+        else if (this._tool.category == "freeze") {
+            Bullet.shoot(x, y, x, y, "Freeze");
         }
         else if (this._tool.category == "thunder") {
             Bullet.shoot(x, y, x, y, "Thunder");

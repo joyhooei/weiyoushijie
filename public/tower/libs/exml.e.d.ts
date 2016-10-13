@@ -58,3 +58,5 @@ declare class vipUISkin extends eui.Skin{
 }
 declare class winUISkin extends eui.Skin{
 }
+declare class worldUISkin extends eui.Skin{
+}

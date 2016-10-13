@@ -13,8 +13,9 @@ var BattleUI = (function (_super) {
             for (var i = 0; i < toolCategories.length; i++) {
                 var tool = null;
                 for (var j = 0; j < tools.length; j++) {
-                    if (tools[j].attrs.category == toolCategories[i]) {
+                    if (tools[j].category == toolCategories[i]) {
                         tool = tools[j];
+                        tool.count = tool.count || 0;
                     }
                 }
                 if (null == tool) {
@@ -100,7 +101,7 @@ var BattleUI = (function (_super) {
             application.battle.erase();
             application.battle = null;
         }
-        application.hideUI(this);
+        this.show(new WorldUI(), true);
     };
     p._onEnterFrame = function (e) {
         if (application.battle.update()) {

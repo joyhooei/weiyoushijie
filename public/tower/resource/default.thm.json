@@ -31,6 +31,7 @@
     "resource/custom_skins/toolUISkin.exml",
     "resource/custom_skins/upgradeTowerUISkin.exml",
     "resource/custom_skins/vipUISkin.exml",
-    "resource/custom_skins/winUISkin.exml"
+    "resource/custom_skins/winUISkin.exml",
+    "resource/custom_skins/worldUISkin.exml"
   ]
 }

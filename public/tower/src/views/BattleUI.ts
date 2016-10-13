@@ -35,8 +35,9 @@ class BattleUI extends AbstractUI {
 			for(let i = 0; i < toolCategories.length; i++) {
 				let tool:any = null;
 				for(let j = 0; j < tools.length; j++) {
-					if (tools[j].attrs.category == toolCategories[i]) {
+					if (tools[j].category == toolCategories[i]) {
 						tool = tools[j];
+						tool.count = tool.count || 0;
 					}
 				}
 				
@@ -151,7 +152,7 @@ class BattleUI extends AbstractUI {
 			application.battle = null;
 		}
 
-		application.hideUI(this);
+		this.show(new WorldUI(), true);
 	}
 
     private _onEnterFrame(e:egret.Event) {
