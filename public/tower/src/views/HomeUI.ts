@@ -43,13 +43,12 @@ class HomeUI extends AbstractUI{
         }
         
         application.dao.fetch("Result", {customer_id: application.me.attrs.id, result: 1}, {order: 'stage DESC', limit: 1}).then(results){
-            if (results.length == 1) {
+            this._battles[0].visible = true;
+            if (results.length > 0) {
                 let maxStage = Math.min(15, results[0].stage + 1);
-                for (let i = 2; i <= maxStage; i++) {
-                    this._battles[i - 1].visible = true;
+                for (let i = 1; i < maxStage; i++) {
+                    this._battles[i].visible = true;
                 }
-            } else {
-                this._battles[0].visible = true;
             }
         });
     }
