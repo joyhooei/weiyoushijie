@@ -34,9 +34,9 @@ class CastBullet extends Bullet {
 		this._targetY = targetY;
 		
 		this._vertexY = Math.min(this._startY, this._targetY) - Math.abs(this._startX - this._targetX) / 3;
-		if (this._vertexY < 20) {
+		if (this._vertexY < 60) {
         	// 可能出现起点或者终点就是运动曲线顶点的情况
-        	this._vertexY = Math.min(20, Math.min(this._startY, this._targetY));
+        	this._vertexY = Math.min(60, Math.min(this._startY, this._targetY));
       	}
 		
         // 元素移动次数
