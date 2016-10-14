@@ -50,7 +50,7 @@ class CastBullet extends Bullet {
 			this._a = (this._targetY - this._b) / Math.pow(this._targetX, 2);
 		}
 		
-		this._steps = -1;
+		this._steps = 0;
 		
         //移动距离和移动步数
 		let distance      = Math.sqrt(Math.pow(this._startY - this._targetY, 2) + Math.pow(this._startX - this._targetX, 2));
