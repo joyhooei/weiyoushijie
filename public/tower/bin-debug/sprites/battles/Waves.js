@@ -34,19 +34,21 @@ var Waves = (function () {
         this._launchTicks = 0;
         for (var p = 0; p < this._enemies[wave].length; p++) {
             var idleTicks = 0;
-            for (var q = 0; q < this._enemies[wave][p].length; q++) {
-                this._enemies[wave][p][q].launch(this._paths[p], idleTicks);
-                idleTicks += this._ticksBetweenQueues;
-            }
-            if (this._launchTicks < idleTicks) {
-                this._launchTicks = idleTicks;
+            if (this._enemies[wave][p]) {
+                for (var q = 0; q < this._enemies[wave][p].length; q++) {
+                    this._enemies[wave][p][q].launch(this._paths[p], idleTicks);
+                    idleTicks += this._ticksBetweenQueues;
+                }
+                if (this._launchTicks < idleTicks) {
+                    this._launchTicks = idleTicks;
+                }
             }
         }
     };
     p.launch = function (cycle) {
         //上一波还没有全部走出来
         this._launchTicks--;
-        if (this._launchTicks > 0) {
+        if (this._launchTicks != 0) {
             return false;
         }
         //检查是否有下一波游戏
@@ -57,29 +59,31 @@ var Waves = (function () {
     };
     p._addWaveTips = function (wave) {
         for (var p = 0; p < this._enemies[wave].length; p++) {
-            var tip = application.pool.get("LaunchTip", { dyingTicks: this._ticksBetweenWaves, wave: wave });
-            var path = this._paths[p];
-            var direction = Entity.direction4(path[0][0], path[0][1], path[1][0], path[1][1]);
-            switch (direction) {
-                case EntityDirection.east:
-                    tip.x = 20;
-                    tip.y = path[0][1];
-                    break;
-                case EntityDirection.west:
-                    tip.x = this._mapWidth - tip.width - 20;
-                    tip.y = path[0][1];
-                    break;
-                case EntityDirection.north:
-                    tip.x = path[0][0];
-                    tip.y = this._mapHeight - tip.height - 20;
-                    break;
-                case EntityDirection.south:
-                    tip.x = path[0][0];
-                    tip.y = 20;
-                    break;
+            if (this._enemies[wave][p]) {
+                var tip = application.pool.get("LaunchTip", { dyingTicks: this._ticksBetweenWaves, wave: wave });
+                var path = this._paths[p];
+                var direction = Entity.direction4(path[0][0], path[0][1], path[1][0], path[1][1]);
+                switch (direction) {
+                    case EntityDirection.east:
+                        tip.x = 20;
+                        tip.y = path[0][1];
+                        break;
+                    case EntityDirection.west:
+                        tip.x = this._mapWidth - tip.width - 20;
+                        tip.y = path[0][1];
+                        break;
+                    case EntityDirection.north:
+                        tip.x = path[0][0];
+                        tip.y = this._mapHeight - tip.height - 20;
+                        break;
+                    case EntityDirection.south:
+                        tip.x = path[0][0];
+                        tip.y = 20;
+                        break;
+                }
+                application.battle.addEntity(tip);
+                this._tips.push(tip);
             }
-            application.battle.addEntity(tip);
-            this._tips.push(tip);
         }
     };
     p._nextWave = function (cycle) {

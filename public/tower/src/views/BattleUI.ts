@@ -75,18 +75,13 @@ class BattleUI extends AbstractUI {
 		self.imgStart.addEventListener(egret.TouchEvent.TOUCH_TAP,() => {
 			application.battle.fight();
 
-			this.imgTool.visible = true;
+			self.imgTool.visible = true;
 			
             self.imgStart.visible = false;
 		}, self);
     }
 
     protected onRefresh() {
-		this.grpTools.visible = false;
-		this.imgTool.visible  = false;
-		
-        this.grpBattle.addChild(application.battle);
-		
 		this._buildBattle();
     }
 
@@ -110,8 +105,14 @@ class BattleUI extends AbstractUI {
 	}
     
     private _buildBattle() {
-    	//this._channel = this._music.play(0, 0);
+		this.grpBattle.addChild(application.battle);
+				
+		//this._channel = this._music.play(0, 0);
 
+		this.imgStart.visible = true;
+		this.grpTools.visible = false;
+		this.imgTool.visible  = false;
+		
         this._running = true;
 		
 		this.lblLives.text = "0";
@@ -138,7 +139,6 @@ class BattleUI extends AbstractUI {
 
 			application.showUI(new BattleOptionUI(function(){
 				application.battle = <Battle>application.pool.get(application.battle.getClaz());
-				self.grpBattle.addChild(application.battle);
 				self._buildBattle();
 			}, function(){
 				self._quitBattle();

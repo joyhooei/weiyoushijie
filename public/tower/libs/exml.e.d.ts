@@ -20,7 +20,7 @@ declare class guideUISkin extends eui.Skin{
 }
 declare class helpUISkin extends eui.Skin{
 }
-declare class homeUISkin extends eui.Skin{
+declare class worldUISkin extends eui.Skin{
 }
 declare class landingUISkin extends eui.Skin{
 }
@@ -57,6 +57,4 @@ declare class upgradeTowerUISkin extends eui.Skin{
 declare class vipUISkin extends eui.Skin{
 }
 declare class winUISkin extends eui.Skin{
-}
-declare class worldUISkin extends eui.Skin{
 }

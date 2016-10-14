@@ -10,6 +10,14 @@ class ShootTower extends Tower {
         }
     }
 
+    protected getMuzzleX(): number {
+        return this.getCenterX();
+    }
+
+    protected getMuzzleY(): number {
+        return this.y;
+    }
+   
     protected _fighting() {
         if (this._ticks % this._hitSpeed == 0) {
              if (this._enemy == null 
@@ -19,12 +27,12 @@ class ShootTower extends Tower {
             }
 
             if (this._enemy) {
-                Bullet.shootAtNPC(this.getCenterX(), this.getCenterY(), this._enemy, this._bulletClaz, {force: this._force});
+                Bullet.shootAtNPC(this.getMuzzleX(), this.getMuzzleY(), this._enemy, this._bulletClaz, {force: this._force});
             } else {
                 this.guard();
             }
         }
 
         this._ticks ++;
-    }  
+    }
 }

@@ -188,7 +188,6 @@ var game_file_list = [
 	"bin-debug/views/UpgradeTowerUI.js",
 	"bin-debug/views/VipUI.js",
 	"bin-debug/views/WinUI.js",
-	"bin-debug/views/WorldUI.js",
 	//----auto game_file_list end----
 ];
 

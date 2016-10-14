@@ -1,7 +1,6 @@
 var BattleUI = (function (_super) {
     __extends(BattleUI, _super);
     function BattleUI() {
-        var _this = this;
         _super.call(this, "battleUISkin");
         var self = this;
         self._music = RES.getRes("bg_mp3");
@@ -43,15 +42,12 @@ var BattleUI = (function (_super) {
         }, self);
         self.imgStart.addEventListener(egret.TouchEvent.TOUCH_TAP, function () {
             application.battle.fight();
-            _this.imgTool.visible = true;
+            self.imgTool.visible = true;
             self.imgStart.visible = false;
         }, self);
     }
     var d = __define,c=BattleUI,p=c.prototype;
     p.onRefresh = function () {
-        this.grpTools.visible = false;
-        this.imgTool.visible = false;
-        this.grpBattle.addChild(application.battle);
         this._buildBattle();
     };
     p._animateStep = function (lbl, from, to) {
@@ -70,7 +66,11 @@ var BattleUI = (function (_super) {
         timer.start();
     };
     p._buildBattle = function () {
+        this.grpBattle.addChild(application.battle);
         //this._channel = this._music.play(0, 0);
+        this.imgStart.visible = true;
+        this.grpTools.visible = false;
+        this.imgTool.visible = false;
         this._running = true;
         this.lblLives.text = "0";
         this.lblGolds.text = "0";
@@ -89,7 +89,6 @@ var BattleUI = (function (_super) {
             self.removeEventListener(egret.Event.ENTER_FRAME, self._onEnterFrame, self);
             application.showUI(new BattleOptionUI(function () {
                 application.battle = application.pool.get(application.battle.getClaz());
-                self.grpBattle.addChild(application.battle);
                 self._buildBattle();
             }, function () {
                 self._quitBattle();
@@ -101,7 +100,7 @@ var BattleUI = (function (_super) {
             application.battle.erase();
             application.battle = null;
         }
-        this.show(new WorldUI(), true);
+        this.hide();
     };
     p._onEnterFrame = function (e) {
         if (application.battle.update()) {

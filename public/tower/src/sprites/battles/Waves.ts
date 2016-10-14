@@ -67,14 +67,16 @@ class Waves {
         for(let p = 0; p < this._enemies[wave].length; p++) {
             let idleTicks:number = 0;
             
-            for(let q = 0; q < this._enemies[wave][p].length; q++) {
-                this._enemies[wave][p][q].launch(this._paths[p], idleTicks);
+            if (this._enemies[wave][p]) {
+                for(let q = 0; q < this._enemies[wave][p].length; q++) {
+                    this._enemies[wave][p][q].launch(this._paths[p], idleTicks);
+                    
+                    idleTicks += this._ticksBetweenQueues;
+                }
                 
-                idleTicks += this._ticksBetweenQueues;
-            }
-            
-            if (this._launchTicks < idleTicks) {
-                this._launchTicks = idleTicks;
+                if (this._launchTicks < idleTicks) {
+                    this._launchTicks = idleTicks;
+                }
             }
         }
     }
@@ -82,7 +84,7 @@ class Waves {
     public launch(cycle?:boolean): boolean {
         //上一波还没有全部走出来
         this._launchTicks --;
-        if (this._launchTicks > 0) {
+        if (this._launchTicks != 0) {
             return false;
         }
         
@@ -96,34 +98,36 @@ class Waves {
     
     private _addWaveTips(wave:number) {
         for(let p = 0; p < this._enemies[wave].length; p++) {
-            let tip = <LaunchTip>application.pool.get("LaunchTip", {dyingTicks:this._ticksBetweenWaves, wave: wave});
+            if (this._enemies[wave][p]) {
+                let tip = <LaunchTip>application.pool.get("LaunchTip", {dyingTicks:this._ticksBetweenWaves, wave: wave});
 
-            let path = this._paths[p];
-            let direction = Entity.direction4(path[0][0], path[0][1], path[1][0], path[1][1]);
-            switch(direction) {
-                case EntityDirection.east:
-                    tip.x = 20;
-                    tip.y = path[0][1];
-                    break;
-                    
-                case EntityDirection.west:
-                    tip.x = this._mapWidth - tip.width - 20;
-                    tip.y = path[0][1];
-                    break;
-                    
-                case EntityDirection.north:
-                    tip.x = path[0][0];
-                    tip.y = this._mapHeight - tip.height - 20;
-                    break;
-                    
-                case EntityDirection.south:
-                    tip.x = path[0][0];
-                    tip.y = 20;
-                    break;
+                let path = this._paths[p];
+                let direction = Entity.direction4(path[0][0], path[0][1], path[1][0], path[1][1]);
+                switch(direction) {
+                    case EntityDirection.east:
+                        tip.x = 20;
+                        tip.y = path[0][1];
+                        break;
+                        
+                    case EntityDirection.west:
+                        tip.x = this._mapWidth - tip.width - 20;
+                        tip.y = path[0][1];
+                        break;
+                        
+                    case EntityDirection.north:
+                        tip.x = path[0][0];
+                        tip.y = this._mapHeight - tip.height - 20;
+                        break;
+                        
+                    case EntityDirection.south:
+                        tip.x = path[0][0];
+                        tip.y = 20;
+                        break;
+                }
+
+                application.battle.addEntity(tip);
+                this._tips.push(tip);
             }
-
-            application.battle.addEntity(tip);
-            this._tips.push(tip);
         }
     }        
     

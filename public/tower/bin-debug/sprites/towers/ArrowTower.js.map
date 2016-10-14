@@ -1,1 +1,1 @@
-{"version":3,"file":"ArrowTower.js","sourceRoot":"","sources":["../../../src/sprites/towers/ArrowTower.ts"],"names":[],"mappings":"AAAA;IAAyB,8BAAU;IAAnC;QAAyB,8BAAU;IACnC,CAAC;;IAAD,iBAAC;AAAD,CAAC,AADD,CAAyB,UAAU,GAClC;oBADK,UAAU;AACf"}
+{"version":3,"file":"ArrowTower.js","sourceRoot":"","sources":["../../../src/sprites/towers/ArrowTower.ts"],"names":[],"mappings":"AAAA;IAAyB,8BAAU;IAAnC;QAAyB,8BAAU;IAInC,CAAC;;IAHa,YAAU,GAApB;QACI,MAAM,CAAC,IAAI,CAAC,UAAU,EAAE,CAAC;IAC7B,CAAC;IACL,iBAAC;AAAD,CAAC,AAJD,CAAyB,UAAU,GAIlC;oBAJK,UAAU;AAIf"}

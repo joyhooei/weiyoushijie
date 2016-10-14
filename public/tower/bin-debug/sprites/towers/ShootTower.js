@@ -10,6 +10,12 @@ var ShootTower = (function (_super) {
             this.fight();
         }
     };
+    p.getMuzzleX = function () {
+        return this.getCenterX();
+    };
+    p.getMuzzleY = function () {
+        return this.y;
+    };
     p._fighting = function () {
         if (this._ticks % this._hitSpeed == 0) {
             if (this._enemy == null
@@ -18,7 +24,7 @@ var ShootTower = (function (_super) {
                 this._enemy = application.battle.findEnemy(this.getCenterX(), this.getCenterY(), this._guardRadius, [0, 1]);
             }
             if (this._enemy) {
-                Bullet.shootAtNPC(this.getCenterX(), this.getCenterY(), this._enemy, this._bulletClaz, { force: this._force });
+                Bullet.shootAtNPC(this.getMuzzleX(), this.getMuzzleY(), this._enemy, this._bulletClaz, { force: this._force });
             }
             else {
                 this.guard();

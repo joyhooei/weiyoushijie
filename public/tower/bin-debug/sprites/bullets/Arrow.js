@@ -26,7 +26,7 @@ var Arrow = (function (_super) {
     };
     p._moveOneStep = function () {
         var dx = this.x - this._startX;
-        var dy = this._startY - this.y;
+        var dy = this.y - this._startY;
         this.rotation = Math.atan2(dy, dx) * 180 / Math.PI;
         return _super.prototype._moveOneStep.call(this);
     };
