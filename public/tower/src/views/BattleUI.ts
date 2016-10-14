@@ -152,7 +152,7 @@ class BattleUI extends AbstractUI {
 			application.battle = null;
 		}
 
-		this.show(new WorldUI(), true);
+		this.hide();
 	}
 
     private _onEnterFrame(e:egret.Event) {
