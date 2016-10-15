@@ -91,7 +91,9 @@ class Entity extends egret.Sprite {
 	}
 
     public stain() {
-    	application.battle.addDirt(this);
+		if (this._state != EntityState.idle && this._state != EntityState.dead) {
+    		application.battle.addDirt(this);
+		}
     }
 	
 	public build() {

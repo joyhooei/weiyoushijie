@@ -69,7 +69,9 @@ var Entity = (function (_super) {
         return this.y + this.height;
     };
     p.stain = function () {
-        application.battle.addDirt(this);
+        if (this._state != EntityState.idle && this._state != EntityState.dead) {
+            application.battle.addDirt(this);
+        }
     };
     p.build = function () {
         this._do(EntityState.building);

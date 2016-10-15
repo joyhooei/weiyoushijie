@@ -362,9 +362,7 @@ var Battle = (function (_super) {
         this._layers[2].addChild(entity);
     };
     p.addDirt = function (entity) {
-        if (!entity.dead()) {
-            this._dirts.push(entity);
-        }
+        this._dirts.push(entity);
     };
     p.createSoldier = function (soldier) {
         this.addSoldier(soldier.relive(10 * application.frameRate));

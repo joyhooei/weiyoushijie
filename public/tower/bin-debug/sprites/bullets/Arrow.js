@@ -7,6 +7,7 @@ var Arrow = (function (_super) {
     p.initialize = function (properties) {
         _super.prototype.initialize.call(this, properties);
         this._missing = false;
+        this.rotation = -90;
     };
     p._hitTarget = function () {
         if (this._target.active()) {
@@ -25,10 +26,15 @@ var Arrow = (function (_super) {
         }
     };
     p._moveOneStep = function () {
-        var dx = this.x - this._startX;
-        var dy = this.y - this._startY;
-        this.rotation = Math.atan2(dy, dx) * 180 / Math.PI;
-        return _super.prototype._moveOneStep.call(this);
+        var x = this.x;
+        var y = this.y;
+        var over = _super.prototype._moveOneStep.call(this);
+        if (this.x != x || this.y != y) {
+            var dx = this.x - x;
+            var dy = y - this.y;
+            this.rotation = -Math.atan2(dy, dx) * 180 / Math.PI;
+        }
+        return over;
     };
     return Arrow;
 }(CastBullet));

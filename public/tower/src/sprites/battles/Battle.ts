@@ -471,9 +471,7 @@ class Battle extends Entity implements SoldierCreator {
     }
     
     public addDirt(entity: Entity) {
-        if (!entity.dead()) {
-            this._dirts.push(entity);
-        }
+        this._dirts.push(entity);
     }
     
     public createSoldier(soldier: Soldier):Soldier {

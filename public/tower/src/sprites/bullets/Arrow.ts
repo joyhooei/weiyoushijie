@@ -5,6 +5,8 @@ class Arrow extends CastBullet {
         super.initialize(properties);
 
         this._missing = false;
+
+        this.rotation = -90;
     } 
     
     protected _hitTarget() {
@@ -24,10 +26,18 @@ class Arrow extends CastBullet {
     }
 
     protected _moveOneStep():boolean {
-        let dx: number = this.x - this._startX;
-        let dy: number = this.y - this._startY;
-        this.rotation = Math.atan2(dy, dx) * 180 / Math.PI;
-        
-        return super._moveOneStep();
+        let x = this.x;
+        let y = this.y;
+
+        let over = super._moveOneStep();
+
+        if (this.x != x ||this.y != y) {
+            let dx: number = this.x - x;
+            let dy: number = y - this.y;
+
+            this.rotation = - Math.atan2(dy, dx) * 180 / Math.PI;
+        }
+
+        return over;
     }
 }
