@@ -91,7 +91,6 @@ var Entity = (function (_super) {
         if (this.parent) {
             this.parent.removeChild(this);
         }
-        application.pool.set(this);
     };
     p.active = function () {
         return this._state < EntityState.dying;

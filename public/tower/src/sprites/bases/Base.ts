@@ -45,8 +45,6 @@ class Base extends Entity implements SelectableEntity {
     }
     
     public setTower(tower: Tower) {
-        this._unused = false;
-        
         if (this._tower) {
             this._tower.erase();
 
@@ -67,6 +65,8 @@ class Base extends Entity implements SelectableEntity {
                 this._parent = this.parent;
                 this._parent.removeChild(this);
             }
+        
+            this._unused = false;
         }
     }
     

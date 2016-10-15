@@ -120,8 +120,6 @@ class Entity extends egret.Sprite {
     	if (this.parent) {
     		this.parent.removeChild(this);
     	}
-    	
-    	application.pool.set(this);
     }
 
 	public active(): boolean {

@@ -367,6 +367,7 @@ class Battle extends Entity implements SoldierCreator {
         while(i > 0) {
             let entity = entities[--i];
             if (entity.update()) {
+    	        application.pool.set(entity);
                 entities.splice(i, 1);
             }
         }        

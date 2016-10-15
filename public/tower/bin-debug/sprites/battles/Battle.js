@@ -278,6 +278,7 @@ var Battle = (function (_super) {
         while (i > 0) {
             var entity = entities[--i];
             if (entity.update()) {
+                application.pool.set(entity);
                 entities.splice(i, 1);
             }
         }

@@ -26,7 +26,6 @@ var Base = (function (_super) {
         return this._tower;
     };
     p.setTower = function (tower) {
-        this._unused = false;
         if (this._tower) {
             this._tower.erase();
             if (this._parent) {
@@ -43,6 +42,7 @@ var Base = (function (_super) {
                 this._parent = this.parent;
                 this._parent.removeChild(this);
             }
+            this._unused = false;
         }
     };
     p.erase = function () {

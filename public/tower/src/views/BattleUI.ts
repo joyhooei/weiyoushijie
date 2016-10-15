@@ -136,6 +136,9 @@ class BattleUI extends AbstractUI {
 			}
 
 			self.removeEventListener(egret.Event.ENTER_FRAME, self._onEnterFrame, self);
+			
+			application.pool.set(application.battle);
+			application.battle = null;
 
 			application.showUI(new BattleOptionUI(function(){
 				application.battle = <Battle>application.pool.get(application.battle.getClaz());
