@@ -26,15 +26,17 @@ class UpgradeTowerUI extends AbstractUI{
         
         this._base = base;
 		this._tower = base.getTower();
+
+		let options = {guardX: this._base.getGuardX(), guardY: this._base.getGuardY()};
 		
 		let claz = this._tower.getClaz();
 		let idx = parseInt(claz.charAt(claz.length - 1));
 		if (idx == 1 || idx == 2) {
-			this._nextLevelTower1 = <Tower>application.pool.get(claz.slice(0, claz.length - 1) + (idx + 1).toString());
+			this._nextLevelTower1 = <Tower>application.pool.get(claz.slice(0, claz.length - 1) + (idx + 1).toString(), options);
 			this._nextLevelTower2 = null;
 		} else if (idx == 3) {
-			this._nextLevelTower1 = <Tower>application.pool.get(claz.slice(0, claz.length - 1) + "4");
-			this._nextLevelTower2 = <Tower>application.pool.get(claz.slice(0, claz.length - 1) + "5");
+			this._nextLevelTower1 = <Tower>application.pool.get(claz.slice(0, claz.length - 1) + "4", options);
+			this._nextLevelTower2 = <Tower>application.pool.get(claz.slice(0, claz.length - 1) + "5", options);
 		} else {
 			this._nextLevelTower1 = null;
 			this._nextLevelTower2 = null;

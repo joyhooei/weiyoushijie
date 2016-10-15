@@ -126,19 +126,20 @@ class Battle extends Entity implements SoldierCreator {
                 this._result.attrs.stars = 1;
             }
         }
-
-        this.erase();   
         
-        if (this._heroWinned) {
-            application.dao.fetch("Legend", {customer_id: application.me.attrs.id, name:this._heroWinned}).then(function(legends){
+        let hero = this._heroWinned;
+        if (hero) {
+            application.dao.fetch("Legend", {customer_id: application.me.attrs.id, name:hero}).then(function(legends){
                 if (legends.length == 0) {
-                    let legend = new Legend({customer_id: application.me.attrs.id, name:this._heroWinned, level: 1});
+                    let legend = new Legend({customer_id: application.me.attrs.id, name:hero, level: 1});
                     legend.save();
                     
-                    Toast.launch("恭喜您，获得了英雄：" + this._heroWinned);
+                    Toast.launch("恭喜您，获得了英雄：" + hero);
                 }
             });
         }
+
+        this.erase();        
     }
     
     public readyUseTool(toolItem: BattleToolItem) {

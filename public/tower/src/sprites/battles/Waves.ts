@@ -19,10 +19,14 @@ class Waves {
     private _launchTicks: number;
 
     private _tips: LaunchTip[];
+
+    private _running: boolean;
     
     public constructor(mapWidth: number, mapHeight: number) {
         this._mapWidth  = mapWidth;
         this._mapHeight = mapHeight;
+
+        this._running = false;
     }
 
     public setPaths(paths: number[][][]) {
@@ -54,6 +58,8 @@ class Waves {
     
     public launchFirstWave() {
         this._currentWave = 0;
+        this._running = true;
+
         this.launchWave(this._currentWave);
     }
 
@@ -82,18 +88,22 @@ class Waves {
     }
     
     public launch(cycle?:boolean): boolean {
-        //上一波还没有全部走出来
-        this._launchTicks --;
-        if (this._launchTicks != 0) {
+        if (this._running) {
+            //上一波还没有全部走出来
+            this._launchTicks --;
+            if (this._launchTicks != 0) {
+                return false;
+            }
+            
+            //检查是否有下一波游戏
+            if (false == this._nextWave(cycle)) {
+                return true;
+            }
+
             return false;
-        }
-        
-        //检查是否有下一波游戏
-        if (false == this._nextWave(cycle)) {
+        } else {
             return true;
         }
-
-        return false;
     }
     
     private _addWaveTips(wave:number) {
@@ -139,6 +149,7 @@ class Waves {
                 this._currentWave = 0;
                 this._rounds += 1;
             } else {
+                this._running = false;
                 return false;
             }
         }

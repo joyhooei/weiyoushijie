@@ -2,6 +2,7 @@ var Waves = (function () {
     function Waves(mapWidth, mapHeight) {
         this._mapWidth = mapWidth;
         this._mapHeight = mapHeight;
+        this._running = false;
     }
     var d = __define,c=Waves,p=c.prototype;
     p.setPaths = function (paths) {
@@ -24,6 +25,7 @@ var Waves = (function () {
     };
     p.launchFirstWave = function () {
         this._currentWave = 0;
+        this._running = true;
         this.launchWave(this._currentWave);
     };
     p.launchWave = function (wave) {
@@ -46,16 +48,21 @@ var Waves = (function () {
         }
     };
     p.launch = function (cycle) {
-        //上一波还没有全部走出来
-        this._launchTicks--;
-        if (this._launchTicks != 0) {
+        if (this._running) {
+            //上一波还没有全部走出来
+            this._launchTicks--;
+            if (this._launchTicks != 0) {
+                return false;
+            }
+            //检查是否有下一波游戏
+            if (false == this._nextWave(cycle)) {
+                return true;
+            }
             return false;
         }
-        //检查是否有下一波游戏
-        if (false == this._nextWave(cycle)) {
+        else {
             return true;
         }
-        return false;
     };
     p._addWaveTips = function (wave) {
         for (var p = 0; p < this._enemies[wave].length; p++) {
@@ -96,6 +103,7 @@ var Waves = (function () {
                 this._rounds += 1;
             }
             else {
+                this._running = false;
                 return false;
             }
         }
