@@ -440,20 +440,7 @@ class Battle extends Entity implements SoldierCreator {
         return null;
     }
 
-    public getEnemies(): Enemy[] {
-        let enemies = [];
-        
-        for(let i = 0; i < this._enemies.length; i++) {
-            let e = this._enemies[i];
-            if (!this._inEscapeArea(e)){
-                enemies.push(e);
-            }
-        }
-        
-        return enemies;
-    }
-
-    private _inEscapeArea(enemy: Enemy) {
+    public inEscapeArea(enemy: Enemy) {
         if (this._escapeHeight > 0) {
             return Entity.intersect(enemy.x, enemy.y, enemy.width, enemy.height, this._escapeX, this._escapeY, this._escapeWidth, this._escapeHeight);
         }
@@ -461,12 +448,25 @@ class Battle extends Entity implements SoldierCreator {
         return false;
     }
 
+    public getEnemies(): Enemy[] {
+        let enemies = [];
+        
+        for(let i = 0; i < this._enemies.length; i++) {
+            let e = this._enemies[i];
+            if (!this.inEscapeArea(e)){
+                enemies.push(e);
+            }
+        }
+        
+        return enemies;
+    }
+
     public findEnemies(x: number, y: number, radius: number, altitudes: number[]) : Enemy[] {
         let enemies = [];
         
         for(let i = 0; i < this._enemies.length; i++) {
             let e = this._enemies[i];
-            if (e.reachable(x, y, radius, altitudes) && !this._inEscapeArea(e)){
+            if (e.reachable(x, y, radius, altitudes) && !this.inEscapeArea(e)){
                 enemies.push(e);
             }
         }
@@ -477,7 +477,7 @@ class Battle extends Entity implements SoldierCreator {
     public findEnemy(x: number, y: number, radius: number, altitudes: number[]) : Enemy {
         for(let i = 0; i < this._enemies.length; i++) {
             let e = this._enemies[i];
-            if (e.reachable(x, y, radius, altitudes) && !this._inEscapeArea(e)){
+            if (e.reachable(x, y, radius, altitudes) && !this.inEscapeArea(e)){
                 return e;
             }
         }
@@ -491,7 +491,7 @@ class Battle extends Entity implements SoldierCreator {
         for(let i = 0; i < this._enemies.length; i++) {
             let e = this._enemies[i];
             
-            if (e.reachable(x, y, radius, altitudes) && !this._inEscapeArea(e)){
+            if (e.reachable(x, y, radius, altitudes) && !this.inEscapeArea(e)){
                 if (e.totalSoldiers() == 0) {
                     return e;
                 } else {
@@ -508,7 +508,7 @@ class Battle extends Entity implements SoldierCreator {
     public killAllEnemies() {
         for(let i = 0; i < this._enemies.length; i++) {
             let e = this._enemies[i];
-            if (!this._inEscapeArea(e)) {
+            if (!this.inEscapeArea(e)) {
                 this._enemies[i].kill();
             }
         }

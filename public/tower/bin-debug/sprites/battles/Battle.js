@@ -337,27 +337,27 @@ var Battle = (function (_super) {
         }
         return null;
     };
-    p.getEnemies = function () {
-        var enemies = [];
-        for (var i = 0; i < this._enemies.length; i++) {
-            var e = this._enemies[i];
-            if (!this._inEscapeArea(e)) {
-                enemies.push(e);
-            }
-        }
-        return enemies;
-    };
-    p._inEscapeArea = function (enemy) {
+    p.inEscapeArea = function (enemy) {
         if (this._escapeHeight > 0) {
             return Entity.intersect(enemy.x, enemy.y, enemy.width, enemy.height, this._escapeX, this._escapeY, this._escapeWidth, this._escapeHeight);
         }
         return false;
     };
+    p.getEnemies = function () {
+        var enemies = [];
+        for (var i = 0; i < this._enemies.length; i++) {
+            var e = this._enemies[i];
+            if (!this.inEscapeArea(e)) {
+                enemies.push(e);
+            }
+        }
+        return enemies;
+    };
     p.findEnemies = function (x, y, radius, altitudes) {
         var enemies = [];
         for (var i = 0; i < this._enemies.length; i++) {
             var e = this._enemies[i];
-            if (e.reachable(x, y, radius, altitudes) && !this._inEscapeArea(e)) {
+            if (e.reachable(x, y, radius, altitudes) && !this.inEscapeArea(e)) {
                 enemies.push(e);
             }
         }
@@ -366,7 +366,7 @@ var Battle = (function (_super) {
     p.findEnemy = function (x, y, radius, altitudes) {
         for (var i = 0; i < this._enemies.length; i++) {
             var e = this._enemies[i];
-            if (e.reachable(x, y, radius, altitudes) && !this._inEscapeArea(e)) {
+            if (e.reachable(x, y, radius, altitudes) && !this.inEscapeArea(e)) {
                 return e;
             }
         }
@@ -376,7 +376,7 @@ var Battle = (function (_super) {
         var enemy = null;
         for (var i = 0; i < this._enemies.length; i++) {
             var e = this._enemies[i];
-            if (e.reachable(x, y, radius, altitudes) && !this._inEscapeArea(e)) {
+            if (e.reachable(x, y, radius, altitudes) && !this.inEscapeArea(e)) {
                 if (e.totalSoldiers() == 0) {
                     return e;
                 }
@@ -392,7 +392,7 @@ var Battle = (function (_super) {
     p.killAllEnemies = function () {
         for (var i = 0; i < this._enemies.length; i++) {
             var e = this._enemies[i];
-            if (!this._inEscapeArea(e)) {
+            if (!this.inEscapeArea(e)) {
                 this._enemies[i].kill();
             }
         }
