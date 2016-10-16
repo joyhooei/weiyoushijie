@@ -18,11 +18,48 @@ var Battle = (function (_super) {
                 self._map.paint();
                 self._waves.setPaths(self._map.getPaths());
                 self._addWaves();
+                self._getEscapeArea();
                 resolve(self);
             }, function (error) {
                 reject(error);
             });
         });
+    };
+    p._getEscapeArea = function () {
+        this._escapeX = 0;
+        this._escapeY = 0;
+        this._escapeHeight = 0;
+        this._escapeWidth = 0;
+        var exits = this._map.getExits();
+        if (exits.length > 0) {
+            var x = exits[0][0];
+            var y = exits[0][1];
+            var gap = 10;
+            if (x < gap) {
+                this._escapeX = 0;
+                this._escapeY = 0;
+                this._escapeHeight = 480;
+                this._escapeWidth = gap;
+            }
+            else if (x > 480 - gap) {
+                this._escapeX = 480 - gap;
+                this._escapeY = 0;
+                this._escapeHeight = 480;
+                this._escapeWidth = gap;
+            }
+            if (y < gap) {
+                this._escapeX = 0;
+                this._escapeY = 0;
+                this._escapeHeight = gap;
+                this._escapeWidth = 800;
+            }
+            else if (y > 800 - gap) {
+                this._escapeX = 0;
+                this._escapeY = 800 - gap;
+                this._escapeHeight = gap;
+                this._escapeWidth = 800;
+            }
+        }
     };
     p.initialize = function (properties) {
         _super.prototype.initialize.call(this, properties);
@@ -301,21 +338,36 @@ var Battle = (function (_super) {
         return null;
     };
     p.getEnemies = function () {
-        return this._enemies;
+        var enemies = [];
+        for (var i = 0; i < this._enemies.length; i++) {
+            var e = this._enemies[i];
+            if (!this._inEscapeArea(e)) {
+                enemies.push(e);
+            }
+        }
+        return enemies;
+    };
+    p._inEscapeArea = function (enemy) {
+        if (this._escapeHeight > 0) {
+            return Entity.intersect(enemy.x, enemy.y, enemy.width, enemy.height, this._escapeX, this._escapeY, this._escapeWidth, this._escapeHeight);
+        }
+        return false;
     };
     p.findEnemies = function (x, y, radius, altitudes) {
         var enemies = [];
         for (var i = 0; i < this._enemies.length; i++) {
-            if (this._enemies[i].reachable(x, y, radius, altitudes)) {
-                enemies.push(this._enemies[i]);
+            var e = this._enemies[i];
+            if (e.reachable(x, y, radius, altitudes) && !this._inEscapeArea(e)) {
+                enemies.push(e);
             }
         }
         return enemies;
     };
     p.findEnemy = function (x, y, radius, altitudes) {
         for (var i = 0; i < this._enemies.length; i++) {
-            if (this._enemies[i].reachable(x, y, radius, altitudes)) {
-                return this._enemies[i];
+            var e = this._enemies[i];
+            if (e.reachable(x, y, radius, altitudes) && !this._inEscapeArea(e)) {
+                return e;
             }
         }
         return null;
@@ -324,7 +376,7 @@ var Battle = (function (_super) {
         var enemy = null;
         for (var i = 0; i < this._enemies.length; i++) {
             var e = this._enemies[i];
-            if (e.reachable(x, y, radius, altitudes)) {
+            if (e.reachable(x, y, radius, altitudes) && !this._inEscapeArea(e)) {
                 if (e.totalSoldiers() == 0) {
                     return e;
                 }
@@ -339,7 +391,10 @@ var Battle = (function (_super) {
     };
     p.killAllEnemies = function () {
         for (var i = 0; i < this._enemies.length; i++) {
-            this._enemies[i].kill();
+            var e = this._enemies[i];
+            if (!this._inEscapeArea(e)) {
+                this._enemies[i].kill();
+            }
         }
     };
     p.addBase = function (base) {
