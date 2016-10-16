@@ -37,7 +37,7 @@ var Base = (function (_super) {
             this._tower.setCenterX(this.getCenterX());
             this._tower.setCenterY(this.getCenterY());
             this._tower.setBase(this);
-            application.battle.addEntity(this._tower);
+            application.battle.addTower(this._tower);
             if (this.parent) {
                 this._parent = this.parent;
                 this._parent.removeChild(this);

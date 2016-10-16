@@ -401,6 +401,10 @@ var Battle = (function (_super) {
         this._bases.push(base);
         this._layers[0].addChild(base);
     };
+    p.addTower = function (tower) {
+        this._entities.push(tower);
+        this._layers[0].addChild(tower);
+    };
     p.addSoldier = function (soldier) {
         this._soldiers.push(soldier);
         this._layers[1].addChild(soldier);

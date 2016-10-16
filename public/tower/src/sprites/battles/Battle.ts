@@ -519,6 +519,11 @@ class Battle extends Entity implements SoldierCreator {
         this._layers[0].addChild(base);
     }
 
+    public addTower(tower:Tower) {
+        this._entities.push(tower);
+        this._layers[0].addChild(tower);
+    }
+
     public addSoldier(soldier:Soldier) {
         this._soldiers.push(soldier);
         this._layers[1].addChild(soldier);
