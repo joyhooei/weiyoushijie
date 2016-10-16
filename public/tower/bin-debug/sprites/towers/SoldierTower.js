@@ -36,9 +36,9 @@ var SoldierTower = (function (_super) {
         }
     };
     p.createSoldier = function (soldier) {
-        soldier.relive(10 * application.frameRate);
-        this._addSoldier(soldier);
-        return soldier;
+        var s = soldier.relive(10 * application.frameRate);
+        this._addSoldier(s);
+        return s;
     };
     p.guard = function () {
         _super.prototype.guard.call(this);
@@ -83,10 +83,30 @@ var SoldierTower = (function (_super) {
         if (!found) {
             this._soldiers.push(s);
         }
+        this._entrance(s);
         s.setCreator(this);
-        s.setCenterX(this.getCenterX());
-        s.setBottomY(this.getBottomY());
         application.battle.addSoldier(s);
+    };
+    p._entrance = function (s) {
+        var direction = this._direction4(this._guardX, this._guardY);
+        switch (direction) {
+            case EntityDirection.east:
+                s.setCenterX(this.x + this.width);
+                s.setBottomY(this.y + (this.height >> 1));
+                break;
+            case EntityDirection.west:
+                s.setCenterX(this.x);
+                s.setBottomY(this.y + (this.height >> 1));
+                break;
+            case EntityDirection.north:
+                s.setCenterX(this.x + (this.width >> 1));
+                s.setBottomY(this.y);
+                break;
+            case EntityDirection.south:
+                s.setCenterX(this.x + (this.width >> 1));
+                s.setBottomY(this.y + this.height);
+                break;
+        }
     };
     return SoldierTower;
 }(Tower));

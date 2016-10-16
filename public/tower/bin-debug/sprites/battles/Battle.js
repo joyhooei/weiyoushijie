@@ -425,8 +425,9 @@ var Battle = (function (_super) {
         this._dirts.push(entity);
     };
     p.createSoldier = function (soldier) {
-        this.addSoldier(soldier.relive(10 * application.frameRate));
-        return soldier;
+        var s = soldier.relive(10 * application.frameRate);
+        this.addSoldier(s);
+        return s;
     };
     return Battle;
 }(Entity));

@@ -53,10 +53,10 @@ class SoldierTower extends Tower implements SoldierCreator {
     }
     
     public createSoldier(soldier: Soldier): Soldier {
-        soldier.relive(10 * application.frameRate);
-        this._addSoldier(soldier);
+        let s = soldier.relive(10 * application.frameRate);
+        this._addSoldier(s);
 
-        return soldier;
+        return s;
     }
     
     public guard() {
@@ -111,10 +111,35 @@ class SoldierTower extends Tower implements SoldierCreator {
             this._soldiers.push(s);
         }
         
-        s.setCreator(this);
-        s.setCenterX(this.getCenterX());
-        s.setBottomY(this.getBottomY());
+        this._entrance(s);
         
+        s.setCreator(this);
+
         application.battle.addSoldier(s);
+    }
+
+    protected _entrance(s: Soldier) {
+        let direction = this._direction4(this._guardX, this._guardY);
+        switch(direction){
+            case EntityDirection.east:
+                s.setCenterX(this.x + this.width);
+                s.setBottomY(this.y + (this.height >> 1));
+                break;
+
+            case EntityDirection.west:
+                s.setCenterX(this.x);
+                s.setBottomY(this.y + (this.height >> 1));
+                break;
+                
+            case EntityDirection.north:
+                s.setCenterX(this.x + (this.width >> 1));
+                s.setBottomY(this.y);
+                break;
+                
+            case EntityDirection.south:
+                s.setCenterX(this.x + (this.width >> 1));
+                s.setBottomY(this.y + this.height);
+                break;
+        }
     }
 }
