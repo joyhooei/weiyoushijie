@@ -267,8 +267,6 @@ class Entity extends egret.Sprite {
     
     private _do(state:EntityState) {
     	if (state != this._state) {
-			console.log(this.getClaz() + " changed from " + Entity.stateName(this._state) + " to state " + Entity.stateName(state));
-
     		//dead状态不需要再变更状态了
     		//当前状态如果是dying，新状态只能是dead
     		if (this._state == EntityState.dead || (this._state == EntityState.dying && state != EntityState.dead)) {
