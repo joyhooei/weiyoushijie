@@ -58,6 +58,6 @@ class HomeUI extends AbstractUI{
     }
 
     private _startBattle(stage:number) {
-        this.show(new BattleLoadingUI(stage, 1));
+        this.show(new BattleLoadingUI(stage));
     }
 }

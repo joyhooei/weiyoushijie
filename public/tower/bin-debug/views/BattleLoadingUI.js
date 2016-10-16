@@ -1,10 +1,10 @@
 var BattleLoadingUI = (function (_super) {
     __extends(BattleLoadingUI, _super);
-    function BattleLoadingUI(stage, level) {
+    function BattleLoadingUI(stage) {
         _super.call(this, "battleLoadingUISkin");
         var self = this;
         application.battle = application.pool.get("Battle" + stage);
-        application.battle.loadResource({ stage: stage, level: level }).then(function () {
+        application.battle.loadResource({ stage: stage, level: 1 }).then(function () {
             application.hideUI(self);
             application.showUI(new BattleUI());
         }, function (error) {

@@ -36,7 +36,7 @@ var HomeUI = (function (_super) {
         });
     };
     p._startBattle = function (stage) {
-        this.show(new BattleLoadingUI(stage, 1));
+        this.show(new BattleLoadingUI(stage));
     };
     return HomeUI;
 }(AbstractUI));
