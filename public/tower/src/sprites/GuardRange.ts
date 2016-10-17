@@ -49,4 +49,8 @@ class GuardRange extends Entity {
 		this.graphics.cubicCurveTo(x + a, y + oy, x + ox, y + b, x, y + b);
 		this.graphics.cubicCurveTo(x - ox, y + b, x - a, y + oy, x - a, y);
 	}
+
+	private _drawEllipse2(x: number, y: number, a: number, b: number) {
+		this.graphics.drawEllipse(x - a, y - a, a << 1, b << 1);
+	}
 }
