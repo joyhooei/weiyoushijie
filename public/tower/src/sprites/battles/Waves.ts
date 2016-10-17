@@ -49,7 +49,7 @@ class Waves {
         return this._rounds * this._enemies.length + this._currentWave;
     }
 
-    public getTotalWave(): number {
+    public getTotalWaves(): number {
         return this._enemies.length;
     }
     
