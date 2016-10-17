@@ -278,8 +278,12 @@ class Battle extends Entity implements SoldierCreator {
         return this._golds;
     }
     
-    public getWaves(): number {
+    public getCurrentWave(): number {
         return this._waves.getCurrentWave();
+    }
+
+    putlic getTotalWaves(): number {
+        return this._waves.getTotalWaves();
     }
     
     public stain() {
