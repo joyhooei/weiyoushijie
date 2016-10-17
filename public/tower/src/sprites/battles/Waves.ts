@@ -48,6 +48,10 @@ class Waves {
     public getCurrentWave(): number {
         return this._rounds * this._enemies.length + this._currentWave;
     }
+
+    public getTotalWave(): number {
+        return this._enemies.length;
+    }
     
     public add(wave:number, claz:string, count:number, path: number) {
         this._enemies[wave] = this._enemies[wave] || [];
