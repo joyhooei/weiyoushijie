@@ -17,6 +17,8 @@ class HomeUI extends AbstractUI{
 
     private _battles: eui.Image[];
 
+    private _shapePath: egret.Shape;
+
     constructor() {
         super("homeUISkin");
         
@@ -42,6 +44,12 @@ class HomeUI extends AbstractUI{
     protected onRefresh() {
         let self = this;
 
+        self._shapePath = new egret.Shape();
+        self._shapePath.x = self._shapePath.y = 0;
+        self._shapePath.width  = self.width;
+        self._shapePath.height = self.height;
+        self.addChildAt(self._shapePath, 1);
+        
         for (let i = 1; i < 15; i++) {
             self._battles[i].visible = false;
         }
@@ -52,9 +60,21 @@ class HomeUI extends AbstractUI{
                 let maxStage = Math.min(15, results[0].stage + 1);
                 for (let i = 1; i < maxStage; i++) {
                     self._battles[i].visible = true;
+                    
+                    selt._drawPath(i);
                 }
             }
         });
+    }
+
+    private _drawPath(i: number) {
+        let x0 = this._battles[i - 1].x + this._battles[i - 1].width / 2;
+        let y0 = this._battles[i - 1].y + this._battles[i - 1].height / 2;
+        
+        let x1 = this._battles[i].x + this._battles[i].width / 2;
+        let y1 = this._battles[i].y + this._battles[i].height / 2;
+        
+        this._shapePath.graphics.curveTo(x0, y0, x1, y1);
     }
 
     private _startBattle(stage:number) {
