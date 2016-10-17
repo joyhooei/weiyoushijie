@@ -33,7 +33,7 @@ class Waves {
         this._paths = paths;
         
         this._enemies = [];
-        this._currentWave = -1;
+        this._currentWave = 0;
         
         this._rounds = 0;
 
@@ -46,7 +46,7 @@ class Waves {
     }
     
     public getCurrentWave(): number {
-        return this._rounds * this._enemies.length + this._currentWave;
+        return this._rounds * this._enemies.length + this._currentWave + 1;
     }
 
     public getTotalWaves(): number {
@@ -65,6 +65,8 @@ class Waves {
         this._running = true;
 
         this.launchWave(this._currentWave);
+
+        application.dao.dispatchEventWith("Battle", true, {waves: this.getCurrentWave()});
     }
 
     public launchWave(wave: number) {

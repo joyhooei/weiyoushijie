@@ -21,6 +21,7 @@ var BattleSystemToolItem = (function (_super) {
                 application.battle.readyUseTool(_this);
             }
         }, this);
+        this.lblCount.visible = false;
     }
     var d = __define,c=BattleSystemToolItem,p=c.prototype;
     p.use = function (x, y) {

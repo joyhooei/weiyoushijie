@@ -6,6 +6,12 @@ var ArrowTower3 = (function (_super) {
         this._bulletClaz = "Arrow1";
     }
     var d = __define,c=ArrowTower3,p=c.prototype;
+    p.getMuzzleX = function () {
+        return this.x + 35;
+    };
+    p.getMuzzleY = function () {
+        return this.y + 0;
+    };
     return ArrowTower3;
 }(ArrowTower));
 egret.registerClass(ArrowTower3,'ArrowTower3');

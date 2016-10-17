@@ -15,6 +15,9 @@ class HomeUI extends AbstractUI{
     public imgBattle14: eui.Image;
     public imgBattle15: eui.Image;
 
+    public imgBg: eui.Image;
+    public grpMap: eui.Group;
+
     private _battles: eui.Image[];
 
     private _shapePath: egret.Shape;
@@ -44,10 +47,11 @@ class HomeUI extends AbstractUI{
         let self = this;
 
         self._shapePath = new egret.Shape();
-        self._shapePath.x = self._shapePath.y = 0;
-        self._shapePath.width  = self.width;
-        self._shapePath.height = self.height;
-        self.addChildAt(self._shapePath, 1);
+        self._shapePath.x = self.imgBg.x;
+        self._shapePath.y = self.imgBg.y;
+        self._shapePath.width  = self.imgBg.width;
+        self._shapePath.height = self.imgBg.height;
+        self.grpMap.addChild(self._shapePath);
         
         for (let i = 1; i < 15; i++) {
             self._battles[i].visible = false;
@@ -72,6 +76,8 @@ class HomeUI extends AbstractUI{
     }
 
     private _drawPath(i: number) {
+        let self = this;
+
         let x0 = this._battles[i - 1].x + this._battles[i - 1].width / 2;
         let y0 = this._battles[i - 1].y + this._battles[i - 1].height / 2;
         
@@ -80,9 +86,32 @@ class HomeUI extends AbstractUI{
         
         let xc = x0 + (x1 - x0) / 2;
         let yc = y0 + (y1 - y0) / 2 - 50;
+
+        let bezier = new CubicBezier(x0, y0, xc, yc, xc, yc, x1, y1);
         
-        this._shapePath.graphics.moveTo(x0, y0);
-        this._shapePath.graphics.curveTo(x1, y1, xc, yc);
+        let last = bezier.get(0);
+        let t = 0;
+        let interval = setInterval(function(){
+            t = t + 0.01;
+            if(t > 1){
+                clearInterval(interval);
+                return;
+            }
+
+            let pt = bezier.get(t);
+
+            self._shapePath.graphics.beginFill(0xFF0000, 1);
+
+            let distance = Math.round(Math.sqrt(Math.pow(last[0] - pt[0], 2) + Math.pow(last[1] - pt[1], 2)));
+            if (distance >= 12) {
+                self._shapePath.graphics.drawCircle(pt[0], pt[1], 4);
+
+                last = pt;
+            }
+
+            self._shapePath.graphics.endFill();
+        },50);
+        
     }
 
     private _startBattle(stage:number) {

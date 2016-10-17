@@ -204,8 +204,11 @@ var Battle = (function (_super) {
     p.getGolds = function () {
         return this._golds;
     };
-    p.getWaves = function () {
+    p.getCurrentWave = function () {
         return this._waves.getCurrentWave();
+    };
+    p.getTotalWaves = function () {
+        return this._waves.getTotalWaves();
     };
     p.stain = function () {
         this.paint();

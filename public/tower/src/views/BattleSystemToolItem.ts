@@ -30,7 +30,9 @@ class BattleSystemToolItem extends BattleToolItem {
 		    if (this._ticks == this._maxTicks) {
 		        application.battle.readyUseTool(this);
 		    }
-		}, this);		
+		}, this);
+
+        this.lblCount.visible = false;
     }
     
     public use(x: number, y: number) {

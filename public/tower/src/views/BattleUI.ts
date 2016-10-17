@@ -56,9 +56,9 @@ class BattleUI extends AbstractUI {
 			}
 			
 			self.lblLives.text = application.battle.getLives().toString();
-			self.lblWaves.text = application.battle.getWaves().toString();
+			self.lblWaves.text = application.battle.getCurrentWave().toString();
         }, self);
-        
+
 		self.imgTool.addEventListener(egret.TouchEvent.TOUCH_TAP,() => {
 			self.grpTools.visible = !self.grpTools.visible; 
 		}, self);
@@ -82,7 +82,7 @@ class BattleUI extends AbstractUI {
 		}, self);
     }
 
-    protected onRefresh() {
+    protected onRefresh() {      
 		this._buildBattle();
     }
 

@@ -8,7 +8,7 @@ var Waves = (function () {
     p.setPaths = function (paths) {
         this._paths = paths;
         this._enemies = [];
-        this._currentWave = -1;
+        this._currentWave = 0;
         this._rounds = 0;
         this._ticksBetweenWaves = 40 * application.frameRate;
         this._ticksBetweenQueues = 4 * application.frameRate;
@@ -16,7 +16,10 @@ var Waves = (function () {
         this._tips = [];
     };
     p.getCurrentWave = function () {
-        return this._rounds * this._enemies.length + this._currentWave;
+        return this._rounds * this._enemies.length + this._currentWave + 1;
+    };
+    p.getTotalWaves = function () {
+        return this._enemies.length;
     };
     p.add = function (wave, claz, count, path) {
         this._enemies[wave] = this._enemies[wave] || [];
@@ -27,6 +30,7 @@ var Waves = (function () {
         this._currentWave = 0;
         this._running = true;
         this.launchWave(this._currentWave);
+        application.dao.dispatchEventWith("Battle", true, { waves: this.getCurrentWave() });
     };
     p.launchWave = function (wave) {
         for (var i = 0; i < this._tips.length; i++) {

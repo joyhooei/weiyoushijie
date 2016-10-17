@@ -5,7 +5,7 @@ class CubicBezier {
     private _m2:Matrix;
     private _m3:Matrix;
     
-    function constructor(x0:number, y0:number, x1:number, y1:number, x2:number, y2:number, x3:number, y3:number, x4:number, y4:number){
+    public constructor(x0:number, y0:number, x1:number, y1:number, x2:number, y2:number, x3:number, y3:number){
         this._m1 = new Matrix();
         
         this._m2 = new Matrix([
@@ -26,13 +26,13 @@ class CubicBezier {
     /**
     * 获取某个时间点计算出来的坐标值,时间线不由此类控制
     */
-    function get(t:number): number[]{
+    public get(t:number): number[]{
         this._m1.set([
             [1, t*t, t*t*t, t*t*t*t]
         ]);
         
         let m = this._m1.mul(this._m2).mul(this._m3);
         
-        return [m.get()[0][0], m.get()[0][1])];
+        return [m.get()[0][0], m.get()[0][1]];
     }
 }

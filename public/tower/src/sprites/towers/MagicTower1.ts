@@ -6,4 +6,12 @@ class MagicTower1 extends MagicTower {
         
         this._bulletClaz = "Magic1";
     }
+
+    protected getMuzzleX(): number {
+        return this.x + 36;
+    }
+
+    protected getMuzzleY(): number {
+        return this.y + 0;
+    }
 }

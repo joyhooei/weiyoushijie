@@ -6,6 +6,12 @@ var BombTower3 = (function (_super) {
         this.addBitmap("bombtower31_png");
     }
     var d = __define,c=BombTower3,p=c.prototype;
+    p.getMuzzleX = function () {
+        return this.x + 33;
+    };
+    p.getMuzzleY = function () {
+        return this.y + 7;
+    };
     return BombTower3;
 }(BombTower));
 egret.registerClass(BombTower3,'BombTower3');

@@ -6,6 +6,12 @@ var MagicTower4 = (function (_super) {
         this._bulletClaz = "Magic4";
     }
     var d = __define,c=MagicTower4,p=c.prototype;
+    p.getMuzzleX = function () {
+        return this.x + 44;
+    };
+    p.getMuzzleY = function () {
+        return this.y + 8;
+    };
     return MagicTower4;
 }(MagicTower));
 egret.registerClass(MagicTower4,'MagicTower4');

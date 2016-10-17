@@ -6,4 +6,12 @@ class BombTower3 extends BombTower {
         
         this.addBitmap("bombtower31_png");
     }
+
+    protected getMuzzleX(): number {
+        return this.x + 33;
+    }
+
+    protected getMuzzleY(): number {
+        return this.y + 7;
+    }
 }

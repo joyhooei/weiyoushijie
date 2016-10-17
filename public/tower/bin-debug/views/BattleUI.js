@@ -28,7 +28,7 @@ var BattleUI = (function (_super) {
                 self._animateStep(self.lblGolds, parseInt(self.lblGolds.text), application.battle.getGolds());
             }
             self.lblLives.text = application.battle.getLives().toString();
-            self.lblWaves.text = application.battle.getWaves().toString();
+            self.lblWaves.text = application.battle.getCurrentWave().toString();
         }, self);
         self.imgTool.addEventListener(egret.TouchEvent.TOUCH_TAP, function () {
             self.grpTools.visible = !self.grpTools.visible;
@@ -75,6 +75,7 @@ var BattleUI = (function (_super) {
         this.lblLives.text = "0";
         this.lblGolds.text = "0";
         this.lblWaves.text = "0";
+        this.lblTotalWaves.text = application.battle.getTotalWaves().toString();
         application.battle.build();
         //this.stage.frameRate = application.frameRate;
         this.addEventListener(egret.Event.ENTER_FRAME, this._onEnterFrame, this);

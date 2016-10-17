@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <e:Skin class="battleUISkin" width="800" height="480" xmlns:e="http://ns.egret.com/eui" xmlns:w="http://ns.egret.com/wing">
-	<e:Scroller height="320" width="800" y="0" x="0">
+	<e:Scroller height="480" width="800" y="0" x="0">
 		<e:viewport>
 			<e:Group id="grpBattle"></e:Group>
 		</e:viewport>
@@ -10,8 +10,8 @@
 		<e:Image width="184" height="44" x="293" y="5" source="waves_png" fillMode="clip"/>
 		<e:Image width="244" height="98" x="0" y="0" source="hero_png" fillMode="clip"/>
 		<e:Label id="lblGolds" text="20" x="95" y="12" name="lblGolds" size="20" textAlign="center" width="52"/>
-		<e:Label id="lblWaves" text="1" x="368" y="15" name="lblWaves" size="10" textAlign="center" width="26"/>
-		<e:Label id="lblTotalWaves" text="1" x="398" y="15" name="lblTotalWaves" size="10" textAlign="center" width="26"/>
+		<e:Label id="lblWaves" text="1" x="363" y="15" name="lblWaves" size="20" textAlign="center" width="26"/>
+		<e:Label id="lblTotalWaves" text="1" x="403" y="15" name="lblTotalWaves" size="20" textAlign="center" width="26"/>
 		<e:Label text="20" x="95" y="41" name="lblLives" size="20" id="lblLives" textAlign="center" width="52"/>
 		<e:Image id="imgBack" width="43" height="46" x="687" y="5" source="back_png" fillMode="clip"/>
 		<e:Image id="imgHelp" width="54" height="51" x="746" y="5" fillMode="clip" source="help_png"/>
