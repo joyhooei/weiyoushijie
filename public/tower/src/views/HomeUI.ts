@@ -35,8 +35,7 @@ class HomeUI extends AbstractUI{
         application.dao.addEventListener("Result",function(evt: egret.Event) {
             let result = evt.data;
             if (result.result == 1) {
-                let stage = Math.min(15, result.stage + 1);
-                this._battles[stage].visible = true;
+                this._showBattle(Math.min(15, result.stage + 1));
             }
         }, self);        
     }
@@ -59,12 +58,17 @@ class HomeUI extends AbstractUI{
             if (results.length > 0) {
                 let maxStage = Math.min(15, results[0].stage + 1);
                 for (let i = 1; i < maxStage; i++) {
-                    self._battles[i].visible = true;
-                    
-                    selt._drawPath(i);
+                    self._showBattle(i);
                 }
             }
         });
+    }
+
+    private _showBattle(i: number) {
+        if (this._battles[i].visible == false) {
+            this._battles[i].visible = true;
+            this._drawPath(i);
+        }
     }
 
     private _drawPath(i: number) {
@@ -74,7 +78,11 @@ class HomeUI extends AbstractUI{
         let x1 = this._battles[i].x + this._battles[i].width / 2;
         let y1 = this._battles[i].y + this._battles[i].height / 2;
         
-        this._shapePath.graphics.curveTo(x0, y0, x1, y1);
+        let xc = x0 + (x1 - x0) / 2;
+        let yc = y0 + (y1 - y0) / 2 - 50;
+        
+        this._shapePath.graphics.moveTo(x0, y0);
+        this._shapePath.graphics.curveTo(x1, y1, xc, yc);
     }
 
     private _startBattle(stage:number) {
