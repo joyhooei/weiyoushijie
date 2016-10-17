@@ -1,0 +1,43 @@
+class Matrix {
+    private _data: number[][];
+    
+    function constructor(data: number[][]){
+        if(data) {
+            this._data = data;
+        }
+    }
+    
+    /**
+     * 矩阵相乘
+     * @param {matrix} m 被乘的矩阵
+     */
+    function mul(m): Matrix{
+        var r=[],s=this._data,m=m.data,
+        p=s[0].length //每次运算相加的次数
+        
+        if(m.length!=s[0].length) {
+            T.trace("矩阵不能相乘")
+        }
+        
+        for(var i =0;i<s.length;i++){
+            r[i]=[]
+            for(var n=0;n<m[0].length;n++){
+                r[i][n]=0;
+                for(var l=0;l<p;l++){
+                    r[i][n]+=s[i][l]*m[l][n];
+                }
+            }
+        }
+        this._data = r;
+        
+        return this;
+    }
+    
+    function set(data:number[][]){
+        this._data = data;
+    }
+    
+    function get(): number[][]{
+        return this._data
+    }
+}
