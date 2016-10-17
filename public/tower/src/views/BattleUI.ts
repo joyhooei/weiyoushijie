@@ -2,6 +2,7 @@ class BattleUI extends AbstractUI {
     public lblLives: eui.Label;
     public lblGolds: eui.Label;
     public lblWaves: eui.Label;
+	public lblTotalWaves: eui.Label;
 	
     public grpSystemTools: eui.Group;
 	public grpTools:eui.Group;
@@ -118,7 +119,8 @@ class BattleUI extends AbstractUI {
 		this.lblLives.text = "0";
 		this.lblGolds.text = "0";
 		this.lblWaves.text = "0";
-    	
+ 		this.lblTotalWaves.text = application.battle.getTotalWaves().toString();
+   	
         application.battle.build();
 		
 		//this.stage.frameRate = application.frameRate;
