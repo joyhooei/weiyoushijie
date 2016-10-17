@@ -17,18 +17,16 @@ class GuardRange extends Entity {
 	
 	public paint() {
         this.graphics.clear();
-        
+		
 		let a = this._guardRadius;
 		let b = this._guardRadius / Math.sqrt(2);
-		let x = 0;
-		let y = a - b;
 		
 		this.graphics.beginFill(0x009900, 0.2);
-		this._drawEllipse(x + a, y + b, a, b);
+		this._drawEllipse(a, a, a, b);
 		this.graphics.endFill();
 		
         this.graphics.lineStyle(1, 0x990000);
-        this._drawEllipse(x + a, y + b, a, b);
+        this._drawEllipse(a, a, a, b);
         this.graphics.endFill();
 	}
 
@@ -39,7 +37,7 @@ class GuardRange extends Entity {
 		b为椭圆纵半轴长。
 	**/
 	private _drawEllipse(x: number, y: number, a: number, b: number) {
-		var k = .5522848,
+		let k = .5522848,
 		ox = a * k, // 水平控制点偏移量
 		oy = b * k; // 垂直控制点偏移量
 		
