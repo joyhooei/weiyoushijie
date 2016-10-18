@@ -52,6 +52,14 @@ class NPC extends MovableEntity {
     	return this._force;
     }
 
+    public getMuzzleX(): number {
+        return this.getCenterX();
+    }
+
+    public getMuzzleY(): number {
+        return this.getCenterY();
+    }
+
     public kill() {
         this._hp.erase();
         this._hp = null;
