@@ -31,8 +31,8 @@ class Bullet extends MovableEntity {
     
     public static shootByNPC(shooter: NPC, target: NPC, claz:string, properties?): Bullet {
         let bullet = <Bullet>application.pool.get(claz, properties);
-        bullet.setCenterX(shooter.getCenterX());
-        bullet.setCenterY(shooter.getCenterY());
+        bullet.setCenterX(shooter.getMuzzleX());
+        bullet.setCenterY(shooter.getMuzzleY());
         bullet.setTarget(target);
         application.battle.addBullet(bullet);
         
