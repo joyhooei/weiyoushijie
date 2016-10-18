@@ -10,11 +10,11 @@ class ShootTower extends Tower {
         }
     }
 
-    protected getMuzzleX(): number {
+    public getMuzzleX(): number {
         return this.getCenterX();
     }
 
-    protected getMuzzleY(): number {
+    public getMuzzleY(): number {
         return this.y;
     }
    
