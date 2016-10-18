@@ -1,4 +1,5 @@
 //http://www.html-js.com/article/1180
+//http://web.iitd.ac.in/~hegde/cad/lecture/L13_Beziercurve.pdf
 
 class CubicBezier {
     private _m1:Matrix;
