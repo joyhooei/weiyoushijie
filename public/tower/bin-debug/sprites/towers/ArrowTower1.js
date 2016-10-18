@@ -7,7 +7,7 @@ var ArrowTower1 = (function (_super) {
     }
     var d = __define,c=ArrowTower1,p=c.prototype;
     p.getMuzzleX = function () {
-        return this.x + 25;
+        return this.x + 25 + 15;
     };
     p.getMuzzleY = function () {
         return this.y + 7;

@@ -83,29 +83,33 @@ var SoldierTower = (function (_super) {
         if (!found) {
             this._soldiers.push(s);
         }
-        this._entrance(s);
+        s.setCenterX(this.getMuzzleX());
+        s.setCenterY(this.getMuzzleY());
         s.setCreator(this);
         application.battle.addSoldier(s);
     };
-    p._entrance = function (s) {
+    p.getMuzzleX = function () {
         var direction = this._direction4(this._guardX, this._guardY);
         switch (direction) {
             case EntityDirection.east:
-                s.setCenterX(this.x + this.width);
-                s.setBottomY(this.y + (this.height >> 1));
-                break;
+                return this.x + this.width;
             case EntityDirection.west:
-                s.setCenterX(this.x);
-                s.setBottomY(this.y + (this.height >> 1));
-                break;
+                return this.x;
             case EntityDirection.north:
-                s.setCenterX(this.x + (this.width >> 1));
-                s.setBottomY(this.y);
-                break;
             case EntityDirection.south:
-                s.setCenterX(this.x + (this.width >> 1));
-                s.setBottomY(this.y + this.height);
-                break;
+                return this.x + (this.width >> 1);
+        }
+    };
+    p.getMuzzleY = function () {
+        var direction = this._direction4(this._guardX, this._guardY);
+        switch (direction) {
+            case EntityDirection.east:
+            case EntityDirection.west:
+                return this.y + (this.height >> 1);
+            case EntityDirection.north:
+                return this.y;
+            case EntityDirection.south:
+                return this.y + this.height;
         }
     };
     return SoldierTower;

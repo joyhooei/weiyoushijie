@@ -17,16 +17,16 @@ var Bullet = (function (_super) {
     var d = __define,c=Bullet,p=c.prototype;
     Bullet.shootAtNPC = function (sourceX, sourceY, target, claz, properties) {
         var bullet = application.pool.get(claz, properties);
-        bullet.x = sourceX;
-        bullet.y = sourceY;
+        bullet.setCenterX(sourceX);
+        bullet.setCenterY(sourceY);
         bullet.setTarget(target);
         application.battle.addBullet(bullet);
         return bullet;
     };
     Bullet.shootByNPC = function (shooter, target, claz, properties) {
         var bullet = application.pool.get(claz, properties);
-        bullet.x = shooter.getCenterX();
-        bullet.y = shooter.getCenterY();
+        bullet.setCenterX(shooter.getMuzzleX());
+        bullet.setCenterY(shooter.getMuzzleY());
         bullet.setTarget(target);
         application.battle.addBullet(bullet);
         return bullet;

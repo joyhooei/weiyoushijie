@@ -80,6 +80,7 @@ class HomeUI extends AbstractUI{
 
     private _drawPathQuckly(stage: number) {
         let bezier = this._createCubicBezier(stage);
+        this._drawPoint(bezier.get(0), 0);
         if (bezier) {
             let t = 0;
             while (t <= 1) {
@@ -92,7 +93,8 @@ class HomeUI extends AbstractUI{
         let self = this;
 
         let bezier = self._createCubicBezier(stage);
-        
+        this._drawPoint(bezier.get(0), 0);
+
         if (bezier) {
             let t = 0;
             let interval = setInterval(function(){
@@ -108,6 +110,10 @@ class HomeUI extends AbstractUI{
     private _createCubicBezier(stage: number): CubicBezier{
         let path = this._paths[stage - 1];
         if (path) {
+            for(let i = 0; i < path.length;i++) {
+                this._drawPoint(path[i], 0xFF0000);
+            }
+
             return new CubicBezier(path);
         } else {
             return null;
@@ -123,15 +129,19 @@ class HomeUI extends AbstractUI{
 
             let distance = Math.round(Math.pow(last[0] - pt[0], 2) + Math.pow(last[1] - pt[1], 2));
             if (distance >= 64) {
-                this._shapePath.graphics.beginFill(0x000000, 1);
-                this._shapePath.graphics.drawCircle(pt[0], pt[1], 3);
-                this._shapePath.graphics.endFill();
+                this._drawPoint(pt, 0x000000);
 
                 return t;
             }
         }
         
         return t;
+    }
+
+    private _drawPoint(pt: number[],color:number) {
+        this._shapePath.graphics.beginFill(color, 1);
+        this._shapePath.graphics.drawCircle(pt[0], pt[1], 3);
+        this._shapePath.graphics.endFill();
     }
 
     private _startBattle(stage:number) {

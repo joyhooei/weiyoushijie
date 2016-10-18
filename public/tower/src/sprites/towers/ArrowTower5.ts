@@ -7,11 +7,11 @@ class ArrowTower5 extends ArrowTower {
         this._bulletClaz = "Arrow1";
     }
 
-    pubilc getMuzzleX(): number {
-        return this.x + 35;
+    public getMuzzleX(): number {
+        return this.x + 35 + 15;
     }
 
-    pubilc getMuzzleY(): number {
+    public getMuzzleY(): number {
         return this.y + 0;
     }
 }

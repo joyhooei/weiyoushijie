@@ -8,7 +8,7 @@ class ArrowTower2 extends ArrowTower {
     }
 
     public getMuzzleX(): number {
-        return this.x + 25;
+        return this.x + 25 + 15;
     }
 
     public getMuzzleY(): number {

@@ -7,11 +7,11 @@ class BombTower4 extends BombTower {
         this.addBitmap("bombtower4_png");
     }
 
-    pubilc getMuzzleX(): number {
+    public getMuzzleX(): number {
         return this.x + 33;
     }
 
-    pubilc getMuzzleY(): number {
+    public getMuzzleY(): number {
         return this.y + 7;
     }
 }

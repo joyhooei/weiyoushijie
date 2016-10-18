@@ -23,6 +23,12 @@ var NPC = (function (_super) {
     p.getForce = function () {
         return this._force;
     };
+    p.getMuzzleX = function () {
+        return this.getCenterX();
+    };
+    p.getMuzzleY = function () {
+        return this.getCenterY();
+    };
     p.kill = function () {
         this._hp.erase();
         this._hp = null;
