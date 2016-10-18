@@ -108,15 +108,7 @@ class HomeUI extends AbstractUI{
     private _createCubicBezier(stage: number): CubicBezier{
         let path = this._paths[stage - 1];
         if (path) {
-            if (path.length >= 4) {
-                var xc2 = path[2][0];
-                var yc2 = path[2][1];
-            } else {
-                var xc2 = path[1][0];
-                var yc2 = path[1][1];
-            }
-            
-            return new CubicBezier(path[0][0], path[0][1], path[1][0], path[1][1], xc2, yc2, path[path.length - 1][0], path[path.length - 1][1]);
+            return new CubicBezier(path);
         } else {
             return null;
         }
