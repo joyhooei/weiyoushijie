@@ -121,8 +121,8 @@ class HomeUI extends AbstractUI{
             t = t + 0.01;
             let pt = bezier.get(t);
 
-            let distance = Math.round(Math.sqrt(Math.pow(last[0] - pt[0], 2) + Math.pow(last[1] - pt[1], 2)));
-            if (distance >= 8) {
+            let distance = Math.round(Math.pow(last[0] - pt[0], 2) + Math.pow(last[1] - pt[1], 2));
+            if (distance >= 64) {
                 this._shapePath.graphics.beginFill(0x000000, 1);
                 this._shapePath.graphics.drawCircle(pt[0], pt[1], 3);
                 this._shapePath.graphics.endFill();
