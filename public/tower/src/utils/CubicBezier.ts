@@ -23,7 +23,7 @@ class CubicBezier {
                 [path[2][0], path[2][1]],
                 [path[3][0], path[3][1]],
                 ]);
-        } if (path.length == 5) {
+        } else if (path.length == 5) {
              this._m2 = new Matrix([
                     [1,   0,   0,  0, 0],
                     [-4,  4,   0,  0, 0],
