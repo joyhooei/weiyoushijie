@@ -22,8 +22,14 @@ class HomeUI extends AbstractUI{
 
     private _shapePath: egret.Shape;
 
+    private _paths: number[][][];
+
     constructor() {
         super("homeUISkin");
+        
+        this._paths = [
+                [[327, 95], [337, 142], [276, 157], [211, 189], [143, 126]],
+            ];
         
         this._battles = [this.imgBattle1, this.imgBattle2, this.imgBattle3, this.imgBattle4, this.imgBattle5, this.imgBattle6, this.imgBattle7, this.imgBattle8, this.imgBattle9, this.imgBattle10, this.imgBattle11, this.imgBattle12, this.imgBattle13, this.imgBattle14, this.imgBattle15];
         
@@ -72,75 +78,68 @@ class HomeUI extends AbstractUI{
         });
     }
 
-    private _drawPathQuckly(i: number) {
-        let x0 = this._battles[i - 1].x + this._battles[i - 1].width / 2;
-        let y0 = this._battles[i - 1].y + this._battles[i - 1].height / 2;
-        
-        let x1 = this._battles[i].x + this._battles[i].width / 2;
-        let y1 = this._battles[i].y + this._battles[i].height / 2;
-        
-        let xc = x0 + (x1 - x0) / 2;
-        let yc = y0 + (y1 - y0) / 2 - 50;
-
-        let bezier = new CubicBezier(x0, y0, xc, yc, xc, yc, x1, y1);
-        
-        let last = bezier.get(0);
-        let t = 0;
-        while (t <= 1) {
-            t = t + 0.01;
-
-            let pt = bezier.get(t);
-
-            this._shapePath.graphics.beginFill(0xFF0000, 1);
-
-            let distance = Math.round(Math.sqrt(Math.pow(last[0] - pt[0], 2) + Math.pow(last[1] - pt[1], 2)));
-            if (distance >= 12) {
-                this._shapePath.graphics.drawCircle(pt[0], pt[1], 4);
-
-                last = pt;
-            }
-
-            this._shapePath.graphics.endFill();
-        };
+    private _drawPathQuckly(stage: number) {
+        let bezier = this._createCubicBezier(stage);
+        if (bezier) {
+            let t = 0;
+            while (t <= 1) {
+                t = this._drawPathPoint(bezier, t);
+            };
+        }
     }
 
-    private _drawPathSlowly(i: number) {
+    private _drawPathSlowly(stage: number) {
         let self = this;
 
-        let x0 = this._battles[i - 1].x + this._battles[i - 1].width / 2;
-        let y0 = this._battles[i - 1].y + this._battles[i - 1].height / 2;
+        let bezier = self._createCubicBezier(stage);
         
-        let x1 = this._battles[i].x + this._battles[i].width / 2;
-        let y1 = this._battles[i].y + this._battles[i].height / 2;
-        
-        let xc = x0 + (x1 - x0) / 2;
-        let yc = y0 + (y1 - y0) / 2 - 50;
+        if (bezier) {
+            let t = 0;
+            let interval = setInterval(function(){
+                if(t > 1){
+                    clearInterval(interval);
+                } else {
+                    t = self._drawPathPoint(bezier, t);
+                }
+            }, 100);
+        }
+    }
 
-        let bezier = new CubicBezier(x0, y0, xc, yc, xc, yc, x1, y1);
-        
-        let last = bezier.get(0);
-        let t = 0;
-        let interval = setInterval(function(){
-            t = t + 0.01;
-            if(t > 1){
-                clearInterval(interval);
-                return;
+    private _createCubicBezier(stage: number): CubicBezier{
+        let path = this._paths[stage - 1];
+        if (path) {
+            if (path.length >= 4) {
+                var xc2 = path[2][0];
+                var yc2 = path[2][1];
+            } else {
+                var xc2 = path[1][0];
+                var yc2 = path[1][1];
             }
+            
+            return new CubicBezier(path[0][0], path[0][1], path[1][0], path[1][1], xc2, yc2, path[path.length - 1][0], path[path.length - 1][1]);
+        } else {
+            return null;
+        }
+    }
 
+    private _drawPathPoint(bezier:CubicBezier, t: number) {
+       let last = bezier.get(t);
+            
+       while(t <= 1) {
+            t = t + 0.01;
             let pt = bezier.get(t);
-
-            self._shapePath.graphics.beginFill(0xFF0000, 1);
 
             let distance = Math.round(Math.sqrt(Math.pow(last[0] - pt[0], 2) + Math.pow(last[1] - pt[1], 2)));
             if (distance >= 12) {
-                self._shapePath.graphics.drawCircle(pt[0], pt[1], 4);
+                this._shapePath.graphics.beginFill(0xFF0000, 1);
+                this._shapePath.graphics.drawCircle(pt[0], pt[1], 4);
+                this._shapePath.graphics.endFill();
 
-                last = pt;
+                return t;
             }
-
-            self._shapePath.graphics.endFill();
-        },50);
+        }
         
+        return t;
     }
 
     private _startBattle(stage:number) {
