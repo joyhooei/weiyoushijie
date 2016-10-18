@@ -111,35 +111,41 @@ class SoldierTower extends Tower implements SoldierCreator {
             this._soldiers.push(s);
         }
         
-        this._entrance(s);
+        s.x = this.getMuzzleX();
+        s.y = this.getMuzzleY();
         
         s.setCreator(this);
 
         application.battle.addSoldier(s);
     }
-
-    protected _entrance(s: Soldier) {
+    
+    public getMuzzleX(): number {
         let direction = this._direction4(this._guardX, this._guardY);
         switch(direction){
             case EntityDirection.east:
-                s.setCenterX(this.x + this.width);
-                s.setBottomY(this.y + (this.height >> 1));
-                break;
+                return this.x + this.width;
 
             case EntityDirection.west:
-                s.setCenterX(this.x);
-                s.setBottomY(this.y + (this.height >> 1));
-                break;
+                return this.x;
                 
             case EntityDirection.north:
-                s.setCenterX(this.x + (this.width >> 1));
-                s.setBottomY(this.y);
-                break;
+            case EntityDirection.south:
+                return this.x + (this.width >> 1);
+        }
+    }
+
+    public getMuzzleY(): number {
+        let direction = this._direction4(this._guardX, this._guardY);
+        switch(direction){
+            case EntityDirection.east:
+            case EntityDirection.west:
+                return this.y + (this.height >> 1);
+                
+            case EntityDirection.north:
+               return this.y;
                 
             case EntityDirection.south:
-                s.setCenterX(this.x + (this.width >> 1));
-                s.setBottomY(this.y + this.height);
-                break;
+                return this.y + this.height;
         }
     }
 }
