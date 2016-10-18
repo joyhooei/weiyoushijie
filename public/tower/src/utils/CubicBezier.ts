@@ -46,7 +46,7 @@ class CubicBezier {
     * 获取某个时间点计算出来的坐标值,时间线不由此类控制
     */
     public get(t:number): number[]{
-        if (this._m2.length == 4) {
+        if (this._m2.get().length == 4) {
             this._m1.set([
                 [1, t*t, t*t*t, t*t*t*t]
             ]);
