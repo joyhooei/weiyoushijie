@@ -1,5 +1,6 @@
 //http://www.html-js.com/article/1180
 //http://web.iitd.ac.in/~hegde/cad/lecture/L13_Beziercurve.pdf
+//http://www.zheng-hang.com/?id=43
 
 class CubicBezier {
     private _m1:Matrix;
@@ -43,14 +44,14 @@ class CubicBezier {
     *param i	第i个坐标点
     *param a,b	可以自定义的正数
     */
-    public getCtrlPoints(path:number[][], i:number, a = 0.25, b = 0.25):number[][]{
+    public static getCtrlPoints(path:number[][], i:number, a = 0.25, b = 0.25):number[][]{
         //处理两种极端情形
         if(i < 1){
             var cx1 = path[0][0] + (path[1][0] - path[0][0]) * a;
             var cy1 = path[0][1] + (path[1][1] - path[0][1]) * a;
         }else{
-            var cx1 = path[i][0] + (path[i+1][0] - path[i-1][0]) * a;
-            var cy1 = path[i][1] + (path[i+1][1] - path[i-1][1]) * a;
+            var cx1 = path[i][0] + (path[i + 1][0] - path[i - 1][0]) * a;
+            var cy1 = path[i][1] + (path[i + 1][1] - path[i - 1][1]) * a;
         }
         
         if(i > path.length - 3){
@@ -59,8 +60,8 @@ class CubicBezier {
             var cx2 = path[last].x - (path[last][0] - path[last - 1][0]) * b;
             var cy2 = path[last].y - (path[last][1] - path[last - 1][1]) * b;
         }else{
-            var cx2 = path[i+1].x - (path[i+2][0] - path[i][0]) * b;
-            var cy2 = path[i+1].y - (path[i+2][1] - path[i][1]) * b;
+            var cx2 = path[i + 1].x - (path[i + 2][0] - path[i][0]) * b;
+            var cy2 = path[i + 1].y - (path[i + 2][1] - path[i][1]) * b;
         }
         
         return [[cx1, cy1], [cx2, cy2]];
