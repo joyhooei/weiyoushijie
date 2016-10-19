@@ -14,7 +14,12 @@ var UpgradeTowerUI = (function (_super) {
         }
         else if (idx == 3) {
             this._nextLevelTower1 = application.pool.get(claz.slice(0, claz.length - 1) + "4", options);
-            this._nextLevelTower2 = application.pool.get(claz.slice(0, claz.length - 1) + "5", options);
+            if (this._tower.getSuperClaz() == "ArrowTower") {
+                this._nextLevelTower2 = application.pool.get(claz.slice(0, claz.length - 1) + "5", options);
+            }
+            else {
+                this._nextLevelTower2 = null;
+            }
         }
         else {
             this._nextLevelTower1 = null;

@@ -47,43 +47,49 @@ var HomeUI = (function (_super) {
         });
     };
     p._drawPathQuckly = function (stage) {
-        var bezier = this._createCubicBezier(stage);
-        this._drawPoint(bezier.get(0), 0);
-        if (bezier) {
-            var t = 0;
-            while (t <= 1) {
-                t = this._drawPathPoint(bezier, t);
+        var path = this._paths[stage - 1];
+        if (path) {
+            for (var i = 0; i < path.length - 1; i++) {
+                var t = 0;
+                var bezier = this._createCubicBezier(path, i);
+                while (t < 1) {
+                    t = this._drawPathPoint(bezier, t);
+                }
+                ;
             }
-            ;
         }
     };
     p._drawPathSlowly = function (stage) {
         var self = this;
-        var bezier = self._createCubicBezier(stage);
-        this._drawPoint(bezier.get(0), 0);
-        if (bezier) {
+        var path = this._paths[stage - 1];
+        if (path) {
+            var i_1 = 0;
             var t_1 = 0;
+            var bezier_1 = this._createCubicBezier(path, i_1);
             var interval_1 = setInterval(function () {
-                if (t_1 > 1) {
-                    clearInterval(interval_1);
+                if (t_1 < 1) {
+                    t_1 = self._drawPathPoint(bezier_1, t_1);
                 }
                 else {
-                    t_1 = self._drawPathPoint(bezier, t_1);
+                    i_1 += 1;
+                    if (i_1 >= path.length - 1) {
+                        clearInterval(interval_1);
+                    }
+                    else {
+                        t_1 = 0;
+                        bezier_1 = this._createCubicBezier(path, i_1);
+                    }
                 }
             }, 100);
         }
     };
-    p._createCubicBezier = function (stage) {
-        var path = this._paths[stage - 1];
-        if (path) {
-            for (var i = 0; i < path.length; i++) {
-                this._drawPoint(path[i], 0xFF0000);
-            }
-            return new CubicBezier(path);
+    p._createCubicBezier = function (path, i) {
+        var cps = CubicBezier.getCtrlPoints(path, i);
+        var bezier = new CubicBezier([path[i], cps[0], cps[1], path[i + 1]]);
+        if (i == 0) {
+            this._drawPoint(bezier.get(0), 0);
         }
-        else {
-            return null;
-        }
+        return bezier;
     };
     p._drawPathPoint = function (bezier, t) {
         var last = bezier.get(t);
@@ -92,7 +98,7 @@ var HomeUI = (function (_super) {
             var pt = bezier.get(t);
             var distance = Math.round(Math.pow(last[0] - pt[0], 2) + Math.pow(last[1] - pt[1], 2));
             if (distance >= 64) {
-                this._drawPoint(pt, 0x000000);
+                this._drawPoint(pt, 0);
                 return t;
             }
         }

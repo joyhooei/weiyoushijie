@@ -118,10 +118,9 @@ class HomeUI extends AbstractUI{
     private _createCubicBezier(path, i): CubicBezier {
         let cps = CubicBezier.getCtrlPoints(path, i);
         let bezier = new CubicBezier([path[i], cps[0], cps[1], path[i + 1]]);
-
-        this._drawPoint(bezier.get(0), 0XFF0000);
-        this._drawPoint(bezier.get(1), 0XFF0000);
-        
+        if (i == 0) {
+            this._drawPoint(bezier.get(0), 0);
+        }
         return bezier;
     }        
 
