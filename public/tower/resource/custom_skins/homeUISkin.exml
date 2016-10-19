@@ -5,21 +5,6 @@
 		<e:viewport>
 			<e:Group id="grpMap">
 				<e:Image id="imgBg" width="1250" height="320" source="world_jpg" fillMode="clip"/>
-				<e:Image id="imgBattle1" width="80" height="62" x="212" y="56" fillMode="clip" source="map_1_png"/>
-				<e:Image id="imgBattle2" width="80" height="62" x="65" y="98" fillMode="clip" source="map_2_png"/>
-				<e:Image id="imgBattle3" width="80" height="62" x="25" y="192" fillMode="clip" source="map_3_png"/>
-				<e:Image id="imgBattle4" width="80" height="62" x="189" y="234" fillMode="clip" source="map_4_png"/>
-				<e:Image id="imgBattle5" width="80" height="62" x="510" y="234" fillMode="clip" source="map_5_png"/>
-				<e:Image id="imgBattle6" width="80" height="62" x="783" y="234" fillMode="clip" source="map_6_png"/>
-				<e:Image id="imgBattle7" width="80" height="62" x="1124" y="172" fillMode="clip" source="map_7_png"/>
-				<e:Image id="imgBattle8" width="80" height="62" x="1013" y="87" fillMode="clip" source="map_8_png"/>
-				<e:Image id="imgBattle9" width="80" height="62" x="879" y="56" fillMode="clip" source="map_9_png"/>
-				<e:Image id="imgBattle10" width="80" height="62" x="900" y="149" fillMode="clip" source="map_10_png"/>
-				<e:Image id="imgBattle11" width="80" height="62" x="743" y="141" fillMode="clip" source="map_11_png"/>
-				<e:Image id="imgBattle12" width="80" height="62" x="608" y="141" fillMode="clip" source="map_12_png"/>
-				<e:Image id="imgBattle13" width="80" height="62" x="470" y="149" fillMode="clip" source="map_13_png"/>
-				<e:Image id="imgBattle14" width="108" height="62" x="415" y="56" fillMode="clip" source="map_14_png"/>
-				<e:Image id="imgBattle15" width="65" height="62" x="648" y="25" fillMode="clip" source="map_15_png"/>
 			</e:Group>
 		</e:viewport>
 	</e:Scroller>
