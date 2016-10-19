@@ -79,46 +79,51 @@ class HomeUI extends AbstractUI{
     }
 
     private _drawPathQuckly(stage: number) {
-        let bezier = this._createCubicBezier(stage);
-        this._drawPoint(bezier.get(0), 0);
-        if (bezier) {
-            let t = 0;
-            while (t <= 1) {
-                t = this._drawPathPoint(bezier, t);
-            };
+        let path = this._paths[stage - 1];
+        if (path) {
+            for(let i = 0; i < path.length - 1; i++) {
+                let t = 0;
+                let bezier = this._createCubicBezier(path, i);
+                while (t < 1) {
+                    t = this._drawPathPoint(bezier, t);
+                };
+            }
         }
     }
 
     private _drawPathSlowly(stage: number) {
         let self = this;
 
-        let bezier = self._createCubicBezier(stage);
-        this._drawPoint(bezier.get(0), 0);
-
-        if (bezier) {
+        let path = this._paths[stage - 1];
+        if (path) {
+            let i = 0;
             let t = 0;
+            let bezier = this._createCubicBezier(path, i);
             let interval = setInterval(function(){
-                if(t > 1){
-                    clearInterval(interval);
-                } else {
+                if (t < 1) {
                     t = self._drawPathPoint(bezier, t);
+                } else {
+                    i += 1;
+                    if (i == path.length - 1) {
+                        clearInterval(interval);
+                    } else {
+                        t = 0;
+                        bezier = this._createCubicBezier(path, i);
+                    }
                 }
             }, 100);
         }
     }
 
-    private _createCubicBezier(stage: number): CubicBezier{
-        let path = this._paths[stage - 1];
-        if (path) {
-            for(let i = 0; i < path.length;i++) {
-                this._drawPoint(path[i], 0xFF0000);
-            }
+    private _createCubicBezier(path, i): CubicBezier {
+        let cps = CubicBezier.getCtrlPoints(path, i);
+        let bezier = new CubicBezier([path[i], cps[0], cps[1], path[i + 1]]);
 
-            return new CubicBezier(path);
-        } else {
-            return null;
-        }
-    }
+        this._drawPoint(bezier.get(0), 0XFF0000);
+        this._drawPoint(bezier.get(1), 0XFF0000);
+        
+        return bezier;
+    }        
 
     private _drawPathPoint(bezier:CubicBezier, t: number) {
        let last = bezier.get(t);
@@ -129,7 +134,7 @@ class HomeUI extends AbstractUI{
 
             let distance = Math.round(Math.pow(last[0] - pt[0], 2) + Math.pow(last[1] - pt[1], 2));
             if (distance >= 64) {
-                this._drawPoint(pt, 0x000000);
+                this._drawPoint(pt, 0);
 
                 return t;
             }
@@ -138,7 +143,7 @@ class HomeUI extends AbstractUI{
         return t;
     }
 
-    private _drawPoint(pt: number[],color:number) {
+    private _drawPoint(pt: number[], color:number) {
         this._shapePath.graphics.beginFill(color, 1);
         this._shapePath.graphics.drawCircle(pt[0], pt[1], 3);
         this._shapePath.graphics.endFill();
