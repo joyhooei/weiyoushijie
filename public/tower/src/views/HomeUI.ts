@@ -104,7 +104,7 @@ class HomeUI extends AbstractUI{
                     t = self._drawPathPoint(bezier, t);
                 } else {
                     i += 1;
-                    if (i == path.length - 1) {
+                    if (i >= path.length - 1) {
                         clearInterval(interval);
                     } else {
                         t = 0;
