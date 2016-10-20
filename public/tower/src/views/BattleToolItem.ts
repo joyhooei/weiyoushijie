@@ -21,7 +21,7 @@ class BattleToolItem extends AbstractUI {
 		this._shapeShield = null;
         
 		this.addEventListener(egret.TouchEvent.TOUCH_TAP,() => {
-			if (this._tool.count > 0 && this._ticks == this._maxTicks) {
+			if (this._ticks == this._maxTicks) {
 				if (this._tool.category == "nectar" || this._tool.category == "mammon"){
 					this.use(application.battle.getCenterX(), application.battle.getCenterY());
 				} else {
@@ -31,17 +31,20 @@ class BattleToolItem extends AbstractUI {
 		}, this);
 		
 		application.stopwatch.addEventListener("second", function(event:egret.Event){
-		    if (this._ticks < this._maxTicks) {
-		        this._ticks ++;
-		    }
-		    
-		    this._drawProgress(this._ticks, this._maxTicks);
+			if (this._tool.count > 0 && this._ticks < this._maxTicks) {
+				this._ticks ++;
+				this._drawProgress(this._ticks, this._maxTicks);
+			}
 		}, this);
     }
 
 	protected onRefresh() {
 		this.imgTool.source = this._tool.category + "_png";
 		this.lblCount.text = this._tool.count.toString();
+		
+		if (this._tool.count <= 0) {
+			this._drawProgress(0, this._maxTicks);
+		}
 	}
     
     public use(x:number, y:number) {
@@ -58,9 +61,9 @@ class BattleToolItem extends AbstractUI {
 			application.battle.incGolds(500);
         }
         
-        this.lblCount.text = this._tool.count.toString();
-        
         this._ticks = 0;
+        
+        this.refresh();
     }
 
     protected _drawProgress(percent:number, total:number) {
