@@ -11,8 +11,6 @@ class HomeUI extends AbstractUI{
 
     private _battles: number[][];
 
-    private _maxStage: number;
-
     constructor() {
         super("homeUISkin");
         
@@ -38,9 +36,7 @@ class HomeUI extends AbstractUI{
             [490, 86], [483, 251], [643, 194], [809, 234], [1041, 236],
             [951, 155], [1149,111], [882, 38], [736, 107], [643, 36]
         ]
-
-        this._maxStage = 0;
-        
+       
         application.dao.addEventListener("Result",function(evt: egret.Event) {
             let result = evt.data;
             if (result.result == 1) {
@@ -77,12 +73,12 @@ class HomeUI extends AbstractUI{
             self.grpMap.addChild(self._battleItems[0]);
             
             if (results.length > 0) {
-                self._maxStage = Math.min(self._battles.length, results[0].stage);
+                let maxStage:number = Math.min(self._battles.length, results[0].stage);
                 
                 for (let i = 1; i < self._battles.length; i++) {
                     self.grpMap.addChild(self._battleItems[i]);
                     
-                    if (i < self._maxStage) {
+                    if (i < maxStage) {
                         self._battleItems[i].unlock();
                         self._drawPathQuckly(i + 1, 0);
                     } else {
@@ -116,7 +112,8 @@ class HomeUI extends AbstractUI{
         if (path) {
             let i = 0;
             let t = 0;
-            let bezier = this._createCubicBezier(path, i);
+            let bezier = self._createCubicBezier(path, i);
+            self._drawPoint(bezier.get(0), 0);
             let interval = setInterval(function(){
                 if (t < 1) {
                     t = self._drawPathPoint(bezier, t, 0);
