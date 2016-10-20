@@ -27,9 +27,6 @@ class BattleUI extends AbstractUI {
         
         self._music = RES.getRes("bg_mp3");
         self._music.type = egret.Sound.MUSIC;
-
-        self.grpSystemTools.addChild(new BattleSystemToolItem({category: 'soldier', count: 1}));
-        self.grpSystemTools.addChild(new BattleSystemToolItem({category: 'fireball', count: 1}));
         
         application.dao.fetch("Tool", {customer_id: application.me.attrs.id}).then(function(tools){
 			let toolCategories = ["thunder", "freeze", "nectar", "mammon"];
@@ -77,12 +74,17 @@ class BattleUI extends AbstractUI {
 			application.battle.fight();
 
 			self.imgTool.visible = true;
+			self.grpSystemTools.visible = true;
 			
             self.imgStart.visible = false;
 		}, self);
     }
 
     protected onRefresh() {      
+		this.grpSystemTools.visible = false;
+        this.grpSystemTools.addChild(new BattleSystemToolItem({category: 'soldier', count: 1}));
+        this.grpSystemTools.addChild(new BattleSystemToolItem({category: 'fireball', count: 1}));
+		
 		this._buildBattle();
     }
 
@@ -106,13 +108,12 @@ class BattleUI extends AbstractUI {
 	}
     
     private _buildBattle() {
-		this.grpBattle.addChild(application.battle);
-				
 		//this._channel = this._music.play(0, 0);
 
 		this.imgStart.visible = true;
 		this.grpTools.visible = false;
 		this.imgTool.visible  = false;
+		this.grpSystemTools.visible = false;
 		
         this._running = true;
 		
@@ -121,6 +122,7 @@ class BattleUI extends AbstractUI {
 		this.lblWaves.text = "0";
  		this.lblTotalWaves.text = application.battle.getTotalWaves().toString();
    	
+		this.grpBattle.addChild(application.battle);	
         application.battle.build();
 		
 		//this.stage.frameRate = application.frameRate;
