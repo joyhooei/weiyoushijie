@@ -6,11 +6,11 @@ class BattleItem extends AbstractUI {
     public imgLock: eui.Image;
 	public imgBg: eui.Image;
 
-    public constructor(stage:number, locked: boolean) {
+    public constructor(stage:number) {
         super("battleItemSkin");
         
         this._stage = stage;
-        this._locked = locked;
+        this._locked = true;
         
 		this.addEventListener(egret.TouchEvent.TOUCH_TAP,() => {
             if (!this._locked) {
