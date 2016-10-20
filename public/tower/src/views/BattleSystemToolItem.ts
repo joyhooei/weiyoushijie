@@ -3,6 +3,8 @@ class BattleSystemToolItem extends BattleToolItem {
         super(tool);
 		
 		this._maxTicks = 15;
+		
+		this._tool.count = 1;
     }
 	
 	protected onRefresh() {
