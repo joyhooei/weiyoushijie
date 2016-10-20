@@ -1,6 +1,8 @@
 class BattleSystemToolItem extends BattleToolItem {
     public constructor(tool:any) {
         super(tool);
+		
+		this._maxTicks = 15;
     }
 	
 	protected onRefresh() {
