@@ -1,8 +1,9 @@
 class HomeUI extends AbstractUI{ 
     public imgBg: eui.Image;
+
     public grpMap: eui.Group;
 
-    private _imgBattles: eui.Image[];
+    private _battleItems: BattelItem[];
 
     private _shapePath: egret.Shape;
 
@@ -40,20 +41,12 @@ class HomeUI extends AbstractUI{
 
         this._maxStage = 0;
         
-        this.addEventListener( egret.TouchEvent.TOUCH_TAP, (event: egret.TouchEvent)=>{
-            for(let i = 0; i < this._maxStage; i++) {
-                if (event.target == this._imgBattles[i]) {
-                    this._startBattle(i + 1);
-                }
-            }
-        }, this);
-        
         application.dao.addEventListener("Result",function(evt: egret.Event) {
             let result = evt.data;
             if (result.result == 1) {
-                let i = Math.min(15, result.stage + 1);
+                let i = Math.min(self._battles.length, result.stage);
 
-                this._imgBattles[i].visible = true;
+                this._battleItems[i - 1].unlock();
                 this._drawPathSlowly(i);
             }
         }, this);        
@@ -62,42 +55,45 @@ class HomeUI extends AbstractUI{
     protected onRefresh() {
         let self = this;
 
-        self._imgBattles = [];
+        self._battleItems = [];
         for(let i = 0; i < self._battles.length; i++) {
-            let imgBattle = new eui.Image();
-            imgBattle.source = "map_" + (i + 1).toString() +  "_png";
-            imgBattle.x = self._battles[i][0];
-            imgBattle.y = self._battles[i][1];
-            self._imgBattles.push(imgBattle);
+            let item = new BattleItem(i + 1);
+            item.x = self._battles[i][0];
+            item.y = self._battles[i][1];
+            self._battleItems.push(item);
         }
-        
+ 
+        self._shapePath = new egret.Shape();
+        self._shapePath.x = self.imgBg.x;
+        self._shapePath.y = self.imgBg.y;
+        self._shapePath.width  = self.imgBg.width;
+        self._shapePath.height = self.imgBg.height;
+       
         application.dao.fetch("Result", {customer_id: application.me.attrs.id, result: 1}, {order: 'stage DESC', limit: 1}).then(function(results){
-            for(let i = 0; i < self._imgBattles.length; i++) {
-                self.grpMap.addChild(self._imgBattles[i]);
+            self.grpMap.removeChildren();
+            for(let i = 0; i < self._battleItems.length; i++) {
+                self.grpMap.addChild(self._battleItems[i]);
             }
-
-            self._shapePath = new egret.Shape();
-            self._shapePath.x = self.imgBg.x;
-            self._shapePath.y = self.imgBg.y;
-            self._shapePath.width  = self.imgBg.width;
-            self._shapePath.height = self.imgBg.height;
             self.grpMap.addChild(self._shapePath);
-
+            
+            self._battleItems[0].unlock();
             if (results.length > 0) {
-                self._maxStage = Math.min(15, results[0].stage + 1);
-                for (let i = 1; i < self._maxStage; i++) {
-                    self._drawPathQuckly(i, 0);
-                }
-
-                for(let i = self._maxStage; i < 15; i++) {
-                    self._drawPathQuckly(i, 0xA9A9A9);
+                self._maxStage = Math.min(self._battles.length, results[0].stage);
+                
+                for (let i = 1; i < self._battles.length; i++) {
+                    if (i < self._maxStage) {
+                        self._battleItems[i].unlock();
+                        self._drawPathQuckly(i + 1, 0);
+                    } else {
+                        self._drawPathQuckly(i + 1, 0xA9A9A9);
+                    }
                 }
             }
         });
     }
 
-    private _drawPathQuckly(stage: number, color:number) {
-        let path = this._paths[stage - 1];
+    private _drawPathQuckly(toStage: number, color:number) {
+        let path = this._paths[toStage - 2];
         if (path) {
             for(let i = 0; i < path.length - 1; i++) {
                 let t = 0;
@@ -112,10 +108,10 @@ class HomeUI extends AbstractUI{
         }
     }
 
-    private _drawPathSlowly(stage: number) {
+    private _drawPathSlowly(toStage: number) {
         let self = this;
 
-        let path = this._paths[stage - 1];
+        let path = this._paths[toStage - 2];
         if (path) {
             let i = 0;
             let t = 0;
@@ -138,9 +134,7 @@ class HomeUI extends AbstractUI{
 
     private _createCubicBezier(path, i): CubicBezier {
         let cps = CubicBezier.getCtrlPoints(path, i);
-        let bezier = new CubicBezier([path[i], cps[0], cps[1], path[i + 1]]);
-
-        return bezier;
+        return new CubicBezier([path[i], cps[0], cps[1], path[i + 1]]);
     }        
 
     private _drawPathPoint(bezier:CubicBezier, t: number, color:number) {
@@ -165,9 +159,5 @@ class HomeUI extends AbstractUI{
         this._shapePath.graphics.beginFill(color, 1);
         this._shapePath.graphics.drawCircle(pt[0], pt[1], 3);
         this._shapePath.graphics.endFill();
-    }
-
-    private _startBattle(stage:number) {
-        this.show(new BattleLoadingUI(stage));
     }
 }
