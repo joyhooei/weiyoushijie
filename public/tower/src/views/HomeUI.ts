@@ -71,16 +71,17 @@ class HomeUI extends AbstractUI{
        
         application.dao.fetch("Result", {customer_id: application.me.attrs.id, result: 1}, {order: 'stage DESC', limit: 1}).then(function(results){
             self.grpMap.removeChildren();
-            for(let i = 0; i < self._battleItems.length; i++) {
-                self.grpMap.addChild(self._battleItems[i]);
-            }
             self.grpMap.addChild(self._shapePath);
             
             self._battleItems[0].unlock();
+            self.grpMap.addChild(self._battleItems[0]);
+            
             if (results.length > 0) {
                 self._maxStage = Math.min(self._battles.length, results[0].stage);
                 
                 for (let i = 1; i < self._battles.length; i++) {
+                    self.grpMap.addChild(self._battleItems[i]);
+                    
                     if (i < self._maxStage) {
                         self._battleItems[i].unlock();
                         self._drawPathQuckly(i + 1, 0);
