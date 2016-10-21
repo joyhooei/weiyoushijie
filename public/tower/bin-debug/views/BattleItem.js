@@ -6,9 +6,9 @@ var BattleItem = (function (_super) {
         this._stage = stage;
         this._locked = true;
         this.addEventListener(egret.TouchEvent.TOUCH_TAP, function () {
-            if (!_this._locked) {
-                _this.show(new BattleLoadingUI(_this._stage));
-            }
+            //if (!this._locked) {
+            _this.show(new BattleLoadingUI(_this._stage));
+            //}
         }, this);
     }
     var d = __define,c=BattleItem,p=c.prototype;

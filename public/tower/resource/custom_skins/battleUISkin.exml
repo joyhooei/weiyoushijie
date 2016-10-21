@@ -1,10 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <e:Skin class="battleUISkin" width="800" height="480" xmlns:e="http://ns.egret.com/eui" xmlns:w="http://ns.egret.com/wing">
-	<e:Scroller height="480" width="800" y="0" x="0">
-		<e:viewport>
-			<e:Group id="grpBattle"></e:Group>
-		</e:viewport>
-	</e:Scroller>
+	<e:Group id="grpBattle"></e:Group>
 	
 	<e:Group id="grpHeader" width="800" height="98" x="0" y="0">
 		<e:Image width="184" height="44" x="293" y="5" source="waves_png" fillMode="clip"/>

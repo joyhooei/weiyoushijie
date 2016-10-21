@@ -36,15 +36,19 @@ class Battle extends Entity implements SoldierCreator {
     protected _result: Result;
     protected _options: any;
 
+    protected _width:number;
+    protected _height:number;
+
     public constructor() {
         super();
 
         this._layers    = [this._addLayer(), this._addLayer(), this._addLayer()];
 
         this.touchEnabled = true;
-        this.addEventListener(egret.TouchEvent.TOUCH_BEGIN, this._touch, this);    
-        
-        this._waves = new Waves(800, 480);
+        this.addEventListener(egret.TouchEvent.TOUCH_BEGIN, this._touch, this);   
+
+        this._width  = 800;
+        this._height = 480; 
     }
     
     public loadResource(options: any): Q.Promise<any> {
@@ -53,11 +57,12 @@ class Battle extends Entity implements SoldierCreator {
         self._options = options;
         
         return Q.Promise<any>(function(resolve,reject,notify) {
-            TiledMap.load("resource/art/sprites/battles/battle" + options.stage.toString() + ".tmx", 800, 480).then(function(map){
+            TiledMap.load("resource/art/sprites/battles/battle" + options.stage.toString() + ".tmx", self._width, self._height).then(function(map){
                 self._map = map;
                 self.addChildAt(self._map, 0);
                 self._map.paint();
         
+                self._waves = new Waves(self._width, self._height);
                 self._waves.setPaths(self._map.getPaths());
                 self._addWaves();
 
@@ -198,7 +203,7 @@ class Battle extends Entity implements SoldierCreator {
                 this._focus = null;
             }
     	} else {
-    	    if (e.target == this) {
+    	    if (e.target == this && (this._toolItem || this._focus)) {
     	        let x = Math.round(e.localX);
                 let y = Math.round(e.localY);
                 

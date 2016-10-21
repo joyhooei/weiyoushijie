@@ -13,9 +13,9 @@ class BattleItem extends AbstractUI {
         this._locked = true;
         
 		this.addEventListener(egret.TouchEvent.TOUCH_TAP,() => {
-            if (!this._locked) {
+            //if (!this._locked) {
                 this.show(new BattleLoadingUI(this._stage));
-            }
+            //}
 		}, this);
     }
 

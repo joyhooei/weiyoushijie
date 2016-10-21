@@ -70,7 +70,7 @@ var UpgradeTowerUI = (function (_super) {
         }
         if (this._nextLevelTower1) {
             if (this._nextLevelTower2) {
-                this.imgBg.source = "towerselect3_png";
+                this.imgBg.source = "towerselect2_png";
                 this.lblUpgradePrice1.text = this._nextLevelTower1.getPrice().toString();
                 this.lblUpgradePrice2.text = this._nextLevelTower2.getPrice().toString();
                 this.lblUpgradePrice1.visible = true;

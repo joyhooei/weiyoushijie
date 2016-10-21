@@ -2,7 +2,9 @@
 var Battle12 = (function (_super) {
     __extends(Battle12, _super);
     function Battle12() {
-        _super.apply(this, arguments);
+        _super.call(this);
+        this._width = 800;
+        this._height = 640;
     }
     var d = __define,c=Battle12,p=c.prototype;
     //增加英雄
@@ -15,6 +17,7 @@ var Battle12 = (function (_super) {
         this._addEffectByName("Cock", 540, 400, EntityDirection.west);
     };
     p._addWaves = function () {
+        this._addWave(0, "Wolf", 5, 0);
     };
     return Battle12;
 }(Battle));

@@ -1,5 +1,12 @@
 //海底
 class Battle12 extends Battle {
+    public constructor() {
+        super();
+
+        this._width  = 800;
+        this._height = 640; 
+    }
+
     //增加英雄
     protected _addHeros() {
         this._addHerosByName("Sunwukong");
@@ -12,5 +19,6 @@ class Battle12 extends Battle {
     }
     
     protected _addWaves() {        
+        this._addWave(0, "Wolf", 5, 0);   
     }
 }

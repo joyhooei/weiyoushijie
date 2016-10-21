@@ -5,17 +5,19 @@ var Battle = (function (_super) {
         this._layers = [this._addLayer(), this._addLayer(), this._addLayer()];
         this.touchEnabled = true;
         this.addEventListener(egret.TouchEvent.TOUCH_BEGIN, this._touch, this);
-        this._waves = new Waves(800, 480);
+        this._width = 800;
+        this._height = 480;
     }
     var d = __define,c=Battle,p=c.prototype;
     p.loadResource = function (options) {
         var self = this;
         self._options = options;
         return Q.Promise(function (resolve, reject, notify) {
-            TiledMap.load("resource/art/sprites/battles/battle" + options.stage.toString() + ".tmx", 800, 480).then(function (map) {
+            TiledMap.load("resource/art/sprites/battles/battle" + options.stage.toString() + ".tmx", self._width, self._height).then(function (map) {
                 self._map = map;
                 self.addChildAt(self._map, 0);
                 self._map.paint();
+                self._waves = new Waves(self._width, self._height);
                 self._waves.setPaths(self._map.getPaths());
                 self._addWaves();
                 self._getEscapeArea();
@@ -132,7 +134,7 @@ var Battle = (function (_super) {
             }
         }
         else {
-            if (e.target == this) {
+            if (e.target == this && (this._toolItem || this._focus)) {
                 var x = Math.round(e.localX);
                 var y = Math.round(e.localY);
                 if (this._map.walkable(x, y)) {

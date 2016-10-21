@@ -10,6 +10,8 @@ class BattleUI extends AbstractUI {
     
     public grpBattle: eui.Group;
 
+	private _svBattle: egret.ScrollView;
+
 	public grpHeader: eui.Group;
 
     public imgBack:  eui.Image;
@@ -88,6 +90,13 @@ class BattleUI extends AbstractUI {
 		this.grpSystemTools.visible = false;
         this.grpSystemTools.addChild(new BattleSystemToolItem({category: 'soldier', count: 1}));
         this.grpSystemTools.addChild(new BattleSystemToolItem({category: 'fireball', count: 1}));
+
+	    this._svBattle = new egret.ScrollView();
+        //设置滚动区域宽高
+        this._svBattle.width  = this.width;
+        this._svBattle.height = this.height;
+		this._svBattle.bounces = false;
+        this.grpBattle.addChild(this._svBattle);
 		
 		this._buildBattle();
     }
@@ -126,8 +135,8 @@ class BattleUI extends AbstractUI {
 		this.lblGolds.text = "0";
 		this.lblWaves.text = "0";
  		this.lblTotalWaves.text = application.battle.getTotalWaves().toString();
-   	
-		this.grpBattle.addChild(application.battle);	
+
+		this._svBattle.setContent(application.battle);
         application.battle.build();
 		
 		//this.stage.frameRate = application.frameRate;
