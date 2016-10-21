@@ -10,6 +10,8 @@ class BattleUI extends AbstractUI {
     
     public grpBattle: eui.Group;
 
+	public grpHeader: eui.Group;
+
     public imgBack:  eui.Image;
     public imgStart: eui.Image;
     public imgHelp:  eui.Image;
@@ -27,6 +29,8 @@ class BattleUI extends AbstractUI {
         
         self._music = RES.getRes("bg_mp3");
         self._music.type = egret.Sound.MUSIC;
+
+		self.grpHeader.touchEnabled = false;
         
         application.dao.fetch("Tool", {customer_id: application.me.attrs.id}).then(function(tools){
 			let toolCategories = ["thunder", "freeze", "nectar", "mammon"];
@@ -114,6 +118,7 @@ class BattleUI extends AbstractUI {
 		this.grpTools.visible = false;
 		this.imgTool.visible  = false;
 		this.grpSystemTools.visible = false;
+		this.grpHeader.visible = true;
 		
         this._running = true;
 		
@@ -131,6 +136,12 @@ class BattleUI extends AbstractUI {
 
 	private _overBattle() {
 		let self = this;
+
+		self.imgStart.visible = false;
+		self.grpTools.visible = false;
+		self.imgTool.visible  = false;
+		self.grpSystemTools.visible = false;
+		self.grpHeader.visible = false;
 
 		if (self._running) {
 			self._running = false;

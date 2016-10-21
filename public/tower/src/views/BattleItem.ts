@@ -4,8 +4,7 @@ class BattleItem extends AbstractUI {
     private _locked: boolean;
     
     public imgLock: eui.Image;
-	public imgBg: eui.Image;
-	public rcCover: eui.Rect;
+	public imgBattle: eui.Image;
 
     public constructor(stage:number) {
         super("battleItemSkin");
@@ -21,19 +20,11 @@ class BattleItem extends AbstractUI {
     }
 
 	protected onRefresh() {
-		this.imgBg.source = "map_" + this._stage.toString() +  "_png";
+		this.imgBattle.source = "map_" + this._stage.toString() +  "_png";
 		
 		this.imgLock.visible = this._locked;
-		this.imgLock.x = this.imgBg.x + (this.imgBg.width - this.imgLock.width) / 2;
-		this.imgLock.y = this.imgBg.y + (this.imgBg.height - this.imgLock.height) / 2l
-		
-		if (this._locked) {
-			this.rcCover.width  = this.imgBg.width;
-			this.rcCover.height = this.imgBg.height;
-			this.rcCover.visible = true;
-		} else {
-			this.rcCover.visible = false;
-		}
+		this.imgLock.x = this.imgBattle.x + (this.imgBattle.width - this.imgLock.width) / 2;
+		this.imgLock.y = this.imgBattle.y + (this.imgBattle.height - this.imgLock.height) / 2;
 	}
     
     public unlock() {

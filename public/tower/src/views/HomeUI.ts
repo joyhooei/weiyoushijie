@@ -3,7 +3,7 @@ class HomeUI extends AbstractUI{
 
     public grpMap: eui.Group;
 
-    private _battleItems: BattelItem[];
+    private _battleItems: BattleItem[];
 
     private _shapePath: egret.Shape;
 
@@ -40,7 +40,7 @@ class HomeUI extends AbstractUI{
         application.dao.addEventListener("Result",function(evt: egret.Event) {
             let result = evt.data;
             if (result.result == 1) {
-                let i = Math.min(self._battles.length, result.stage);
+                let i = Math.min(this._battles.length, result.stage);
 
                 this._battleItems[i - 1].unlock();
                 this._drawPathSlowly(i);
@@ -66,7 +66,6 @@ class HomeUI extends AbstractUI{
         self._shapePath.height = self.imgBg.height;
        
         application.dao.fetch("Result", {customer_id: application.me.attrs.id, result: 1}, {order: 'stage DESC', limit: 1}).then(function(results){
-            self.grpMap.removeChildren();
             self.grpMap.addChild(self._shapePath);
             
             self._battleItems[0].unlock();

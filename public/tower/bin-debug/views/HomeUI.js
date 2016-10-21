@@ -1,7 +1,6 @@
 var HomeUI = (function (_super) {
     __extends(HomeUI, _super);
     function HomeUI() {
-        var _this = this;
         _super.call(this, "homeUISkin");
         this._paths = [
             [[327, 95], [337, 142], [276, 157], [211, 189], [143, 126]],
@@ -24,19 +23,11 @@ var HomeUI = (function (_super) {
             [490, 86], [483, 251], [643, 194], [809, 234], [1041, 236],
             [951, 155], [1149, 111], [882, 38], [736, 107], [643, 36]
         ];
-        this._maxStage = 0;
-        this.addEventListener(egret.TouchEvent.TOUCH_TAP, function (event) {
-            for (var i = 0; i < _this._maxStage; i++) {
-                if (event.target == _this._imgBattles[i]) {
-                    _this._startBattle(i + 1);
-                }
-            }
-        }, this);
         application.dao.addEventListener("Result", function (evt) {
             var result = evt.data;
             if (result.result == 1) {
-                var i = Math.min(15, result.stage + 1);
-                this._imgBattles[i].visible = true;
+                var i = Math.min(this._battles.length, result.stage);
+                this._battleItems[i - 1].unlock();
                 this._drawPathSlowly(i);
             }
         }, this);
@@ -44,37 +35,39 @@ var HomeUI = (function (_super) {
     var d = __define,c=HomeUI,p=c.prototype;
     p.onRefresh = function () {
         var self = this;
-        self._imgBattles = [];
+        self._battleItems = [];
         for (var i = 0; i < self._battles.length; i++) {
-            var imgBattle = new eui.Image();
-            imgBattle.source = "map_" + (i + 1).toString() + "_png";
-            imgBattle.x = self._battles[i][0];
-            imgBattle.y = self._battles[i][1];
-            self._imgBattles.push(imgBattle);
+            var item = new BattleItem(i + 1);
+            item.x = self._battles[i][0];
+            item.y = self._battles[i][1];
+            self._battleItems.push(item);
         }
+        self._shapePath = new egret.Shape();
+        self._shapePath.x = self.imgBg.x;
+        self._shapePath.y = self.imgBg.y;
+        self._shapePath.width = self.imgBg.width;
+        self._shapePath.height = self.imgBg.height;
         application.dao.fetch("Result", { customer_id: application.me.attrs.id, result: 1 }, { order: 'stage DESC', limit: 1 }).then(function (results) {
-            for (var i = 0; i < self._imgBattles.length; i++) {
-                self.grpMap.addChild(self._imgBattles[i]);
-            }
-            self._shapePath = new egret.Shape();
-            self._shapePath.x = self.imgBg.x;
-            self._shapePath.y = self.imgBg.y;
-            self._shapePath.width = self.imgBg.width;
-            self._shapePath.height = self.imgBg.height;
             self.grpMap.addChild(self._shapePath);
+            self._battleItems[0].unlock();
+            self.grpMap.addChild(self._battleItems[0]);
             if (results.length > 0) {
-                self._maxStage = Math.min(15, results[0].stage + 1);
-                for (var i = 1; i < self._maxStage; i++) {
-                    self._drawPathQuckly(i, 0);
-                }
-                for (var i = self._maxStage; i < 15; i++) {
-                    self._drawPathQuckly(i, 0xA9A9A9);
+                var maxStage = Math.min(self._battles.length, results[0].stage);
+                for (var i = 1; i < self._battles.length; i++) {
+                    self.grpMap.addChild(self._battleItems[i]);
+                    if (i < maxStage) {
+                        self._battleItems[i].unlock();
+                        self._drawPathQuckly(i + 1, 0);
+                    }
+                    else {
+                        self._drawPathQuckly(i + 1, 0xA9A9A9);
+                    }
                 }
             }
         });
     };
-    p._drawPathQuckly = function (stage, color) {
-        var path = this._paths[stage - 1];
+    p._drawPathQuckly = function (toStage, color) {
+        var path = this._paths[toStage - 2];
         if (path) {
             for (var i = 0; i < path.length - 1; i++) {
                 var t = 0;
@@ -89,13 +82,14 @@ var HomeUI = (function (_super) {
             }
         }
     };
-    p._drawPathSlowly = function (stage) {
+    p._drawPathSlowly = function (toStage) {
         var self = this;
-        var path = this._paths[stage - 1];
+        var path = this._paths[toStage - 2];
         if (path) {
             var i_1 = 0;
             var t_1 = 0;
-            var bezier_1 = this._createCubicBezier(path, i_1);
+            var bezier_1 = self._createCubicBezier(path, i_1);
+            self._drawPoint(bezier_1.get(0), 0);
             var interval_1 = setInterval(function () {
                 if (t_1 < 1) {
                     t_1 = self._drawPathPoint(bezier_1, t_1, 0);
@@ -115,8 +109,7 @@ var HomeUI = (function (_super) {
     };
     p._createCubicBezier = function (path, i) {
         var cps = CubicBezier.getCtrlPoints(path, i);
-        var bezier = new CubicBezier([path[i], cps[0], cps[1], path[i + 1]]);
-        return bezier;
+        return new CubicBezier([path[i], cps[0], cps[1], path[i + 1]]);
     };
     p._drawPathPoint = function (bezier, t, color) {
         var last = bezier.get(t);
@@ -135,9 +128,6 @@ var HomeUI = (function (_super) {
         this._shapePath.graphics.beginFill(color, 1);
         this._shapePath.graphics.drawCircle(pt[0], pt[1], 3);
         this._shapePath.graphics.endFill();
-    };
-    p._startBattle = function (stage) {
-        this.show(new BattleLoadingUI(stage));
     };
     return HomeUI;
 }(AbstractUI));

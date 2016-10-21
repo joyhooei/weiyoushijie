@@ -1,3 +1,5 @@
+declare class battleItemSkin extends eui.Skin{
+}
 declare class battleLoadingUISkin extends eui.Skin{
 }
 declare class battleToolItemSkin extends eui.Skin{

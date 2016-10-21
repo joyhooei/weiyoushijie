@@ -3,12 +3,15 @@ class BattleSystemToolItem extends BattleToolItem {
         super(tool);
 		
 		this._maxTicks = 15;
-		
-		this._tool.count = 1;
     }
 	
 	protected onRefresh() {
-        this.imgTool.source = tool.image;
+		if (this._tool.category == "soldier") {
+        	this.imgTool.source = "soldier_png";
+		} else {
+			this.imgTool.source = "fireball_png";
+		}
+
         this.lblCount.visible = false;
 	}
     

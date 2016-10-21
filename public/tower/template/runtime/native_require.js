@@ -151,6 +151,7 @@ var game_file_list = [
 	"bin-debug/utils/Matrix.js",
 	"bin-debug/utils/Utility.js",
 	"bin-debug/views/AbstractUI.js",
+	"bin-debug/views/BattleItem.js",
 	"bin-debug/views/BattleLoadingUI.js",
 	"bin-debug/views/BattleOptionUI.js",
 	"bin-debug/views/BattleToolItem.js",

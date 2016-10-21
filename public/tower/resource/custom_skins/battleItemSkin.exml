@@ -1,0 +1,5 @@
+<?xml version="1.0" encoding="utf-8"?>
+<e:Skin class="battleItemSkin" xmlns:e="http://ns.egret.com/eui" xmlns:w="http://ns.egret.com/wing">
+	<e:Image id="imgBattle" x="0" y="0" source="map_1_png"/>
+	<e:Image id="imgLock" width="20" height="20" x="29" y="15"/>
+</e:Skin>

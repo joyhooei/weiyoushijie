@@ -96,30 +96,28 @@ var NPC = (function (_super) {
         }
     };
     p._fighting = function () {
-        if (this._fightClip) {
-            if (!this._playingFightClip && this._readyFight()) {
-                this._playingFightClip = true;
-                this._play(this._fightClip, 1);
-                this._fightClip.once(egret.Event.COMPLETE, function () {
-                    this._hitOpponents();
-                    this._playingFightClip = false;
-                }, this);
-            }
-            this._ticks++;
+        if (this._readyFight() && !this._clipPlaying) {
+            this._play();
+        }
+        this._ticks++;
+    };
+    p._act = function () {
+        if (this._state == EntityState.fighting) {
+            this._hitOpponents();
+            return false;
+        }
+        else {
+            return true;
         }
     };
     p._hitOpponents = function () {
     };
-    p.paint = function () {
-        var display = this._render(0, 5, this._skill);
-        if (this._state != EntityState.fighting) {
-            this._play(display, -1);
-        }
-        else {
-            this._fightClip = display;
-            this._playingFightClip = false;
-        }
+    p._render = function (xDelta, yDelta, idx) {
+        if (xDelta === void 0) { xDelta = 0; }
+        if (yDelta === void 0) { yDelta = 0; }
+        if (idx === void 0) { idx = 0; }
         this._centerHp();
+        return _super.prototype._render.call(this, 0, 5, this._skill);
     };
     p._centerHp = function () {
         if (this._hp) {

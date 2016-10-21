@@ -28,6 +28,8 @@ var Entity = (function (_super) {
         this._displays = new EntityDisplays();
         this._displaySprite = new egret.Sprite();
         this.addChild(this._displaySprite);
+        this._clip = null;
+        this._clipPlaying = false;
         this._sounds = new EntitySounds();
     }
     var d = __define,c=Entity,p=c.prototype;
@@ -130,7 +132,21 @@ var Entity = (function (_super) {
     //根据状态、面向修改重新渲染
     p.paint = function () {
         if (this._state > EntityState.idle && this._state < EntityState.dead) {
-            this._play(this._render(), -1);
+            var display = this._render();
+            if (egret.getQualifiedClassName(display) == "egret.MovieClip") {
+                this._clip = display;
+                this._play();
+            }
+            else {
+                this._act();
+            }
+        }
+        else {
+            if (this._clip) {
+                this._clip.stop();
+            }
+            this._clip = null;
+            this._clipPlaying = false;
         }
     };
     p.addBitmap = function (name, action) {
@@ -163,21 +179,19 @@ var Entity = (function (_super) {
         this.addClip(name, "south-" + action);
         return this;
     };
-    p._play = function (display, times) {
-        if (times === void 0) { times = -1; }
-        if (egret.getQualifiedClassName(display) == "egret.MovieClip") {
-            var clip = display;
-            clip.gotoAndPlay(0, times);
-            return clip;
-        }
-        return null;
+    p._play = function () {
+        this._clip.addEventListener(egret.Event.COMPLETE, this._playCompleted, this);
+        this._clipPlaying = true;
+        this._clip.gotoAndPlay(0, 1);
     };
-    p._getCurrentDisplay = function () {
-        if (this._displaySprite.numChildren > 0) {
-            return this._displaySprite.getChildAt(0);
+    p._playCompleted = function () {
+        if (this._act()) {
+            this._clipPlaying = true;
+            this._clip.gotoAndPlay(0, 1);
         }
         else {
-            return null;
+            this._clipPlaying = false;
+            this._clip.removeEventListener(egret.Event.COMPLETE, this._playCompleted, this);
         }
     };
     p._render = function (xDelta, yDelta, idx) {
@@ -230,6 +244,10 @@ var Entity = (function (_super) {
             this._direction = direction;
             this.stain();
         }
+    };
+    //执行具体的动作，返回值true表示继续播放下一个动作
+    p._act = function () {
+        return true;
     };
     p._idle = function () {
     };

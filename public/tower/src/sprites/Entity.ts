@@ -234,17 +234,21 @@ class Entity extends egret.Sprite {
 	}
     
     protected _play() {
-		this._clip.once(egret.Event.COMPLETE, function(){
-			if (this._act()) {
-				this._play();
-			}
-
-			this._clipPlaying = false;
-		}, this);
+		this._clip.addEventListener(egret.Event.COMPLETE, this._playCompleted, this);
 
 		this._clipPlaying = true;
 		this._clip.gotoAndPlay(0, 1);
     }
+
+	protected _playCompleted() {
+		if (this._act()) {
+			this._clipPlaying = true;
+			this._clip.gotoAndPlay(0, 1);
+		} else {
+			this._clipPlaying = false;
+			this._clip.removeEventListener(egret.Event.COMPLETE, this._playCompleted, this);
+		}
+	}
     
     protected _render(xDelta = 0, yDelta = 0, idx = 0): egret.DisplayObject {
 		let display = this._displays.getDisplay(this._direction, this._state, idx);

@@ -4,8 +4,11 @@ var BattleToolItem = (function (_super) {
         var _this = this;
         _super.call(this, "battleToolItemSkin");
         this._tool = tool;
+        this._ticks = 0;
+        this._maxTicks = 30;
+        this._shapeShield = null;
         this.addEventListener(egret.TouchEvent.TOUCH_TAP, function () {
-            if (_this._tool.count > 0) {
+            if (_this._ticks == _this._maxTicks) {
                 if (_this._tool.category == "nectar" || _this._tool.category == "mammon") {
                     _this.use(application.battle.getCenterX(), application.battle.getCenterY());
                 }
@@ -14,11 +17,20 @@ var BattleToolItem = (function (_super) {
                 }
             }
         }, this);
+        application.stopwatch.addEventListener("second", function (event) {
+            if (this._tool.count > 0 && this._ticks < this._maxTicks) {
+                this._ticks++;
+                this._drawProgress(this._ticks, this._maxTicks);
+            }
+        }, this);
     }
     var d = __define,c=BattleToolItem,p=c.prototype;
     p.onRefresh = function () {
         this.imgTool.source = this._tool.category + "_png";
         this.lblCount.text = this._tool.count.toString();
+        if (this._tool.count <= 0) {
+            this._drawProgress(0, this._maxTicks);
+        }
     };
     p.use = function (x, y) {
         this._tool.count = Math.max(0, this._tool.count - 1);
@@ -35,7 +47,26 @@ var BattleToolItem = (function (_super) {
         else if (this._tool.category == "mammon") {
             application.battle.incGolds(500);
         }
-        this.lblCount.text = this._tool.count.toString();
+        this._ticks = 0;
+        this.refresh();
+    };
+    p._drawProgress = function (percent, total) {
+        if (!this._shapeShield) {
+            this._shapeShield = new egret.Shape();
+            this._shapeShield.width = this.width;
+            this._shapeShield.height = this.height;
+            this.addChild(this._shapeShield);
+        }
+        var x = this.width / 2;
+        var y = this.height / 2;
+        var r = this.height / 2 - 5;
+        this._shapeShield.graphics.clear();
+        this._shapeShield.graphics.beginFill(0x000000, 0.3);
+        this._shapeShield.graphics.moveTo(x, y);
+        this._shapeShield.graphics.lineTo(x, y - 2 * r);
+        this._shapeShield.graphics.drawArc(x, y, r, ((2 * percent / total) - 0.5) * Math.PI, 1.5 * Math.PI, false);
+        this._shapeShield.graphics.lineTo(x, y);
+        this._shapeShield.graphics.endFill();
     };
     return BattleToolItem;
 }(AbstractUI));

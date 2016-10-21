@@ -1,6 +1,8 @@
 class Effect extends Entity {
     protected _idleTicks: number;
 
+    protected _playTimes: number;
+
     public constructor() {
         super();
     }
@@ -9,10 +11,8 @@ class Effect extends Entity {
         super.initialize(properties);
         
         this._idleTicks = this._get(properties, "idleTicks", (Math.random() * 10) * application.frameRate);
-    }
-    
-    public paint() {
-    	this._play(this._render(), 5);
+
+        this._playTimes = 0;
     }
     
     protected _idle() {
@@ -22,9 +22,20 @@ class Effect extends Entity {
             this._ticks ++;
         }
     }
+
+    protected _act():boolean {
+        this._playTimes --;
+        if(this._playTimes <= 0) {
+            return false;
+        }
+
+        return true;
+    }
     
     protected _moving() {
         if (this._ticks % (application.frameRate << 3) == 0) {
+            this._playTimes = 5;
+
             this.stain();
         }
         

@@ -7,9 +7,7 @@ var Effect = (function (_super) {
     p.initialize = function (properties) {
         _super.prototype.initialize.call(this, properties);
         this._idleTicks = this._get(properties, "idleTicks", (Math.random() * 10) * application.frameRate);
-    };
-    p.paint = function () {
-        this._play(this._render(), 5);
+        this._playTimes = 0;
     };
     p._idle = function () {
         if (this._ticks > this._idleTicks) {
@@ -19,8 +17,16 @@ var Effect = (function (_super) {
             this._ticks++;
         }
     };
+    p._act = function () {
+        this._playTimes--;
+        if (this._playTimes <= 0) {
+            return false;
+        }
+        return true;
+    };
     p._moving = function () {
         if (this._ticks % (application.frameRate << 3) == 0) {
+            this._playTimes = 5;
             this.stain();
         }
         this._ticks++;

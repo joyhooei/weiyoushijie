@@ -16,11 +16,8 @@ var Enemy = (function (_super) {
     };
     p.frozen = function () {
         this._frozenTicks = 3 * application.frameRate;
-        var display = this._getCurrentDisplay();
-        if (display) {
-            if (egret.getQualifiedClassName(display) == "egret.MovieClip") {
-                display.stop();
-            }
+        if (this._clip) {
+            this._clip.stop();
         }
     };
     p.update = function () {
@@ -30,11 +27,8 @@ var Enemy = (function (_super) {
         else {
             this._frozenTicks--;
             if (this._frozenTicks <= 0) {
-                var display = this._getCurrentDisplay();
-                if (display) {
-                    if (egret.getQualifiedClassName(display) == "egret.MovieClip") {
-                        display.play();
-                    }
+                if (this._clip) {
+                    this._clip.play();
                 }
             }
             return false;

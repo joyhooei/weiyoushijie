@@ -5,8 +5,7 @@ var BattleUI = (function (_super) {
         var self = this;
         self._music = RES.getRes("bg_mp3");
         self._music.type = egret.Sound.MUSIC;
-        self.grpSystemTools.addChild(new BattleSystemToolItem({ category: 'soldier', count: 1 }));
-        self.grpSystemTools.addChild(new BattleSystemToolItem({ category: 'fireball', count: 1 }));
+        self.grpHeader.touchEnabled = false;
         application.dao.fetch("Tool", { customer_id: application.me.attrs.id }).then(function (tools) {
             var toolCategories = ["thunder", "freeze", "nectar", "mammon"];
             for (var i = 0; i < toolCategories.length; i++) {
@@ -43,11 +42,15 @@ var BattleUI = (function (_super) {
         self.imgStart.addEventListener(egret.TouchEvent.TOUCH_TAP, function () {
             application.battle.fight();
             self.imgTool.visible = true;
+            self.grpSystemTools.visible = true;
             self.imgStart.visible = false;
         }, self);
     }
     var d = __define,c=BattleUI,p=c.prototype;
     p.onRefresh = function () {
+        this.grpSystemTools.visible = false;
+        this.grpSystemTools.addChild(new BattleSystemToolItem({ category: 'soldier', count: 1 }));
+        this.grpSystemTools.addChild(new BattleSystemToolItem({ category: 'fireball', count: 1 }));
         this._buildBattle();
     };
     p._animateStep = function (lbl, from, to) {
@@ -66,22 +69,29 @@ var BattleUI = (function (_super) {
         timer.start();
     };
     p._buildBattle = function () {
-        this.grpBattle.addChild(application.battle);
         //this._channel = this._music.play(0, 0);
         this.imgStart.visible = true;
         this.grpTools.visible = false;
         this.imgTool.visible = false;
+        this.grpSystemTools.visible = false;
+        this.grpHeader.visible = true;
         this._running = true;
         this.lblLives.text = "0";
         this.lblGolds.text = "0";
         this.lblWaves.text = "0";
         this.lblTotalWaves.text = application.battle.getTotalWaves().toString();
+        this.grpBattle.addChild(application.battle);
         application.battle.build();
         //this.stage.frameRate = application.frameRate;
         this.addEventListener(egret.Event.ENTER_FRAME, this._onEnterFrame, this);
     };
     p._overBattle = function () {
         var self = this;
+        self.imgStart.visible = false;
+        self.grpTools.visible = false;
+        self.imgTool.visible = false;
+        self.grpSystemTools.visible = false;
+        self.grpHeader.visible = false;
         if (self._running) {
             self._running = false;
             if (self._channel) {
