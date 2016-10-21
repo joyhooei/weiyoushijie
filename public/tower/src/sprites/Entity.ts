@@ -30,6 +30,8 @@ class Entity extends egret.Sprite {
     protected _displays: EntityDisplays;
     
     protected _displaySprite: egret.Sprite;
+	protected _clip: egret.MovieClip;
+	protected _clipPlaying: boolean;
     
     protected _sounds: EntitySounds;
 
@@ -40,6 +42,9 @@ class Entity extends egret.Sprite {
         
         this._displaySprite = new egret.Sprite();
         this.addChild(this._displaySprite);
+		
+		this._clip = null;
+		this._clipPlaying = false;
         
         this._sounds = new EntitySounds();
 	}
@@ -171,7 +176,20 @@ class Entity extends egret.Sprite {
     //根据状态、面向修改重新渲染
     public paint() {
 		if (this._state > EntityState.idle && this._state < EntityState.dead) {
-    		this._play(this._render(), -1);
+			let display:egret.DisplayObject = this._render();
+			if (egret.getQualifiedClassName(display) == "egret.MovieClip") {
+				this._clip = <egret.MovieClip>display;
+    			this._play();
+			} else {
+				this._act();
+			}
+		} else {
+			if (this._clip) {
+				this._clip.stop();
+			}
+			
+			this._clip = null;
+			this._clipPlaying = false;
 		}
     }
 
@@ -215,24 +233,18 @@ class Entity extends egret.Sprite {
 		return this;
 	}
     
-    protected _play(display: egret.DisplayObject, times = -1): egret.MovieClip {
-        if (egret.getQualifiedClassName(display) == "egret.MovieClip") {
-            let clip:egret.MovieClip = <egret.MovieClip>display;
-            clip.gotoAndPlay(0, times);
-            
-            return clip;
-        }
-        
-        return null;
+    protected _play() {
+		this._clip.once(egret.Event.COMPLETE, function(){
+			if (this._act()) {
+				this._play();
+			}
+
+			this._clipPlaying = false;
+		}, this);
+
+		this._clipPlaying = true;
+		this._clip.gotoAndPlay(0, 1);
     }
-	
-	protected _getCurrentDisplay(): egret.DisplayObject {
-		if (this._displaySprite.numChildren > 0) {
-			return this._displaySprite.getChildAt(0);
-		} else {
-			return null;
-		}
-	}
     
     protected _render(xDelta = 0, yDelta = 0, idx = 0): egret.DisplayObject {
 		let display = this._displays.getDisplay(this._direction, this._state, idx);
@@ -257,10 +269,10 @@ class Entity extends egret.Sprite {
 			}
 
 			this.width  = display.width;
-			this.height = display.height;			
+			this.height = display.height;
         } else {
             console.error("display dosn't exist for " + this.getClaz() + " direction = " + Entity.directionName(this._direction) + " state = " + Entity.stateName(this._state));
-        }		
+        }
 
 		return display;
     }
@@ -292,6 +304,11 @@ class Entity extends egret.Sprite {
     		this.stain();
     	}
     }
+	
+	//执行具体的动作，返回值true表示继续播放下一个动作
+	protected _act():boolean {
+		return true;
+	}
 
     protected _idle() {
     }
