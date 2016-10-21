@@ -152,7 +152,7 @@ class Battle extends Entity implements SoldierCreator {
         
         super.fight();
     }
-    
+
     public lose() {
         this._result.attrs.result = 2;
         
@@ -387,7 +387,12 @@ class Battle extends Entity implements SoldierCreator {
     private _eraseEntities(entities: Entity[]){
         let i = entities.length;
         while(i > 0) {
-            entities[--i].erase();
+            let entity = entities[--i];
+            entity.erase();
+            
+            if (entity.parent) {
+                entity.parent.removeChild(entity);
+            }
         }
     }
     

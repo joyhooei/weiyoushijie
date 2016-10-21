@@ -291,7 +291,11 @@ var Battle = (function (_super) {
     p._eraseEntities = function (entities) {
         var i = entities.length;
         while (i > 0) {
-            entities[--i].erase();
+            var entity = entities[--i];
+            entity.erase();
+            if (entity.parent) {
+                entity.parent.removeChild(entity);
+            }
         }
     };
     p.launchWave = function (wave) {

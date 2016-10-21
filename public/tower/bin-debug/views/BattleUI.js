@@ -106,6 +106,7 @@ var BattleUI = (function (_super) {
             self.removeEventListener(egret.Event.ENTER_FRAME, self._onEnterFrame, self);
             application.showUI(new BattleOptionUI(function () {
                 application.battle.erase();
+                self._svBattle.removeContent();
                 application.pool.set(application.battle);
                 application.battle = application.pool.get(application.battle.getClaz());
                 self._buildBattle();
@@ -117,6 +118,7 @@ var BattleUI = (function (_super) {
     p._quitBattle = function () {
         if (application.battle) {
             application.battle.erase();
+            this._svBattle.removeContent();
             application.pool.set(application.battle);
             application.battle = null;
         }

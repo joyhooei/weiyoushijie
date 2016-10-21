@@ -92,9 +92,6 @@ var Entity = (function (_super) {
     };
     p.erase = function () {
         this._do(EntityState.dead);
-        if (this.parent) {
-            this.parent.removeChild(this);
-        }
     };
     p.active = function () {
         return this._state < EntityState.dying;

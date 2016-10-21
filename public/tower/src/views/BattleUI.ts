@@ -163,6 +163,7 @@ class BattleUI extends AbstractUI {
 
 			application.showUI(new BattleOptionUI(function(){
 				application.battle.erase();
+				self._svBattle.removeContent();
 				application.pool.set(application.battle);
 				application.battle = <Battle>application.pool.get(application.battle.getClaz());
 				self._buildBattle();
@@ -175,7 +176,7 @@ class BattleUI extends AbstractUI {
 	private _quitBattle() {
 		if (application.battle) {
 			application.battle.erase();
-			
+			this._svBattle.removeContent();
 			application.pool.set(application.battle);
 			application.battle = null;
 		}
