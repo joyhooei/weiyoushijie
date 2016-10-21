@@ -136,6 +136,14 @@ class NPC extends MovableEntity {
     	}
     }
 
+	protected _fighting() {
+		if (this._readyFight() && !this._clipPlaying) {
+			this._play();
+		}
+		
+		this._ticks ++;
+	}
+
 	protected _act(): boolean {
 		if (this._state == EntityState.fighting) {
 			this._hitOpponents();
