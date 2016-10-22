@@ -331,9 +331,11 @@ var Battle = (function (_super) {
         while (i > 0) {
             var entity = entities[--i];
             if (entity.update()) {
-                entity.parent.removeChild(entity);
-                application.pool.set(entity);
+                if (entity.parent) {
+                    entity.parent.removeChild(entity);
+                }
                 entities.splice(i, 1);
+                application.pool.set(entity);
             }
         }
     };

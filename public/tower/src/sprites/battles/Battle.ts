@@ -438,9 +438,12 @@ class Battle extends Entity implements SoldierCreator {
         while(i > 0) {
             let entity = entities[--i];
             if (entity.update()) {
-                entity.parent.removeChild(entity);
-    	        application.pool.set(entity);
+                if (entity.parent){
+                    entity.parent.removeChild(entity);
+                }
+
                 entities.splice(i, 1);
+    	        application.pool.set(entity);
             }
         }        
     }

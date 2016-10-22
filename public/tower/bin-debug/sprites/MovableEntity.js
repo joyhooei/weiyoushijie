@@ -8,7 +8,7 @@ var MovableEntity = (function (_super) {
         _super.prototype.initialize.call(this, properties);
         this._moveSpeed = this._get(properties, "moveSpeed", 1);
         this._idleTicks = this._get(properties, "idleTicks", 0);
-        this._dyingTicks = this._get(properties, "dyingTicks", 5);
+        this._dyingTicks = this._get(properties, "dyingTicks", application.frameRate);
         this._stepX = 0;
         this._stepY = 0;
         this._totalSteps = 0;
