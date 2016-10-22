@@ -33,8 +33,7 @@ var BattleUI = (function (_super) {
             self.grpTools.visible = !self.grpTools.visible;
         }, self);
         self.imgBack.addEventListener(egret.TouchEvent.TOUCH_TAP, function () {
-            self.removeEventListener(egret.Event.ENTER_FRAME, self._onEnterFrame, self);
-            self._quitBattle();
+            self._overBattle();
         }, self);
         self.imgHelp.addEventListener(egret.TouchEvent.TOUCH_TAP, function () {
             HelpUI.showMainHelp();
@@ -75,6 +74,7 @@ var BattleUI = (function (_super) {
         timer.start();
     };
     p._buildBattle = function () {
+        application.battle.setUI(this);
         //this._channel = this._music.play(0, 0);
         this.imgStart.visible = true;
         this.grpTools.visible = false;
@@ -105,24 +105,22 @@ var BattleUI = (function (_super) {
             }
             self.removeEventListener(egret.Event.ENTER_FRAME, self._onEnterFrame, self);
             application.showUI(new BattleOptionUI(function () {
-                application.battle.erase();
-                self._svBattle.removeContent();
-                application.pool.set(application.battle);
+                self._eraseBattle();
                 application.battle = application.pool.get(application.battle.getClaz());
                 self._buildBattle();
             }, function () {
-                self._quitBattle();
+                self._eraseBattle();
+                self.hide();
             }));
         }
     };
-    p._quitBattle = function () {
+    p._eraseBattle = function () {
         if (application.battle) {
             application.battle.erase();
             this._svBattle.removeContent();
             application.pool.set(application.battle);
             application.battle = null;
         }
-        this.hide();
     };
     p._onEnterFrame = function (e) {
         if (application.battle.update()) {

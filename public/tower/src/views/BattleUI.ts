@@ -67,9 +67,7 @@ class BattleUI extends AbstractUI {
 		}, self);
         
 		self.imgBack.addEventListener(egret.TouchEvent.TOUCH_TAP,() => {
-			self.removeEventListener(egret.Event.ENTER_FRAME, self._onEnterFrame, self);
-		
-		    self._quitBattle();
+		    self._overBattle();
 		}, self);
         
 		self.imgHelp.addEventListener(egret.TouchEvent.TOUCH_TAP,() => {
@@ -81,7 +79,6 @@ class BattleUI extends AbstractUI {
 
 			self.imgTool.visible = true;
 			self.grpSystemTools.visible = true;
-			
             self.imgStart.visible = false;
 		}, self);
     }
@@ -121,6 +118,8 @@ class BattleUI extends AbstractUI {
 	}
     
     private _buildBattle() {
+		application.battle.setUI(this);
+		
 		//this._channel = this._music.play(0, 0);
 
 		this.imgStart.visible = true;
@@ -162,26 +161,25 @@ class BattleUI extends AbstractUI {
 			self.removeEventListener(egret.Event.ENTER_FRAME, self._onEnterFrame, self);
 
 			application.showUI(new BattleOptionUI(function(){
-				application.battle.erase();
-				self._svBattle.removeContent();
-				application.pool.set(application.battle);
+				self._eraseBattle();
+
 				application.battle = <Battle>application.pool.get(application.battle.getClaz());
 				self._buildBattle();
 			}, function(){
-				self._quitBattle();
+				self._eraseBattle();
+
+				self.hide();
 			}));
 		}
 	}
 
-	private _quitBattle() {
+	private _eraseBattle() {
 		if (application.battle) {
 			application.battle.erase();
 			this._svBattle.removeContent();
 			application.pool.set(application.battle);
 			application.battle = null;
 		}
-
-		this.hide();
 	}
 
     private _onEnterFrame(e:egret.Event) {

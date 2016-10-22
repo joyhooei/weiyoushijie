@@ -90,7 +90,7 @@ class Tower extends Entity implements SelectableEntity {
 
             return false;
         } else {
-            application.showUI(new UpgradeTowerUI(this._base), application.battle.parent, this.getCenterX(), this.getCenterY());
+            application.showUI(new UpgradeTowerUI(this._base), application.battle.getUI(), this.getCenterX(), this.getCenterY());
             
             return true;
         }

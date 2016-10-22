@@ -1,4 +1,6 @@
 class Battle extends Entity implements SoldierCreator {
+    protected _ui: AbstractUI;
+
     protected _layers: egret.Sprite[];
 
     //己方
@@ -254,6 +256,14 @@ class Battle extends Entity implements SoldierCreator {
         tip.setCenterY(y);
         this.addEntity(tip);        
     }
+
+    public getUI(): AbstractUI {
+        return this._ui;
+    }
+
+    public setUI(ui:AbstractUI){
+        this._ui = ui;
+    }
     
     public getResult(): Result {
         return this._result;
@@ -428,6 +438,7 @@ class Battle extends Entity implements SoldierCreator {
         while(i > 0) {
             let entity = entities[--i];
             if (entity.update()) {
+                entity.parent.removeChild(entity);
     	        application.pool.set(entity);
                 entities.splice(i, 1);
             }

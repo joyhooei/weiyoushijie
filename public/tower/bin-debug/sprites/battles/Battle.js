@@ -184,6 +184,12 @@ var Battle = (function (_super) {
         tip.setCenterY(y);
         this.addEntity(tip);
     };
+    p.getUI = function () {
+        return this._ui;
+    };
+    p.setUI = function (ui) {
+        this._ui = ui;
+    };
     p.getResult = function () {
         return this._result;
     };
@@ -325,6 +331,7 @@ var Battle = (function (_super) {
         while (i > 0) {
             var entity = entities[--i];
             if (entity.update()) {
+                entity.parent.removeChild(entity);
                 application.pool.set(entity);
                 entities.splice(i, 1);
             }
