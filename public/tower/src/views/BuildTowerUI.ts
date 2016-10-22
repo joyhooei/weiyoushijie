@@ -62,7 +62,7 @@ class BuildTowerUI extends AbstractUI{
 
 		let clip = new egret.MovieClip( mcFactory.generateMovieClipData( res ) );	
 		clip.addEventListener(egret.TouchEvent.TOUCH_TAP,() => {
-		    if (application.battle.getGolds() > tower.getPrice()) {
+		    if (application.battle.getGolds() >= tower.getPrice()) {
 		        this._base.setTower(tower);
 		        
 		        application.hideUI(this);

@@ -53,7 +53,7 @@ class SoldierTower extends Tower implements SoldierCreator {
     }
     
     public createSoldier(soldier: Soldier): Soldier {
-        let s = soldier.relive(10 * application.frameRate);
+        let s = soldier.relive(application.frameRate << 2);
         this._addSoldier(s);
 
         return s;

@@ -28,8 +28,6 @@ var Entity = (function (_super) {
         this._displays = new EntityDisplays();
         this._displaySprite = new egret.Sprite();
         this.addChild(this._displaySprite);
-        this._clip = null;
-        this._clipPlaying = false;
         this._sounds = new EntitySounds();
     }
     var d = __define,c=Entity,p=c.prototype;
@@ -37,6 +35,9 @@ var Entity = (function (_super) {
         this._direction = this._get(properties, "direction", EntityDirection.east);
         this._state = this._get(properties, "state", EntityState.idle);
         this._ticks = 0;
+        this._displaySprite.removeChildren();
+        this._clip = null;
+        this._clipPlaying = false;
     };
     p._get = function (properties, name, defaultVal) {
         if (properties && properties[name]) {

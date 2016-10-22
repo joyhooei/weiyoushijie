@@ -42,9 +42,6 @@ class Entity extends egret.Sprite {
         
         this._displaySprite = new egret.Sprite();
         this.addChild(this._displaySprite);
-		
-		this._clip = null;
-		this._clipPlaying = false;
         
         this._sounds = new EntitySounds();
 	}
@@ -53,6 +50,11 @@ class Entity extends egret.Sprite {
         this._direction = this._get(properties, "direction", EntityDirection.east);
         this._state 	= this._get(properties, "state", EntityState.idle);
         this._ticks 	= 0;
+
+		this._displaySprite.removeChildren();
+		
+		this._clip = null;
+		this._clipPlaying = false;
     }
     
     protected _get(properties: any, name:string, defaultVal:any): any {

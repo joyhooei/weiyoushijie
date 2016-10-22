@@ -64,8 +64,6 @@ class Soldier extends NPC implements SelectableEntity {
         this._guardAltitudes = this._get(properties, 'guardAltitude', [-1, 0]);
 
         this._liveTicks = this._get(properties, 'liveTicks', 3600 * application.frameRate);
-
-        this._idleTicks = 1;
         
         this._enemy = null;
         this._range = null;
@@ -121,8 +119,6 @@ class Soldier extends NPC implements SelectableEntity {
         let soldier = <Soldier>application.pool.get(this.getClaz(), {guardX: this._guardX, guardY: this._guardY, idleTicks: idleTicks});
         soldier.x = this.x;
         soldier.y = this.y;
-        soldier.width = this.width;
-        soldier.height = this.height;
         soldier.setCreator(this._creator);
         return soldier;
     }

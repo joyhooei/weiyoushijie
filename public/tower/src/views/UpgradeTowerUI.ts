@@ -77,7 +77,7 @@ class UpgradeTowerUI extends AbstractUI{
 
 	private _upgradeTo(tower: Tower) {
 		if (tower) {
-			if (application.battle.getGolds() > tower.getPrice()) {
+			if (application.battle.getGolds() >= tower.getPrice()) {
 				this._base.setTower(tower);
 
 				application.hideUI(this);
@@ -95,11 +95,11 @@ class UpgradeTowerUI extends AbstractUI{
 		} else {
 			this.imgFlag.visible = false;
 		}
+				
+		this.imgBg.source = "towerselect2_png";
 
 		if (this._nextLevelTower1) {
-			if (this._nextLevelTower2) {
-				this.imgBg.source = "towerselect2_png";
-				
+			if (this._nextLevelTower2) {				
 				this.lblUpgradePrice1.text   = this._nextLevelTower1.getPrice().toString();
 				this.lblUpgradePrice2.text   = this._nextLevelTower2.getPrice().toString();
 				
@@ -110,9 +110,7 @@ class UpgradeTowerUI extends AbstractUI{
 				this.lblUpgradePrice.visible = false;
 				this.imgUpgrade.visible = false;
 				
-			} else {
-				this.imgBg.source = "towerselect2_png";
-				
+			} else {			
 				this.lblUpgradePrice.text   = this._nextLevelTower1.getPrice().toString();
 				
 				this.lblUpgradePrice1.visible = false;
@@ -123,8 +121,6 @@ class UpgradeTowerUI extends AbstractUI{
 				this.imgUpgrade.visible = true;
 			}
 		} else {
-			this.imgBg.source = "towerselect2_png";
-				
 			this.lblUpgradePrice1.visible = false;
 			this.lblUpgradePrice2.visible = false;
 			this.imgUpgrade1.visible = false;

@@ -36,7 +36,7 @@ var SoldierTower = (function (_super) {
         }
     };
     p.createSoldier = function (soldier) {
-        var s = soldier.relive(10 * application.frameRate);
+        var s = soldier.relive(application.frameRate << 2);
         this._addSoldier(s);
         return s;
     };

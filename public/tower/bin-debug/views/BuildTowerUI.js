@@ -40,7 +40,7 @@ var BuildTowerUI = (function (_super) {
         var mcFactory = new egret.MovieClipDataFactory(data, txtr);
         var clip = new egret.MovieClip(mcFactory.generateMovieClipData(res));
         clip.addEventListener(egret.TouchEvent.TOUCH_TAP, function () {
-            if (application.battle.getGolds() > tower.getPrice()) {
+            if (application.battle.getGolds() >= tower.getPrice()) {
                 _this._base.setTower(tower);
                 application.hideUI(_this);
             }

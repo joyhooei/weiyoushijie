@@ -49,7 +49,7 @@ var UpgradeTowerUI = (function (_super) {
     var d = __define,c=UpgradeTowerUI,p=c.prototype;
     p._upgradeTo = function (tower) {
         if (tower) {
-            if (application.battle.getGolds() > tower.getPrice()) {
+            if (application.battle.getGolds() >= tower.getPrice()) {
                 this._base.setTower(tower);
                 application.hideUI(this);
             }
@@ -68,9 +68,9 @@ var UpgradeTowerUI = (function (_super) {
         else {
             this.imgFlag.visible = false;
         }
+        this.imgBg.source = "towerselect2_png";
         if (this._nextLevelTower1) {
             if (this._nextLevelTower2) {
-                this.imgBg.source = "towerselect2_png";
                 this.lblUpgradePrice1.text = this._nextLevelTower1.getPrice().toString();
                 this.lblUpgradePrice2.text = this._nextLevelTower2.getPrice().toString();
                 this.lblUpgradePrice1.visible = true;
@@ -81,7 +81,6 @@ var UpgradeTowerUI = (function (_super) {
                 this.imgUpgrade.visible = false;
             }
             else {
-                this.imgBg.source = "towerselect2_png";
                 this.lblUpgradePrice.text = this._nextLevelTower1.getPrice().toString();
                 this.lblUpgradePrice1.visible = false;
                 this.lblUpgradePrice2.visible = false;
@@ -92,7 +91,6 @@ var UpgradeTowerUI = (function (_super) {
             }
         }
         else {
-            this.imgBg.source = "towerselect2_png";
             this.lblUpgradePrice1.visible = false;
             this.lblUpgradePrice2.visible = false;
             this.imgUpgrade1.visible = false;
