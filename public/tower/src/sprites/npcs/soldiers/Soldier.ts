@@ -133,6 +133,7 @@ class Soldier extends NPC implements SelectableEntity {
         }
     }
     
+    //x和y是脚站立的位置
     public moveTo(x:number, y:number) {
         let x1 = x - (this.width >> 1);
         let y1 = y - this.height;
