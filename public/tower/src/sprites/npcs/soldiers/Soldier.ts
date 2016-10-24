@@ -190,35 +190,66 @@ class Soldier extends NPC implements SelectableEntity {
     protected _moveToEnemy(enemy:Enemy) {
         let freeAreas:Soldier[] = [null, null, null, null, null, null];
         
+        let margin = 5;
+                        
         let soldiers = enemy.getSoldiers();
         for(let i = 0; i < soldiers.length; i ++) {
             let soldier = soldiers[i];
-            let dx = soldier.getCenterX() < enemy.getCenterX();
+            let dx = soldier.x < enemy.x;
             let dy = soldier.getCenterY() - enemy.getCenterY();
-            if (dx > 0) {
-                //左边
-                if (dy < -5) {
-                    //上边
-                    freeAreas[1] = soldier;
-                } else if (dy > 5) {
-                    //下边
-                    freeAreas[2] = soldier;
+            
+            if (this.x < enemy.x) {
+                if (dx > 0) {
+                    //左边
+                    if (dy < -margin) {
+                        //上边
+                        freeAreas[1] = soldier;
+                    } else if (dy > margin) {
+                        //下边
+                        freeAreas[2] = soldier;
+                    } else {
+                        //中间
+                        freeAreas[0] = soldier;
+                    }
                 } else {
-                    //中间
-                    freeAreas[0] = soldier;
+                    //右边
+                    if (dy < -margin) {
+                        //上边
+                        freeAreas[4] = soldier;
+                    } else if (dy > margin) {
+                        //下边
+                        freeAreas[5] = soldier;
+                    } else {
+                        //中间
+                        freeAreas[3] = soldier;
+                    }
                 }
             } else {
-                //右边
-                if (dy < -5) {
-                    //上边
-                    freeAreas[4] = soldier;
-                } else if (dy > 5) {
-                    //下边
-                    freeAreas[5] = soldier;
+                if (dx > 0) {
+                    //左边
+                    if (dy < -margin) {
+                        //上边
+                        freeAreas[4] = soldier;
+                    } else if (dy > margin) {
+                        //下边
+                        freeAreas[5] = soldier;
+                    } else {
+                        //中间
+                        freeAreas[3] = soldier;
+                    }
                 } else {
-                    //中间
-                    freeAreas[3] = soldier;
-                }
+                    //右边
+                    if (dy < -margin) {
+                        //上边
+                        freeAreas[1] = soldier;
+                    } else if (dy > margin) {
+                        //下边
+                        freeAreas[2] = soldier;
+                    } else {
+                        //中间
+                        freeAreas[0] = soldier;
+                    }
+                }                
             }
         }
         
@@ -227,20 +258,32 @@ class Soldier extends NPC implements SelectableEntity {
         
         for(let i = 0; i < freeAreas.length; i++) {
             if (freeAreas[i] == null) {
-                if (i < 3) {
-                    x = enemy.x - (this.width >> 1) - 5;
+                if (this.x < enemy.x) {
+                    if (i < 3) {
+                        x = enemy.x - (this.width >> 1) - margin;
+                    } else {
+                        x = enemy.x + enemy.width + (this.width >> 1) + margin;
+                    }
                 } else {
-                    x = enemy.x + enemy.width + (this.width >> 1) + 5;
+                    if (i >= 3) {
+                        x = enemy.x - (this.width >> 1) - margin;
+                    } else {
+                        x = enemy.x + enemy.width + (this.width >> 1) + margin;
+                    }
                 }
-                
-                if (i % 3 == 0) {
+ 
+                let direction = i % 3;
+                if (direction== 0) {
+                    //中间
                     y = enemy.getCenterY();
-                } else if (i % 3 == 1) {
-                    y = enemy.getCenterY() - freeAreas[i].height - 5;
-                } else if (i % 3 == 2) {
-                    y = enemy.getCenterY() + freeAreas[i].height + 5;
+                } else if (direction == 1) {
+                    //上边
+                    y = enemy.getCenterY() - this.height - margin;
+                } else {
+                    //下边
+                    y = enemy.getCenterY() + this.height + margin;
                 }
-                
+               
                 this.moveTo(x, y);
                 
                 return;
