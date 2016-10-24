@@ -161,9 +161,11 @@ class BattleUI extends AbstractUI {
 			self.removeEventListener(egret.Event.ENTER_FRAME, self._onEnterFrame, self);
 
 			application.showUI(new BattleOptionUI(function(){
+				let claz = application.battle.getClaz();
+
 				self._eraseBattle();
 
-				application.battle = <Battle>application.pool.get(application.battle.getClaz());
+				application.battle = <Battle>application.pool.get(claz);
 				self._buildBattle();
 			}, function(){
 				self._eraseBattle();

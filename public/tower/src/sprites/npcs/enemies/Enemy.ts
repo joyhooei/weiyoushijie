@@ -22,7 +22,7 @@ class Enemy extends NPC {
 
         this._idleTicks = this._get(properties, "idleTicks", 0);
         
-        this._soldiers = [];
+        this._soldiers = [null, null, null, null, null, null];
         
         this._paths = this._get(properties, "paths", 10);
         this._path  = 0;
@@ -55,41 +55,89 @@ class Enemy extends NPC {
 		}
 	}
     
-    public addSoldier(soldier: Soldier) {
+    public addSoldier(soldier: Soldier): number {
         for(let i = 0;i < this._soldiers.length; i++) {
             if (this._soldiers[i] == soldier) {
                 return;
             }
         }
-        
-        this._soldiers.push(soldier);
+
+        let hitPos = this._getHitPosition(soldier);
+
+        this._soldiers[hitPos] = soldier;
         
         if (this._state == EntityState.moving) {
         	this.guard();
 
         	this._face(soldier);
         }
+
+        return hitPos;
     }
 
-	public getSoldiers(): Soldier[] {
-		return this._soldiers;
-	}
+    private _getHitPosition(soldier: Soldier): number {
+        if (soldier.x < this.x) {
+            //检查左边有没有攻击位置
+            for(let i = 0; i < 3; i++) {
+                if (this._soldiers[i] == null) {
+                    return i;
+                }
+            }
+            for(let i = 3; i < 6; i++) {
+                 if (this._soldiers[i] == null) {
+                    return i;
+                }               
+            }
+        } else {
+            //检查右边有没有攻击位置
+            for(let i = 3; i < 6; i++) {
+                 if (this._soldiers[i] == null) {
+                    return i;
+                }               
+            }
+            for(let i = 0; i < 3; i++) {
+                if (this._soldiers[i] == null) {
+                    return i;
+                }
+            }
+        }
+
+        return -1;
+    }
     
     public totalSoldiers(): number {
-        return this._soldiers.length;
+        let count:number = 0;
+        for(let i = 0; i< this._soldiers.length; i++) {
+            if (this._soldiers[i]) {
+                count ++;
+            }
+        }
+
+        return count;
+    }
+
+    public firstSoldier(): Soldier {
+        for(let i = 0;i < this._soldiers.length; i++) {
+            if (this._soldiers[i] ) {
+                return this._soldiers[i];   
+            }
+        }
+
+        return null;
     }
     
     public rmvSoldier(soldier: Soldier) {
         for(let i = 0;i < this._soldiers.length; i++) {
             if (this._soldiers[i] == soldier) {
-                this._soldiers.splice(i, 1);   
+                this._soldiers[i] = null;   
             }
         }
         
-        if (this._soldiers.length == 0) {
-            this._moveAgain();
+        let s = this.firstSoldier();
+        if (s) {
+            this._face(s);
         } else {
-            this._face(this._soldiers[0]);
+            this._moveAgain();
         }
     }
     
@@ -132,9 +180,10 @@ class Enemy extends NPC {
     }
     
     protected _hitOpponents() {
-    	if (this._soldiers.length > 0) {
-	        if (this._soldiers[0].hitBy(this)) {
-	            this.rmvSoldier(this._soldiers[0]);
+        let s = this.firstSoldier();
+    	if (s) {
+	        if (s.hitBy(this)) {
+	            this.rmvSoldier(s);
 	        }
     	} else {
     		this._moveAgain();

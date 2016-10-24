@@ -8,7 +8,7 @@ var Enemy = (function (_super) {
         _super.prototype.initialize.call(this, properties);
         this._bonus = this._get(properties, "bonus", 10);
         this._idleTicks = this._get(properties, "idleTicks", 0);
-        this._soldiers = [];
+        this._soldiers = [null, null, null, null, null, null];
         this._paths = this._get(properties, "paths", 10);
         this._path = 0;
         this._nextPath();
@@ -28,7 +28,7 @@ var Enemy = (function (_super) {
             this._frozenTicks--;
             if (this._frozenTicks <= 0) {
                 if (this._clip) {
-                    this._clip.play();
+                    this._clip.gotoAndPlay(0, 1);
                 }
             }
             return false;
@@ -40,26 +40,72 @@ var Enemy = (function (_super) {
                 return;
             }
         }
-        this._soldiers.push(soldier);
+        var hitPos = this._getHitPosition(soldier);
+        this._soldiers[hitPos] = soldier;
         if (this._state == EntityState.moving) {
             this.guard();
             this._face(soldier);
         }
+        return hitPos;
+    };
+    p._getHitPosition = function (soldier) {
+        if (soldier.x < this.x) {
+            //检查左边有没有攻击位置
+            for (var i = 0; i < 3; i++) {
+                if (this._soldiers[i] == null) {
+                    return i;
+                }
+            }
+            for (var i = 3; i < 6; i++) {
+                if (this._soldiers[i] == null) {
+                    return i;
+                }
+            }
+        }
+        else {
+            //检查右边有没有攻击位置
+            for (var i = 3; i < 6; i++) {
+                if (this._soldiers[i] == null) {
+                    return i;
+                }
+            }
+            for (var i = 0; i < 3; i++) {
+                if (this._soldiers[i] == null) {
+                    return i;
+                }
+            }
+        }
+        return -1;
     };
     p.totalSoldiers = function () {
-        return this._soldiers.length;
+        var count = 0;
+        for (var i = 0; i < this._soldiers.length; i++) {
+            if (this._soldiers[i]) {
+                count++;
+            }
+        }
+        return count;
+    };
+    p.firstSoldier = function () {
+        for (var i = 0; i < this._soldiers.length; i++) {
+            if (this._soldiers[i]) {
+                return this._soldiers[i];
+            }
+        }
+        return null;
     };
     p.rmvSoldier = function (soldier) {
         for (var i = 0; i < this._soldiers.length; i++) {
             if (this._soldiers[i] == soldier) {
-                this._soldiers.splice(i, 1);
+                this._soldiers[i] = null;
             }
         }
-        if (this._soldiers.length == 0) {
-            this._moveAgain();
+        var s = this.firstSoldier();
+        if (s) {
+            this._face(s);
         }
         else {
-            this._face(this._soldiers[0]);
+            this._moveAgain();
         }
     };
     p._nextPath = function () {
@@ -92,9 +138,10 @@ var Enemy = (function (_super) {
         }
     };
     p._hitOpponents = function () {
-        if (this._soldiers.length > 0) {
-            if (this._soldiers[0].hitBy(this)) {
-                this.rmvSoldier(this._soldiers[0]);
+        var s = this.firstSoldier();
+        if (s) {
+            if (s.hitBy(this)) {
+                this.rmvSoldier(s);
             }
         }
         else {

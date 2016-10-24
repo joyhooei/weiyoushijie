@@ -95,6 +95,7 @@ var Soldier = (function (_super) {
             this.moveTo(x, y);
         }
     };
+    //x和y是脚站立的位置
     p.moveTo = function (x, y) {
         var x1 = x - (this.width >> 1);
         var y1 = y - this.height;
@@ -137,18 +138,24 @@ var Soldier = (function (_super) {
         }
     };
     p._fightWith = function (enemy) {
-        this._moveToEnemy(enemy);
         this._enemy = enemy;
-        this._enemy.addSoldier(this);
-    };
-    p._moveToEnemy = function (enemy) {
-        var x = enemy.getCenterX() + enemy.width + 5;
-        var y = enemy.getBottomY();
-        if (enemy.totalSoldiers() == 1) {
-            y -= enemy.height;
+        var hitPos = this._enemy.addSoldier(this);
+        var margin = 3;
+        if (hitPos < 3) {
+            var x = enemy.x - (this.width >> 1) - margin;
         }
-        else if (enemy.totalSoldiers() == 2) {
-            y += enemy.height;
+        else {
+            var x = enemy.x + enemy.width + (this.width >> 1) + margin;
+        }
+        var direction = hitPos % 3;
+        var y = enemy.getCenterY() + (this.height >> 1);
+        if (direction == 1) {
+            //上边
+            y -= (this.height + margin);
+        }
+        else if (direction == 2) {
+            //下边
+            y += (this.height + margin);
         }
         this.moveTo(x, y);
     };
@@ -186,7 +193,7 @@ var Soldier = (function (_super) {
     };
     p._findEnemy = function () {
         var enemy = application.battle.findSuitableEnemy(this.getCenterX(), this.getCenterY(), this._guardRadius, this._guardAltitudes);
-        if (!enemy || enemy.totalSoldiers() >= 3) {
+        if (!enemy || enemy.totalSoldiers() >= 6) {
             return null;
         }
         else {

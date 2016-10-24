@@ -181,118 +181,30 @@ class Soldier extends NPC implements SelectableEntity {
     }
     
     protected _fightWith(enemy:Enemy) {
-        this._moveToEnemy(enemy);
-        
         this._enemy = enemy;
-        this._enemy.addSoldier(this);
-    }
-    
-    protected _moveToEnemy(enemy:Enemy) {
-        let freeAreas:Soldier[] = [null, null, null, null, null, null];
-        
-        let margin = 5;
-                        
-        let soldiers = enemy.getSoldiers();
-        for(let i = 0; i < soldiers.length; i ++) {
-            let soldier = soldiers[i];
-            let dx = soldier.x < enemy.x;
-            let dy = soldier.getCenterY() - enemy.getCenterY();
-            
-            if (this.x < enemy.x) {
-                if (dx > 0) {
-                    //左边
-                    if (dy < -margin) {
-                        //上边
-                        freeAreas[1] = soldier;
-                    } else if (dy > margin) {
-                        //下边
-                        freeAreas[2] = soldier;
-                    } else {
-                        //中间
-                        freeAreas[0] = soldier;
-                    }
-                } else {
-                    //右边
-                    if (dy < -margin) {
-                        //上边
-                        freeAreas[4] = soldier;
-                    } else if (dy > margin) {
-                        //下边
-                        freeAreas[5] = soldier;
-                    } else {
-                        //中间
-                        freeAreas[3] = soldier;
-                    }
-                }
-            } else {
-                if (dx > 0) {
-                    //左边
-                    if (dy < -margin) {
-                        //上边
-                        freeAreas[4] = soldier;
-                    } else if (dy > margin) {
-                        //下边
-                        freeAreas[5] = soldier;
-                    } else {
-                        //中间
-                        freeAreas[3] = soldier;
-                    }
-                } else {
-                    //右边
-                    if (dy < -margin) {
-                        //上边
-                        freeAreas[1] = soldier;
-                    } else if (dy > margin) {
-                        //下边
-                        freeAreas[2] = soldier;
-                    } else {
-                        //中间
-                        freeAreas[0] = soldier;
-                    }
-                }                
-            }
-        }
-        
-        let x = this.getCenterX();
-        let y = this.getBottomY();
-        
-        for(let i = 0; i < freeAreas.length; i++) {
-            if (freeAreas[i] == null) {
-                if (this.x < enemy.x) {
-                    if (i < 3) {
-                        x = enemy.x - (this.width >> 1) - margin;
-                    } else {
-                        x = enemy.x + enemy.width + (this.width >> 1) + margin;
-                    }
-                } else {
-                    if (i >= 3) {
-                        x = enemy.x - (this.width >> 1) - margin;
-                    } else {
-                        x = enemy.x + enemy.width + (this.width >> 1) + margin;
-                    }
-                }
- 
-                let direction = i % 3;
-                if (direction== 0) {
-                    //中间
-                    y = enemy.getCenterY();
-                } else if (direction == 1) {
-                    //上边
-                    y = enemy.getCenterY() - this.height - margin;
-                } else {
-                    //下边
-                    y = enemy.getCenterY() + this.height + margin;
-                }
-               
-                this.moveTo(x, y);
-                
-                return;
-            }
-        }
+        let hitPos = this._enemy.addSoldier(this);
 
+        let margin = 3;
+
+        if (hitPos < 3) {
+            var x = enemy.x - (this.width >> 1) - margin;
+        } else {
+            var x = enemy.x + enemy.width + (this.width >> 1) + margin;
+        }
+ 
+        let direction:number = hitPos % 3;
+        var y = enemy.getCenterY() + (this.height >> 1);
+        if (direction == 1) {
+            //上边
+            y -= (this.height + margin);
+        } else if (direction == 2) {
+            //下边
+            y += (this.height + margin);
+        }
+        
         this.moveTo(x, y);
     }
-
+    
     protected _hitOpponents() {
         if (this._enemy) {
             if (this._enemy.hitBy(this)) {
