@@ -47,7 +47,7 @@ class Enemy extends NPC {
 			
 			if (this._frozenTicks <= 0) {
 				if (this._clip) {
-					this._clip.play();
+					this._clip.gotoAndPlay(0, 1);
 				}
 			}
 			
