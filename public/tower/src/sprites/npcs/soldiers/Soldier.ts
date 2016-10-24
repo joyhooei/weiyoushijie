@@ -187,12 +187,63 @@ class Soldier extends NPC implements SelectableEntity {
     }
     
     protected _moveToEnemy(enemy:Enemy) {
-        let x = enemy.getCenterX() + enemy.width + 5;
-        let y = enemy.getBottomY();
-        if (enemy.totalSoldiers() == 1) {
-            y -= enemy.height;
-        } else if (enemy.totalSoldiers() == 2) {
-            y += enemy.height;
+        let freeAreas = [0, 0, 0, 0, 0, 0];
+        
+        let soldiers = enemy.getSoldiers();
+        for(let i = 0; i < soldiers.length; i ++) {
+            let soldier = soldiers[i];
+            let dx = soldier.getCenterX() < enemy.getCenterX();
+            let dy = soldier.getCenterY() - enemy.getCenterY();
+            if (dx > 0) {
+                //左边
+                if (dy < -5) {
+                    //上边
+                    freeAreas[1] = 1;
+                } else if (dy > 5) {
+                    //下边
+                    freeAreas[2] = 1;
+                } else {
+                    //中间
+                    freeAreas[0] = 1;
+                }
+            } else {
+                //右边
+                if (dy < -5) {
+                    //上边
+                    freeAreas[4] = 1;
+                } else if (dy > 5) {
+                    //下边
+                    freeAreas[5] = 1;
+                } else {
+                    //中间
+                    freeAreas[3] = 1;
+                }
+            }
+        }
+        
+        let x = this.getCenterX();
+        let y = this.getBottomY();
+        
+        for(let i = 0; i < freeAreas.length; i++) {
+            if (freeAreas[i] == 0) {
+                if (i < 3) {
+                    x = enemy.x - (this.width >> 1) - 5;
+                } else {
+                    x = enemy.x + enemy.width + (this.width >> 1) + 5;
+                }
+                
+                if (i % 3 == 0) {
+                    y = enemy.getCenterY();
+                } else if (i % 3 == 1) {
+                    y = enemy.getCenterY() - this.height - 5;
+                } else if (i % 3 == 2) {
+                    y = enemy.getCenterY() + this.height + 5;
+                }
+                
+                this.moveTo(x, y);
+                
+                return;
+            }
         }
 
         this.moveTo(x, y);
@@ -229,7 +280,7 @@ class Soldier extends NPC implements SelectableEntity {
 
     private _findEnemy(): Enemy {
         let enemy = application.battle.findSuitableEnemy(this.getCenterX(), this.getCenterY(), this._guardRadius, this._guardAltitudes);
-        if (!enemy || enemy.totalSoldiers() >= 3) {
+        if (!enemy || enemy.totalSoldiers() >= 6) {
             return null;
         } else {
             return enemy;
