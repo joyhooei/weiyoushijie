@@ -70,6 +70,10 @@ class Enemy extends NPC {
         	this._face(soldier);
         }
     }
+
+	public getSoldiers(): Soldier[] {
+		return this._soldiers;
+	}
     
     public totalSoldiers(): number {
         return this._soldiers.length;
