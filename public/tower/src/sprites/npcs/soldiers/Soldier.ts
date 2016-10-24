@@ -187,7 +187,7 @@ class Soldier extends NPC implements SelectableEntity {
     }
     
     protected _moveToEnemy(enemy:Enemy) {
-        let freeAreas = [0, 0, 0, 0, 0, 0];
+        let freeAreas:Soldier[] = [null, null, null, null, null, null];
         
         let soldiers = enemy.getSoldiers();
         for(let i = 0; i < soldiers.length; i ++) {
@@ -198,25 +198,25 @@ class Soldier extends NPC implements SelectableEntity {
                 //左边
                 if (dy < -5) {
                     //上边
-                    freeAreas[1] = 1;
+                    freeAreas[1] = soldier;
                 } else if (dy > 5) {
                     //下边
-                    freeAreas[2] = 1;
+                    freeAreas[2] = soldier;
                 } else {
                     //中间
-                    freeAreas[0] = 1;
+                    freeAreas[0] = soldier;
                 }
             } else {
                 //右边
                 if (dy < -5) {
                     //上边
-                    freeAreas[4] = 1;
+                    freeAreas[4] = soldier;
                 } else if (dy > 5) {
                     //下边
-                    freeAreas[5] = 1;
+                    freeAreas[5] = soldier;
                 } else {
                     //中间
-                    freeAreas[3] = 1;
+                    freeAreas[3] = soldier;
                 }
             }
         }
@@ -225,7 +225,7 @@ class Soldier extends NPC implements SelectableEntity {
         let y = this.getBottomY();
         
         for(let i = 0; i < freeAreas.length; i++) {
-            if (freeAreas[i] == 0) {
+            if (freeAreas[i] == null) {
                 if (i < 3) {
                     x = enemy.x - (this.width >> 1) - 5;
                 } else {
@@ -235,9 +235,9 @@ class Soldier extends NPC implements SelectableEntity {
                 if (i % 3 == 0) {
                     y = enemy.getCenterY();
                 } else if (i % 3 == 1) {
-                    y = enemy.getCenterY() - this.height - 5;
+                    y = enemy.getCenterY() - freeAreas[i].height - 5;
                 } else if (i % 3 == 2) {
-                    y = enemy.getCenterY() + this.height + 5;
+                    y = enemy.getCenterY() + freeAreas[i].height + 5;
                 }
                 
                 this.moveTo(x, y);
