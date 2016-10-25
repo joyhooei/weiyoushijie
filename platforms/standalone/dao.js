@@ -456,6 +456,12 @@ module.exports = function() {
 				game: String
 			});
 
+			self.addModel("Recommend", {
+				customer_id: String,
+				recommender_id: String,
+				game: String
+			});
+
 			self.addModel("Report", {
 				customer_id: String,
 				content: String,
