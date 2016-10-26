@@ -38,6 +38,8 @@ class Character {
             //soldiers
             {name: 'Reinforce', properties:{hp:100, force:6, armor: 0, magicArmor: 0, cureSpeed:1, moveSpeed:1, liveTicks: 20 * application.frameRate, guardRadius: 40, guardAltitude:[-1, 0]}},
             {name: 'Warrior',   properties:{hp:100, force:6, armor: 0, magicArmor: 0, cureSpeed:1, moveSpeed:1, liveTicks: 8 * application.frameRate, guardRadius: 40, guardAltitude:[-1, 0]}},
+            {name: 'Ghost',     properties:{hp:100, force:6, armor: 0, magicArmor: 0, cureSpeed:1, moveSpeed:1, liveTicks: 8 * application.frameRate, guardRadius: 40, guardAltitude:[-1, 0]}},
+            {name: 'BlackImpermanence',   properties:{hp:100, force:6, armor: 0, magicArmor: 0, cureSpeed:1, moveSpeed:1, liveTicks: 8 * application.frameRate, guardRadius: 40, guardAltitude:[-1, 0]}},
 
             //守护塔士兵
             {name: 'Soldier1',  properties:{hp:50, force:3, armor: 0, magicArmor: 0, cureSpeed:1, moveSpeed:1, guardRadius:50, guardAltitude:[-1, 0]}},
