@@ -7,10 +7,10 @@ var MagicTower3 = (function (_super) {
     }
     var d = __define,c=MagicTower3,p=c.prototype;
     p.getMuzzleX = function () {
-        return this.x + 44;
+        return this.x + 43;
     };
     p.getMuzzleY = function () {
-        return this.y + 8;
+        return this.y + 15;
     };
     return MagicTower3;
 }(MagicTower));

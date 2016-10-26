@@ -26,12 +26,14 @@ var Character = (function () {
             { name: 'Battle14', properties: { lives: 20, golds: 1000 } },
             { name: 'Battle15', properties: { lives: 20, golds: 1000 } },
             //heros
-            { name: 'Sunwukong', properties: { hp: 245, forceHigh: 10, forceLow: 6, resistance: 5, armor: 15, magicArmor: 15, cureSpeed: 1, moveSpeed: 1, idleTicks: 20 * application.frameRate, guardRadius: 50, guardAltitude: [-1, 0] } },
-            { name: 'Zhubajie', properties: { hp: 245, forceHigh: 10, forceLow: 6, resistance: 5, armor: 15, magicArmor: 15, cureSpeed: 1, moveSpeed: 1, idleTicks: 20 * application.frameRate, guardRadius: 50, guardAltitude: [-1, 0] } },
-            { name: 'Shaseng', properties: { hp: 245, forceHigh: 10, forceLow: 6, resistance: 5, armor: 15, magicArmor: 15, cureSpeed: 1, moveSpeed: 1, idleTicks: 20 * application.frameRate, guardRadius: 50, guardAltitude: [-1, 0] } },
+            { name: 'Sunwukong', properties: { hp: 245, forceHigh: 10, forceLow: 6, resistance: 5, armor: 15, magicArmor: 15, cureSpeed: 1, moveSpeed: 1, idleTicks: 0, guardRadius: 50, guardAltitude: [-1, 0] } },
+            { name: 'Zhubajie', properties: { hp: 245, forceHigh: 10, forceLow: 6, resistance: 5, armor: 15, magicArmor: 15, cureSpeed: 1, moveSpeed: 1, idleTicks: 0, guardRadius: 50, guardAltitude: [-1, 0] } },
+            { name: 'Shaseng', properties: { hp: 245, forceHigh: 10, forceLow: 6, resistance: 5, armor: 15, magicArmor: 15, cureSpeed: 1, moveSpeed: 1, idleTicks: 0, guardRadius: 50, guardAltitude: [-1, 0] } },
             //soldiers
             { name: 'Reinforce', properties: { hp: 100, force: 6, armor: 0, magicArmor: 0, cureSpeed: 1, moveSpeed: 1, liveTicks: 20 * application.frameRate, guardRadius: 40, guardAltitude: [-1, 0] } },
             { name: 'Warrior', properties: { hp: 100, force: 6, armor: 0, magicArmor: 0, cureSpeed: 1, moveSpeed: 1, liveTicks: 8 * application.frameRate, guardRadius: 40, guardAltitude: [-1, 0] } },
+            { name: 'Ghost', properties: { hp: 100, force: 6, armor: 0, magicArmor: 0, cureSpeed: 1, moveSpeed: 1, liveTicks: 8 * application.frameRate, guardRadius: 40, guardAltitude: [-1, 0] } },
+            { name: 'BlackImpermanence', properties: { hp: 100, force: 6, armor: 0, magicArmor: 0, cureSpeed: 1, moveSpeed: 1, liveTicks: 8 * application.frameRate, guardRadius: 40, guardAltitude: [-1, 0] } },
             //守护塔士兵
             { name: 'Soldier1', properties: { hp: 50, force: 3, armor: 0, magicArmor: 0, cureSpeed: 1, moveSpeed: 1, guardRadius: 50, guardAltitude: [-1, 0] } },
             { name: 'Soldier2', properties: { hp: 50, force: 6, armor: 0, magicArmor: 3, cureSpeed: 1, moveSpeed: 1, guardRadius: 50, guardAltitude: [-1, 0] } },
@@ -89,7 +91,11 @@ var Character = (function () {
             { name: 'Arrow4', properties: { force: 24, hitType: HitType.normal, moveSpeed: 5, idleTicks: 0, fightTicks: 10, dyingTicks: 0 } },
             { name: 'Arrow5', properties: { force: 24, hitType: HitType.normal, moveSpeed: 5, idleTicks: 0, fightTicks: 10, dyingTicks: 0 } },
             //魔法塔魔法
-            { name: 'Magic1', properties: { hitType: HitType.magic, moveSpeed: 5, idleTicks: 0, fightTicks: 10, dyingTicks: 0 } },
+            { name: 'Magic1', properties: { hitType: HitType.magic, moveSpeed: 10, idleTicks: 0, fightTicks: 10, dyingTicks: 0 } },
+            { name: 'Magic2', properties: { hitType: HitType.magic, moveSpeed: 10, idleTicks: 0, fightTicks: 10, dyingTicks: 0 } },
+            { name: 'Magic3', properties: { hitType: HitType.magic, moveSpeed: 10, idleTicks: 0, fightTicks: 10, dyingTicks: 0 } },
+            { name: 'Magic4', properties: { hitType: HitType.magic, moveSpeed: 10, idleTicks: 0, fightTicks: 10, dyingTicks: 0 } },
+            { name: 'Magic5', properties: { hitType: HitType.magic, moveSpeed: 10, idleTicks: 0, fightTicks: 10, dyingTicks: 0 } },
         ];
         for (var i = 0; i < config.length; i++) {
             var d = config[i];

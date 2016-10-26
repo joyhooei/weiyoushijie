@@ -8,10 +8,10 @@ class MagicTower4 extends MagicTower {
     }
 
     public getMuzzleX(): number {
-        return this.x + 44;
+        return this.x + 40;
     }
 
     public getMuzzleY(): number {
-        return this.y + 8;
+        return this.y + 15;
     }
 }

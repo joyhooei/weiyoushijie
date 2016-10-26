@@ -3,7 +3,7 @@ class Magic4 extends Magic {
         super();
         
         this.addAllBitmaps("magic_moving_png", "moving")
-            .addAllBitmaps("magic4_fighting_png", "fighting")
+            .addAllClips("magic4_fighting", "fighting")
             .addAllClips("magic4_building", "building");
     }
 }

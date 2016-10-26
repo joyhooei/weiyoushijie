@@ -109,7 +109,11 @@ class Character {
             {name: 'Arrow5',    properties:{force:24, hitType:HitType.normal,moveSpeed:5, idleTicks:0, fightTicks: 10, dyingTicks:0}},
             
             //魔法塔魔法
-            {name: 'Magic1',    properties:{hitType:HitType.magic, moveSpeed:5, idleTicks:0, fightTicks: 10, dyingTicks:0}},
+            {name: 'Magic1',    properties:{hitType:HitType.magic, moveSpeed:10, idleTicks:0, fightTicks: 10, dyingTicks:0}},
+            {name: 'Magic2',    properties:{hitType:HitType.magic, moveSpeed:10, idleTicks:0, fightTicks: 10, dyingTicks:0}},
+            {name: 'Magic3',    properties:{hitType:HitType.magic, moveSpeed:10, idleTicks:0, fightTicks: 10, dyingTicks:0}},
+            {name: 'Magic4',    properties:{hitType:HitType.magic, moveSpeed:10, idleTicks:0, fightTicks: 10, dyingTicks:0}},
+            {name: 'Magic5',    properties:{hitType:HitType.magic, moveSpeed:10, idleTicks:0, fightTicks: 10, dyingTicks:0}},
         ]; 
 
         for(let i = 0; i < config.length; i++) {

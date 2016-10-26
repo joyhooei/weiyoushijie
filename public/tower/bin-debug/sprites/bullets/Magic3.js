@@ -3,7 +3,8 @@ var Magic3 = (function (_super) {
     function Magic3() {
         _super.call(this);
         this.addAllBitmaps("magic_moving_png", "moving")
-            .addAllClips("magic3_fighting_png", "fighting");
+            .addAllClips("magic3_fighting", "fighting")
+            .addAllClips("magic3_building", "building");
     }
     var d = __define,c=Magic3,p=c.prototype;
     return Magic3;

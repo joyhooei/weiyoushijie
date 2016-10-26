@@ -1,0 +1,1 @@
+{"file":"blackImpermanence_dying.png","res":{"newAnimation_0":{"x":1,"y":1,"w":32,"h":36},"newAnimation_1":{"x":35,"y":1,"w":32,"h":36}},"mc":{"blackImpermanence_dying":{"frameRate":12,"events":[],"frames":[{"res":"newAnimation_0","y":-18,"duration":1,"x":-16},{"res":"newAnimation_1","y":-18,"duration":1,"x":-16}],"labels":[{"end":2,"name":"newAnimation","frame":1}]}}}
