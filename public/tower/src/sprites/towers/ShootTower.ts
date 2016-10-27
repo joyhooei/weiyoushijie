@@ -3,12 +3,12 @@ class ShootTower extends Tower implements Shooter {
 
     protected _bulletClaz: string;
     
-    protected _hitSpeed: number;
+    protected _shootSpeed: number;
     
     public initialize(properties:any) {
         super.initialize(properties);
         
-        this._hitSpeed   = this._get(properties, "hitSpeed", 60);
+        this._shootSpeed   = this._get(properties, "shootSpeed", 60);
     }
    
     protected _guarding() {
@@ -30,7 +30,7 @@ class ShootTower extends Tower implements Shooter {
     }
    
     protected _fighting() {
-        if (this._ticks % this._hitSpeed == 0) {
+        if (this._ticks % this._shootSpeed == 0) {
              if (this._enemy == null 
                     || !this._enemy.active() 
                     || !this._enemy.within(this.getCenterX(), this.getCenterY(), this._guardRadius)) {
