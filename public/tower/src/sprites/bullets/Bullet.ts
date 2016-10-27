@@ -19,7 +19,7 @@ class Bullet extends MovableEntity {
 
     protected _hitType: number;
 
-    protected _fightTicks: number;
+    protected _fightingTicks: number;
     
     public static shoot(shooter: Shooter, target: NPC, claz:string, properties?): Bullet {
         let bullet = <Bullet>application.pool.get(claz, properties);
@@ -57,7 +57,7 @@ class Bullet extends MovableEntity {
  
         this._hitType = this._get(properties, 'hitType', HitType.normal);
        
-        this._fightTicks = this._get(properties, 'fightTicks', 10);
+        this._fightingTicks = this._get(properties, 'fightingTicks', 10);
         
         this._shooter = null;
     }
@@ -108,7 +108,7 @@ class Bullet extends MovableEntity {
 
     protected _fighting() {
         this._ticks ++;
-        if (this._ticks >= this._fightTicks) {
+        if (this._ticks >= this._fightingTicks) {
             this.erase();
         }
     }
