@@ -27,7 +27,7 @@ class ShootTower extends Tower implements Shooter {
             }
 
             if (this._enemy) {
-                Bullet.shootAtNPC(this.getMuzzleX(), this.getMuzzleY(), this._enemy, this._bulletClaz, {force: this._force});
+                Bullet.shoot(this, this._enemy, this._bulletClaz, {force: this._force});
             } else {
                 this.guard();
             }
