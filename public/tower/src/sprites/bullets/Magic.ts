@@ -21,8 +21,8 @@ class Magic extends Bullet {
     }
 
     protected _hitTarget() {
-        if (this._target.active()) {
-            this._target.shootBy(this);
+        if (this._target.active() && this._target.shootBy(this)) {
+            this._shooter.targetKilled(this._target);
         }
     }       
 }
