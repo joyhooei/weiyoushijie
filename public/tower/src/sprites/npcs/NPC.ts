@@ -69,7 +69,7 @@ class NPC extends MovableEntity {
     }
     
     public shootBy(bullet: Bullet): boolean {
-		let dead = this.damage(this._actualForce(bullet.getForce(), bullet.getHitType()));
+		let dead = this.damage(this._actualDamage(bullet.getForce(), bullet.getHitType()));
 		if (dead) {
 			bullet.targetKilled(this);
 		}

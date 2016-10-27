@@ -4,6 +4,9 @@ class Tower extends Entity implements SelectableEntity {
     protected _price: number;
 	protected _upgradePrice: number;
     
+    protected _guardX: number;
+    protected _guardY: number;
+    
     protected _guardRadius: number;
 	
     protected _forceHigh: number;
@@ -29,6 +32,8 @@ class Tower extends Entity implements SelectableEntity {
         this._price = this._get(properties, "price", 100);
         this._upgradePrice = this._get(properties, "upgradePrice", 100);
         
+        this._guardX = this._get(properties, "guardX", 10);
+        this._guardY = this._get(properties, "guardY", 10);
         this._guardRadius = this._get(properties, "guardRadius", 10);
 		
 		let force:number  = this._get(properties, "force", 10);

@@ -1,7 +1,4 @@
 class SoldierTower extends Tower implements SoldierCreator {
-    protected _guardX: number;
-    protected _guardY: number;
-    
     protected _soldierClaz: string;
     
     protected _soldiers: Soldier[];
@@ -14,9 +11,6 @@ class SoldierTower extends Tower implements SoldierCreator {
     
     public initialize(properties:any) {
         super.initialize(properties);
-        
-        this._guardX = this._get(properties, "guardX", 10);
-        this._guardY = this._get(properties, "guardY", 10);
         
         this._soldiers = [];
     }
@@ -63,9 +57,9 @@ class SoldierTower extends Tower implements SoldierCreator {
         super.guard();
         
         let delta = 15;
-        this._createSoldier(this._soldierClaz, {force: this._force, guardX: this._guardX + delta, guardY: this._guardY + delta, idleTicks: 0});
-        this._createSoldier(this._soldierClaz, {force: this._force, guardX: this._guardX - delta, guardY: this._guardY + delta, idleTicks:  application.frameRate});
-        this._createSoldier(this._soldierClaz, {force: this._force, guardX: this._guardX + delta, guardY: this._guardY - delta, idleTicks: 2 * application.frameRate});
+        this._createSoldier(this._soldierClaz, {forceHigh: this._forceHigh, forceLow: this._forceLow, guardX: this._guardX + delta, guardY: this._guardY + delta, idleTicks: 0});
+        this._createSoldier(this._soldierClaz, {forceHigh: this._forceHigh, forceLow: this._forceLow, guardX: this._guardX - delta, guardY: this._guardY + delta, idleTicks:  application.frameRate});
+        this._createSoldier(this._soldierClaz, {forceHigh: this._forceHigh, forceLow: this._forceLow, guardX: this._guardX + delta, guardY: this._guardY - delta, idleTicks: 2 * application.frameRate});
     }
     
     public guardAt(x: number, y: number):boolean {

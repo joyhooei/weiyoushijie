@@ -9,7 +9,7 @@ class Bomb3 extends Bomb {
 
     protected _fighting() {
         this._ticks ++;
-        if (this._ticks >= this._fightTicks) {
+        if (this._ticks >= this._fightingTicks) {
             this.kill();
         }
     }

@@ -1,4 +1,4 @@
-class ShootSoldier extends Soldier {
+class ShootSoldier extends Soldier implements Shooter {
     protected _bulletClaz: string;
 
     public constructor() {
@@ -33,7 +33,7 @@ class ShootSoldier extends Soldier {
             }
 
             if (this._enemy) {
-                Bullet.shootByNPC(this, this._enemy, this._bulletClaz, {force: this._force});
+                Bullet.shoot(this, this._enemy, this._bulletClaz, {force: this.getForce()});
             } else {
                 this.guard();
             }
@@ -41,4 +41,15 @@ class ShootSoldier extends Soldier {
 
         this._ticks++;
     }    
+
+    public getMuzzleX(): number {
+        return this.x;
+    }
+
+    public getMuzzleY(): number {
+        return this.y;
+    }
+    
+    public targetKilled(target:NPC) {
+    }
 }

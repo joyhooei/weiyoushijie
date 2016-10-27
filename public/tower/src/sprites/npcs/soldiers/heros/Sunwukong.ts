@@ -107,7 +107,7 @@ class Sunwukong extends Hero {
                 application.battle.addWarriorsByName("Warrior", this, {maxHp: 60 + (this._skill5 - 1) * 40, guardRadius: this._guardRadius, liveTicks: 8 * application.frameRate});
             }
         } else {
-            if (this._curSkil4 == 1) {
+            if (this._curSkill == 1) {
                 this._skill4Times ++;
             }
 

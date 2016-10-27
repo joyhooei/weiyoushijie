@@ -71,10 +71,10 @@ class MagicTower4 extends MagicTower implements SoldierCreator {
     }
     
     public createSoldier(soldier: Soldier): Soldier {
-        let s = soldier.relive(application.frameRate * 12);
-        this._addSoldier(s);
-
-        return s;
+        this._blackImpermanence = soldier.relive(application.frameRate * 12);
+        application.battle.addSoldier(this._blackImpermanence);
+        this._blackImpermanence.setCreator(this);
+        return this._blackImpermanence;
     }
     
     protected _fighting() {
@@ -109,24 +109,18 @@ class MagicTower4 extends MagicTower implements SoldierCreator {
     }
     
     public targetKilled(target:NPC) {
-        var props = {guardX: target.getCenterX(), guardY: target.getBottomY()};
-        
         if (target.getMaxHp() < 500) {
-            if (this._blackImpermanence.alive()){
-                props.forceLow = 2;
-                props.forceHigh = 9;
-                props.arm = 20;
+            if (this._blackImpermanence && this._blackImpermanence.active()){
+                var soldier = <Soldier>application.pool.get("Ghost", {guardX: target.getCenterX(), guardY: target.getBottomY(), forceLow:2, forceHigh:9, arm:20});
+            } else {
+                var soldier = <Soldier>application.pool.get("Ghost", {guardX: target.getCenterX(), guardY: target.getBottomY()});
             }
-            
-            var soldier = <Soldier>application.pools.get("Ghost", props);
         } else {
-            if (this._blackImpermanence.alive()){
-                props.forceLow = 3;
-                props.forceHigh = 15;
-                props.arm = 40;
-            }
-            
-            var soldier = <Soldier>application.pools.get("WhiteImpermanence", props);
+            if (this._blackImpermanence && this._blackImpermanence.active()){
+                var soldier = <Soldier>application.pool.get("WhiteImpermanence", {guardX: target.getCenterX(), guardY: target.getBottomY(), forceLow:3, forceHigh:15, arm:40});
+            } else {
+                var soldier = <Soldier>application.pool.get("WhiteImpermanence", {guardX: target.getCenterX(), guardY: target.getBottomY()});
+            }            
         }
         
         soldier.setCenterX(target.getCenterX());

@@ -1,1 +1,0 @@
-{"version":3,"file":"Magic5.js","sourceRoot":"","sources":["../../../src/sprites/bullets/Magic5.ts"],"names":[],"mappings":"AAAA;IAAqB,0BAAK;IACtB;QACI,iBAAO,CAAC;QAER,IAAI,CAAC,aAAa,CAAC,mBAAmB,EAAE,QAAQ,CAAC;aAC5C,WAAW,CAAC,iBAAiB,EAAE,UAAU,CAAC;aAC1C,WAAW,CAAC,iBAAiB,EAAE,UAAU,CAAC,CAAC;IACpD,CAAC;;IACL,aAAC;AAAD,CAAC,AARD,CAAqB,KAAK,GAQzB;oBARK,MAAM;AAQX"}

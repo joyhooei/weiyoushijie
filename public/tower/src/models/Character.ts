@@ -73,10 +73,10 @@ class Character {
             {name: 'ArrowTower5',  properties:{force: 24, guardRadius: 200, price: 550}},            
             
             //魔法塔
-            {name: 'MagicTower1',  properties:{forceHigh:17, forceLow:9,  shootSpeed: 1.5* application.frameRate, guardRadius: 160, price: 100, upgradePrice: 160}},
-            {name: 'MagicTower2',  properties:{forceHigh:43, forceLow:23, shootSpeed: 1.5* application.frameRate, guardRadius: 180, price: 160, upgradePrice: 240}},
-            {name: 'MagicTower3',  properties:{forceHigh:74, forceLow:40, shootSpeed: 1.5* application.frameRate, guardRadius: 250, price: 240, upgradePrice: 300}},
-            {name: 'MagicTower4',  properties:{forceHigh:70, forceLow:20, shootSpeed: 0.8* application.frameRate, guardRadius: 220, price: 300}},         
+            {name: 'MagicTower1',  properties:{forceHigh:17, forceLow:9,  shootSpeed: Math.round(1.5* application.frameRate), guardRadius: 160, price: 100, upgradePrice: 160}},
+            {name: 'MagicTower2',  properties:{forceHigh:43, forceLow:23, shootSpeed: Math.round(1.5* application.frameRate), guardRadius: 180, price: 160, upgradePrice: 240}},
+            {name: 'MagicTower3',  properties:{forceHigh:74, forceLow:40, shootSpeed: Math.round(1.5* application.frameRate), guardRadius: 250, price: 240, upgradePrice: 300}},
+            {name: 'MagicTower4',  properties:{forceHigh:70, forceLow:20, shootSpeed: Math.round(0.8* application.frameRate), guardRadius: 220, price: 300}},         
 
             //bullets
             {name: 'Fireball',  properties:{force:500, hitType:HitType.normal, hitRadius:50, moveSpeed:5, idleTicks:0, fightingTicks: 10, dyingTicks:0}},

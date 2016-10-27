@@ -20,7 +20,7 @@ var BattleSystemToolItem = (function (_super) {
             this._addReinforce(x, y, x + 10, y + 10);
         }
         else {
-            Bullet.shoot(x, y - 200, x, y, "Fireball");
+            Bullet.throw(x, y - 200, x, y, "Fireball");
         }
         this._ticks = 0;
     };

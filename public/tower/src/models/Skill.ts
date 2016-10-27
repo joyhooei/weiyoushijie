@@ -16,6 +16,6 @@ class Skill {
     		}
     	}
     	
-    	return new Skill({customer_id: application.me.attris.id, claz: claz, skill: skill, level: 1});
+    	return new Skill({customer_id: application.me.attrs.id, claz: claz, skill: skill, level: 1});
     }
 }

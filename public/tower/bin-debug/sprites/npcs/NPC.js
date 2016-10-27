@@ -12,16 +12,17 @@ var NPC = (function (_super) {
         this._hp.x = 0;
         this._hp.y = 0;
         this.addChild(this._hp);
-        this._skill = 0;
         this._hitSpeed = this._get(properties, "hitSpeed", Math.round(0.9 * application.frameRate));
-        this._force = this._get(properties, "force", 10);
+        var force = this._get(properties, "force", 10);
+        this._forceHigh = this._get(properties, "forceHigh", force);
+        this._forceLow = this._get(properties, "forceLow", force);
         this._armor = this._get(properties, "armor", 0);
         this._magicArmor = this._get(properties, "magicArmor", 0);
         this._resistance = this._get(properties, "_resistance", 0);
         this._altitude = this._get(properties, "altitude", 0);
     };
     p.getForce = function () {
-        return this._force;
+        return this._forceLow + Math.round(Math.random() * (this._forceHigh - this._forceLow));
     };
     p.getMuzzleX = function () {
         return this.getCenterX();
@@ -29,10 +30,8 @@ var NPC = (function (_super) {
     p.getMuzzleY = function () {
         return this.getCenterY();
     };
-    p.kill = function () {
-        this._hp.erase();
-        this._hp = null;
-        _super.prototype.kill.call(this);
+    p.getMaxHp = function () {
+        return this._hp.getMaxHp();
     };
     p.erase = function () {
         if (this._hp) {
@@ -42,7 +41,11 @@ var NPC = (function (_super) {
         _super.prototype.erase.call(this);
     };
     p.shootBy = function (bullet) {
-        return this.damage(this._actualForce(bullet.getForce(), bullet.getHitType()));
+        var dead = this.damage(this._actualDamage(bullet.getForce(), bullet.getHitType()));
+        if (dead) {
+            bullet.targetKilled(this);
+        }
+        return dead;
     };
     p.hitBy = function (npc) {
         this.fight();
@@ -50,9 +53,9 @@ var NPC = (function (_super) {
         if (this._resistance > 0) {
             npc.damage(Math.round(d * (100 - this._resistance) / 100));
         }
-        return this.damage(this._actualForce(d, HitType.normal));
+        return this.damage(this._actualDamage(d, HitType.normal));
     };
-    p._actualForce = function (d, hitType) {
+    p._actualDamage = function (d, hitType) {
         if (hitType == HitType.normal) {
             return Math.round(d * (100 - this._armor) / 100);
         }
@@ -104,6 +107,11 @@ var NPC = (function (_super) {
     p._act = function () {
         if (this._state == EntityState.fighting) {
             this._hitOpponents();
+            //需要等打击时间到才再一次播放动画
+            return false;
+        }
+        else if (this._state == EntityState.dying) {
+            //播放一次
             return false;
         }
         else {
@@ -117,7 +125,7 @@ var NPC = (function (_super) {
         if (yDelta === void 0) { yDelta = 0; }
         if (idx === void 0) { idx = 0; }
         this._centerHp();
-        return _super.prototype._render.call(this, 0, 5, this._skill);
+        return _super.prototype._render.call(this, 0, 5, 0);
     };
     p._centerHp = function () {
         if (this._hp) {

@@ -8,12 +8,16 @@ var Tower = (function (_super) {
     var d = __define,c=Tower,p=c.prototype;
     p.initialize = function (properties) {
         _super.prototype.initialize.call(this, properties);
-        this._hitSpeed = this._get(properties, "hitSpeed", 60);
-        this._buildTicks = this._get(properties, "buildTicks", application.frameRate);
+        this._buildingTicks = this._get(properties, "buildingTicks", application.frameRate);
         this._price = this._get(properties, "price", 100);
-        this._force = this._get(properties, "force", 10);
         this._upgradePrice = this._get(properties, "upgradePrice", 100);
+        this._guardX = this._get(properties, "guardX", 10);
+        this._guardY = this._get(properties, "guardY", 10);
         this._guardRadius = this._get(properties, "guardRadius", 10);
+        var force = this._get(properties, "force", 10);
+        this._forceHigh = this._get(properties, "forceHigh", force);
+        this._forceLow = this._get(properties, "forceLow", force);
+        this._range = null;
         this._base = null;
     };
     p.setBase = function (base) {
@@ -31,6 +35,9 @@ var Tower = (function (_super) {
     p.getUpgradePrice = function () {
         return this._upgradePrice;
     };
+    p.getForce = function () {
+        return this._forceLow + Math.round(Math.random() * (this._forceHigh - this._forceLow));
+    };
     p.erase = function () {
         _super.prototype.erase.call(this);
         application.battle.incGolds(this.getSellPrice());
@@ -45,7 +52,7 @@ var Tower = (function (_super) {
     };
     p._building = function () {
         this._ticks++;
-        if (this._ticks > this._buildTicks) {
+        if (this._ticks > this._buildingTicks) {
             this.guard();
         }
     };

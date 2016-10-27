@@ -1,4 +1,4 @@
-class ArrowEnemy extends Enemy {
+class ArrowEnemy extends Enemy implements Shooter {
     private _attackRadius: number;
     
     public constructor() {
@@ -27,12 +27,23 @@ class ArrowEnemy extends Enemy {
     protected _fighting() {
         if (this._ticks % this._hitSpeed == 0) {
             if (this._soldiers[0].active()) {
-                Bullet.shootByNPC(this, this._soldiers[0], "Arrow");
+                Bullet.shoot(this, this._soldiers[0], "Arrow");
             } else {
                 this.rmvSoldier(this._soldiers[0]);
             }
         }
         
         this._ticks++;
-    }    
+    }
+
+    public getMuzzleX(): number {
+        return this.x;
+    }
+
+    public getMuzzleY(): number {
+        return this.y;
+    }
+    
+    public targetKilled(target:NPC) {
+    }
 }

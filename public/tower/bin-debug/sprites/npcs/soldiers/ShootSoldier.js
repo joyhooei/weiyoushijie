@@ -28,7 +28,7 @@ var ShootSoldier = (function (_super) {
                 }
             }
             if (this._enemy) {
-                Bullet.shootByNPC(this, this._enemy, this._bulletClaz, { force: this._force });
+                Bullet.shoot(this, this._enemy, this._bulletClaz, { force: this.getForce() });
             }
             else {
                 this.guard();
@@ -36,7 +36,15 @@ var ShootSoldier = (function (_super) {
         }
         this._ticks++;
     };
+    p.getMuzzleX = function () {
+        return this.x;
+    };
+    p.getMuzzleY = function () {
+        return this.y;
+    };
+    p.targetKilled = function (target) {
+    };
     return ShootSoldier;
 }(Soldier));
-egret.registerClass(ShootSoldier,'ShootSoldier');
+egret.registerClass(ShootSoldier,'ShootSoldier',["Shooter"]);
 //# sourceMappingURL=ShootSoldier.js.map

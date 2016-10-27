@@ -15,23 +15,14 @@ var Bullet = (function (_super) {
         this.width = this.height = 5;
     }
     var d = __define,c=Bullet,p=c.prototype;
-    Bullet.shootAtNPC = function (sourceX, sourceY, target, claz, properties) {
+    Bullet.shoot = function (shooter, target, claz, properties) {
         var bullet = application.pool.get(claz, properties);
-        bullet.setCenterX(sourceX);
-        bullet.setCenterY(sourceY);
+        bullet.setShooter(shooter);
         bullet.setTarget(target);
         application.battle.addBullet(bullet);
         return bullet;
     };
-    Bullet.shootByNPC = function (shooter, target, claz, properties) {
-        var bullet = application.pool.get(claz, properties);
-        bullet.setCenterX(shooter.getMuzzleX());
-        bullet.setCenterY(shooter.getMuzzleY());
-        bullet.setTarget(target);
-        application.battle.addBullet(bullet);
-        return bullet;
-    };
-    Bullet.shoot = function (sourceX, sourceY, targetX, targetY, claz, properties) {
+    Bullet.throw = function (sourceX, sourceY, targetX, targetY, claz, properties) {
         var bullet = application.pool.get(claz, properties);
         bullet.setCenterX(sourceX);
         bullet.setCenterY(sourceY);
@@ -46,7 +37,8 @@ var Bullet = (function (_super) {
         this._targetY = 0;
         this._force = this._get(properties, 'force', 10);
         this._hitType = this._get(properties, 'hitType', HitType.normal);
-        this._fightTicks = this._get(properties, 'fightTicks', 10);
+        this._fightingTicks = this._get(properties, 'fightingTicks', 10);
+        this._shooter = null;
     };
     p.getForce = function () {
         return this._force;
@@ -54,9 +46,19 @@ var Bullet = (function (_super) {
     p.getHitType = function () {
         return this._hitType;
     };
+    p.setShooter = function (shooter) {
+        this._shooter = shooter;
+        this.setCenterX(shooter.getMuzzleX());
+        this.setCenterY(shooter.getMuzzleY());
+    };
     p.setTarget = function (target) {
         this._target = target;
         this.setTargetPosition(target.getCenterX(), target.getCenterY());
+    };
+    p.targetKilled = function (target) {
+        if (this._shooter) {
+            this._shooter.targetKilled(target);
+        }
     };
     p.setTargetPosition = function (targetX, targetY) {
         if (this._targetX != targetX || this._targetY != targetY) {
@@ -74,7 +76,7 @@ var Bullet = (function (_super) {
     };
     p._fighting = function () {
         this._ticks++;
-        if (this._ticks >= this._fightTicks) {
+        if (this._ticks >= this._fightingTicks) {
             this.erase();
         }
     };

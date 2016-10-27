@@ -114,10 +114,10 @@ var Battle = (function (_super) {
         }
         var hero = this._heroWinned;
         if (hero) {
-            application.dao.fetch("Legend", { customer_id: application.me.attrs.id, name: hero }).then(function (legends) {
-                if (legends.length == 0) {
-                    var legend = new Legend({ customer_id: application.me.attrs.id, name: hero, level: 1 });
-                    legend.save();
+            application.dao.fetch("Skill", { customer_id: application.me.attrs.id, claz: hero, skill: 0 }).then(function (skills) {
+                if (skills.length == 0) {
+                    var skill = new Skill({ customer_id: application.me.attrs.id, claz: hero, skill: 0, level: 1 });
+                    skill.save();
                     Toast.launch("恭喜您，获得了英雄：" + hero);
                 }
             });
@@ -261,7 +261,6 @@ var Battle = (function (_super) {
             var hero = application.pool.get(heroName, { guardX: pos[i][0][0], guardY: pos[i][0][1] });
             hero.setCenterX(pos[i][0][0]);
             hero.setBottomY(pos[i][0][1]);
-            hero.setLegend(Legend.getByName(application.legends, heroName));
             this.addSoldier(hero);
         }
     };

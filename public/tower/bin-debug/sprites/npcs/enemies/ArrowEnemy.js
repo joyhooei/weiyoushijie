@@ -21,7 +21,7 @@ var ArrowEnemy = (function (_super) {
     p._fighting = function () {
         if (this._ticks % this._hitSpeed == 0) {
             if (this._soldiers[0].active()) {
-                Bullet.shootByNPC(this, this._soldiers[0], "Arrow");
+                Bullet.shoot(this, this._soldiers[0], "Arrow");
             }
             else {
                 this.rmvSoldier(this._soldiers[0]);
@@ -29,7 +29,15 @@ var ArrowEnemy = (function (_super) {
         }
         this._ticks++;
     };
+    p.getMuzzleX = function () {
+        return this.x;
+    };
+    p.getMuzzleY = function () {
+        return this.y;
+    };
+    p.targetKilled = function (target) {
+    };
     return ArrowEnemy;
 }(Enemy));
-egret.registerClass(ArrowEnemy,'ArrowEnemy');
+egret.registerClass(ArrowEnemy,'ArrowEnemy',["Shooter"]);
 //# sourceMappingURL=ArrowEnemy.js.map

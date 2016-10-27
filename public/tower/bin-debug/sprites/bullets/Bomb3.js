@@ -9,7 +9,7 @@ var Bomb3 = (function (_super) {
     var d = __define,c=Bomb3,p=c.prototype;
     p._fighting = function () {
         this._ticks++;
-        if (this._ticks >= this._fightTicks) {
+        if (this._ticks >= this._fightingTicks) {
             this.kill();
         }
     };

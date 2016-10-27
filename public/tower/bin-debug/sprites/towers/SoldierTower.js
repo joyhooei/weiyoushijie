@@ -6,8 +6,6 @@ var SoldierTower = (function (_super) {
     var d = __define,c=SoldierTower,p=c.prototype;
     p.initialize = function (properties) {
         _super.prototype.initialize.call(this, properties);
-        this._guardX = this._get(properties, "guardX", 10);
-        this._guardY = this._get(properties, "guardY", 10);
         this._soldiers = [];
     };
     p.getGuardX = function () {
@@ -43,9 +41,9 @@ var SoldierTower = (function (_super) {
     p.guard = function () {
         _super.prototype.guard.call(this);
         var delta = 15;
-        this._createSoldier(this._soldierClaz, { force: this._force, guardX: this._guardX + delta, guardY: this._guardY + delta, idleTicks: 0 });
-        this._createSoldier(this._soldierClaz, { force: this._force, guardX: this._guardX - delta, guardY: this._guardY + delta, idleTicks: application.frameRate });
-        this._createSoldier(this._soldierClaz, { force: this._force, guardX: this._guardX + delta, guardY: this._guardY - delta, idleTicks: 2 * application.frameRate });
+        this._createSoldier(this._soldierClaz, { forceHigh: this._forceHigh, forceLow: this._forceLow, guardX: this._guardX + delta, guardY: this._guardY + delta, idleTicks: 0 });
+        this._createSoldier(this._soldierClaz, { forceHigh: this._forceHigh, forceLow: this._forceLow, guardX: this._guardX - delta, guardY: this._guardY + delta, idleTicks: application.frameRate });
+        this._createSoldier(this._soldierClaz, { forceHigh: this._forceHigh, forceLow: this._forceLow, guardX: this._guardX + delta, guardY: this._guardY - delta, idleTicks: 2 * application.frameRate });
     };
     p.guardAt = function (x, y) {
         if (this.within(x, y, this._guardRadius)) {

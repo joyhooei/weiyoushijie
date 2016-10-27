@@ -182,10 +182,10 @@ class Battle extends Entity implements SoldierCreator {
         
         let hero = this._heroWinned;
         if (hero) {
-            application.dao.fetch("Legend", {customer_id: application.me.attrs.id, name:hero}).then(function(legends){
-                if (legends.length == 0) {
-                    let legend = new Legend({customer_id: application.me.attrs.id, name:hero, level: 1});
-                    legend.save();
+            application.dao.fetch("Skill", {customer_id: application.me.attrs.id, claz:hero, skill: 0}).then(function(skills){
+                if (skills.length == 0) {
+                    let skill = new Skill({customer_id: application.me.attrs.id, claz:hero, skill: 0, level: 1});
+                    skill.save();
                     
                     Toast.launch("恭喜您，获得了英雄：" + hero);
                 }
