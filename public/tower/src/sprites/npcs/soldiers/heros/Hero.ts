@@ -1,27 +1,32 @@
-class Hero extends Soldier {
-    protected _forceHigh: number;
-    
-    protected _forceLow: number;
-    
-    protected _legend: Legend;
-    
-    public constructor() {
-        super();
-    }
+class Hero extends Soldier {   
+    //技能数据
+    protected _skill: Skill;
+
+    //当前施展技能
+    protected _curSkill: number;
+
+    //额外打击
+    protected _extraForce: number;
     
     public initialize(properties:any) {
         super.initialize(properties);
         
-        this._forceHigh   = this._get(properties, "forceHigh", 10);
-        this._forceLow    = this._get(properties, "forceLow", 6);
         this._force = 0;
+        
+        this._curSkill = 0;
     }
     
-    public setLegend(legend: Legend) {
-        this._legend = legend;
+    public setSkill(skill: Skill) {
+        this._skill = skill;
     }
 
     public getForce(): number {
-        return this._forceLow + Math.round(Math.random() * (this._forceHigh - this._forceLow)) + this._force;
+        return this._forceLow + Math.round(Math.random() * (this._forceHigh - this._forceLow)) + this._extraForce;
     }
+
+	protected _render(xDelta = 0, yDelta = 0, idx = 0): egret.DisplayObject {
+		this._centerHp();
+		
+		return super._render(0, 5, this._curSkill);
+	}
 }
