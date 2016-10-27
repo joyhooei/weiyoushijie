@@ -1,7 +1,8 @@
 class NPC extends MovableEntity {
     protected _hp: Hp;
     
-    protected _force: number;
+    protected _forceHigh: number;
+    protected _forceLow: number;
 
     protected _armor: number;
 
@@ -10,8 +11,6 @@ class NPC extends MovableEntity {
     protected _resistance: number;
     
     protected _hitSpeed: number;
-
-    protected _skill : number;
     
     //海拔高度，地表：0，地下：-1，空中：1
     protected _altitude: number;
@@ -34,7 +33,9 @@ class NPC extends MovableEntity {
         
         this._hitSpeed  = this._get(properties, "hitSpeed", Math.round(0.9 * application.frameRate));
         
-        this._force    = this._get(properties, "force", 10);
+		let force:number  = this._get(properties, "force", 10);
+        this._forceHigh   = this._get(properties, "forceHigh", force);
+        this._forceLow    = this._get(properties, "forceLow", force);
 
         this._armor  = this._get(properties, "armor", 0);
 		
@@ -46,7 +47,7 @@ class NPC extends MovableEntity {
     }
     
     public getForce(): number {
-    	return this._force;
+    	return this._forceLow + Math.round(Math.random() * (this._forceHigh - this._forceLow));
     }
 
     public getMuzzleX(): number {
@@ -86,10 +87,10 @@ class NPC extends MovableEntity {
     		npc.damage(Math.round(d * (100 - this._resistance) / 100));
     	}
     	
-    	return this.damage(this._actualForce(d, HitType.normal));
+    	return this.damage(this._actualDamage(d, HitType.normal));
     }
     
-    protected _actualForce(d: number, hitType:HitType): number {
+    protected _actualDamage(d: number, hitType:HitType): number {
 		if (hitType == HitType.normal) {
     		return Math.round(d * (100 - this._armor) / 100);
 		} else if (hitType == HitType.magic) {
@@ -160,7 +161,7 @@ class NPC extends MovableEntity {
 	protected _render(xDelta = 0, yDelta = 0, idx = 0): egret.DisplayObject {
 		this._centerHp();
 		
-		return super._render(0, 5, this._skill);
+		return super._render(0, 5, 0);
 	}
     
     protected _centerHp() {
