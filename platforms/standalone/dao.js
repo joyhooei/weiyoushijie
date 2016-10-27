@@ -349,7 +349,19 @@ module.exports = function() {
 				game: 1,
 				uid: 1
 			});
-
+			
+			//英雄、塔等的级别
+			self.addModel("Entity", {
+				customer_id: String,
+				claz: String,
+				level:  {type: Number, default: 1},
+				game: String
+			}, {
+				game: 1,
+				customer_id: 1,
+				claz: 1
+			});
+			
 			self.addModel("Game", {
 				version: String,
 				code_url: String,
@@ -371,18 +383,6 @@ module.exports = function() {
 				game: 1,
 				customer_id: 1,
 				category: 1
-			});
-			
-			//英雄
-			self.addModel("Legend", {
-				customer_id: String,
-				name: String,
-				level:  {type: Number, default: 1},
-				game: String
-			}, {
-				game: 1,
-				customer_id: 1,
-				name: 1
 			});
 			
 			self.addModel("Log", {
@@ -480,17 +480,18 @@ module.exports = function() {
 				game: String
 			});
 			
-			//英雄技能
+			//技能（包括英雄，塔等）
 			self.addModel("Skill", {
 				customer_id: String,
-				legend_id: String,
-				name: String,
+				claz: String,
+				skill: Number,
 				level:  {type: Number, default: 1},
 				game: String
 			}, {
 				game: 1,
-				legend_id: 1,
-				name: 1
+				customer_id: 1,
+				claz: 1,
+				skill: 1
 			});
 			
 			self.addModel("Star", {
