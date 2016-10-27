@@ -58,7 +58,7 @@ class MagicTower4 extends MagicTower implements SoldierCreator {
     private _addSoldier() {
         if (this._skill2Level == 1) {
             var options = {hp: 250, arm: 40, forceHigh: 10, forceLow: 5, guardX: this._guardX, guardY: this._guardY};
-        } else if (this._skill2Level == 1) {
+        } else if (this._skill2Level == 2) {
             var options = {hp: 300, arm: 45, forceHigh: 15, forceLow: 10, guardX: this._guardX, guardY: this._guardY};
         } else {
             var options = {hp: 350, arm: 50, forceHigh: 20, forceLow: 15, guardX: this._guardX, guardY: this._guardY};
@@ -77,6 +77,17 @@ class MagicTower4 extends MagicTower implements SoldierCreator {
         this._addSoldier(s);
 
         return s;
+    }
+    
+    protected _shoot() {
+        if (this._skill2Level == 1) {
+            var dyingTicks = 4;
+        } else if (this._skill2Level == 2) {
+            var dyingTicks = 5;
+        } else {
+            var dyingTicks = 6;
+        }        
+        Bullet.throw(this, this.getMuzzleX(), this.getMuzzleY(), this._bulletClaz, {force: 20, dyingTicks: dyingTicks * application.frameRate});
     }
     
     public getMuzzleX(): number {
