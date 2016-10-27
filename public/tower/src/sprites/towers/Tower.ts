@@ -1,6 +1,4 @@
 class Tower extends Entity implements SelectableEntity {
-    protected _hitSpeed: number;
-    
     protected _buildTicks: number;
     
     protected _price: number;
@@ -26,7 +24,6 @@ class Tower extends Entity implements SelectableEntity {
     public initialize(properties:any) {
         super.initialize(properties);
         
-        this._hitSpeed   = this._get(properties, "hitSpeed", 60);
         this._buildTicks = this._get(properties, "buildTicks", application.frameRate);
         
         this._price = this._get(properties, "price", 100);
