@@ -69,10 +69,10 @@ class Character {
             {name: 'SoldierTower4',  properties:{force: 12,guardRadius: 160, price: 530}},
             
             //炮塔
-            {name: 'BombTower1',  properties:{force: 20, guardRadius: 160, price: 120, upgradePrice: 150}},
-            {name: 'BombTower2',  properties:{force: 30, guardRadius: 180, price: 270, upgradePrice: 150}},
-            {name: 'BombTower3',  properties:{force: 40, guardRadius: 200, price: 320, upgradePrice: 230}},
-            {name: 'BombTower4',  properties:{force: 30, guardRadius: 220, price: 550}},
+            {name: 'BombTower1',  properties:{force: 20, guardRadius: 160, shootSpeed: 1.5* application.frameRate, price: 120, upgradePrice: 150}},
+            {name: 'BombTower2',  properties:{force: 30, guardRadius: 180, shootSpeed: 1.5* application.frameRate, price: 270, upgradePrice: 150}},
+            {name: 'BombTower3',  properties:{force: 40, guardRadius: 200, shootSpeed: 1.5* application.frameRate, price: 320, upgradePrice: 230}},
+            {name: 'BombTower4',  properties:{force: 30, guardRadius: 220, shootSpeed: 12* application.frameRate, price: 550}},
             
             //箭塔
             {name: 'ArrowTower1',  properties:{force: 8, guardRadius: 160, price: 70, upgradePrice: 100}},
