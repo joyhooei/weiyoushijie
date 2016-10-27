@@ -8,6 +8,8 @@ enum HitType {
 };
 
 class Bullet extends MovableEntity {
+    protected _shooter: Shooter;
+
     protected _target: NPC;
     
     protected _targetX: number;
@@ -67,6 +69,8 @@ class Bullet extends MovableEntity {
         this._hitType = this._get(properties, 'hitType', HitType.normal);
        
         this._fightTicks = this._get(properties, 'fightTicks', 10);
+        
+        this._shooter = null;
     }
     
     public getForce(): number {
@@ -75,6 +79,10 @@ class Bullet extends MovableEntity {
 
     public getHitType(): HitType {
         return this._hitType;
+    }
+
+    public setShooter(shooter: Shooter) {
+        this._shooter = shooter;
     }
 
     public setTarget(target: NPC) {
