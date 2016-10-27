@@ -9,13 +9,13 @@ class Skill {
         application.dao.save("Skill", this.attrs);
     }
 
-    public static getByClaz(skills: Skill[], claz: string): Skill {
+    public static get(skills: Skill[], claz: string, skill: number): Skill {
     	for(let i = 0; i < skills.length; i++) {
-    		if (skills[i].attrs.claz == claz) {
+    		if (skills[i].attrs.claz == claz && skills[i].attrs.skill == skill) {
     			return skills[i];
     		}
     	}
     	
-    	return new Skill({level: 1});
+    	return new Skill({customer_id: application.me.attris.id, claz: claz, skill: skill, level: 1});
     }
 }
