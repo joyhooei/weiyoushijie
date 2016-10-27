@@ -81,13 +81,13 @@ class MagicTower4 extends MagicTower implements SoldierCreator {
     
     protected _shoot() {
         if (this._skill2Level == 1) {
-            var dyingTicks = 4;
+            var fightTicks = 4;
         } else if (this._skill2Level == 2) {
-            var dyingTicks = 5;
+            var fightTicks = 5;
         } else {
-            var dyingTicks = 6;
+            var fightTicks = 6;
         }        
-        Bullet.throw(this, this.getMuzzleX(), this.getMuzzleY(), this._bulletClaz, {force: 20, dyingTicks: dyingTicks * application.frameRate});
+        Bullet.throw(this, this.getMuzzleX(), this.getMuzzleY(), this._bulletClaz, {force: 20, fightTicks: fightTicks * application.frameRate});
     }
     
     public getMuzzleX(): number {
