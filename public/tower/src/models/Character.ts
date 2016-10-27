@@ -38,8 +38,8 @@ class Character {
             //soldiers
             {name: 'Reinforce', properties:{hp:100, force:6, armor: 0, magicArmor: 0, cureSpeed:1, moveSpeed:1, liveTicks: 20 * application.frameRate, guardRadius: 40, guardAltitude:[-1, 0]}},
             {name: 'Warrior',   properties:{hp:100, force:6, armor: 0, magicArmor: 0, cureSpeed:1, moveSpeed:1, liveTicks: 8 * application.frameRate, guardRadius: 40, guardAltitude:[-1, 0]}},
-            {name: 'Ghost',     properties:{hp:40, forceHigh:6, forceLow:1, armor: 0, magicArmor: 0, cureSpeed:1, moveSpeed:1, liveTicks: 8 * application.frameRate, guardRadius: 40, guardAltitude:[-1, 0]}},
-            {name: 'WhiteImpermanence',   properties:{hp:80, forceHigh:10, forceLow:2, armor: 20, magicArmor: 0, cureSpeed:1, moveSpeed:1, liveTicks: 8 * application.frameRate, guardRadius: 40, guardAltitude:[-1, 0]}},
+            {name: 'Ghost',     properties:{hp:40, forceHigh:6, forceLow:1, armor: 0, magicArmor: 0, cureSpeed:1, moveSpeed:1, guardRadius: 40, guardAltitude:[-1, 0]}},
+            {name: 'WhiteImpermanence',   properties:{hp:80, forceHigh:10, forceLow:2, armor: 20, magicArmor: 0, cureSpeed:1, moveSpeed:1, guardRadius: 40, guardAltitude:[-1, 0]}},
             {name: 'BlackImpermanence',   properties:{hp:250, forceHigh:10, forceLow:5, armor: 40, magicArmor: 0, cureSpeed:1, moveSpeed:1, guardRadius: 40, guardAltitude:[-1, 0]}},
 
             //守护塔士兵
@@ -114,7 +114,7 @@ class Character {
             {name: 'Magic2',    properties:{hitType:HitType.magic, moveSpeed:10, idleTicks:0, fightTicks: 10, dyingTicks:0}},
             {name: 'Magic3',    properties:{hitType:HitType.magic, moveSpeed:10, idleTicks:0, fightTicks: 10, dyingTicks:0}},
             {name: 'Magic4',    properties:{hitType:HitType.magic, moveSpeed:10, idleTicks:0, fightTicks: 10, dyingTicks:0}},
-            {name: 'Magic5',    properties:{hitType:HitType.magic, moveSpeed:10, idleTicks:0, fightTicks: 10, dyingTicks:0}},
+            {name: 'BlackWater',    properties:{hitType:HitType.magic, moveSpeed:0, force:20, idleTicks:0, dyingTicks:0}},        
         ]; 
 
         for(let i = 0; i < config.length; i++) {
