@@ -26,21 +26,50 @@ class MagicTower4 extends MagicTower implements SoldierCreator {
         super.guard();
         
         if (!this._soldier) {
-            if (this._skill2Level == 1) {
-                var options = {hp: 250, arm: 40, forceHigh: 10, forceLow: 5, guardX: this._guardX, guardY: this._guardY};
-            } else if (this._skill2Level == 1) {
-                var options = {hp: 300, arm: 45, forceHigh: 15, forceLow: 10, guardX: this._guardX, guardY: this._guardY};
-            } else {
-                var options = {hp: 350, arm: 50, forceHigh: 20, forceLow: 15, guardX: this._guardX, guardY: this._guardY};
-            }
-            this._soldier = <Soldier>application.pool.get("BlackImpermanence", options);
-            this._soldier.setCenterX(this.getMuzzleX());
-            this._soldier.setCenterY(this.getMuzzleY());
-
-            this._soldier.setCreator(this);
-
-            application.battle.addSoldier(this._soldier);
+            this._addSoldier();
         }
+    }
+    
+    public upgrade(skill:number) {
+        if (skill == 1) {
+            if (this._skill1Level == 1) {
+                var price = 325;
+            } else {
+                var price = 200;
+            }
+            
+            this._skill1Level ++;
+        } else {
+            if (this._skill1Level == 1) {
+                var price = 300;
+            } else {
+                var price = 150;
+            }
+            
+            this._skill2Level ++;
+        }
+        
+        application.battle.incGolds(-price);
+        
+        this._soldier.erase();
+        this._addSoldier();
+    }
+    
+    private _addSoldier() {
+        if (this._skill2Level == 1) {
+            var options = {hp: 250, arm: 40, forceHigh: 10, forceLow: 5, guardX: this._guardX, guardY: this._guardY};
+        } else if (this._skill2Level == 1) {
+            var options = {hp: 300, arm: 45, forceHigh: 15, forceLow: 10, guardX: this._guardX, guardY: this._guardY};
+        } else {
+            var options = {hp: 350, arm: 50, forceHigh: 20, forceLow: 15, guardX: this._guardX, guardY: this._guardY};
+        }
+        this._soldier = <Soldier>application.pool.get("BlackImpermanence", options);
+        this._soldier.setCenterX(this.getMuzzleX());
+        this._soldier.setCenterY(this.getMuzzleY());
+
+        this._soldier.setCreator(this);
+
+        application.battle.addSoldier(this._soldier);
     }
     
     public createSoldier(soldier: Soldier): Soldier {
