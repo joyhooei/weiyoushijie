@@ -9,6 +9,9 @@ class ShootTower extends Tower implements Shooter {
             this.fight();
         }
     }
+    
+    public targetKilled(target:NPC) {
+    }
 
     public getMuzzleX(): number {
         return this.getCenterX();
