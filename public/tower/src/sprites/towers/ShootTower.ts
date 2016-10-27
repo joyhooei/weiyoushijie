@@ -1,4 +1,4 @@
-class ShootTower extends Tower {
+class ShootTower extends Tower implements Shooter {
     protected _enemy : Enemy;
 
     protected _bulletClaz: string;
