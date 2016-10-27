@@ -81,6 +81,12 @@ class Bullet extends MovableEntity {
         
         this.setTargetPosition(target.getCenterX(), target.getCenterY());
     }
+
+    public targetKilled(target: NPC) {
+        if (this._shooter) {
+            this._shooter.targetKilled(target);
+        }
+    }
     
     public setTargetPosition(targetX: number, targetY: number) {
         if (this._targetX != targetX|| this._targetY != targetY) {
