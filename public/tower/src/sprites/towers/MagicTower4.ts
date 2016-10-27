@@ -57,4 +57,11 @@ class MagicTower4 extends MagicTower implements SoldierCreator {
     public getMuzzleY(): number {
         return this.y + 15;
     }
+    
+    public targetKilled(target:NPC) {
+        let ghost:Ghost = <Ghost>application.pools.get("Ghost");
+        ghost.setCenterX(target.getCenterX());
+        ghost.setBottomY(target.getBottomY());
+        application.battle.addSoldier(ghost);
+    }
 }
