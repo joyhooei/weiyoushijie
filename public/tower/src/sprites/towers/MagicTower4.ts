@@ -91,9 +91,9 @@ class MagicTower4 extends MagicTower implements SoldierCreator {
                 var fightTicks = 6;
             }
             
-            let bullet = <Bullet>application.pool.get("BlackWater",  {hitRaduis: this._guardRadius, force: 20, fightTicks: fightTicks * application.frameRate});
+            let bullet = <Bullet>application.pool.get("BlackWater",  {hitRaduis: this._guardRadius, fightTicks: fightTicks * application.frameRate});
             bullet.setShooter(this);
-            bullet.kill();
+            bullet.fight();
             application.battle.addBullet(bullet);
         }
         
