@@ -11,9 +11,7 @@ class Arrow extends CastBullet {
     
     protected _hitTarget() {
         if (this._target.active()) {
-            if (this._target.shootBy(this)) {
-                this._shooter.targetKilled(this._target);
-            }
+            this._target.shootBy(this);
         } else {
             this._missing = true;
         }
