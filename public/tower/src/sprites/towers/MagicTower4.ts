@@ -1,7 +1,8 @@
 class MagicTower4 extends MagicTower implements SoldierCreator {
-    private _soldier : Soldier;
+    private _blackImpermanence: BlackImpermanence;
     
     private _skill1Level: number;
+    private _skill1Ticks: number;
     
     private _skill2Level: number;
     
@@ -16,23 +17,17 @@ class MagicTower4 extends MagicTower implements SoldierCreator {
     public initialize(properties:any) {
         super.initialize(properties);
         
-        this._skill1Level = 1;
-        this._skill2Level = 1;
+        this._skill1Level = 0;
+        this._skill1Ticks = 0;
         
-        this._soldier = null;
-    }
-    
-    public guard() {
-        super.guard();
+        this._skill2Level = 0;
         
-        if (!this._soldier) {
-            this._addSoldier();
-        }
+        this._blackImpermanence = null;
     }
     
     public upgrade(skill:number) {
         if (skill == 1) {
-            if (this._skill1Level == 1) {
+            if (this._skill1Level == 0) {
                 var price = 325;
             } else {
                 var price = 200;
@@ -40,22 +35,25 @@ class MagicTower4 extends MagicTower implements SoldierCreator {
             
             this._skill1Level ++;
         } else {
-            if (this._skill1Level == 1) {
+            if (this._skill1Level == 0) {
                 var price = 300;
             } else {
                 var price = 150;
             }
             
             this._skill2Level ++;
+            
+            if (this._blackImpermanence) {
+                this._blackImpermanence.erase();
+            }
+            
+            this._addBlackImpermanence();
         }
         
-        application.battle.incGolds(-price);
-        
-        this._soldier.erase();
-        this._addSoldier();
+        application.battle.incGolds(-price);        
     }
     
-    private _addSoldier() {
+    private _addBlackImpermanence() {
         if (this._skill2Level == 1) {
             var options = {hp: 250, arm: 40, forceHigh: 10, forceLow: 5, guardX: this._guardX, guardY: this._guardY};
         } else if (this._skill2Level == 2) {
@@ -63,13 +61,13 @@ class MagicTower4 extends MagicTower implements SoldierCreator {
         } else {
             var options = {hp: 350, arm: 50, forceHigh: 20, forceLow: 15, guardX: this._guardX, guardY: this._guardY};
         }
-        this._soldier = <Soldier>application.pool.get("BlackImpermanence", options);
-        this._soldier.setCenterX(this.getMuzzleX());
-        this._soldier.setCenterY(this.getMuzzleY());
+        this._blackImpermanence = <BlackImpermanence>application.pool.get("BlackImpermanence", options);
+        this._blackImpermanence.setCenterX(this.getMuzzleX());
+        this._blackImpermanence.setCenterY(this.getMuzzleY());
 
-        this._soldier.setCreator(this);
+        this._blackImpermanence.setCreator(this);
 
-        application.battle.addSoldier(this._soldier);
+        application.battle.addSoldier(this._blackImpermanence);
     }
     
     public createSoldier(soldier: Soldier): Soldier {
@@ -79,15 +77,27 @@ class MagicTower4 extends MagicTower implements SoldierCreator {
         return s;
     }
     
-    protected _shoot() {
-        if (this._skill2Level == 1) {
-            var fightTicks = 4;
-        } else if (this._skill2Level == 2) {
-            var fightTicks = 5;
-        } else {
-            var fightTicks = 6;
-        }        
-        Bullet.throw(this, this.getMuzzleX(), this.getMuzzleY(), this._bulletClaz, {force: 20, fightTicks: fightTicks * application.frameRate});
+    protected _fighting() {
+        super._fighting();
+        
+        if (this._skill1Ticks >= application.frameRate * 12 && this._skill1Level > 0 && this._enemy) {
+            this._skill1Ticks = 0;
+            
+            if (this._skill1Level == 1) {
+                var fightTicks = 4;
+            } else if (this._skill1Level == 2) {
+                var fightTicks = 5;
+            } else {
+                var fightTicks = 6;
+            }
+            
+            let bullet = <Bullet>application.pool.get("BlackWater",  {hitRaduis: this._guardRadius, force: 20, fightTicks: fightTicks * application.frameRate});
+            bullet.setShooter(this);
+            bullet.kill();
+            application.battle.addBullet(bullet);
+        }
+        
+        this._skill1Ticks ++;
     }
     
     public getMuzzleX(): number {
@@ -102,7 +112,7 @@ class MagicTower4 extends MagicTower implements SoldierCreator {
         var props = {guardX: target.getCenterX(), guardY: target.getBottomY()};
         
         if (target.getMaxHp() < 500) {
-            if (this._soldier.alive()){
+            if (this._blackImpermanence.alive()){
                 props.forceLow = 2;
                 props.forceHigh = 9;
                 props.arm = 20;
@@ -110,7 +120,7 @@ class MagicTower4 extends MagicTower implements SoldierCreator {
             
             var soldier = <Soldier>application.pools.get("Ghost", props);
         } else {
-            if (this._soldier.alive()){
+            if (this._blackImpermanence.alive()){
                 props.forceLow = 3;
                 props.forceHigh = 15;
                 props.arm = 40;
