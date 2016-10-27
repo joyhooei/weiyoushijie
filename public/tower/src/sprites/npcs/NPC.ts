@@ -58,12 +58,9 @@ class NPC extends MovableEntity {
         return this.getCenterY();
     }
 
-    public kill() {
-        this._hp.erase();
-        this._hp = null;
-
-        super.kill();
-    }
+	public getMaxHp(): number {
+		return this._hp.getMaxHp();
+	}
 
     public erase() {
         if (this._hp) {
