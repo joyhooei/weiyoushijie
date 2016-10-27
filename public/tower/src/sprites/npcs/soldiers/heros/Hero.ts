@@ -1,7 +1,4 @@
 class Hero extends Soldier {   
-    //技能数据
-    protected _skills: Skill[];
-
     //当前施展技能
     protected _curSkill: number;
 
@@ -14,10 +11,6 @@ class Hero extends Soldier {
         this._extraForce = 0;
         
         this._curSkill = 0;
-    }
-    
-    public setSkill(skills: Skill[]) {
-        this._skills = skills;
     }
 
     public getForce(): number {
