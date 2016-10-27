@@ -189,12 +189,4 @@ class Enemy extends NPC {
     		this._moveAgain();
     	}
     }
-
-	protected _act(): boolean {
-		if (this._state == EntityState.dying) {
-			return false;
-		} else {
-			return super._act();
-		}
-	}
 }
