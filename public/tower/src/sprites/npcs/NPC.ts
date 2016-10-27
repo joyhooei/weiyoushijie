@@ -29,8 +29,6 @@ class NPC extends MovableEntity {
 		this._hp.y = 0;
         this.addChild(this._hp);
         
-        this._skill = 0;
-        
         this._hitSpeed  = this._get(properties, "hitSpeed", Math.round(0.9 * application.frameRate));
         
 		let force:number  = this._get(properties, "force", 10);
@@ -38,7 +36,6 @@ class NPC extends MovableEntity {
         this._forceLow    = this._get(properties, "forceLow", force);
 
         this._armor  = this._get(properties, "armor", 0);
-		
 		this._magicArmor  = this._get(properties, "magicArmor", 0);
         
         this._resistance  = this._get(properties, "_resistance", 0);
