@@ -69,7 +69,7 @@ class Character {
             {name: 'SoldierTower4',  properties:{force: 12,guardRadius: 160, price: 530}},
             
             //炮塔
-            {name: 'BombTower1',  properties:{force: 20, guardRadius: 160, shootSpeed: 1.5* application.frameRate, price: 120, upgradePrice: 150}},
+            {name: 'BombTower1',  properties:{force: 20, guardRadius: 160, price: 120, upgradePrice: 150}},
             {name: 'BombTower2',  properties:{force: 30, guardRadius: 180, shootSpeed: 1.5* application.frameRate, price: 270, upgradePrice: 150}},
             {name: 'BombTower3',  properties:{force: 40, guardRadius: 200, shootSpeed: 1.5* application.frameRate, price: 320, upgradePrice: 230}},
             {name: 'BombTower4',  properties:{force: 30, guardRadius: 220, shootSpeed: 12* application.frameRate, price: 550}},
@@ -82,10 +82,10 @@ class Character {
             {name: 'ArrowTower5',  properties:{force: 24, guardRadius: 200, price: 550}},            
             
             //魔法塔
-            {name: 'MagicTower1',  properties:{force: 15, guardRadius: 160, price: 100, upgradePrice: 160}},
-            {name: 'MagicTower2',  properties:{force: 30, guardRadius: 180, price: 260, upgradePrice: 240}},
-            {name: 'MagicTower3',  properties:{force: 60, guardRadius: 250, price: 500, upgradePrice: 230}},
-            {name: 'MagicTower4',  properties:{force: 80, guardRadius: 220, price: 730}},         
+            {name: 'MagicTower1',  properties:{forceHigh:17, forceLow:9,  shootSpeed: 1.5* application.frameRate, guardRadius: 160, price: 100, upgradePrice: 160}},
+            {name: 'MagicTower2',  properties:{forceHigh:43, forceLow:23, shootSpeed: 1.5* application.frameRate, guardRadius: 180, price: 160, upgradePrice: 240}},
+            {name: 'MagicTower3',  properties:{forceHigh:74, forceLow:40, shootSpeed: 1.5* application.frameRate, guardRadius: 250, price: 240, upgradePrice: 300}},
+            {name: 'MagicTower4',  properties:{forceHigh:70, forceLow:20, shootSpeed: 0.8* application.frameRate, guardRadius: 220, price: 300}},         
 
             //enemies
             {name: 'Hogs',  properties:{bonus:10, hp:100, force:6, armor: 0, magicArmor: 0, cureSpeed:0, moveSpeed:1, idleTicks:0, dyingTicks:10}},
