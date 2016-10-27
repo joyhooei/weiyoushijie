@@ -26,7 +26,14 @@ class MagicTower4 extends MagicTower implements SoldierCreator {
         super.guard();
         
         if (!this._soldier) {
-            this._soldier = <Soldier>application.pool.get("BlackImpermanence", {guardX: this._guardX, guardY: this._guardY});
+            if (this._skill2Level == 1) {
+                var options = {hp: 250, arm: 40, forceHigh: 10, forLow: 5, guardX: this._guardX, guardY: this._guardY};
+            } else if (this._skill2Level == 1) {
+                var options = {hp: 300, arm: 45, forceHigh: 15, forLow: 10, guardX: this._guardX, guardY: this._guardY};
+            } else {
+                var options = {hp: 350, arm: 50, forceHigh: 20, forLow: 15, guardX: this._guardX, guardY: this._guardY};
+            }
+            this._soldier = <Soldier>application.pool.get("BlackImpermanence", options);
             this._soldier.setCenterX(this.getMuzzleX());
             this._soldier.setCenterY(this.getMuzzleY());
 
