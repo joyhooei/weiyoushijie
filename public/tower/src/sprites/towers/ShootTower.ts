@@ -3,6 +3,14 @@ class ShootTower extends Tower implements Shooter {
 
     protected _bulletClaz: string;
     
+    protected _hitSpeed: number;
+    
+    public initialize(properties:any) {
+        super.initialize(properties);
+        
+        this._hitSpeed   = this._get(properties, "hitSpeed", 60);
+    }
+   
     protected _guarding() {
         this._enemy = application.battle.findEnemy(this.getCenterX(), this.getCenterY(), this._guardRadius, [0, 1]);
         if (this._enemy) {
