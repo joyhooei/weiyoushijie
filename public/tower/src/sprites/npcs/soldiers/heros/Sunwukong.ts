@@ -24,7 +24,7 @@ class Sunwukong extends Hero {
     public initialize(properties:any) {
         super.initialize(properties);
        
-        this._skill1Ticks = this._hitSpeed;
+        this._skill0Ticks = this._hitSpeed;
         
         this._skill4 = 2;
         this._skill4Times = 0;
@@ -32,35 +32,35 @@ class Sunwukong extends Hero {
         
         this._skill5 = 1;
         this._skill5Ticks = 10 * application.frameRate;
-    }
-    
-    public setSkill(skills: Skill[]) {
-        for (let i = 0; i < skills.length; i++) {
-            let skill = skills[i];
+
+        for (let i = 0; i < application.skills.length; i++) {
+            let skill = application.skills[i];
             
-            if (skill.attrs.idx == 0) {
-                let level = skill.attrs.level - 1;
-        
-                this._hp.setMaxHp(level * 15 + 30 + this._hp.getMaxHp()); 
-                this._armor     += level * 5;
-                this._forceHigh += level * 2;
-                this._forceLow  += level;
-            } else if (skill.attrs.idx == 1) {
-                //"重击"
-                this._extraForce = 2 * skill.attrs.level;
-            } else if (skill.attrs.idx == 2) {
-                //"荆棘甲"
-                this._resistance = 10 +  (skill.attrs.level - 1) * 20;
-            } else if (skill.attrs.idx == 3) {
-                //"金刚不坏"
-                this._hp.setMaxHp((skill.attrs.level - 1) * 30 + this._hp.getMaxHp()); 
-            } else if (skill.attrs.idx == 4) {
-                //"腾云突击"
-                this._skill4 = 2 * skill.attrs.level;
-                this._skill4Ticks = (9 - skill.attrs.level) * application.frameRate;
-            } else if (skill.attrs.idx == 5) {
-                //"猴毛"
-                this._skill5 = skill.attrs.level;
+            if (skill.attrs.claz == this.getClaz()) {
+                if (skill.attrs.idx == 0) {
+                    let level = skill.attrs.level - 1;
+
+                    this._hp.setMaxHp(level * 15 + 30 + this._hp.getMaxHp()); 
+                    this._armor     += level * 5;
+                    this._forceHigh += level * 2;
+                    this._forceLow  += level;
+                } else if (skill.attrs.idx == 1) {
+                    //"重击"
+                    this._extraForce = 2 * skill.attrs.level;
+                } else if (skill.attrs.idx == 2) {
+                    //"荆棘甲"
+                    this._resistance = 10 +  (skill.attrs.level - 1) * 20;
+                } else if (skill.attrs.idx == 3) {
+                    //"金刚不坏"
+                    this._hp.setMaxHp((skill.attrs.level - 1) * 30 + this._hp.getMaxHp()); 
+                } else if (skill.attrs.idx == 4) {
+                    //"腾云突击"
+                    this._skill4 = 2 * skill.attrs.level;
+                    this._skill4Ticks = (9 - skill.attrs.level) * application.frameRate;
+                } else if (skill.attrs.idx == 5) {
+                    //"猴毛"
+                    this._skill5 = skill.attrs.level;
+                }
             }
         }
     }
