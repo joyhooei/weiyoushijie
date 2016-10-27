@@ -11,7 +11,7 @@ class Hero extends Soldier {
     public initialize(properties:any) {
         super.initialize(properties);
         
-        this._force = 0;
+        this._extraForce = 0;
         
         this._curSkill = 0;
     }
@@ -21,7 +21,7 @@ class Hero extends Soldier {
     }
 
     public getForce(): number {
-        return this._forceLow + Math.round(Math.random() * (this._forceHigh - this._forceLow)) + this._extraForce;
+        return super.getForce() + this._extraForce;
     }
 
 	protected _render(xDelta = 0, yDelta = 0, idx = 0): egret.DisplayObject {
