@@ -59,17 +59,21 @@ class MagicTower4 extends MagicTower implements SoldierCreator {
     }
     
     public targetKilled(target:NPC) {
+        var props = {guardX: target.getCenterX(), guardY: target.getBottomY()};
+        
         if (target.getMaxHp() < 500) {
-            var props = {};
             if (this._soldier.alive()){
-                props = {forceLow: 2, forceHigh: 9, arm: 20};
+                props.forceLow = 2;
+                props.forceHigh = 9;
+                props.arm = 20;
             }
             
             var soldier = <Soldier>application.pools.get("Ghost", props);
         } else {
-            var props = {};
             if (this._soldier.alive()){
-                props = {forceLow: 3, forceHigh: 15, arm: 20};
+                props.forceLow = 3;
+                props.forceHigh = 15;
+                props.arm = 40;
             }
             
             var soldier = <Soldier>application.pools.get("WhiteImpermanence", props);
