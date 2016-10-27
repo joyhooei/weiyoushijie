@@ -54,9 +54,9 @@ class BattleToolItem extends AbstractUI {
         if (this._tool.category == "nectar") {
 			application.battle.incLives(5);
         } else if (this._tool.category == "freeze") {
-			Bullet.shoot(x, y, x, y, "Freeze");
+			Bullet.throw(x, y, x, y, "Freeze");
         } else if (this._tool.category == "thunder") {
-			Bullet.shoot(x, y, x, y, "Thunder");
+			Bullet.throw(x, y, x, y, "Thunder");
         } else if (this._tool.category == "mammon") {
 			application.battle.incGolds(500);
         }
