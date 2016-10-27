@@ -148,6 +148,10 @@ class NPC extends MovableEntity {
 		if (this._state == EntityState.fighting) {
 			this._hitOpponents();
 			
+			//需要等打击时间到才再一次播放动画
+			return false;
+		} else if (this._state == EntityState.dying) {
+			//播放一次
 			return false;
 		} else {
 			return true;
