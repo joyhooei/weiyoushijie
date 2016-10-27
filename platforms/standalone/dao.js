@@ -350,18 +350,6 @@ module.exports = function() {
 				uid: 1
 			});
 			
-			//英雄、塔等的级别
-			self.addModel("Entity", {
-				customer_id: String,
-				claz: String,
-				level:  {type: Number, default: 1},
-				game: String
-			}, {
-				game: 1,
-				customer_id: 1,
-				claz: 1
-			});
-			
 			self.addModel("Game", {
 				version: String,
 				code_url: String,
@@ -484,7 +472,7 @@ module.exports = function() {
 			self.addModel("Skill", {
 				customer_id: String,
 				claz: String,
-				skill: Number,
+				skill:  {type: Number, default: 0},
 				level:  {type: Number, default: 1},
 				game: String
 			}, {
