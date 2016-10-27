@@ -8,14 +8,12 @@ class Magic4 extends Magic {
     }
 
     protected _hitTarget() {
-        if (this._target.active()) {
-            if (this._target.shootBy(this)) {
-                //target is dead
-                let ghost:Ghost = <Ghost>application.pools.get("Ghost");
-                ghost.setCenterX(this._target.getCenterX());
-                ghost.setBottomY(this._target.getBottomY());
-                application.battle.addSoldier(ghost);
-            }
+        if (this._target.active() && this._target.shootBy(this)) {
+            //target is dead
+            let ghost:Ghost = <Ghost>application.pools.get("Ghost");
+            ghost.setCenterX(this._target.getCenterX());
+            ghost.setBottomY(this._target.getBottomY());
+            application.battle.addSoldier(ghost);
         }
     }   
 }
