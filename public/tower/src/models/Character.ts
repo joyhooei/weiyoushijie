@@ -88,9 +88,9 @@ class Character {
             {name: 'MagicTower4',  properties:{forceHigh:70, forceLow:20, shootSpeed: 0.8* application.frameRate, guardRadius: 220, price: 300}},         
 
             //enemies
-            {name: 'Hogs',  properties:{bonus:10, hp:100, force:6, armor: 0, magicArmor: 0, cureSpeed:0, moveSpeed:1, idleTicks:0, dyingTicks:10}},
-            {name: 'Rhino', properties:{bonus:10, hp:100, force:6, armor: 0, magicArmor: 0, cureSpeed:0, moveSpeed:1, idleTicks:0, dyingTicks:10}},
-            {name: 'Wolf',  properties:{bonus:10, hp:100, force:6, armor: 0, magicArmor: 0, cureSpeed:0, moveSpeed:1, idleTicks:0, dyingTicks:10}},
+            {name: 'Hogs',  properties:{bonus:10, hp:100, force:6, armor: 0, magicArmor: 0, cureSpeed:0, moveSpeed:1, idleTicks:0, dyingTicks:application.frameRate}},
+            {name: 'Rhino', properties:{bonus:10, hp:100, force:6, armor: 0, magicArmor: 0, cureSpeed:0, moveSpeed:1, idleTicks:0, dyingTicks:application.frameRate}},
+            {name: 'Wolf',  properties:{bonus:10, hp:100, force:6, armor: 0, magicArmor: 0, cureSpeed:0, moveSpeed:1, idleTicks:0, dyingTicks:application.frameRate}},
 
             //bullets
             {name: 'Fireball',  properties:{force:500, hitType:HitType.normal, hitRadius:50, moveSpeed:5, idleTicks:0, fightingTicks: 10, dyingTicks:0}},
