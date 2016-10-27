@@ -48,6 +48,6 @@ class ShootTower extends Tower implements Shooter {
     }
     
     protected _shoot() {
-        Bullet.shoot(this, this._enemy, this._bulletClaz, {force: this._force});
+        Bullet.shoot(this, this._enemy, this._bulletClaz, {force: this.getForce()});
     }
 }
