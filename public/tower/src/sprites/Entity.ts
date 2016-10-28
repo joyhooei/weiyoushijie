@@ -348,18 +348,25 @@ class Entity extends egret.Sprite {
 		return !(x1 > x2 + width2 ||  x1 + width1 < x2 || y1 > y2 + height2 || y1 + height1 < y2);		
 	}
     
-    protected _direction4(x:number, y:number):EntityDirection {
-        return Entity.direction4(this.x, this.y, x, y);
+    protected _direction(x:number, y:number):EntityDirection {
+        return Entity.direction8(this.x, this.y, x, y);
     }
     
-    public static direction4(x1:number, y1:number, x2:number, y2:number):EntityDirection {
-        let angels = [45, 135, 225, 315, 360];
-        let directions = [EntityDirection.east, EntityDirection.north, EntityDirection.west, EntityDirection.south, EntityDirection.east];
-        
-        return Entity.direction(x1, y1, x2, y2, angels, directions);
+    public static direction4(x1:number, y1:number, x2:number, y2:number): EntityDirection {
+        return Entity.direction(
+							x1, y1, x2, y2, 
+							[45, 135, 225, 315, 360], 
+							[EntityDirection.east, EntityDirection.north, EntityDirection.west, EntityDirection.south, EntityDirection.east]);
     }
     
-    public static direction(x1:number, y1:number, x2:number, y2:number, angels:number[], directions:EntityDirection[]):EntityDirection {
+    public static direction8(x1:number, y1:number, x2:number, y2:number): EntityDirection {
+        return Entity.direction(
+							x1, y1, x2, y2, 
+							[22.5, 67.5, 112.5, 157.5, 202.5, 247.5, 292.5, 337.5, 360], 
+							[EntityDirection.east, EntityDirection.northeast, EntityDirection.north, EntityDirection.northwest, EntityDirection.west, EntityDirection.southwest, EntityDirection.south, EntityDirection.southeast, EntityDirection.east ]);
+    }
+	
+    private static direction(x1:number, y1:number, x2:number, y2:number, angels:number[], directions:EntityDirection[]):EntityDirection {
         let dx: number = x2 - x1;
         let dy: number = y1 - y2;
         let angel = Math.atan2(dy, dx) * 57.29578049044297; //180 / Math.PI;
@@ -379,7 +386,6 @@ class Entity extends egret.Sprite {
 
 		return directions[direction];
 	}
-
 
 	public static stateName(state:EntityState): string {
 		let states = ['idle', 'building', 'moving', 'guarding', 'fighting', 'dying', 'dead'];
