@@ -5,8 +5,6 @@ class UpgradeTowerUI extends AbstractUI{
 	private _nextLevelTower1: Tower;
 	private _nextLevelTower2: Tower;
 
-	private imgBg: eui.Image;
-
     public imgSell: eui.Image;
     public lblSellPrice: eui.Label;
 
@@ -95,8 +93,6 @@ class UpgradeTowerUI extends AbstractUI{
 		} else {
 			this.imgFlag.visible = false;
 		}
-				
-		this.imgBg.source = "towerselect2_png";
 
 		if (this._nextLevelTower1) {
 			if (this._nextLevelTower2) {				
