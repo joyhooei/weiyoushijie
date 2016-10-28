@@ -25,22 +25,10 @@ class MagicTower4 extends MagicTower implements SoldierCreator {
         this._blackImpermanence = null;
     }
     
-    public upgrade(skill:number) {
+    public upgradeSkill(skill:number) {
         if (skill == 1) {
-            if (this._skill1Level == 0) {
-                var price = 325;
-            } else {
-                var price = 200;
-            }
-            
             this._skill1Level ++;
         } else {
-            if (this._skill1Level == 0) {
-                var price = 300;
-            } else {
-                var price = 150;
-            }
-            
             this._skill2Level ++;
             
             if (this._blackImpermanence) {
@@ -50,7 +38,25 @@ class MagicTower4 extends MagicTower implements SoldierCreator {
             this._addBlackImpermanence();
         }
         
-        application.battle.incGolds(-price);        
+        application.battle.incGolds(-this.getSkillUpgradePrice(skill));        
+    }
+    
+    public getSkillUpgradePrice(skill:number): number {
+        if (skill == 1) {
+            if (this._skill1Level == 0) {
+                var price = 325;
+            } else {
+                var price = 200;
+            }
+        } else {
+            if (this._skill1Level == 0) {
+                var price = 300;
+            } else {
+                var price = 150;
+            }
+        }
+        
+        return price;
     }
     
     private _addBlackImpermanence() {
