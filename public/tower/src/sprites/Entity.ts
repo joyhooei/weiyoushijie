@@ -349,7 +349,7 @@ class Entity extends egret.Sprite {
 	}
     
     protected _direction(x:number, y:number):EntityDirection {
-        return Entity.direction8(this.x, this.y, x, y);
+        return Entity.direction4(this.x, this.y, x, y);
     }
     
     public static direction4(x1:number, y1:number, x2:number, y2:number): EntityDirection {
