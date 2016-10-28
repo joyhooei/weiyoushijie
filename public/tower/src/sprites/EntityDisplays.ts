@@ -65,26 +65,35 @@ class EntityDisplays {
     }
 
     public getDisplay(direction:EntityDirection, state: EntityState, index = 0): egret.DisplayObject {
-        let scaleX:number = 1;
-        let scaleY:number = 1;
+        let directions = [];
+        directions[EntityDirection.north]     = [EntityDirection.north, EntityDirection.east, EntityDirection.west];
+        directions[EntityDirection.northeast] = [EntityDirection.north, EntityDirection.east, EntityDirection.west];
+        directions[EntityDirection.east]      = [EntityDirection.east, EntityDirection.west, EntityDirection.north, EntityDirection.south];
+        directions[EntityDirection.southeast] = [EntityDirection.south, EntityDirection.east, EntityDirection.west];
+        directions[EntityDirection.south]     = [EntityDirection.south, EntityDirection.east, EntityDirection.west];
+        directions[EntityDirection.southwest] = [EntityDirection.south, EntityDirection.west, EntityDirection.east];
+        directions[EntityDirection.west]      = [EntityDirection.west, EntityDirection.east, EntityDirection.north, EntityDirection.south];
+        directions[EntityDirection.northwest] = [EntityDirection.north, EntityDirection.west, EntityDirection.east];
         
-        let idx:number = (direction << 3) + state;
-        if (!this._displays[idx]) {
-            //是否有镜像的资源
-            idx = (((direction + 4) % 8) << 3) + state;
-            if (!this._displays[idx]) {
-                idx = state;
-                if (!this._displays[idx]) {
-                    //没有当前方向的资源，也没有镜像资源，则显示缺省资源
-                    return this._defaultDisplay;
-                }
-            } else {
-                if (direction == EntityDirection.east || direction == EntityDirection.west) {
+        let idx:number = 0;
+        let scaleX:number = 1;
+
+        for(let i = 0; i < directions[direction].length; i++) {
+            let newDirection = directions[direction][i];
+            
+            idx = (newDirection << 3) + state;
+            if (this._displays[idx]) {
+                if ((newDirection == EntityDirection.west && direction >= EntityDirection.northeast && direction <= EntityDirection.southeast) || 
+                    (newDirection == EntityDirection.east && direction >= EntityDirection.southwest && direction <= EntityDirection.northwest))
                     scaleX = -1;
-                } else {
-                    scaleY = -1;
                 }
+
+                break;
             }
+        }
+        if (!this._displays[idx]) {
+            //没有资源，则显示缺省资源
+            return this._defaultDisplay;
         }
         
         if (!this._displays[idx][index]) {
@@ -92,10 +101,7 @@ class EntityDisplays {
         }
         
         let display:egret.DisplayObject  = this._displays[idx][index];
-
         display.scaleX = scaleX;
-        display.scaleY = scaleY;
-
         return display;
     }
     
