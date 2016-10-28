@@ -133,4 +133,8 @@ class MagicTower4 extends MagicTower implements SoldierCreator {
         soldier.setBottomY(target.getBottomY());
         application.battle.addSoldier(soldier);
     }
+    
+	protected _showMenu(parent: AbstractUI, x: number, y: number) {
+        this.show(new UpgradeTowerSkillUI(this._base), parent, x, y);
+	}
 }
