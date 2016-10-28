@@ -99,7 +99,7 @@ var Soldier = (function (_super) {
     p.moveTo = function (x, y) {
         var x1 = x - (this.width >> 1);
         var y1 = y - this.height;
-        this._turn(this._direction4(x, y));
+        this._turn(this._directionAt(x, y));
         if (this._computeSteps(this.x, this.y, x1, y1)) {
             this.move();
         }

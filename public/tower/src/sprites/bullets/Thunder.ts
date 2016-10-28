@@ -4,7 +4,7 @@ class Thunder extends Bullet {
     public constructor() {
         super();
         
-        this.addAllClips("thunder_fighting", "fighting");        
+        this.addClip("thunder_fighting", "east-fighting");        
     }
     
     public initialize(properties:any) {

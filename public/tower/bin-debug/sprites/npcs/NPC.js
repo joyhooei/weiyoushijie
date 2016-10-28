@@ -84,7 +84,7 @@ var NPC = (function (_super) {
         return this.active() && this._altitude in altitudes && this.within(x, y, radius);
     };
     p._face = function (npc) {
-        this._turn(this._direction4(npc.x, npc.y));
+        this._turn(this._directionAt(npc.x, npc.y));
     };
     p._readyFight = function () {
         return this._ticks % this._hitSpeed == 0;

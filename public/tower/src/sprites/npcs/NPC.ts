@@ -118,7 +118,7 @@ class NPC extends MovableEntity {
     }
 
     protected _face(npc:NPC) {
-        this._turn(this._direction4(npc.x, npc.y));
+        this._turn(this._directionAt(npc.x, npc.y));
     }
     
     protected _readyFight() {

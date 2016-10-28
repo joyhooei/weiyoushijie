@@ -122,7 +122,7 @@ class HomeUI extends AbstractUI{
                         clearInterval(interval);
                     } else {
                         t = 0;
-                        bezier = this._createCubicBezier(path, i);
+                        bezier = self._createCubicBezier(path, i);
                     }
                 }
             }, 100);
@@ -132,7 +132,7 @@ class HomeUI extends AbstractUI{
     private _createCubicBezier(path, i): CubicBezier {
         let cps = CubicBezier.getCtrlPoints(path, i);
         return new CubicBezier([path[i], cps[0], cps[1], path[i + 1]]);
-    }        
+    }
 
     private _drawPathPoint(bezier:CubicBezier, t: number, color:number) {
        let last = bezier.get(t);

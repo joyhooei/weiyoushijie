@@ -2,9 +2,9 @@ var Magic4 = (function (_super) {
     __extends(Magic4, _super);
     function Magic4() {
         _super.call(this);
-        this.addAllBitmaps("magic_moving_png", "moving")
-            .addAllClips("magic4_fighting", "fighting")
-            .addAllClips("magic4_building", "building");
+        this.addBitmap("magic_moving_png", "east-moving")
+            .addClip("magic4_fighting", "east-fighting")
+            .addClip("magic4_building", "east-building");
     }
     var d = __define,c=Magic4,p=c.prototype;
     return Magic4;

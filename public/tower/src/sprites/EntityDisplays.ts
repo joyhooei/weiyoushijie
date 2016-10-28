@@ -17,7 +17,7 @@ class EntityDisplays {
         let bm:egret.Bitmap = new egret.Bitmap();
         bm.texture = RES.getRes(name);
         
-        this._addAll(action, bm);
+        this._addAll(bm, action);
         
         return bm;
     }

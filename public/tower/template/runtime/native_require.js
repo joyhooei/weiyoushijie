@@ -187,6 +187,7 @@ var game_file_list = [
 	"bin-debug/views/ToolItem.js",
 	"bin-debug/views/ToolUI.js",
 	"bin-debug/views/TrueLoadingUI.js",
+	"bin-debug/views/UpgradeTowerSkillUI.js",
 	"bin-debug/views/UpgradeTowerUI.js",
 	"bin-debug/views/VipUI.js",
 	"bin-debug/views/WinUI.js",

@@ -101,7 +101,7 @@ var HomeUI = (function (_super) {
                     }
                     else {
                         t_1 = 0;
-                        bezier_1 = this._createCubicBezier(path, i_1);
+                        bezier_1 = self._createCubicBezier(path, i_1);
                     }
                 }
             }, 100);

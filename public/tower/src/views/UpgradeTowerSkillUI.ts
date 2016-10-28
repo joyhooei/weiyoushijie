@@ -66,7 +66,7 @@ class UpgradeTowerSkillUI extends AbstractUI{
                 this.imgUpgrade2.source = "";
                 break;
                 
-            case Bomb4Tower:
+            case "Bomb4Tower":
                 this.imgUpgrade1.source = "";
                 this.imgUpgrade2.source = "";
                 break;

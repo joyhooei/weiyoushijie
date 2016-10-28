@@ -13,7 +13,20 @@ var MagicTower4 = (function (_super) {
         this._skill2Level = 0;
         this._blackImpermanence = null;
     };
-    p.upgrade = function (skill) {
+    p.upgradeSkill = function (skill) {
+        if (skill == 1) {
+            this._skill1Level++;
+        }
+        else {
+            this._skill2Level++;
+            if (this._blackImpermanence) {
+                this._blackImpermanence.erase();
+            }
+            this._addBlackImpermanence();
+        }
+        application.battle.incGolds(-this.getSkillUpgradePrice(skill));
+    };
+    p.getSkillUpgradePrice = function (skill) {
         if (skill == 1) {
             if (this._skill1Level == 0) {
                 var price = 325;
@@ -21,7 +34,6 @@ var MagicTower4 = (function (_super) {
             else {
                 var price = 200;
             }
-            this._skill1Level++;
         }
         else {
             if (this._skill1Level == 0) {
@@ -30,13 +42,8 @@ var MagicTower4 = (function (_super) {
             else {
                 var price = 150;
             }
-            this._skill2Level++;
-            if (this._blackImpermanence) {
-                this._blackImpermanence.erase();
-            }
-            this._addBlackImpermanence();
         }
-        application.battle.incGolds(-price);
+        return price;
     };
     p._addBlackImpermanence = function () {
         if (this._skill2Level == 1) {
@@ -106,6 +113,9 @@ var MagicTower4 = (function (_super) {
         soldier.setCenterX(target.getCenterX());
         soldier.setBottomY(target.getBottomY());
         application.battle.addSoldier(soldier);
+    };
+    p._showMenu = function (parent, x, y) {
+        application.showUI(new UpgradeTowerSkillUI(this._base), parent, x, y);
     };
     return MagicTower4;
 }(MagicTower));

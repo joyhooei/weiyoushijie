@@ -9,12 +9,7 @@ var AbstractUI = (function (_super) {
     p._uiCompHandler = function () {
         var self = this;
         Utility.delay(function () {
-            try {
-                self.onRefresh();
-            }
-            catch (error) {
-                console.error('_uiCompHandler onRefresh failed ' + error.message);
-            }
+            self.onRefresh();
         }, 10);
     };
     p.refresh = function () {

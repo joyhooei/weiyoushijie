@@ -2,9 +2,9 @@ class Bomb3 extends Bomb {
     public constructor() {
         super();
         
-        this.addAllBitmaps("bomb3_moving_png", "moving")
-            .addAllClips("bomb_fighting", "fighting")
-            .addAllBitmaps("bomb3_dying_png", "dying");  
+        this.addBitmap("bomb3_moving_png", "east-moving")
+            .addClip("bomb_fighting", "east-fighting")
+            .addBitmap("bomb3_dying_png", "east-dying");  
     }
 
     protected _fighting() {

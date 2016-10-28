@@ -1,27 +1,14 @@
 var EntityDisplays = (function () {
     function EntityDisplays() {
         this._displays = [];
+        this._suitablities = [];
         this._defaultDisplay = null;
     }
     var d = __define,c=EntityDisplays,p=c.prototype;
     p.addBitmap = function (name, action) {
         var bm = new egret.Bitmap();
         bm.texture = RES.getRes(name);
-        if (action) {
-            if (egret.getQualifiedClassName(action) == "Array") {
-                for (var i = 0; i < action.length; i++) {
-                    var idx = this._actionToIndex(action[i]);
-                    this._displays[idx] = [bm];
-                }
-            }
-            else {
-                var idx = this._actionToIndex(action);
-                this._displays[idx] = [bm];
-            }
-        }
-        else {
-            this._defaultDisplay = bm;
-        }
+        this._addAll(bm, action);
         return bm;
     };
     p.addClip = function (name, action) {
@@ -31,63 +18,67 @@ var EntityDisplays = (function () {
         var clip = new egret.MovieClip();
         var mcd = mcf.generateMovieClipData(name);
         clip.movieClipData = mcd;
+        this._addAll(clip, action);
+        return clip;
+    };
+    p._addAll = function (display, action) {
         if (action) {
             if (egret.getQualifiedClassName(action) == "Array") {
                 for (var i = 0; i < action.length; i++) {
-                    var idx = this._actionToIndex(action[i]);
-                    if (this._displays[idx]) {
-                        this._displays[idx].push(clip);
-                    }
-                    else {
-                        this._displays[idx] = [clip];
-                    }
+                    this._addOne(display, this._actionToIndex(action[i]));
                 }
             }
             else {
-                var idx = this._actionToIndex(action);
-                if (this._displays[idx]) {
-                    this._displays[idx].push(clip);
-                }
-                else {
-                    this._displays[idx] = [clip];
-                }
+                this._addOne(display, this._actionToIndex(action));
             }
         }
         else {
-            this._defaultDisplay = clip;
+            this._defaultDisplay = display;
         }
-        return clip;
+    };
+    p._addOne = function (display, idx) {
+        var suitablities = [];
+        suitablities[EntityDirection.north] = [5, 3, 1, 0, 0, 0, 1, 3];
+        suitablities[EntityDirection.east] = [1, 2, 5, 2, 1, -2, -4, -2];
+        suitablities[EntityDirection.south] = [0, 0, 1, 3, 5, 3, 1, 0];
+        suitablities[EntityDirection.west] = [1, -2, -4, -2, 1, 2, 5, 2];
+        var direction = idx >> 3;
+        var state = idx % 8;
+        for (var dir = EntityDirection.north; dir <= EntityDirection.northwest; dir++) {
+            var i = (dir << 3) + state;
+            if (!this._suitablities[i]) {
+                this._suitablities[i] = 0;
+            }
+            var suit = suitablities[direction][dir];
+            if (Math.abs(suit) > Math.abs(this._suitablities[i])) {
+                this._displays[i] = [display];
+                this._suitablities[i] = suit;
+            }
+            else if (Math.abs(suit) == Math.abs(this._suitablities[i])) {
+                if (this._displays[i]) {
+                    this._displays[i].push(display);
+                }
+                else {
+                    this._displays[i] = [display];
+                }
+                this._suitablities[i] = suit;
+            }
+        }
     };
     p.getDisplay = function (direction, state, index) {
         if (index === void 0) { index = 0; }
-        var scaleX = 1;
-        var scaleY = 1;
         var idx = (direction << 3) + state;
         if (!this._displays[idx]) {
-            //是否有镜像的资源
-            idx = (((direction + 4) % 8) << 3) + state;
-            if (!this._displays[idx]) {
-                idx = state;
-                if (!this._displays[idx]) {
-                    //没有当前方向的资源，也没有镜像资源，则显示缺省资源
-                    return this._defaultDisplay;
-                }
-            }
-            else {
-                if (direction == EntityDirection.east || direction == EntityDirection.west) {
-                    scaleX = -1;
-                }
-                else {
-                    scaleY = -1;
-                }
-            }
+            //没有资源，则显示缺省资源
+            return this._defaultDisplay;
         }
         if (!this._displays[idx][index]) {
             index = 0;
         }
         var display = this._displays[idx][index];
-        display.scaleX = scaleX;
-        display.scaleY = scaleY;
+        if (this._suitablities[idx] < 0) {
+            display.scaleX = -1;
+        }
         return display;
     };
     p._actionToIndex = function (action) {

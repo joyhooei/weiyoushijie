@@ -4,8 +4,8 @@ class BlackWater extends Magic {
     public constructor() {
         super();
         
-        this.addAllClips("blackwater_fighting", "fighting")
-            .addAllClips("blackwater_building", "building");
+        this.addClip("blackwater_fighting", "east-fighting")
+            .addClip("blackwater_building", "east-building");
     }
     
     public initialize(properties:any) {

@@ -11,11 +11,7 @@ class AbstractUI extends eui.Component{
         var self = this;
 
         Utility.delay(function(){
-            try {
-                self.onRefresh();
-            } catch(error) {
-                console.error('_uiCompHandler onRefresh failed ' + error.message);
-            }
+            self.onRefresh();
         }, 10);
     }
     

@@ -152,7 +152,7 @@ class Enemy extends NPC {
         let p1 = this._paths[this._path];
 
         this._computeSteps(p0[0], p0[1], p1[0], p1[1]);
-        this._turn(this._direction4(p1[0], p1[1]));
+        this._turn(this._directionAt(p1[0], p1[1]));
     }
 
     public kill() {
@@ -163,7 +163,7 @@ class Enemy extends NPC {
     
     protected _moveAgain() {
     	//格斗结束后，继续行走需要转向
-    	this._turn(this._direction4(this._paths[this._path][0], this._paths[this._path][1]));
+    	this._turn(this._directionAt(this._paths[this._path][0], this._paths[this._path][1]));
     	
     	this.move();
     }

@@ -2,7 +2,7 @@ class Freeze extends Bullet {
     public constructor() {
         super();
         
-        this.addAllClips("freeze_dying", "fighting");        
+        this.addClip("freeze_dying", "east-fighting");        
     }
     
     protected _hitTarget() {

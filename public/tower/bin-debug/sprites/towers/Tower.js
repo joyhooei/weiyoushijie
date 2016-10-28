@@ -35,6 +35,13 @@ var Tower = (function (_super) {
     p.getUpgradePrice = function () {
         return this._upgradePrice;
     };
+    p.getSkillUpgradePrice = function (skill) {
+        console.error("upgrade skill not support in " + this.getClaz());
+        return 0;
+    };
+    p.upgradeSkill = function (skill) {
+        console.error("upgrade skill not support in " + this.getClaz());
+    };
     p.getForce = function () {
         return this._forceLow + Math.round(Math.random() * (this._forceHigh - this._forceLow));
     };
@@ -56,13 +63,16 @@ var Tower = (function (_super) {
             this.guard();
         }
     };
+    p._showMenu = function (parent, x, y) {
+        application.showUI(new UpgradeTowerUI(this._base), parent, x, y);
+    };
     p.select = function (again) {
         if (again) {
             this.deselect();
             return false;
         }
         else {
-            application.showUI(new UpgradeTowerUI(this._base), application.battle.getUI(), this.getCenterX(), this.getCenterY());
+            this._showMenu(application.battle.getUI(), this.getCenterX(), this.getCenterY());
             return true;
         }
     };

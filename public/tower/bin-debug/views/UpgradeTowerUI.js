@@ -68,7 +68,6 @@ var UpgradeTowerUI = (function (_super) {
         else {
             this.imgFlag.visible = false;
         }
-        this.imgBg.source = "towerselect2_png";
         if (this._nextLevelTower1) {
             if (this._nextLevelTower2) {
                 this.lblUpgradePrice1.text = this._nextLevelTower1.getPrice().toString();

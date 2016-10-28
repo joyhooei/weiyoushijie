@@ -2,9 +2,9 @@ class Soldier2 extends Soldier {
     public constructor() {
         super();
         
-        this.addClip("soldier2_east_fighting", ["east-fighting", "north-fighting", "south-fighting"])
-                .addClip("soldier2_east_moving", ["east-moving", "north-moving", "south-moving"])
-                .addAllClips("soldier2_guarding", "guarding")
-                .addAllClips("soldier2_dying", "dying");
+        this.addClip("soldier2_east_fighting", "east-fighting")
+                .addClip("soldier2_east_moving", "east-moving")
+                .addClip("soldier2_guarding", "east-guarding")
+                .addClip("soldier2_dying", "east-dying");
     }
 }

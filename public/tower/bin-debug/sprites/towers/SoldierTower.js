@@ -87,7 +87,7 @@ var SoldierTower = (function (_super) {
         application.battle.addSoldier(s);
     };
     p.getMuzzleX = function () {
-        var direction = this._direction4(this._guardX, this._guardY);
+        var direction = Entity.direction4(this.x, this.y, this._guardX, this._guardY);
         switch (direction) {
             case EntityDirection.east:
                 return this.x + this.width;
@@ -99,7 +99,7 @@ var SoldierTower = (function (_super) {
         }
     };
     p.getMuzzleY = function () {
-        var direction = this._direction4(this._guardX, this._guardY);
+        var direction = Entity.direction4(this.x, this.y, this._guardX, this._guardY);
         switch (direction) {
             case EntityDirection.east:
             case EntityDirection.west:

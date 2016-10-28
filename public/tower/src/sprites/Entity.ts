@@ -201,15 +201,6 @@ class Entity extends egret.Sprite {
 
 		return this;
 	}
-	
-	public addAllBitmaps(name:string, action:string): Entity {
-		this.addBitmap(name, "east-" + action);
-		this.addBitmap(name, "west-" + action);
-		this.addBitmap(name, "north-" + action);
-		this.addBitmap(name, "south-" + action);
-		
-		return this;
-	}
 
 	public addClip(name:string, action?): Entity {
 		let clip = this._displays.addClip(name, action);
@@ -219,15 +210,6 @@ class Entity extends egret.Sprite {
 			this.height = clip.height;
 		}
 
-		return this;
-	}
-	
-	public addAllClips(name:string, action:string): Entity {
-		this.addClip(name, "east-" + action);
-		this.addClip(name, "west-" + action);
-		this.addClip(name, "north-" + action);
-		this.addClip(name, "south-" + action);
-		
 		return this;
 	}
     
@@ -348,10 +330,10 @@ class Entity extends egret.Sprite {
 		return !(x1 > x2 + width2 ||  x1 + width1 < x2 || y1 > y2 + height2 || y1 + height1 < y2);		
 	}
     
-    protected _direction(x:number, y:number):EntityDirection {
+    protected _directionAt(x:number, y:number):EntityDirection {
         return Entity.direction8(this.x, this.y, x, y);
     }
-    
+
     public static direction4(x1:number, y1:number, x2:number, y2:number): EntityDirection {
         return Entity.direction(
 							x1, y1, x2, y2, 

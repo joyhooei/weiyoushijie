@@ -2,8 +2,8 @@ var Bomb2 = (function (_super) {
     __extends(Bomb2, _super);
     function Bomb2() {
         _super.call(this);
-        this.addAllBitmaps("bomb2_moving_png", "moving")
-            .addAllClips("bomb_fighting", "fighting");
+        this.addBitmap("bomb2_moving_png", "east-moving")
+            .addClip("bomb_fighting", "east-fighting");
     }
     var d = __define,c=Bomb2,p=c.prototype;
     return Bomb2;

@@ -114,7 +114,7 @@ class SoldierTower extends Tower implements SoldierCreator {
     }
     
     public getMuzzleX(): number {
-        let direction = this._direction4(this._guardX, this._guardY);
+        let direction = Entity.direction4(this.x, this.y, this._guardX, this._guardY);
         switch(direction){
             case EntityDirection.east:
                 return this.x + this.width;
@@ -129,7 +129,7 @@ class SoldierTower extends Tower implements SoldierCreator {
     }
 
     public getMuzzleY(): number {
-        let direction = this._direction4(this._guardX, this._guardY);
+        let direction = Entity.direction4(this.x, this.y, this._guardX, this._guardY);
         switch(direction){
             case EntityDirection.east:
             case EntityDirection.west:

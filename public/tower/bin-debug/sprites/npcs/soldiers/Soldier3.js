@@ -2,10 +2,10 @@ var Soldier3 = (function (_super) {
     __extends(Soldier3, _super);
     function Soldier3() {
         _super.call(this);
-        this.addClip("soldier3_east_fighting", ["east-fighting", "north-fighting", "south-fighting"])
-            .addClip("soldier3_east_moving", ["east-moving", "north-moving", "south-moving"])
-            .addAllClips("soldier3_guarding", "guarding")
-            .addAllClips("soldier3_dying", "dying");
+        this.addClip("soldier3_east_fighting", "east-fighting")
+            .addClip("soldier3_east_moving", "east-moving")
+            .addClip("soldier3_guarding", "east-guarding")
+            .addClip("soldier3_dying", "east-dying");
     }
     var d = __define,c=Soldier3,p=c.prototype;
     return Soldier3;

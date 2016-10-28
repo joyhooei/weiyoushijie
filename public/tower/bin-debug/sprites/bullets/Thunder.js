@@ -2,7 +2,7 @@ var Thunder = (function (_super) {
     __extends(Thunder, _super);
     function Thunder() {
         _super.call(this);
-        this.addAllClips("thunder_fighting", "fighting");
+        this.addClip("thunder_fighting", "east-fighting");
     }
     var d = __define,c=Thunder,p=c.prototype;
     p.initialize = function (properties) {

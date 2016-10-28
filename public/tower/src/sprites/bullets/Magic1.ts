@@ -2,8 +2,8 @@ class Magic1 extends Magic {
     public constructor() {
         super();
         
-        this.addAllBitmaps("magic_moving_png", "moving")
-            .addAllClips("magic1_fighting", "fighting")
-            .addAllClips("magic1_building", "building");
+        this.addBitmap("magic_moving_png", "east-moving")
+            .addClip("magic1_fighting", "east-fighting")
+            .addClip("magic1_building", "east-building");
     }
 }
