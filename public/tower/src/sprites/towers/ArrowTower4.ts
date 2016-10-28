@@ -4,7 +4,7 @@ class ArrowTower4 extends ArrowTower {
         
         this.addBitmap("arrowtower4_png");
         
-        this._bulletClaz = "Arrow1";
+        this._bulletClaz = "Arrow4";
     }
 
     public getMuzzleX(): number {
