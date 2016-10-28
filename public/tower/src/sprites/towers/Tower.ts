@@ -64,6 +64,16 @@ class Tower extends Entity implements SelectableEntity {
 		return this._upgradePrice;
 	}
 	
+	public getSkillUpgradePrice(skill:number): number {
+		console.error("upgrade skill not support in " + this.claz());
+		
+		return 0;
+	}
+	
+	public upgradeSkill(skill:number) {
+		console.error("upgrade skill not support in " + this.claz());
+	}
+	
     public getForce(): number {
     	return this._forceLow + Math.round(Math.random() * (this._forceHigh - this._forceLow));
     }
