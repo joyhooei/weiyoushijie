@@ -3,8 +3,12 @@ class EntityDisplays {
 
     private _defaultDisplay: egret.DisplayObject;
 
+    private _suitablities: number[];
+
     public constructor() {
         this._displays = [];
+        
+        this._suitablities = [];
 
         this._defaultDisplay = null;
     }
@@ -13,19 +17,7 @@ class EntityDisplays {
         let bm:egret.Bitmap = new egret.Bitmap();
         bm.texture = RES.getRes(name);
         
-        if (action) {
-            if (egret.getQualifiedClassName(action) == "Array"){
-                for (let i = 0; i < action.length; i++) {
-                    let idx = this._actionToIndex(action[i]);
-                    this._displays[idx] = [bm];
-                }
-            } else {
-                let idx = this._actionToIndex(action);
-                this._displays[idx] = [bm];                
-            }
-        } else {
-            this._defaultDisplay = bm;
-        }
+        this._addAll(action, bm);
         
         return bm;
     }
@@ -39,58 +31,61 @@ class EntityDisplays {
         let mcd: egret.MovieClipData = mcf.generateMovieClipData(name);
         clip.movieClipData = mcd;
         
-        if (action) {
-            if (egret.getQualifiedClassName(action) == "Array"){
-                for (let i = 0; i < action.length; i++) {
-                    let idx = this._actionToIndex(action[i]);
-                    if (this._displays[idx]) {
-                        this._displays[idx].push(clip);
-                    } else {
-                        this._displays[idx] = [clip];
-                    }
-                }
-           } else {
-                let idx = this._actionToIndex(action);
-                if (this._displays[idx]) {
-                    this._displays[idx].push(clip);
-                } else {
-                    this._displays[idx] = [clip];
-                }
-            }
-        } else {
-            this._defaultDisplay = clip;
-        }
+        this._addAll(clip, action);
         
         return clip;
     }
-
-    public getDisplay(direction:EntityDirection, state: EntityState, index = 0): egret.DisplayObject {
-        let directions = [];
-        directions[EntityDirection.north]     = [EntityDirection.north, EntityDirection.east, EntityDirection.west];
-        directions[EntityDirection.northeast] = [EntityDirection.north, EntityDirection.east, EntityDirection.west];
-        directions[EntityDirection.east]      = [EntityDirection.east, EntityDirection.west, EntityDirection.north, EntityDirection.south];
-        directions[EntityDirection.southeast] = [EntityDirection.south, EntityDirection.east, EntityDirection.west];
-        directions[EntityDirection.south]     = [EntityDirection.south, EntityDirection.east, EntityDirection.west];
-        directions[EntityDirection.southwest] = [EntityDirection.south, EntityDirection.west, EntityDirection.east];
-        directions[EntityDirection.west]      = [EntityDirection.west, EntityDirection.east, EntityDirection.north, EntityDirection.south];
-        directions[EntityDirection.northwest] = [EntityDirection.north, EntityDirection.west, EntityDirection.east];
         
-        let idx:number = 0;
-        let scaleX:number = 1;
-
-        for(let i = 0; i < directions[direction].length; i++) {
-            let newDirection = directions[direction][i];
-            
-            idx = (newDirection << 3) + state;
-            if (this._displays[idx]) {
-                if ((newDirection == EntityDirection.west && direction >= EntityDirection.northeast && direction <= EntityDirection.southeast) || 
-                    (newDirection == EntityDirection.east && direction >= EntityDirection.southwest && direction <= EntityDirection.northwest))
-                    scaleX = -1;
+    private _addAll(display:egret.DisplayObject, action?) {
+        if (action) {
+            if (egret.getQualifiedClassName(action) == "Array"){
+                for (let i = 0; i < action.length; i++) {
+                    this._addOne(display, this._actionToIndex(action[i]));
                 }
+           } else {
+                this._addOne(display, this._actionToIndex(action));
+            }
+        } else {
+            this._defaultDisplay = display;
+        }
+    }
 
-                break;
+    private _addOne(display:egret.DisplayObject, idx:number) {
+        let suitablities = [];
+        suitablities[EntityDirection.north]     = [5, 3, 1, 0, 0, 0, 1, 3];
+        suitablities[EntityDirection.east]      = [1, 2, 5, 2, 1, -2, -4, -2];
+        suitablities[EntityDirection.south]     = [0, 0, 1, 3, 5, 3, 1, 0];
+        suitablities[EntityDirection.west]      = [1, -2, -4, -2, 1, 2, 5, 2];
+ 
+        let direction = idx >> 3;
+        let state    = idx % 8;
+        for(let dir = EntityDirection.north; dir <= EntityDirection.northwest; dir++) {
+            let i = (dir << 3) + state;
+            
+            if (!this._suitablities[i]) {
+                this._suitablities[i] = 0;
+            }
+            
+            let suit = suitablities[direction][dir];
+            if (Math.abs(suit) > Math.abs(this._suitablities[i])) {
+                this._displays[i] = [display];
+                
+                this._suitablities[i] = suit;
+            } else if (Math.abs(suit) == Math.abs(this._suitablities[i])) {
+                if (this._displays[i]) {
+                    this._displays[i].push(display);
+                } else {
+                    this._displays[i] = [display];
+                }
+            
+                this._suitablities[i] = suit;
             }
         }
+    }
+
+    public getDisplay(direction:EntityDirection, state: EntityState, index = 0): egret.DisplayObject {
+        let idx = (direction << 3) + state;
+        
         if (!this._displays[idx]) {
             //没有资源，则显示缺省资源
             return this._defaultDisplay;
@@ -100,8 +95,11 @@ class EntityDisplays {
             index = 0;
         }
         
-        let display:egret.DisplayObject  = this._displays[idx][index];
-        display.scaleX = scaleX;
+        let display:egret.DisplayObject = this._displays[idx][index];
+        if (this._suitablities[idx] < 0) {
+            display.scaleX = -1;
+        }
+        
         return display;
     }
     
