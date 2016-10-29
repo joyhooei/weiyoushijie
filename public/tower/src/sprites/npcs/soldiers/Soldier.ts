@@ -112,8 +112,10 @@ class Soldier extends NPC implements SelectableEntity {
         }
     }
     
-    public relive(idleTicks: number):Soldier {
-        return <Soldier>application.pool.get(this.getClaz(), {guardX: this._guardX, guardY: this._guardY, idleTicks: idleTicks});
+    public clone(properties:any): Soldier {
+        properties.guardX = this._guardX;
+        properties.guardY = this._guardY;
+        return <Soldier>application.pool.get(this.getClaz(), properties);
     }
     
     public guardAt(x:number, y:number) {
