@@ -49,9 +49,10 @@ class Character {
             {name: 'Soldier4',  properties:{hp:50, force:12, armor: 0, magicArmor: 9, cureSpeed:1, moveSpeed:1, guardRadius:50, guardAltitude:[-1, 0], idleTicks: 0, dyingTicks:application.frameRate}},        
 
             //enemies
-            {name: 'Hogs',  properties:{bonus:10, hp:100, force:6, armor: 0, magicArmor: 0, cureSpeed:0, moveSpeed:1, idleTicks:0, dyingTicks:application.frameRate}},
-            {name: 'Rhino', properties:{bonus:10, hp:100, force:6, armor: 0, magicArmor: 0, cureSpeed:0, moveSpeed:1, idleTicks:0, dyingTicks:application.frameRate}},
-            {name: 'Wolf',  properties:{bonus:10, hp:100, force:6, armor: 0, magicArmor: 0, cureSpeed:0, moveSpeed:1, idleTicks:0, dyingTicks:application.frameRate}},
+            {name: 'Enemy1',  properties:{bonus:10, hp:100, force:6, armor: 0, magicArmor: 0, cureSpeed:0, moveSpeed:1, idleTicks:0, dyingTicks:application.frameRate}},
+            {name: 'Enemy4',  properties:{bonus:10, hp:100, force:6, armor: 0, magicArmor: 0, cureSpeed:0, moveSpeed:1, idleTicks:0, dyingTicks:application.frameRate}},
+            {name: 'Enemy8', properties:{bonus:10, hp:100, force:6, armor: 0, magicArmor: 0, cureSpeed:0, moveSpeed:1, idleTicks:0, dyingTicks:application.frameRate}},
+            {name: 'Enemy14',  properties:{bonus:10, hp:100, force:6, armor: 0, magicArmor: 0, cureSpeed:0, moveSpeed:1, idleTicks:0, dyingTicks:application.frameRate}},
 
             //防护塔
             {name: 'SoldierTower1',  properties:{force: 3, guardRadius: 160, price: 100, upgradePrice: 100}},
