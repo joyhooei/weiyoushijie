@@ -12,7 +12,7 @@ class Enemy extends NPC {
 
 	protected _abnormalTicks: number;
 	protected _abnormalState: number;
-	protected _abnormalDisplay: egret.DisplayObject；
+	protected _abnormalDisplay: egret.DisplayObject;
     
     public constructor() {
         super();
