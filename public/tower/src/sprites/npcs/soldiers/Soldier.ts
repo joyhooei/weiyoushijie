@@ -129,7 +129,7 @@ class Soldier extends NPC implements SelectableEntity {
         
         //还没有敌人，直接走到新的守护地址
         if (this._enemy == null) {
-            this.moveTo(x, y);
+            this.moveToGuard();
         }
     }
     
@@ -145,18 +145,33 @@ class Soldier extends NPC implements SelectableEntity {
         }
     }
     
+    //移动到守护地点
+    public moveToGuard() {
+        this._enemy = null;
+        
+        this.moveTo(this._guardX, this._guardY);
+    }
+    
     private _arrive() {
         if (this._enemy) {
-            this._face(this._enemy);
-            this.fight();
+            if (this._enemy.active()) {
+                this._face(this._enemy);
+                this.fight();
+            } else {
+                this.moveToGuard();
+            }
         } else {
             this.guard();
-        }        
+        }
     }
     
     protected _moving() {
         if (this._moveOneStep()) {
             this._arrive();
+        } else {
+            if (this._enemy && !this._enemy.active()) {
+                this.moveToGuard();
+            }
         }
         
         if (this._range) {
@@ -181,55 +196,50 @@ class Soldier extends NPC implements SelectableEntity {
     }
     
     protected _fightWith(enemy:Enemy) {
-        this._enemy = enemy;
-        let hitPos = this._enemy.addSoldier(this);
-
-        let margin = 3;
-
-        if (hitPos < 3) {
-            var x = enemy.x - (this.width >> 1) - margin;
-        } else {
-            var x = enemy.x + enemy.width + (this.width >> 1) + margin;
-        }
- 
-        let direction:number = hitPos % 3;
-        var y = enemy.getCenterY() + (this.height >> 1);
-        if (direction == 1) {
-            //上边
-            y -= (this.height + margin);
-        } else if (direction == 2) {
-            //下边
-            y += (this.height + margin);
+        if (this._enemy) {
+            this._enemy.rmvSoldier(this);
         }
         
-        this.moveTo(x, y);
+        this._enemy = enemy;
+        
+        if (this._enemy) {
+            let hitPos = this._enemy.addSoldier(this);
+
+            let margin = 3;
+
+            if (hitPos < 3) {
+                //左边
+                var x = enemy.x - (this.width >> 1) - margin;
+            } else {
+                var x = enemy.x + enemy.width + (this.width >> 1) + margin;
+            }
+
+            let direction:number = hitPos % 3;
+            var y = enemy.getCenterY() + (this.height >> 1);
+            if (direction == 1) {
+                //上边
+                y -= (this.height + margin);
+            } else if (direction == 2) {
+                //下边
+                y += (this.height + margin);
+            }
+
+            this.moveTo(x, y);
+        } else {
+            this.moveToGuard();
+        }
     }
     
     protected _hitOpponents() {
-        if (this._enemy) {
-            if (this._enemy.hitBy(this)) {
-                // enemy is dying
-                let enemy = this._findEnemy();
-                if (enemy) {
-                    this._fightWith(enemy);
-                } else {
-                    this._enemy = null;
-                    this.moveTo(this._guardX, this._guardY);
-                }                
-            } else if (this._enemy.totalSoldiers() > 1) {
+        if (!this._enemy || !this._enemy.active() || this._enemy.hitBy(this)) {
+            this._fightWith(this._findEnemy());
+        } else {
+            if (this._enemy.totalSoldiers() > 1) {
                 // find new enemy without soldiers
                 let enemy = this._findEnemy();
                 if (enemy && enemy.totalSoldiers() == 0) {
-                    this._enemy.rmvSoldier(this);
                     this._fightWith(enemy);
-                } 
-            }
-        } else {
-            let enemy = this._findEnemy();
-            if (enemy) {
-                this._fightWith(enemy);
-            } else {
-                this.moveTo(this._guardX, this._guardY);
+                }
             }
         }
     }
