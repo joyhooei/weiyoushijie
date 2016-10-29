@@ -43,6 +43,8 @@ class Enemy extends NPC {
     }
 
 	public frozen(damage: number) {
+		this.restore();
+		
 		this._abnormalState = 1;
 		this._abnormalTicks = 3 * application.frameRate;
 		this._abnormalDamage = damage;
@@ -54,6 +56,8 @@ class Enemy extends NPC {
 	}
 
 	public burn(damage: number) {
+		this.restore();
+		
 		this._abnormalState = 2;
 		this._abnormalTicks = 4 * application.frameRate;
 		this._abnormalDamage = damage;
@@ -70,7 +74,7 @@ class Enemy extends NPC {
 		if (this._abnormalState == 1) {
 			this._clip.gotoAndPlay(0, 1);
 			this._displaySprite.removeChild(this._frozenDisplay);
-		} else {
+		} else if (this._abnormalState == 2) {
 			this._displaySprite.removeChild(this._burnDisplay);
 		}
 
