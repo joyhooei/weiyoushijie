@@ -14,14 +14,12 @@ class Enemy extends NPC {
 	protected _abnormalTicks: number;
 	protected _abnormalState: number;
 	protected _abnormalDamage: number;
-	protected _burnDisplay:   egret.DisplayObject;
-	protected _frozenDisplay: egret.DisplayObject;
+	protected _abnormalDisplays[]:   egret.DisplayObject[];
     
     public constructor() {
         super();
 		
-		this._burnDisplay   = new egret.Bitmap(RES.getRes("burn_png"));
-		this._frozenDisplay = new egret.Bitmap(RES.getRes("frozen_png"));
+		this._abnormalDisplays = [new egret.Bitmap(RES.getRes("burn_png")), new egret.Bitmap(RES.getRes("frozen_png"))];
     }
     
     public initialize(properties:any) {
@@ -42,42 +40,42 @@ class Enemy extends NPC {
 		this._abnormalTicks = -1;
     }
 
-	public frozen(damage: number) {
-		this.restore();
+	public frozen(damage: number, ticks: number) {
+		this._addAbnormal(1, damage, ticks);
+	}
+
+	public burn(damage: number, ticks: number) {
+		this._addAbnormal(2, damage, ticks);
+	}
+
+	public posion(damage: number, ticks: number) {
+		this._addAbnormal(3, damage, ticks);
+	}
+
+	private _addAbnormal(state: number, damage: number, ticks: number) {
+		this._restore();
 		
-		this._abnormalState = 1;
-		this._abnormalTicks = 3 * application.frameRate;
+		this._abnormalState  = state;
+		this._abnormalTicks  = ticks;
 		this._abnormalDamage = damage;
-		this._addAbnormalDisplay(this._frozenDisplay);
 		
-		if (this._clip) {
+		if (state == 1) {
 			this._clip.stop();
 		}
-	}
 
-	public burn(damage: number) {
-		this.restore();
-		
-		this._abnormalState = 2;
-		this._abnormalTicks = 4 * application.frameRate;
-		this._abnormalDamage = damage;
-		this._addAbnormalDisplay(this._burnDisplay);
-	}
-
-	private _addAbnormalDisplay(display: egret.DisplayObject) {
+		let display = this._abnormalDisplays[this._abnormalState - 1];
 		display.x = this.getCenterX() - (display.width >> 1);
 		display.y = this.getCenterY() - (display.height >> 1);
 		this._displaySprite.addChild(display);
 	}
 
-	public restore() {
+	private _restore() {
 		if (this._abnormalState == 1) {
 			this._clip.gotoAndPlay(0, 1);
-			this._displaySprite.removeChild(this._frozenDisplay);
-		} else if (this._abnormalState == 2) {
-			this._displaySprite.removeChild(this._burnDisplay);
 		}
 
+		this._displaySprite.removeChild(this._abnormalDisplays[this._abnormalState - 1]);
+		
 		this._abnormalState = 0;
 		this._abnormalTicks = -1;
 	}
@@ -90,13 +88,13 @@ class Enemy extends NPC {
 		if (this._abnormalTicks >= 0) {
 			if (this._abnormalTicks % application.frameRate == 0) {
 				if (this.damage(this._abnormalDamage)) {
-					this.restore();
+					this._restore();
 				}
 			}
 			
 			this._abnormalTicks --;	
 		} else {
-			this.restore();
+			this._restore();
 		}
 		
 		if (this._abnormalState == 1) {
