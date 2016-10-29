@@ -8,7 +8,7 @@ class Freeze extends Bullet {
     protected _hitTarget() {
         let enemies = application.battle.getEnemies();
         for (let i = 0; i < enemies.length; i++) {
-            enemies[i].frozen(this.getForce());
+            enemies[i].frozen(this.getForce(), application.frameRate << 2);
         }
     }
 }
