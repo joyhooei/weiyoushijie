@@ -281,8 +281,6 @@ class Entity extends egret.Sprite {
     //转向
     protected _turn(direction: EntityDirection) {
     	if (direction != this._direction) {
-			console.log(this.getClaz() + " trun from " + Entity.directionName(this._direction) + " to direction " + Entity.directionName(direction));
-
     		this._direction = direction;
     		
     		this.stain();
