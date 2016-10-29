@@ -86,7 +86,7 @@ class Soldier extends NPC implements SelectableEntity {
     protected _idle() {
         this._ticks ++;
         if (this._ticks >= this._idleTicks) {
-            this.moveTo(this._guardX, this._guardY);
+            this.moveToGuard();
 
         	if (this._hp) {
         		this._hp.move();
@@ -112,15 +112,8 @@ class Soldier extends NPC implements SelectableEntity {
         }
     }
     
-    public relive(idleTicks = 0):Soldier {
-        if (idleTicks == 0) {
-            idleTicks = this._idleTicks;
-        }
-        let soldier = <Soldier>application.pool.get(this.getClaz(), {guardX: this._guardX, guardY: this._guardY, idleTicks: idleTicks});
-        soldier.x = this.x;
-        soldier.y = this.y;
-        soldier.setCreator(this._creator);
-        return soldier;
+    public relive(idleTicks: number):Soldier {
+        return <Soldier>application.pool.get(this.getClaz(), {guardX: this._guardX, guardY: this._guardY, idleTicks: idleTicks});
     }
     
     public guardAt(x:number, y:number) {
