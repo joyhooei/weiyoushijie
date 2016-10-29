@@ -10,7 +10,9 @@ class Enemy extends NPC {
     //击毙后可以获取的金币
     protected _bonus: number;
 
-	protected _frozenTicks: number;
+	protected _abnormalTicks: number;
+	protected _abnormalState: number;
+	protected _abnormalDisplay: egret.DisplayObject；
     
     public constructor() {
         super();
@@ -30,31 +32,64 @@ class Enemy extends NPC {
         this._path  = 0;
         this._nextPath();
 		
-		this._frozenTicks = 0;
+		this._abnormalTicks = 0;
+		this._abnormalState = 0;
+		this._abnormalDisplay = nul;
     }
 
 	public frozen() {
-		this._frozenTicks = 3 * application.frameRate;
+		this._abnormalTicks = 3 * application.frameRate;
+		this._abnormalState = 1;
+		this._addAbnormalDisplay("frozen_png");
 		
 		if (this._clip) {
 			this._clip.stop();
 		}
 	}
 
+	public burn() {
+		this._abnormalTicks = 4 * application.frameRate;
+		this._abnormalState = 2;
+		this._addAbnormalDisplay("burn_png");
+	}
+
+	private _addAbnormalDisplay(name: string) {
+		let bm:egret.Bitmap = new egret.Bitmap();
+		bm.texture = RES.getRes("burn_png");
+		this._abnormalDisplay = bm;
+		
+		this._abnormalDisplay.x = this.getCenterX() - (this._abnormalDisplay.width >> 1);
+		this._abnormalDisplay.y = this.getCenterY() - (this._abnormalDisplay.height >> 1);
+		this._displaySprite.addChild(this._abnormalDisplay);
+	}
+
 	public update():boolean {
-		if (this._frozenTicks <= 0) {
-			return super.update();
-		} else {
-			this._frozenTicks --;
-			
-			if (this._frozenTicks <= 0) {
-				if (this._clip) {
-					
+		switch(this._abnormalState) {
+			case 0:
+				return super.update();
+				
+			case 1:
+				this._abnormalTicks --;	
+				if (this._abnormalTicks <= 0) {
 					this._clip.gotoAndPlay(0, 1);
+					
+					this._displaySprite.removeChild(this._abnormalDisplay);
+					this._abnormalState = 0;
 				}
-			}
-			
-			return false;
+				
+				return false;
+
+			case 2:
+				this._abnormalTicks --;	
+				if (this._abnormalTicks <= 0) {
+					this._displaySprite.removeChild(this._abnormalDisplay);
+					this._abnormalState = 0;
+				}
+				
+				return super.update();
+				
+			default:
+				return super.update();
 		}
 	}
     
