@@ -1,16 +1,29 @@
 class EntityDisplays {
     private _displays: egret.DisplayObject[][];
 
-    private _defaultDisplay: egret.DisplayObject;
+    private _default: egret.DisplayObject;
 
-    private _suitablities: number[];
+    //6：完全匹配
+    //5：镜像完全匹配
+    //4：45度匹配
+    //3：镜像45度匹配
+    //2：90度匹配
+    //1：镜像90度匹配（不存在）
+    //0：不匹配
+    static suitablities = [
+            //north
+            [6, 4, 2, 0, 0, 0, 2, 4],
+            //east
+            [2, 4, 6, 4, 2, 3, 5, 3],
+            //south
+            [0, 0, 2, 4, 6, 4, 2, 0],
+            //west
+            [2, 3, 5, 3, 2, 4, 6, 4]
+        ];
 
     public constructor() {
         this._displays = [];
-        
-        this._suitablities = [];
-
-        this._defaultDisplay = null;
+        this._default  = null;
     }
     
     public addBitmap(name:string, action?): egret.Bitmap {
@@ -46,39 +59,30 @@ class EntityDisplays {
                 this._addOne(display, this._actionToIndex(action));
             }
         } else {
-            this._defaultDisplay = display;
+            this._default = display;
         }
     }
 
     private _addOne(display:egret.DisplayObject, idx:number) {
-        let suitablities = [];
-        suitablities[EntityDirection.north]     = [5, 3, 1, 0, 0, 0, 1, 3];
-        suitablities[EntityDirection.east]      = [1, 2, 5, 2, 1, -2, -4, -2];
-        suitablities[EntityDirection.south]     = [0, 0, 1, 3, 5, 3, 1, 0];
-        suitablities[EntityDirection.west]      = [1, -2, -4, -2, 1, 2, 5, 2];
- 
         let direction = idx >> 3;
-        let state    = idx % 8;
+        let state     = idx % 8;
         for(let dir = EntityDirection.north; dir <= EntityDirection.northwest; dir++) {
             let i = (dir << 3) + state;
             
-            if (!this._suitablities[i]) {
-                this._suitablities[i] = 0;
-            }
-            
-            let suit = suitablities[direction][dir];
-            if (Math.abs(suit) > Math.abs(this._suitablities[i])) {
+            let oldSuit = this._suitablities[i] || 0;
+            let newSuit = Entity.suitablities[direction >> 1][dir];
+            if (newSuit > oldSuit) {
                 this._displays[i] = [display];
                 
-                this._suitablities[i] = suit;
-            } else if (Math.abs(suit) == Math.abs(this._suitablities[i])) {
+                this._suitablities[i] = newSuit;
+            } else if (newSuit == oldSuit) {
                 if (this._displays[i]) {
                     this._displays[i].push(display);
                 } else {
                     this._displays[i] = [display];
                 }
             
-                this._suitablities[i] = suit;
+                this._suitablities[i] = newSuit;
             }
         }
     }
@@ -88,7 +92,7 @@ class EntityDisplays {
         
         if (!this._displays[idx]) {
             //没有资源，则显示缺省资源
-            return this._defaultDisplay;
+            return this._default;
         }
         
         if (!this._displays[idx][index]) {
@@ -96,8 +100,10 @@ class EntityDisplays {
         }
         
         let display:egret.DisplayObject = this._displays[idx][index];
-        if (this._suitablities[idx] < 0) {
+        if (this._suitablities[idx] % 2 == 1) {
             display.scaleX = -1;
+        } else {
+            display.scaleX = 1;
         }
         
         return display;
