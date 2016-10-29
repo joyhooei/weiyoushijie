@@ -10,12 +10,18 @@ class Enemy extends NPC {
     //击毙后可以获取的金币
     protected _bonus: number;
 
+	//冰冻或者火烧状态
 	protected _abnormalTicks: number;
 	protected _abnormalState: number;
-	protected _abnormalDisplay: egret.DisplayObject;
+	protected _abnormalDamage: number;
+	protected _burnDisplay:   egret.DisplayObject;
+	protected _frozenDisplay: egret.DisplayObject;
     
     public constructor() {
         super();
+		
+		this._burnDisplay   = new egret.Bitmap(RES.getRes("burn_png"));
+		this._frozenDisplay = new egret.Bitmap(RES.getRes("frozen_png"));
     }
     
     public initialize(properties:any) {
@@ -32,64 +38,68 @@ class Enemy extends NPC {
         this._path  = 0;
         this._nextPath();
 		
-		this._abnormalTicks = 0;
 		this._abnormalState = 0;
-		this._abnormalDisplay = nul;
+		this._abnormalTicks = -1;
     }
 
-	public frozen() {
-		this._abnormalTicks = 3 * application.frameRate;
+	public frozen(damage: number) {
 		this._abnormalState = 1;
-		this._addAbnormalDisplay("frozen_png");
+		this._abnormalTicks = 3 * application.frameRate;
+		this._abnormalDamage = damage;
+		this._addAbnormalDisplay(this._frozenDisplay);
 		
 		if (this._clip) {
 			this._clip.stop();
 		}
 	}
 
-	public burn() {
-		this._abnormalTicks = 4 * application.frameRate;
+	public burn(damage: number) {
 		this._abnormalState = 2;
-		this._addAbnormalDisplay("burn_png");
+		this._abnormalTicks = 4 * application.frameRate;
+		this._abnormalDamage = damage;
+		this._addAbnormalDisplay(this._burnDisplay);
 	}
 
-	private _addAbnormalDisplay(name: string) {
-		let bm:egret.Bitmap = new egret.Bitmap();
-		bm.texture = RES.getRes("burn_png");
-		this._abnormalDisplay = bm;
-		
-		this._abnormalDisplay.x = this.getCenterX() - (this._abnormalDisplay.width >> 1);
-		this._abnormalDisplay.y = this.getCenterY() - (this._abnormalDisplay.height >> 1);
-		this._displaySprite.addChild(this._abnormalDisplay);
+	private _addAbnormalDisplay(display: egret.DisplayObject) {
+		display.x = this.getCenterX() - (display.width >> 1);
+		display.y = this.getCenterY() - (display.height >> 1);
+		this._displaySprite.addChild(display);
+	}
+
+	public restore() {
+		if (this._abnormalState == 1) {
+			this._clip.gotoAndPlay(0, 1);
+			this._displaySprite.removeChild(this._frozenDisplay);
+		} else {
+			this._displaySprite.removeChild(this._burnDisplay);
+		}
+
+		this._abnormalState = 0;
+		this._abnormalTicks = -1;
 	}
 
 	public update():boolean {
-		switch(this._abnormalState) {
-			case 0:
-				return super.update();
-				
-			case 1:
-				this._abnormalTicks --;	
-				if (this._abnormalTicks <= 0) {
-					this._clip.gotoAndPlay(0, 1);
-					
-					this._displaySprite.removeChild(this._abnormalDisplay);
-					this._abnormalState = 0;
+		if (this._abnormalState == 0) {
+			return super.update();
+		}
+		
+		if (this._abnormalTicks >= 0) {
+			if (this._abnormalTicks % application.frameRate == 0) {
+				if (this.damage(this._abnormalDamage)) {
+					this.restore();
 				}
-				
-				return false;
-
-			case 2:
-				this._abnormalTicks --;	
-				if (this._abnormalTicks <= 0) {
-					this._displaySprite.removeChild(this._abnormalDisplay);
-					this._abnormalState = 0;
-				}
-				
-				return super.update();
-				
-			default:
-				return super.update();
+			}
+			
+			this._abnormalTicks --;	
+		} else {
+			this.restore();
+		}
+		
+		if (this._abnormalState == 1) {
+			//冰冻
+			return false;
+		} else {
+			return super.update();
 		}
 	}
     
