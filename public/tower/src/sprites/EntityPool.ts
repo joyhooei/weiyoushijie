@@ -1,8 +1,12 @@
 class EntityPool {
     private _entities: Entity[];
 
+    private _totalEntities: number;
+
     public constructor() {
         this._entities = [];
+        
+        this._totalEntities = 0;
     }
     
     public get(claz:string, properties?:any): Entity {
@@ -21,6 +25,9 @@ class EntityPool {
         if (!entity) {
             entity = <Entity>Object.create(window[claz].prototype);
             entity.constructor.apply(entity);
+            
+            this._totalEntities ++;
+            console.info("total entities is " + this._totalEntities);
         }
 
         let props = {};
