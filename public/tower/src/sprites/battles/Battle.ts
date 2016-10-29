@@ -541,6 +541,19 @@ class Battle extends Entity implements SoldierCreator {
         }
     }
 
+    public findTowers(x: number, y: number, radius: number) : Tower[] {
+        let towers = [];
+        
+        for(let i = 0; i < this._bases.length; i++) {
+            let e = this._bases[i];
+            if (e.getTower() && e.within(x, y, radius)){
+                towers.push(e.getTower());
+            }
+        }
+        
+        return towers;
+    }
+
     public addBase(base:Base) {
         this._bases.push(base);
         this._layers[0].addChild(base);
