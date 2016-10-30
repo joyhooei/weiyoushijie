@@ -2,8 +2,7 @@ var BlackWater = (function (_super) {
     __extends(BlackWater, _super);
     function BlackWater() {
         _super.call(this);
-        this.addClip("blackwater_fighting", "east-fighting")
-            .addClip("blackwater_building", "east-building");
+        this.addClip("blackwater_fighting");
     }
     var d = __define,c=BlackWater,p=c.prototype;
     p.initialize = function (properties) {

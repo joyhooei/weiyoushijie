@@ -2,7 +2,9 @@ var MagicTower4 = (function (_super) {
     __extends(MagicTower4, _super);
     function MagicTower4() {
         _super.call(this);
-        this.addBitmap("magictower4_png");
+        this.addBitmap("magictower4_png")
+            .addClip("magictower4_guarding", "east-guarding")
+            .addClip("magictower4_fighting", "east-fighting");
         this._bulletClaz = "Magic4";
     }
     var d = __define,c=MagicTower4,p=c.prototype;
@@ -25,6 +27,17 @@ var MagicTower4 = (function (_super) {
             this._addBlackImpermanence();
         }
         application.battle.incGolds(-this.getSkillUpgradePrice(skill));
+    };
+    p.skillUpgradable = function (skill) {
+        if (skill == 1) {
+            return this._skill1Level < 3;
+        }
+        else {
+            return this._skill2Level < 3;
+        }
+    };
+    p.upgradable = function () {
+        return false;
     };
     p.getSkillUpgradePrice = function (skill) {
         if (skill == 1) {
@@ -62,7 +75,7 @@ var MagicTower4 = (function (_super) {
         application.battle.addSoldier(this._blackImpermanence);
     };
     p.createSoldier = function (soldier) {
-        this._blackImpermanence = soldier.relive(application.frameRate * 12);
+        this._blackImpermanence = soldier.clone({ idleTicks: application.frameRate * 12 });
         application.battle.addSoldier(this._blackImpermanence);
         this._blackImpermanence.setCreator(this);
         return this._blackImpermanence;
@@ -72,15 +85,15 @@ var MagicTower4 = (function (_super) {
         if (this._skill1Ticks >= application.frameRate * 12 && this._skill1Level > 0 && this._enemy) {
             this._skill1Ticks = 0;
             if (this._skill1Level == 1) {
-                var fightTicks = 4;
+                var fightingTicks = 4;
             }
             else if (this._skill1Level == 2) {
-                var fightTicks = 5;
+                var fightingTicks = 5;
             }
             else {
-                var fightTicks = 6;
+                var fightingTicks = 6;
             }
-            var bullet = application.pool.get("BlackWater", { hitRaduis: this._guardRadius, fightTicks: fightTicks * application.frameRate });
+            var bullet = application.pool.get("BlackWater", { hitRaduis: this._guardRadius, fightingTicks: fightingTicks * application.frameRate });
             bullet.setShooter(this);
             bullet.fight();
             application.battle.addBullet(bullet);
@@ -113,9 +126,6 @@ var MagicTower4 = (function (_super) {
         soldier.setCenterX(target.getCenterX());
         soldier.setBottomY(target.getBottomY());
         application.battle.addSoldier(soldier);
-    };
-    p._showMenu = function (parent, x, y) {
-        application.showUI(new UpgradeTowerSkillUI(this._base), parent, x, y);
     };
     return MagicTower4;
 }(MagicTower));

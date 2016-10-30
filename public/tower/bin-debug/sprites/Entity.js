@@ -224,7 +224,6 @@ var Entity = (function (_super) {
     //转向
     p._turn = function (direction) {
         if (direction != this._direction) {
-            console.log(this.getClaz() + " trun from " + Entity.directionName(this._direction) + " to direction " + Entity.directionName(direction));
             this._direction = direction;
             this.stain();
         }

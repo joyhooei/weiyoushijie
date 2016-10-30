@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<e:Skin class="towerItemSkin" width="95" height="65" xmlns:e="http://ns.egret.com/eui" xmlns:w="http://ns.egret.com/wing">
+	<e:Image width="95" height="65" x="0" y="0" source="towerselect_1_png" fillMode="clip"/>
+	<e:Image id="imgButton" width="28" height="27" y="20" fillMode="scale" horizontalCenter="-9.5" source=""/>
+	<e:Label id="lblPrice" text="100" x="60" y="29" size="12" width="23" height="13" textAlign="center"/>
+</e:Skin>

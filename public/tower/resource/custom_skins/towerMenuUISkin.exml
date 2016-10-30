@@ -1,0 +1,5 @@
+<?xml version="1.0" encoding="utf-8"?>
+<e:Skin class="buildTowerUISkin" width="196" height="192" xmlns:e="http://ns.egret.com/eui" xmlns:w="http://ns.egret.com/wing">
+	<e:Image width="133" height="134" source="towerselect_0_png" fillMode="clip" horizontalCenter="0" verticalCenter="0"/>
+	<e:Image id="imgFlag" width="42" height="41" x="134" y="96" fillMode="clip" source="guardflag_png"/>
+</e:Skin>

@@ -6,7 +6,6 @@
     "resource/custom_skins/battleToolItemSkin.exml",
     "resource/custom_skins/battleUISkin.exml",
     "resource/custom_skins/blockUISkin.exml",
-    "resource/custom_skins/buildTowerUISkin.exml",
     "resource/custom_skins/buyAchieveUISkin.exml",
     "resource/custom_skins/buyToolUISkin.exml",
     "resource/custom_skins/chargeTipUISkin.exml",
@@ -30,7 +29,8 @@
     "resource/custom_skins/resetUISkin.exml",
     "resource/custom_skins/toolItemSkin.exml",
     "resource/custom_skins/toolUISkin.exml",
-    "resource/custom_skins/upgradeTowerUISkin.exml",
+    "resource/custom_skins/towerItemSkin.exml",
+    "resource/custom_skins/towerMenuUISkin.exml",
     "resource/custom_skins/vipUISkin.exml",
     "resource/custom_skins/winUISkin.exml"
   ]

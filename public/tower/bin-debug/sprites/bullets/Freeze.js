@@ -8,7 +8,7 @@ var Freeze = (function (_super) {
     p._hitTarget = function () {
         var enemies = application.battle.getEnemies();
         for (var i = 0; i < enemies.length; i++) {
-            enemies[i].frozen();
+            enemies[i].frozen(this.getForce(), application.frameRate << 2);
         }
     };
     return Freeze;

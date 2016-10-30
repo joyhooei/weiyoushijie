@@ -56,7 +56,7 @@ var Soldier = (function (_super) {
     p._idle = function () {
         this._ticks++;
         if (this._ticks >= this._idleTicks) {
-            this.moveTo(this._guardX, this._guardY);
+            this.moveToGuard();
             if (this._hp) {
                 this._hp.move();
             }
@@ -76,23 +76,17 @@ var Soldier = (function (_super) {
             this._creator.createSoldier(this);
         }
     };
-    p.relive = function (idleTicks) {
-        if (idleTicks === void 0) { idleTicks = 0; }
-        if (idleTicks == 0) {
-            idleTicks = this._idleTicks;
-        }
-        var soldier = application.pool.get(this.getClaz(), { guardX: this._guardX, guardY: this._guardY, idleTicks: idleTicks });
-        soldier.x = this.x;
-        soldier.y = this.y;
-        soldier.setCreator(this._creator);
-        return soldier;
+    p.clone = function (properties) {
+        properties.guardX = this._guardX;
+        properties.guardY = this._guardY;
+        return application.pool.get(this.getClaz(), properties);
     };
     p.guardAt = function (x, y) {
         this._guardX = x;
         this._guardY = y;
         //还没有敌人，直接走到新的守护地址
         if (this._enemy == null) {
-            this.moveTo(x, y);
+            this.moveToGuard();
         }
     };
     //x和y是脚站立的位置
@@ -107,10 +101,20 @@ var Soldier = (function (_super) {
             this._arrive();
         }
     };
+    //移动到守护地点
+    p.moveToGuard = function () {
+        this._enemy = null;
+        this.moveTo(this._guardX, this._guardY);
+    };
     p._arrive = function () {
         if (this._enemy) {
-            this._face(this._enemy);
-            this.fight();
+            if (this._enemy.active()) {
+                this._face(this._enemy);
+                this.fight();
+            }
+            else {
+                this.moveToGuard();
+            }
         }
         else {
             this.guard();
@@ -119,6 +123,11 @@ var Soldier = (function (_super) {
     p._moving = function () {
         if (this._moveOneStep()) {
             this._arrive();
+        }
+        else {
+            if (this._enemy && !this._enemy.active()) {
+                this.moveToGuard();
+            }
         }
         if (this._range) {
             this._range.x = this.getCenterX() - this._guardRadius;
@@ -138,56 +147,47 @@ var Soldier = (function (_super) {
         }
     };
     p._fightWith = function (enemy) {
+        if (this._enemy) {
+            this._enemy.rmvSoldier(this);
+        }
         this._enemy = enemy;
-        var hitPos = this._enemy.addSoldier(this);
-        var margin = 3;
-        if (hitPos < 3) {
-            var x = enemy.x - (this.width >> 1) - margin;
+        if (this._enemy) {
+            var hitPos = this._enemy.addSoldier(this);
+            var margin = 3;
+            if (hitPos < 3) {
+                //左边
+                var x = enemy.x - (this.width >> 1) - margin;
+            }
+            else {
+                var x = enemy.x + enemy.width + (this.width >> 1) + margin;
+            }
+            var direction = hitPos % 3;
+            var y = enemy.getCenterY() + (this.height >> 1);
+            if (direction == 1) {
+                //上边
+                y -= (this.height + margin);
+            }
+            else if (direction == 2) {
+                //下边
+                y += (this.height + margin);
+            }
+            this.moveTo(x, y);
         }
         else {
-            var x = enemy.x + enemy.width + (this.width >> 1) + margin;
+            this.moveToGuard();
         }
-        var direction = hitPos % 3;
-        var y = enemy.getCenterY() + (this.height >> 1);
-        if (direction == 1) {
-            //上边
-            y -= (this.height + margin);
-        }
-        else if (direction == 2) {
-            //下边
-            y += (this.height + margin);
-        }
-        this.moveTo(x, y);
     };
     p._hitOpponents = function () {
-        if (this._enemy) {
-            if (this._enemy.hitBy(this)) {
-                // enemy is dying
-                var enemy = this._findEnemy();
-                if (enemy) {
-                    this._fightWith(enemy);
-                }
-                else {
-                    this._enemy = null;
-                    this.moveTo(this._guardX, this._guardY);
-                }
-            }
-            else if (this._enemy.totalSoldiers() > 1) {
+        if (!this._enemy || !this._enemy.active() || this._enemy.hitBy(this)) {
+            this._fightWith(this._findEnemy());
+        }
+        else {
+            if (this._enemy.totalSoldiers() > 1) {
                 // find new enemy without soldiers
                 var enemy = this._findEnemy();
                 if (enemy && enemy.totalSoldiers() == 0) {
-                    this._enemy.rmvSoldier(this);
                     this._fightWith(enemy);
                 }
-            }
-        }
-        else {
-            var enemy = this._findEnemy();
-            if (enemy) {
-                this._fightWith(enemy);
-            }
-            else {
-                this.moveTo(this._guardX, this._guardY);
             }
         }
     };

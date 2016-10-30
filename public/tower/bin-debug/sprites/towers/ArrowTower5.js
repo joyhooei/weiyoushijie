@@ -3,7 +3,7 @@ var ArrowTower5 = (function (_super) {
     function ArrowTower5() {
         _super.call(this);
         this.addBitmap("arrowtower5_png");
-        this._bulletClaz = "Arrow1";
+        this._bulletClaz = "Arrow5";
     }
     var d = __define,c=ArrowTower5,p=c.prototype;
     p.getMuzzleX = function () {
@@ -11,6 +11,9 @@ var ArrowTower5 = (function (_super) {
     };
     p.getMuzzleY = function () {
         return this.y + 0;
+    };
+    p.upgradable = function () {
+        return false;
     };
     return ArrowTower5;
 }(ArrowTower));

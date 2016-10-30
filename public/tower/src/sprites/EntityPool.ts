@@ -8,26 +8,31 @@ class EntityPool {
         
         this._totalEntities = 0;
     }
-    
-    public get(claz:string, properties?:any): Entity {
-        let entity: Entity = null;
+
+    private _get(claz:string): Entity {
         for(let i = 0; i < this._entities.length; i++) {
-            entity = this._entities[i];
+            let entity = this._entities[i];
             if (claz == entity.getClaz()) {
                 this._entities.splice(i, 1);
-                break;
+                return entity;
             }
-            entity = null;
         }
-        
+
+        return null;        
+    }
+    
+    public get(claz:string, properties?:any): Entity {        
         let character = application.characters[claz];
         
+        let entity: Entity = this._get(claz);
         if (!entity) {
             entity = <Entity>Object.create(window[claz].prototype);
             entity.constructor.apply(entity);
             
             this._totalEntities ++;
-            console.info("total entities is " + this._totalEntities);
+            console.info("total entities is " + this._totalEntities + " new entity " + claz);
+        } else {
+            console.info("recycle entity " + claz);
         }
 
         let props = {};
@@ -48,12 +53,18 @@ class EntityPool {
     }
 
     public set(entity:Entity) {
+        if(!this._exists(entity)) {
+            this._entities.push(entity);
+        }
+    }
+
+    private _exists(entity:Entity):boolean {
         for(let i = 0; i < this._entities.length; i++) {
             if (this._entities[i] == entity) {
-                return;
+                return true;
             }
         }
-        
-        this._entities.push(entity);
+
+        return false;
     }
 }

@@ -73,6 +73,14 @@ class Tower extends Entity implements SelectableEntity {
 	public upgradeSkill(skill:number) {
 		console.error("upgrade skill not support in " + this.getClaz());
 	}
+
+    public skillUpgradable(skill:number): boolean {
+        return false;
+    }
+
+    public upgradable(): boolean {
+        return true;
+    }
 	
     public getForce(): number {
     	return this._forceLow + Math.round(Math.random() * (this._forceHigh - this._forceLow));
@@ -101,10 +109,6 @@ class Tower extends Entity implements SelectableEntity {
             this.guard();
         }
     }
-	
-	protected _showMenu(parent: AbstractUI, x: number, y: number) {
-        application.showUI(new UpgradeTowerUI(this._base), parent, x, y);
-	}
 
     public select(again:boolean): boolean {
          if (again) {
@@ -112,7 +116,7 @@ class Tower extends Entity implements SelectableEntity {
 
             return false;
         } else {
-            this._showMenu(application.battle.getUI(), this.getCenterX(), this.getCenterY());
+            application.showUI(new TowerMenuUI(this._base), application.battle.getUI(), this.getCenterX(), this.getCenterY());
             
             return true;
         }

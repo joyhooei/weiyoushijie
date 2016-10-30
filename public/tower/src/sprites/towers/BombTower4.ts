@@ -14,4 +14,8 @@ class BombTower4 extends BombTower {
     public getMuzzleY(): number {
         return this.y + 7;
     }
+
+    public upgradable(): boolean {
+        return false;
+    }
 }

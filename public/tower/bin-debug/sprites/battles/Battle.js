@@ -414,6 +414,16 @@ var Battle = (function (_super) {
             }
         }
     };
+    p.findTowers = function (x, y, radius) {
+        var towers = [];
+        for (var i = 0; i < this._bases.length; i++) {
+            var e = this._bases[i];
+            if (e.getTower() && e.within(x, y, radius)) {
+                towers.push(e.getTower());
+            }
+        }
+        return towers;
+    };
     p.addBase = function (base) {
         this._bases.push(base);
         this._layers[0].addChild(base);
@@ -442,7 +452,7 @@ var Battle = (function (_super) {
         this._dirts.push(entity);
     };
     p.createSoldier = function (soldier) {
-        var s = soldier.relive(10 * application.frameRate);
+        var s = soldier.clone({ idleTicks: 10 * application.frameRate });
         this.addSoldier(s);
         return s;
     };

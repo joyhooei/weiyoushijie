@@ -58,7 +58,7 @@ var Base = (function (_super) {
             return false;
         }
         else {
-            application.showUI(new BuildTowerUI(this), application.battle.getUI(), this.getCenterX(), this.getCenterY());
+            application.showUI(new TowerMenuUI(this), application.battle.getUI(), this.getCenterX(), this.getCenterY());
             return true;
         }
     };

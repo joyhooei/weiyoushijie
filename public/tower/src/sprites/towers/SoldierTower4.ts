@@ -6,4 +6,8 @@ class SoldierTower4 extends SoldierTower {
         
         this._soldierClaz = "Soldier4";
     }
+
+    public upgradable(): boolean {
+        return false;
+    }
 }

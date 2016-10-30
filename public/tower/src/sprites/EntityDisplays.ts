@@ -3,6 +3,8 @@ class EntityDisplays {
 
     private _default: egret.DisplayObject;
 
+    private _suitablities: number[];
+
     //6：完全匹配
     //5：镜像完全匹配
     //4：45度匹配
@@ -23,6 +25,7 @@ class EntityDisplays {
 
     public constructor() {
         this._displays = [];
+        this._suitablities = [];
         this._default  = null;
     }
     
@@ -70,7 +73,7 @@ class EntityDisplays {
             let i = (dir << 3) + state;
             
             let oldSuit = this._suitablities[i] || 0;
-            let newSuit = Entity.suitablities[direction >> 1][dir];
+            let newSuit = EntityDisplays.suitablities[direction >> 1][dir];
             if (newSuit > oldSuit) {
                 this._displays[i] = [display];
                 

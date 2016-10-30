@@ -2,6 +2,7 @@ var Enemy = (function (_super) {
     __extends(Enemy, _super);
     function Enemy() {
         _super.call(this);
+        this._abnormalDisplays = [new egret.Bitmap(RES.getRes("burn_png")), new egret.Bitmap(RES.getRes("frozen_png"))];
     }
     var d = __define,c=Enemy,p=c.prototype;
     p.initialize = function (properties) {
@@ -9,29 +10,64 @@ var Enemy = (function (_super) {
         this._bonus = this._get(properties, "bonus", 10);
         this._idleTicks = this._get(properties, "idleTicks", 0);
         this._soldiers = [null, null, null, null, null, null];
+        this._totalSoldiers = 0;
         this._paths = this._get(properties, "paths", 10);
         this._path = 0;
         this._nextPath();
-        this._frozenTicks = 0;
+        this._abnormalState = 0;
+        this._abnormalTicks = -1;
     };
-    p.frozen = function () {
-        this._frozenTicks = 3 * application.frameRate;
-        if (this._clip) {
+    p.frozen = function (damage, ticks) {
+        this._addAbnormal(1, damage, ticks);
+    };
+    p.burn = function (damage, ticks) {
+        this._addAbnormal(2, damage, ticks);
+    };
+    p.posion = function (damage, ticks) {
+        this._addAbnormal(3, damage, ticks);
+    };
+    p._addAbnormal = function (state, damage, ticks) {
+        this._restore();
+        this._abnormalState = state;
+        this._abnormalTicks = ticks;
+        this._abnormalDamage = damage;
+        if (state == 1) {
             this._clip.stop();
         }
+        var display = this._abnormalDisplays[this._abnormalState - 1];
+        display.x = this.getCenterX() - (display.width >> 1);
+        display.y = this.getCenterY() - (display.height >> 1);
+        this._displaySprite.addChild(display);
+    };
+    p._restore = function () {
+        if (this._abnormalState == 1) {
+            this._clip.gotoAndPlay(0, 1);
+        }
+        this._displaySprite.removeChild(this._abnormalDisplays[this._abnormalState - 1]);
+        this._abnormalState = 0;
+        this._abnormalTicks = -1;
     };
     p.update = function () {
-        if (this._frozenTicks <= 0) {
+        if (this._abnormalState == 0) {
             return _super.prototype.update.call(this);
         }
-        else {
-            this._frozenTicks--;
-            if (this._frozenTicks <= 0) {
-                if (this._clip) {
-                    this._clip.gotoAndPlay(0, 1);
+        if (this._abnormalTicks >= 0) {
+            if (this._abnormalTicks % application.frameRate == 0) {
+                if (this.damage(this._abnormalDamage)) {
+                    this._restore();
                 }
             }
+            this._abnormalTicks--;
+        }
+        else {
+            this._restore();
+        }
+        if (this._abnormalState == 1) {
+            //冰冻
             return false;
+        }
+        else {
+            return _super.prototype.update.call(this);
         }
     };
     p.addSoldier = function (soldier) {
@@ -42,6 +78,7 @@ var Enemy = (function (_super) {
         }
         var hitPos = this._getHitPosition(soldier);
         this._soldiers[hitPos] = soldier;
+        this._totalSoldiers++;
         if (this._state == EntityState.moving) {
             this.guard();
             this._face(soldier);
@@ -78,13 +115,7 @@ var Enemy = (function (_super) {
         return -1;
     };
     p.totalSoldiers = function () {
-        var count = 0;
-        for (var i = 0; i < this._soldiers.length; i++) {
-            if (this._soldiers[i]) {
-                count++;
-            }
-        }
-        return count;
+        return this._totalSoldiers;
     };
     p.firstSoldier = function () {
         for (var i = 0; i < this._soldiers.length; i++) {
@@ -98,11 +129,11 @@ var Enemy = (function (_super) {
         for (var i = 0; i < this._soldiers.length; i++) {
             if (this._soldiers[i] == soldier) {
                 this._soldiers[i] = null;
+                this._totalSoldiers--;
             }
         }
-        var s = this.firstSoldier();
-        if (s) {
-            this._face(s);
+        if (this._totalSoldiers > 0) {
+            this._face(this.firstSoldier());
         }
         else {
             this._moveAgain();

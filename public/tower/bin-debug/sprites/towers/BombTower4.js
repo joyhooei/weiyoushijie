@@ -12,6 +12,9 @@ var BombTower4 = (function (_super) {
     p.getMuzzleY = function () {
         return this.y + 7;
     };
+    p.upgradable = function () {
+        return false;
+    };
     return BombTower4;
 }(BombTower));
 egret.registerClass(BombTower4,'BombTower4');

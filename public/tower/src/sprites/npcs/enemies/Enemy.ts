@@ -14,7 +14,7 @@ class Enemy extends NPC {
 	protected _abnormalTicks: number;
 	protected _abnormalState: number;
 	protected _abnormalDamage: number;
-	protected _abnormalDisplays[]:   egret.DisplayObject[];
+	protected _abnormalDisplays: egret.DisplayObject[];
     
     public constructor() {
         super();

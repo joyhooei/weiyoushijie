@@ -14,4 +14,8 @@ class ArrowTower4 extends ArrowTower {
     public getMuzzleY(): number {
         return this.y + 0;
     }
+
+    public upgradable(): boolean {
+        return false;
+    }
 }

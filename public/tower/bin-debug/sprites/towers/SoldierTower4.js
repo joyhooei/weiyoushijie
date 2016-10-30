@@ -6,6 +6,9 @@ var SoldierTower4 = (function (_super) {
         this._soldierClaz = "Soldier4";
     }
     var d = __define,c=SoldierTower4,p=c.prototype;
+    p.upgradable = function () {
+        return false;
+    };
     return SoldierTower4;
 }(SoldierTower));
 egret.registerClass(SoldierTower4,'SoldierTower4');

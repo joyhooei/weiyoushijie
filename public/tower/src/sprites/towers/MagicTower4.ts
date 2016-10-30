@@ -9,7 +9,9 @@ class MagicTower4 extends MagicTower implements SoldierCreator {
     public constructor() {
         super();
         
-        this.addBitmap("magictower4_png");
+        this.addBitmap("magictower4_png")
+            .addClip("magictower4_guarding", "east-guarding")
+            .addClip("magictower4_fighting", "east-fighting")
 
         this._bulletClaz = "Magic4";
     }
@@ -39,6 +41,18 @@ class MagicTower4 extends MagicTower implements SoldierCreator {
         }
         
         application.battle.incGolds(-this.getSkillUpgradePrice(skill));        
+    }
+
+    public skillUpgradable(skill:number): boolean {
+        if (skill == 1) {
+            return this._skill1Level < 3;
+        } else {
+            return this._skill2Level < 3;
+        }
+    }
+
+    public upgradable(): boolean {
+        return false;
     }
     
     public getSkillUpgradePrice(skill:number): number {
@@ -77,7 +91,7 @@ class MagicTower4 extends MagicTower implements SoldierCreator {
     }
     
     public createSoldier(soldier: Soldier): Soldier {
-        this._blackImpermanence = soldier.relive(application.frameRate * 12);
+        this._blackImpermanence = soldier.clone({idleTicks: application.frameRate * 12});
         application.battle.addSoldier(this._blackImpermanence);
         this._blackImpermanence.setCreator(this);
         return this._blackImpermanence;
@@ -90,14 +104,14 @@ class MagicTower4 extends MagicTower implements SoldierCreator {
             this._skill1Ticks = 0;
             
             if (this._skill1Level == 1) {
-                var fightTicks = 4;
+                var fightingTicks = 4;
             } else if (this._skill1Level == 2) {
-                var fightTicks = 5;
+                var fightingTicks = 5;
             } else {
-                var fightTicks = 6;
+                var fightingTicks = 6;
             }
             
-            let bullet = <Bullet>application.pool.get("BlackWater",  {hitRaduis: this._guardRadius, fightTicks: fightTicks * application.frameRate});
+            let bullet = <Bullet>application.pool.get("BlackWater",  {hitRaduis: this._guardRadius, fightingTicks: fightingTicks * application.frameRate});
             bullet.setShooter(this);
             bullet.fight();
             application.battle.addBullet(bullet);
@@ -133,8 +147,4 @@ class MagicTower4 extends MagicTower implements SoldierCreator {
         soldier.setBottomY(target.getBottomY());
         application.battle.addSoldier(soldier);
     }
-    
-	protected _showMenu(parent: AbstractUI, x: number, y: number) {
-        application.showUI(new UpgradeTowerSkillUI(this._base), parent, x, y);
-	}
 }

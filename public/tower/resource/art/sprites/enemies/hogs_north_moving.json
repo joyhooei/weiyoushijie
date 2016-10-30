@@ -1,1 +1,0 @@
-{"file":"hogs_north_moving.png","res":{"newAnimation_1":{"x":35,"y":1,"w":31,"h":38},"newAnimation_0":{"x":1,"y":1,"w":32,"h":38}},"mc":{"hogs_north_moving":{"frameRate":6,"events":[],"frames":[{"res":"newAnimation_0","y":-27,"duration":1,"x":-16},{"res":"newAnimation_1","y":-27,"duration":1,"x":-16}],"labels":[{"end":2,"name":"newAnimation","frame":1}]}}}

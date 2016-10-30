@@ -1,22 +1,30 @@
 var EntityPool = (function () {
     function EntityPool() {
         this._entities = [];
+        this._totalEntities = 0;
     }
     var d = __define,c=EntityPool,p=c.prototype;
-    p.get = function (claz, properties) {
-        var entity = null;
+    p._get = function (claz) {
         for (var i = 0; i < this._entities.length; i++) {
-            entity = this._entities[i];
+            var entity = this._entities[i];
             if (claz == entity.getClaz()) {
                 this._entities.splice(i, 1);
-                break;
+                return entity;
             }
-            entity = null;
         }
+        return null;
+    };
+    p.get = function (claz, properties) {
         var character = application.characters[claz];
+        var entity = this._get(claz);
         if (!entity) {
             entity = Object.create(window[claz].prototype);
             entity.constructor.apply(entity);
+            this._totalEntities++;
+            console.info("total entities is " + this._totalEntities + " new entity " + claz);
+        }
+        else {
+            console.info("recycle entity " + claz);
         }
         var props = {};
         if (character) {
@@ -33,12 +41,17 @@ var EntityPool = (function () {
         return entity;
     };
     p.set = function (entity) {
+        if (!this._exists(entity)) {
+            this._entities.push(entity);
+        }
+    };
+    p._exists = function (entity) {
         for (var i = 0; i < this._entities.length; i++) {
             if (this._entities[i] == entity) {
-                return;
+                return true;
             }
         }
-        this._entities.push(entity);
+        return false;
     };
     return EntityPool;
 }());
