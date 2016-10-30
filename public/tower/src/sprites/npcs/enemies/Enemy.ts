@@ -19,7 +19,7 @@ class Enemy extends NPC {
     public constructor() {
         super();
 		
-		this._abnormalDisplays = [new egret.Bitmap(RES.getRes("burn_png")), new egret.Bitmap(RES.getRes("frozen_png"))];
+		this._abnormalDisplays = [new egret.Bitmap(RES.getRes("frozen_png")), new egret.Bitmap(RES.getRes("burn_png"))];
     }
     
     public initialize(properties:any) {
@@ -59,22 +59,25 @@ class Enemy extends NPC {
 		this._abnormalTicks  = ticks;
 		this._abnormalDamage = damage;
 		
-		if (state == 1) {
+		if (state == 1 && this._clip) {
 			this._clip.stop();
 		}
 
 		let display = this._abnormalDisplays[this._abnormalState - 1];
-		display.x = this.getCenterX() - (display.width >> 1);
-		display.y = this.getCenterY() - (display.height >> 1);
+		display.x = (this.width - display.width) >> 1;
+		display.y = this.height - display.height;
 		this._displaySprite.addChild(display);
 	}
 
 	private _restore() {
-		if (this._abnormalState == 1) {
+		if (this._abnormalState == 1 && this._clip) {
 			this._clip.gotoAndPlay(0, 1);
 		}
 
-		this._displaySprite.removeChild(this._abnormalDisplays[this._abnormalState - 1]);
+        try {
+		    this._displaySprite.removeChild(this._abnormalDisplays[this._abnormalState - 1]);
+        } catch(error) {
+        }
 		
 		this._abnormalState = 0;
 		this._abnormalTicks = -1;

@@ -2,7 +2,7 @@ var Freeze = (function (_super) {
     __extends(Freeze, _super);
     function Freeze() {
         _super.call(this);
-        this.addClip("freeze_dying", "east-fighting");
+        this.addClip("freeze_dying");
     }
     var d = __define,c=Freeze,p=c.prototype;
     p._hitTarget = function () {

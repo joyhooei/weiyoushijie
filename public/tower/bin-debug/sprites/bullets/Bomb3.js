@@ -3,7 +3,8 @@ var Bomb3 = (function (_super) {
     function Bomb3() {
         _super.call(this);
         this.addBitmap("bomb3_moving_png", "east-moving")
-            .addClip("bomb_fighting", "east-fighting")
+            .addClip("bomb123_fighting", "east-fighting")
+            .addClip("bomb123_building", "east-building")
             .addBitmap("bomb3_dying_png", "east-dying");
     }
     var d = __define,c=Bomb3,p=c.prototype;

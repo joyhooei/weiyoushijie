@@ -68,7 +68,7 @@ var Character = (function () {
             { name: 'MagicTower4', properties: { forceHigh: 70, forceLow: 20, shootSpeed: Math.round(0.8 * application.frameRate), guardRadius: 220, price: 300 } },
             //bullets
             { name: 'Fireball', properties: { force: 500, hitType: HitType.normal, hitRadius: 50, moveSpeed: 5, idleTicks: 0, fightingTicks: 10, dyingTicks: 0 } },
-            { name: 'Freeze', properties: { force: 50, hitType: HitType.normal, hitRadius: 800, moveSpeed: 5, idleTicks: 0, fightingTicks: 10, dyingTicks: 0 } },
+            { name: 'Freeze', properties: { force: 5, hitType: HitType.normal, hitRadius: 800, moveSpeed: 5, idleTicks: 0, fightingTicks: 10, dyingTicks: 0 } },
             { name: 'Thunder', properties: { force: 500, hitType: HitType.damage, hitRadius: 50, moveSpeed: 5, idleTicks: 0, fightingTicks: 10, dyingTicks: 0 } },
             //炮塔炮弹
             { name: 'Bomb1', properties: { force: 20, hitType: HitType.normal, hitRadius: 50, moveSpeed: 5, idleTicks: 0, fightingTicks: 10, dyingTicks: 0 } },

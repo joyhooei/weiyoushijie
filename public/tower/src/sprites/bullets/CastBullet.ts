@@ -46,7 +46,7 @@ class CastBullet extends Bullet {
 		var distance = Math.sqrt(Math.pow(this._startY - this._targetY, 2) + Math.pow(this._startX - this._targetX, 2));
 		this._totalSteps = Math.ceil(distance / this._moveSpeed);		
 		
-		this._steps = 0;
+		this._steps = 2;
 		return this._totalSteps > 0;
     }
 

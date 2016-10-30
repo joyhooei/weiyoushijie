@@ -15,7 +15,7 @@ class BattleToolItem extends AbstractUI {
         
         this._tool = tool;
 		
-        this._ticks = 0;
+        this._ticks = 30;
         this._maxTicks = 30;
 		
 		this._shapeShield = null;

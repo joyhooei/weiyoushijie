@@ -28,7 +28,7 @@ class MovableEntity extends Entity {
 
         this._stepX = 0;
         this._stepY = 0;
-        this._totalSteps = 0;
+        this._totalSteps = -1;
         this._steps = 0;
     }
 

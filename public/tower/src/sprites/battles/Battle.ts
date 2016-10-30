@@ -448,13 +448,7 @@ class Battle extends Entity implements SoldierCreator {
     }
     
     public paint() {
-        //每次只刷新20个，以免刷新不及时
-        let dirts = this._dirts.splice(0, 20);
-        
-        let i = dirts.length;
-        while(i > 0) {
-            dirts[--i].paint();
-        }
+        //do nothing
     }
 
     public findSoldier(x: number, y: number, radius: number) : Soldier {

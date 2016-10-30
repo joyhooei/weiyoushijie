@@ -73,7 +73,8 @@ var Entity = (function (_super) {
     };
     p.stain = function () {
         if (this._state != EntityState.idle && this._state != EntityState.dead) {
-            application.battle.addDirt(this);
+            //application.battle.addDirt(this);
+            this.paint();
         }
     };
     p.build = function () {
@@ -184,24 +185,26 @@ var Entity = (function (_super) {
         if (idx === void 0) { idx = 0; }
         var display = this._displays.getDisplay(this._direction, this._state, idx);
         if (display) {
-            this._displaySprite.removeChildren();
-            this._displaySprite.addChild(display);
             if (egret.getQualifiedClassName(display) == "egret.MovieClip") {
+                //动画的中点是（0， 0）
                 this._displaySprite.x = (display.width >> 1) + xDelta;
                 this._displaySprite.y = (display.height >> 1) + yDelta;
             }
             else {
+                //图片的左边顶点是（0， 0）
                 this._displaySprite.x = xDelta;
                 this._displaySprite.y = yDelta;
             }
-            this._displaySprite.width = display.width;
-            this._displaySprite.height = display.height;
-            if (this.width > 0) {
-                this.x -= (display.width - this.width) / 2;
-                this.y -= (display.height - this.height) / 2;
+            //更换图片后，需要和上次图片的中点保持一致
+            if (this.width != display.width) {
+                this.x -= (display.width - this.width) >> 1;
+                this.y -= (display.height - this.height) >> 1;
             }
             this.width = display.width;
             this.height = display.height;
+            this._displaySprite.removeChildren();
+            display.x = display.y = 0;
+            this._displaySprite.addChild(display);
         }
         else {
             console.error("display dosn't exist for " + this.getClaz() + " direction = " + Entity.directionName(this._direction) + " state = " + Entity.stateName(this._state));

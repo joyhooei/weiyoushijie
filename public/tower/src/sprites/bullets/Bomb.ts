@@ -13,4 +13,20 @@ class Bomb extends CastBullet {
                enemies[i].shootBy(this);
         }
     }
+
+    protected _idle() {
+    	this._ticks ++;
+    	if (this._ticks >= this._idleTicks) {
+        	this.build();
+    	}
+    }
+
+    protected _act():boolean {
+        if (this._state == EntityState.building) {
+            this.move();
+            return false;
+        }
+
+        return super._act();
+    }
 }

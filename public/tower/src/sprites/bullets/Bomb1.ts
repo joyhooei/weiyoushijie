@@ -2,7 +2,8 @@ class Bomb1 extends Bomb {
     public constructor() {
         super();
         
-        this.addBitmap("bomb1_moving_png", "east-moving")
-            .addClip("bomb_fighting", "east-fighting");
+        this.addClip("bomb123_fighting", "east-fighting")
+            .addClip("bomb123_building", "east-building")
+            .addBitmap("bomb1_moving_png", "east-moving");
     }
 }

@@ -11,7 +11,7 @@ var MovableEntity = (function (_super) {
         this._dyingTicks = this._get(properties, "dyingTicks", application.frameRate);
         this._stepX = 0;
         this._stepY = 0;
-        this._totalSteps = 0;
+        this._totalSteps = -1;
         this._steps = 0;
     };
     //走一步，true表示已经到了终点

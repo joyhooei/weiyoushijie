@@ -61,14 +61,14 @@ var Bullet = (function (_super) {
         }
     };
     p.setTargetPosition = function (targetX, targetY) {
-        if (this._targetX != targetX || this._targetY != targetY) {
-            this._targetX = targetX;
-            this._targetY = targetY;
-            this._computeSteps(this.x, this.y, this._targetX, this._targetY);
-            this._turn(this._directionAt(targetX, targetY));
-        }
+        this._targetX = targetX;
+        this._targetY = targetY;
     };
     p._moving = function () {
+        if (this._totalSteps == -1) {
+            this._computeSteps(this.x, this.y, this._targetX, this._targetY);
+            this._turn(this._directionAt(this._targetX, this._targetY));
+        }
         if (this._moveOneStep()) {
             this.fight();
             this._hitTarget();

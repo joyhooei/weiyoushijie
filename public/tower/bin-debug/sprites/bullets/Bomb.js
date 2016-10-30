@@ -14,6 +14,19 @@ var Bomb = (function (_super) {
             enemies[i].shootBy(this);
         }
     };
+    p._idle = function () {
+        this._ticks++;
+        if (this._ticks >= this._idleTicks) {
+            this.build();
+        }
+    };
+    p._act = function () {
+        if (this._state == EntityState.building) {
+            this.move();
+            return false;
+        }
+        return _super.prototype._act.call(this);
+    };
     return Bomb;
 }(CastBullet));
 egret.registerClass(Bomb,'Bomb');

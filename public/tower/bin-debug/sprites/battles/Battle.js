@@ -340,7 +340,7 @@ var Battle = (function (_super) {
     };
     p.paint = function () {
         //每次只刷新20个，以免刷新不及时
-        var dirts = this._dirts.splice(0, 20);
+        var dirts = this._dirts.splice(0, this._dirts.length);
         var i = dirts.length;
         while (i > 0) {
             dirts[--i].paint();

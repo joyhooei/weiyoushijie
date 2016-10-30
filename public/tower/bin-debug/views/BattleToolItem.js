@@ -4,7 +4,7 @@ var BattleToolItem = (function (_super) {
         var _this = this;
         _super.call(this, "battleToolItemSkin");
         this._tool = tool;
-        this._ticks = 0;
+        this._ticks = 30;
         this._maxTicks = 30;
         this._shapeShield = null;
         this.addEventListener(egret.TouchEvent.TOUCH_TAP, function () {

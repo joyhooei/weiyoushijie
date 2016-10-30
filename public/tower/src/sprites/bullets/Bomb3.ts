@@ -3,8 +3,9 @@ class Bomb3 extends Bomb {
         super();
         
         this.addBitmap("bomb3_moving_png", "east-moving")
-            .addClip("bomb_fighting", "east-fighting")
-            .addBitmap("bomb3_dying_png", "east-dying");  
+            .addClip("bomb123_fighting", "east-fighting")
+            .addClip("bomb123_building", "east-building")
+            .addBitmap("bomb3_dying_png", "east-dying");
     }
 
     protected _fighting() {
