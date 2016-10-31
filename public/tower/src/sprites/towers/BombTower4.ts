@@ -90,7 +90,7 @@ class BombTower4 extends BombTower {
                 var force = 200;
             }
             
-            Bullet.blast(this, "ScorchedEarth", {hitRaduis: this._guardRadius, force: force});
+            Bullet.throw(this.getMuzzleX(), this.getMuzzleY(), this.getMuzzleX(), this.getMuzzleY() + 100, "ScorchedEarth", {hitRaduis: this._guardRadius, force: force});
         }
         this._skill2Ticks --;
     }
