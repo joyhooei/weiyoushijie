@@ -49,6 +49,18 @@ class Enemy extends NPC {
 		this._startAbnormal(2, damage, ticks);
 	}
 
+	public weak(damage: number, ticks: number) {
+		this._startAbnormal(3, damage, ticks);
+	}
+
+	public miscast(damage: number, ticks: number) {
+		this._startAbnormal(4, damage, ticks);
+	}
+
+	public black(damage: number, ticks: number) {
+		this._startAbnormal(5, damage, ticks);
+	}
+
 	private _startAbnormal(state: number, damage: number, ticks: number) {
 		if (this._abnormalTicks[state - 1] <= 0) {
 			this._abnormalState ++;
@@ -80,7 +92,10 @@ class Enemy extends NPC {
 	}
 
 	private _clearAbnormal(state: number) {
-		this.removeChild(this._abnormalDisplays[state - 1]);
+		let display = this._abnormalDisplays[state - 1];
+		if (display) {
+			this.removeChild(display);
+		}
 	}
 
 	private _stopAllAbnormals() {
@@ -96,9 +111,11 @@ class Enemy extends NPC {
 
 	private _renderAbnormal(state: number) {
 		let display = this._abnormalDisplays[state - 1];
-		this._abnormalDisplay.x = (this.width - display.width) >> 1;
-		this._abnormalDisplay.y = this.height - display.height;
-		this.addChild(display);
+		if (display) {
+			this._abnormalDisplay.x = (this.width - display.width) >> 1;
+			this._abnormalDisplay.y = this.height - display.height;
+			this.addChild(display);
+		}
 	}
 
 	public update():boolean {
