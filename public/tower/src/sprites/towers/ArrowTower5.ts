@@ -67,14 +67,7 @@ class ArrowTower5 extends ArrowTower {
         if (this._skill1Level > 0 && this._enemy && this._skill1Ticks < 0) {
             this._skill1Ticks = application.frameRate * 12;
             
-            if (this._skill1Level == 1) {
-                var curseTicks = 3;
-            } else if (this._skill1Level == 2) {
-                var curseTicks = 6;
-            } else {
-                var curseTicks = 9;
-            }
-            
+            var curseTicks = 3 * this._skill1Level;
             Bullet.blast(this, "WeakCurse", {hitRaduis: this._guardRadius, curseTicks: curseTicks * application.frameRate});
         }
         this._skill1Ticks --;
@@ -82,14 +75,7 @@ class ArrowTower5 extends ArrowTower {
         if (this._skill2Level > 0 && this._enemy && this._skill2Ticks < 0) {
             this._skill2Ticks = application.frameRate * 10;
             
-            if (this._skill2Level == 1) {
-                var curseTicks = 3;
-            } else if (this._skill2Level == 2) {
-                var curseTicks = 6;
-            } else {
-                var curseTicks = 9;
-            }
-            
+            var curseTicks = 3 * this._skill2Level;
             Bullet.blast(this, "MiscastCurse", {hitRaduis: this._guardRadius, curseTicks: curseTicks * application.frameRate});
         }
         this._skill2Ticks --;
