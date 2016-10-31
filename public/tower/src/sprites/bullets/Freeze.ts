@@ -1,4 +1,4 @@
-class Freeze extends Bullet {
+class Freeze extends Curse {
     public constructor() {
         super();
         
