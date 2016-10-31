@@ -11,6 +11,9 @@ class Tower extends Entity implements SelectableEntity {
 	
     protected _forceHigh: number;
     protected _forceLow: number;
+	
+	//暴击
+	protected _critical: number;
     
     protected _range: GuardRange;
 
@@ -39,6 +42,8 @@ class Tower extends Entity implements SelectableEntity {
 		let force:number  = this._get(properties, "force", 10);
         this._forceHigh   = this._get(properties, "forceHigh", force);
         this._forceLow    = this._get(properties, "forceLow", force);
+		
+		this._critical    = this._get(properties, "critical", 0);
 
 		this._range = null;
         this._base  = null;
@@ -83,8 +88,17 @@ class Tower extends Entity implements SelectableEntity {
     }
 	
     public getForce(): number {
-    	return this._forceLow + Math.round(Math.random() * (this._forceHigh - this._forceLow));
+		let force = this._forceLow + Math.round(Math.random() * (this._forceHigh - this._forceLow));
+		if (this._critical > 0 && Math.random() * 100 <= this._critical) {
+    		return force << 1;
+		} else {
+			return force;
+		}
     }
+	
+	public incCritical(critical: number) {
+		this._critical = this._critical + critical;
+	}
 	
     public erase() {
         super.erase();
