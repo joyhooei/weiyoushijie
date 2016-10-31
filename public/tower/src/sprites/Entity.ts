@@ -98,10 +98,8 @@ class Entity extends egret.Sprite {
 	}
 
     public stain() {
-		if (this._state != EntityState.idle && this._state != EntityState.dead) {
-    		//application.battle.addDirt(this);
-			this.paint();
-		}
+		//application.battle.addDirt(this);
+		this.paint();
     }
 	
 	public build() {
@@ -187,6 +185,7 @@ class Entity extends egret.Sprite {
 				this._clip.stop();
 			}
 			
+			this._displaySprite.removeChildren();
 			this._clip = null;
 			this._clipPlaying = false;
 		}
