@@ -75,7 +75,7 @@ class ArrowTower4 extends ArrowTower {
             
             let enemies = application.battle.findEnemies(this.getCenterX(), this.getCenterY(), this._guardRadius, [0, 1]);
             for(let i = 0; i <= Math.min(count, enemies.length); i++) {
-                Bullet.shoot(this, enemies[i], "Arrow1", {force: 30w + Math.round(Math.random() * 10)});
+                Bullet.shoot(this, enemies[i], this._bulletClaz, {force: 30w + Math.round(Math.random() * 10)});
             }
         }
         this._skill1Ticks --;
