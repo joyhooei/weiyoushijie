@@ -81,7 +81,7 @@ class Character {
 
             //道具
             {name: 'Fireball',  properties:{force:500, hitType:HitType.normal, hitRadius:50, moveSpeed:10, idleTicks:0, fightingTicks: 10, dyingTicks:0}},
-            {name: 'Freeze',    properties:{force:5,  hitType:HitType.normal, hitRadius:800, moveSpeed:10, idleTicks:0, fightingTicks: 10, dyingTicks:0}},
+            {name: 'Freeze',    properties:{force:5,  hitType:HitType.normal, hitRadius:800, moveSpeed:10, idleTicks:0, fightingTicks: 10, dyingTicks:0, curseTicks: 3*application.frameRate}},
             {name: 'Thunder',   properties:{force:500, hitType:HitType.damage, hitRadius:50, moveSpeed:10, idleTicks:0, fightingTicks: 10, dyingTicks:0}},
             
             //炮弹
