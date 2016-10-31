@@ -5,10 +5,7 @@ class Freeze extends Bullet {
         this.addClip("freeze_dying");        
     }
     
-    protected _hitTarget() {
-        let enemies = application.battle.getEnemies();
-        for (let i = 0; i < enemies.length; i++) {
-            enemies[i].frozen(this.getForce(), application.frameRate << 2);
-        }
+    protected _hitEnemy(enemy: Enemy, force: number, ticks: number) {
+        enemy.frozen(force, ticks);
     }
 }
