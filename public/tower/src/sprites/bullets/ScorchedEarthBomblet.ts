@@ -1,16 +1,8 @@
 class ScorchedEarthBomblet extends Bomb {
-    protected _hitRadius: number;
-    
     public constructor() {
         super();
         
         this.addClip("scorchedearthbomblet_fighting");
-    }
-    
-    public initialize(properties:any) {
-        super.initialize(properties);
-
-        this._hitRadius = this._get(properties, 'hitRadius', 50);
     }
     
     protected _act():boolean {
