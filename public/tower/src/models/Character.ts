@@ -80,21 +80,23 @@ class Character {
             {name: 'MagicTower4',  properties:{forceHigh:70, forceLow:20, shootSpeed: Math.round(0.8* application.frameRate), guardRadius: 220, price: 300}},         
 
             //bullets
-            {name: 'Fireball',  properties:{force:500, hitType:HitType.normal, hitRadius:50, moveSpeed:5, idleTicks:0, fightingTicks: 10, dyingTicks:0}},
-            {name: 'Freeze',    properties:{force:5,  hitType:HitType.normal, hitRadius:800, moveSpeed:5, idleTicks:0, fightingTicks: 10, dyingTicks:0}},
-            {name: 'Thunder',   properties:{force:500, hitType:HitType.damage, hitRadius:50, moveSpeed:5, idleTicks:0, fightingTicks: 10, dyingTicks:0}},
+            {name: 'Fireball',  properties:{force:500, hitType:HitType.normal, hitRadius:50, moveSpeed:10, idleTicks:0, fightingTicks: 10, dyingTicks:0}},
+            {name: 'Freeze',    properties:{force:5,  hitType:HitType.normal, hitRadius:800, moveSpeed:10, idleTicks:0, fightingTicks: 10, dyingTicks:0}},
+            {name: 'Thunder',   properties:{force:500, hitType:HitType.damage, hitRadius:50, moveSpeed:10, idleTicks:0, fightingTicks: 10, dyingTicks:0}},
             
             //炮塔炮弹
-            {name: 'Bomb1',     properties:{force:20, hitType:HitType.normal, hitRadius:50, moveSpeed:5, idleTicks:0, fightingTicks: 10, dyingTicks:0}},
-            {name: 'Bomb2',     properties:{force:30, hitType:HitType.normal, hitRadius:50, moveSpeed:5, idleTicks:0, fightingTicks: 10, dyingTicks:0}},
-            {name: 'Bomb3',     properties:{force:40, hitType:HitType.normal, hitRadius:50, moveSpeed:5, idleTicks:0, fightingTicks: 10, dyingTicks:3 * application.frameRate}},
-            {name: 'Bomb4',     properties:{force:30, hitType:HitType.normal, hitRadius:50, moveSpeed:5, idleTicks:0, fightingTicks: 10, dyingTicks:0}},
-            {name: 'Bomb5',     properties:{force:30, hitType:HitType.normal, hitRadius:50, moveSpeed:5, idleTicks:0, fightingTicks: 10, dyingTicks:0}},
+            {name: 'Bomb1',     properties:{force:20, hitType:HitType.normal, hitRadius:50, moveSpeed:10, idleTicks:0, fightingTicks: 10, dyingTicks:0}},
+            {name: 'Bomb2',     properties:{force:30, hitType:HitType.normal, hitRadius:50, moveSpeed:10, idleTicks:0, fightingTicks: 10, dyingTicks:0}},
+            {name: 'Bomb3',     properties:{force:40, hitType:HitType.normal, hitRadius:50, moveSpeed:10, idleTicks:0, fightingTicks: 10, dyingTicks:3 * application.frameRate}},
+            {name: 'Bomb4',     properties:{force:30, hitType:HitType.normal, hitRadius:50, moveSpeed:10, idleTicks:0, fightingTicks: 10, dyingTicks:0}},
+            {name: 'ScorchedEarth',    properties:{hitType:HitType.normal, moveSpeed:10, force:20, fightingTicks: 10, idleTicks:0, dyingTicks:0}},        
+            {name: 'ScorchedEarthBomblet',    properties:{hitType:HitType.normal, moveSpeed:10, force:20, fightingTicks: 10, idleTicks:0, dyingTicks:0}},        
+            {name: 'Spike',    properties:{hitType:HitType.normal, moveSpeed:10, force:20, fightingTicks: 10, idleTicks:0, dyingTicks:0}},        
             
             //弓箭
-            {name: 'Arrow1',    properties:{force:8,  hitType:HitType.normal,moveSpeed:5, idleTicks:0, fightingTicks: 10, dyingTicks:0}},
-            {name: 'Arrow4',    properties:{force:24, hitType:HitType.normal,moveSpeed:5, idleTicks:0, fightingTicks: 10, dyingTicks:0}},
-            {name: 'Arrow5',    properties:{force:24, hitType:HitType.normal,moveSpeed:5, idleTicks:0, fightingTicks: 10, dyingTicks:0}},
+            {name: 'Arrow1',    properties:{force:8,  hitType:HitType.normal,moveSpeed:10, idleTicks:0, fightingTicks: 10, dyingTicks:0}},
+            {name: 'Arrow4',    properties:{force:24, hitType:HitType.normal,moveSpeed:10, idleTicks:0, fightingTicks: 10, dyingTicks:0}},
+            {name: 'Arrow5',    properties:{force:24, hitType:HitType.normal,moveSpeed:10, idleTicks:0, fightingTicks: 10, dyingTicks:0}},
             
             //魔法塔魔法
             {name: 'Magic1',    properties:{hitType:HitType.magic, moveSpeed:10, idleTicks:0, fightingTicks: 10, dyingTicks:0}},
@@ -102,9 +104,6 @@ class Character {
             {name: 'Magic3',    properties:{hitType:HitType.magic, moveSpeed:10, idleTicks:0, fightingTicks: 10, dyingTicks:0}},
             {name: 'Magic4',    properties:{hitType:HitType.magic, moveSpeed:10, idleTicks:0, fightingTicks: 10, dyingTicks:0}},
             {name: 'BlackWater',    properties:{hitType:HitType.magic, moveSpeed:0, force:20, idleTicks:0, dyingTicks:0}},        
-            {name: 'ScorchedEarth',    properties:{hitType:HitType.magic, moveSpeed:10, force:20, idleTicks:0, dyingTicks:0}},        
-            {name: 'ScorchedEarthBomblet',    properties:{hitType:HitType.magic, moveSpeed:10, force:20, idleTicks:0, dyingTicks:0}},        
-            {name: 'Spike',    properties:{hitType:HitType.magic, moveSpeed:10, force:20, idleTicks:0, dyingTicks:0}},        
         ]; 
 
         for(let i = 0; i < config.length; i++) {
