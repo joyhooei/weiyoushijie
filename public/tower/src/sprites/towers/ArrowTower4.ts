@@ -37,7 +37,7 @@ class ArrowTower4 extends ArrowTower {
                 var critical = 5;
             }
             
-            let towers = application.battle.findTowers(this.getCenterX(), this.getCenterY(), this._guardRadius);
+            let towers = this.findNeighbors();
             for (let i = 0;i < towers.length; i++) {
                 towers[i].incCritical(critical);
             }
@@ -116,8 +116,7 @@ class ArrowTower4 extends ArrowTower {
         } else {
             var critical = -20;
         }
-
-        let towers = application.battle.findTowers(this.getCenterX(), this.getCenterY(), this._guardRadius);
+        let towers = this.findNeighbors();
         for (let i = 0;i < towers.length; i++) {
             towers[i].incCritical(critical);
         }
