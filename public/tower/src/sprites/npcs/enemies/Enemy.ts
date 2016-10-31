@@ -11,10 +11,11 @@ class Enemy extends NPC {
     protected _bonus: number;
 
 	//冰冻或者火烧状态
-	protected _abnormalTicks: number;
 	protected _abnormalState: number;
-	protected _abnormalDamage: number;
+	protected _abnormalTicks: number[];
+	protected _abnormalDamages: number[];
 	protected _abnormalDisplays: egret.DisplayObject[];
+	protected _abnormalDisplay: egret.DisplayObject;
     
     public constructor() {
         super();
@@ -37,50 +38,67 @@ class Enemy extends NPC {
         this._nextPath();
 		
 		this._abnormalState = 0;
-		this._abnormalTicks = -1;
+		this._abnormalTicks = [];
+		this._abnormalDamages = [];
+		this._abnormalDisplay = null;
     }
 
 	public frozen(damage: number, ticks: number) {
-		this._addAbnormal(1, damage, ticks);
+		this._startAbnormal(1, damage, ticks);
 	}
 
 	public burn(damage: number, ticks: number) {
-		this._addAbnormal(2, damage, ticks);
+		this._startAbnormal(2, damage, ticks);
 	}
 
-	public posion(damage: number, ticks: number) {
-		this._addAbnormal(3, damage, ticks);
-	}
-
-	private _addAbnormal(state: number, damage: number, ticks: number) {
-		this._restore();
+	private _startAbnormal(state: number, damage: number, ticks: number) {
+		this._abnormalState ++;
 		
-		this._abnormalState  = state;
-		this._abnormalTicks  = ticks;
-		this._abnormalDamage = damage;
+		this._abnormalTicks[state - 1]   = ticks;
+		this._abnormalDamages[state - 1] = damage;
 		
 		if (state == 1 && this._clip) {
 			this._clip.stop();
 		}
-
-		let display = this._abnormalDisplays[this._abnormalState - 1];
-		display.x = (this.width - display.width) >> 1;
-		display.y = this.height - display.height;
-		this._displaySprite.addChild(display);
+		
+		//如果新异常有效果图，则更换当前的效果图
+		if (this._abnormalDisplays[this._abnormalState - 1]) {
+			this._clearAbnormal();	
+			this._renderAbnormal(this._abnormalState);
+		}
 	}
 
-	private _restore() {
-		if (this._abnormalState == 1 && this._clip) {
+	private _stopAbnormal(state: number) {
+		this._abnormalState --;
+		
+		if (state == 1 && this._clip) {
 			this._clip.gotoAndPlay(0, 1);
 		}
-
-        try {
-		    this._displaySprite.removeChild(this._abnormalDisplays[this._abnormalState - 1]);
-        } catch(error) {
-        }
 		
-		this._abnormalState = 0;
-		this._abnormalTicks = -1;
+		this._abnormalTicks[state - 1] = -1;
+		
+		this._clearAbnormal();		
+		for(let i = 0; i < this._abnormalTicks.length; i++) {
+			if (this._abnormalTicks[i] > 0 && this._abnormalDisplays[i]) {
+				this._renderAbnormal(i + 1);
+				
+				return;
+			}
+		}
+	}
+
+	private _clearAbnormal() {
+		if (this._abnormalDisplay) {
+			this.removeChild(this._abnormalDisplay]);
+			this._abnormalDisplay = null;
+		}		
+	}
+
+	private _renderAbnormal(state: number) {
+		this._abnormalDisplay   = this._abnormalDisplays[state - 1];
+		this._abnormalDisplay.x = (this.width - this._abnormalDisplay.width) >> 1;
+		this._abnormalDisplay.y = this.height - this._abnormalDisplay.height;
+		this.addChild(this._abnormalDisplay);
 	}
 
 	public update():boolean {
@@ -88,19 +106,21 @@ class Enemy extends NPC {
 			return super.update();
 		}
 		
-		if (this._abnormalTicks >= 0) {
-			if (this._abnormalTicks % application.frameRate == 0) {
-				if (this.damage(this._abnormalDamage)) {
-					this._restore();
+		for(let i = 0; i < this._abnormalTicks.length; i++) {
+			if (this._abnormalTicks[i] > 0) {
+				if (this._abnormalTicks[i] % application.frameRate == 0) {
+					if(this.damage(this._abnormalDamages[i])) {
+						return super.update();
+					}
 				}
+
+				this._abnormalTicks[i] --;
+			} else if (this._abnormalTicks[i] == 0){
+				this._delAbnormal(i + 1);
 			}
-			
-			this._abnormalTicks --;	
-		} else {
-			this._restore();
 		}
 		
-		if (this._abnormalState == 1) {
+		if (this._abnormalTicks[1] > 0) {
 			//冰冻
 			return false;
 		} else {
@@ -204,6 +224,9 @@ class Enemy extends NPC {
 
     public kill() {
     	super.kill();
+		
+		this._abnormalState = 0;
+		this._clearAbnormal();
     	
     	application.battle.incGolds(this._bonus);
     }
