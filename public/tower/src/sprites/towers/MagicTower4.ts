@@ -102,16 +102,9 @@ class MagicTower4 extends MagicTower implements SoldierCreator {
         
         if (this._skill1Level > 0 && this._enemy && this._skill1Ticks < 0) {
             this._skill1Ticks = application.frameRate * 12;
-            
-            if (this._skill1Level == 1) {
-                var fightingTicks = 4;
-            } else if (this._skill1Level == 2) {
-                var fightingTicks = 5;
-            } else {
-                var fightingTicks = 6;
-            }
-            
-            Bullet.blast(this, "BlackWater", {hitRaduis: this._guardRadius, fightingTicks: fightingTicks * application.frameRate});
+
+            var curseTicks = this._skill1Level + 3;
+            Bullet.blast(this, "BlackWater", {hitRaduis: this._guardRadius, curseTicks:  curseTicks * application.frameRate});
         }
         this._skill1Ticks --;
     }
