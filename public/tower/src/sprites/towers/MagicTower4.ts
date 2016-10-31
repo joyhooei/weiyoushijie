@@ -100,8 +100,8 @@ class MagicTower4 extends MagicTower implements SoldierCreator {
     protected _fighting() {
         super._fighting();
         
-        if (this._skill1Ticks >= application.frameRate * 12 && this._skill1Level > 0 && this._enemy) {
-            this._skill1Ticks = 0;
+        if (this._skill1Level > 0 && this._enemy && this._skill1Ticks < 0) {
+            this._skill1Ticks = application.frameRate * 12;
             
             if (this._skill1Level == 1) {
                 var fightingTicks = 4;
@@ -111,13 +111,9 @@ class MagicTower4 extends MagicTower implements SoldierCreator {
                 var fightingTicks = 6;
             }
             
-            let bullet = <Bullet>application.pool.get("BlackWater",  {hitRaduis: this._guardRadius, fightingTicks: fightingTicks * application.frameRate});
-            bullet.setShooter(this);
-            bullet.fight();
-            application.battle.addBullet(bullet);
+            Bullet.blast(this, "BlackWater", {hitRaduis: this._guardRadius, fightingTicks: fightingTicks * application.frameRate});
         }
-        
-        this._skill1Ticks ++;
+        this._skill1Ticks --;
     }
     
     public getMuzzleX(): number {
