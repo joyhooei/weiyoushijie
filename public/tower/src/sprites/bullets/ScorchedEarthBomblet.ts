@@ -1,4 +1,4 @@
-class ScorchedEarthBomblet extends Magic {
+class ScorchedEarthBomblet extends CastBullet {
     protected _hitRadius: number;
     
     public constructor() {
