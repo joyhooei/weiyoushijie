@@ -7,7 +7,7 @@ class Curse extends Bullet {
         super.initialize(properties);
 
         this._hitRadius = this._get(properties, 'hitRadius', 50);
-        this._curseTicks = this._get(properties, 'curseTicks', application.frameRate);
+        this._curseTicks = this._get(properties, 'curseTicks', application.frameRate << 2);
     }
     
     protected _hitTarget() {
