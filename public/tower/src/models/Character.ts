@@ -30,7 +30,7 @@ class Character {
             {name: 'Battle14',  properties:{lives: 20, golds:1000}},
             {name: 'Battle15',  properties:{lives: 20, golds:1000}},
             
-            //heros
+            //英雄
             {name: 'Sunwukong',  properties:{hp:245, forceHigh:10, forceLow:6, resistance: 5, armor: 15, magicArmor: 15, cureSpeed:1, moveSpeed:1, idleTicks: 0, dyingTicks:application.frameRate, guardRadius: 50, guardAltitude:[-1, 0]}},
             {name: 'Zhubajie',   properties:{hp:245, forceHigh:10, forceLow:6, resistance: 5, armor: 15, magicArmor: 15, cureSpeed:1, moveSpeed:1, idleTicks: 0, dyingTicks:application.frameRate, guardRadius: 50, guardAltitude:[-1, 0]}},
             {name: 'Shaseng',    properties:{hp:245, forceHigh:10, forceLow:6, resistance: 5, armor: 15, magicArmor: 15, cureSpeed:1, moveSpeed:1, idleTicks: 0, dyingTicks:application.frameRate, guardRadius: 50, guardAltitude:[-1, 0]}},
@@ -48,7 +48,7 @@ class Character {
             {name: 'Soldier3',  properties:{hp:50, force:9, armor: 0, magicArmor: 6, cureSpeed:1, moveSpeed:1, guardRadius:50, guardAltitude:[-1, 0], idleTicks: 0, dyingTicks:application.frameRate}},
             {name: 'Soldier4',  properties:{hp:50, force:12, armor: 0, magicArmor: 9, cureSpeed:1, moveSpeed:1, guardRadius:50, guardAltitude:[-1, 0], idleTicks: 0, dyingTicks:application.frameRate}},        
 
-            //enemies
+            //小怪
             {name: 'Enemy1',  properties:{bonus:10, hp:100, force:6, armor: 0, magicArmor: 0, cureSpeed:0, moveSpeed:1, idleTicks:0, dyingTicks:application.frameRate}},
             {name: 'Enemy4',  properties:{bonus:10, hp:100, force:6, armor: 0, magicArmor: 0, cureSpeed:0, moveSpeed:1, idleTicks:0, dyingTicks:application.frameRate}},
             {name: 'Enemy8', properties:{bonus:10, hp:100, force:6, armor: 0, magicArmor: 0, cureSpeed:0, moveSpeed:1, idleTicks:0, dyingTicks:application.frameRate}},
@@ -79,12 +79,12 @@ class Character {
             {name: 'MagicTower3',  properties:{forceHigh:74, forceLow:40, shootSpeed: Math.round(1.5* application.frameRate), guardRadius: 250, price: 240, upgradePrice: 300}},
             {name: 'MagicTower4',  properties:{forceHigh:70, forceLow:20, shootSpeed: Math.round(0.8* application.frameRate), guardRadius: 220, price: 300}},         
 
-            //bullets
+            //道具
             {name: 'Fireball',  properties:{force:500, hitType:HitType.normal, hitRadius:50, moveSpeed:10, idleTicks:0, fightingTicks: 10, dyingTicks:0}},
             {name: 'Freeze',    properties:{force:5,  hitType:HitType.normal, hitRadius:800, moveSpeed:10, idleTicks:0, fightingTicks: 10, dyingTicks:0}},
             {name: 'Thunder',   properties:{force:500, hitType:HitType.damage, hitRadius:50, moveSpeed:10, idleTicks:0, fightingTicks: 10, dyingTicks:0}},
             
-            //炮塔炮弹
+            //炮弹
             {name: 'Bomb1',     properties:{force:20, hitType:HitType.normal, hitRadius:50, moveSpeed:10, idleTicks:0, fightingTicks: 10, dyingTicks:0}},
             {name: 'Bomb2',     properties:{force:30, hitType:HitType.normal, hitRadius:50, moveSpeed:10, idleTicks:0, fightingTicks: 10, dyingTicks:0}},
             {name: 'Bomb3',     properties:{force:40, hitType:HitType.normal, hitRadius:50, moveSpeed:10, idleTicks:0, fightingTicks: 10, dyingTicks:3 * application.frameRate}},
@@ -98,7 +98,7 @@ class Character {
             {name: 'Arrow4',    properties:{force:24, hitType:HitType.normal,moveSpeed:10, idleTicks:0, fightingTicks: 10, dyingTicks:0}},
             {name: 'Arrow5',    properties:{force:24, hitType:HitType.normal,moveSpeed:10, idleTicks:0, fightingTicks: 10, dyingTicks:0}},
             
-            //魔法塔魔法
+            //魔法
             {name: 'Magic1',    properties:{hitType:HitType.magic, moveSpeed:10, idleTicks:0, fightingTicks: 10, dyingTicks:0}},
             {name: 'Magic2',    properties:{hitType:HitType.magic, moveSpeed:10, idleTicks:0, fightingTicks: 10, dyingTicks:0}},
             {name: 'Magic3',    properties:{hitType:HitType.magic, moveSpeed:10, idleTicks:0, fightingTicks: 10, dyingTicks:0}},
