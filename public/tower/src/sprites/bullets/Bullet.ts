@@ -39,6 +39,15 @@ class Bullet extends MovableEntity {
         
         return bullet;
     }
+
+    public static blast(shooter: Shooter, claz:string, properties?): Bullet {
+        let bullet = <Bullet>application.pool.get(claz,  properties);
+        bullet.setShooter(this);
+        bullet.fight();
+        application.battle.addBullet(bullet);
+        
+        return bullet;
+    }
     
     public constructor() {
         super();
