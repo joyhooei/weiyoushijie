@@ -46,7 +46,7 @@ class ArrowTower4 extends ArrowTower {
         application.battle.incGolds(-this.getSkillUpgradePrice(skill));        
     }
 
-    public useCriticalSkill(tower: Tower) {
+    public useSkill(tower: Tower) {
         if (this._skill2Level == 1) {
             var critical = 10;
         } else if (this._skill2Level == 1) {
