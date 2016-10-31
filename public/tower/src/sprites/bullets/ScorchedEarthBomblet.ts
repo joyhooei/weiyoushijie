@@ -5,14 +5,10 @@ class ScorchedEarthBomblet extends Bomb {
         this.addClip("scorchedearthbomblet_fighting");
     }
     
-    protected _act():boolean {
-        if (this._state == EntityState.fighting) {
-            let enemies = application.battle.findEnemies(this.getCenterX(), this.getCenterY(), this._hitRadius, [0, 1]);
-            for (let i = 0; i < enemies.length; i++) {
-                enemies[i].burn(this._force, 4 * application.frameRate);
-            }
+    protected _hitTarget() {
+        let enemies = application.battle.findEnemies(this.getCenterX(), this.getCenterY(), this._hitRadius, [0, 1]);
+        for (let i = 0; i < enemies.length; i++) {
+            enemies[i].burn(this.getForce(), 4 * application.frameRate);
         }
-
-        return super._act();
     }
 }
