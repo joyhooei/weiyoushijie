@@ -15,7 +15,6 @@ class Enemy extends NPC {
 	protected _abnormalTicks: number[];
 	protected _abnormalDamages: number[];
 	protected _abnormalDisplays: egret.DisplayObject[];
-	protected _abnormalDisplay: egret.DisplayObject;
     
     public constructor() {
         super();
@@ -40,7 +39,6 @@ class Enemy extends NPC {
 		this._abnormalState = 0;
 		this._abnormalTicks = [];
 		this._abnormalDamages = [];
-		this._abnormalDisplay = null;
     }
 
 	public frozen(damage: number, ticks: number) {
@@ -52,19 +50,20 @@ class Enemy extends NPC {
 	}
 
 	private _startAbnormal(state: number, damage: number, ticks: number) {
-		this._abnormalState ++;
-		
-		this._abnormalTicks[state - 1]   = ticks;
-		this._abnormalDamages[state - 1] = damage;
-		
-		if (state == 1 && this._clip) {
-			this._clip.stop();
-		}
-		
-		//如果新异常有效果图，则更换当前的效果图
-		if (this._abnormalDisplays[this._abnormalState - 1]) {
-			this._clearAbnormal();	
+		if (this._abnormalTicks[state - 1] <= 0) {
+			this._abnormalState ++;
+
+			this._abnormalTicks[state - 1]   = ticks;
+			this._abnormalDamages[state - 1] = damage;
+
+			if (state == 1 && this._clip) {
+				this._clip.stop();
+			}
+
 			this._renderAbnormal(this._abnormalState);
+		} else {
+			this._abnormalTicks[state - 1]   += ticks;
+			this._abnormalDamages[state - 1] += damage;
 		}
 	}
 
@@ -77,28 +76,29 @@ class Enemy extends NPC {
 		
 		this._abnormalTicks[state - 1] = -1;
 		
-		this._clearAbnormal();		
-		for(let i = 0; i < this._abnormalTicks.length; i++) {
-			if (this._abnormalTicks[i] > 0 && this._abnormalDisplays[i]) {
-				this._renderAbnormal(i + 1);
-				
-				return;
-			}
-		}
+		this._clearAbnormal(state);		
 	}
 
-	private _clearAbnormal() {
-		if (this._abnormalDisplay) {
-			this.removeChild(this._abnormalDisplay]);
-			this._abnormalDisplay = null;
-		}		
+	private _clearAbnormal(state: number) {
+		this.removeChild(this._abnormalDisplays[state - 1]);
+	}
+
+	private _stopAllAbnormals() {
+		for(let i = 0; i < this._abnormalTicks.length; i++) {
+			if (this._abnormalTicks[i] > 0) {
+				this._clearAbnormal(i + 1);
+				this._abnormalTicks[i] = -1;
+			}
+		}
+		
+		this._abnormalState = 0;
 	}
 
 	private _renderAbnormal(state: number) {
-		this._abnormalDisplay   = this._abnormalDisplays[state - 1];
-		this._abnormalDisplay.x = (this.width - this._abnormalDisplay.width) >> 1;
-		this._abnormalDisplay.y = this.height - this._abnormalDisplay.height;
-		this.addChild(this._abnormalDisplay);
+		let display = this._abnormalDisplays[state - 1];
+		this._abnormalDisplay.x = (this.width - display.width) >> 1;
+		this._abnormalDisplay.y = this.height - display.height;
+		this.addChild(display);
 	}
 
 	public update():boolean {
@@ -225,8 +225,7 @@ class Enemy extends NPC {
     public kill() {
     	super.kill();
 		
-		this._abnormalState = 0;
-		this._clearAbnormal();
+		this._stopAllAbnormals();
     	
     	application.battle.incGolds(this._bonus);
     }
