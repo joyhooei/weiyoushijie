@@ -14,13 +14,6 @@ class Bomb extends CastBullet {
         }
     }
 
-    protected _idle() {
-    	this._ticks ++;
-    	if (this._ticks >= this._idleTicks) {
-        	this.build();
-    	}
-    }
-
     protected _act():boolean {
         if (this._state == EntityState.building) {
             this.move();

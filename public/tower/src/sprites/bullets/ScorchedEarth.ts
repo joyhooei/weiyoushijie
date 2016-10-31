@@ -4,15 +4,26 @@ class ScorchedEarth extends Bomb {
         
         this.addClip("scorchedearth_fighting");
     }
-    
+ 
+    public setTarget(target: NPC) {
+        this._target  = target;
+        
+        this.setTargetPosition(this.getCenterX(), this.getCenterY() - 100);
+    }
+
     protected _hitTarget() {
         let x = this.getCenterX();
-        let y = this.getCenterY();
+        let y = this.y - 50;
+
+        let tx = this._target.getCenterX();
+        let ty = this._target.getCenterY();
         
-        let radius = hitRadius >> 1;
-        Bullet.throw(x, y, x, y - radius, "ScorchedEarth", {hitRadius: radius});
-        Bullet.throw(x, y, x, y + radius, "ScorchedEarth", {hitRadius: radius});
-        Bullet.throw(x, y, x - radius, y, "ScorchedEarth", {hitRadius: radius});
-        Bullet.throw(x, y, x + radius, y, "ScorchedEarth", {hitRadius: radius});
+        let radius = this._hitRadius >> 1;
+        Bullet.throw(x, y, tx, ty - radius, "ScorchedEarthBomblet", {hitRadius: radius});
+        Bullet.throw(x, y, tx, ty + radius, "ScorchedEarthBomblet", {hitRadius: radius});
+        Bullet.throw(x, y, tx - radius, ty, "ScorchedEarthBomblet", {hitRadius: radius});
+        Bullet.throw(x, y, tx + radius, ty, "ScorchedEarthBomblet", {hitRadius: radius});
+
+        this.erase();
     }
 }

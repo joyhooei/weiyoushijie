@@ -5,13 +5,10 @@ var Freeze = (function (_super) {
         this.addClip("freeze_dying");
     }
     var d = __define,c=Freeze,p=c.prototype;
-    p._hitTarget = function () {
-        var enemies = application.battle.getEnemies();
-        for (var i = 0; i < enemies.length; i++) {
-            enemies[i].frozen(this.getForce(), application.frameRate << 2);
-        }
+    p._hitEnemy = function (enemy, force, ticks) {
+        enemy.frozen(force, ticks);
     };
     return Freeze;
-}(Bullet));
+}(Curse));
 egret.registerClass(Freeze,'Freeze');
 //# sourceMappingURL=Freeze.js.map

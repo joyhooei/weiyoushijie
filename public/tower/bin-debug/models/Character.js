@@ -11,7 +11,7 @@ var Character = (function () {
         var config = [
             //battle
             { name: 'Battle1', properties: { lives: 20, golds: 1000, heroWinned: 'Sunwukong' } },
-            { name: 'Battle2', properties: { lives: 20, golds: 1000, heroWinned: 'Zhubajie' } },
+            { name: 'Battle2', properties: { lives: 20, golds: 10000, heroWinned: 'Zhubajie' } },
             { name: 'Battle3', properties: { lives: 20, golds: 1000 } },
             { name: 'Battle4', properties: { lives: 20, golds: 1000 } },
             { name: 'Battle5', properties: { lives: 20, golds: 1000, heroWinned: 'Shaseng' } },
@@ -25,7 +25,7 @@ var Character = (function () {
             { name: 'Battle13', properties: { lives: 20, golds: 1000 } },
             { name: 'Battle14', properties: { lives: 20, golds: 1000 } },
             { name: 'Battle15', properties: { lives: 20, golds: 1000 } },
-            //heros
+            //英雄
             { name: 'Sunwukong', properties: { hp: 245, forceHigh: 10, forceLow: 6, resistance: 5, armor: 15, magicArmor: 15, cureSpeed: 1, moveSpeed: 1, idleTicks: 0, dyingTicks: application.frameRate, guardRadius: 50, guardAltitude: [-1, 0] } },
             { name: 'Zhubajie', properties: { hp: 245, forceHigh: 10, forceLow: 6, resistance: 5, armor: 15, magicArmor: 15, cureSpeed: 1, moveSpeed: 1, idleTicks: 0, dyingTicks: application.frameRate, guardRadius: 50, guardAltitude: [-1, 0] } },
             { name: 'Shaseng', properties: { hp: 245, forceHigh: 10, forceLow: 6, resistance: 5, armor: 15, magicArmor: 15, cureSpeed: 1, moveSpeed: 1, idleTicks: 0, dyingTicks: application.frameRate, guardRadius: 50, guardAltitude: [-1, 0] } },
@@ -40,7 +40,7 @@ var Character = (function () {
             { name: 'Soldier2', properties: { hp: 50, force: 6, armor: 0, magicArmor: 3, cureSpeed: 1, moveSpeed: 1, guardRadius: 50, guardAltitude: [-1, 0], idleTicks: 0, dyingTicks: application.frameRate } },
             { name: 'Soldier3', properties: { hp: 50, force: 9, armor: 0, magicArmor: 6, cureSpeed: 1, moveSpeed: 1, guardRadius: 50, guardAltitude: [-1, 0], idleTicks: 0, dyingTicks: application.frameRate } },
             { name: 'Soldier4', properties: { hp: 50, force: 12, armor: 0, magicArmor: 9, cureSpeed: 1, moveSpeed: 1, guardRadius: 50, guardAltitude: [-1, 0], idleTicks: 0, dyingTicks: application.frameRate } },
-            //enemies
+            //小怪
             { name: 'Enemy1', properties: { bonus: 10, hp: 100, force: 6, armor: 0, magicArmor: 0, cureSpeed: 0, moveSpeed: 1, idleTicks: 0, dyingTicks: application.frameRate } },
             { name: 'Enemy4', properties: { bonus: 10, hp: 100, force: 6, armor: 0, magicArmor: 0, cureSpeed: 0, moveSpeed: 1, idleTicks: 0, dyingTicks: application.frameRate } },
             { name: 'Enemy8', properties: { bonus: 10, hp: 100, force: 6, armor: 0, magicArmor: 0, cureSpeed: 0, moveSpeed: 1, idleTicks: 0, dyingTicks: application.frameRate } },
@@ -51,10 +51,10 @@ var Character = (function () {
             { name: 'SoldierTower3', properties: { force: 9, guardRadius: 160, price: 300, upgradePrice: 100 } },
             { name: 'SoldierTower4', properties: { force: 12, guardRadius: 160, price: 530 } },
             //炮塔
-            { name: 'BombTower1', properties: { force: 20, guardRadius: 160, price: 120, upgradePrice: 150 } },
-            { name: 'BombTower2', properties: { force: 30, guardRadius: 180, shootSpeed: 1.5 * application.frameRate, price: 270, upgradePrice: 150 } },
-            { name: 'BombTower3', properties: { force: 40, guardRadius: 200, shootSpeed: 1.5 * application.frameRate, price: 320, upgradePrice: 230 } },
-            { name: 'BombTower4', properties: { force: 30, guardRadius: 220, shootSpeed: 12 * application.frameRate, price: 550 } },
+            { name: 'BombTower1', properties: { force: 20, guardRadius: 160, shootSpeed: Math.round(1.5 * application.frameRate), price: 120, upgradePrice: 150 } },
+            { name: 'BombTower2', properties: { force: 30, guardRadius: 180, shootSpeed: Math.round(1.5 * application.frameRate), price: 270, upgradePrice: 150 } },
+            { name: 'BombTower3', properties: { force: 40, guardRadius: 200, shootSpeed: Math.round(1.5 * application.frameRate), price: 320, upgradePrice: 230 } },
+            { name: 'BombTower4', properties: { force: 30, guardRadius: 220, shootSpeed: Math.round(1.5 * application.frameRate), price: 550 } },
             //箭塔
             { name: 'ArrowTower1', properties: { force: 8, guardRadius: 160, price: 70, upgradePrice: 100 } },
             { name: 'ArrowTower2', properties: { force: 12, guardRadius: 200, price: 170, upgradePrice: 150 } },
@@ -66,26 +66,30 @@ var Character = (function () {
             { name: 'MagicTower2', properties: { forceHigh: 43, forceLow: 23, shootSpeed: Math.round(1.5 * application.frameRate), guardRadius: 180, price: 160, upgradePrice: 240 } },
             { name: 'MagicTower3', properties: { forceHigh: 74, forceLow: 40, shootSpeed: Math.round(1.5 * application.frameRate), guardRadius: 250, price: 240, upgradePrice: 300 } },
             { name: 'MagicTower4', properties: { forceHigh: 70, forceLow: 20, shootSpeed: Math.round(0.8 * application.frameRate), guardRadius: 220, price: 300 } },
-            //bullets
-            { name: 'Fireball', properties: { force: 500, hitType: HitType.normal, hitRadius: 50, moveSpeed: 5, idleTicks: 0, fightingTicks: 10, dyingTicks: 0 } },
-            { name: 'Freeze', properties: { force: 5, hitType: HitType.normal, hitRadius: 800, moveSpeed: 5, idleTicks: 0, fightingTicks: 10, dyingTicks: 0 } },
-            { name: 'Thunder', properties: { force: 500, hitType: HitType.damage, hitRadius: 50, moveSpeed: 5, idleTicks: 0, fightingTicks: 10, dyingTicks: 0 } },
-            //炮塔炮弹
-            { name: 'Bomb1', properties: { force: 20, hitType: HitType.normal, hitRadius: 50, moveSpeed: 5, idleTicks: 0, fightingTicks: 10, dyingTicks: 0 } },
-            { name: 'Bomb2', properties: { force: 30, hitType: HitType.normal, hitRadius: 50, moveSpeed: 5, idleTicks: 0, fightingTicks: 10, dyingTicks: 0 } },
-            { name: 'Bomb3', properties: { force: 40, hitType: HitType.normal, hitRadius: 50, moveSpeed: 5, idleTicks: 0, fightingTicks: 10, dyingTicks: 3 * application.frameRate } },
-            { name: 'Bomb4', properties: { force: 30, hitType: HitType.normal, hitRadius: 50, moveSpeed: 5, idleTicks: 0, fightingTicks: 10, dyingTicks: 0 } },
-            { name: 'Bomb5', properties: { force: 30, hitType: HitType.normal, hitRadius: 50, moveSpeed: 5, idleTicks: 0, fightingTicks: 10, dyingTicks: 0 } },
+            //道具
+            { name: 'Fireball', properties: { force: 500, hitType: HitType.normal, hitRadius: 50, moveSpeed: 10, idleTicks: 0, fightingTicks: 10, dyingTicks: 0 } },
+            { name: 'Freeze', properties: { force: 5, hitType: HitType.normal, hitRadius: 800, moveSpeed: 10, idleTicks: 0, fightingTicks: 10, dyingTicks: 0, curseTicks: 3 * application.frameRate } },
+            { name: 'Thunder', properties: { force: 500, hitType: HitType.damage, hitRadius: 50, moveSpeed: 10, idleTicks: 0, fightingTicks: 10, dyingTicks: 0 } },
+            //炮弹
+            { name: 'Bomb1', properties: { force: 20, hitType: HitType.normal, hitRadius: 50, moveSpeed: 10, idleTicks: 0, fightingTicks: 10, dyingTicks: 0 } },
+            { name: 'Bomb2', properties: { force: 30, hitType: HitType.normal, hitRadius: 50, moveSpeed: 10, idleTicks: 0, fightingTicks: 10, dyingTicks: 0 } },
+            { name: 'Bomb3', properties: { force: 40, hitType: HitType.normal, hitRadius: 50, moveSpeed: 10, idleTicks: 0, fightingTicks: 10, dyingTicks: 3 * application.frameRate } },
+            { name: 'Bomb4', properties: { force: 30, hitType: HitType.normal, hitRadius: 50, moveSpeed: 10, idleTicks: 0, fightingTicks: 10, dyingTicks: 0 } },
+            { name: 'ScorchedEarth', properties: { hitType: HitType.normal, moveSpeed: 10, force: 20, fightingTicks: 0, idleTicks: 0, dyingTicks: 0 } },
+            { name: 'ScorchedEarthBomblet', properties: { hitType: HitType.normal, moveSpeed: 10, force: 20, fightingTicks: 0, idleTicks: 0, dyingTicks: 0 } },
+            { name: 'Spike', properties: { hitType: HitType.normal, moveSpeed: 10, force: 20, fightingTicks: 10, idleTicks: 0, dyingTicks: 0 } },
             //弓箭
-            { name: 'Arrow1', properties: { force: 8, hitType: HitType.normal, moveSpeed: 5, idleTicks: 0, fightingTicks: 10, dyingTicks: 0 } },
-            { name: 'Arrow4', properties: { force: 24, hitType: HitType.normal, moveSpeed: 5, idleTicks: 0, fightingTicks: 10, dyingTicks: 0 } },
-            { name: 'Arrow5', properties: { force: 24, hitType: HitType.normal, moveSpeed: 5, idleTicks: 0, fightingTicks: 10, dyingTicks: 0 } },
-            //魔法塔魔法
+            { name: 'Arrow1', properties: { force: 8, hitType: HitType.normal, moveSpeed: 10, idleTicks: 0, fightingTicks: 10, dyingTicks: 0 } },
+            { name: 'Arrow4', properties: { force: 24, hitType: HitType.normal, moveSpeed: 10, idleTicks: 0, fightingTicks: 10, dyingTicks: 0 } },
+            { name: 'Arrow5', properties: { force: 24, hitType: HitType.normal, moveSpeed: 10, idleTicks: 0, fightingTicks: 10, dyingTicks: 0 } },
+            { name: 'WeakCurse', properties: { force: 5, hitType: HitType.magic, moveSpeed: 0, idleTicks: 0, fightingTicks: 10, dyingTicks: 0 } },
+            { name: 'MiscastCurse', properties: { force: 1, hitType: HitType.magic, moveSpeed: 0, idleTicks: 0, fightingTicks: 10, dyingTicks: 0 } },
+            //魔法
             { name: 'Magic1', properties: { hitType: HitType.magic, moveSpeed: 10, idleTicks: 0, fightingTicks: 10, dyingTicks: 0 } },
             { name: 'Magic2', properties: { hitType: HitType.magic, moveSpeed: 10, idleTicks: 0, fightingTicks: 10, dyingTicks: 0 } },
             { name: 'Magic3', properties: { hitType: HitType.magic, moveSpeed: 10, idleTicks: 0, fightingTicks: 10, dyingTicks: 0 } },
             { name: 'Magic4', properties: { hitType: HitType.magic, moveSpeed: 10, idleTicks: 0, fightingTicks: 10, dyingTicks: 0 } },
-            { name: 'BlackWater', properties: { hitType: HitType.magic, moveSpeed: 0, force: 20, idleTicks: 0, dyingTicks: 0 } },
+            { name: 'BlackWater', properties: { hitType: HitType.magic, moveSpeed: 0, force: 5, idleTicks: 0, dyingTicks: 0 } },
         ];
         for (var i = 0; i < config.length; i++) {
             var d = config[i];

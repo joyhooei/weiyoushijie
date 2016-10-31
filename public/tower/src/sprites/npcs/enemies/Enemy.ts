@@ -37,8 +37,8 @@ class Enemy extends NPC {
         this._nextPath();
 		
 		this._abnormalState = 0;
-		this._abnormalTicks = [];
-		this._abnormalDamages = [];
+		this._abnormalTicks = [-1, -1, -1, -1, -1];
+		this._abnormalDamages = [0, 0, 0, 0, 0];
     }
 
 	public frozen(damage: number, ticks: number) {
@@ -72,7 +72,7 @@ class Enemy extends NPC {
 				this._clip.stop();
 			}
 
-			this._renderAbnormal(this._abnormalState);
+			this._renderAbnormal(state);
 		} else {
 			this._abnormalTicks[state - 1]   += ticks;
 			this._abnormalDamages[state - 1] += damage;
@@ -112,8 +112,8 @@ class Enemy extends NPC {
 	private _renderAbnormal(state: number) {
 		let display = this._abnormalDisplays[state - 1];
 		if (display) {
-			this._abnormalDisplay.x = (this.width - display.width) >> 1;
-			this._abnormalDisplay.y = this.height - display.height;
+			display.x = (this.width - display.width) >> 1;
+			display.y = this.height - display.height;
 			this.addChild(display);
 		}
 	}
@@ -133,11 +133,11 @@ class Enemy extends NPC {
 
 				this._abnormalTicks[i] --;
 			} else if (this._abnormalTicks[i] == 0){
-				this._delAbnormal(i + 1);
+				this._stopAbnormal(i + 1);
 			}
 		}
 		
-		if (this._abnormalTicks[1] > 0) {
+		if (this._abnormalTicks[0] > 0) {
 			//冰冻
 			return false;
 		} else {

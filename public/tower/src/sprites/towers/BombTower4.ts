@@ -73,7 +73,7 @@ class BombTower4 extends BombTower {
                 this._skill1Ticks = 23 * application.frameRate;
             } else {
                 this._skill1Ticks = 20 * application.frameRate;
-            } 
+            }
             
             Bullet.shoot(this, this._enemy, "Spike");
         }
@@ -90,7 +90,7 @@ class BombTower4 extends BombTower {
                 var force = 200;
             }
             
-            Bullet.throw(this.getMuzzleX(), this.getMuzzleY(), this._enemy.getCenterX(), Math.min(20, this._enemy.getBottomY() - 100), "ScorchedEarth", {hitRaduis: this._guardRadius, force: force});
+            Bullet.shoot(this, this._enemy, "ScorchedEarth", {hitRaduis: this._guardRadius, force: force});
         }
         this._skill2Ticks --;
     }

@@ -82,23 +82,12 @@ var MagicTower4 = (function (_super) {
     };
     p._fighting = function () {
         _super.prototype._fighting.call(this);
-        if (this._skill1Ticks >= application.frameRate * 12 && this._skill1Level > 0 && this._enemy) {
-            this._skill1Ticks = 0;
-            if (this._skill1Level == 1) {
-                var fightingTicks = 4;
-            }
-            else if (this._skill1Level == 2) {
-                var fightingTicks = 5;
-            }
-            else {
-                var fightingTicks = 6;
-            }
-            var bullet = application.pool.get("BlackWater", { hitRaduis: this._guardRadius, fightingTicks: fightingTicks * application.frameRate });
-            bullet.setShooter(this);
-            bullet.fight();
-            application.battle.addBullet(bullet);
+        if (this._skill1Level > 0 && this._enemy && this._skill1Ticks < 0) {
+            this._skill1Ticks = application.frameRate * 12;
+            var curseTicks = this._skill1Level + 3;
+            Bullet.blast(this, "BlackWater", { hitRaduis: this._guardRadius, curseTicks: curseTicks * application.frameRate });
         }
-        this._skill1Ticks++;
+        this._skill1Ticks--;
     };
     p.getMuzzleX = function () {
         return this.x + 40;

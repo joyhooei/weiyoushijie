@@ -2,6 +2,7 @@ var BattleSystemToolItem = (function (_super) {
     __extends(BattleSystemToolItem, _super);
     function BattleSystemToolItem(tool) {
         _super.call(this, tool);
+        this._ticks = 15;
         this._maxTicks = 15;
     }
     var d = __define,c=BattleSystemToolItem,p=c.prototype;

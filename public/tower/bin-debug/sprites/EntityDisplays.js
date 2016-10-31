@@ -58,6 +58,15 @@ var EntityDisplays = (function () {
             }
         }
     };
+    p.has = function (state) {
+        for (var i = EntityDirection.north; i <= EntityDirection.northwest; i++) {
+            var idx = (i << 3) + state;
+            if (this._displays[idx]) {
+                return true;
+            }
+        }
+        return false;
+    };
     p.getDisplay = function (direction, state, index) {
         if (index === void 0) { index = 0; }
         var idx = (direction << 3) + state;

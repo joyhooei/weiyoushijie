@@ -17,6 +17,7 @@ var Tower = (function (_super) {
         var force = this._get(properties, "force", 10);
         this._forceHigh = this._get(properties, "forceHigh", force);
         this._forceLow = this._get(properties, "forceLow", force);
+        this._critical = this._get(properties, "critical", 0);
         this._range = null;
         this._base = null;
     };
@@ -45,11 +46,22 @@ var Tower = (function (_super) {
     p.skillUpgradable = function (skill) {
         return false;
     };
+    p.useSkill = function (tower) {
+    };
     p.upgradable = function () {
         return true;
     };
     p.getForce = function () {
-        return this._forceLow + Math.round(Math.random() * (this._forceHigh - this._forceLow));
+        var force = this._forceLow + Math.round(Math.random() * (this._forceHigh - this._forceLow));
+        if (this._critical > 0 && Math.random() * 100 <= this._critical) {
+            return force << 1;
+        }
+        else {
+            return force;
+        }
+    };
+    p.incCritical = function (critical) {
+        this._critical = this._critical + critical;
     };
     p.erase = function () {
         _super.prototype.erase.call(this);
@@ -67,7 +79,14 @@ var Tower = (function (_super) {
         this._ticks++;
         if (this._ticks > this._buildingTicks) {
             this.guard();
+            var towers = this.findNeighbors();
+            for (var i = 0; i < towers.length; i++) {
+                towers[i].useSkill(this);
+            }
         }
+    };
+    p.findNeighbors = function () {
+        return application.battle.findTowers(this.getCenterX(), this.getCenterY(), 100);
     };
     p.select = function (again) {
         if (again) {

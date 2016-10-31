@@ -15,58 +15,88 @@ var Enemy = (function (_super) {
         this._path = 0;
         this._nextPath();
         this._abnormalState = 0;
-        this._abnormalTicks = -1;
+        this._abnormalTicks = [-1, -1, -1, -1, -1];
+        this._abnormalDamages = [0, 0, 0, 0, 0];
     };
     p.frozen = function (damage, ticks) {
-        this._addAbnormal(1, damage, ticks);
+        this._startAbnormal(1, damage, ticks);
     };
     p.burn = function (damage, ticks) {
-        this._addAbnormal(2, damage, ticks);
+        this._startAbnormal(2, damage, ticks);
     };
-    p.posion = function (damage, ticks) {
-        this._addAbnormal(3, damage, ticks);
+    p.weak = function (damage, ticks) {
+        this._startAbnormal(3, damage, ticks);
     };
-    p._addAbnormal = function (state, damage, ticks) {
-        this._restore();
-        this._abnormalState = state;
-        this._abnormalTicks = ticks;
-        this._abnormalDamage = damage;
-        if (state == 1 && this._clip) {
-            this._clip.stop();
+    p.miscast = function (damage, ticks) {
+        this._startAbnormal(4, damage, ticks);
+    };
+    p.black = function (damage, ticks) {
+        this._startAbnormal(5, damage, ticks);
+    };
+    p._startAbnormal = function (state, damage, ticks) {
+        if (this._abnormalTicks[state - 1] <= 0) {
+            this._abnormalState++;
+            this._abnormalTicks[state - 1] = ticks;
+            this._abnormalDamages[state - 1] = damage;
+            if (state == 1 && this._clip) {
+                this._clip.stop();
+            }
+            this._renderAbnormal(state);
         }
-        var display = this._abnormalDisplays[this._abnormalState - 1];
-        display.x = (this.width - display.width) >> 1;
-        display.y = this.height - display.height;
-        this._displaySprite.addChild(display);
+        else {
+            this._abnormalTicks[state - 1] += ticks;
+            this._abnormalDamages[state - 1] += damage;
+        }
     };
-    p._restore = function () {
-        if (this._abnormalState == 1 && this._clip) {
+    p._stopAbnormal = function (state) {
+        this._abnormalState--;
+        if (state == 1 && this._clip) {
             this._clip.gotoAndPlay(0, 1);
         }
-        try {
-            this._displaySprite.removeChild(this._abnormalDisplays[this._abnormalState - 1]);
+        this._abnormalTicks[state - 1] = -1;
+        this._clearAbnormal(state);
+    };
+    p._clearAbnormal = function (state) {
+        var display = this._abnormalDisplays[state - 1];
+        if (display) {
+            this.removeChild(display);
         }
-        catch (error) {
+    };
+    p._stopAllAbnormals = function () {
+        for (var i = 0; i < this._abnormalTicks.length; i++) {
+            if (this._abnormalTicks[i] > 0) {
+                this._clearAbnormal(i + 1);
+                this._abnormalTicks[i] = -1;
+            }
         }
         this._abnormalState = 0;
-        this._abnormalTicks = -1;
+    };
+    p._renderAbnormal = function (state) {
+        var display = this._abnormalDisplays[state - 1];
+        if (display) {
+            display.x = (this.width - display.width) >> 1;
+            display.y = this.height - display.height;
+            this.addChild(display);
+        }
     };
     p.update = function () {
         if (this._abnormalState == 0) {
             return _super.prototype.update.call(this);
         }
-        if (this._abnormalTicks >= 0) {
-            if (this._abnormalTicks % application.frameRate == 0) {
-                if (this.damage(this._abnormalDamage)) {
-                    this._restore();
+        for (var i = 0; i < this._abnormalTicks.length; i++) {
+            if (this._abnormalTicks[i] > 0) {
+                if (this._abnormalTicks[i] % application.frameRate == 0) {
+                    if (this.damage(this._abnormalDamages[i])) {
+                        return _super.prototype.update.call(this);
+                    }
                 }
+                this._abnormalTicks[i]--;
             }
-            this._abnormalTicks--;
+            else if (this._abnormalTicks[i] == 0) {
+                this._stopAbnormal(i + 1);
+            }
         }
-        else {
-            this._restore();
-        }
-        if (this._abnormalState == 1) {
+        if (this._abnormalTicks[0] > 0) {
             //冰冻
             return false;
         }
@@ -154,6 +184,7 @@ var Enemy = (function (_super) {
     };
     p.kill = function () {
         _super.prototype.kill.call(this);
+        this._stopAllAbnormals();
         application.battle.incGolds(this._bonus);
     };
     p._moveAgain = function () {

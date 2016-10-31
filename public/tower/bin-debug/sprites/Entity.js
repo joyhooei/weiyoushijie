@@ -72,10 +72,8 @@ var Entity = (function (_super) {
         return this.y + this.height;
     };
     p.stain = function () {
-        if (this._state != EntityState.idle && this._state != EntityState.dead) {
-            //application.battle.addDirt(this);
-            this.paint();
-        }
+        //application.battle.addDirt(this);
+        this.paint();
     };
     p.build = function () {
         this._do(EntityState.building);
@@ -144,6 +142,7 @@ var Entity = (function (_super) {
             if (this._clip) {
                 this._clip.stop();
             }
+            this._displaySprite.removeChildren();
             this._clip = null;
             this._clipPlaying = false;
         }

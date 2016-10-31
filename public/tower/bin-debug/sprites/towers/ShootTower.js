@@ -9,7 +9,7 @@ var ShootTower = (function (_super) {
         this._shootSpeed = this._get(properties, "shootSpeed", 60);
     };
     p._guarding = function () {
-        this._enemy = application.battle.findEnemy(this.getCenterX(), this.getCenterY(), this._guardRadius, [0, 1]);
+        this._enemy = this._findEnemy();
         if (this._enemy) {
             this.fight();
         }
@@ -27,7 +27,7 @@ var ShootTower = (function (_super) {
             if (this._enemy == null
                 || !this._enemy.active()
                 || !this._enemy.within(this.getCenterX(), this.getCenterY(), this._guardRadius)) {
-                this._enemy = application.battle.findEnemy(this.getCenterX(), this.getCenterY(), this._guardRadius, [0, 1]);
+                this._enemy = this._findEnemy();
             }
             if (this._enemy) {
                 this._shoot();
@@ -40,6 +40,9 @@ var ShootTower = (function (_super) {
     };
     p._shoot = function () {
         Bullet.shoot(this, this._enemy, this._bulletClaz, { force: this.getForce() });
+    };
+    p._findEnemy = function () {
+        return application.battle.findEnemy(this.getCenterX(), this.getCenterY(), this._guardRadius, [0]);
     };
     return ShootTower;
 }(Tower));

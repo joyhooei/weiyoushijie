@@ -30,6 +30,13 @@ var Bullet = (function (_super) {
         application.battle.addBullet(bullet);
         return bullet;
     };
+    Bullet.blast = function (shooter, claz, properties) {
+        var bullet = application.pool.get(claz, properties);
+        bullet.setShooter(shooter);
+        bullet.fight();
+        application.battle.addBullet(bullet);
+        return bullet;
+    };
     p.initialize = function (properties) {
         _super.prototype.initialize.call(this, properties);
         this._target = null;
@@ -67,7 +74,6 @@ var Bullet = (function (_super) {
     p._moving = function () {
         if (this._totalSteps == -1) {
             this._computeSteps(this.x, this.y, this._targetX, this._targetY);
-            this._turn(this._directionAt(this._targetX, this._targetY));
         }
         if (this._moveOneStep()) {
             this.fight();

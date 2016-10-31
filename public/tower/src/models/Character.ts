@@ -15,7 +15,7 @@ class Character {
         let config = [
             //battle
             {name: 'Battle1',   properties:{lives: 20, golds:1000, heroWinned: 'Sunwukong'}},
-            {name: 'Battle2',   properties:{lives: 20, golds:1000, heroWinned: 'Zhubajie'}},
+            {name: 'Battle2',   properties:{lives: 20, golds:10000, heroWinned: 'Zhubajie'}},
             {name: 'Battle3',   properties:{lives: 20, golds:1000}},
             {name: 'Battle4',   properties:{lives: 20, golds:1000}},
             {name: 'Battle5',   properties:{lives: 20, golds:1000, heroWinned: 'Shaseng'}},
@@ -61,10 +61,10 @@ class Character {
             {name: 'SoldierTower4',  properties:{force: 12,guardRadius: 160, price: 530}},
             
             //炮塔
-            {name: 'BombTower1',  properties:{force: 20, guardRadius: 160, price: 120, upgradePrice: 150}},
-            {name: 'BombTower2',  properties:{force: 30, guardRadius: 180, shootSpeed: 1.5* application.frameRate, price: 270, upgradePrice: 150}},
-            {name: 'BombTower3',  properties:{force: 40, guardRadius: 200, shootSpeed: 1.5* application.frameRate, price: 320, upgradePrice: 230}},
-            {name: 'BombTower4',  properties:{force: 30, guardRadius: 220, shootSpeed: 12* application.frameRate, price: 550}},
+            {name: 'BombTower1',  properties:{force: 20, guardRadius: 160, shootSpeed: Math.round(1.5* application.frameRate), price: 120, upgradePrice: 150}},
+            {name: 'BombTower2',  properties:{force: 30, guardRadius: 180, shootSpeed: Math.round(1.5* application.frameRate), price: 270, upgradePrice: 150}},
+            {name: 'BombTower3',  properties:{force: 40, guardRadius: 200, shootSpeed: Math.round(1.5* application.frameRate), price: 320, upgradePrice: 230}},
+            {name: 'BombTower4',  properties:{force: 30, guardRadius: 220, shootSpeed: Math.round(1.5* application.frameRate), price: 550}},
             
             //箭塔
             {name: 'ArrowTower1',  properties:{force: 8, guardRadius: 160, price: 70, upgradePrice: 100}},
@@ -89,8 +89,8 @@ class Character {
             {name: 'Bomb2',     properties:{force:30, hitType:HitType.normal, hitRadius:50, moveSpeed:10, idleTicks:0, fightingTicks: 10, dyingTicks:0}},
             {name: 'Bomb3',     properties:{force:40, hitType:HitType.normal, hitRadius:50, moveSpeed:10, idleTicks:0, fightingTicks: 10, dyingTicks:3 * application.frameRate}},
             {name: 'Bomb4',     properties:{force:30, hitType:HitType.normal, hitRadius:50, moveSpeed:10, idleTicks:0, fightingTicks: 10, dyingTicks:0}},
-            {name: 'ScorchedEarth',    properties:{hitType:HitType.normal, moveSpeed:10, force:20, fightingTicks: 10, idleTicks:0, dyingTicks:0}},        
-            {name: 'ScorchedEarthBomblet',    properties:{hitType:HitType.normal, moveSpeed:10, force:20, fightingTicks: 10, idleTicks:0, dyingTicks:0}},        
+            {name: 'ScorchedEarth',    properties:{hitType:HitType.normal, moveSpeed:10, force:20, fightingTicks: 0, idleTicks:0, dyingTicks:0}},        
+            {name: 'ScorchedEarthBomblet',    properties:{hitType:HitType.normal, moveSpeed:10, force:20, fightingTicks: 0, idleTicks:0, dyingTicks:0}},        
             {name: 'Spike',    properties:{hitType:HitType.normal, moveSpeed:10, force:20, fightingTicks: 10, idleTicks:0, dyingTicks:0}},        
             
             //弓箭

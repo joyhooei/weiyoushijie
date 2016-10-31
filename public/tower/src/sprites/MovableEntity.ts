@@ -77,7 +77,11 @@ class MovableEntity extends Entity {
     protected _idle() {
     	this._ticks ++;
     	if (this._ticks >= this._idleTicks) {
-        	this.move();
+            if (this._displays.has(EntityState.building)) {
+        	    this.build();
+            } else {
+                this.move();
+            }
     	}
     }
     

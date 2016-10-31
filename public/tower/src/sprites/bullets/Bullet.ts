@@ -42,7 +42,7 @@ class Bullet extends MovableEntity {
 
     public static blast(shooter: Shooter, claz:string, properties?): Bullet {
         let bullet = <Bullet>application.pool.get(claz,  properties);
-        bullet.setShooter(this);
+        bullet.setShooter(shooter);
         bullet.fight();
         application.battle.addBullet(bullet);
         
@@ -105,7 +105,6 @@ class Bullet extends MovableEntity {
     protected _moving() {
         if (this._totalSteps == -1) {
             this._computeSteps(this.x, this.y, this._targetX, this._targetY);    
-            this._turn(this._directionAt(this._targetX, this._targetY));
         }
 
         if (this._moveOneStep()) {

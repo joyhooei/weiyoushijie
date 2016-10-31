@@ -14,12 +14,6 @@ var Bomb = (function (_super) {
             enemies[i].shootBy(this);
         }
     };
-    p._idle = function () {
-        this._ticks++;
-        if (this._ticks >= this._idleTicks) {
-            this.build();
-        }
-    };
     p._act = function () {
         if (this._state == EntityState.building) {
             this.move();

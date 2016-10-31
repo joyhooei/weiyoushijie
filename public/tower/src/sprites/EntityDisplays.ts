@@ -90,6 +90,17 @@ class EntityDisplays {
         }
     }
 
+    public has(state: EntityState): boolean {
+        for(let i = EntityDirection.north; i <= EntityDirection.northwest; i++) {
+            let idx = (i << 3) + state;
+            if (this._displays[idx]) {
+                return true;
+            }
+        }
+
+        return false;
+    }
+
     public getDisplay(direction:EntityDirection, state: EntityState, index = 0): egret.DisplayObject {
         let idx = (direction << 3) + state;
         
