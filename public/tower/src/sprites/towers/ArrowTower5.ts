@@ -75,7 +75,7 @@ class ArrowTower5 extends ArrowTower {
                 var ticks = 9;
             }
             
-            Bullet.blast(this, "WeakMagic", {hitRaduis: this._guardRadius, fightingTicks: ticks * application.frameRate});
+            Bullet.blast(this, "WeakCurse", {hitRaduis: this._guardRadius, fightingTicks: ticks * application.frameRate});
         }
         this._skill1Ticks --;
         
@@ -90,7 +90,7 @@ class ArrowTower5 extends ArrowTower {
                 var ticks = 9;
             }
             
-            Bullet.blast(this, "MiscastMagic", {hitRaduis: this._guardRadius, fightingTicks: ticks * application.frameRate});
+            Bullet.blast(this, "MiscastCurse", {hitRaduis: this._guardRadius, fightingTicks: ticks * application.frameRate});
         }
         this._skill2Ticks --;
     }
