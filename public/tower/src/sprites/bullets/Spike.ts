@@ -1,4 +1,4 @@
-class Spike extends Bullet {
+class Spike extends Bomb {
     public constructor() {
         super();
         
