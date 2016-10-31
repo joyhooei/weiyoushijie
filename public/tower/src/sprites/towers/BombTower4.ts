@@ -66,7 +66,7 @@ class BombTower4 extends BombTower {
     protected _fighting() {
         super._fighting();
         
-        if (this._skill1Ticks < 0 application.frameRate * 26 && this._skill1Level > 0 && this._enemy) {
+        if (this._skill1Ticks < 0 && this._skill1Level > 0 && this._enemy) {
             if (this._skill1Level == 1) {
                 this._skill1Ticks = 26 * application.frameRate;
             } else if (this._skill1Level == 2) {
@@ -75,12 +75,12 @@ class BombTower4 extends BombTower {
                 this._skill1Ticks = 23 * application.frameRate;
             } 
             
-            Bullet.shoot(this, this._enemy, "Spike", {});
+            Bullet.shoot(this, this._enemy, "Spike");
         }
         this._skill1Ticks --;
         
         if (this._skill2Ticks < 0 && this._skill2Level > 0 && this._enemy) {
-            this._skill2Ticks = 0;
+            this._skill2Ticks = 12 * application.frameRate;
             
             if (this._skill2Level == 1) {
                 var force = 80;
@@ -90,10 +90,7 @@ class BombTower4 extends BombTower {
                 var force = 200;
             }
             
-            let bullet = <Bullet>application.pool.get("ScorchedEarth",  {hitRaduis: this._guardRadius, force: force});
-            bullet.setShooter(this);
-            bullet.fight();
-            application.battle.addBullet(bullet);
+            Bullet.blast(this, "ScorchedEarth", {hitRaduis: this._guardRadius, force: force});
         }
         this._skill2Ticks --;
     }
