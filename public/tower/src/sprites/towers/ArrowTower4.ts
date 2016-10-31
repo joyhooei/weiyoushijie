@@ -28,6 +28,19 @@ class ArrowTower4 extends ArrowTower {
             this._skill1Level ++;
         } else {
             this._skill2Level ++;
+            
+            if (this._skill2Level == 1) {
+                var critical = 10;
+            } else if (this._skill2Level == 1) {
+                var critical = 5;
+            } else {
+                var critical = 5;
+            }
+            
+            let towers = application.battle.findTowers(this.getCenterX(), this.getCenterY(), this._guardRadius);
+            for (let i = 0;i < towers.length; i++) {
+                towers[i].incCritical(critical);
+            }
         }
         
         application.battle.incGolds(-this.getSkillUpgradePrice(skill));        
@@ -79,6 +92,23 @@ class ArrowTower4 extends ArrowTower {
             }
         }
         this._skill1Ticks --;
+    }
+
+    public erase() {
+        super.erase();
+        
+        if (this._skill2Level == 1) {
+            var critical = 10;
+        } else if (this._skill2Level == 1) {
+            var critical = 15;
+        } else {
+            var critical = 20;
+        }
+
+        let towers = application.battle.findTowers(this.getCenterX(), this.getCenterY(), this._guardRadius);
+        for (let i = 0;i < towers.length; i++) {
+            towers[i].decCritical(critical);
+        }
     }
 
     public getMuzzleX(): number {
