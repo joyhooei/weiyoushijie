@@ -98,16 +98,16 @@ class ArrowTower4 extends ArrowTower {
         super.erase();
         
         if (this._skill2Level == 1) {
-            var critical = 10;
+            var critical = -10;
         } else if (this._skill2Level == 1) {
-            var critical = 15;
+            var critical = -15;
         } else {
-            var critical = 20;
+            var critical = -20;
         }
 
         let towers = application.battle.findTowers(this.getCenterX(), this.getCenterY(), this._guardRadius);
         for (let i = 0;i < towers.length; i++) {
-            towers[i].decCritical(critical);
+            towers[i].incCritical(critical);
         }
     }
 
