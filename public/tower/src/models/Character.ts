@@ -102,6 +102,9 @@ class Character {
             {name: 'Magic3',    properties:{hitType:HitType.magic, moveSpeed:10, idleTicks:0, fightingTicks: 10, dyingTicks:0}},
             {name: 'Magic4',    properties:{hitType:HitType.magic, moveSpeed:10, idleTicks:0, fightingTicks: 10, dyingTicks:0}},
             {name: 'BlackWater',    properties:{hitType:HitType.magic, moveSpeed:0, force:20, idleTicks:0, dyingTicks:0}},        
+            {name: 'ScorchedEarth',    properties:{hitType:HitType.magic, moveSpeed:10, force:20, idleTicks:0, dyingTicks:0}},        
+            {name: 'ScorchedEarthBomblet',    properties:{hitType:HitType.magic, moveSpeed:10, force:20, idleTicks:0, dyingTicks:0}},        
+            {name: 'Spike',    properties:{hitType:HitType.magic, moveSpeed:10, force:20, idleTicks:0, dyingTicks:0}},        
         ]; 
 
         for(let i = 0; i < config.length; i++) {
