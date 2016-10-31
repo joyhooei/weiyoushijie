@@ -52,6 +52,6 @@ class ShootTower extends Tower implements Shooter {
     }
     
     protected _findEnemy(): Enemy {
-        return application.battle.findEnemy(this.getCenterX(), this.getCenterY(), this._guardRadius, [0, 1]);
+        return application.battle.findEnemy(this.getCenterX(), this.getCenterY(), this._guardRadius, [0]);
     }
 }
