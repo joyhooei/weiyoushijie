@@ -12,7 +12,7 @@ class ShootTower extends Tower implements Shooter {
     }
    
     protected _guarding() {
-        this._enemy = application.battle.findEnemy(this.getCenterX(), this.getCenterY(), this._guardRadius, [0, 1]);
+        this._enemy = this._findEnemy();
         if (this._enemy) {
             this.fight();
         }
@@ -34,7 +34,7 @@ class ShootTower extends Tower implements Shooter {
              if (this._enemy == null 
                     || !this._enemy.active() 
                     || !this._enemy.within(this.getCenterX(), this.getCenterY(), this._guardRadius)) {
-                this._enemy = application.battle.findEnemy(this.getCenterX(), this.getCenterY(), this._guardRadius, [0, 1]);
+                this._enemy = this._findEnemy();
             }
 
             if (this._enemy) {
@@ -49,5 +49,9 @@ class ShootTower extends Tower implements Shooter {
     
     protected _shoot() {
         Bullet.shoot(this, this._enemy, this._bulletClaz, {force: this.getForce()});
+    }
+    
+    protected _findEnemy(): Enemy {
+        return application.battle.findEnemy(this.getCenterX(), this.getCenterY(), this._guardRadius, [0, 1]);
     }
 }
