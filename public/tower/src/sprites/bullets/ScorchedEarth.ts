@@ -1,4 +1,4 @@
-class ScorchedEarth extends Magic {
+class ScorchedEarth extends Bomb {
     protected _hitRadius: number;
     
     public constructor() {
