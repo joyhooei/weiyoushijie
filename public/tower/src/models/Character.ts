@@ -97,13 +97,15 @@ class Character {
             {name: 'Arrow1',    properties:{force:8,  hitType:HitType.normal,moveSpeed:10, idleTicks:0, fightingTicks: 10, dyingTicks:0}},
             {name: 'Arrow4',    properties:{force:24, hitType:HitType.normal,moveSpeed:10, idleTicks:0, fightingTicks: 10, dyingTicks:0}},
             {name: 'Arrow5',    properties:{force:24, hitType:HitType.normal,moveSpeed:10, idleTicks:0, fightingTicks: 10, dyingTicks:0}},
+            {name: 'WeakCurse',    properties:{force:5, hitType:HitType.magic,moveSpeed:0, idleTicks:0, fightingTicks: 10, dyingTicks:0}},
+            {name: 'MiscastCurse',    properties:{force:1, hitType:HitType.magic,moveSpeed:0, idleTicks:0, fightingTicks: 10, dyingTicks:0}},
             
             //魔法
             {name: 'Magic1',    properties:{hitType:HitType.magic, moveSpeed:10, idleTicks:0, fightingTicks: 10, dyingTicks:0}},
             {name: 'Magic2',    properties:{hitType:HitType.magic, moveSpeed:10, idleTicks:0, fightingTicks: 10, dyingTicks:0}},
             {name: 'Magic3',    properties:{hitType:HitType.magic, moveSpeed:10, idleTicks:0, fightingTicks: 10, dyingTicks:0}},
             {name: 'Magic4',    properties:{hitType:HitType.magic, moveSpeed:10, idleTicks:0, fightingTicks: 10, dyingTicks:0}},
-            {name: 'BlackWater',    properties:{hitType:HitType.magic, moveSpeed:0, force:20, idleTicks:0, dyingTicks:0}},        
+            {name: 'BlackWater',    properties:{hitType:HitType.magic, moveSpeed:0, force:5, idleTicks:0, dyingTicks:0}},        
         ]; 
 
         for(let i = 0; i < config.length; i++) {
