@@ -82,6 +82,9 @@ class Tower extends Entity implements SelectableEntity {
     public skillUpgradable(skill:number): boolean {
         return false;
     }
+	
+	public useSkill(tower: Tower) {
+	}
 
     public upgradable(): boolean {
         return true;
@@ -121,8 +124,17 @@ class Tower extends Entity implements SelectableEntity {
         this._ticks ++;
         if (this._ticks > this._buildingTicks) {
             this.guard();
+			
+            let towers = this.findNeighbors();
+            for (let i = 0; i < towers.length; i++) {
+                towers[i].useSkill(this);
+            }
         }
     }
+	
+	public findNeighbors(): Tower[] {
+		return application.battle.findTowers(this.getCenterX(), this.getCenterY(), 100);
+	}
 
     public select(again:boolean): boolean {
          if (again) {
