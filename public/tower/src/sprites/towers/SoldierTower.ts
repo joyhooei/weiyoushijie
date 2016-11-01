@@ -105,8 +105,7 @@ class SoldierTower extends Tower implements SoldierCreator {
             this._soldiers.push(s);
         }
         
-        s.setCenterX(this.getMuzzleX());
-        s.setCenterY(this.getMuzzleY());
+        s.stand(this.getMuzzleX(), this.getMuzzleY());
         
         s.setCreator(this);
 
