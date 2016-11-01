@@ -29,8 +29,6 @@ class BombTower4 extends BombTower {
         } else {
             this._skill2Level ++;
         }
-        
-        application.battle.incGolds(-this.getSkillUpgradePrice(skill));        
     }
 
     public skillUpgradable(skill:number): boolean {
