@@ -24,6 +24,8 @@ class ArrowTower4 extends ArrowTower {
     }
     
     public upgradeSkill(skill:number) {
+        application.battle.incGolds(-this.getSkillUpgradePrice(skill));
+        
         if (skill == 1) {
             this._skill1Level ++;
         } else {
@@ -31,19 +33,14 @@ class ArrowTower4 extends ArrowTower {
             
             if (this._skill2Level == 1) {
                 var critical = 10;
-            } else if (this._skill2Level == 1) {
-                var critical = 5;
             } else {
                 var critical = 5;
             }
-            
             let towers = this.findNeighbors();
             for (let i = 0;i < towers.length; i++) {
                 towers[i].incCritical(critical);
             }
-        }
-        
-        application.battle.incGolds(-this.getSkillUpgradePrice(skill));        
+        }       
     }
 
     public useSkill(tower: Tower) {
