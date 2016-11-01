@@ -97,6 +97,7 @@ class Character {
             {name: 'Arrow1',    properties:{force:8,  hitType:HitType.normal,moveSpeed:10, idleTicks:0, fightingTicks: 10, dyingTicks:0}},
             {name: 'Arrow4',    properties:{force:24, hitType:HitType.normal,moveSpeed:10, idleTicks:0, fightingTicks: 10, dyingTicks:0}},
             {name: 'Arrow5',    properties:{force:24, hitType:HitType.normal,moveSpeed:10, idleTicks:0, fightingTicks: 10, dyingTicks:0}},
+            {name: 'Arrow6',    properties:{force:24, hitType:HitType.normal,moveSpeed:10, idleTicks:0, fightingTicks: 10, dyingTicks:0}},
             {name: 'WeakCurse',    properties:{force:5, hitType:HitType.magic,moveSpeed:0, idleTicks:0, fightingTicks: 10, dyingTicks:0}},
             {name: 'MiscastCurse',    properties:{force:1, hitType:HitType.magic,moveSpeed:0, idleTicks:0, fightingTicks: 10, dyingTicks:0}},
             
