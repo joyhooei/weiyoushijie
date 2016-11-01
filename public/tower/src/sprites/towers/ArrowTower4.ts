@@ -24,8 +24,6 @@ class ArrowTower4 extends ArrowTower {
     }
     
     public upgradeSkill(skill:number) {
-        application.battle.incGolds(-this.getSkillUpgradePrice(skill));
-        
         if (skill == 1) {
             this._skill1Level ++;
         } else {
