@@ -68,30 +68,30 @@ class Tower extends Entity implements SelectableEntity {
 		return Math.round(this._price / 2);
 	}
 
+	//是否可以升级
+    public upgradable(): boolean {
+        return true;
+    }
+
 	public getUpgradePrice(): number {
 		return this._upgradePrice;
 	}
-	
-	public getSkillUpgradePrice(skill:number): number {
-		console.error("upgrade skill not support in " + this.getClaz());
-		
-		return 0;
-	}
-	
-	public upgradeSkill(skill:number) {
-		console.error("upgrade skill not support in " + this.getClaz());
-	}
 
+	//是否可以升级技能
     public skillUpgradable(skill:number): boolean {
         return false;
     }
 	
+	public getSkillUpgradePrice(skill:number): number {
+		return 0;
+	}
+	
+	public upgradeSkill(skill:number) {
+	}
+	
+	//对tower使用skill
 	public useSkill(tower: Tower) {
 	}
-
-    public upgradable(): boolean {
-        return true;
-    }
 	
     public getForce(): number {
 		let force = Entity.random(this._forceLow, this._forceHigh);
