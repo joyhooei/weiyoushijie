@@ -29,8 +29,7 @@ class BattleSystemToolItem extends BattleToolItem {
 	
 	private _addReinforce(x: number, y: number, guradX: number, guardY: number) {
 		let soldier = <Soldier>application.pool.get("Reinforce", {guardX: guradX, guardY: guardY});
-		soldier.setCenterX(x);
-		soldier.setBottomY(y);
+		soldier.stand(x, y);
 		application.battle.addSoldier(soldier);
 	}
 }
