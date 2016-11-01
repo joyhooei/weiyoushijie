@@ -42,7 +42,12 @@ class NPC extends MovableEntity {
         
         this._altitude  = this._get(properties, "altitude", 0);
     }
-    
+
+	public stand(x: number, y: number) {
+        this.setCenterX(x);
+        this.setBottomY(y);
+	}
+
     public getForce(): number {
     	return Entity.random(this._forceLow, this._forceHigh);
     }
@@ -120,11 +125,6 @@ class NPC extends MovableEntity {
     protected _face(npc:NPC) {
         this._turn(this._directionAt(npc.x, npc.y));
     }
-
-	protected _stand(x: number, y: number) {
-        this.setCenterX(x);
-        this.setBottomY(y);
-	}
     
     protected _readyFight() {
     	return this._ticks % this._hitSpeed == 0;
