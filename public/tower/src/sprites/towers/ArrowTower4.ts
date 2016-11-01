@@ -11,7 +11,7 @@ class ArrowTower4 extends ArrowTower {
         
         this.addBitmap("arrowtower4_png");
         
-        this._bulletClaz = "Arrow4";
+        this._bulletClaz = "Arrow5";
     }
 
     public initialize(properties:any) {
@@ -47,15 +47,17 @@ class ArrowTower4 extends ArrowTower {
     }
 
     public useSkill(tower: Tower) {
-        if (this._skill2Level == 1) {
-            var critical = 10;
-        } else if (this._skill2Level == 1) {
-            var critical = 15;
-        } else {
-            var critical = 20;
-        }
+        if (this._skill2Level > 0) {
+            if (this._skill2Level == 1) {
+                var critical = 10;
+            } else if (this._skill2Level == 1) {
+                var critical = 15;
+            } else {
+                var critical = 20;
+            }
 
-        tower.incCritical(critical);
+            tower.incCritical(critical);
+        }
     }
 
     public skillUpgradable(skill:number): boolean {
@@ -100,10 +102,9 @@ class ArrowTower4 extends ArrowTower {
                 var claz = "Arrow6";
                 var count = 10;
             }
-            
             let enemies = application.battle.findEnemies(this.getCenterX(), this.getCenterY(), this._guardRadius, [0, 1]);
             for(let i = 0; i <= count; i++) {
-                Bullet.shoot(this, enemies[i % enemies.length], claz, {force: 30 + Math.round(Math.random() * 10)});
+                Bullet.shoot(this, enemies[i % enemies.length], claz, {force: 30 + Math.round(Math.random() * 10, idleTicks: i * 5)});
             }
         }
         this._skill1Ticks --;
@@ -112,16 +113,18 @@ class ArrowTower4 extends ArrowTower {
     public erase() {
         super.erase();
         
-        if (this._skill2Level == 1) {
-            var critical = -10;
-        } else if (this._skill2Level == 1) {
-            var critical = -15;
-        } else {
-            var critical = -20;
-        }
-        let towers = this.findNeighbors();
-        for (let i = 0;i < towers.length; i++) {
-            towers[i].incCritical(critical);
+        if (this._skill2Level > 0) {
+            if (this._skill2Level == 1) {
+                var critical = -10;
+            } else if (this._skill2Level == 1) {
+                var critical = -15;
+            } else {
+                var critical = -20;
+            }
+            let towers = this.findNeighbors();
+            for (let i = 0;i < towers.length; i++) {
+                towers[i].incCritical(critical);
+            }
         }
     }
 
