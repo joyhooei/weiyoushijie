@@ -14,6 +14,7 @@ class Tower extends Entity implements SelectableEntity {
 	
 	//暴击
 	protected _critical: number;
+	protected _criticalClip: egret.MovieClip;
     
     protected _range: GuardRange;
 
@@ -22,7 +23,9 @@ class Tower extends Entity implements SelectableEntity {
     public constructor() {
         super();
       
-        this._displays.addClip("tower_building", "building")
+        this._displays.addClip("tower_building", "building");
+		
+		this._criticalClip = EntityDisplays.loadClip("critical");
 
         this.touchEnabled = true;
     }
@@ -100,7 +103,19 @@ class Tower extends Entity implements SelectableEntity {
     }
 	
 	public incCritical(critical: number) {
-		this._critical = this._critical + critical;
+		if (this._critical == 0) {
+			this._critical = Math.max(0, this._critical + critical);
+			if (this._critical > 0) {
+				this.addChild(this._criticalClip);
+				this._criticalClip.gotoAndPlay(0, -1);
+			}
+		} else {
+			this._critical = Math.max(0, this._critical + critical);
+			if (this._critical == 0) {
+				this._criticalClip.stop();
+				this.removeChild(this._criticalClip);
+			}
+		}
 	}
 	
     public erase() {
