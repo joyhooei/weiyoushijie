@@ -102,11 +102,11 @@ class ArrowTower4 extends ArrowTower {
                 var claz = "Arrow6";
                 var count = 10;
             }
-            let span = application.frameRate / count;
-            let force = 30 + Math.round(Math.random() * 10);
+            let span    = (application.frameRate << 1) / count;
+            let force   = Entity.random(30, 40);;
             let enemies = application.battle.findEnemies(this.getCenterX(), this.getCenterY(), this._guardRadius, [0, 1]);
             for(let i = 0; i <= count; i++) {
-                Bullet.shoot(this, enemies[i % enemies.length], claz, {force: force, idleTicks: Math.round(span++)});
+                Bullet.shoot(this, enemies[i % enemies.length], claz, {force: force, idleTicks: Math.round(i * span)});
             }
         }
         this._skill1Ticks --;
