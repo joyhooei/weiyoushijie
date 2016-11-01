@@ -38,9 +38,7 @@ class MagicTower4 extends MagicTower implements SoldierCreator {
             }
             
             this._addBlackImpermanence();
-        }
-        
-        application.battle.incGolds(-this.getSkillUpgradePrice(skill));        
+        }    
     }
 
     public skillUpgradable(skill:number): boolean {
