@@ -2,7 +2,7 @@ class ScorchedEarthBomblet extends Bomb {
     public constructor() {
         super();
         
-        this.addClip("scorchedearthbomblet_fighting");
+        this.addClip("scorchedearthbomblet_fighting", ['south-moving', 'north-moving']);
     }
     
     protected _hitTarget() {
