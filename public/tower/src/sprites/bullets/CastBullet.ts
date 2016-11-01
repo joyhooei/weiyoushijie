@@ -58,8 +58,9 @@ class CastBullet extends Bullet {
     
     protected _moveOneStep():boolean {
 		if (this._steps < this._totalSteps) {
-			this.x = this._nextStepX();
-			this.y = this._nextStepY(this.x);
+			let xy = this._nextStep();
+			this.x = xy[0];
+			this.y = xy[1];
 			
 			this._steps++;
 
@@ -72,15 +73,15 @@ class CastBullet extends Bullet {
 		}
     }
 
-	protected _nextStepX(): number {
-		return this._startX + (this._targetX - this._startX) * this._steps / this._totalSteps;
-	}
-
-	protected _nextStepY(nextStepX: number): number {
+	protected _nextStep(): number[] {
+		let x = this._startX + (this._targetX - this._startX) * this._steps / this._totalSteps;;
+		
 		if (this._a) {
-			return this._a * nextStepX * nextStepX + this._b * nextStepX + this._c;
+			var y = this._a * nextStepX * nextStepX + this._b * nextStepX + this._c;
 		} else {
-			return this._startY + (this._targetY - this._startY) * this._steps / this._totalSteps;
+			var y = this._startY + (this._targetY - this._startY) * this._steps / this._totalSteps;
 		}
+		
+		return [x, y];
 	}
 }
