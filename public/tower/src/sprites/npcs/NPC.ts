@@ -44,7 +44,7 @@ class NPC extends MovableEntity {
     }
     
     public getForce(): number {
-    	return this._forceLow + Math.round(Math.random() * (this._forceHigh - this._forceLow));
+    	return Entity.random(this._forceLow, this._forceHigh);
     }
 
     public getMuzzleX(): number {
