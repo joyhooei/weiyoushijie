@@ -24,7 +24,5 @@ class ScorchedEarth extends Bomb {
         Bullet.throw(x, y, tx, ty + radius, "ScorchedEarthBomblet", {hitRadius: radius});
         Bullet.throw(x, y, tx - radius, ty, "ScorchedEarthBomblet", {hitRadius: radius});
         Bullet.throw(x, y, tx + radius, ty, "ScorchedEarthBomblet", {hitRadius: radius});
-
-        this.erase();
     }
 }
