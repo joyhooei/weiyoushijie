@@ -30,9 +30,7 @@ class ArrowTower5 extends ArrowTower {
             this._skill1Level ++;
         } else {
             this._skill2Level ++;
-        }
-        
-        application.battle.incGolds(-this.getSkillUpgradePrice(skill));        
+        }      
     }
 
     public skillUpgradable(skill:number): boolean {
