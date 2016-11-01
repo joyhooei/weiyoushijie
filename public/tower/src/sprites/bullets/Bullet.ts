@@ -108,7 +108,11 @@ class Bullet extends MovableEntity {
         }
 
         if (this._moveOneStep()) {
-            this.fight();
+            if (this._displays.has(EntityState.fighting)) {
+                this.fight();
+            } else {
+                this.erase();
+            }
             
             this._hitTarget();
         }
