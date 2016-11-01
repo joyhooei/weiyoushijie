@@ -117,12 +117,6 @@ class Tower extends Entity implements SelectableEntity {
 			}
 		}
 	}
-	
-    public erase() {
-        super.erase();
-        
-        application.battle.incGolds(this.getSellPrice());
-    }
 
     protected _idle() {
         this.build();
