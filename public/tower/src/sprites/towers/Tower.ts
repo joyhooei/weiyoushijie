@@ -1,4 +1,4 @@
-class Tower extends Entity implements SelectableEntity {
+class Tower extends Entity implements Selectable {
     protected _buildingTicks: number;
     
     protected _price: number;
