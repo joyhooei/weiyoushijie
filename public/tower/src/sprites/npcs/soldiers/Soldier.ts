@@ -1,4 +1,4 @@
-class Soldier extends NPC implements SelectableEntity {
+class Soldier extends NPC implements Selectable {
     protected _guardX: number;
     protected _guardY: number;
     
