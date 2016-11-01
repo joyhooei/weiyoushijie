@@ -332,6 +332,10 @@ class Entity extends egret.Sprite {
     protected _directionAt(x:number, y:number):EntityDirection {
         return Entity.direction8(this.x, this.y, x, y);
     }
+	
+	public static random(low: number, high: number) : number {
+		return Math.randoum() * (high - low) + low;
+	}
 
     public static direction4(x1:number, y1:number, x2:number, y2:number): EntityDirection {
         return Entity.direction(
