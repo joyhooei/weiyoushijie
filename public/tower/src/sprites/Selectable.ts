@@ -1,4 +1,4 @@
-interface SelectableEntity {
+interface Selectable {
     select(again:boolean): boolean;
     
     deselect();
