@@ -94,7 +94,7 @@ class Tower extends Entity implements SelectableEntity {
     }
 	
     public getForce(): number {
-		let force = this._forceLow + Math.round(Math.random() * (this._forceHigh - this._forceLow));
+		let force = Entity.random(this._forceLow, this._forceHigh);
 		if (this._critical > 0 && Math.random() * 100 <= this._critical) {
     		return force << 1;
 		} else {
