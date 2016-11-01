@@ -2,7 +2,7 @@ class ScorchedEarth extends Bomb {
     public constructor() {
         super();
         
-        this.addClip("scorchedearth_fighting");
+        this.addClip("scorchedearth_fighting", ['south-moving', 'north-moving']);
     }
  
     public setTarget(target: NPC) {
