@@ -118,7 +118,9 @@ class TowerMenuUI extends AbstractUI{
 	}
 
 	private _build(tower: Tower) {
-		if (application.battle.getGolds() >= tower.getPrice()) {
+		let price = tower.getPrice();
+		if (application.battle.getGolds() >= price) {
+			application.battle.incGolds(-price);
 			this._base.setTower(tower);
 			this.hide();
 		} else {
@@ -127,7 +129,9 @@ class TowerMenuUI extends AbstractUI{
 	}
 
 	private _upgradeSkill(skill: number) {
-        if (application.battle.getGolds() >= this._tower.getSkillUpgradePrice(skill)) {
+		let price = this._tower.getSkillUpgradePrice(skill);
+        if (application.battle.getGolds() >= price) {
+			application.battle.incGolds(-price);
             this._tower.upgradeSkill(skill);
 			this.hide();
         } else {
