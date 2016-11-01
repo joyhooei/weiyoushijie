@@ -12,8 +12,9 @@ class ScorchedEarth extends Bomb {
     }
 
     protected _hitTarget() {
-        let x = this._nextStepX() + (this.width >> 1);
-        let y = this._nextStepY() + (this.height >> 1);
+        let xy = this._nextStep();
+        let x = xy[0] + (this.width >> 1);
+        let y = xy[1] + (this.height >> 1);
 
         let tx = this._target.getCenterX();
         let ty = this._target.getCenterY();
