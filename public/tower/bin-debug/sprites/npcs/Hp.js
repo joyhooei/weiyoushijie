@@ -6,7 +6,19 @@ var Hp = (function (_super) {
     var d = __define,c=Hp,p=c.prototype;
     p.initialize = function (properties) {
         _super.prototype.initialize.call(this, properties);
-        this.setMaxHp(this._get(properties, "hp", 10));
+        var hp = this._get(properties, "hp", [5, 10, 15]);
+        if (egret.getQualifiedClassName(hp) == "Array") {
+            var difficulty = application.battle.getDifficulty();
+            if (difficulty <= hp.length) {
+                this.setMaxHp(hp[difficulty - 1]);
+            }
+            else {
+                this.setMaxHp(hp[hp.length - 1]);
+            }
+        }
+        else {
+            this.setMaxHp(hp);
+        }
         this._cureSpeed = this._get(properties, "cureSpeed", 1);
     };
     p.setMaxHp = function (hp) {

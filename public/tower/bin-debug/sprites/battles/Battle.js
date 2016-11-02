@@ -68,6 +68,7 @@ var Battle = (function (_super) {
         this._maxLives = this._get(properties, "lives", 20);
         this._maxGolds = this._get(properties, "golds", 1000);
         this._heroWinned = this._get(properties, "heroWinned", null);
+        this._difficulty = this._get(properties, "difficulty", 1);
     };
     p.build = function () {
         this._lives = this._maxLives;
@@ -216,6 +217,9 @@ var Battle = (function (_super) {
     };
     p.getGolds = function () {
         return this._golds;
+    };
+    p.getDifficulty = function () {
+        return this._difficulty;
     };
     p.getCurrentWave = function () {
         return this._waves.getCurrentWave();

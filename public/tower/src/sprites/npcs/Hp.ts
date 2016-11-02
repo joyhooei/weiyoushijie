@@ -12,7 +12,17 @@ class Hp extends Entity {
 	public initialize(properties:any) {
 		super.initialize(properties);
 
-	    this.setMaxHp(this._get(properties, "hp", 10));
+		let hp = this._get(properties, "hp", [5, 10, 15]);
+		if (egret.getQualifiedClassName(hp) == "Array") {
+			let difficulty = application.battle.getDifficulty();
+			if (difficulty <= hp.length) {
+				this.setMaxHp(hp[difficulty - 1]);
+			} else {
+	    		this.setMaxHp(hp[hp.length - 1]);
+			}
+		} else {
+			this.setMaxHp(hp);
+		}
 	    
 	    this._cureSpeed = this._get(properties, "cureSpeed", 1);
 	}

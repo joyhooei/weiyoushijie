@@ -31,6 +31,8 @@ class Battle extends Entity implements SoldierCreator {
     protected _lives: number;
     protected _golds: number;
     protected _heroWinned: string;
+
+    protected _difficulty: number;
     
     protected _focus: Selectable;
     protected _toolItem: BattleToolItem;
@@ -122,6 +124,7 @@ class Battle extends Entity implements SoldierCreator {
         this._maxLives   = this._get(properties, "lives", 20);
         this._maxGolds   = this._get(properties, "golds", 1000);
         this._heroWinned = this._get(properties, "heroWinned", null);
+        this._difficulty = this._get(properties, "difficulty", 1);
     }
 
     public build() {
@@ -297,6 +300,10 @@ class Battle extends Entity implements SoldierCreator {
     
     public getGolds(): number {
         return this._golds;
+    }
+
+    public getDifficulty(): number {
+        return this._difficulty;
     }
     
     public getCurrentWave(): number {
