@@ -26,7 +26,6 @@ var MagicTower4 = (function (_super) {
             }
             this._addBlackImpermanence();
         }
-        application.battle.incGolds(-this.getSkillUpgradePrice(skill));
     };
     p.skillUpgradable = function (skill) {
         if (skill == 1) {

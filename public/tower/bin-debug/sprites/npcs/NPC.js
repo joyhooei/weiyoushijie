@@ -21,14 +21,12 @@ var NPC = (function (_super) {
         this._resistance = this._get(properties, "_resistance", 0);
         this._altitude = this._get(properties, "altitude", 0);
     };
+    p.stand = function (x, y) {
+        this.setCenterX(x);
+        this.setBottomY(y);
+    };
     p.getForce = function () {
-        return this._forceLow + Math.round(Math.random() * (this._forceHigh - this._forceLow));
-    };
-    p.getMuzzleX = function () {
-        return this.getCenterX();
-    };
-    p.getMuzzleY = function () {
-        return this.getCenterY();
+        return Entity.random(this._forceLow, this._forceHigh);
     };
     p.getMaxHp = function () {
         return this._hp.getMaxHp();
@@ -124,10 +122,10 @@ var NPC = (function (_super) {
         if (xDelta === void 0) { xDelta = 0; }
         if (yDelta === void 0) { yDelta = 0; }
         if (idx === void 0) { idx = 0; }
-        this._centerHp();
+        this._renderHp();
         return _super.prototype._render.call(this, 0, 5, 0);
     };
-    p._centerHp = function () {
+    p._renderHp = function () {
         if (this._hp) {
             var x = Math.min(0, (this.width - this._hp.width) >> 1);
             if (x != this._hp.x) {

@@ -20,7 +20,6 @@ var BombTower4 = (function (_super) {
         else {
             this._skill2Level++;
         }
-        application.battle.incGolds(-this.getSkillUpgradePrice(skill));
     };
     p.skillUpgradable = function (skill) {
         if (skill == 1) {

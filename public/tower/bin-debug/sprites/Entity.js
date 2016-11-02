@@ -265,6 +265,9 @@ var Entity = (function (_super) {
     p._directionAt = function (x, y) {
         return Entity.direction8(this.x, this.y, x, y);
     };
+    Entity.random = function (low, high) {
+        return Math.random() * (high - low) + low;
+    };
     Entity.direction4 = function (x1, y1, x2, y2) {
         return Entity.direction(x1, y1, x2, y2, [45, 135, 225, 315, 360], [EntityDirection.east, EntityDirection.north, EntityDirection.west, EntityDirection.south, EntityDirection.east]);
     };

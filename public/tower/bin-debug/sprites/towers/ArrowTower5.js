@@ -3,7 +3,7 @@ var ArrowTower5 = (function (_super) {
     function ArrowTower5() {
         _super.call(this);
         this.addBitmap("arrowtower5_png");
-        this._bulletClaz = "Arrow5";
+        this._bulletClaz = "Arrow4";
     }
     var d = __define,c=ArrowTower5,p=c.prototype;
     p.initialize = function (properties) {
@@ -20,7 +20,6 @@ var ArrowTower5 = (function (_super) {
         else {
             this._skill2Level++;
         }
-        application.battle.incGolds(-this.getSkillUpgradePrice(skill));
     };
     p.skillUpgradable = function (skill) {
         if (skill == 1) {
@@ -51,14 +50,18 @@ var ArrowTower5 = (function (_super) {
         _super.prototype._fighting.call(this);
         if (this._skill1Level > 0 && this._enemy && this._skill1Ticks < 0) {
             this._skill1Ticks = application.frameRate * 12;
-            var curseTicks = 3 * this._skill1Level;
-            Bullet.blast(this, "WeakCurse", { hitRaduis: this._guardRadius, curseTicks: curseTicks * application.frameRate });
+            var curseTicks = 3 * this._skill1Level * application.frameRate;
+            var x = this._enemy.getCenterX();
+            var y = this._enemy.getCenterY();
+            Bullet.throw(x, y, x, y, "WeakCurse", { hitRaduis: this._guardRadius, curseTicks: curseTicks, fightingTicks: curseTicks });
         }
         this._skill1Ticks--;
         if (this._skill2Level > 0 && this._enemy && this._skill2Ticks < 0) {
             this._skill2Ticks = application.frameRate * 10;
-            var curseTicks = 3 * this._skill2Level;
-            Bullet.blast(this, "MiscastCurse", { hitRaduis: this._guardRadius, curseTicks: curseTicks * application.frameRate });
+            var curseTicks = 3 * this._skill2Level * application.frameRate;
+            var x = this._enemy.getCenterX();
+            var y = this._enemy.getCenterY();
+            Bullet.throw(x, y, x, y, "MiscastCurse", { hitRaduis: this._guardRadius, curseTicks: curseTicks, fightingTicks: curseTicks });
         }
         this._skill2Ticks--;
     };

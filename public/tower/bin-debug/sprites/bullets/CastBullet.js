@@ -41,13 +41,9 @@ var CastBullet = (function (_super) {
     };
     p._moveOneStep = function () {
         if (this._steps < this._totalSteps) {
-            this.x = this._startX + (this._targetX - this._startX) * this._steps / this._totalSteps;
-            if (this._a) {
-                this.y = this._a * this.x * this.x + this._b * this.x + this._c;
-            }
-            else {
-                this.y = this._startY + (this._targetY - this._startY) * this._steps / this._totalSteps;
-            }
+            var xy = this._nextStep();
+            this.x = xy[0];
+            this.y = xy[1];
             this._steps++;
             return false;
         }
@@ -56,6 +52,17 @@ var CastBullet = (function (_super) {
             this.y = this._targetY;
             return true;
         }
+    };
+    p._nextStep = function () {
+        var x = this._startX + (this._targetX - this._startX) * this._steps / this._totalSteps;
+        ;
+        if (this._a) {
+            var y = this._a * x * x + this._b * x + this._c;
+        }
+        else {
+            var y = this._startY + (this._targetY - this._startY) * this._steps / this._totalSteps;
+        }
+        return [x, y];
     };
     return CastBullet;
 }(Bullet));

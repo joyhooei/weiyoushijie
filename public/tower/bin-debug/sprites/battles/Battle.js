@@ -178,6 +178,11 @@ var Battle = (function (_super) {
             }
         }
     };
+    p.unselect = function (focus) {
+        if (this._focus == focus) {
+            this._focus = null;
+        }
+    };
     p.showDisableTip = function (x, y) {
         var tip = application.pool.get("DisableTip");
         tip.setCenterX(x);

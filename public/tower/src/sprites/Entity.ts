@@ -334,7 +334,7 @@ class Entity extends egret.Sprite {
     }
 	
 	public static random(low: number, high: number) : number {
-		return Math.randoum() * (high - low) + low;
+		return Math.random() * (high - low) + low;
 	}
 
     public static direction4(x1:number, y1:number, x2:number, y2:number): EntityDirection {

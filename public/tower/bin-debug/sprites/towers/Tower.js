@@ -3,6 +3,7 @@ var Tower = (function (_super) {
     function Tower() {
         _super.call(this);
         this._displays.addClip("tower_building", "building");
+        this._criticalClip = EntityDisplays.loadClip("critical");
         this.touchEnabled = true;
     }
     var d = __define,c=Tower,p=c.prototype;
@@ -33,26 +34,27 @@ var Tower = (function (_super) {
     p.getSellPrice = function () {
         return Math.round(this._price / 2);
     };
-    p.getUpgradePrice = function () {
-        return this._upgradePrice;
-    };
-    p.getSkillUpgradePrice = function (skill) {
-        console.error("upgrade skill not support in " + this.getClaz());
-        return 0;
-    };
-    p.upgradeSkill = function (skill) {
-        console.error("upgrade skill not support in " + this.getClaz());
-    };
-    p.skillUpgradable = function (skill) {
-        return false;
-    };
-    p.useSkill = function (tower) {
-    };
+    //是否可以升级
     p.upgradable = function () {
         return true;
     };
+    p.getUpgradePrice = function () {
+        return this._upgradePrice;
+    };
+    //是否可以升级技能
+    p.skillUpgradable = function (skill) {
+        return false;
+    };
+    p.getSkillUpgradePrice = function (skill) {
+        return 0;
+    };
+    p.upgradeSkill = function (skill) {
+    };
+    //对tower使用skill
+    p.useSkill = function (tower) {
+    };
     p.getForce = function () {
-        var force = this._forceLow + Math.round(Math.random() * (this._forceHigh - this._forceLow));
+        var force = Entity.random(this._forceLow, this._forceHigh);
         if (this._critical > 0 && Math.random() * 100 <= this._critical) {
             return force << 1;
         }
@@ -61,11 +63,22 @@ var Tower = (function (_super) {
         }
     };
     p.incCritical = function (critical) {
-        this._critical = this._critical + critical;
-    };
-    p.erase = function () {
-        _super.prototype.erase.call(this);
-        application.battle.incGolds(this.getSellPrice());
+        if (this._critical == 0) {
+            this._critical = Math.max(0, this._critical + critical);
+            if (this._critical > 0) {
+                this._criticalClip.x = (this._criticalClip.width >> 1) + ((this.width - this._criticalClip.width) / 2);
+                this._criticalClip.y = (this._criticalClip.height >> 1) + (this.height - this._criticalClip.height);
+                this.addChild(this._criticalClip);
+                this._criticalClip.gotoAndPlay(0, -1);
+            }
+        }
+        else {
+            this._critical = Math.max(0, this._critical + critical);
+            if (this._critical == 0) {
+                this._criticalClip.stop();
+                this.removeChild(this._criticalClip);
+            }
+        }
     };
     p._idle = function () {
         this.build();
@@ -95,6 +108,7 @@ var Tower = (function (_super) {
         }
         else {
             application.showUI(new TowerMenuUI(this._base), application.battle.getUI(), this.getCenterX(), this.getCenterY());
+            application.battle.unselect(this);
             return true;
         }
     };
@@ -106,5 +120,5 @@ var Tower = (function (_super) {
     };
     return Tower;
 }(Entity));
-egret.registerClass(Tower,'Tower',["SelectableEntity"]);
+egret.registerClass(Tower,'Tower',["Selectable"]);
 //# sourceMappingURL=Tower.js.map

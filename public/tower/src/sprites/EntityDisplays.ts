@@ -30,14 +30,14 @@ class EntityDisplays {
     }
     
     public addBitmap(name:string, action?): egret.Bitmap {
-        this._addAll(EntityDisplays.loadBitmap(name), action);
-        
+        let bm = EntityDisplays.loadBitmap(name);
+        this._addAll(bm, action);
         return bm;
     }
     
     public addClip(name:string, action?): egret.MovieClip {
-        this._addAll(EntityDisplays.loadClip(name), action);
-        
+        let clip = EntityDisplays.loadClip(name);
+        this._addAll(clip, action);
         return clip;
     }
 

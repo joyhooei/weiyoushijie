@@ -23,4 +23,8 @@ class Curse extends Bullet {
     
     protected _hitEnemy(enemy: Enemy, force: number, ticks: number) {
     }
+
+    protected _idle() {
+    	this.fight();
+    }
 }

@@ -27,8 +27,7 @@ var BattleSystemToolItem = (function (_super) {
     };
     p._addReinforce = function (x, y, guradX, guardY) {
         var soldier = application.pool.get("Reinforce", { guardX: guradX, guardY: guardY });
-        soldier.setCenterX(x);
-        soldier.setBottomY(y);
+        soldier.stand(x, y);
         application.battle.addSoldier(soldier);
     };
     return BattleSystemToolItem;

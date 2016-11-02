@@ -6,19 +6,27 @@ var EntityDisplays = (function () {
     }
     var d = __define,c=EntityDisplays,p=c.prototype;
     p.addBitmap = function (name, action) {
-        var bm = new egret.Bitmap();
-        bm.texture = RES.getRes(name);
+        var bm = EntityDisplays.loadBitmap(name);
         this._addAll(bm, action);
         return bm;
     };
     p.addClip = function (name, action) {
+        var clip = EntityDisplays.loadClip(name);
+        this._addAll(clip, action);
+        return clip;
+    };
+    EntityDisplays.loadBitmap = function (name) {
+        var bm = new egret.Bitmap();
+        bm.texture = RES.getRes(name);
+        return bm;
+    };
+    EntityDisplays.loadClip = function (name) {
         var data = RES.getRes(name + "_json");
         var texture = RES.getRes(name + "_png");
         var mcf = new egret.MovieClipDataFactory(data, texture);
         var clip = new egret.MovieClip();
         var mcd = mcf.generateMovieClipData(name);
         clip.movieClipData = mcd;
-        this._addAll(clip, action);
         return clip;
     };
     p._addAll = function (display, action) {

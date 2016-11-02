@@ -202,5 +202,5 @@ var Soldier = (function (_super) {
     };
     return Soldier;
 }(NPC));
-egret.registerClass(Soldier,'Soldier',["SelectableEntity"]);
+egret.registerClass(Soldier,'Soldier',["Selectable"]);
 //# sourceMappingURL=Soldier.js.map

@@ -66,5 +66,5 @@ var Base = (function (_super) {
     };
     return Base;
 }(Entity));
-egret.registerClass(Base,'Base',["SelectableEntity"]);
+egret.registerClass(Base,'Base',["Selectable"]);
 //# sourceMappingURL=Base.js.map

@@ -32,7 +32,7 @@ class Battle extends Entity implements SoldierCreator {
     protected _golds: number;
     protected _heroWinned: string;
     
-    protected _focus: SelectableEntity;
+    protected _focus: Selectable;
     protected _toolItem: BattleToolItem;
     
     protected _result: Result;
@@ -248,6 +248,12 @@ class Battle extends Entity implements SoldierCreator {
                 }
     	    }
     	}        
+    }
+
+    public unselect(focus: Selectable) {
+        if (this._focus == focus) {
+            this._focus = null;
+        }
     }
 
     public showDisableTip(x:number, y:number) {

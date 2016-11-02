@@ -77,7 +77,7 @@ class CastBullet extends Bullet {
 		let x = this._startX + (this._targetX - this._startX) * this._steps / this._totalSteps;;
 		
 		if (this._a) {
-			var y = this._a * nextStepX * nextStepX + this._b * nextStepX + this._c;
+			var y = this._a * x * x + this._b * x + this._c;
 		} else {
 			var y = this._startY + (this._targetY - this._startY) * this._steps / this._totalSteps;
 		}

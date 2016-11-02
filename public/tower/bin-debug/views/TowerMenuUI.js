@@ -102,7 +102,9 @@ var TowerMenuUI = (function (_super) {
         }, this);
     };
     p._build = function (tower) {
-        if (application.battle.getGolds() >= tower.getPrice()) {
+        var price = tower.getPrice();
+        if (application.battle.getGolds() >= price) {
+            application.battle.incGolds(-price);
             this._base.setTower(tower);
             this.hide();
         }
@@ -111,7 +113,9 @@ var TowerMenuUI = (function (_super) {
         }
     };
     p._upgradeSkill = function (skill) {
-        if (application.battle.getGolds() >= this._tower.getSkillUpgradePrice(skill)) {
+        var price = this._tower.getSkillUpgradePrice(skill);
+        if (application.battle.getGolds() >= price) {
+            application.battle.incGolds(-price);
             this._tower.upgradeSkill(skill);
             this.hide();
         }

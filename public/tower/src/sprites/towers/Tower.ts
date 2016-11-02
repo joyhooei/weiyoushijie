@@ -106,6 +106,8 @@ class Tower extends Entity implements Selectable {
 		if (this._critical == 0) {
 			this._critical = Math.max(0, this._critical + critical);
 			if (this._critical > 0) {
+                this._criticalClip.x = (this._criticalClip.width >> 1) + ((this.width - this._criticalClip.width) / 2);
+                this._criticalClip.y = (this._criticalClip.height >> 1) + (this.height - this._criticalClip.height);
 				this.addChild(this._criticalClip);
 				this._criticalClip.gotoAndPlay(0, -1);
 			}
@@ -152,6 +154,8 @@ class Tower extends Entity implements Selectable {
             return false;
         } else {
             application.showUI(new TowerMenuUI(this._base), application.battle.getUI(), this.getCenterX(), this.getCenterY());
+
+            application.battle.unselect(this);
             
             return true;
         }

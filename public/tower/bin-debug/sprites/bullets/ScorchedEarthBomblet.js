@@ -2,7 +2,7 @@ var ScorchedEarthBomblet = (function (_super) {
     __extends(ScorchedEarthBomblet, _super);
     function ScorchedEarthBomblet() {
         _super.call(this);
-        this.addClip("scorchedearthbomblet_fighting");
+        this.addClip("scorchedearthbomblet_fighting", ['south-moving', 'north-moving']);
     }
     var d = __define,c=ScorchedEarthBomblet,p=c.prototype;
     p._hitTarget = function () {

@@ -159,13 +159,17 @@ class NPC extends MovableEntity {
     }
 
 	protected _render(xDelta = 0, yDelta = 0, idx = 0): egret.DisplayObject {
+        this._renderHp();
+		
+		return super._render(0, 5, 0);
+	}
+
+    protected _renderHp() {
         if (this._hp) {
             let x =  Math.min(0, (this.width - this._hp.width) >> 1);
             if (x != this._hp.x) {
                 this._hp.x = x;
             }
         }
-		
-		return super._render(0, 5, 0);
-	}
+    }
 }

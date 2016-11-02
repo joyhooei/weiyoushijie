@@ -20,6 +20,9 @@ var Curse = (function (_super) {
     };
     p._hitEnemy = function (enemy, force, ticks) {
     };
+    p._idle = function () {
+        this.fight();
+    };
     return Curse;
 }(Bullet));
 egret.registerClass(Curse,'Curse');

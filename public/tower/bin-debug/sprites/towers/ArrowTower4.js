@@ -3,7 +3,7 @@ var ArrowTower4 = (function (_super) {
     function ArrowTower4() {
         _super.call(this);
         this.addBitmap("arrowtower4_png");
-        this._bulletClaz = "Arrow4";
+        this._bulletClaz = "Arrow5";
     }
     var d = __define,c=ArrowTower4,p=c.prototype;
     p.initialize = function (properties) {
@@ -21,9 +21,6 @@ var ArrowTower4 = (function (_super) {
             if (this._skill2Level == 1) {
                 var critical = 10;
             }
-            else if (this._skill2Level == 1) {
-                var critical = 5;
-            }
             else {
                 var critical = 5;
             }
@@ -32,19 +29,20 @@ var ArrowTower4 = (function (_super) {
                 towers[i].incCritical(critical);
             }
         }
-        application.battle.incGolds(-this.getSkillUpgradePrice(skill));
     };
     p.useSkill = function (tower) {
-        if (this._skill2Level == 1) {
-            var critical = 10;
+        if (this._skill2Level > 0) {
+            if (this._skill2Level == 1) {
+                var critical = 10;
+            }
+            else if (this._skill2Level == 1) {
+                var critical = 15;
+            }
+            else {
+                var critical = 20;
+            }
+            tower.incCritical(critical);
         }
-        else if (this._skill2Level == 1) {
-            var critical = 15;
-        }
-        else {
-            var critical = 20;
-        }
-        tower.incCritical(critical);
     };
     p.skillUpgradable = function (skill) {
         if (skill == 1) {
@@ -77,34 +75,42 @@ var ArrowTower4 = (function (_super) {
             this._skill1Ticks = application.frameRate * 6;
             if (this._skill1Level == 1) {
                 var count = 6;
+                var claz = "Arrow5";
             }
             else if (this._skill1Level == 2) {
                 var count = 8;
+                var claz = "Arrow6";
             }
             else {
+                var claz = "Arrow6";
                 var count = 10;
             }
+            var span = (application.frameRate << 1) / count;
+            var force = Entity.random(30, 40);
+            ;
             var enemies = application.battle.findEnemies(this.getCenterX(), this.getCenterY(), this._guardRadius, [0, 1]);
-            for (var i = 0; i <= Math.min(count, enemies.length); i++) {
-                Bullet.shoot(this, enemies[i], this._bulletClaz, { force: 30 + Math.round(Math.random() * 10) });
+            for (var i = 0; i <= count; i++) {
+                Bullet.shoot(this, enemies[i % enemies.length], claz, { force: force, idleTicks: Math.round(i * span) });
             }
         }
         this._skill1Ticks--;
     };
     p.erase = function () {
         _super.prototype.erase.call(this);
-        if (this._skill2Level == 1) {
-            var critical = -10;
-        }
-        else if (this._skill2Level == 1) {
-            var critical = -15;
-        }
-        else {
-            var critical = -20;
-        }
-        var towers = this.findNeighbors();
-        for (var i = 0; i < towers.length; i++) {
-            towers[i].incCritical(critical);
+        if (this._skill2Level > 0) {
+            if (this._skill2Level == 1) {
+                var critical = -10;
+            }
+            else if (this._skill2Level == 1) {
+                var critical = -15;
+            }
+            else {
+                var critical = -20;
+            }
+            var towers = this.findNeighbors();
+            for (var i = 0; i < towers.length; i++) {
+                towers[i].incCritical(critical);
+            }
         }
     };
     p.getMuzzleX = function () {

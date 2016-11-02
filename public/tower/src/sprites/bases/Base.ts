@@ -1,4 +1,4 @@
-class Base extends Entity implements SelectableEntity {
+class Base extends Entity implements Selectable {
     protected _tower: Tower;
     
     protected _guardX: number;

@@ -32,7 +32,7 @@ class TowerItem extends AbstractUI {
 	}
 
 	public setAbNormalColor(color: number) {
-		this._normalColor = color;
+		this._abnormalColor = color;
 	}
 
     public static createSellItem(parent:AbstractUI, x:number, y:number, base:Base): TowerItem {

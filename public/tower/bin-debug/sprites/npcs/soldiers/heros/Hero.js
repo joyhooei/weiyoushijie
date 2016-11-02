@@ -16,7 +16,7 @@ var Hero = (function (_super) {
         if (xDelta === void 0) { xDelta = 0; }
         if (yDelta === void 0) { yDelta = 0; }
         if (idx === void 0) { idx = 0; }
-        this._centerHp();
+        this._renderHp();
         return _super.prototype._render.call(this, 0, 5, this._curSkill);
     };
     return Hero;

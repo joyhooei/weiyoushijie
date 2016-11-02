@@ -81,8 +81,7 @@ var SoldierTower = (function (_super) {
         if (!found) {
             this._soldiers.push(s);
         }
-        s.setCenterX(this.getMuzzleX());
-        s.setCenterY(this.getMuzzleY());
+        s.stand(this.getMuzzleX(), this.getMuzzleY());
         s.setCreator(this);
         application.battle.addSoldier(s);
     };

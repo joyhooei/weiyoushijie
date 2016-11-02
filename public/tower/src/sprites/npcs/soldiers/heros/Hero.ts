@@ -18,7 +18,7 @@ class Hero extends Soldier {
     }
 
 	protected _render(xDelta = 0, yDelta = 0, idx = 0): egret.DisplayObject {
-		this._centerHp();
+		this._renderHp();
 		
 		return super._render(0, 5, this._curSkill);
 	}
