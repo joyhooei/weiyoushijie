@@ -38,6 +38,8 @@
     <!--other_libs_files_start-->
 	<script type='text/javascript' src='//cdn.bootcss.com/q.js/1.4.1/q.min.js'></script>
 	<script type='text/javascript' src='//cdn.bootcss.com/log4javascript/1.4.9/log4javascript.min.js'></script>
+	<script type='text/javascript' src="//cdn.bootcss.com/social-share.js/1.0.15/js/social-share.min.js"></script>
+	<link href="//cdn.bootcss.com/social-share.js/1.0.15/css/share.min.css" rel="stylesheet">
 	<!--<script type='text/javascript' src="http://jsconsole.com/js/remote.js?32b7b43e-c7f3-48bd-a80e-b7bc6043b525"></script>-->
     <!--other_libs_files_end-->
 
@@ -229,8 +231,14 @@
          data-show-fps="false" data-show-log="false"
          data-log-filter="" data-show-fps-style="x:0,y:0,size:30,textColor:0x00c200,bgAlpha:0.9">
     </div>
+	<div id="social-share" class="social-share" style="position:absolute;" data-disabled="['google', 'facebook', 'twitter']" ></div>
 	<script>
    		egret.runEgret();
-    </script>    
+
+		var canvas = document.getElementsByTagName("canvas")[0];
+		var share  = document.getElementById("social-share");
+
+		share.style.top = canvas.style.top;
+    </script>
 </body>
 </html>
