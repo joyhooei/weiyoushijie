@@ -8,7 +8,7 @@ var Enemy = (function (_super) {
     p.initialize = function (properties) {
         _super.prototype.initialize.call(this, properties);
         this._bonus = this._get(properties, "bonus", 10);
-        this._idleTicks = this._get(properties, "idleTicks", 0);
+        this._livesTaken = this._get(properties, "livesTaken", 1);
         this._soldiers = [null, null, null, null, null, null];
         this._totalSoldiers = 0;
         this._paths = this._get(properties, "paths", 10);
@@ -198,7 +198,7 @@ var Enemy = (function (_super) {
                 this._nextPath();
             }
             else {
-                application.battle.incLives(-1);
+                application.battle.incLives(-this._livesTaken);
                 this.erase();
             }
         }

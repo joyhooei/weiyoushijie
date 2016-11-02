@@ -1,4 +1,6 @@
 class Enemy extends NPC {
+	protected _livesTaken: number;
+	
     protected _soldiers: Soldier[];
 	protected _totalSoldiers: number;
     
@@ -27,7 +29,7 @@ class Enemy extends NPC {
         
         this._bonus = this._get(properties, "bonus", 10);
 
-        this._idleTicks = this._get(properties, "idleTicks", 0);
+		this._livesTaken = this._get(properties, "livesTaken", 1);
         
         this._soldiers = [null, null, null, null, null, null];
 		this._totalSoldiers = 0;
@@ -259,7 +261,7 @@ class Enemy extends NPC {
         	if (this._path < this._paths.length - 1) {
         		this._nextPath();
         	} else {
-            	application.battle.incLives(-1);
+            	application.battle.incLives(-this._livesTaken);
             	this.erase();
         	}
         }
