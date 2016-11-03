@@ -1,4 +1,4 @@
-class Enemy3 extends Enemy {
+class Enemy3 extends Enemy implements Shooter {
     public constructor() {
         super();
         
