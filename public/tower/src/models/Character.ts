@@ -49,11 +49,12 @@ class Character {
             {name: 'Soldier4',  properties:{hp:50, force:12, armor: 0, magicArmor: 9, cureSpeed:1, moveSpeed:1, guardRadius:50, guardAltitude:[-1, 0], idleTicks: 0, dyingTicks:application.frameRate}},        
 
             //小怪
-            {name: 'Enemy1',  properties:{bonus:10, livesTaken: 1, hp:[40, 60, 78], forceHigh:6, forceLow:2, armor: 0, magicArmor: 0, cureSpeed:0, moveSpeed:1, idleTicks:0, dyingTicks:application.frameRate}},
-            {name: 'Enemy2',  properties:{bonus:10, livesTaken: 1, hp:[40, 60, 78], forceHigh:6, forceLow:2, armor: 0, magicArmor: 0, cureSpeed:0, moveSpeed:1, idleTicks:0, dyingTicks:application.frameRate}},
-            {name: 'Enemy3',  properties:{bonus:10, livesTaken: 1, hp:[40, 60, 78], forceHigh:6, forceLow:2, armor: 0, magicArmor: 0, cureSpeed:0, moveSpeed:1, idleTicks:0, dyingTicks:application.frameRate}},
-            {name: 'Enemy4',  properties:{bonus:10, livesTaken: 1, hp:[40, 60, 78], forceHigh:6, forceLow:2, armor: 0, magicArmor: 0, cureSpeed:0, moveSpeed:1, idleTicks:0, dyingTicks:application.frameRate}},
-            {name: 'Enemy5',  properties:{bonus:10, livesTaken: 1, hp:[40, 60, 78], forceHigh:6, forceLow:2, armor: 0, magicArmor: 0, cureSpeed:0, moveSpeed:1, idleTicks:0, dyingTicks:application.frameRate}},
+            {name: 'Enemy1',  properties:{bonus:5, livesTaken: 1, hp:[40, 60, 78], forceHigh:6, forceLow:2, armor: 0, magicArmor: 0, cureSpeed:0, moveSpeed:1, idleTicks:0, dyingTicks:application.frameRate}},
+            {name: 'Enemy2',  properties:{bonus:16, livesTaken: 1, hp:[140, 200, 260], forceHigh:10, forceLow:6, armor: 20, magicArmor: 0, cureSpeed:0, moveSpeed:1, idleTicks:0, dyingTicks:application.frameRate}},
+            {name: 'Enemy3',  properties:{bonus:12, livesTaken: 1, hp:[130, 180, 234], forceHigh:20, forceLow:10, armor: 0, magicArmor: 20, cureSpeed:0, moveSpeed:1, idleTicks:0, dyingTicks:application.frameRate}},
+            {name: 'Enemy4',  properties:{bonus:5, livesTaken: 1, hp:[25, 35, 46], forceHigh:3, forceLow:1, armor: 0, magicArmor: 0, cureSpeed:0, moveSpeed:1, idleTicks:0, dyingTicks:application.frameRate}},
+            {name: 'Enemy5',  properties:{bonus:10, livesTaken: 1, hp:[90, 120, 156], forceHigh:18, forceLow:12, armor: 0, magicArmor: 40, cureSpeed:0, moveSpeed:1, idleTicks:0, dyingTicks:application.frameRate}},
+            
             {name: 'Enemy6',  properties:{bonus:10, livesTaken: 1, hp:[40, 60, 78], forceHigh:6, forceLow:2, armor: 0, magicArmor: 0, cureSpeed:0, moveSpeed:1, idleTicks:0, dyingTicks:application.frameRate}},
             {name: 'Enemy7',  properties:{bonus:10, livesTaken: 1, hp:[40, 60, 78], forceHigh:6, forceLow:2, armor: 0, magicArmor: 0, cureSpeed:0, moveSpeed:1, idleTicks:0, dyingTicks:application.frameRate}},
             {name: 'Enemy8',  properties:{bonus:10, livesTaken: 1, hp:[40, 60, 78], forceHigh:6, forceLow:2, armor: 0, magicArmor: 0, cureSpeed:0, moveSpeed:1, idleTicks:0, dyingTicks:application.frameRate}},
