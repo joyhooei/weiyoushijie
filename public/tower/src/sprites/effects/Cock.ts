@@ -1,4 +1,4 @@
-class Cock extends Effect {
+class Cock extends AnimatingEffect {
     public constructor() {
         super();
         
