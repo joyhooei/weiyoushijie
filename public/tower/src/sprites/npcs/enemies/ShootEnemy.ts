@@ -2,7 +2,13 @@ class ShootEnemy extends Enemy implements Shooter {
     protected _shootRadius: number;
 	
     protected _bulletClaz: string;
-     
+	
+    public constructor() {
+        super();
+		
+		this._bulletClaz = "Arrow1"
+    }
+	
     public initialize(properties:any) {
         super.initialize(properties);
         
