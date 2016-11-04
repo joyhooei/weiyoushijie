@@ -21,7 +21,7 @@ class Enemy13 extends ShootEnemy {
         super._moving();
         
         this._ticks++;
-        if (this._ticks % this._summonTicks) {
+        if (this._ticks % this._summonTicks == 0) {
             let pos = this._ahead(10);
             this._born("Bullet7", pos[0], pos[1]);
         }
