@@ -10,8 +10,8 @@ class Enemy6 extends Enemy {
     }
     
     public erase() {
-        let e = application.pools.get("Enemy7");
-        e.stand(this.getCenterX(), this.getBottomY());
-        application.battle.addEnemy(e);
+        this._born("Enemy7");
+        
+        super.erase();
     }
 }
