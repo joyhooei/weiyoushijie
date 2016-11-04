@@ -1,11 +1,15 @@
-class Boat extends MovableEntity {
+class Boat extends Entity {
     public constructor() {
         super();
         
         this.addClip("boat_east_moving");
     }
-    
-	protected _arrive() {
-        this.guard();
-	}    
+	
+	protected _idle() {
+		this.move();
+	}
+	
+	protected _act() {
+		return false;
+	}
 }
