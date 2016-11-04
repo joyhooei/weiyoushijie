@@ -15,8 +15,16 @@ abstract class NPC extends MovableEntity {
     //海拔高度，地表：0，地下：-1，空中：1
     protected _altitude: number;
 
+	//冰冻或者火烧状态
+	protected _abnormalState: number;
+	protected _abnormalTicks: number[];
+	protected _abnormalDamages: number[];
+	protected _abnormalDisplays: egret.DisplayObject[];
+
     public constructor() {
         super();
+		
+		this._abnormalDisplays = [new egret.Bitmap(RES.getRes("frozen_png")), new egret.Bitmap(RES.getRes("burn_png"))];
     }
     
     public initialize(properties:any) {
@@ -41,6 +49,10 @@ abstract class NPC extends MovableEntity {
         this._resistance  = this._get(properties, "_resistance", 0);
         
         this._altitude  = this._get(properties, "altitude", 0);
+		
+		this._abnormalState = 0;
+		this._abnormalTicks = [-1, -1, -1, -1, -1];
+		this._abnormalDamages = [0, 0, 0, 0, 0];
     }
 
 	public stand(x: number, y: number) {
@@ -109,7 +121,119 @@ abstract class NPC extends MovableEntity {
             return true;
         }    	
     }
-    
+
+    public kill() {
+    	super.kill();
+		
+		this._stopAllAbnormals();
+    }
+
+	public frozen(damage: number, ticks: number, overlying=true) {
+		this._startAbnormal(1, damage, ticks, overlying);
+	}
+
+	public burn(damage: number, ticks: number, overlying=true) {
+		this._startAbnormal(2, damage, ticks, overlying);
+	}
+
+	public weak(damage: number, ticks: number, overlying=true) {
+		this._startAbnormal(3, damage, ticks, overlying);
+	}
+
+	public miscast(damage: number, ticks: number, overlying=true) {
+		this._startAbnormal(4, damage, ticks, overlying);
+	}
+
+	public black(damage: number, ticks: number, overlying=true) {
+		this._startAbnormal(5, damage, ticks, overlying);
+	}
+
+	private _startAbnormal(state: number, damage: number, ticks: number, overlying: boolean) {
+		if (this._abnormalTicks[state - 1] <= 0) {
+			this._abnormalState ++;
+
+			this._abnormalTicks[state - 1]   = ticks;
+			this._abnormalDamages[state - 1] = damage;
+
+			if (state == 1 && this._clip) {
+				this._clip.stop();
+			}
+
+			this._renderAbnormal(state);
+		} else {
+			this._abnormalTicks[state - 1] = Math.max(ticks, this._abnormalTicks[state - 1]);
+			if (overlying) {
+				this._abnormalDamages[state - 1] += damage;
+			}
+		}
+	}
+
+	private _stopAbnormal(state: number) {
+		this._abnormalState --;
+		
+		if (state == 1 && this._clip) {
+			this._clip.gotoAndPlay(0, 1);
+		}
+		
+		this._abnormalTicks[state - 1] = -1;
+		
+		this._clearAbnormal(state);		
+	}
+
+	private _clearAbnormal(state: number) {
+		let display = this._abnormalDisplays[state - 1];
+		if (display) {
+			this.removeChild(display);
+		}
+	}
+
+	private _stopAllAbnormals() {
+		for(let i = 0; i < this._abnormalTicks.length; i++) {
+			if (this._abnormalTicks[i] > 0) {
+				this._clearAbnormal(i + 1);
+				this._abnormalTicks[i] = -1;
+			}
+		}
+		
+		this._abnormalState = 0;
+	}
+
+	private _renderAbnormal(state: number) {
+		let display = this._abnormalDisplays[state - 1];
+		if (display) {
+			display.x = (this.width - display.width) >> 1;
+			display.y = this.height - display.height;
+			this.addChild(display);
+		}
+	}
+
+	public update():boolean {
+		if (this._abnormalState == 0) {
+			return super.update();
+		}
+		
+		for(let i = 0; i < this._abnormalTicks.length; i++) {
+			if (this._abnormalTicks[i] > 0) {
+				if (this._abnormalTicks[i] % application.frameRate == 0) {
+					if(this.damage(this._abnormalDamages[i])) {
+						return super.update();
+					}
+				}
+
+				this._abnormalTicks[i] --;
+			} else if (this._abnormalTicks[i] == 0){
+				this._stopAbnormal(i + 1);
+			}
+		}
+		
+		if (this._abnormalTicks[0] > 0) {
+			//冰冻
+			return false;
+		} else {
+			return super.update();
+		}
+	}
+
     public reachable(x: number, y: number, radius: number, altitudes: number[]): boolean {
         return this.active() && this._altitude in altitudes && this.within(x, y, radius);
     }
