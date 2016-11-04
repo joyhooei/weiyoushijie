@@ -1,4 +1,4 @@
-class Enemy28 extends Enemy {
+class Enemy28 extends SummonEnemy {
     public constructor() {
         super();
         
@@ -7,5 +7,9 @@ class Enemy28 extends Enemy {
             .addClip("enemy1_north_moving", ["north-moving", "north-guarding"])
             .addClip("enemy1_dying", "east-dying")
             .addClip("enemy1_east_fighting", "east-fighting");
+    }
+    
+    protected _summon(claz:string): Enemy {
+        return this._born(claz, this.x, this.y);
     }
 }
