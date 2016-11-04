@@ -1,4 +1,6 @@
 class Enemy15 extends Enemy {
+    protected _summonTicks: number;
+
     public constructor() {
         super();
         
@@ -8,4 +10,20 @@ class Enemy15 extends Enemy {
             .addClip("enemy1_dying", "east-dying")
             .addClip("enemy1_east_fighting", "east-fighting");
     }
+
+    public initialize(properties:any) {
+        super.initialize(properties);
+        
+        this._summonTicks = this._get(properties, "summonTicks", 3 * application.frameRate);
+    }
+    
+    protected _moving() {
+        super._moving();
+        
+        this._ticks++;
+        if (this._ticks % this._summonTicks) {
+            let pos = this._ahead(2);
+            this._born("Bullet7", pos[0], pos[1]);
+        }
+    }    
 }
