@@ -1,5 +1,7 @@
 class Boss extends Enemy {
-    public constructor() {
-        super();
+    public kill() {
+        super.kill();
+        
+        application.battle.win();
     }
 }
