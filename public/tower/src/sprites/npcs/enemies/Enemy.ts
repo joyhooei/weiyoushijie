@@ -11,18 +11,6 @@ class Enemy extends NPC {
     
     //击毙后可以获取的金币
     protected _bonus: number;
-
-	//冰冻或者火烧状态
-	protected _abnormalState: number;
-	protected _abnormalTicks: number[];
-	protected _abnormalDamages: number[];
-	protected _abnormalDisplays: egret.DisplayObject[];
-    
-    public constructor() {
-        super();
-		
-		this._abnormalDisplays = [new egret.Bitmap(RES.getRes("frozen_png")), new egret.Bitmap(RES.getRes("burn_png"))];
-    }
     
     public initialize(properties:any) {
         super.initialize(properties);
@@ -37,115 +25,7 @@ class Enemy extends NPC {
         this._paths = this._get(properties, "paths", 10);
         this._path  = 0;
         this._nextPath();
-		
-		this._abnormalState = 0;
-		this._abnormalTicks = [-1, -1, -1, -1, -1];
-		this._abnormalDamages = [0, 0, 0, 0, 0];
     }
-
-	public frozen(damage: number, ticks: number) {
-		this._startAbnormal(1, damage, ticks);
-	}
-
-	public burn(damage: number, ticks: number) {
-		this._startAbnormal(2, damage, ticks);
-	}
-
-	public weak(damage: number, ticks: number) {
-		this._startAbnormal(3, damage, ticks);
-	}
-
-	public miscast(damage: number, ticks: number) {
-		this._startAbnormal(4, damage, ticks);
-	}
-
-	public black(damage: number, ticks: number) {
-		this._startAbnormal(5, damage, ticks);
-	}
-
-	private _startAbnormal(state: number, damage: number, ticks: number) {
-		if (this._abnormalTicks[state - 1] <= 0) {
-			this._abnormalState ++;
-
-			this._abnormalTicks[state - 1]   = ticks;
-			this._abnormalDamages[state - 1] = damage;
-
-			if (state == 1 && this._clip) {
-				this._clip.stop();
-			}
-
-			this._renderAbnormal(state);
-		} else {
-			this._abnormalTicks[state - 1]   += ticks;
-			this._abnormalDamages[state - 1] += damage;
-		}
-	}
-
-	private _stopAbnormal(state: number) {
-		this._abnormalState --;
-		
-		if (state == 1 && this._clip) {
-			this._clip.gotoAndPlay(0, 1);
-		}
-		
-		this._abnormalTicks[state - 1] = -1;
-		
-		this._clearAbnormal(state);		
-	}
-
-	private _clearAbnormal(state: number) {
-		let display = this._abnormalDisplays[state - 1];
-		if (display) {
-			this.removeChild(display);
-		}
-	}
-
-	private _stopAllAbnormals() {
-		for(let i = 0; i < this._abnormalTicks.length; i++) {
-			if (this._abnormalTicks[i] > 0) {
-				this._clearAbnormal(i + 1);
-				this._abnormalTicks[i] = -1;
-			}
-		}
-		
-		this._abnormalState = 0;
-	}
-
-	private _renderAbnormal(state: number) {
-		let display = this._abnormalDisplays[state - 1];
-		if (display) {
-			display.x = (this.width - display.width) >> 1;
-			display.y = this.height - display.height;
-			this.addChild(display);
-		}
-	}
-
-	public update():boolean {
-		if (this._abnormalState == 0) {
-			return super.update();
-		}
-		
-		for(let i = 0; i < this._abnormalTicks.length; i++) {
-			if (this._abnormalTicks[i] > 0) {
-				if (this._abnormalTicks[i] % application.frameRate == 0) {
-					if(this.damage(this._abnormalDamages[i])) {
-						return super.update();
-					}
-				}
-
-				this._abnormalTicks[i] --;
-			} else if (this._abnormalTicks[i] == 0){
-				this._stopAbnormal(i + 1);
-			}
-		}
-		
-		if (this._abnormalTicks[0] > 0) {
-			//冰冻
-			return false;
-		} else {
-			return super.update();
-		}
-	}
     
     public addSoldier(soldier: Soldier): number {
         for(let i = 0;i < this._soldiers.length; i++) {
@@ -249,8 +129,6 @@ class Enemy extends NPC {
 
     public kill() {
     	super.kill();
-		
-		this._stopAllAbnormals();
     	
     	application.battle.incGolds(this._bonus);
     }
