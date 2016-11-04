@@ -1,4 +1,4 @@
-abstract class SummonEnemy extends Enemy {
+class SummonEnemy extends Enemy {
     protected _summonTicks: number;
     protected _summonClaz: string;
     
@@ -18,5 +18,7 @@ abstract class SummonEnemy extends Enemy {
         }
     }
     
-    abstract _summon(claz: string): Enemy;
+    protected _summon(claz:string): Enemy {
+        return this._born(claz, this.x, this.y);
+    }
 }
