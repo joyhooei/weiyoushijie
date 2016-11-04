@@ -14,7 +14,7 @@ class Enemy15 extends Enemy {
     public initialize(properties:any) {
         super.initialize(properties);
         
-        this._summonTicks = this._get(properties, "summonTicks", 3 * application.frameRate);
+        this._summonTicks = this._get(properties, "summonTicks", 5 * application.frameRate);
     }
     
     protected _moving() {
@@ -23,7 +23,7 @@ class Enemy15 extends Enemy {
         this._ticks++;
         if (this._ticks % this._summonTicks) {
             let pos = this._ahead(2);
-            this._born("Bullet7", pos[0], pos[1]);
+            this._born("Bullet36", pos[0], pos[1]);
         }
     }    
 }
