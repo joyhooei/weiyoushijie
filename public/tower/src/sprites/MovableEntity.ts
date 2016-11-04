@@ -48,6 +48,12 @@ class MovableEntity extends Entity {
 	protected _arrive() {
 	}
 
+    protected _moving() {
+        if (this._moveOneStep()) {
+            this._arrive();
+        }
+    }
+
     //走一步，true表示已经到了终点
     protected _moveOneStep(): boolean {
     	this._steps ++;
