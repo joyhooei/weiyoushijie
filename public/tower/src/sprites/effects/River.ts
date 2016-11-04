@@ -1,4 +1,4 @@
-class River extends Effect {
+class River extends AnimatingEffect {
     public constructor() {
         super();
         
