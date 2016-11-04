@@ -1,4 +1,4 @@
-class MovableEntity extends Entity {
+abstract class MovableEntity extends Entity {
     //一步走多远
     protected _moveSpeed: number;
     
@@ -29,21 +29,26 @@ class MovableEntity extends Entity {
         this._idleTicks  = this._get(properties, "idleTicks", 0);
         this._dyingTicks = this._get(properties, "dyingTicks", application.frameRate);
 
-        this._stepX = 0;
-        this._stepY = 0;
-        this._totalSteps = -1;
-        this._steps = 0;
+        this._readyComputeSteps();
     }
 
     //x和y是脚站立的位置
     public moveTo(x:number, y:number) {
 		this._targetX = x;
 		this._targetY = y;
+
+        this._readyComputeSteps();
     }
 
-	//到达目的地
-	protected _arrive() {
+	protected _readyComputeSteps() {
+        this._stepX = 0;
+        this._stepY = 0;
+        this._totalSteps = -1;
+        this._steps = 0;
 	}
+
+	//到达目的地
+	abstract protected _arrive();
 
     protected _moving() {
         if (this._totalSteps == -1) {
