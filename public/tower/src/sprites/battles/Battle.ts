@@ -31,6 +31,7 @@ class Battle extends Entity implements SoldierCreator {
     protected _lives: number;
     protected _golds: number;
     protected _heroWinned: string;
+    protected _boss: string
 
     protected _difficulty: number;
     
@@ -124,6 +125,7 @@ class Battle extends Entity implements SoldierCreator {
         this._maxLives   = this._get(properties, "lives", 20);
         this._maxGolds   = this._get(properties, "golds", 1000);
         this._heroWinned = this._get(properties, "heroWinned", null);
+        this._boss       = this._get(properties, "boss", null);
         this._difficulty = this._get(properties, "difficulty", 1);
     }
 
@@ -337,6 +339,10 @@ class Battle extends Entity implements SoldierCreator {
     protected _addEffects() {
     }
 
+    //boss出场
+    protected _addBoss() {
+    }
+
     protected _addWave(wave: number, claz: string, count: number, path: number) {
         this._waves.add(wave, claz, count, path);
     }
@@ -425,9 +431,12 @@ class Battle extends Entity implements SoldierCreator {
             //最后一波已经走出来了
             if (this._enemies.length == 0) {
                 //所有怪物都已经死掉了
-                this.win();
-                
-                return;
+                if (this._boss) {
+                    this._addBoss();
+                } else {
+                    this.win();
+                    return;
+                }
             }
         }
         
