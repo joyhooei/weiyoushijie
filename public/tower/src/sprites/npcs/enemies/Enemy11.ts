@@ -8,4 +8,10 @@ class Enemy11 extends Enemy {
             .addClip("enemy1_dying", "east-dying")
             .addClip("enemy1_east_fighting", "east-fighting");
     }
+    
+    public erase() {
+        this._born("Enemy10");
+        
+        super.erase();
+    }    
 }
