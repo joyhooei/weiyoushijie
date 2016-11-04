@@ -1,4 +1,4 @@
-class Boat extends Entity {
+class Boat extends Effect {
     public constructor() {
         super();
         
@@ -6,7 +6,7 @@ class Boat extends Entity {
     }
 	
 	protected _idle() {
-		this.move();
+		this.guard();
 	}
 	
 	protected _act() {
