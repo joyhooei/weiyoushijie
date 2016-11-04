@@ -86,7 +86,7 @@ class Soldier extends NPC implements Selectable {
     protected _idle() {
         this._ticks ++;
         if (this._ticks >= this._idleTicks) {
-            this.moveToGuard();
+            this._moveToGuard();
 
         	if (this._hp) {
         		this._hp.move();
@@ -124,12 +124,12 @@ class Soldier extends NPC implements Selectable {
         
         //还没有敌人，直接走到新的守护地址
         if (this._enemy == null) {
-            this.moveToGuard();
+            this._moveToGuard();
         }
     }
     
     //移动到守护地点
-    public moveToGuard() {
+    protected _moveToGuard() {
         this._enemy = null;
         
         this.moveTo(this._guardX, this._guardY);
@@ -147,7 +147,7 @@ class Soldier extends NPC implements Selectable {
                 this._face(this._enemy);
                 this.fight();
             } else {
-                this.moveToGuard();
+                this._moveToGuard();
             }
         } else {
             this.guard();
@@ -210,7 +210,7 @@ class Soldier extends NPC implements Selectable {
             this.moveTo(x, y);
             this.move();
         } else {
-            this.moveToGuard();
+            this._moveToGuard();
         }
     }
     
