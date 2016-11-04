@@ -1,5 +1,5 @@
 //https://github.com/amibug/fly/blob/master/src/fly.js
-class CastBullet extends Bullet {
+abstract class CastBullet extends Bullet {
 	/**
 	 * ======================================================
 	 * 运动轨迹在页面中的y值可以抽象成函数 y = a * x * x + b * x + c;

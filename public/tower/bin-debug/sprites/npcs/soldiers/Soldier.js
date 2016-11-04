@@ -56,7 +56,7 @@ var Soldier = (function (_super) {
     p._idle = function () {
         this._ticks++;
         if (this._ticks >= this._idleTicks) {
-            this.moveToGuard();
+            this._moveToGuard();
             if (this._hp) {
                 this._hp.move();
             }
@@ -86,25 +86,18 @@ var Soldier = (function (_super) {
         this._guardY = y;
         //还没有敌人，直接走到新的守护地址
         if (this._enemy == null) {
-            this.moveToGuard();
-        }
-    };
-    //x和y是脚站立的位置
-    p.moveTo = function (x, y) {
-        var x1 = x - (this.width >> 1);
-        var y1 = y - this.height;
-        this._turn(this._directionAt(x, y));
-        if (this._computeSteps(this.x, this.y, x1, y1)) {
-            this.move();
-        }
-        else {
-            this._arrive();
+            this._moveToGuard();
         }
     };
     //移动到守护地点
-    p.moveToGuard = function () {
+    p._moveToGuard = function () {
         this._enemy = null;
         this.moveTo(this._guardX, this._guardY);
+        this.move();
+    };
+    //x和y是脚站立的位置
+    p.moveTo = function (x, y) {
+        _super.prototype.moveTo.call(this, x - (this.width >> 1), y - this.height);
     };
     p._arrive = function () {
         if (this._enemy) {
@@ -113,7 +106,7 @@ var Soldier = (function (_super) {
                 this.fight();
             }
             else {
-                this.moveToGuard();
+                this._moveToGuard();
             }
         }
         else {
@@ -121,14 +114,7 @@ var Soldier = (function (_super) {
         }
     };
     p._moving = function () {
-        if (this._moveOneStep()) {
-            this._arrive();
-        }
-        else {
-            if (this._enemy && !this._enemy.active()) {
-                this.moveToGuard();
-            }
-        }
+        _super.prototype._moving.call(this);
         if (this._range) {
             this._range.x = this.getCenterX() - this._guardRadius;
             this._range.y = this.getCenterY() - this._guardRadius;
@@ -172,9 +158,10 @@ var Soldier = (function (_super) {
                 y += (this.height + margin);
             }
             this.moveTo(x, y);
+            this.move();
         }
         else {
-            this.moveToGuard();
+            this._moveToGuard();
         }
     };
     p._hitOpponents = function () {

@@ -18,7 +18,7 @@ class Character {
             {name: 'Battle2',   properties:{lives: 20, golds:10000, heroWinned: 'Zhubajie'}},
             {name: 'Battle3',   properties:{lives: 20, golds:1000}},
             {name: 'Battle4',   properties:{lives: 20, golds:1000}},
-            {name: 'Battle5',   properties:{lives: 20, golds:1000, heroWinned: 'Shaseng'}},
+            {name: 'Battle5',   properties:{lives: 20, golds:1000, heroWinned: 'Shaseng', boss: 'Boss1'}},
             {name: 'Battle6',   properties:{lives: 20, golds:1000}},
             {name: 'Battle7',   properties:{lives: 20, golds:1000}},
             {name: 'Battle8',   properties:{lives: 20, golds:1000}},
@@ -48,6 +48,9 @@ class Character {
             {name: 'Soldier3',  properties:{hp:50, force:9, armor: 0, magicArmor: 6, cureSpeed:1, moveSpeed:1, guardRadius:50, guardAltitude:[-1, 0], idleTicks: 0, dyingTicks:application.frameRate}},
             {name: 'Soldier4',  properties:{hp:50, force:12, armor: 0, magicArmor: 9, cureSpeed:1, moveSpeed:1, guardRadius:50, guardAltitude:[-1, 0], idleTicks: 0, dyingTicks:application.frameRate}},        
 
+            //Boss
+            {name: 'Boss1',  properties:{bonus:5, livesTaken: 10, hp:[4000, 6000, 7800], forceHigh:60, forceLow:20, armor: 0, magicArmor: 0, cureSpeed:0, moveSpeed:1}},
+            
             //小怪
             {name: 'Enemy1',  properties:{bonus:5, livesTaken: 1, hp:[40, 60, 78], forceHigh:6, forceLow:2, armor: 0, magicArmor: 0, cureSpeed:0, moveSpeed:1, idleTicks:0, dyingTicks:application.frameRate}},
             {name: 'Enemy2',  properties:{bonus:16, livesTaken: 1, hp:[140, 200, 260], forceHigh:10, forceLow:6, armor: 20, magicArmor: 0, cureSpeed:0, moveSpeed:1, idleTicks:0, dyingTicks:application.frameRate}},

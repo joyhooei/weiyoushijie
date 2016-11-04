@@ -14,7 +14,7 @@ class SummonEnemy extends Enemy {
         
         this._ticks++;
         if (this._ticks % this._summonTicks == 0) {
-            this._summon(this._summonclaz);
+            this._summon(this._summonClaz);
         }
     }
     

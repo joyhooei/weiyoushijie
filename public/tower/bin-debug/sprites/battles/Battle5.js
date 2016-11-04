@@ -5,16 +5,32 @@ var Battle5 = (function (_super) {
         _super.apply(this, arguments);
     }
     var d = __define,c=Battle5,p=c.prototype;
+    //增加塔基
+    p._addBases = function () {
+        this._addBasesByName("Base5");
+    };
     //增加英雄
     p._addHeros = function () {
         this._addHerosByName("Sunwukong");
     };
     p._addEffects = function () {
-        this._addEffectByName("River", 0, 290, EntityDirection.east);
-        this._addEffectByName("Cock", 120, 70, EntityDirection.east);
-        this._addEffectByName("Cock", 540, 400, EntityDirection.west);
+        this._addEffectByName("Frog", 200, 200, EntityDirection.west);
+        this._lawn = this._addEffectByName("Lawn", 200, 200, EntityDirection.west);
     };
     p._addWaves = function () {
+        this._addWave(0, "Enemy4", 1, 0);
+        this._addWave(1, "Enemy4", 1, 1);
+    };
+    p._addBoss = function () {
+        var self = this;
+        var boat = application.pool.get("Boat");
+        boat.x = 240;
+        boat.y = 400;
+        boat.setCallback(function (entity) {
+            self._addBossByName(self._boss, 0);
+            self._lawn.kill();
+        });
+        self.addEntity(boat);
     };
     return Battle5;
 }(Battle));

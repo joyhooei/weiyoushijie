@@ -156,8 +156,8 @@ class Enemy extends NPC {
 		super._fighting();
 		
 		//soldier may be killed by many enemies
-		for(let i = 0; i < this._soldiers; i++) {
-			if (!this._soldiers[i].active()) {
+		for(let i = 0; i < this._soldiers.length; i++) {
+			if (this._soldiers[i] && !this._soldiers[i].active()) {
 				this.rmvSoldier(this._soldiers[i]);
 			}
 		}
@@ -174,9 +174,11 @@ class Enemy extends NPC {
     	}
     }
 
-	protected _born(claz: string, x: number, y: number) {
-        let e = application.pools.get(claz);
+	protected _born(claz: string, x: number, y: number):Enemy {
+        let e = <Enemy>application.pool.get(claz);
         e.stand(x, y);
         application.battle.addEnemy(e);
+
+        return e;
 	}		
 }

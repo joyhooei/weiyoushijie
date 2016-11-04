@@ -19,7 +19,7 @@ class ShootEnemy extends Enemy implements Shooter {
     }
     
     public getMuzzleX(): number {
-        it (this._target.x > this.x) {
+        if (this._targetX > this.x) {
             return this.x + this.width;
         } else {
             return this.x;

@@ -183,6 +183,7 @@ class Entity extends egret.Sprite {
 		} else {
 			if (this._clip) {
 				this._clip.stop();
+				this._clip.removeEventListener(egret.Event.COMPLETE, this._playCompleted, this);
 			}
 			
 			this._displaySprite.removeChildren();
@@ -214,10 +215,12 @@ class Entity extends egret.Sprite {
 	}
     
     protected _play() {
-		this._clip.addEventListener(egret.Event.COMPLETE, this._playCompleted, this);
+		if (this._clip) {
+			this._clip.addEventListener(egret.Event.COMPLETE, this._playCompleted, this);
 
-		this._clipPlaying = true;
-		this._clip.gotoAndPlay(0, 1);
+			this._clipPlaying = true;
+			this._clip.gotoAndPlay(0, 1);
+		}
     }
 
 	protected _playCompleted() {
@@ -226,7 +229,9 @@ class Entity extends egret.Sprite {
 			this._clip.gotoAndPlay(0, 1);
 		} else {
 			this._clipPlaying = false;
-			this._clip.removeEventListener(egret.Event.COMPLETE, this._playCompleted, this);
+			if (this._clip) {
+				this._clip.removeEventListener(egret.Event.COMPLETE, this._playCompleted, this);
+			}
 		}
 	}
     

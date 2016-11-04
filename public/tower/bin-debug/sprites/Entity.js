@@ -141,6 +141,7 @@ var Entity = (function (_super) {
         else {
             if (this._clip) {
                 this._clip.stop();
+                this._clip.removeEventListener(egret.Event.COMPLETE, this._playCompleted, this);
             }
             this._displaySprite.removeChildren();
             this._clip = null;
@@ -164,9 +165,11 @@ var Entity = (function (_super) {
         return this;
     };
     p._play = function () {
-        this._clip.addEventListener(egret.Event.COMPLETE, this._playCompleted, this);
-        this._clipPlaying = true;
-        this._clip.gotoAndPlay(0, 1);
+        if (this._clip) {
+            this._clip.addEventListener(egret.Event.COMPLETE, this._playCompleted, this);
+            this._clipPlaying = true;
+            this._clip.gotoAndPlay(0, 1);
+        }
     };
     p._playCompleted = function () {
         if (this._act()) {
@@ -175,7 +178,9 @@ var Entity = (function (_super) {
         }
         else {
             this._clipPlaying = false;
-            this._clip.removeEventListener(egret.Event.COMPLETE, this._playCompleted, this);
+            if (this._clip) {
+                this._clip.removeEventListener(egret.Event.COMPLETE, this._playCompleted, this);
+            }
         }
     };
     p._render = function (xDelta, yDelta, idx) {

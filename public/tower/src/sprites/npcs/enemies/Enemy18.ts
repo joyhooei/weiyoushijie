@@ -12,7 +12,7 @@ class Enemy18 extends Enemy {
     //攻击接触到的士兵
     protected _hitOpponents() {
         let soldiers = application.battle.findSoldiers(this.getCenterX(), this.getCenterY(), 50, [0]);
-        for(let i = 0; i < soldiers; i++) {
+        for(let i = 0; i < soldiers.length; i++) {
             let s = soldiers[i];
             if (s.hitBy(this)) {
                 this.rmvSoldier(s);

@@ -49,7 +49,7 @@ abstract class MovableEntity extends Entity {
 	}
 
 	//到达目的地
-	abstract protected _arrive();
+	protected abstract _arrive();
 
     protected _moving() {
         if (this._totalSteps == -1) {

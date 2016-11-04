@@ -1,7 +1,13 @@
 class Boss extends Enemy {
-    public kill() {
-        super.kill();
+    public erase() {
+        super.erase();
         
-        application.battle.win();
+        Utility.delay(function(){
+            if (application.battle.getLives() > 0) {
+                application.battle.win();
+            } else {
+                application.battle.lose();
+            }
+        }, 10);
     }
 }

@@ -7,7 +7,7 @@ var ScorchedEarth = (function (_super) {
     var d = __define,c=ScorchedEarth,p=c.prototype;
     p.setTarget = function (target) {
         this._target = target;
-        this.setTargetPosition(this.getCenterX(), this.getCenterY() - 100);
+        this.moveTo(this.getCenterX(), this.getCenterY() - 100);
     };
     p._hitTarget = function () {
         var xy = this._nextStep();

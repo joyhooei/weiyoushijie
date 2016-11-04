@@ -9,10 +9,31 @@ var MovableEntity = (function (_super) {
         this._moveSpeed = this._get(properties, "moveSpeed", 1);
         this._idleTicks = this._get(properties, "idleTicks", 0);
         this._dyingTicks = this._get(properties, "dyingTicks", application.frameRate);
+        this._readyComputeSteps();
+    };
+    //x和y是脚站立的位置
+    p.moveTo = function (x, y) {
+        this._targetX = x;
+        this._targetY = y;
+        this._readyComputeSteps();
+        this._turn(this._directionAt(x, y));
+    };
+    p._readyComputeSteps = function () {
         this._stepX = 0;
         this._stepY = 0;
         this._totalSteps = -1;
         this._steps = 0;
+    };
+    p._moving = function () {
+        if (this._totalSteps == -1) {
+            if (!this._computeSteps(this.x, this.y, this._targetX, this._targetY)) {
+                this._arrive();
+                return;
+            }
+        }
+        if (this._moveOneStep()) {
+            this._arrive();
+        }
     };
     //走一步，true表示已经到了终点
     p._moveOneStep = function () {
@@ -24,6 +45,15 @@ var MovableEntity = (function (_super) {
             this.x += this._stepX;
             this.y += this._stepY;
             return false;
+        }
+    };
+    p._ahead = function (distance) {
+        var steps = Math.min(this._totalSteps - this._steps, Math.round(distance / (this._stepX + this._stepY)));
+        if (steps <= 0) {
+            return [this.x, this.y];
+        }
+        else {
+            return [this.x + this._stepX * steps, this.y + this._stepY * steps];
         }
     };
     //计一步走的距离

@@ -31,7 +31,9 @@ class Battle extends Entity implements SoldierCreator {
     protected _lives: number;
     protected _golds: number;
     protected _heroWinned: string;
+
     protected _boss: string
+    protected _bossLaunching: boolean;
 
     protected _difficulty: number;
     
@@ -126,6 +128,7 @@ class Battle extends Entity implements SoldierCreator {
         this._maxGolds   = this._get(properties, "golds", 1000);
         this._heroWinned = this._get(properties, "heroWinned", null);
         this._boss       = this._get(properties, "boss", null);
+        this._bossLaunching = false;
         this._difficulty = this._get(properties, "difficulty", 1);
     }
 
@@ -382,12 +385,21 @@ class Battle extends Entity implements SoldierCreator {
         }
     }    
     
-    protected _addEffectByName(effectName:string, x: number, y:number, direction:EntityDirection) {
+    protected _addEffectByName(effectName:string, x: number, y:number, direction:EntityDirection):Effect {
         let effect:Effect = <Effect>application.pool.get(effectName, {direction:direction});
         effect.x = x;
         effect.y = y;
         this.addEntity(effect);
-    }    
+
+        return effect;
+    }
+
+    protected _addBossByName(claz:string, path:number): Boss{
+        let boss = <Boss>application.pool.get(claz, {"paths": this._map.getPaths()[path], idleTicks:0});
+        this.addEnemy(boss);
+
+        return boss;
+    }
 
     public erase() {
         super.erase();
@@ -432,7 +444,11 @@ class Battle extends Entity implements SoldierCreator {
             if (this._enemies.length == 0) {
                 //所有怪物都已经死掉了
                 if (this._boss) {
-                    this._addBoss();
+                    if (!this._bossLaunching) {
+                        this._addBoss();
+
+                        this._bossLaunching = true;
+                    }
                 } else {
                     this.win();
                     return;

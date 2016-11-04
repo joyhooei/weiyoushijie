@@ -68,6 +68,8 @@ var Battle = (function (_super) {
         this._maxLives = this._get(properties, "lives", 20);
         this._maxGolds = this._get(properties, "golds", 1000);
         this._heroWinned = this._get(properties, "heroWinned", null);
+        this._boss = this._get(properties, "boss", null);
+        this._bossLaunching = false;
         this._difficulty = this._get(properties, "difficulty", 1);
     };
     p.build = function () {
@@ -102,17 +104,7 @@ var Battle = (function (_super) {
                 this._result.attrs.unused_bases++;
             }
         }
-        if (this._result.attrs.level == 1) {
-            if (this._lives >= 18) {
-                this._result.attrs.stars = 3;
-            }
-            else if (this._lives >= 6) {
-                this._result.attrs.stars = 2;
-            }
-            else {
-                this._result.attrs.stars = 1;
-            }
-        }
+        this._result.attrs.stars = this._difficulty;
         var hero = this._heroWinned;
         if (hero) {
             application.dao.fetch("Skill", { customer_id: application.me.attrs.id, claz: hero, skill: 0 }).then(function (skills) {
@@ -252,6 +244,9 @@ var Battle = (function (_super) {
     //增加特效
     p._addEffects = function () {
     };
+    //boss出场
+    p._addBoss = function () {
+    };
     p._addWave = function (wave, claz, count, path) {
         this._waves.add(wave, claz, count, path);
     };
@@ -291,6 +286,12 @@ var Battle = (function (_super) {
         effect.x = x;
         effect.y = y;
         this.addEntity(effect);
+        return effect;
+    };
+    p._addBossByName = function (claz, path) {
+        var boss = application.pool.get(claz, { "paths": this._map.getPaths()[path], idleTicks: 0 });
+        this.addEnemy(boss);
+        return boss;
     };
     p.erase = function () {
         _super.prototype.erase.call(this);
@@ -325,8 +326,16 @@ var Battle = (function (_super) {
             //最后一波已经走出来了
             if (this._enemies.length == 0) {
                 //所有怪物都已经死掉了
-                this.win();
-                return;
+                if (this._boss) {
+                    if (!this._bossLaunching) {
+                        this._addBoss();
+                        this._bossLaunching = true;
+                    }
+                }
+                else {
+                    this.win();
+                    return;
+                }
             }
         }
         this._updateEntities(this._soldiers);
@@ -417,6 +426,25 @@ var Battle = (function (_super) {
                 this._enemies[i].kill();
             }
         }
+    };
+    p.findSoldiers = function (x, y, radius, altitudes) {
+        var soldiers = [];
+        for (var i = 0; i < this._soldiers.length; i++) {
+            var e = this._soldiers[i];
+            if (e.reachable(x, y, radius, altitudes)) {
+                soldiers.push(e);
+            }
+        }
+        return soldiers;
+    };
+    p.findSuitableSoldier = function (x, y, radius, altitudes) {
+        for (var i = 0; i < this._soldiers.length; i++) {
+            var s = this._soldiers[i];
+            if (s.reachable(x, y, radius, altitudes)) {
+                return s;
+            }
+        }
+        return null;
     };
     p.findTowers = function (x, y, radius) {
         var towers = [];

@@ -11,8 +11,7 @@ var HitType;
 var Bullet = (function (_super) {
     __extends(Bullet, _super);
     function Bullet() {
-        _super.call(this);
-        this.width = this.height = 5;
+        _super.apply(this, arguments);
     }
     var d = __define,c=Bullet,p=c.prototype;
     Bullet.shoot = function (shooter, target, claz, properties) {
@@ -26,7 +25,7 @@ var Bullet = (function (_super) {
         var bullet = application.pool.get(claz, properties);
         bullet.setCenterX(sourceX);
         bullet.setCenterY(sourceY);
-        bullet.setTargetPosition(targetX - bullet.width / 2, targetY - bullet.height / 2);
+        bullet.moveTo(targetX - bullet.width / 2, targetY - bullet.height / 2);
         application.battle.addBullet(bullet);
         return bullet;
     };
@@ -60,26 +59,11 @@ var Bullet = (function (_super) {
     };
     p.setTarget = function (target) {
         this._target = target;
-        this.setTargetPosition(target.getCenterX(), target.getCenterY());
+        this.moveTo(target.getCenterX(), target.getCenterY());
     };
     p.targetKilled = function (target) {
         if (this._shooter) {
             this._shooter.targetKilled(target);
-        }
-    };
-    p.setTargetPosition = function (targetX, targetY) {
-        this._targetX = targetX;
-        this._targetY = targetY;
-    };
-    p._moving = function () {
-        if (this._totalSteps == -1) {
-            if (!this._computeSteps(this.x, this.y, this._targetX, this._targetY)) {
-                this._arrive();
-                return;
-            }
-        }
-        if (this._moveOneStep()) {
-            this._arrive();
         }
     };
     p._arrive = function () {
@@ -96,8 +80,6 @@ var Bullet = (function (_super) {
         if (this._ticks >= this._fightingTicks) {
             this.erase();
         }
-    };
-    p._hitTarget = function () {
     };
     return Bullet;
 }(MovableEntity));

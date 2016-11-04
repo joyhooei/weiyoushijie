@@ -10,7 +10,7 @@ class Enemy11 extends Enemy {
     }
     
     public erase() {
-        this._born("Enemy10");
+        this._born("Enemy10", this.x, this.y);
         
         super.erase();
     }    

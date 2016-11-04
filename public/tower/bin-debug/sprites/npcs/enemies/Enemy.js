@@ -1,8 +1,7 @@
 var Enemy = (function (_super) {
     __extends(Enemy, _super);
     function Enemy() {
-        _super.call(this);
-        this._abnormalDisplays = [new egret.Bitmap(RES.getRes("frozen_png")), new egret.Bitmap(RES.getRes("burn_png"))];
+        _super.apply(this, arguments);
     }
     var d = __define,c=Enemy,p=c.prototype;
     p.initialize = function (properties) {
@@ -14,95 +13,6 @@ var Enemy = (function (_super) {
         this._paths = this._get(properties, "paths", 10);
         this._path = 0;
         this._nextPath();
-        this._abnormalState = 0;
-        this._abnormalTicks = [-1, -1, -1, -1, -1];
-        this._abnormalDamages = [0, 0, 0, 0, 0];
-    };
-    p.frozen = function (damage, ticks) {
-        this._startAbnormal(1, damage, ticks);
-    };
-    p.burn = function (damage, ticks) {
-        this._startAbnormal(2, damage, ticks);
-    };
-    p.weak = function (damage, ticks) {
-        this._startAbnormal(3, damage, ticks);
-    };
-    p.miscast = function (damage, ticks) {
-        this._startAbnormal(4, damage, ticks);
-    };
-    p.black = function (damage, ticks) {
-        this._startAbnormal(5, damage, ticks);
-    };
-    p._startAbnormal = function (state, damage, ticks) {
-        if (this._abnormalTicks[state - 1] <= 0) {
-            this._abnormalState++;
-            this._abnormalTicks[state - 1] = ticks;
-            this._abnormalDamages[state - 1] = damage;
-            if (state == 1 && this._clip) {
-                this._clip.stop();
-            }
-            this._renderAbnormal(state);
-        }
-        else {
-            this._abnormalTicks[state - 1] += ticks;
-            this._abnormalDamages[state - 1] += damage;
-        }
-    };
-    p._stopAbnormal = function (state) {
-        this._abnormalState--;
-        if (state == 1 && this._clip) {
-            this._clip.gotoAndPlay(0, 1);
-        }
-        this._abnormalTicks[state - 1] = -1;
-        this._clearAbnormal(state);
-    };
-    p._clearAbnormal = function (state) {
-        var display = this._abnormalDisplays[state - 1];
-        if (display) {
-            this.removeChild(display);
-        }
-    };
-    p._stopAllAbnormals = function () {
-        for (var i = 0; i < this._abnormalTicks.length; i++) {
-            if (this._abnormalTicks[i] > 0) {
-                this._clearAbnormal(i + 1);
-                this._abnormalTicks[i] = -1;
-            }
-        }
-        this._abnormalState = 0;
-    };
-    p._renderAbnormal = function (state) {
-        var display = this._abnormalDisplays[state - 1];
-        if (display) {
-            display.x = (this.width - display.width) >> 1;
-            display.y = this.height - display.height;
-            this.addChild(display);
-        }
-    };
-    p.update = function () {
-        if (this._abnormalState == 0) {
-            return _super.prototype.update.call(this);
-        }
-        for (var i = 0; i < this._abnormalTicks.length; i++) {
-            if (this._abnormalTicks[i] > 0) {
-                if (this._abnormalTicks[i] % application.frameRate == 0) {
-                    if (this.damage(this._abnormalDamages[i])) {
-                        return _super.prototype.update.call(this);
-                    }
-                }
-                this._abnormalTicks[i]--;
-            }
-            else if (this._abnormalTicks[i] == 0) {
-                this._stopAbnormal(i + 1);
-            }
-        }
-        if (this._abnormalTicks[0] > 0) {
-            //冰冻
-            return false;
-        }
-        else {
-            return _super.prototype.update.call(this);
-        }
     };
     p.addSoldier = function (soldier) {
         for (var i = 0; i < this._soldiers.length; i++) {
@@ -174,17 +84,22 @@ var Enemy = (function (_super) {
         }
     };
     p._nextPath = function () {
-        var p0 = this._paths[this._path];
-        this.setCenterX(p0[0]);
-        this.setBottomY(p0[1]);
-        this._path++;
-        var p1 = this._paths[this._path];
-        this._computeSteps(p0[0], p0[1], p1[0], p1[1]);
-        this._turn(this._directionAt(p1[0], p1[1]));
+        if (this._path < this._paths.length - 1) {
+            var p0 = this._paths[this._path];
+            this.setCenterX(p0[0]);
+            this.setBottomY(p0[1]);
+            this._path++;
+            var p1 = this._paths[this._path];
+            this._computeSteps(p0[0], p0[1], p1[0], p1[1]);
+            this._turn(this._directionAt(p1[0], p1[1]));
+            return true;
+        }
+        else {
+            return false;
+        }
     };
     p.kill = function () {
         _super.prototype.kill.call(this);
-        this._stopAllAbnormals();
         application.battle.incGolds(this._bonus);
     };
     p._moveAgain = function () {
@@ -193,13 +108,21 @@ var Enemy = (function (_super) {
         this.move();
     };
     p._moving = function () {
-        if (this._moveOneStep()) {
-            if (this._path < this._paths.length - 1) {
-                this._nextPath();
-            }
-            else {
-                application.battle.incLives(-this._livesTaken);
-                this.erase();
+        if (this._moveOneStep() && !this._nextPath()) {
+            this._arrive();
+        }
+    };
+    //到达目的地
+    p._arrive = function () {
+        application.battle.incLives(-this._livesTaken);
+        this.erase();
+    };
+    p._fighting = function () {
+        _super.prototype._fighting.call(this);
+        //soldier may be killed by many enemies
+        for (var i = 0; i < this._soldiers.length; i++) {
+            if (this._soldiers[i] && !this._soldiers[i].active()) {
+                this.rmvSoldier(this._soldiers[i]);
             }
         }
     };
@@ -213,6 +136,12 @@ var Enemy = (function (_super) {
         else {
             this._moveAgain();
         }
+    };
+    p._born = function (claz, x, y) {
+        var e = application.pool.get(claz);
+        e.stand(x, y);
+        application.battle.addEnemy(e);
+        return e;
     };
     return Enemy;
 }(NPC));

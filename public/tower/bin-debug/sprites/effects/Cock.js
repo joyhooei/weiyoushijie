@@ -6,6 +6,6 @@ var Cock = (function (_super) {
     }
     var d = __define,c=Cock,p=c.prototype;
     return Cock;
-}(Effect));
+}(AnimatingEffect));
 egret.registerClass(Cock,'Cock');
 //# sourceMappingURL=Cock.js.map

@@ -8,7 +8,7 @@ class ScorchedEarth extends Bomb {
     public setTarget(target: NPC) {
         this._target  = target;
         
-        this.setTargetPosition(this.getCenterX(), this.getCenterY() - 100);
+        this.moveTo(this.getCenterX(), this.getCenterY() - 100);
     }
 
     protected _hitTarget() {

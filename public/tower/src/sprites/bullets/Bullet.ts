@@ -31,7 +31,7 @@ abstract class Bullet extends MovableEntity {
         let bullet = <Bullet>application.pool.get(claz, properties);
         bullet.setCenterX(sourceX);
         bullet.setCenterY(sourceY);
-        bullet.setTargetPosition(targetX - bullet.width / 2, targetY - bullet.height / 2);
+        bullet.moveTo(targetX - bullet.width / 2, targetY - bullet.height / 2);
         application.battle.addBullet(bullet);
         
         return bullet;
@@ -104,5 +104,5 @@ abstract class Bullet extends MovableEntity {
         }
     }
     
-    abstract protected _hitTarget();
+    protected abstract _hitTarget();
 }

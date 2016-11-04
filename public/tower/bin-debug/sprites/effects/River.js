@@ -6,6 +6,6 @@ var River = (function (_super) {
     }
     var d = __define,c=River,p=c.prototype;
     return River;
-}(Effect));
+}(AnimatingEffect));
 egret.registerClass(River,'River');
 //# sourceMappingURL=River.js.map
