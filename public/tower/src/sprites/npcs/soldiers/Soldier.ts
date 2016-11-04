@@ -128,18 +128,6 @@ class Soldier extends NPC implements Selectable {
         }
     }
     
-    //x和y是脚站立的位置
-    public moveTo(x:number, y:number) {
-        let x1 = x - (this.width >> 1);
-        let y1 = y - this.height;
-        this._turn(this._directionAt(x, y));
-        if (this._computeSteps(this.x, this.y, x1, y1)) {
-            this.move();
-        } else {
-            this._arrive();
-        }
-    }
-    
     //移动到守护地点
     public moveToGuard() {
         this._enemy = null;
@@ -147,7 +135,7 @@ class Soldier extends NPC implements Selectable {
         this.moveTo(this._guardX, this._guardY);
     }
     
-    private _arrive() {
+    protected _arrive() {
         if (this._enemy) {
             if (this._enemy.active()) {
                 this._face(this._enemy);
