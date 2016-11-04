@@ -8,4 +8,15 @@ class Enemy18 extends Enemy {
             .addClip("enemy1_dying", "east-dying")
             .addClip("enemy1_east_fighting", "east-fighting");
     }
+    
+    //攻击接触到的士兵
+    protected _hitOpponents() {
+        let soldiers = application.battle.findSoldiers(this.getCenterX(), this.getCenterY(), 50, [0]);
+        for(let i = 0; i < soldiers; i++) {
+            let s = soldiers[i];
+            if (s.hitBy(this)) {
+                this.rmvSoldier(s);
+            }
+        }
+    }    
 }
