@@ -1,9 +1,7 @@
 class ShootEnemy extends Enemy implements Shooter {
     protected _shootRadius: number;
-    
-    public constructor() {
-        super();
-    }
+	
+    protected _bulletClaz: string;
      
     public initialize(properties:any) {
         super.initialize(properties);
@@ -27,7 +25,7 @@ class ShootEnemy extends Enemy implements Shooter {
     }
     
     protected _moving() {
-        let soldier = this._findSoldier();
+        let soldier = application.battle.findSuitableSoldier(this.getCenterX(), this.getCenterY(), this._shootRadius, [0, 1]);
         if (soldier) {
             this.addSoldier(soldier);
             this.fight();
@@ -37,15 +35,11 @@ class ShootEnemy extends Enemy implements Shooter {
     }
     
     protected _hitOpponents() {
-        let soldier = this.application.battle.findSuitableSoldier(this.getCenterX(), this.getCenterY(), this._shootRadius);
+        let soldier = this.firstSoldier();
         if (soldier && soldier.active()) {
-            this._shoot(soldier);
+            Bullet.shoot(this, soldier, this._bulletClaz , {force: this.getForce()});
         } else {
             this.rmvSoldier(soldier);
         }
-    }
-    
-    protected _shoot(soldier: Soldier) {
-        Bullet.shoot(this, soldier, "Arrow1" , {force: this.getForce()});
     }
 }
