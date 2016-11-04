@@ -261,12 +261,17 @@ class Enemy extends NPC {
         	if (this._path < this._paths.length - 1) {
         		this._nextPath();
         	} else {
-            	application.battle.incLives(-this._livesTaken);
-            	this.erase();
+            	this._arrive();
         	}
         }
     }
-    
+
+ 	//到达目的地
+	protected _arrive() {
+		application.battle.incLives(-this._livesTaken);
+		this.erase();
+	}
+
     protected _hitOpponents() {
         let s = this.firstSoldier();
     	if (s) {
