@@ -38,6 +38,7 @@ abstract class MovableEntity extends Entity {
 		this._targetY = y;
 
         this._readyComputeSteps();
+		this._turn(this._directionAt(x, y));
     }
 
 	protected _readyComputeSteps() {
