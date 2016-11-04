@@ -7,13 +7,10 @@ enum HitType {
     damage
 };
 
-class Bullet extends MovableEntity {
+abstract class Bullet extends MovableEntity {
     protected _shooter: Shooter;
 
     protected _target: NPC;
-    
-    protected _targetX: number;
-    protected _targetY: number;
     
     protected _force: number;
 
@@ -49,12 +46,6 @@ class Bullet extends MovableEntity {
         return bullet;
     }
     
-    public constructor() {
-        super();
-
-        this.width = this.height = 5;
-    }
-    
     public initialize(properties:any) {
         super.initialize(properties);
         
@@ -87,32 +78,12 @@ class Bullet extends MovableEntity {
 
     public setTarget(target: NPC) {
         this._target  = target;
-        
-        this.setTargetPosition(target.getCenterX(), target.getCenterY());
+        this.moveTo(target.getCenterX(), target.getCenterY());
     }
 
     public targetKilled(target: NPC) {
         if (this._shooter) {
             this._shooter.targetKilled(target);
-        }
-    }
-    
-    public setTargetPosition(targetX: number, targetY: number) {
-        this._targetX = targetX;
-        this._targetY = targetY;
-    }
-    
-    protected _moving() {
-        if (this._totalSteps == -1) {
-            if (!this._computeSteps(this.x, this.y, this._targetX, this._targetY)) {
-                this._arrive();
-
-                return;
-            }
-        }
-
-        if (this._moveOneStep()) {
-            this._arrive();
         }
     }
 
@@ -133,6 +104,5 @@ class Bullet extends MovableEntity {
         }
     }
     
-    protected _hitTarget() {
-    }
+    abstract protected _hitTarget();
 }
