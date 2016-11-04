@@ -88,7 +88,7 @@ class Character {
             {name: 'Enemy31',  properties:{bonus:40, livesTaken: 1, hp:[420, 600, 780], forceHigh:22, forceLow:18, armor: 0, magicArmor: 80, cureSpeed:0, moveSpeed:1, idleTicks:0, dyingTicks:application.frameRate}},
             {name: 'Enemy32',  properties:{bonus:25, livesTaken: 1, hp:[280, 280, 336], forceHigh:42, forceLow:28, armor: 0, magicArmor: 40, cureSpeed:0, moveSpeed:1, idleTicks:0, dyingTicks:application.frameRate}},
             {name: 'Enemy33',  properties:{bonus:20, livesTaken: 1, hp:[200, 200, 240], forceHigh:22, forceLow:18, armor: 0, magicArmor: 0, cureSpeed:0, moveSpeed:1, idleTicks:0, dyingTicks:application.frameRate}},
-            {name: 'Enemy34',  properties:{hitType:HitType.actual,bonus:200, livesTaken: 5, hp:[3080, 4400, 5280], forceHigh:120, forceLow:60, armor: 0, magicArmor: 0, cureSpeed:0, moveSpeed:1, idleTicks:0, dyingTicks:application.frameRate}},
+            {name: 'Enemy34',  properties:{hitType:HitType.damage,bonus:200, livesTaken: 5, hp:[3080, 4400, 5280], forceHigh:120, forceLow:60, armor: 0, magicArmor: 0, cureSpeed:0, moveSpeed:1, idleTicks:0, dyingTicks:application.frameRate}},
             {name: 'Enemy35',  properties:{bonus:100, livesTaken: 1, hp:[700, 1000, 1200], forceHigh:66, forceLow:34, armor: 0, magicArmor: 0, cureSpeed:0, moveSpeed:1, idleTicks:0, dyingTicks:application.frameRate}},
             
             {name: 'Enemy36',  properties:{bonus:10, livesTaken: 1, hp:[40, 60, 78], forceHigh:6, forceLow:2, armor: 0, magicArmor: 0, cureSpeed:0, moveSpeed:1, idleTicks:0, dyingTicks:application.frameRate}},
