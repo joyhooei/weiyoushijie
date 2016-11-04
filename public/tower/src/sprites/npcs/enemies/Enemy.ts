@@ -152,6 +152,17 @@ class Enemy extends NPC {
 		this.erase();
 	}
 
+	protected _fighting() {
+		super._fighting();
+		
+		//soldier may be killed by many enemies
+		for(let i = 0; i < this._soldiers; i++) {
+			if (!this._soldiers[i].active()) {
+				this.rmvSoldier(this._soldiers[i]);
+			}
+		}
+	}
+
     protected _hitOpponents() {
         let s = this.firstSoldier();
     	if (s) {
