@@ -8,4 +8,14 @@ class Enemy5 extends Enemy {
             .addClip("enemy1_dying", "east-dying")
             .addClip("enemy1_east_fighting", "east-fighting");
     }
+    
+    //80%概率免疫近战伤害
+    public hitBy(npc: NPC): boolean {
+        if (Math.random() < 0.8) {
+            this.fight();
+            return false;
+        } else {
+    	    return super.hitBy(npc);
+        }
+    }    
 }
