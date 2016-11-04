@@ -1,4 +1,4 @@
-class Boat extends AnimatingEffect {
+class Boat extends MovingEntity {
     public constructor() {
         super();
         
