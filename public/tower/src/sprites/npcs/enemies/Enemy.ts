@@ -227,18 +227,24 @@ class Enemy extends NPC {
         }
     }
     
-    private _nextPath() {
-    	let p0 = this._paths[this._path];
-    	
-   		this.setCenterX(p0[0]);
-   		this.setBottomY(p0[1]);
+    private _nextPath():boolean {
+		if (this._path < this._paths.length - 1) {
+			let p0 = this._paths[this._path];
 
-        this._path ++;
-        
-        let p1 = this._paths[this._path];
+			this.setCenterX(p0[0]);
+			this.setBottomY(p0[1]);
 
-        this._computeSteps(p0[0], p0[1], p1[0], p1[1]);
-        this._turn(this._directionAt(p1[0], p1[1]));
+			this._path ++;
+
+			let p1 = this._paths[this._path];
+
+			this._computeSteps(p0[0], p0[1], p1[0], p1[1]);
+			this._turn(this._directionAt(p1[0], p1[1]));
+			
+			return true;
+		} else {
+			return false;
+		}
     }
 
     public kill() {
@@ -257,12 +263,8 @@ class Enemy extends NPC {
     }
 
     protected _moving() {
-        if (this._moveOneStep()) {
-        	if (this._path < this._paths.length - 1) {
-        		this._nextPath();
-        	} else {
-            	this._arrive();
-        	}
+        if (this._moveOneStep() && !this._nextPath()) {
+            this._arrive();
         }
     }
 
