@@ -1,4 +1,4 @@
-class NPC extends MovableEntity {
+abstract class NPC extends MovableEntity {
     protected _hp: Hp;
     
     protected _forceHigh: number;
@@ -155,8 +155,7 @@ class NPC extends MovableEntity {
 		}
 	}
 
-    protected _hitOpponents() {
-    }
+    abstract protected _hitOpponents();
 
 	protected _render(xDelta = 0, yDelta = 0, idx = 0): egret.DisplayObject {
         this._renderHp();
