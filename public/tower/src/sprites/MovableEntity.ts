@@ -77,6 +77,15 @@ abstract class MovableEntity extends Entity {
         }
     }
 
+	protected _ahead(distance: number): number[] {
+		let steps = Math.min(this._totalSteps - this._steps, Math.round(distance / (this._stepX + this._stepY)));
+		if (steps <= 0) {
+			return [this.x, this.y];
+		} else {
+			return [this.x + this._stepX * steps, this.y + this._stepY * steps];
+		}
+	}
+
     //计一步走的距离
     protected _computeSteps(x1:number, y1:number, x2:number, y2:number): boolean {
 		this._steps = 0;
