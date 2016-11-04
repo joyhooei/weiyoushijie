@@ -162,4 +162,10 @@ class Enemy extends NPC {
     		this._moveAgain();
     	}
     }
+
+	protected _born(claz: string, x: number, y: number) {
+        let e = application.pools.get(claz);
+        e.stand(x, y);
+        application.battle.addEnemy(e);
+	}		
 }
