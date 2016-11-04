@@ -32,6 +32,22 @@ class MovableEntity extends Entity {
         this._steps = 0;
     }
 
+    //x和y是脚站立的位置
+    public moveTo(x:number, y:number) {
+        let x1 = x - (this.width >> 1);
+        let y1 = y - this.height;
+        this._turn(this._directionAt(x, y));
+        if (this._computeSteps(this.x, this.y, x1, y1)) {
+            this.move();
+        } else {
+            this._arrive();
+        }
+    }
+
+	//到达目的地
+	protected _arrive() {
+	}
+
     //走一步，true表示已经到了终点
     protected _moveOneStep(): boolean {
     	this._steps ++;
