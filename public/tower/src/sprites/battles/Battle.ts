@@ -549,6 +549,17 @@ class Battle extends Entity implements SoldierCreator {
         }
     }
 
+    public findSuitableSoldier(x: number, y: number, radius: number, altitudes: number[]) : Soldier {
+        for(let i = 0; i < this._soldiers.length; i++) {
+            let s = this._soldiers[i];
+            if (s.reachable(x, y, radius, altitudes)){
+                return s;
+            }
+        }
+        
+        return null;
+    }
+
     public findTowers(x: number, y: number, radius: number) : Tower[] {
         let towers = [];
         
