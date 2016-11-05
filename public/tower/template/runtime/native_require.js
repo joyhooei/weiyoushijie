@@ -43,6 +43,8 @@ var game_file_list = [
 	"bin-debug/sprites/SoldierCreator.js",
 	"bin-debug/sprites/bases/Base.js",
 	"bin-debug/sprites/bases/Base1.js",
+	"bin-debug/sprites/bases/Base3.js",
+	"bin-debug/sprites/bases/Base4.js",
 	"bin-debug/sprites/bases/Base5.js",
 	"bin-debug/sprites/battles/Battle.js",
 	"bin-debug/sprites/battles/Battle1.js",
