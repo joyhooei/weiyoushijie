@@ -143,6 +143,7 @@ var game_file_list = [
 	"bin-debug/sprites/npcs/soldiers/Soldier.js",
 	"bin-debug/sprites/npcs/soldiers/BlackImpermanence.js",
 	"bin-debug/sprites/npcs/soldiers/Ghost.js",
+	"bin-debug/sprites/npcs/soldiers/Guard.js",
 	"bin-debug/sprites/npcs/soldiers/Reinforce.js",
 	"bin-debug/sprites/npcs/soldiers/Soldier1.js",
 	"bin-debug/sprites/npcs/soldiers/Soldier2.js",

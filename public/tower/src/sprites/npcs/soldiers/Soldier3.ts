@@ -1,4 +1,4 @@
-class Soldier3 extends Soldier {
+class Soldier3 extends Guard {
     public constructor() {
         super();
         

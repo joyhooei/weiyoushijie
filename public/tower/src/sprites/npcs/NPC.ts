@@ -51,8 +51,8 @@ abstract class NPC extends MovableEntity {
         this._altitude  = this._get(properties, "altitude", 0);
 		
 		this._abnormalState = 0;
-		this._abnormalTicks = [-1, -1, -1, -1, -1];
-		this._abnormalDamages = [0, 0, 0, 0, 0];
+		this._abnormalTicks = [-1, -1, -1, -1, -1, -1];
+		this._abnormalDamages = [0, 0, 0, 0, 0, 0];
     }
 
 	public stand(x: number, y: number) {
@@ -66,6 +66,10 @@ abstract class NPC extends MovableEntity {
 
 	public getMaxHp(): number {
 		return this._hp.getMaxHp();
+	}
+
+	public addMaxHp(hp: number) {
+		this._hp.addMaxHp(hp);
 	}
 
     public erase() {
@@ -146,6 +150,10 @@ abstract class NPC extends MovableEntity {
 
 	public black(damage: number, ticks: number, overlying=true) {
 		this._startAbnormal(5, damage, ticks, overlying);
+	}
+
+	public attack(damage: number, ticks: number, overlying=true) {
+		this._startAbnormal(6, damage, ticks, overlying);
 	}
 
 	private _startAbnormal(state: number, damage: number, ticks: number, overlying: boolean) {

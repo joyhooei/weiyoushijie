@@ -59,6 +59,14 @@ class ArrowTower5 extends ArrowTower {
         return price;
     }
 
+    public getSkillLevel(skill:number) {
+        if (skill == 1) {
+            return this._skill1Level;
+        } else {
+            return this._skill2Level;
+        }
+    }
+    
     protected _fighting() {
         super._fighting();
 

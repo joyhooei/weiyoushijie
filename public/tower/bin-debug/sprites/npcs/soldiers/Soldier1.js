@@ -9,6 +9,6 @@ var Soldier1 = (function (_super) {
     }
     var d = __define,c=Soldier1,p=c.prototype;
     return Soldier1;
-}(Soldier));
+}(Guard));
 egret.registerClass(Soldier1,'Soldier1');
 //# sourceMappingURL=Soldier1.js.map

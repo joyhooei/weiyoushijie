@@ -57,6 +57,14 @@ var MagicTower4 = (function (_super) {
         }
         return price;
     };
+    p.getSkillLevel = function (skill) {
+        if (skill == 1) {
+            return this._skill1Level;
+        }
+        else {
+            return this._skill2Level;
+        }
+    };
     p._addBlackImpermanence = function () {
         if (this._skill2Level == 1) {
             var options = { hp: 250, arm: 40, forceHigh: 10, forceLow: 5, guardX: this._guardX, guardY: this._guardY };

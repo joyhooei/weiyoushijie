@@ -22,8 +22,8 @@ var NPC = (function (_super) {
         this._resistance = this._get(properties, "_resistance", 0);
         this._altitude = this._get(properties, "altitude", 0);
         this._abnormalState = 0;
-        this._abnormalTicks = [-1, -1, -1, -1, -1];
-        this._abnormalDamages = [0, 0, 0, 0, 0];
+        this._abnormalTicks = [-1, -1, -1, -1, -1, -1];
+        this._abnormalDamages = [0, 0, 0, 0, 0, 0];
     };
     p.stand = function (x, y) {
         this.setCenterX(x);
@@ -34,6 +34,9 @@ var NPC = (function (_super) {
     };
     p.getMaxHp = function () {
         return this._hp.getMaxHp();
+    };
+    p.addMaxHp = function (hp) {
+        this._hp.addMaxHp(hp);
     };
     p.erase = function () {
         if (this._hp) {
@@ -105,6 +108,10 @@ var NPC = (function (_super) {
     p.black = function (damage, ticks, overlying) {
         if (overlying === void 0) { overlying = true; }
         this._startAbnormal(5, damage, ticks, overlying);
+    };
+    p.attack = function (damage, ticks, overlying) {
+        if (overlying === void 0) { overlying = true; }
+        this._startAbnormal(6, damage, ticks, overlying);
     };
     p._startAbnormal = function (state, damage, ticks, overlying) {
         if (this._abnormalTicks[state - 1] <= 0) {

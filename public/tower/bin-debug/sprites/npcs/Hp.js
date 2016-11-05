@@ -25,19 +25,23 @@ var Hp = (function (_super) {
         this._maxHp = hp;
         this._hp = hp;
     };
+    p.addMaxHp = function (hp) {
+        this._maxHp += hp;
+        this._hp += hp;
+    };
     p.getMaxHp = function () {
         return this._maxHp;
     };
     p.kill = function () {
-        this._setHp(0);
+        this.setHp(0);
     };
     p.cure = function () {
-        this._setHp(this._hp + this._cureSpeed);
+        this.setHp(this._hp + this._cureSpeed);
     };
     p.damage = function (force) {
-        return this._setHp(this._hp - force);
+        return this.setHp(this._hp - force);
     };
-    p._setHp = function (hp) {
+    p.setHp = function (hp) {
         hp = Math.max(0, Math.min(this._maxHp, hp));
         if (hp != this._hp) {
             this._hp = hp;

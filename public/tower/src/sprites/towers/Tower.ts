@@ -77,6 +77,10 @@ class Tower extends Entity implements Selectable {
 		return this._upgradePrice;
 	}
 
+    public totalSkills(): number {
+        return 2;
+    }
+
 	//是否可以升级技能
     public skillUpgradable(skill:number): boolean {
         return false;
@@ -92,6 +96,10 @@ class Tower extends Entity implements Selectable {
 	//对tower使用skill
 	public useSkill(tower: Tower) {
 	}
+
+    public getSkillLevel(skill:number) {
+        return 0;
+    }
 	
     public getForce(): number {
 		let force = Entity.random(this._forceLow, this._forceHigh);

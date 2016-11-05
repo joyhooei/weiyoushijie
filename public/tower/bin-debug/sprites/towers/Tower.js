@@ -41,6 +41,9 @@ var Tower = (function (_super) {
     p.getUpgradePrice = function () {
         return this._upgradePrice;
     };
+    p.totalSkills = function () {
+        return 2;
+    };
     //是否可以升级技能
     p.skillUpgradable = function (skill) {
         return false;
@@ -52,6 +55,9 @@ var Tower = (function (_super) {
     };
     //对tower使用skill
     p.useSkill = function (tower) {
+    };
+    p.getSkillLevel = function (skill) {
+        return 0;
     };
     p.getForce = function () {
         var force = Entity.random(this._forceLow, this._forceHigh);

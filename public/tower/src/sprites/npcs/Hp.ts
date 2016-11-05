@@ -31,24 +31,29 @@ class Hp extends Entity {
 		this._maxHp = hp;
 		this._hp = hp;
 	}
-	
+
+	public addMaxHp(hp: number) {
+		this._maxHp += hp;
+		this._hp += hp;
+	}
+
 	public getMaxHp(): number {
 		return this._maxHp;
 	}
 	
 	public kill() {
-		this._setHp(0);
+		this.setHp(0);
 	}
 	
 	public cure() {
-		this._setHp(this._hp + this._cureSpeed);
+		this.setHp(this._hp + this._cureSpeed);
 	}
 
 	public damage(force:number): boolean{
-	    return this._setHp(this._hp - force);
+	    return this.setHp(this._hp - force);
 	}
 	
-	private _setHp(hp:number): boolean {
+	public setHp(hp:number): boolean {
 		hp = Math.max(0, Math.min(this._maxHp, hp));
 		if (hp != this._hp) {
 	        this._hp = hp;

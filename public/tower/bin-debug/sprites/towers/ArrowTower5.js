@@ -46,6 +46,14 @@ var ArrowTower5 = (function (_super) {
         }
         return price;
     };
+    p.getSkillLevel = function (skill) {
+        if (skill == 1) {
+            return this._skill1Level;
+        }
+        else {
+            return this._skill2Level;
+        }
+    };
     p._fighting = function () {
         _super.prototype._fighting.call(this);
         if (this._skill1Level > 0 && this._enemy && this._skill1Ticks < 0) {
