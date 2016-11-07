@@ -4,11 +4,11 @@ class Enemy15 extends Enemy {
     public constructor() {
         super();
         
-        this.addClip("enemy1_east_moving", ["east-moving", "east-guarding"])
-            .addClip("enemy1_south_moving", ["south-moving", "south-guarding"])
-            .addClip("enemy1_north_moving", ["north-moving", "north-guarding"])
-            .addClip("enemy1_dying", "east-dying")
-            .addClip("enemy1_east_fighting", "east-fighting");
+        this.addClip("enemy15_east_moving", ["east-moving", "east-guarding"])
+            .addClip("enemy15_south_moving", ["south-moving", "south-guarding"])
+            .addClip("enemy15_north_moving", ["north-moving", "north-guarding"])
+            .addClip("enemy15_dying", "east-dying")
+            .addClip("enemy15_east_fighting", "east-fighting");
     }
 
     public initialize(properties:any) {
@@ -23,7 +23,9 @@ class Enemy15 extends Enemy {
         this._ticks++;
         if (this._ticks % this._summonTicks) {
             let pos = this._ahead(2);
-            this._born("Bullet36", pos[0], pos[1]);
+            this._born("Enemy36", pos[0] + 5, pos[1] + 5);
+            this._born("Enemy36", pos[0], pos[1]);
+            this._born("Enemy36", pos[0] - 5, pos[1] - 5);
         }
     }    
 }

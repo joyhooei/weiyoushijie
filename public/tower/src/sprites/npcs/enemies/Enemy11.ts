@@ -2,11 +2,11 @@ class Enemy11 extends Enemy {
     public constructor() {
         super();
         
-        this.addClip("enemy1_east_moving", ["east-moving", "east-guarding"])
-            .addClip("enemy1_south_moving", ["south-moving", "south-guarding"])
-            .addClip("enemy1_north_moving", ["north-moving", "north-guarding"])
-            .addClip("enemy1_dying", "east-dying")
-            .addClip("enemy1_east_fighting", "east-fighting");
+        this.addClip("enemy11_east_moving", ["east-moving", "east-guarding"])
+            .addClip("enemy11_south_moving", ["south-moving", "south-guarding"])
+            .addClip("enemy11_north_moving", ["north-moving", "north-guarding"])
+            .addClip("enemy11_dying", "east-dying")
+            .addClip("enemy11_east_fighting", "east-fighting");
     }
     
     public erase() {
