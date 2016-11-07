@@ -4,11 +4,11 @@ class Enemy13 extends ShootEnemy {
     public constructor() {
         super();
         
-        this.addClip("enemy1_east_moving", ["east-moving", "east-guarding"])
-            .addClip("enemy1_south_moving", ["south-moving", "south-guarding"])
-            .addClip("enemy1_north_moving", ["north-moving", "north-guarding"])
-            .addClip("enemy1_dying", "east-dying")
-            .addClip("enemy1_east_fighting", "east-fighting");
+        this.addClip("enemy13_east_moving", ["east-moving", "east-guarding"])
+            .addClip("enemy13_south_moving", ["south-moving", "south-guarding"])
+            .addClip("enemy13_north_moving", ["north-moving", "north-guarding"])
+            .addClip("enemy13_dying", "east-dying")
+            .addClip("enemy13_east_fighting", "east-fighting");
     }
 
     public initialize(properties:any) {
@@ -23,7 +23,7 @@ class Enemy13 extends ShootEnemy {
         this._ticks++;
         if (this._ticks % this._summonTicks == 0) {
             let pos = this._ahead(10);
-            this._born("Bullet7", pos[0], pos[1]);
+            this._born("Enemy7", pos[0], pos[1]);
         }
     }    
 }
