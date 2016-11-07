@@ -2,11 +2,11 @@ var Enemy15 = (function (_super) {
     __extends(Enemy15, _super);
     function Enemy15() {
         _super.call(this);
-        this.addClip("enemy1_east_moving", ["east-moving", "east-guarding"])
-            .addClip("enemy1_south_moving", ["south-moving", "south-guarding"])
-            .addClip("enemy1_north_moving", ["north-moving", "north-guarding"])
-            .addClip("enemy1_dying", "east-dying")
-            .addClip("enemy1_east_fighting", "east-fighting");
+        this.addClip("enemy15_east_moving", ["east-moving", "east-guarding"])
+            .addClip("enemy15_south_moving", ["south-moving", "south-guarding"])
+            .addClip("enemy15_north_moving", ["north-moving", "north-guarding"])
+            .addClip("enemy15_dying", "east-dying")
+            .addClip("enemy15_east_fighting", "east-fighting");
     }
     var d = __define,c=Enemy15,p=c.prototype;
     p.initialize = function (properties) {
@@ -18,7 +18,9 @@ var Enemy15 = (function (_super) {
         this._ticks++;
         if (this._ticks % this._summonTicks) {
             var pos = this._ahead(2);
-            this._born("Bullet36", pos[0], pos[1]);
+            this._born("Enemy36", pos[0] + 5, pos[1] + 5);
+            this._born("Enemy36", pos[0], pos[1]);
+            this._born("Enemy36", pos[0] - 5, pos[1] - 5);
         }
     };
     return Enemy15;

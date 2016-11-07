@@ -2,11 +2,11 @@ var Enemy5 = (function (_super) {
     __extends(Enemy5, _super);
     function Enemy5() {
         _super.call(this);
-        this.addClip("enemy1_east_moving", ["east-moving", "east-guarding"])
-            .addClip("enemy1_south_moving", ["south-moving", "south-guarding"])
-            .addClip("enemy1_north_moving", ["north-moving", "north-guarding"])
-            .addClip("enemy1_dying", "east-dying")
-            .addClip("enemy1_east_fighting", "east-fighting");
+        this.addClip("enemy5_east_moving", ["east-moving", "east-guarding"])
+            .addClip("enemy5_south_moving", ["south-moving", "south-guarding"])
+            .addClip("enemy5_north_moving", ["north-moving", "north-guarding"])
+            .addClip("enemy5_dying", "east-dying")
+            .addClip("enemy5_east_fighting", "east-fighting");
     }
     var d = __define,c=Enemy5,p=c.prototype;
     //80%概率免疫近战伤害
