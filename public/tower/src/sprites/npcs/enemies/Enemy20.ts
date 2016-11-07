@@ -1,11 +1,20 @@
-class Enemy20 extends Enemy {
+class Enemy20 extends GroupEnemy {
     public constructor() {
         super();
         
-        this.addClip("enemy1_east_moving", ["east-moving", "east-guarding"])
-            .addClip("enemy1_south_moving", ["south-moving", "south-guarding"])
-            .addClip("enemy1_north_moving", ["north-moving", "north-guarding"])
-            .addClip("enemy1_dying", "east-dying")
-            .addClip("enemy1_east_fighting", "east-fighting");
+        this.addClip("enemy20_east_moving", ["east-moving", "east-guarding"])
+            .addClip("enemy20_south_moving", ["south-moving", "south-guarding"])
+            .addClip("enemy20_north_moving", ["north-moving", "north-guarding"])
+            .addClip("enemy20_dying", "east-dying")
+            .addClip("enemy20_east_fighting", "east-fighting");
+    }
+
+    protected _enterGroup(enemy: Enemy) {
+        enemy.setMagicArm(80);
+    }
+
+    protected _leaveGroup(enemy: Enemy) {
+        let character = application.characters[enemy.getClaz()];
+        enemy.setMagicArm(character.magicArm);
     }
 }
