@@ -10,10 +10,11 @@ class Enemy18 extends GroupEnemy {
     }
 
     protected _enterGroup(enemy: Enemy) {
-        enemy.incArm(80);
+        enemy.setArm(80);
     }
 
     protected _leaveGroup(enemy: Enemy) {
-        enemy.incArm(-80);
-    }   
+        let character = application.characters[enemy.getClaz()];
+        enemy.setArm(character.arm);
+    }
 }
