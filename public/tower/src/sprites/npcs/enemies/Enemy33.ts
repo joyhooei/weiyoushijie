@@ -20,7 +20,7 @@ class Enemy33 extends Enemy {
     protected _moving() {
         this._flashTicks--;
         if (this._flashTicks <= 0) {
-            for(i = 0; i < 10; i++) {
+            for(let i = 0; i < 10; i++) {
                 if (this.active()) {
                     super._moving();
                 }

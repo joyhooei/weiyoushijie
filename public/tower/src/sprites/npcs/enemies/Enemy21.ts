@@ -1,12 +1,12 @@
-class Enemy22 extends GroupEnemy {
+class Enemy21 extends GroupEnemy {
     public constructor() {
         super();
         
-        this.addClip("enemy22_east_moving", ["east-moving", "east-guarding"])
-            .addClip("enemy22_south_moving", ["south-moving", "south-guarding"])
-            .addClip("enemy22_north_moving", ["north-moving", "north-guarding"])
-            .addClip("enemy22_dying", "east-dying")
-            .addClip("enemy22_east_fighting", "east-fighting");
+        this.addClip("enemy21_east_moving", ["east-moving", "east-guarding"])
+            .addClip("enemy21_south_moving", ["south-moving", "south-guarding"])
+            .addClip("enemy21_north_moving", ["north-moving", "north-guarding"])
+            .addClip("enemy21_dying", "east-dying")
+            .addClip("enemy21_east_fighting", "east-fighting");
     }
 
     protected _enterGroup(enemy: Enemy) {

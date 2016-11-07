@@ -34,8 +34,10 @@ class BombTower4 extends BombTower {
     public skillUpgradable(skill:number): boolean {
         if (skill == 1) {
             return this._skill1Level < 3;
-        } else {
+        } else if (skill == 2)  {
             return this._skill2Level < 3;
+        } else {
+            return false;
         }
     }
 

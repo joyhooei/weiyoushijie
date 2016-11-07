@@ -40,6 +40,10 @@ class Hp extends Entity {
 	public getMaxHp(): number {
 		return this._maxHp;
 	}
+
+	public getHp(): number {
+		return this._hp;
+	}
 	
 	public kill() {
 		this.setHp(0);

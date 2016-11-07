@@ -12,7 +12,7 @@ class Enemy16 extends Enemy {
     public update(): boolean {
         if (this.active()) {
             let soldiers = application.battle.findSoldiers(this.getCenterX(), this.getCenterY(), 80);
-            for(let i = 0; i < soldiers; i++) {
+            for(let i = 0; i < soldiers.length; i++) {
                 if (soldiers[i].dead()) {
                      this.addMaxHp(50);
                 }

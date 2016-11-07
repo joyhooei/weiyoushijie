@@ -31,7 +31,7 @@ class ShootEnemy extends Enemy implements Shooter {
     }
     
     protected _moving() {
-        let soldier = application.battle.findSuitableSoldier(this.getCenterX(), this.getCenterY(), this._shootRadius, [0, 1]);
+        let soldier = application.battle.findSuitableSoldier(this.getCenterX(), this.getCenterY(), this._shootRadius);
         if (soldier) {
             this.addSoldier(soldier);
             this.fight();

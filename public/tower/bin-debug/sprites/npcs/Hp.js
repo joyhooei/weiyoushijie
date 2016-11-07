@@ -32,6 +32,9 @@ var Hp = (function (_super) {
     p.getMaxHp = function () {
         return this._maxHp;
     };
+    p.getHp = function () {
+        return this._hp;
+    };
     p.kill = function () {
         this.setHp(0);
     };

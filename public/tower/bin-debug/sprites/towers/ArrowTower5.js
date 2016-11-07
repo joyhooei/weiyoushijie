@@ -25,8 +25,11 @@ var ArrowTower5 = (function (_super) {
         if (skill == 1) {
             return this._skill1Level < 3;
         }
-        else {
+        else if (skill == 2) {
             return this._skill2Level < 3;
+        }
+        else {
+            return false;
         }
     };
     p.upgradable = function () {

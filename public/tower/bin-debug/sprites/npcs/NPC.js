@@ -38,6 +38,18 @@ var NPC = (function (_super) {
     p.addMaxHp = function (hp) {
         this._hp.addMaxHp(hp);
     };
+    p.setArmor = function (arm) {
+        this._armor = arm;
+    };
+    p.getArmor = function () {
+        return this._armor;
+    };
+    p.setMagicArmor = function (arm) {
+        this._magicArmor = arm;
+    };
+    p.getMagicArmor = function () {
+        return this._magicArmor;
+    };
     p.erase = function () {
         if (this._hp) {
             this._hp.erase();

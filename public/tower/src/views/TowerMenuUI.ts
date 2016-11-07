@@ -140,7 +140,7 @@ class TowerMenuUI extends AbstractUI{
 		let price = tower.getPrice();
 		if (application.battle.getGolds() >= price) {
 			application.battle.incGolds(-price);
-			this._base.setTower(tower);
+			this._base.setTower(tower);		
 			this.hide();
 		} else {
 			Toast.launch("需要更多的金币");
@@ -152,6 +152,8 @@ class TowerMenuUI extends AbstractUI{
         if (application.battle.getGolds() >= price) {
 			application.battle.incGolds(-price);
             this._tower.upgradeSkill(skill);
+
+            application.battle.unselect(this._tower);
 			this.hide();
         } else {
             Toast.launch("需要更多的金币");

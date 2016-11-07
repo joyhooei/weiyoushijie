@@ -72,20 +72,20 @@ abstract class NPC extends MovableEntity {
 		this._hp.addMaxHp(hp);
 	}
 
-	public setArm(arm: number) {
-		this._arm = arm;
+	public setArmor(arm: number) {
+		this._armor = arm;
 	}
 
-	public getArm(): number {
-		return this._arm;
+	public getArmor(): number {
+		return this._armor;
 	}
 
-	public setMagicArm(arm: number) {
-		this._magicArm = arm;
+	public setMagicArmor(arm: number) {
+		this._magicArmor = arm;
 	}
 
-	public getMagicArm(): number {
-		return this._magicArm;
+	public getMagicArmor(): number {
+		return this._magicArmor;
 	}
 
     public erase() {

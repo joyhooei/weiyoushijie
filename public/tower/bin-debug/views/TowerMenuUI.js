@@ -139,6 +139,7 @@ var TowerMenuUI = (function (_super) {
         if (application.battle.getGolds() >= price) {
             application.battle.incGolds(-price);
             this._tower.upgradeSkill(skill);
+            application.battle.unselect(this._tower);
             this.hide();
         }
         else {

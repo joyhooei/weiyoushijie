@@ -10,11 +10,11 @@ class Enemy20 extends GroupEnemy {
     }
 
     protected _enterGroup(enemy: Enemy) {
-        enemy.setMagicArm(80);
+        enemy.setMagicArmor(80);
     }
 
     protected _leaveGroup(enemy: Enemy) {
         let character = application.characters[enemy.getClaz()];
-        enemy.setMagicArm(character.magicArm);
+        enemy.setMagicArmor(character.magicArm);
     }
 }

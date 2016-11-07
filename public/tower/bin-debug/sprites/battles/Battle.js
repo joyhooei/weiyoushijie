@@ -427,20 +427,20 @@ var Battle = (function (_super) {
             }
         }
     };
-    p.findSoldiers = function (x, y, radius, altitudes) {
+    p.findSoldiers = function (x, y, radius) {
         var soldiers = [];
         for (var i = 0; i < this._soldiers.length; i++) {
             var e = this._soldiers[i];
-            if (e.reachable(x, y, radius, altitudes)) {
+            if (e.reachable(x, y, radius, [0])) {
                 soldiers.push(e);
             }
         }
         return soldiers;
     };
-    p.findSuitableSoldier = function (x, y, radius, altitudes) {
+    p.findSuitableSoldier = function (x, y, radius) {
         for (var i = 0; i < this._soldiers.length; i++) {
             var s = this._soldiers[i];
-            if (s.reachable(x, y, radius, altitudes)) {
+            if (s.reachable(x, y, radius, [0])) {
                 return s;
             }
         }

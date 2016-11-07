@@ -565,12 +565,12 @@ class Battle extends Entity implements SoldierCreator {
         }
     }
 
-    public findSoldiers(x: number, y: number, radius: number, altitudes: number[]) : Soldier[] {
+    public findSoldiers(x: number, y: number, radius: number) : Soldier[] {
         let soldiers = [];
         
         for(let i = 0; i < this._soldiers.length; i++) {
             let e = this._soldiers[i];
-            if (e.reachable(x, y, radius, altitudes)){
+            if (e.reachable(x, y, radius, [0])){
                 soldiers.push(e);
             }
         }
@@ -578,10 +578,10 @@ class Battle extends Entity implements SoldierCreator {
         return soldiers;
     }
 
-    public findSuitableSoldier(x: number, y: number, radius: number, altitudes: number[]) : Soldier {
+    public findSuitableSoldier(x: number, y: number, radius: number) : Soldier {
         for(let i = 0; i < this._soldiers.length; i++) {
             let s = this._soldiers[i];
-            if (s.reachable(x, y, radius, altitudes)){
+            if (s.reachable(x, y, radius, [0])){
                 return s;
             }
         }

@@ -162,8 +162,6 @@ class Tower extends Entity implements Selectable {
             return false;
         } else {
             application.showUI(new TowerMenuUI(this._base), application.battle.getUI(), this.getCenterX(), this.getCenterY());
-
-            application.battle.unselect(this);
             
             return true;
         }

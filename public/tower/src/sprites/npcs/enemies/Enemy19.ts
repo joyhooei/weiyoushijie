@@ -20,7 +20,7 @@ class Enemy19 extends GroupEnemy {
     public update(): boolean {
         this._cureTicks --;
         if (this._cureTicks <= 0) {
-            for(let i = 0; i < this._group; i++) {
+            for(let i = 0; i < this._group.length; i++) {
                 this._group[i].addMaxHp(20);
             }
             

@@ -13,7 +13,7 @@ class Enemy31 extends ShootEnemy {
         let s = this.firstSoldier();
     	if (s) {
             if (Math.random() <= 0.1) {
-                if (s.getParentClaz() == "Hero") {
+                if (s.getSuperClaz() == "Hero") {
                     if (s.damage(100)) {
                         this.rmvSoldier(s);
                     }
@@ -35,7 +35,7 @@ class Enemy31 extends ShootEnemy {
         super.kill();
         
         let soldiers = application.battle.findSoldiers(this.getCenterX(), this.getCenterY(), 80);
-        for(let i = 0; i < soldiers; i++) {
+        for(let i = 0; i < soldiers.length; i++) {
             soldiers[i].damage(50);
         }
     }

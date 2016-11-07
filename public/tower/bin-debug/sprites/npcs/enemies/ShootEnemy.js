@@ -23,7 +23,7 @@ var ShootEnemy = (function (_super) {
         return this.y;
     };
     p._moving = function () {
-        var soldier = application.battle.findSuitableSoldier(this.getCenterX(), this.getCenterY(), this._shootRadius, [0, 1]);
+        var soldier = application.battle.findSuitableSoldier(this.getCenterX(), this.getCenterY(), this._shootRadius);
         if (soldier) {
             this.addSoldier(soldier);
             this.fight();

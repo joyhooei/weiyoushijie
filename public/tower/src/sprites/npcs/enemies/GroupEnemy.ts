@@ -8,8 +8,8 @@ abstract class GroupEnemy extends Enemy {
     }
 
     private _existed(enemies: Enemy[], enemy: Enemy): boolean {
-        for(let j = 0; j < enemies; j++) {
-            if (e == enemies[j]) {
+        for(let j = 0; j < enemies.length; j++) {
+            if (enemy == enemies[j]) {
                 return true;
             }
         }
@@ -21,14 +21,14 @@ abstract class GroupEnemy extends Enemy {
         if (this.active()) {
             let enemies = application.battle.findEnemies(this.getCenterX(), this.getCenterY(), 80, [-1, 0, 1]);
             
-            for(let i = 0; i < enemies; i++) {
+            for(let i = 0; i < enemies.length; i++) {
                 let e = enemies[i];
                 if (!this._existed(this._group, e)) {
                      this._enterGroup(e);
                 }
             }
             
-            for(let i = 0; i < this._group; i++) {
+            for(let i = 0; i < this._group.length; i++) {
                 let e = this._group[i];
                 if (!this._existed(enemies, e)) {
                     if (e.active()) {
@@ -39,9 +39,9 @@ abstract class GroupEnemy extends Enemy {
             
             this._group = enemies;
         } else {
-            for(let i = 0; i < this._nearbyEnemies; i++) {
-                if (this._nearbyEnemies[i].active()) {
-                    this._leaveGroup(this._nearbyEnemies[i]);
+            for(let i = 0; i < this._group.length; i++) {
+                if (this._group[i].active()) {
+                    this._leaveGroup(this._group[i]);
                 }
             }
             
