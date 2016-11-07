@@ -21,7 +21,7 @@ class Enemy19 extends GroupEnemy {
         this._cureTicks --;
         if (this._cureTicks <= 0) {
             for(let i = 0; i < this._group; i++) {
-                this._group[i].addHp(20);
+                this._group[i].addMaxHp(20);
             }
             
             this._cureTicks = application.frameRate;
