@@ -278,6 +278,7 @@ module.exports = function() {
 			self.addModel("Army", {
 				customer_id: String,
 				claz: String,
+				role: {type: Number, default: 1},
 				game: String
 			});
 			
