@@ -474,6 +474,7 @@ module.exports = function() {
 				claz: String,
 				skill:  {type: Number, default: 0},
 				level:  {type: Number, default: 1},
+				battle: {type: Number, default: 1},
 				game: String
 			}, {
 				game: 1,
