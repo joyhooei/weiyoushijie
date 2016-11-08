@@ -327,6 +327,10 @@ class Battle extends Entity implements SoldierCreator {
 
     //增加英雄
     protected _addHeros() {
+        let hero:Army = Army.getHero(application.armies);
+        if (hero) {
+            this._addHerosByName(hero.attrs.claz);
+        }
     }
     
     //增加敌人
