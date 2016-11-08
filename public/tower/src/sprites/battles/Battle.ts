@@ -330,6 +330,11 @@ class Battle extends Entity implements SoldierCreator {
         let hero:Army = Army.getHero(application.armies);
         if (hero) {
             this._addHerosByName(hero.attrs.claz);
+        } else {
+            let skill:Skill = Skill.get("Sunwukong");
+            if (skill) {
+                this._addHerosByName(skill.attrs.claz);
+            }
         }
     }
     
