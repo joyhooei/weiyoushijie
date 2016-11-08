@@ -1,3 +1,10 @@
+enum SkillStype {
+	hero = 0,
+    battleHero,
+    tower,
+	battleTower
+};
+
 class Skill {
 	public attrs: any;
 
@@ -9,13 +16,13 @@ class Skill {
         application.dao.save("Skill", this.attrs);
     }
 
-    public static get(skills: Skill[], claz: string, skill: number): Skill {
-    	for(let i = 0; i < skills.length; i++) {
-    		if (skills[i].attrs.claz == claz && skills[i].attrs.skill == skill) {
-    			return skills[i];
-    		}
-    	}
-    	
-    	return new Skill({customer_id: application.me.attrs.id, claz: claz, skill: skill, level: 1});
-    }
+    public static getBattleHero(skills: Skill[]): Skill {
+		for(let i = 0; i < skills.length; i++) {
+			if (skills[i].attrs.style == SkillStype.battleHero) {
+				return skills[i];
+			}
+		}
+		
+		return null;
+	}
 }
