@@ -13,9 +13,6 @@ class Battle extends Entity implements SoldierCreator {
 
     //其它实体
     protected _entities: Entity[];
-    
-    //需要重画的对象
-    protected _dirts: Entity[];
 
     //地图
     protected _map: TiledMap;
@@ -647,10 +644,6 @@ class Battle extends Entity implements SoldierCreator {
     public addEntity(entity:Entity) {
         this._entities.push(entity);
         this._layers[2].addChild(entity);          
-    }
-    
-    public addDirt(entity: Entity) {
-        this._dirts.push(entity);
     }
     
     public createSoldier(soldier: Soldier):Soldier {
