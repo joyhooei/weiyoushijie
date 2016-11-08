@@ -275,6 +275,12 @@ module.exports = function() {
 				customer_id: 1
 			});
 			
+			self.addModel("Army", {
+				customer_id: String,
+				claz: String,
+				game: String
+			});
+			
 			self.addModel("Audit", {
 				customer_id: String,
 				operator: String,
@@ -474,7 +480,6 @@ module.exports = function() {
 				claz: String,
 				skill:  {type: Number, default: 0},
 				level:  {type: Number, default: 1},
-				battle: {type: Number, default: 1},
 				game: String
 			}, {
 				game: 1,
