@@ -35,10 +35,10 @@ class TowerMenuUI extends AbstractUI{
 
 			if (this._tower.upgradable()) {
 				//升级塔
-				let path = this._getIconPath(this._tower, 1);
 				let claz = this._tower.getClaz();
 				let idx = parseInt(claz.charAt(claz.length - 1)) + 1;
 				let superClaz = claz.slice(0, claz.length - 1);
+				let path = this._getIconPath(claz, 1);
 				if (this._tower.getClaz() == "ArrowTower3") {
 					this._render(10, 20, path, superClaz + idx.toString(), properties);
 					this._render(110, 20, "arrowtower5_png", superClaz + (idx + 1).toString(), properties);
@@ -91,7 +91,7 @@ class TowerMenuUI extends AbstractUI{
 
 	private _build(tower: Tower) {
 		let self = this;
-		self.show(new OptionUI(self._getIconPath(self._tower, 0), self._getDescription(self._tower, 0), function(){
+		self.show(new OptionUI(self._getIconPath(self._tower.getClaz(), 0), self._getDescription(self._tower, 0), function(){
 			let price = tower.getPrice();
 			if (application.battle.getGolds() >= price) {
 				application.battle.incGolds(-price);
@@ -119,11 +119,11 @@ class TowerMenuUI extends AbstractUI{
 		});
 	}
 
-	private _getIconPath(tower: Tower, levelDelta = 1):string {
-		let claz = tower.getClaz();
+	private _getIconPath(claz: string, levelDelta = 1):string {
 		let idx = parseInt(claz.charAt(claz.length - 1)) + levelDelta;
+		let superClaz = claz.slice(0, claz.length - 1);
 		
-		switch(tower.getSuperClaz()) {
+		switch(superClaz) {
 			case "MagicTower":
 				return "magictower" + idx + "_png";
 
