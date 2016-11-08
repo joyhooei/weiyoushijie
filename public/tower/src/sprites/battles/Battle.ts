@@ -372,7 +372,7 @@ class Battle extends Entity implements SoldierCreator {
         }        
     }
     
-    protected _addHerosByName(heroName:string) {
+    private _addHerosByName(heroName:string) {
         let pos = this._map.getHeros();
         for(let i = 0; i < pos.length; i++) {
             let hero = <Hero>application.pool.get(heroName, {guardX: pos[i][0][0], guardY: pos[i][0][1]});
