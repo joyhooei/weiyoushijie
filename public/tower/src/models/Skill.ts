@@ -9,9 +9,9 @@ class Skill {
         return application.dao.save("Skill", this.attrs);
     }
 
-	public static get(skills: Skill[], claz:string):Skill {
+	public static get(skills: Skill[], claz:string, skill:number):Skill {
 		for(let i = 0; i < skills.length; i++) {
-			if (skills[i].attrs.claz == claz) {
+			if (skills[i].attrs.claz == claz && skills[i].attrs.skill == skill) {
 				return skills[i];
 			}
 		}
