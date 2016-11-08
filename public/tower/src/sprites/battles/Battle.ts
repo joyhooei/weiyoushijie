@@ -182,14 +182,15 @@ class Battle extends Entity implements SoldierCreator {
         
         let hero = this._heroWinned;
         if (hero) {
-            application.dao.fetch("Skill", {customer_id: application.me.attrs.id, claz:hero, skill: 0}).then(function(skills){
-                if (skills.length == 0) {
-                    let skill = new Skill({customer_id: application.me.attrs.id, claz:hero, skill: 0, level: 1});
-                    skill.save();
-                    
+            let skill = Skill.get(application.skills, hero);
+            if (!skill) {
+                skill = new Skill({customer_id: application.me.attrs.id, claz:hero, skill: 0, level: 1});
+                skill.save().then(function(){
+                    application.skills.push(skill);
+
                     Toast.launch("恭喜您，获得了英雄：" + hero);
-                }
-            });
+                });
+            }
         }
 
         this.erase();        
@@ -337,6 +338,11 @@ class Battle extends Entity implements SoldierCreator {
             if (skill) {
                 this._addHerosByName(skill.attrs.claz);
             }
+            
+            let army = new Army({customer_id: application.me.attrs.id, claz:"Sunwukong", role: 1});
+            army.save().then(function(){
+                application.armies.push(army);
+            });
         }
     }
     
