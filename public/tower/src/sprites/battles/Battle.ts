@@ -326,12 +326,14 @@ class Battle extends Entity implements SoldierCreator {
     }
 
     //增加英雄
-    protected _addHeros() {
+    private _addHeros() {
+        //首先找队伍中有没有指定的英雄
         let hero:Army = Army.getHero(application.armies);
         if (hero) {
             this._addHerosByName(hero.attrs.claz);
         } else {
-            let skill:Skill = Skill.get("Sunwukong");
+            //队伍中还没有英雄，检查一下是否第一个英雄已经获取到了
+            let skill:Skill = Skill.get(application.skills, "Sunwukong");
             if (skill) {
                 this._addHerosByName(skill.attrs.claz);
             }
