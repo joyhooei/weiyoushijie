@@ -5,8 +5,8 @@ class Army {
         this.attrs = attrs;
     }
 
-    public save() {
-        application.dao.save("Army", this.attrs);
+    public save(): Q.Promise<any> {
+        return application.dao.save("Army", this.attrs);
     }
 
 	public static getHero(armies: Army[]): Army {
