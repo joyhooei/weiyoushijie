@@ -8,6 +8,8 @@ module application {
     export var me: Customer;
     
     export var skills: Skill[] = [];
+    
+    export var armies: Army[] = [];
 
     export var battle: Battle;
     
@@ -91,27 +93,40 @@ module application {
         }
     }
 	
-    export function logined(account:any):void {
+    export function logined(account:any): Q.Promise<any> {
 		application.token = account.token;
 
-        application.dao.fetch("Customer",{ id: account.customer_id },{ limit: 1 }).then(function(customers) {
-            if(customers.length > 0) {
-                application.me = new Customer(customers[0]);
-                application.channel.track(TRACK_CATEGORY_PLAYER,TRACK_ACTION_ENTER);
-                
-				application.skills = [];
-				application.dao.fetch("Skill", {customer_id: account.customer_id}).then(function(skills) {
-					application.skills = skills;
-				})
-                
-                //首次登录，需要显示引导页面
-                if(application.me.attrs.metal == 0) {
-                    application.guideUI = new GuideUI();
-                }
-            } else {
-                Toast.launch("获取账号信息失败,请重新进入");
-            }
-        })
+		return Q.Promise(function(resolve, reject, notify) {
+			application.dao.fetch("Customer",{ id: account.customer_id },{ limit: 1 }).then(function(customers) {
+				if(customers.length > 0) {
+					application.me = new Customer(customers[0]);
+					application.channel.track(TRACK_CATEGORY_PLAYER,TRACK_ACTION_ENTER);
+
+					application.skills = [];
+					application.armies = [];
+					application.dao.fetch("Skill", {customer_id: account.customer_id}).then(function(skills) {
+						application.skills = skills;
+						
+						application.dao.fetch("Army", {customer_id: account.customer_id}).then(function(armies) {
+							application.armies = armies;
+
+							resolve();
+						}, function(error){
+							reject(error);
+						})
+					}, function(error){
+						reject(error);
+					})
+
+					//首次登录，需要显示引导页面
+					if(application.me.attrs.metal == 0) {
+						application.guideUI = new GuideUI();
+					}
+				} else {
+					Toast.launch("获取账号信息失败,请重新进入");
+				}
+			});
+		});
     }
 
     export function showUI(ui: eui.Component,parent?: egret.DisplayObjectContainer, x?:number, y?:number): egret.DisplayObjectContainer {
