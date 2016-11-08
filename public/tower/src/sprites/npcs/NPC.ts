@@ -148,31 +148,31 @@ abstract class NPC extends MovableEntity {
 		this._stopAllAbnormals();
     }
 
-	public frozen(damage: number, ticks: number, overlying=true) {
-		this._startAbnormal(1, damage, ticks, overlying);
+	public frozen(damage: number, ticks: number, overlying=true, effect=true) {
+		this._startAbnormal(1, damage, ticks, overlying, effect);
 	}
 
-	public burn(damage: number, ticks: number, overlying=true) {
-		this._startAbnormal(2, damage, ticks, overlying);
+	public burn(damage: number, ticks: number, overlying=true, effect=true) {
+		this._startAbnormal(2, damage, ticks, overlying, effect);
 	}
 
-	public weak(damage: number, ticks: number, overlying=true) {
-		this._startAbnormal(3, damage, ticks, overlying);
+	public weak(damage: number, ticks: number, overlying=true, effect=true) {
+		this._startAbnormal(3, damage, ticks, overlying, effect);
 	}
 
-	public miscast(damage: number, ticks: number, overlying=true) {
-		this._startAbnormal(4, damage, ticks, overlying);
+	public miscast(damage: number, ticks: number, overlying=true, effect=true) {
+		this._startAbnormal(4, damage, ticks, overlying, effect);
 	}
 
-	public black(damage: number, ticks: number, overlying=true) {
-		this._startAbnormal(5, damage, ticks, overlying);
+	public black(damage: number, ticks: number, overlying=true, effect=true) {
+		this._startAbnormal(5, damage, ticks, overlying, effect);
 	}
 
-	public attack(damage: number, ticks: number, overlying=true) {
-		this._startAbnormal(6, damage, ticks, overlying);
+	public attack(damage: number, ticks: number, overlying=true, effect=true) {
+		this._startAbnormal(6, damage, ticks, overlying, effect);
 	}
 
-	private _startAbnormal(state: number, damage: number, ticks: number, overlying: boolean) {
+	private _startAbnormal(state: number, damage: number, ticks: number, overlying: boolean, effect: boolean) {
 		if (this._abnormalTicks[state - 1] <= 0) {
 			this._abnormalState ++;
 
@@ -183,7 +183,9 @@ abstract class NPC extends MovableEntity {
 				this._clip.stop();
 			}
 
-			this._renderAbnormal(state);
+			if (effect) {
+				this._renderAbnormal(state);
+			}
 		} else {
 			this._abnormalTicks[state - 1] = Math.max(ticks, this._abnormalTicks[state - 1]);
 			if (overlying) {
@@ -207,7 +209,10 @@ abstract class NPC extends MovableEntity {
 	private _clearAbnormal(state: number) {
 		let display = this._abnormalDisplays[state - 1];
 		if (display) {
-			this.removeChild(display);
+			try {
+				this.removeChild(display);
+			} catch (error) {
+			}
 		}
 	}
 
