@@ -8,4 +8,14 @@ class Army {
     public save() {
         application.dao.save("Army", this.attrs);
     }
+
+	public static getHero(armies: Army[]): Army {
+		for(let i = 0; i < armies.length; i++) {
+			if (armies[i].attrs.role == 1) {
+				return armies[i];
+			}
+		}
+		
+		return null;
+	}
 }
