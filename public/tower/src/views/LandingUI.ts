@@ -39,8 +39,9 @@ class LandingUI extends AbstractUI {
         
         self.btnLogin.addEventListener(egret.TouchEvent.TOUCH_TAP,() => {
             application.channel.login().then(function(account:any){
-                application.logined(account);
-				application.hideUI(self);
+                application.logined(account).then(function(){
+					application.hideUI(self);
+				});
 			}, function(error){
 				Toast.launch(error);
 			});
@@ -53,8 +54,9 @@ class LandingUI extends AbstractUI {
 	    if (egret.getOption("wysj_account_id")) {
     		application.dao.fetch("Account", {id: egret.getOption("wysj_account_id")}, {limit: 1}).then(function(accounts){
     			if (accounts.length > 0) {
-		        	application.logined(accounts[0]);
-		        	application.hideUI(self);
+		        	application.logined(accounts[0]).then(function(){
+		        		application.hideUI(self);
+					});
     			} else {
     				Toast.launch('玩家不存在，ID = ' + egret.getOption("wysj_account_id"));
     				
@@ -67,8 +69,9 @@ class LandingUI extends AbstractUI {
     		})
     	} else {
 	        application.channel.loginQuietly().then(function(account){
-	        	application.logined(account);
-	        	application.hideUI(self);
+	        	application.logined(account).then(function(){
+					application.hideUI(self);
+				});
 	        }, function(error){
 	        	self.btnLogin.visible = true;
 	        })
