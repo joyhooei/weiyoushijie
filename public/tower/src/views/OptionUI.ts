@@ -1,6 +1,4 @@
 class OptionUI extends AbstractUI{
-    public imgBack:eui.Button;
-	
     public imgOk:eui.Image;
 	public imgCancel:eui.Image;
     
@@ -13,16 +11,12 @@ class OptionUI extends AbstractUI{
     private _cbCancel: Function;
 
     constructor(iconPath:string, content:string, cbOk:Function, cbCancel?:Function) {
-        super("towerOptionUISkin");
+        super("optionUISkin");
         
         this._iconPath = iconPath;
         this._content  = content;
         this._cbOk = cbOk;
         this._cbCancel = cbCancel;
-
-        this.imgBack.addEventListener( egret.TouchEvent.TOUCH_TAP, ()=>{
-           this.hide();
-        }, this);
         
         this.imgOk.addEventListener(egret.TouchEvent.TOUCH_TAP,() => {
             if (this._cbOk) {

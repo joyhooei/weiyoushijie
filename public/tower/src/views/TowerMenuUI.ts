@@ -91,7 +91,7 @@ class TowerMenuUI extends AbstractUI{
 
 	private _build(tower: Tower) {
 		let self = this;
-		self.show(new OptionUI(self._getIconPath(self._tower.getClaz(), 0), self._getDescription(self._tower), function(){
+		application.showUI(new OptionUI(self._getIconPath(tower.getClaz(), 0), self._getDescription(tower), function(){
 			let price = tower.getPrice();
 			if (application.battle.getGolds() >= price) {
 				application.battle.incGolds(-price);
@@ -100,12 +100,12 @@ class TowerMenuUI extends AbstractUI{
 			} else {
 				Toast.launch("需要更多的金币");
 			}
-		}));
+		}), application.battle.getUI());
 	}
 
 	private _upgradeSkill(skill: number) {
 		let self = this;
-		self.show(new OptionUI(self._getSkillIconPath(self._tower, skill), self._getSkillDescription(self._tower, skill), function(){
+		application.showUI(new OptionUI(self._getSkillIconPath(self._tower, skill), self._getSkillDescription(self._tower, skill), function(){
 			let price = self._tower.getSkillUpgradePrice(skill);
 			if (application.battle.getGolds() >= price) {
 				application.battle.incGolds(-price);
@@ -116,7 +116,7 @@ class TowerMenuUI extends AbstractUI{
 			} else {
 				Toast.launch("需要更多的金币");
 			}
-		}));
+		}), application.battle.getUI());
 	}
 
 	private _getIconPath(claz: string, levelDelta = 1):string {

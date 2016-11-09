@@ -89,7 +89,7 @@ var TowerMenuUI = (function (_super) {
     };
     p._build = function (tower) {
         var self = this;
-        self.show(new OptionUI(self._getIconPath(self._tower.getClaz(), 0), self._getDescription(self._tower), function () {
+        application.showUI(new OptionUI(self._getIconPath(tower.getClaz(), 0), self._getDescription(tower), function () {
             var price = tower.getPrice();
             if (application.battle.getGolds() >= price) {
                 application.battle.incGolds(-price);
@@ -99,11 +99,11 @@ var TowerMenuUI = (function (_super) {
             else {
                 Toast.launch("需要更多的金币");
             }
-        }));
+        }), application.battle.getUI());
     };
     p._upgradeSkill = function (skill) {
         var self = this;
-        self.show(new OptionUI(self._getSkillIconPath(self._tower, skill), self._getSkillDescription(self._tower, skill), function () {
+        application.showUI(new OptionUI(self._getSkillIconPath(self._tower, skill), self._getSkillDescription(self._tower, skill), function () {
             var price = self._tower.getSkillUpgradePrice(skill);
             if (application.battle.getGolds() >= price) {
                 application.battle.incGolds(-price);
@@ -114,7 +114,7 @@ var TowerMenuUI = (function (_super) {
             else {
                 Toast.launch("需要更多的金币");
             }
-        }));
+        }), application.battle.getUI());
     };
     p._getIconPath = function (claz, levelDelta) {
         if (levelDelta === void 0) { levelDelta = 1; }
