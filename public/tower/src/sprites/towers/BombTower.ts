@@ -12,6 +12,10 @@ class BombTower extends ShootTower {
                 this._forceLow  = Math.round(1.05 * this._forceLow);
             }
 
+            if (this._skill.attris.level == 4) {
+                this._critical += 10;
+            }
+
             if (this._skill.attris.level == 5) {
                 this._guardRadius = Math.round(1.05 * this._guardRadius);
             }
