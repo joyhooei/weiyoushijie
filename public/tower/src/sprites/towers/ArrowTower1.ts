@@ -6,6 +6,14 @@ class ArrowTower1 extends ArrowTower {
         
         this._bulletClaz = "Arrow1";
     }
+    
+	public getPrice(): number {
+        if (this._skill && this._skill.attrs.level == 2) {
+            return this._price - 10;
+        } else {
+		    return this._price;
+        }
+	}    
 
     public getMuzzleX(): number {
         return this.x + 25 + 15;
