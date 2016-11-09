@@ -603,6 +603,20 @@ class Battle extends Entity implements SoldierCreator {
         return null;
     }
 
+    public getMagicTowers(): Tower[] {
+        let towers = [];
+        
+        for(let i = 0; i < this._bases.length; i++) {
+            let e = this._bases[i];
+            let tower = e.getTower();
+            if (tower && tower.superClaz() == "MagicTower"){
+                towers.push(tower);
+            }
+        }
+        
+        return towers;
+    }
+
     public findTowers(x: number, y: number, radius: number) : Tower[] {
         let towers = [];
         
