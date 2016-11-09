@@ -26,39 +26,25 @@ class ArrowTower4 extends ArrowTower {
     public upgradeSkill(skill:number) {
         if (skill == 1) {
             this._skill1Level ++;
-        } else {
+        } else if (skill == 2) {
             this._skill2Level ++;
-            
-            if (this._skill2Level == 1) {
-                var critical = 10;
-            } else {
-                var critical = 5;
-            }
             let towers = this.findNeighbors();
             for (let i = 0;i < towers.length; i++) {
-                towers[i].incCritical(critical);
+                towers[i].incCritical(this._getCritical(this._skill2Level) - this._getCritical(this._skill2Level - 1));
             }
         }       
     }
 
     public useSkill(tower: Tower) {
         if (this._skill2Level > 0) {
-            if (this._skill2Level == 1) {
-                var critical = 10;
-            } else if (this._skill2Level == 1) {
-                var critical = 15;
-            } else {
-                var critical = 20;
-            }
-
-            tower.incCritical(critical);
+            tower.incCritical(this._getCritical(this._skill2Level));
         }
     }
 
     public skillUpgradable(skill:number): boolean {
         if (skill == 1) {
             return this._skill1Level < 3;
-        } else if (skill == 2)  {
+        } else if (skill == 2) {
             return this._skill2Level < 3;
         } else {
             return false;
@@ -121,17 +107,26 @@ class ArrowTower4 extends ArrowTower {
         super.erase();
         
         if (this._skill2Level > 0) {
-            if (this._skill2Level == 1) {
-                var critical = -10;
-            } else if (this._skill2Level == 1) {
-                var critical = -15;
-            } else {
-                var critical = -20;
-            }
             let towers = this.findNeighbors();
             for (let i = 0;i < towers.length; i++) {
-                towers[i].incCritical(critical);
+                towers[i].incCritical(-this._getCritical(this._skill2Level);
             }
+        }
+    }
+
+    private _getCritical(level: number): number {
+        if (level == 1) {
+            var critical = 10;
+        } else if (level == 2) {
+            var critical = 15;
+        } else {
+            var critical = 20;
+        }
+        
+        if (this._skill && this._skill.attrs.level == 5) {
+            return Math.round(critical *1.15);
+        } else {
+            return critical;
         }
     }
 
