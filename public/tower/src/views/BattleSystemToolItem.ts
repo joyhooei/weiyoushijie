@@ -5,7 +5,7 @@ class BattleSystemToolItem extends BattleToolItem {
 		this._ticks = 15;
 		
 		this._maxTicks = 15;
-		let skill = Skill.get("Fireball", 0);
+		let skill = Skill.get(application.skills, "Fireball", 0);
 		if (skill) {
 			if (skill.attrs.level == 1) {
 				this._maxTicks -= 5;
@@ -33,11 +33,11 @@ class BattleSystemToolItem extends BattleToolItem {
 			this._addReinforce(x, y, x + 10, y + 10);
         } else {
 			let bulletClaz = "Fireball";
-			let skill = Skill.get("Fireball", 0);			
+			let skill = Skill.get(application.skills, "Fireball", 0);			
 			if (skill) {
 				if (skill.attrs.level >= 5) {
 					let entrances = application.battle.getEntrances();
-					for(let i = 0; i < entrances.length(); i++) {
+					for(let i = 0; i < entrances.length; i++) {
 						Bullet.throw(entrances[i][0], entrances[i][1] - 200, entrances[i][0], entrances[i][1], bulletClaz);
 					}
 				} else if (skill.attrs.level >= 3) {

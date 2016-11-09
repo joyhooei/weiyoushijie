@@ -5,10 +5,6 @@ var Battle3 = (function (_super) {
         _super.apply(this, arguments);
     }
     var d = __define,c=Battle3,p=c.prototype;
-    //增加英雄
-    p._addHeros = function () {
-        this._addHerosByName("Sunwukong");
-    };
     //增加塔基
     p._addBases = function () {
         this._addBasesByName("Base3");

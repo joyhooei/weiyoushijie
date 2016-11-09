@@ -9,10 +9,6 @@ var Battle5 = (function (_super) {
     p._addBases = function () {
         this._addBasesByName("Base5");
     };
-    //增加英雄
-    p._addHeros = function () {
-        this._addHerosByName("Sunwukong");
-    };
     p._addEffects = function () {
         this._addEffectByName("Frog", 200, 200, EntityDirection.west);
         this._lawn = this._addEffectByName("Lawn", 200, 200, EntityDirection.west);

@@ -16,32 +16,17 @@ var ArrowTower4 = (function (_super) {
         if (skill == 1) {
             this._skill1Level++;
         }
-        else {
+        else if (skill == 2) {
             this._skill2Level++;
-            if (this._skill2Level == 1) {
-                var critical = 10;
-            }
-            else {
-                var critical = 5;
-            }
             var towers = this.findNeighbors();
             for (var i = 0; i < towers.length; i++) {
-                towers[i].incCritical(critical);
+                towers[i].incCritical(this._getCritical(this._skill2Level) - this._getCritical(this._skill2Level - 1));
             }
         }
     };
     p.useSkill = function (tower) {
         if (this._skill2Level > 0) {
-            if (this._skill2Level == 1) {
-                var critical = 10;
-            }
-            else if (this._skill2Level == 1) {
-                var critical = 15;
-            }
-            else {
-                var critical = 20;
-            }
-            tower.incCritical(critical);
+            tower.incCritical(this._getCritical(this._skill2Level));
         }
     };
     p.skillUpgradable = function (skill) {
@@ -109,19 +94,27 @@ var ArrowTower4 = (function (_super) {
     p.erase = function () {
         _super.prototype.erase.call(this);
         if (this._skill2Level > 0) {
-            if (this._skill2Level == 1) {
-                var critical = -10;
-            }
-            else if (this._skill2Level == 1) {
-                var critical = -15;
-            }
-            else {
-                var critical = -20;
-            }
             var towers = this.findNeighbors();
             for (var i = 0; i < towers.length; i++) {
-                towers[i].incCritical(critical);
+                towers[i].incCritical(-this._getCritical(this._skill2Level));
             }
+        }
+    };
+    p._getCritical = function (level) {
+        if (level == 1) {
+            var critical = 10;
+        }
+        else if (level == 2) {
+            var critical = 15;
+        }
+        else {
+            var critical = 20;
+        }
+        if (this._skill && this._skill.attrs.level == 5) {
+            return Math.round(critical * 1.15);
+        }
+        else {
+            return critical;
         }
     };
     p.getMuzzleX = function () {

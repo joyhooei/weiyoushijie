@@ -3,22 +3,22 @@ class ArrowTower extends ShootTower {
         super.initialize(properties);
         
         if (this._skill) {
-            if (this._skill.attris.level == 1) {
+            if (this._skill.attrs.level == 1) {
                 this._guardRadius = Math.round(1.05 * this._guardRadius);
             }
 
-            if (this._skill.attris.level == 3) {
+            if (this._skill.attrs.level == 3) {
                 this._forceHigh = Math.round(1.05 * this._forceHigh);
                 this._forceLow  = Math.round(1.05 * this._forceLow);
             }
 
-            if (this._skill.attris.level == 4) {
+            if (this._skill.attrs.level == 4) {
                 this._guardRadius = Math.round(1.05 * this._guardRadius);
                 this._forceHigh   = Math.round(1.05 * this._forceHigh);
                 this._forceLow    = Math.round(1.05 * this._forceLow);
             }
 
-            if (this._skill.attris.level == 6) {
+            if (this._skill.attrs.level == 6) {
                 this._forceHigh = Math.round(1.1 * this._forceHigh);
                 this._forceLow  = Math.round(1.1 * this._forceLow);
             }                

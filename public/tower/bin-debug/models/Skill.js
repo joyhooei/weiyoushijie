@@ -4,7 +4,7 @@ var Skill = (function () {
     }
     var d = __define,c=Skill,p=c.prototype;
     p.save = function () {
-        application.dao.save("Skill", this.attrs);
+        return application.dao.save("Skill", this.attrs);
     };
     Skill.get = function (skills, claz, skill) {
         for (var i = 0; i < skills.length; i++) {
@@ -12,7 +12,7 @@ var Skill = (function () {
                 return skills[i];
             }
         }
-        return new Skill({ customer_id: application.me.attrs.id, claz: claz, skill: skill, level: 1 });
+        return null;
     };
     return Skill;
 }());

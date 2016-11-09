@@ -6,6 +6,14 @@ var ArrowTower1 = (function (_super) {
         this._bulletClaz = "Arrow1";
     }
     var d = __define,c=ArrowTower1,p=c.prototype;
+    p.initialize = function (properties) {
+        _super.prototype.initialize.call(this, properties);
+        if (this._skill) {
+            if (this._skill.attrs.level == 2) {
+                this._upgradePrice = this._upgradePrice - 10;
+            }
+        }
+    };
     p.getMuzzleX = function () {
         return this.x + 25 + 15;
     };

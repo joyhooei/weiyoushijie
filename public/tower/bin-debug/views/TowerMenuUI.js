@@ -28,57 +28,21 @@ var TowerMenuUI = (function (_super) {
                 //升级塔
                 var claz = this._tower.getClaz();
                 var idx = parseInt(claz.charAt(claz.length - 1)) + 1;
-                var path = "";
-                switch (this._tower.getSuperClaz()) {
-                    case "MagicTower":
-                        path = "magictower" + idx + "_png";
-                        break;
-                    case "ArrowTower":
-                        path = "arrowtower" + idx + "_png";
-                        break;
-                    case "BombTower":
-                        path = "bombtower" + idx + "_png";
-                        break;
-                    case "SoldierTower":
-                        path = "soldiertower" + idx + "_png";
-                        break;
-                }
+                var superClaz = claz.slice(0, claz.length - 1);
+                var path = this._getIconPath(claz, 1);
                 if (this._tower.getClaz() == "ArrowTower3") {
-                    this._render(10, 20, path, claz.slice(0, claz.length - 1) + idx.toString(), properties);
-                    this._render(110, 20, "arrowtower5_png", claz.slice(0, claz.length - 1) + (idx + 1).toString(), properties);
+                    this._render(10, 20, path, superClaz + idx.toString(), properties);
+                    this._render(110, 20, "arrowtower5_png", superClaz + (idx + 1).toString(), properties);
                 }
                 else {
-                    this._render((this.width >> 1) - 40, 0, path, claz.slice(0, claz.length - 1) + idx.toString(), properties);
+                    this._render((this.width >> 1) - 40, 0, path, superClaz + idx.toString(), properties);
                 }
             }
             else {
                 //升级技能
-                var skill1Path = "";
-                var skill2Path = "";
-                var skill3Path = "";
-                switch (this._tower.getClaz()) {
-                    case "MagicTower4":
-                        skill1Path = "magictower4_skill1_png";
-                        skill2Path = "magictower4_skill2_png";
-                        break;
-                    case "ArrowTower4":
-                        skill1Path = "arrowtower4_skill1_png";
-                        skill2Path = "arrowtower4_skill2_png";
-                        break;
-                    case "ArrowTower5":
-                        skill1Path = "arrowtower5_skill1_png";
-                        skill2Path = "arrowtower5_skill2_png";
-                        break;
-                    case "BombTower4":
-                        skill1Path = "bombtower4_skill1_png";
-                        skill2Path = "bombtower4_skill2_png";
-                        break;
-                    case "SoldierTower4":
-                        skill1Path = "soldiertower4_skill1_png";
-                        skill2Path = "soldiertower4_skill2_png";
-                        skill3Path = "soldiertower4_skill3_png";
-                        break;
-                }
+                var skill1Path = this._getSkillIconPath(this._tower, 1);
+                var skill2Path = this._getSkillIconPath(this._tower, 2);
+                var skill3Path = this._getSkillIconPath(this._tower, 3);
                 if (this._tower.skillUpgradable(1) && this._tower.skillUpgradable(2) && this._tower.skillUpgradable(3)) {
                     this._renderSkill((this.width >> 1) - 40, 0, skill1Path, 1);
                     this._renderSkill(10, 40, skill2Path, 2);
@@ -124,27 +88,108 @@ var TowerMenuUI = (function (_super) {
         }, this);
     };
     p._build = function (tower) {
-        var price = tower.getPrice();
-        if (application.battle.getGolds() >= price) {
-            application.battle.incGolds(-price);
-            this._base.setTower(tower);
-            this.hide();
-        }
-        else {
-            Toast.launch("需要更多的金币");
-        }
+        var self = this;
+        self.show(new OptionUI(self._getIconPath(self._tower.getClaz(), 0), self._getDescription(self._tower), function () {
+            var price = tower.getPrice();
+            if (application.battle.getGolds() >= price) {
+                application.battle.incGolds(-price);
+                self._base.setTower(tower);
+                self.hide();
+            }
+            else {
+                Toast.launch("需要更多的金币");
+            }
+        }));
     };
     p._upgradeSkill = function (skill) {
-        var price = this._tower.getSkillUpgradePrice(skill);
-        if (application.battle.getGolds() >= price) {
-            application.battle.incGolds(-price);
-            this._tower.upgradeSkill(skill);
-            application.battle.unselect(this._tower);
-            this.hide();
+        var self = this;
+        self.show(new OptionUI(self._getSkillIconPath(self._tower, skill), self._getSkillDescription(self._tower, skill), function () {
+            var price = self._tower.getSkillUpgradePrice(skill);
+            if (application.battle.getGolds() >= price) {
+                application.battle.incGolds(-price);
+                self._tower.upgradeSkill(skill);
+                application.battle.unselect(self._tower);
+                self.hide();
+            }
+            else {
+                Toast.launch("需要更多的金币");
+            }
+        }));
+    };
+    p._getIconPath = function (claz, levelDelta) {
+        if (levelDelta === void 0) { levelDelta = 1; }
+        var idx = parseInt(claz.charAt(claz.length - 1)) + levelDelta;
+        var superClaz = claz.slice(0, claz.length - 1);
+        switch (superClaz) {
+            case "MagicTower":
+                return "magictower" + idx + "_png";
+            case "ArrowTower":
+                return "arrowtower" + idx + "_png";
+            case "BombTower":
+                return "bombtower" + idx + "_png";
+            case "SoldierTower":
+                return "soldiertower" + idx + "_png";
         }
-        else {
-            Toast.launch("需要更多的金币");
+    };
+    p._getDescription = function (tower) {
+        return "";
+    };
+    p._getSkillIconPath = function (tower, skill) {
+        switch (tower.getClaz()) {
+            case "MagicTower4":
+                if (skill == 1) {
+                    return "magictower4_skill1_png";
+                }
+                else if (skill == 2) {
+                    return "magictower4_skill2_png";
+                }
+                else {
+                    return null;
+                }
+            case "ArrowTower4":
+                if (skill == 1) {
+                    return "arrowtower4_skill1_png";
+                }
+                else if (skill == 2) {
+                    return "arrowtower4_skill2_png";
+                }
+                else {
+                    return null;
+                }
+            case "ArrowTower5":
+                if (skill == 1) {
+                    return "arrowtower5_skill1_png";
+                }
+                else if (skill == 2) {
+                    return "arrowtower5_skill2_png";
+                }
+                else {
+                    return null;
+                }
+            case "BombTower4":
+                if (skill == 1) {
+                    return "bombtower4_skill1_png";
+                }
+                else if (skill == 2) {
+                    return "bombtower4_skill2_png";
+                }
+                else {
+                    return null;
+                }
+            case "SoldierTower4":
+                if (skill == 1) {
+                    return "soldiertower4_skill1_png";
+                }
+                else if (skill == 2) {
+                    return "soldiertower4_skill2_png";
+                }
+                else {
+                    return "soldiertower4_skill3_png";
+                }
         }
+    };
+    p._getSkillDescription = function (tower, skill) {
+        return "";
     };
     return TowerMenuUI;
 }(AbstractUI));

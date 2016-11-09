@@ -142,8 +142,6 @@ class Battle extends Entity implements SoldierCreator {
         this._entities = [];
         this._bases = [];
 
-        this._dirts = [];
-
         this._addBases();
         this._addHeros();
         
@@ -307,6 +305,10 @@ class Battle extends Entity implements SoldierCreator {
 
     public getTotalWaves(): number {
         return this._waves.getTotalWaves();
+    }
+
+    public getEntrances(): number[][] {
+        return this._map.getEntrances();
     }
     
     public stain() {
@@ -609,7 +611,7 @@ class Battle extends Entity implements SoldierCreator {
         for(let i = 0; i < this._bases.length; i++) {
             let e = this._bases[i];
             let tower = e.getTower();
-            if (tower && tower.superClaz() == "MagicTower"){
+            if (tower && tower.getSuperClaz() == "MagicTower"){
                 towers.push(tower);
             }
         }

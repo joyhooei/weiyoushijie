@@ -5,10 +5,6 @@ var Battle9 = (function (_super) {
         _super.apply(this, arguments);
     }
     var d = __define,c=Battle9,p=c.prototype;
-    //增加英雄
-    p._addHeros = function () {
-        this._addHerosByName("Sunwukong");
-    };
     p._addEffects = function () {
         this._addEffectByName("River", 0, 290, EntityDirection.east);
         this._addEffectByName("Cock", 120, 70, EntityDirection.east);

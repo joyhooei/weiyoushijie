@@ -7,11 +7,6 @@ class Battle5 extends Battle {
         this._addBasesByName("Base5");        
     }
 
-    //增加英雄
-    protected _addHeros() {
-        this._addHerosByName("Sunwukong");
-    }
-    
     protected _addEffects() {
         this._addEffectByName("Frog", 200, 200, EntityDirection.west);
         this._lawn = this._addEffectByName("Lawn", 200, 200, EntityDirection.west);

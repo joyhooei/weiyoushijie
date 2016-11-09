@@ -40,6 +40,8 @@ declare class notificationUISkin extends eui.Skin{
 }
 declare class offlineGoldUISkin extends eui.Skin{
 }
+declare class optionUISkin extends eui.Skin{
+}
 declare class rankItemSkin extends eui.Skin{
 }
 declare class RankUISkin extends eui.Skin{

@@ -22,8 +22,8 @@ var NPC = (function (_super) {
         this._resistance = this._get(properties, "_resistance", 0);
         this._altitude = this._get(properties, "altitude", 0);
         this._abnormalState = 0;
-        this._abnormalTicks = [-1, -1, -1, -1, -1, -1];
-        this._abnormalDamages = [0, 0, 0, 0, 0, 0];
+        this._abnormalTicks = [-1, -1, -1, -1, -1, -1, -1];
+        this._abnormalDamages = [0, 0, 0, 0, 0, 0, 0];
     };
     p.stand = function (x, y) {
         this.setCenterX(x);
@@ -101,31 +101,42 @@ var NPC = (function (_super) {
         _super.prototype.kill.call(this);
         this._stopAllAbnormals();
     };
-    p.frozen = function (damage, ticks, overlying) {
+    p.frozen = function (damage, ticks, overlying, effect) {
         if (overlying === void 0) { overlying = true; }
-        this._startAbnormal(1, damage, ticks, overlying);
+        if (effect === void 0) { effect = true; }
+        this._startAbnormal(1, damage, ticks, overlying, effect);
     };
-    p.burn = function (damage, ticks, overlying) {
+    p.burn = function (damage, ticks, overlying, effect) {
         if (overlying === void 0) { overlying = true; }
-        this._startAbnormal(2, damage, ticks, overlying);
+        if (effect === void 0) { effect = true; }
+        this._startAbnormal(2, damage, ticks, overlying, effect);
     };
-    p.weak = function (damage, ticks, overlying) {
+    p.weak = function (damage, ticks, overlying, effect) {
         if (overlying === void 0) { overlying = true; }
-        this._startAbnormal(3, damage, ticks, overlying);
+        if (effect === void 0) { effect = true; }
+        this._startAbnormal(3, damage, ticks, overlying, effect);
     };
-    p.miscast = function (damage, ticks, overlying) {
+    p.miscast = function (damage, ticks, overlying, effect) {
         if (overlying === void 0) { overlying = true; }
-        this._startAbnormal(4, damage, ticks, overlying);
+        if (effect === void 0) { effect = true; }
+        this._startAbnormal(4, damage, ticks, overlying, effect);
     };
-    p.black = function (damage, ticks, overlying) {
+    p.black = function (damage, ticks, overlying, effect) {
         if (overlying === void 0) { overlying = true; }
-        this._startAbnormal(5, damage, ticks, overlying);
+        if (effect === void 0) { effect = true; }
+        this._startAbnormal(5, damage, ticks, overlying, effect);
     };
-    p.attack = function (damage, ticks, overlying) {
+    p.dizzy = function (damage, ticks, overlying, effect) {
         if (overlying === void 0) { overlying = true; }
-        this._startAbnormal(6, damage, ticks, overlying);
+        if (effect === void 0) { effect = true; }
+        this._startAbnormal(6, damage, ticks, overlying, effect);
     };
-    p._startAbnormal = function (state, damage, ticks, overlying) {
+    p.attack = function (damage, ticks, overlying, effect) {
+        if (overlying === void 0) { overlying = true; }
+        if (effect === void 0) { effect = true; }
+        this._startAbnormal(7, damage, ticks, overlying, effect);
+    };
+    p._startAbnormal = function (state, damage, ticks, overlying, effect) {
         if (this._abnormalTicks[state - 1] <= 0) {
             this._abnormalState++;
             this._abnormalTicks[state - 1] = ticks;
@@ -133,7 +144,9 @@ var NPC = (function (_super) {
             if (state == 1 && this._clip) {
                 this._clip.stop();
             }
-            this._renderAbnormal(state);
+            if (effect) {
+                this._renderAbnormal(state);
+            }
         }
         else {
             this._abnormalTicks[state - 1] = Math.max(ticks, this._abnormalTicks[state - 1]);
@@ -153,7 +166,11 @@ var NPC = (function (_super) {
     p._clearAbnormal = function (state) {
         var display = this._abnormalDisplays[state - 1];
         if (display) {
-            this.removeChild(display);
+            try {
+                this.removeChild(display);
+            }
+            catch (error) {
+            }
         }
     };
     p._stopAllAbnormals = function () {

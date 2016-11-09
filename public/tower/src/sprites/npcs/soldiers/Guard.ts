@@ -2,33 +2,33 @@ class Guard extends Soldier {
     public initialize(properties:any) {
         super.initialize(properties);
         
-        let skill = Skill.get("Guard", 0);
+        let skill = Skill.get(application.skills, "Guard", 0);
         if (skill) {
             if (skill.attrs.level == 1) {
                 this._forceHigh = Math.round(1.05 * this._forceHigh);
                 this._forceLow  = Math.round(1.05 * this._forceLow);
                 
-                this._hp.setMaxHp(Math.round(1.05 * this._hp.getMaxHp());
+                this._hp.setMaxHp(Math.round(1.05 * this._hp.getMaxHp()));
             }
                                   
             if (skill.attrs.level == 1) {
                 this._armor = Math.round(1.1 * this._armor);
                 
-                this._hp.setMaxHp(Math.round(1.05 * this._hp.getMaxHp());
+                this._hp.setMaxHp(Math.round(1.05 * this._hp.getMaxHp()));
             }
                                   
             if (skill.attrs.level == 3) {
                 this._forceHigh = Math.round(1.05 * this._forceHigh);
                 this._forceLow  = Math.round(1.05 * this._forceLow);
                 
-                this._hp.setMaxHp(Math.round(1.05 * this._hp.getMaxHp());
+                this._hp.setMaxHp(Math.round(1.05 * this._hp.getMaxHp()));
             }    
             
             if (skill.attrs.level == 4) {
                 this._forceHigh = Math.round(1.1 * this._forceHigh);
                 this._forceLow  = Math.round(1.1 * this._forceLow);
                 
-                this._hp.setMaxHp(Math.round(1.05 * this._hp.getMaxHp());
+                this._hp.setMaxHp(Math.round(1.05 * this._hp.getMaxHp()));
             }  
             
             if (skill.attrs.level == 6) {

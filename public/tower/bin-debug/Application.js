@@ -1,6 +1,7 @@
 var application;
 (function (application) {
     application.skills = [];
+    application.armies = [];
     application.frameRate = 36;
     application.ticks = 0;
     application.version = '1.1.1';
@@ -55,24 +56,42 @@ var application;
         };
     }
     application.init = init;
+    function loadCustomer(customer) {
+        application.me = customer;
+        return Q.Promise(function (resolve, reject, notify) {
+            application.skills = [];
+            application.armies = [];
+            application.dao.fetch("Skill", { customer_id: application.me.attrs.id }).then(function (skills) {
+                for (var i = 0; i < skills.length; i++) {
+                    application.skills.push(new Skill(skills[i]));
+                }
+                application.dao.fetch("Army", { customer_id: application.me.attrs.id }).then(function (armies) {
+                    for (var i = 0; i < armies.length; i++) {
+                        application.armies.push(new Army(armies[i]));
+                    }
+                    resolve(armies);
+                });
+            });
+        });
+    }
+    application.loadCustomer = loadCustomer;
     function logined(account) {
         application.token = account.token;
-        application.dao.fetch("Customer", { id: account.customer_id }, { limit: 1 }).then(function (customers) {
-            if (customers.length > 0) {
-                application.me = new Customer(customers[0]);
-                application.channel.track(TRACK_CATEGORY_PLAYER, TRACK_ACTION_ENTER);
-                application.skills = [];
-                application.dao.fetch("Skill", { customer_id: account.customer_id }).then(function (skills) {
-                    application.skills = skills;
-                });
-                //首次登录，需要显示引导页面
-                if (application.me.attrs.metal == 0) {
-                    application.guideUI = new GuideUI();
+        return Q.Promise(function (resolve, reject, notify) {
+            application.dao.fetch("Customer", { id: account.customer_id }, { limit: 1 }).then(function (customers) {
+                if (customers.length > 0) {
+                    application.me = new Customer(customers[0]);
+                    application.channel.track(TRACK_CATEGORY_PLAYER, TRACK_ACTION_ENTER);
+                    resolve(customers[0]);
+                    //首次登录，需要显示引导页面
+                    if (application.me.attrs.metal == 0) {
+                        application.guideUI = new GuideUI();
+                    }
                 }
-            }
-            else {
-                Toast.launch("获取账号信息失败,请重新进入");
-            }
+                else {
+                    Toast.launch("获取账号信息失败,请重新进入");
+                }
+            });
         });
     }
     application.logined = logined;

@@ -109,7 +109,7 @@ class ArrowTower4 extends ArrowTower {
         if (this._skill2Level > 0) {
             let towers = this.findNeighbors();
             for (let i = 0;i < towers.length; i++) {
-                towers[i].incCritical(-this._getCritical(this._skill2Level);
+                towers[i].incCritical(-this._getCritical(this._skill2Level));
             }
         }
     }

@@ -7,6 +7,7 @@ var Bomb = (function (_super) {
     p.initialize = function (properties) {
         _super.prototype.initialize.call(this, properties);
         this._hitRadius = this._get(properties, 'hitRadius', 50);
+        this._skill = Skill.get(application.skills, "BombTower", 0);
     };
     p._hitTarget = function () {
         var enemies = application.battle.findEnemies(this.getCenterX(), this.getBottomY(), this._hitRadius, [0]);

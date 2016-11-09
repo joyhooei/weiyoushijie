@@ -8,7 +8,7 @@ class Bomb extends CastBullet {
 
         this._hitRadius = this._get(properties, 'hitRadius', 50);
         
-        this._skill = Skill.get("BombTower", 0);
+        this._skill = Skill.get(application.skills, "BombTower", 0);
     }
     
     protected _hitTarget() {

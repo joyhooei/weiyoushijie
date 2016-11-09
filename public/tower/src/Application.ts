@@ -92,6 +92,28 @@ module application {
             }
         }
     }
+
+    export function loadCustomer(customer:Customer): Q.Promise<any> {
+        application.me = customer;
+
+        return Q.Promise(function(resolve, reject, notify) {
+            application.skills = [];
+            application.armies = [];
+            application.dao.fetch("Skill", {customer_id: application.me.attrs.id}).then(function(skills) {
+                for(let i = 0; i < skills.length; i++) {
+                    application.skills.push(new Skill(skills[i]));
+                }
+                
+                application.dao.fetch("Army", {customer_id: application.me.attrs.id}).then(function(armies) {
+                    for(let i = 0; i < armies.length; i++) {
+                        application.armies.push(new Army(armies[i]));
+                    }
+
+                    resolve(armies);
+                })
+            })
+        });
+    }
 	
     export function logined(account:any): Q.Promise<any> {
 		application.token = account.token;
@@ -102,21 +124,7 @@ module application {
 					application.me = new Customer(customers[0]);
 					application.channel.track(TRACK_CATEGORY_PLAYER,TRACK_ACTION_ENTER);
 
-					application.skills = [];
-					application.armies = [];
-					application.dao.fetch("Skill", {customer_id: account.customer_id}).then(function(skills) {
-						application.skills = skills;
-						
-						application.dao.fetch("Army", {customer_id: account.customer_id}).then(function(armies) {
-							application.armies = armies;
-
-							resolve();
-						}, function(error){
-							reject(error);
-						})
-					}, function(error){
-						reject(error);
-					})
+                    resolve(customers[0]);
 
 					//首次登录，需要显示引导页面
 					if(application.me.attrs.metal == 0) {

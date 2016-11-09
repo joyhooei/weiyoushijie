@@ -6,11 +6,6 @@ class Battle12 extends Battle {
         this._width  = 800;
         this._height = 640; 
     }
-
-    //增加英雄
-    protected _addHeros() {
-        this._addHerosByName("Sunwukong");
-    }
     
     protected _addEffects() {
         this._addEffectByName("River", 0, 290, EntityDirection.east);

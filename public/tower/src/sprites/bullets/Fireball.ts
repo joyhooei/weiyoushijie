@@ -15,11 +15,10 @@ class Fireball extends Bullet {
 
         this._hitRadius = this._get(properties, 'hitRadius', 50);
         
-        this._skill = Skill.get(this.getClaz(), 0);
+        this._skill = Skill.get(application.skills, this.getClaz(), 0);
         if (this._skill) {
             if (this._skill.attrs.level == 1) {
-                this._forceHigh = Math.round(1.05 * this._forceHigh);
-                this._forceLow  = Math.round(1.05 * this._forceLow);
+                this._force = Math.round(1.05 * this._force);
             }
             
             if (this._skill.attrs.level == 2) {
@@ -27,23 +26,19 @@ class Fireball extends Bullet {
             }
             
             if (this._skill.attrs.level == 3) {
-                this._forceHigh = Math.round(0.7 * this._forceHigh);
-                this._forceLow  = Math.round(0.7 * this._forceLow);
+                this._force = Math.round(0.7 * this._force);
             }
             
             if (this._skill.attrs.level == 4) {
-                this._forceHigh = Math.round(1.05 * this._forceHigh);
-                this._forceLow  = Math.round(1.05 * this._forceLow);
+                this._force = Math.round(1.05 * this._force);
             }
             
             if (this._skill.attrs.level == 5) {
-                this._forceHigh = Math.round(0.5 * this._forceHigh);
-                this._forceLow  = Math.round(0.5 * this._forceLow);
+                this._force = Math.round(0.5 * this._force);
             }
             
             if (this._skill.attrs.level == 6) {
-                this._forceHigh = Math.round(1.2 * this._forceHigh);
-                this._forceLow  = Math.round(1.2 * this._forceLow);
+                this._force = Math.round(1.2 * this._force);
             }
         }
     }

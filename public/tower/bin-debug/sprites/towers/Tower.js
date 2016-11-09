@@ -21,6 +21,7 @@ var Tower = (function (_super) {
         this._critical = this._get(properties, "critical", 0);
         this._range = null;
         this._base = null;
+        this._skill = Skill.get(application.skills, this.getSuperClaz(), 0);
     };
     p.setBase = function (base) {
         this._base = base;

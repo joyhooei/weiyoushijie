@@ -14,6 +14,11 @@ var MagicTower4 = (function (_super) {
         this._skill1Ticks = 0;
         this._skill2Level = 0;
         this._blackImpermanence = null;
+        if (this._skill) {
+            if (this._skill.attrs.level == 2) {
+                this._upgradePrice = Math.round(this._upgradePrice * 0.8);
+            }
+        }
     };
     p.upgradeSkill = function (skill) {
         if (skill == 1) {

@@ -82,7 +82,6 @@ var Battle = (function (_super) {
         this._enemies = [];
         this._entities = [];
         this._bases = [];
-        this._dirts = [];
         this._addBases();
         this._addHeros();
         this._addEffects();
@@ -107,13 +106,14 @@ var Battle = (function (_super) {
         this._result.attrs.stars = this._difficulty;
         var hero = this._heroWinned;
         if (hero) {
-            application.dao.fetch("Skill", { customer_id: application.me.attrs.id, claz: hero, skill: 0 }).then(function (skills) {
-                if (skills.length == 0) {
-                    var skill = new Skill({ customer_id: application.me.attrs.id, claz: hero, skill: 0, level: 1 });
-                    skill.save();
+            var skill_1 = Skill.get(application.skills, hero, 0);
+            if (!skill_1) {
+                skill_1 = new Skill({ customer_id: application.me.attrs.id, claz: hero, skill: 0, level: 1 });
+                skill_1.save().then(function () {
+                    application.skills.push(skill_1);
                     Toast.launch("恭喜您，获得了英雄：" + hero);
-                }
-            });
+                });
+            }
         }
         this.erase();
     };
@@ -219,6 +219,9 @@ var Battle = (function (_super) {
     p.getTotalWaves = function () {
         return this._waves.getTotalWaves();
     };
+    p.getEntrances = function () {
+        return this._map.getEntrances();
+    };
     p.stain = function () {
         this.paint();
     };
@@ -233,6 +236,22 @@ var Battle = (function (_super) {
     };
     //增加英雄
     p._addHeros = function () {
+        //首先找队伍中有没有指定的英雄
+        var hero = Army.getHero(application.armies);
+        if (hero) {
+            this._addHerosByName(hero.attrs.claz);
+        }
+        else {
+            //队伍中还没有英雄，检查一下是否第一个英雄已经获取到了
+            var skill = Skill.get(application.skills, "Sunwukong", 0);
+            if (skill) {
+                this._addHerosByName(skill.attrs.claz);
+            }
+            hero = new Army({ customer_id: application.me.attrs.id, claz: "Sunwukong", role: 1 });
+            hero.save().then(function () {
+                application.armies.push(hero);
+            });
+        }
     };
     //增加敌人
     p._addWaves = function () {
@@ -446,6 +465,17 @@ var Battle = (function (_super) {
         }
         return null;
     };
+    p.getMagicTowers = function () {
+        var towers = [];
+        for (var i = 0; i < this._bases.length; i++) {
+            var e = this._bases[i];
+            var tower = e.getTower();
+            if (tower && tower.getSuperClaz() == "MagicTower") {
+                towers.push(tower);
+            }
+        }
+        return towers;
+    };
     p.findTowers = function (x, y, radius) {
         var towers = [];
         for (var i = 0; i < this._bases.length; i++) {
@@ -479,9 +509,6 @@ var Battle = (function (_super) {
     p.addEntity = function (entity) {
         this._entities.push(entity);
         this._layers[2].addChild(entity);
-    };
-    p.addDirt = function (entity) {
-        this._dirts.push(entity);
     };
     p.createSoldier = function (soldier) {
         var s = soldier.clone({ idleTicks: 10 * application.frameRate });

@@ -1,10 +1,5 @@
 //黄风怪
 class Battle3 extends Battle {
-    //增加英雄
-    protected _addHeros() {
-        this._addHerosByName("Sunwukong");
-    }
-
     //增加塔基
     protected _addBases() {
         this._addBasesByName("Base3");        

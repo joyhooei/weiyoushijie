@@ -1,9 +1,21 @@
 var Magic = (function (_super) {
     __extends(Magic, _super);
     function Magic() {
-        _super.call(this);
+        _super.apply(this, arguments);
     }
     var d = __define,c=Magic,p=c.prototype;
+    p.initialize = function (properties) {
+        _super.prototype.initialize.call(this, properties);
+        this._skill = Skill.get(application.skills, "MagicTower", 0);
+        if (this._skill) {
+            if (this._skill.attrs.level == 3) {
+                this._force = Math.round(this._force * 1.05);
+            }
+            if (this._skill.attrs.level == 6) {
+                this._force = Math.round(this._force * 1.1);
+            }
+        }
+    };
     p._idle = function () {
         this._ticks++;
         if (this._ticks >= this._idleTicks) {
@@ -21,7 +33,12 @@ var Magic = (function (_super) {
     };
     p._hitTarget = function () {
         if (this._target.active()) {
-            this._target.shootBy(this);
+            if (this._skill && this._skill.attrs.level == 3 && Math.random() <= 0.1) {
+                this._target.damage(this._force);
+            }
+            else {
+                this._target.shootBy(this);
+            }
         }
     };
     return Magic;
