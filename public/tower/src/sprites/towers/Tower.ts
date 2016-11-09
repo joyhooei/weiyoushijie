@@ -53,13 +53,7 @@ class Tower extends Entity implements Selectable {
 		this._range = null;
         this._base  = null;
 		
-		this._skill = null;
-        for(let i = 0; i < application.skills; i++) {
-            let skill = application.skills[i];
-            if (skill.attrs.claz = this.getSuperClaz()) {
-				this._skill = skill;
-			}
-		}
+		this._skill = Skill.get(this.getSuperClaz(), 0);
     }
 
     public setBase(base: Base) {
