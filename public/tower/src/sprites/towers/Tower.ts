@@ -19,6 +19,8 @@ class Tower extends Entity implements Selectable {
     protected _range: GuardRange;
 
     protected _base: Base;
+	
+	protected _skill: Skill;
 
     public constructor() {
         super();
@@ -50,6 +52,14 @@ class Tower extends Entity implements Selectable {
 
 		this._range = null;
         this._base  = null;
+		
+		this._skill = null;
+        for(let i = 0; i < application.skills; i++) {
+            let skill = application.skills[i];
+            if (skill.attrs.claz = this.getSuperClaz()) {
+				this._skill = skill;
+			}
+		}
     }
 
     public setBase(base: Base) {
