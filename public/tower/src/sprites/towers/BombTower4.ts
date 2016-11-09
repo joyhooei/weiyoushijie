@@ -83,10 +83,6 @@ class BombTower4 extends BombTower {
                 this._skill1Ticks = 20 * application.frameRate;
             }
             
-            if (this._skill && this._skill.attrs.level == 4) {
-                this._skill1Ticks = Math.round(this._skill1Ticks * 0.9);
-            }
-            
             Bullet.shoot(this, this._enemy, "Spike");
         }
         this._skill1Ticks --;
