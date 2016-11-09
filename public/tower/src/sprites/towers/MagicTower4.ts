@@ -25,6 +25,12 @@ class MagicTower4 extends MagicTower implements SoldierCreator {
         this._skill2Level = 0;
         
         this._blackImpermanence = null;
+        
+        if (this._skill) {
+            if (this._skill.attrs.level == 2) {
+                this._upgradePrice = Math.round(this._upgradePrice * 0.8);
+            }
+        }        
     }
     
     public upgradeSkill(skill:number) {
