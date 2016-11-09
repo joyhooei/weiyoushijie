@@ -51,8 +51,8 @@ abstract class NPC extends MovableEntity {
         this._altitude  = this._get(properties, "altitude", 0);
 		
 		this._abnormalState = 0;
-		this._abnormalTicks = [-1, -1, -1, -1, -1, -1];
-		this._abnormalDamages = [0, 0, 0, 0, 0, 0];
+		this._abnormalTicks = [-1, -1, -1, -1, -1, -1, -1];
+		this._abnormalDamages = [0, 0, 0, 0, 0, 0, 0];
     }
 
 	public stand(x: number, y: number) {
@@ -168,8 +168,12 @@ abstract class NPC extends MovableEntity {
 		this._startAbnormal(5, damage, ticks, overlying, effect);
 	}
 
-	public attack(damage: number, ticks: number, overlying=true, effect=true) {
+	public dizzy(damage: number, ticks: number, overlying=true, effect=true) {
 		this._startAbnormal(6, damage, ticks, overlying, effect);
+	}
+
+	public attack(damage: number, ticks: number, overlying=true, effect=true) {
+		this._startAbnormal(7, damage, ticks, overlying, effect);
 	}
 
 	private _startAbnormal(state: number, damage: number, ticks: number, overlying: boolean, effect: boolean) {
