@@ -506,6 +506,15 @@ module.exports = function() {
 				count: {type: Number, default: 0},
 				game: String
 			});
+			
+			self.addModel("TowerCustomer", {
+				customer_id: String,
+				food: {type: Number, default: 0},
+				experience: {type: Number, default: 0},
+				star: {type: Number, default: 0},
+				diamond: {type: Number, default: 0},
+				game: String
+			});
 
 			require('./cloud');
 
