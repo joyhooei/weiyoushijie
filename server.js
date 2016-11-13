@@ -16,7 +16,7 @@ if (process.env.LC_APP_ID) {
 
 	var port = parseInt(process.env.LC_APP_PORT || '3000');
 } else {
-	var port = parseInt(process.env.PORT || '18080');
+	var port = parseInt(process.env.PORT || '80');
 }
 
 var app = require('./app');

@@ -532,7 +532,10 @@ module.exports = function() {
 			var url = 'mongodb://weiyoushijie:weiyugame@ds023644.mlab.com:23644/weiyoushijie';
 		} else {
 			//bae
-			var url = 'mongodb://9b18dc67c08b4434bdf68b0c3ff45477:d35f2aa56b1b4806b9934950c3d89bea@mongo.bce.duapp.com:8908/gmkSqUizKEatLnvxuIcZ';
+			//var url = 'mongodb://9b18dc67c08b4434bdf68b0c3ff45477:d35f2aa56b1b4806b9934950c3d89bea@mongo.bce.duapp.com:8908/gmkSqUizKEatLnvxuIcZ';
+
+			//qcloud
+			var url = 'mongodb://127.0.0.1:27017/weiyoushijie';
 		}
 
 		mongoose.connect(url, {db: {w: 1}});

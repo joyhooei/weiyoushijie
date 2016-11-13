@@ -1,0 +1,1 @@
+{"file":"soldier2_dying.png","mc":{"soldier2_dying":{"frameRate":8,"events":[],"frames":[{"res":"newAnimation_0","y":-13,"duration":1,"x":-6},{"res":"newAnimation_1","y":-13,"duration":1,"x":-6}],"labels":[{"end":2,"name":"newAnimation","frame":1}]}},"res":{"newAnimation_0":{"x":1,"y":1,"w":16,"h":25},"newAnimation_1":{"x":19,"y":1,"w":16,"h":25}}}

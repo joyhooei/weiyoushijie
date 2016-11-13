@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<e:Skin class="battleLoadingUISkin" width="600" height="349" xmlns:e="http://ns.egret.com/eui">
+	<e:Image width="600" height="255" x="0" y="77" fillMode="clip" source="end_B_png"/>
+	<e:Image id="imgResult" width="404" height="121" x="98" y="0" fillMode="clip" source="end_win_png"/>
+	<e:Image id="imgQuit" width="78" height="38" x="326" y="242" fillMode="clip" source="botton_leave_png"/>
+	<e:Image id="imgStart" width="79" height="39" x="163" y="242" fillMode="clip" source="button_again_png"/>
+</e:Skin>

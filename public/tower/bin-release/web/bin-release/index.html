@@ -1,0 +1,74 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+    <meta charset="utf-8">
+    <title>别动我师傅</title>
+    <meta name="viewport" content="width=device-width,initial-scale=1, minimum-scale=1, maximum-scale=1, user-scalable=no"/>
+    <meta name="apple-mobile-web-app-capable" content="yes"/>
+    <meta name="full-screen" content="true"/>
+    <meta name="screen-orientation" content="landscape"/>
+    <meta name="x5-fullscreen" content="true"/>
+    <meta name="360-fullscreen" content="true"/>
+    <style>
+        html, body {
+            -ms-touch-action: none;
+            background: black;
+            padding: 0;
+            border: 0;
+            margin: 0;
+            height: 100%;
+        }
+    </style>
+
+    <!--这个标签为通过egret提供的第三方库的方式生成的 javascript 文件。删除 modules_files 标签后，库文件加载列表将不会变化，请谨慎操作！-->
+    <!--modules_files_start-->
+	<script egret="lib" src="libs/modules/egret/egret.min.js"></script>
+	<script egret="lib" src="libs/modules/egret/egret.web.min.js"></script>
+	<script egret="lib" src="libs/modules/eui/eui.min.js"></script>
+	<script egret="lib" src="libs/modules/res/res.min.js"></script>
+	<script egret="lib" src="libs/modules/game/game.min.js"></script>
+	<script egret="lib" src="libs/modules/game/game.web.min.js"></script>
+	<script egret="lib" src="libs/modules/tween/tween.min.js"></script>
+	<script egret="lib" src="libs/modules/nest/nest.min.js"></script>
+	<script egret="lib" src="libs/modules/egretsa/egretsa.min.js"></script>
+	<script egret="lib" src="libs/modules/tiled/tiled.min.js"></script>
+	<!--modules_files_end-->
+
+    <!--这个标签为不通过egret提供的第三方库的方式使用的 javascript 文件，请将这些文件放在libs下，但不要放在modules下面。-->
+    <!--other_libs_files_start-->
+	<script type='text/javascript' src='//cdn.bootcss.com/q.js/1.4.1/q.min.js'></script>
+	<script type='text/javascript' src='//cdn.bootcss.com/log4javascript/1.4.9/log4javascript.min.js'></script>
+	<script type='text/javascript' src="//cdn.bootcss.com/social-share.js/1.0.15/js/social-share.min.js"></script>
+	<link href="//cdn.bootcss.com/social-share.js/1.0.15/css/share.min.css" rel="stylesheet">
+	<!--<script type='text/javascript' src="http://jsconsole.com/js/remote.js?32b7b43e-c7f3-48bd-a80e-b7bc6043b525"></script>-->
+    <!--other_libs_files_end-->
+
+    <!--这个标签会被替换为项目中所有的 javascript 文件。删除 game_files 标签后，项目文件加载列表将不会变化，请谨慎操作！-->
+    <!--game_files_start-->
+	<script src="main.min.js"></script>
+	<!--game_files_end-->
+</head>
+<body>
+    <div style="margin: auto;height: 100%; width:100%" class="egret-player"
+         data-entry-class="Main"
+         data-orientation="landscape"
+         data-scale-mode="showAll"
+         data-frame-rate="30"
+         data-content-width="800"
+         data-content-height="480"
+         data-show-paint-rect="false"
+         data-multi-fingered="2"
+         data-show-fps="false" data-show-log="false"
+         data-log-filter="" data-show-fps-style="x:0,y:0,size:30,textColor:0x00c200,bgAlpha:0.9">
+    </div>
+	<div id="social-share" class="social-share" style="position:absolute;" data-disabled="['google', 'facebook', 'twitter']" ></div>
+	<script>
+   		egret.runEgret();
+
+		var canvas = document.getElementsByTagName("canvas")[0];
+		var share  = document.getElementById("social-share");
+
+		share.style.top = canvas.style.top;
+    </script>
+</body>
+</html>

@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<e:Skin class="worldUISkin" width="800" height="480" xmlns:e="http://ns.egret.com/eui" xmlns:w="http://ns.egret.com/wing">
+	<e:Rect width="800" height="480" x="0" y="0" fillColor="0x766454"/>
+	<e:Scroller height="320" width="800" y="80" x="0">
+		<e:viewport>
+			<e:Group id="grpMap">
+				<e:Image id="imgBg" width="1250" height="320" source="world_jpg" fillMode="clip"/>
+			</e:Group>
+		</e:viewport>
+	</e:Scroller>
+</e:Skin>

@@ -1,0 +1,8 @@
+<?xml version='1.0' encoding='utf-8'?>
+<e:Skin class="optionUISkin" width="570" height="260" xmlns:e="http://ns.egret.com/eui" xmlns:w="http://ns.egret.com/wing">
+	<e:Image width="572" height="259" x="0" y="0" fillMode="clip" source="end_B_png" anchorOffsetX="0" anchorOffsetY="0"/>
+	<e:Image id="imgIcon" width="65" height="73" x="63" y="60" fillMode="scale" anchorOffsetX="0" anchorOffsetY="0" source="soldiertower4_skill1_png"/>
+	<e:Label id="lblContent" text="简单描述" x="162" y="83" width="347" size="24" textAlign="left" anchorOffsetX="0" anchorOffsetY="0" height="98"/>
+	<e:Image id="imgCancel" width="78" height="40" x="335" y="204" fillMode="clip" anchorOffsetY="0" source="botton_leave_png" anchorOffsetX="0"/>
+	<e:Image id="imgOk" fillMode="clip" x="137" y="206" width="79" height="39" anchorOffsetY="0" source="button_again_png" anchorOffsetX="0"/>
+</e:Skin>

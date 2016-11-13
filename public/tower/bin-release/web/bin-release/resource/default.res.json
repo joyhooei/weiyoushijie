@@ -1,0 +1,2157 @@
+{
+	"groups": [
+		{
+			"keys": "base1_png,bg_mp3,warrior_east_fighting_png,warrior_east_fighting_json,warrior_dying_png,warrior_dying_json,sunwukong_east_moving_png,sunwukong_east_moving_json,sunwukong_east_fighting_3_png,sunwukong_east_fighting_3_json,sunwukong_east_fighting_2_png,sunwukong_east_fighting_2_json,arrowtower1_png,arrowtower2_png,reinforce_east_moving_png,reinforce_east_moving_json,reinforce_east_fighting_png,reinforce_east_fighting_json,reinforce_dying_png,reinforce_dying_json,river_east_moving_png,river_east_moving_json,cock_east_moving_png,cock_east_moving_json,waves_png,hero_png,back_png,start_png,fireball_moving_png,fireball_moving_json,soldiertower4_png,soldiertower3_png,soldiertower2_png,soldiertower1_png,magictower5_png,magictower4_png,magictower3_png,magictower2_png,magictower1_png,bombtower4_png,bombtower3_png,bombtower2_png,bombtower1_png,arrowtower5_png,arrowtower4_png,arrowtower3_png,soldier1_dying_png,soldier1_dying_json,tower_building_png,tower_building_json,launch_png,disable_png,end_win_png,end_defeat_png,end_B_png,button_again_png,sunwukong_guarding_png,sunwukong_dying_png,sunwukong_dying_json,sunwukong_west_fighting_1_png,sunwukong_west_fighting_1_json,bombsoldier5_west_fighting_png,bombsoldier5_west_fighting_json,bombsoldier4_west_fighting_png,bombsoldier4_west_fighting_json,bombsoldier4_east_guarding_png,bombsoldier3_west_guarding_png,bombsoldier3_east_guarding_png,bombsoldier3_east_fighting_png,bombsoldier3_east_fighting_json,bombsoldier2_west_guarding_png,bombsoldier2_east_guarding_png,bombsoldier2_east_fighting_png,bombsoldier2_east_fighting_json,bombsoldier1_west_guarding_png,bombsoldier1_east_guarding_png,bombsoldier1_east_fighting_png,bombsoldier1_east_fighting_json,arrowsoldier5_west_fighting_png,arrowsoldier5_west_fighting_json,arrowsoldier5_east_fighting_png,arrowsoldier5_east_fighting_json,arrowsoldier4_west_fighting_png,arrowsoldier4_west_fighting_json,arrowsoldier4_east_fighting_png,arrowsoldier4_east_fighting_json,arrowsoldier3_west_fighting_png,arrowsoldier3_west_fighting_json,arrowsoldier3_east_fighting_png,arrowsoldier3_east_fighting_json,arrowsoldier2_west_fighting_png,arrowsoldier2_west_fighting_json,arrowsoldier2_east_fighting_png,arrowsoldier2_east_fighting_json,arrowsoldier1_west_fighting_png,arrowsoldier1_west_fighting_json,arrowsoldier1_east_fighting_png,arrowsoldier1_east_fighting_json,upgrade_png,remove_png,help_png,startbattle_png,bomb3_moving_png,bomb3_dying_png,bomb2_moving_png,bomb1_moving_png,fireball_fighting_png,fireball_fighting_json,guardflag_png,magic_moving_png,flag_png,thunder_fighting_png,thunder_fighting_json,freeze_png,thunder_png,mammon_png,nectar_png,soldier1_guarding_png,soldier1_guarding_json,soldier1_east_moving_png,soldier1_east_moving_json,soldier1_east_fighting_png,soldier1_east_fighting_json,soldier2_guarding_png,soldier2_guarding_json,soldier2_east_moving_png,soldier2_east_moving_json,soldier2_east_fighting_png,soldier2_east_fighting_json,soldier2_dying_png,soldier2_dying_json,soldier3_guarding_png,soldier3_guarding_json,soldier3_east_moving_png,soldier3_east_moving_json,soldier3_east_fighting_png,soldier3_east_fighting_json,soldier3_dying_png,soldier3_dying_json,soldier4_guarding_png,soldier4_guarding_json,soldier4_east_moving_png,soldier4_east_moving_json,soldier4_east_fighting_png,soldier4_east_fighting_json,soldier4_dying_png,soldier4_dying_json,magic1_building_json,magic1_building_png,magic1_fighting_json,magic1_fighting_png,magic2_building_json,magic2_building_png,magic2_fighting_json,magic2_fighting_png,magic3_building_json,magic3_building_png,magic3_fighting_json,magic3_fighting_png,magic4_building_json,magic4_building_png,magic4_fighting_json,magic4_fighting_png,ghost_guarding_png,ghost_guarding_json,ghost_east_moving_png,ghost_east_moving_json,ghost_east_fighting_png,ghost_east_fighting_json,ghost_dying_png,ghost_dying_json,ghost_building_png,ghost_building_json,blackImpermanence_guarding_png,blackImpermanence_guarding_json,blackImpermanence_east_moving_png,blackImpermanence_east_moving_json,blackImpermanence_dying_png,blackImpermanence_dying_json,blackImpermanence_building_png,blackImpermanence_building_json,blackImpermanence_east_fighting_json,blackImpermanence_east_fighting_png,whiteImpermanence_guarding_png,whiteImpermanence_guarding_json,whiteImpermanence_east_moving_png,whiteImpermanence_east_moving_json,whiteImpermanence_dying_png,whiteImpermanence_dying_json,whiteImpermanence_building_png,whiteImpermanence_building_json,arrow5_png,arrow4_png,arrow1_png,enemy8_north_moving_png,enemy8_north_moving_json,enemy8_east_moving_png,enemy8_east_moving_json,enemy8_east_guarding_png,enemy8_east_guarding_json,enemy8_east_fighting_png,enemy8_east_fighting_json,enemy8_dying_png,enemy8_dying_json,enemy4_south_moving_png,enemy4_south_moving_json,enemy4_north_moving_png,enemy4_north_moving_json,enemy4_east_moving_png,enemy4_east_moving_json,enemy4_east_fighting_png,enemy4_east_fighting_json,enemy4_dying_png,enemy4_dying_json,enemy14_south_moving_png,enemy14_south_moving_json,enemy14_north_moving_png,enemy14_north_moving_json,enemy14_east_moving_png,enemy14_east_moving_json,enemy14_east_fighting_png,enemy14_east_fighting_json,enemy14_dying_png,enemy14_dying_json,enemy1_south_moving_png,enemy1_south_moving_json,enemy1_north_moving_png,enemy1_north_moving_json,enemy1_east_moving_png,enemy1_east_moving_json,enemy1_east_fighting_png,enemy1_east_fighting_json,enemy1_dying_png,enemy1_dying_json,magictower4_guarding_png,magictower4_guarding_json,magictower4_fighting_png,magictower4_fighting_json,towerselect_0_png,towerselect_1_png,blackwater_fighting_png,blackwater_fighting_json,burn_png,frozen_png,fireball_png,soldier_png,botton_leave_png,waves2_png,tool_png,tool_bg_png,bomb123_fighting_png,bomb123_fighting_json,bomb123_building_png,bomb123_building_json,bomb4_south_moving_png,bomb4_south_moving_json,bomb4_east_moving_png,bomb4_east_moving_json,bomb4_east_fighting_png,bomb4_east_fighting_json,bomb4_building_png,bomb4_building_json,scorchedearthbomblet_fighting_png,scorchedearthbomblet_fighting_json,scorchedearth_fighting_png,scorchedearth_fighting_json,spike_fighting_png,spike_fighting_json,arrow6_png,weakcurse_dying_png,weakcurse_dying_json,miscastcurse_dying_png,miscastcurse_dying_json,critical_json,critical_png,boat_east_moving_png,boat_east_moving_json,lawn_guarding_png,lawn_dying_png,lawn_dying_json,frog_east_moving_png,frog_east_moving_json,base5_png,arrowtower5_skill2_png,arrowtower5_skill1_png,arrowtower4_skill2_png,arrowtower4_skill1_png,bombtower4_skill2_png,bombtower4_skill1_png,magictower4_skill2_png,magictower4_skill1_png,soldiertower4_skill3_png,soldiertower4_skill2_png,soldiertower4_skill1_png",
+			"name": "home"
+		},
+		{
+			"keys": "login_png",
+			"name": "landing"
+		},
+		{
+			"keys": "login_png,bomb1_moving_png,bomb2_moving_png,bomb3_dying_png,bomb3_moving_png,fireball_fighting_json,fireball_fighting_png,guardflag_png,magic_moving_png,head_png,headF_png,headM_png,waves2_png,icon_jpg,login2_png,loginb2_jpg,loading_run2_png,toast-bg2_png,bg2_mp3,base12_png,battle12_jpg,battle22_jpg,bomb1_moving2_png,bomb2_moving2_png,bomb3_dying2_png,bomb3_moving2_png,fireball_fighting2_json,fireball_fighting2_png,fireball_moving2_json,fireball_moving2_png,magic_moving2_png,cock_east_moving2_json,cock_east_moving2_png,river_east_moving2_json,river_east_moving2_png,arrowsoldier1_east_fighting2_json,arrowsoldier1_east_fighting2_png,arrowsoldier1_west_fighting2_json,arrowsoldier1_west_fighting2_png,arrowsoldier2_east_fighting2_json,arrowsoldier2_east_fighting2_png,arrowsoldier2_west_fighting2_json,arrowsoldier2_west_fighting2_png,arrowsoldier3_east_fighting2_json,arrowsoldier3_east_fighting2_png,arrowsoldier3_west_fighting2_json,arrowsoldier3_west_fighting2_png,arrowsoldier4_east_fighting2_json,arrowsoldier4_east_fighting2_png,arrowsoldier4_west_fighting2_json,arrowsoldier4_west_fighting2_png,arrowsoldier5_east_fighting2_json,arrowsoldier5_east_fighting2_png,arrowsoldier5_west_fighting2_json,arrowsoldier5_west_fighting2_png,bombsoldier1_east_fighting2_json,bombsoldier1_east_fighting2_png,bombsoldier1_east_guarding2_png,bombsoldier1_west_guarding2_png,bombsoldier2_east_fighting2_json,bombsoldier2_east_fighting2_png,bombsoldier2_east_guarding2_png,bombsoldier2_west_guarding2_png,bombsoldier3_east_fighting2_json,bombsoldier3_east_fighting2_png,bombsoldier3_east_guarding2_png,bombsoldier3_west_guarding2_png,bombsoldier4_east_guarding2_png,bombsoldier4_west_fighting2_json,bombsoldier4_west_fighting2_png,bombsoldier5_west_fighting2_json,bombsoldier5_west_fighting2_png,sunwukong_dying2_json,sunwukong_dying2_png,sunwukong_east_fighting_22_json,sunwukong_east_fighting_22_png,sunwukong_east_fighting_32_json,sunwukong_east_fighting_32_png,sunwukong_east_moving2_json,sunwukong_east_moving2_png,sunwukong_guarding2_png,sunwukong_west_fighting_12_json,sunwukong_west_fighting_12_png,warrior_dying2_json,warrior_dying2_png,warrior_east_fighting2_json,warrior_east_fighting2_png,reinforce_dying2_json,reinforce_dying2_png,reinforce_east_fighting2_json,reinforce_east_fighting2_png,reinforce_east_moving2_json,reinforce_east_moving2_png,arrowtower12_png,arrowtower22_png,arrowtower32_png,arrowtower42_png,arrowtower52_png,bombtower12_png,bombtower22_png,bombtower32_png,bombtower42_png,magictower12_png,magictower22_png,magictower32_png,magictower42_png,magictower52_png,soldiertower12_png,soldiertower22_png,soldiertower32_png,soldiertower42_png,tower_building2_json,tower_building2_png,tool_png,freeze_png,mammon_png,thunder_png,nectar_png,fireball_png,soldier_png,tool_bg_png,flag_png,thunder_fighting_json,thunder_fighting_png,magic1_fighting_json,magic1_fighting_png,magic2_fighting_json,magic2_fighting_png,magic3_fighting_json,magic3_fighting_png,magic4_fighting_json,magic4_fighting_png,botton_leave_png,world_jpg,map_1_png,map_2_png,map_3_png,map_4_png,map_5_png,map_6_png,map_7_png,map_8_png,map_9_png,map_10_png,map_11_png,map_12_png,map_13_png,map_14_png,map_15_png,freeze_fighting_json,freeze_fighting_png,soldier1_east_fighting_json,soldier1_east_fighting_png,soldier1_east_moving_json,soldier1_east_moving_png,soldier1_guarding_json,soldier1_guarding_png,soldier2_east_moving_json,soldier2_east_moving_png,soldier2_guarding_json,soldier2_guarding_png,soldier2_dying_json,soldier2_dying_png,soldier2_east_fighting_json,soldier2_east_fighting_png,soldier3_east_fighting_json,soldier3_east_fighting_png,soldier3_dying_json,soldier3_dying_png,soldier3_guarding_json,soldier3_guarding_png,soldier3_east_moving_json,soldier3_east_moving_png,soldier4_east_fighting_json,soldier4_east_fighting_png,soldier4_dying_json,soldier4_dying_png,soldier4_guarding_json,soldier4_guarding_png,soldier4_east_moving_json,soldier4_east_moving_png,battle122_jpg,magic1_building_json,magic1_building_png,magic2_building_json,magic2_building_png,magic3_building_json,magic3_building_png,magic4_building_json,magic4_building_png,ghost_east_fighting_json,ghost_east_fighting_png,ghost_east_moving_json,ghost_east_moving_png,ghost_building_json,ghost_building_png,ghost_dying_json,ghost_dying_png,ghost_guarding_json,ghost_guarding_png,blackImpermanence_building_json,blackImpermanence_building_png,blackImpermanence_dying_json,blackImpermanence_dying_png,blackImpermanence_guarding_json,blackImpermanence_guarding_png,blackImpermanence_east_moving_json,blackImpermanence_east_moving_png,blackImpermanence_east_fighting_json,blackImpermanence_east_fighting_png,whiteImpermanence_building_json,whiteImpermanence_building_png,whiteImpermanence_dying_json,whiteImpermanence_dying_png,whiteImpermanence_guarding_json,whiteImpermanence_guarding_png,whiteImpermanence_east_moving_json,whiteImpermanence_east_moving_png,arrow4_png,arrow5_png,arrow1_png,enemy8_dying_json,enemy8_dying_png,enemy8_east_fighting_json,enemy8_east_fighting_png,enemy8_east_guarding_json,enemy8_east_guarding_png,enemy8_east_moving_json,enemy8_east_moving_png,enemy8_north_moving_json,enemy8_north_moving_png,enemy4_dying_json,enemy4_dying_png,enemy4_east_fighting_json,enemy4_east_fighting_png,enemy4_east_moving_json,enemy4_east_moving_png,enemy4_north_moving_json,enemy4_north_moving_png,enemy4_south_moving_json,enemy4_south_moving_png,enemy14_dying_json,enemy14_dying_png,enemy14_east_fighting_json,enemy14_east_fighting_png,enemy14_east_moving_json,enemy14_east_moving_png,enemy14_north_moving_json,enemy14_north_moving_png,enemy14_south_moving_json,enemy14_south_moving_png,enemy1_east_fighting_json,enemy1_east_fighting_png,enemy1_dying_json,enemy1_dying_png,enemy1_east_moving_json,enemy1_east_moving_png,enemy1_north_moving_json,enemy1_north_moving_png,enemy1_south_moving_json,enemy1_south_moving_png,magictower4_fighting_json,magictower4_fighting_png,magictower4_guarding_json,magictower4_guarding_png,towerselect_1_png,towerselect_0_png,blackwater_fighting_json,blackwater_fighting_png,burn_png,frozen_png,bomb123_building_json,bomb123_building_png,bomb123_fighting_json,bomb123_fighting_png,bomb4_building_json,bomb4_building_png,bomb4_south_moving_json,bomb4_south_moving_png,bomb4_east_moving_json,bomb4_east_moving_png,bomb4_east_fighting_json,bomb4_east_fighting_png,scorchedearth_fighting_json,scorchedearth_fighting_png,scorchedearthbomblet_fighting_json,scorchedearthbomblet_fighting_png,spike_fighting_json,spike_fighting_png,arrow6_png,critical_json,critical_png,weakcurse_dying_json,weakcurse_dying_png,miscastcurse_dying_json,miscastcurse_dying_png,battle5_jpg,base5_png,frog_east_moving_json,frog_east_moving_png,lawn_guarding_png,lawn_dying_json,lawn_dying_png,boat_east_moving_json,boat_east_moving_png,magictower4_skill1_png,magictower4_skill2_png,arrowtower4_skill1_png,arrowtower4_skill2_png,arrowtower5_skill1_png,arrowtower5_skill2_png,bombtower4_skill1_png,bombtower4_skill2_png,soldiertower4_skill1_png,soldiertower4_skill2_png,soldiertower4_skill3_png,battle3_jpg,battle4_jpg,base3_png,base4_png",
+			"name": "preload"
+		},
+		{
+			"keys": "loading_run_png,toast-bg_png",
+			"name": "loading"
+		}
+	],
+	"resources": [
+		{
+			"url": "art/landing/login.png",
+			"type": "image",
+			"name": "login_png"
+		},
+		{
+			"url": "art/loading/loading_run.png",
+			"type": "image",
+			"name": "loading_run_png"
+		},
+		{
+			"url": "art/loading/toast-bg.png",
+			"type": "image",
+			"name": "toast-bg_png"
+		},
+		{
+			"url": "art/sprites/bases/base1.png",
+			"type": "image",
+			"name": "base1_png"
+		},
+		{
+			"url": "art/sound/bg.mp3",
+			"type": "sound",
+			"name": "bg_mp3"
+		},
+		{
+			"url": "art/sprites/soldiers/heros/sunwukong_east_moving.json",
+			"type": "json",
+			"name": "sunwukong_east_moving_json"
+		},
+		{
+			"url": "art/sprites/soldiers/heros/sunwukong_east_moving.png",
+			"type": "image",
+			"name": "sunwukong_east_moving_png"
+		},
+		{
+			"url": "art/sprites/soldiers/heros/warrior_east_fighting.json",
+			"type": "json",
+			"name": "warrior_east_fighting_json"
+		},
+		{
+			"url": "art/sprites/soldiers/heros/warrior_east_fighting.png",
+			"type": "image",
+			"name": "warrior_east_fighting_png"
+		},
+		{
+			"url": "art/sprites/soldiers/heros/warrior_dying.json",
+			"type": "json",
+			"name": "warrior_dying_json"
+		},
+		{
+			"url": "art/sprites/soldiers/heros/warrior_dying.png",
+			"type": "image",
+			"name": "warrior_dying_png"
+		},
+		{
+			"url": "art/sprites/soldiers/heros/sunwukong_east_fighting_2.json",
+			"type": "json",
+			"name": "sunwukong_east_fighting_2_json"
+		},
+		{
+			"url": "art/sprites/soldiers/heros/sunwukong_east_fighting_2.png",
+			"type": "image",
+			"name": "sunwukong_east_fighting_2_png"
+		},
+		{
+			"url": "art/sprites/soldiers/heros/sunwukong_east_fighting_3.json",
+			"type": "json",
+			"name": "sunwukong_east_fighting_3_json"
+		},
+		{
+			"url": "art/sprites/soldiers/heros/sunwukong_east_fighting_3.png",
+			"type": "image",
+			"name": "sunwukong_east_fighting_3_png"
+		},
+		{
+			"url": "art/sprites/bullets/fireball_moving.json",
+			"type": "json",
+			"name": "fireball_moving_json"
+		},
+		{
+			"url": "art/sprites/bullets/fireball_moving.png",
+			"type": "image",
+			"name": "fireball_moving_png"
+		},
+		{
+			"url": "art/sprites/towers/arrowtower1.png",
+			"type": "image",
+			"name": "arrowtower1_png"
+		},
+		{
+			"url": "art/sprites/towers/arrowtower2.png",
+			"type": "image",
+			"name": "arrowtower2_png"
+		},
+		{
+			"url": "art/sprites/soldiers/reinforce_east_fighting.json",
+			"type": "json",
+			"name": "reinforce_east_fighting_json"
+		},
+		{
+			"url": "art/sprites/soldiers/reinforce_east_fighting.png",
+			"type": "image",
+			"name": "reinforce_east_fighting_png"
+		},
+		{
+			"url": "art/sprites/soldiers/reinforce_east_moving.json",
+			"type": "json",
+			"name": "reinforce_east_moving_json"
+		},
+		{
+			"url": "art/sprites/soldiers/reinforce_east_moving.png",
+			"type": "image",
+			"name": "reinforce_east_moving_png"
+		},
+		{
+			"url": "art/sprites/soldiers/reinforce_dying.json",
+			"type": "json",
+			"name": "reinforce_dying_json"
+		},
+		{
+			"url": "art/sprites/soldiers/reinforce_dying.png",
+			"type": "image",
+			"name": "reinforce_dying_png"
+		},
+		{
+			"url": "art/sprites/effects/cock_east_moving.json",
+			"type": "json",
+			"name": "cock_east_moving_json"
+		},
+		{
+			"url": "art/sprites/effects/cock_east_moving.png",
+			"type": "image",
+			"name": "cock_east_moving_png"
+		},
+		{
+			"url": "art/sprites/effects/river_east_moving.json",
+			"type": "json",
+			"name": "river_east_moving_json"
+		},
+		{
+			"url": "art/sprites/effects/river_east_moving.png",
+			"type": "image",
+			"name": "river_east_moving_png"
+		},
+		{
+			"url": "art/home/waves.png",
+			"type": "image",
+			"name": "waves_png"
+		},
+		{
+			"url": "art/home/hero.png",
+			"type": "image",
+			"name": "hero_png"
+		},
+		{
+			"url": "art/home/back.png",
+			"type": "image",
+			"name": "back_png"
+		},
+		{
+			"url": "art/home/help.png",
+			"type": "image",
+			"name": "help_png"
+		},
+		{
+			"url": "art/home/start.png",
+			"type": "image",
+			"name": "start_png"
+		},
+		{
+			"url": "art/sprites/towers/arrowtower3.png",
+			"type": "image",
+			"name": "arrowtower3_png"
+		},
+		{
+			"url": "art/sprites/towers/arrowtower4.png",
+			"type": "image",
+			"name": "arrowtower4_png"
+		},
+		{
+			"url": "art/sprites/towers/arrowtower5.png",
+			"type": "image",
+			"name": "arrowtower5_png"
+		},
+		{
+			"url": "art/sprites/towers/soldiertower1.png",
+			"type": "image",
+			"name": "soldiertower1_png"
+		},
+		{
+			"url": "art/sprites/towers/soldiertower2.png",
+			"type": "image",
+			"name": "soldiertower2_png"
+		},
+		{
+			"url": "art/sprites/towers/soldiertower3.png",
+			"type": "image",
+			"name": "soldiertower3_png"
+		},
+		{
+			"url": "art/sprites/towers/soldiertower4.png",
+			"type": "image",
+			"name": "soldiertower4_png"
+		},
+		{
+			"url": "art/sprites/towers/bombtower1.png",
+			"type": "image",
+			"name": "bombtower1_png"
+		},
+		{
+			"url": "art/sprites/towers/bombtower2.png",
+			"type": "image",
+			"name": "bombtower2_png"
+		},
+		{
+			"url": "art/sprites/towers/bombtower3.png",
+			"type": "image",
+			"name": "bombtower3_png"
+		},
+		{
+			"url": "art/sprites/towers/bombtower4.png",
+			"type": "image",
+			"name": "bombtower4_png"
+		},
+		{
+			"url": "art/sprites/towers/magictower1.png",
+			"type": "image",
+			"name": "magictower1_png"
+		},
+		{
+			"url": "art/sprites/towers/magictower2.png",
+			"type": "image",
+			"name": "magictower2_png"
+		},
+		{
+			"url": "art/sprites/towers/magictower3.png",
+			"type": "image",
+			"name": "magictower3_png"
+		},
+		{
+			"url": "art/sprites/towers/magictower4.png",
+			"type": "image",
+			"name": "magictower4_png"
+		},
+		{
+			"url": "art/sprites/towers/magictower5.png",
+			"type": "image",
+			"name": "magictower5_png"
+		},
+		{
+			"url": "art/sprites/soldiers/soldier1_dying.json",
+			"type": "json",
+			"name": "soldier1_dying_json"
+		},
+		{
+			"url": "art/sprites/soldiers/soldier1_dying.png",
+			"type": "image",
+			"name": "soldier1_dying_png"
+		},
+		{
+			"url": "art/sprites/towers/tower_building.json",
+			"type": "json",
+			"name": "tower_building_json"
+		},
+		{
+			"url": "art/sprites/towers/tower_building.png",
+			"type": "image",
+			"name": "tower_building_png"
+		},
+		{
+			"url": "art/sprites/tips/launch.png",
+			"type": "image",
+			"name": "launch_png"
+		},
+		{
+			"url": "art/sprites/tips/disable.png",
+			"type": "image",
+			"name": "disable_png"
+		},
+		{
+			"url": "art/home/button_again.png",
+			"type": "image",
+			"name": "button_again_png"
+		},
+		{
+			"url": "art/home/end_B.png",
+			"type": "image",
+			"name": "end_B_png"
+		},
+		{
+			"url": "art/home/end_defeat.png",
+			"type": "image",
+			"name": "end_defeat_png"
+		},
+		{
+			"url": "art/home/end_win.png",
+			"type": "image",
+			"name": "end_win_png"
+		},
+		{
+			"url": "art/sprites/soldiers/heros/sunwukong_guarding.png",
+			"type": "image",
+			"name": "sunwukong_guarding_png"
+		},
+		{
+			"url": "art/sprites/soldiers/heros/sunwukong_dying.png",
+			"type": "image",
+			"name": "sunwukong_dying_png"
+		},
+		{
+			"url": "art/sprites/soldiers/heros/sunwukong_dying.json",
+			"type": "json",
+			"name": "sunwukong_dying_json"
+		},
+		{
+			"url": "art/sprites/soldiers/heros/sunwukong_west_fighting_1.png",
+			"type": "image",
+			"name": "sunwukong_west_fighting_1_png"
+		},
+		{
+			"url": "art/sprites/soldiers/heros/sunwukong_west_fighting_1.json",
+			"type": "json",
+			"name": "sunwukong_west_fighting_1_json"
+		},
+		{
+			"url": "art/sprites/soldiers/arrowsoldier1_west_fighting.json",
+			"type": "json",
+			"name": "arrowsoldier1_west_fighting_json"
+		},
+		{
+			"url": "art/sprites/soldiers/arrowsoldier1_west_fighting.png",
+			"type": "image",
+			"name": "arrowsoldier1_west_fighting_png"
+		},
+		{
+			"url": "art/sprites/soldiers/arrowsoldier1_east_fighting.json",
+			"type": "json",
+			"name": "arrowsoldier1_east_fighting_json"
+		},
+		{
+			"url": "art/sprites/soldiers/arrowsoldier1_east_fighting.png",
+			"type": "image",
+			"name": "arrowsoldier1_east_fighting_png"
+		},
+		{
+			"url": "art/sprites/soldiers/arrowsoldier2_west_fighting.json",
+			"type": "json",
+			"name": "arrowsoldier2_west_fighting_json"
+		},
+		{
+			"url": "art/sprites/soldiers/arrowsoldier2_west_fighting.png",
+			"type": "image",
+			"name": "arrowsoldier2_west_fighting_png"
+		},
+		{
+			"url": "art/sprites/soldiers/arrowsoldier2_east_fighting.json",
+			"type": "json",
+			"name": "arrowsoldier2_east_fighting_json"
+		},
+		{
+			"url": "art/sprites/soldiers/arrowsoldier2_east_fighting.png",
+			"type": "image",
+			"name": "arrowsoldier2_east_fighting_png"
+		},
+		{
+			"url": "art/sprites/soldiers/arrowsoldier3_east_fighting.json",
+			"type": "json",
+			"name": "arrowsoldier3_east_fighting_json"
+		},
+		{
+			"url": "art/sprites/soldiers/arrowsoldier3_east_fighting.png",
+			"type": "image",
+			"name": "arrowsoldier3_east_fighting_png"
+		},
+		{
+			"url": "art/sprites/soldiers/arrowsoldier3_west_fighting.json",
+			"type": "json",
+			"name": "arrowsoldier3_west_fighting_json"
+		},
+		{
+			"url": "art/sprites/soldiers/arrowsoldier3_west_fighting.png",
+			"type": "image",
+			"name": "arrowsoldier3_west_fighting_png"
+		},
+		{
+			"url": "art/sprites/soldiers/arrowsoldier4_west_fighting.json",
+			"type": "json",
+			"name": "arrowsoldier4_west_fighting_json"
+		},
+		{
+			"url": "art/sprites/soldiers/arrowsoldier4_west_fighting.png",
+			"type": "image",
+			"name": "arrowsoldier4_west_fighting_png"
+		},
+		{
+			"url": "art/sprites/soldiers/arrowsoldier4_east_fighting.json",
+			"type": "json",
+			"name": "arrowsoldier4_east_fighting_json"
+		},
+		{
+			"url": "art/sprites/soldiers/arrowsoldier4_east_fighting.png",
+			"type": "image",
+			"name": "arrowsoldier4_east_fighting_png"
+		},
+		{
+			"url": "art/sprites/soldiers/arrowsoldier5_east_fighting.json",
+			"type": "json",
+			"name": "arrowsoldier5_east_fighting_json"
+		},
+		{
+			"url": "art/sprites/soldiers/arrowsoldier5_east_fighting.png",
+			"type": "image",
+			"name": "arrowsoldier5_east_fighting_png"
+		},
+		{
+			"url": "art/sprites/soldiers/arrowsoldier5_west_fighting.json",
+			"type": "json",
+			"name": "arrowsoldier5_west_fighting_json"
+		},
+		{
+			"url": "art/sprites/soldiers/arrowsoldier5_west_fighting.png",
+			"type": "image",
+			"name": "arrowsoldier5_west_fighting_png"
+		},
+		{
+			"url": "art/sprites/soldiers/bombsoldier1_east_guarding.png",
+			"type": "image",
+			"name": "bombsoldier1_east_guarding_png"
+		},
+		{
+			"url": "art/sprites/soldiers/bombsoldier1_west_guarding.png",
+			"type": "image",
+			"name": "bombsoldier1_west_guarding_png"
+		},
+		{
+			"url": "art/sprites/soldiers/bombsoldier2_east_guarding.png",
+			"type": "image",
+			"name": "bombsoldier2_east_guarding_png"
+		},
+		{
+			"url": "art/sprites/soldiers/bombsoldier2_west_guarding.png",
+			"type": "image",
+			"name": "bombsoldier2_west_guarding_png"
+		},
+		{
+			"url": "art/sprites/soldiers/bombsoldier3_east_guarding.png",
+			"type": "image",
+			"name": "bombsoldier3_east_guarding_png"
+		},
+		{
+			"url": "art/sprites/soldiers/bombsoldier3_west_guarding.png",
+			"type": "image",
+			"name": "bombsoldier3_west_guarding_png"
+		},
+		{
+			"url": "art/sprites/soldiers/bombsoldier4_east_guarding.png",
+			"type": "image",
+			"name": "bombsoldier4_east_guarding_png"
+		},
+		{
+			"url": "art/sprites/soldiers/bombsoldier1_east_fighting.json",
+			"type": "json",
+			"name": "bombsoldier1_east_fighting_json"
+		},
+		{
+			"url": "art/sprites/soldiers/bombsoldier1_east_fighting.png",
+			"type": "image",
+			"name": "bombsoldier1_east_fighting_png"
+		},
+		{
+			"url": "art/sprites/soldiers/bombsoldier2_east_fighting.json",
+			"type": "json",
+			"name": "bombsoldier2_east_fighting_json"
+		},
+		{
+			"url": "art/sprites/soldiers/bombsoldier2_east_fighting.png",
+			"type": "image",
+			"name": "bombsoldier2_east_fighting_png"
+		},
+		{
+			"url": "art/sprites/soldiers/bombsoldier3_east_fighting.json",
+			"type": "json",
+			"name": "bombsoldier3_east_fighting_json"
+		},
+		{
+			"url": "art/sprites/soldiers/bombsoldier3_east_fighting.png",
+			"type": "image",
+			"name": "bombsoldier3_east_fighting_png"
+		},
+		{
+			"url": "art/sprites/soldiers/bombsoldier4_west_fighting.json",
+			"type": "json",
+			"name": "bombsoldier4_west_fighting_json"
+		},
+		{
+			"url": "art/sprites/soldiers/bombsoldier4_west_fighting.png",
+			"type": "image",
+			"name": "bombsoldier4_west_fighting_png"
+		},
+		{
+			"url": "art/sprites/soldiers/bombsoldier5_west_fighting.json",
+			"type": "json",
+			"name": "bombsoldier5_west_fighting_json"
+		},
+		{
+			"url": "art/sprites/soldiers/bombsoldier5_west_fighting.png",
+			"type": "image",
+			"name": "bombsoldier5_west_fighting_png"
+		},
+		{
+			"url": "art/home/upgrade.png",
+			"type": "image",
+			"name": "upgrade_png"
+		},
+		{
+			"url": "art/home/remove.png",
+			"type": "image",
+			"name": "remove_png"
+		},
+		{
+			"url": "art/sprites/battles/battle2.jpg",
+			"type": "image",
+			"name": "battle2_jpg"
+		},
+		{
+			"url": "art/landing/loginb.jpg",
+			"type": "image",
+			"name": "loginb_jpg"
+		},
+		{
+			"url": "art/home/startbattle.png",
+			"type": "image",
+			"name": "startbattle_png"
+		},
+		{
+			"url": "art/sprites/battles/battle1.jpg",
+			"type": "image",
+			"name": "battle1_jpg"
+		},
+		{
+			"url": "art/sprites/bullets/bomb1_moving.png",
+			"type": "image",
+			"name": "bomb1_moving_png"
+		},
+		{
+			"url": "art/sprites/bullets/bomb2_moving.png",
+			"type": "image",
+			"name": "bomb2_moving_png"
+		},
+		{
+			"url": "art/sprites/bullets/bomb3_dying.png",
+			"type": "image",
+			"name": "bomb3_dying_png"
+		},
+		{
+			"url": "art/sprites/bullets/bomb3_moving.png",
+			"type": "image",
+			"name": "bomb3_moving_png"
+		},
+		{
+			"url": "art/sprites/bullets/fireball_fighting.json",
+			"type": "json",
+			"name": "fireball_fighting_json"
+		},
+		{
+			"url": "art/sprites/bullets/fireball_fighting.png",
+			"type": "image",
+			"name": "fireball_fighting_png"
+		},
+		{
+			"url": "art/home/guardflag.png",
+			"type": "image",
+			"name": "guardflag_png"
+		},
+		{
+			"url": "art/sprites/bullets/magic_moving.png",
+			"type": "image",
+			"name": "magic_moving_png"
+		},
+		{
+			"url": "art/head.png",
+			"type": "image",
+			"name": "head_png"
+		},
+		{
+			"url": "art/headF.png",
+			"type": "image",
+			"name": "headF_png"
+		},
+		{
+			"url": "art/headM.png",
+			"type": "image",
+			"name": "headM_png"
+		},
+		{
+			"url": "art/home/waves.png",
+			"type": "image",
+			"name": "waves2_png"
+		},
+		{
+			"url": "art/icon.jpg",
+			"type": "image",
+			"name": "icon_jpg"
+		},
+		{
+			"url": "art/landing/login.png",
+			"type": "image",
+			"name": "login2_png"
+		},
+		{
+			"url": "art/landing/loginb.jpg",
+			"type": "image",
+			"name": "loginb2_jpg"
+		},
+		{
+			"url": "art/loading/loading_run.png",
+			"type": "image",
+			"name": "loading_run2_png"
+		},
+		{
+			"url": "art/loading/toast-bg.png",
+			"type": "image",
+			"name": "toast-bg2_png"
+		},
+		{
+			"url": "art/sound/bg.mp3",
+			"type": "sound",
+			"name": "bg2_mp3"
+		},
+		{
+			"url": "art/sprites/bases/base1.png",
+			"type": "image",
+			"name": "base12_png"
+		},
+		{
+			"url": "art/sprites/battles/battle1.jpg",
+			"type": "image",
+			"name": "battle12_jpg"
+		},
+		{
+			"url": "art/sprites/battles/battle2.jpg",
+			"type": "image",
+			"name": "battle22_jpg"
+		},
+		{
+			"url": "art/sprites/bullets/bomb1_moving.png",
+			"type": "image",
+			"name": "bomb1_moving2_png"
+		},
+		{
+			"url": "art/sprites/bullets/bomb2_moving.png",
+			"type": "image",
+			"name": "bomb2_moving2_png"
+		},
+		{
+			"url": "art/sprites/bullets/bomb3_dying.png",
+			"type": "image",
+			"name": "bomb3_dying2_png"
+		},
+		{
+			"url": "art/sprites/bullets/bomb3_moving.png",
+			"type": "image",
+			"name": "bomb3_moving2_png"
+		},
+		{
+			"url": "art/sprites/bullets/fireball_fighting.json",
+			"type": "json",
+			"name": "fireball_fighting2_json"
+		},
+		{
+			"url": "art/sprites/bullets/fireball_fighting.png",
+			"type": "image",
+			"name": "fireball_fighting2_png"
+		},
+		{
+			"url": "art/sprites/bullets/fireball_moving.json",
+			"type": "json",
+			"name": "fireball_moving2_json"
+		},
+		{
+			"url": "art/sprites/bullets/fireball_moving.png",
+			"type": "image",
+			"name": "fireball_moving2_png"
+		},
+		{
+			"url": "art/sprites/bullets/magic_moving.png",
+			"type": "image",
+			"name": "magic_moving2_png"
+		},
+		{
+			"url": "art/sprites/effects/cock_east_moving.json",
+			"type": "json",
+			"name": "cock_east_moving2_json"
+		},
+		{
+			"url": "art/sprites/effects/cock_east_moving.png",
+			"type": "image",
+			"name": "cock_east_moving2_png"
+		},
+		{
+			"url": "art/sprites/effects/river_east_moving.json",
+			"type": "json",
+			"name": "river_east_moving2_json"
+		},
+		{
+			"url": "art/sprites/effects/river_east_moving.png",
+			"type": "image",
+			"name": "river_east_moving2_png"
+		},
+		{
+			"url": "art/sprites/soldiers/arrowsoldier1_east_fighting.json",
+			"type": "json",
+			"name": "arrowsoldier1_east_fighting2_json"
+		},
+		{
+			"url": "art/sprites/soldiers/arrowsoldier1_east_fighting.png",
+			"type": "image",
+			"name": "arrowsoldier1_east_fighting2_png"
+		},
+		{
+			"url": "art/sprites/soldiers/arrowsoldier1_west_fighting.json",
+			"type": "json",
+			"name": "arrowsoldier1_west_fighting2_json"
+		},
+		{
+			"url": "art/sprites/soldiers/arrowsoldier1_west_fighting.png",
+			"type": "image",
+			"name": "arrowsoldier1_west_fighting2_png"
+		},
+		{
+			"url": "art/sprites/soldiers/arrowsoldier2_east_fighting.json",
+			"type": "json",
+			"name": "arrowsoldier2_east_fighting2_json"
+		},
+		{
+			"url": "art/sprites/soldiers/arrowsoldier2_east_fighting.png",
+			"type": "image",
+			"name": "arrowsoldier2_east_fighting2_png"
+		},
+		{
+			"url": "art/sprites/soldiers/arrowsoldier2_west_fighting.json",
+			"type": "json",
+			"name": "arrowsoldier2_west_fighting2_json"
+		},
+		{
+			"url": "art/sprites/soldiers/arrowsoldier2_west_fighting.png",
+			"type": "image",
+			"name": "arrowsoldier2_west_fighting2_png"
+		},
+		{
+			"url": "art/sprites/soldiers/arrowsoldier3_east_fighting.json",
+			"type": "json",
+			"name": "arrowsoldier3_east_fighting2_json"
+		},
+		{
+			"url": "art/sprites/soldiers/arrowsoldier3_east_fighting.png",
+			"type": "image",
+			"name": "arrowsoldier3_east_fighting2_png"
+		},
+		{
+			"url": "art/sprites/soldiers/arrowsoldier3_west_fighting.json",
+			"type": "json",
+			"name": "arrowsoldier3_west_fighting2_json"
+		},
+		{
+			"url": "art/sprites/soldiers/arrowsoldier3_west_fighting.png",
+			"type": "image",
+			"name": "arrowsoldier3_west_fighting2_png"
+		},
+		{
+			"url": "art/sprites/soldiers/arrowsoldier4_east_fighting.json",
+			"type": "json",
+			"name": "arrowsoldier4_east_fighting2_json"
+		},
+		{
+			"url": "art/sprites/soldiers/arrowsoldier4_east_fighting.png",
+			"type": "image",
+			"name": "arrowsoldier4_east_fighting2_png"
+		},
+		{
+			"url": "art/sprites/soldiers/arrowsoldier4_west_fighting.json",
+			"type": "json",
+			"name": "arrowsoldier4_west_fighting2_json"
+		},
+		{
+			"url": "art/sprites/soldiers/arrowsoldier4_west_fighting.png",
+			"type": "image",
+			"name": "arrowsoldier4_west_fighting2_png"
+		},
+		{
+			"url": "art/sprites/soldiers/arrowsoldier5_east_fighting.json",
+			"type": "json",
+			"name": "arrowsoldier5_east_fighting2_json"
+		},
+		{
+			"url": "art/sprites/soldiers/arrowsoldier5_east_fighting.png",
+			"type": "image",
+			"name": "arrowsoldier5_east_fighting2_png"
+		},
+		{
+			"url": "art/sprites/soldiers/arrowsoldier5_west_fighting.json",
+			"type": "json",
+			"name": "arrowsoldier5_west_fighting2_json"
+		},
+		{
+			"url": "art/sprites/soldiers/arrowsoldier5_west_fighting.png",
+			"type": "image",
+			"name": "arrowsoldier5_west_fighting2_png"
+		},
+		{
+			"url": "art/sprites/soldiers/bombsoldier1_east_fighting.json",
+			"type": "json",
+			"name": "bombsoldier1_east_fighting2_json"
+		},
+		{
+			"url": "art/sprites/soldiers/bombsoldier1_east_fighting.png",
+			"type": "image",
+			"name": "bombsoldier1_east_fighting2_png"
+		},
+		{
+			"url": "art/sprites/soldiers/bombsoldier1_east_guarding.png",
+			"type": "image",
+			"name": "bombsoldier1_east_guarding2_png"
+		},
+		{
+			"url": "art/sprites/soldiers/bombsoldier1_west_guarding.png",
+			"type": "image",
+			"name": "bombsoldier1_west_guarding2_png"
+		},
+		{
+			"url": "art/sprites/soldiers/bombsoldier2_east_fighting.json",
+			"type": "json",
+			"name": "bombsoldier2_east_fighting2_json"
+		},
+		{
+			"url": "art/sprites/soldiers/bombsoldier2_east_fighting.png",
+			"type": "image",
+			"name": "bombsoldier2_east_fighting2_png"
+		},
+		{
+			"url": "art/sprites/soldiers/bombsoldier2_east_guarding.png",
+			"type": "image",
+			"name": "bombsoldier2_east_guarding2_png"
+		},
+		{
+			"url": "art/sprites/soldiers/bombsoldier2_west_guarding.png",
+			"type": "image",
+			"name": "bombsoldier2_west_guarding2_png"
+		},
+		{
+			"url": "art/sprites/soldiers/bombsoldier3_east_fighting.json",
+			"type": "json",
+			"name": "bombsoldier3_east_fighting2_json"
+		},
+		{
+			"url": "art/sprites/soldiers/bombsoldier3_east_fighting.png",
+			"type": "image",
+			"name": "bombsoldier3_east_fighting2_png"
+		},
+		{
+			"url": "art/sprites/soldiers/bombsoldier3_east_guarding.png",
+			"type": "image",
+			"name": "bombsoldier3_east_guarding2_png"
+		},
+		{
+			"url": "art/sprites/soldiers/bombsoldier3_west_guarding.png",
+			"type": "image",
+			"name": "bombsoldier3_west_guarding2_png"
+		},
+		{
+			"url": "art/sprites/soldiers/bombsoldier4_east_guarding.png",
+			"type": "image",
+			"name": "bombsoldier4_east_guarding2_png"
+		},
+		{
+			"url": "art/sprites/soldiers/bombsoldier4_west_fighting.json",
+			"type": "json",
+			"name": "bombsoldier4_west_fighting2_json"
+		},
+		{
+			"url": "art/sprites/soldiers/bombsoldier4_west_fighting.png",
+			"type": "image",
+			"name": "bombsoldier4_west_fighting2_png"
+		},
+		{
+			"url": "art/sprites/soldiers/bombsoldier5_west_fighting.json",
+			"type": "json",
+			"name": "bombsoldier5_west_fighting2_json"
+		},
+		{
+			"url": "art/sprites/soldiers/bombsoldier5_west_fighting.png",
+			"type": "image",
+			"name": "bombsoldier5_west_fighting2_png"
+		},
+		{
+			"url": "art/sprites/soldiers/heros/sunwukong_dying.json",
+			"type": "json",
+			"name": "sunwukong_dying2_json"
+		},
+		{
+			"url": "art/sprites/soldiers/heros/sunwukong_dying.png",
+			"type": "image",
+			"name": "sunwukong_dying2_png"
+		},
+		{
+			"url": "art/sprites/soldiers/heros/sunwukong_east_fighting_2.json",
+			"type": "json",
+			"name": "sunwukong_east_fighting_22_json"
+		},
+		{
+			"url": "art/sprites/soldiers/heros/sunwukong_east_fighting_2.png",
+			"type": "image",
+			"name": "sunwukong_east_fighting_22_png"
+		},
+		{
+			"url": "art/sprites/soldiers/heros/sunwukong_east_fighting_3.json",
+			"type": "json",
+			"name": "sunwukong_east_fighting_32_json"
+		},
+		{
+			"url": "art/sprites/soldiers/heros/sunwukong_east_fighting_3.png",
+			"type": "image",
+			"name": "sunwukong_east_fighting_32_png"
+		},
+		{
+			"url": "art/sprites/soldiers/heros/sunwukong_east_moving.json",
+			"type": "json",
+			"name": "sunwukong_east_moving2_json"
+		},
+		{
+			"url": "art/sprites/soldiers/heros/sunwukong_east_moving.png",
+			"type": "image",
+			"name": "sunwukong_east_moving2_png"
+		},
+		{
+			"url": "art/sprites/soldiers/heros/sunwukong_guarding.png",
+			"type": "image",
+			"name": "sunwukong_guarding2_png"
+		},
+		{
+			"url": "art/sprites/soldiers/heros/sunwukong_west_fighting_1.json",
+			"type": "json",
+			"name": "sunwukong_west_fighting_12_json"
+		},
+		{
+			"url": "art/sprites/soldiers/heros/sunwukong_west_fighting_1.png",
+			"type": "image",
+			"name": "sunwukong_west_fighting_12_png"
+		},
+		{
+			"url": "art/sprites/soldiers/heros/warrior_dying.json",
+			"type": "json",
+			"name": "warrior_dying2_json"
+		},
+		{
+			"url": "art/sprites/soldiers/heros/warrior_dying.png",
+			"type": "image",
+			"name": "warrior_dying2_png"
+		},
+		{
+			"url": "art/sprites/soldiers/heros/warrior_east_fighting.json",
+			"type": "json",
+			"name": "warrior_east_fighting2_json"
+		},
+		{
+			"url": "art/sprites/soldiers/heros/warrior_east_fighting.png",
+			"type": "image",
+			"name": "warrior_east_fighting2_png"
+		},
+		{
+			"url": "art/sprites/soldiers/reinforce_dying.json",
+			"type": "json",
+			"name": "reinforce_dying2_json"
+		},
+		{
+			"url": "art/sprites/soldiers/reinforce_dying.png",
+			"type": "image",
+			"name": "reinforce_dying2_png"
+		},
+		{
+			"url": "art/sprites/soldiers/reinforce_east_fighting.json",
+			"type": "json",
+			"name": "reinforce_east_fighting2_json"
+		},
+		{
+			"url": "art/sprites/soldiers/reinforce_east_fighting.png",
+			"type": "image",
+			"name": "reinforce_east_fighting2_png"
+		},
+		{
+			"url": "art/sprites/soldiers/reinforce_east_moving.json",
+			"type": "json",
+			"name": "reinforce_east_moving2_json"
+		},
+		{
+			"url": "art/sprites/soldiers/reinforce_east_moving.png",
+			"type": "image",
+			"name": "reinforce_east_moving2_png"
+		},
+		{
+			"url": "art/sprites/towers/arrowtower1.png",
+			"type": "image",
+			"name": "arrowtower12_png"
+		},
+		{
+			"url": "art/sprites/towers/arrowtower2.png",
+			"type": "image",
+			"name": "arrowtower22_png"
+		},
+		{
+			"url": "art/sprites/towers/arrowtower3.png",
+			"type": "image",
+			"name": "arrowtower32_png"
+		},
+		{
+			"url": "art/sprites/towers/arrowtower4.png",
+			"type": "image",
+			"name": "arrowtower42_png"
+		},
+		{
+			"url": "art/sprites/towers/arrowtower5.png",
+			"type": "image",
+			"name": "arrowtower52_png"
+		},
+		{
+			"url": "art/sprites/towers/bombtower1.png",
+			"type": "image",
+			"name": "bombtower12_png"
+		},
+		{
+			"url": "art/sprites/towers/bombtower2.png",
+			"type": "image",
+			"name": "bombtower22_png"
+		},
+		{
+			"url": "art/sprites/towers/bombtower3.png",
+			"type": "image",
+			"name": "bombtower32_png"
+		},
+		{
+			"url": "art/sprites/towers/bombtower4.png",
+			"type": "image",
+			"name": "bombtower42_png"
+		},
+		{
+			"url": "art/sprites/towers/magictower1.png",
+			"type": "image",
+			"name": "magictower12_png"
+		},
+		{
+			"url": "art/sprites/towers/magictower2.png",
+			"type": "image",
+			"name": "magictower22_png"
+		},
+		{
+			"url": "art/sprites/towers/magictower3.png",
+			"type": "image",
+			"name": "magictower32_png"
+		},
+		{
+			"url": "art/sprites/towers/magictower4.png",
+			"type": "image",
+			"name": "magictower42_png"
+		},
+		{
+			"url": "art/sprites/towers/magictower5.png",
+			"type": "image",
+			"name": "magictower52_png"
+		},
+		{
+			"url": "art/sprites/towers/soldiertower1.png",
+			"type": "image",
+			"name": "soldiertower12_png"
+		},
+		{
+			"url": "art/sprites/towers/soldiertower2.png",
+			"type": "image",
+			"name": "soldiertower22_png"
+		},
+		{
+			"url": "art/sprites/towers/soldiertower3.png",
+			"type": "image",
+			"name": "soldiertower32_png"
+		},
+		{
+			"url": "art/sprites/towers/soldiertower4.png",
+			"type": "image",
+			"name": "soldiertower42_png"
+		},
+		{
+			"url": "art/sprites/towers/tower_building.json",
+			"type": "json",
+			"name": "tower_building2_json"
+		},
+		{
+			"url": "art/sprites/towers/tower_building.png",
+			"type": "image",
+			"name": "tower_building2_png"
+		},
+		{
+			"url": "art/home/tool.png",
+			"type": "image",
+			"name": "tool_png"
+		},
+		{
+			"url": "art/home/freeze.png",
+			"type": "image",
+			"name": "freeze_png"
+		},
+		{
+			"url": "art/home/mammon.png",
+			"type": "image",
+			"name": "mammon_png"
+		},
+		{
+			"url": "art/home/thunder.png",
+			"type": "image",
+			"name": "thunder_png"
+		},
+		{
+			"url": "art/home/nectar.png",
+			"type": "image",
+			"name": "nectar_png"
+		},
+		{
+			"url": "art/home/fireball.png",
+			"type": "image",
+			"name": "fireball_png"
+		},
+		{
+			"url": "art/home/soldier.png",
+			"type": "image",
+			"name": "soldier_png"
+		},
+		{
+			"url": "art/home/tool_bg.png",
+			"type": "image",
+			"name": "tool_bg_png"
+		},
+		{
+			"url": "art/sprites/tips/flag.png",
+			"type": "image",
+			"name": "flag_png"
+		},
+		{
+			"url": "art/sprites/bullets/thunder_fighting.json",
+			"type": "json",
+			"name": "thunder_fighting_json"
+		},
+		{
+			"url": "art/sprites/bullets/thunder_fighting.png",
+			"type": "image",
+			"name": "thunder_fighting_png"
+		},
+		{
+			"url": "art/sprites/bullets/magic1_fighting.json",
+			"type": "json",
+			"name": "magic1_fighting_json"
+		},
+		{
+			"url": "art/sprites/bullets/magic1_fighting.png",
+			"type": "image",
+			"name": "magic1_fighting_png"
+		},
+		{
+			"url": "art/sprites/bullets/magic2_fighting.json",
+			"type": "json",
+			"name": "magic2_fighting_json"
+		},
+		{
+			"url": "art/sprites/bullets/magic2_fighting.png",
+			"type": "image",
+			"name": "magic2_fighting_png"
+		},
+		{
+			"url": "art/sprites/bullets/magic3_fighting.json",
+			"type": "json",
+			"name": "magic3_fighting_json"
+		},
+		{
+			"url": "art/sprites/bullets/magic3_fighting.png",
+			"type": "image",
+			"name": "magic3_fighting_png"
+		},
+		{
+			"url": "art/sprites/bullets/magic4_fighting.json",
+			"type": "json",
+			"name": "magic4_fighting_json"
+		},
+		{
+			"url": "art/sprites/bullets/magic4_fighting.png",
+			"type": "image",
+			"name": "magic4_fighting_png"
+		},
+		{
+			"url": "art/home/botton_leave.png",
+			"type": "image",
+			"name": "botton_leave_png"
+		},
+		{
+			"url": "art/home/world.jpg",
+			"type": "image",
+			"name": "world_jpg"
+		},
+		{
+			"url": "art/home/map_1.png",
+			"type": "image",
+			"name": "map_1_png"
+		},
+		{
+			"url": "art/home/map_2.png",
+			"type": "image",
+			"name": "map_2_png"
+		},
+		{
+			"url": "art/home/map_3.png",
+			"type": "image",
+			"name": "map_3_png"
+		},
+		{
+			"url": "art/home/map_4.png",
+			"type": "image",
+			"name": "map_4_png"
+		},
+		{
+			"url": "art/home/map_5.png",
+			"type": "image",
+			"name": "map_5_png"
+		},
+		{
+			"url": "art/home/map_6.png",
+			"type": "image",
+			"name": "map_6_png"
+		},
+		{
+			"url": "art/home/map_7.png",
+			"type": "image",
+			"name": "map_7_png"
+		},
+		{
+			"url": "art/home/map_8.png",
+			"type": "image",
+			"name": "map_8_png"
+		},
+		{
+			"url": "art/home/map_9.png",
+			"type": "image",
+			"name": "map_9_png"
+		},
+		{
+			"url": "art/home/map_10.png",
+			"type": "image",
+			"name": "map_10_png"
+		},
+		{
+			"url": "art/home/map_11.png",
+			"type": "image",
+			"name": "map_11_png"
+		},
+		{
+			"url": "art/home/map_12.png",
+			"type": "image",
+			"name": "map_12_png"
+		},
+		{
+			"url": "art/home/map_13.png",
+			"type": "image",
+			"name": "map_13_png"
+		},
+		{
+			"url": "art/home/map_14.png",
+			"type": "image",
+			"name": "map_14_png"
+		},
+		{
+			"url": "art/home/map_15.png",
+			"type": "image",
+			"name": "map_15_png"
+		},
+		{
+			"url": "art/sprites/bullets/freeze_fighting.json",
+			"type": "json",
+			"name": "freeze_fighting_json"
+		},
+		{
+			"url": "art/sprites/bullets/freeze_fighting.png",
+			"type": "image",
+			"name": "freeze_fighting_png"
+		},
+		{
+			"url": "art/sprites/soldiers/soldier1_east_fighting.json",
+			"type": "json",
+			"name": "soldier1_east_fighting_json"
+		},
+		{
+			"url": "art/sprites/soldiers/soldier1_east_fighting.png",
+			"type": "image",
+			"name": "soldier1_east_fighting_png"
+		},
+		{
+			"url": "art/sprites/soldiers/soldier1_east_moving.json",
+			"type": "json",
+			"name": "soldier1_east_moving_json"
+		},
+		{
+			"url": "art/sprites/soldiers/soldier1_east_moving.png",
+			"type": "image",
+			"name": "soldier1_east_moving_png"
+		},
+		{
+			"url": "art/sprites/soldiers/soldier1_guarding.json",
+			"type": "json",
+			"name": "soldier1_guarding_json"
+		},
+		{
+			"url": "art/sprites/soldiers/soldier1_guarding.png",
+			"type": "image",
+			"name": "soldier1_guarding_png"
+		},
+		{
+			"url": "art/sprites/soldiers/soldier2_east_moving.json",
+			"type": "json",
+			"name": "soldier2_east_moving_json"
+		},
+		{
+			"url": "art/sprites/soldiers/soldier2_east_moving.png",
+			"type": "image",
+			"name": "soldier2_east_moving_png"
+		},
+		{
+			"url": "art/sprites/soldiers/soldier2_guarding.json",
+			"type": "json",
+			"name": "soldier2_guarding_json"
+		},
+		{
+			"url": "art/sprites/soldiers/soldier2_guarding.png",
+			"type": "image",
+			"name": "soldier2_guarding_png"
+		},
+		{
+			"url": "art/sprites/soldiers/soldier2_dying.json",
+			"type": "json",
+			"name": "soldier2_dying_json"
+		},
+		{
+			"url": "art/sprites/soldiers/soldier2_dying.png",
+			"type": "image",
+			"name": "soldier2_dying_png"
+		},
+		{
+			"url": "art/sprites/soldiers/soldier2_east_fighting.json",
+			"type": "json",
+			"name": "soldier2_east_fighting_json"
+		},
+		{
+			"url": "art/sprites/soldiers/soldier2_east_fighting.png",
+			"type": "image",
+			"name": "soldier2_east_fighting_png"
+		},
+		{
+			"url": "art/sprites/soldiers/soldier3_east_fighting.json",
+			"type": "json",
+			"name": "soldier3_east_fighting_json"
+		},
+		{
+			"url": "art/sprites/soldiers/soldier3_east_fighting.png",
+			"type": "image",
+			"name": "soldier3_east_fighting_png"
+		},
+		{
+			"url": "art/sprites/soldiers/soldier3_dying.json",
+			"type": "json",
+			"name": "soldier3_dying_json"
+		},
+		{
+			"url": "art/sprites/soldiers/soldier3_dying.png",
+			"type": "image",
+			"name": "soldier3_dying_png"
+		},
+		{
+			"url": "art/sprites/soldiers/soldier3_guarding.json",
+			"type": "json",
+			"name": "soldier3_guarding_json"
+		},
+		{
+			"url": "art/sprites/soldiers/soldier3_guarding.png",
+			"type": "image",
+			"name": "soldier3_guarding_png"
+		},
+		{
+			"url": "art/sprites/soldiers/soldier3_east_moving.json",
+			"type": "json",
+			"name": "soldier3_east_moving_json"
+		},
+		{
+			"url": "art/sprites/soldiers/soldier3_east_moving.png",
+			"type": "image",
+			"name": "soldier3_east_moving_png"
+		},
+		{
+			"url": "art/sprites/soldiers/soldier4_east_fighting.json",
+			"type": "json",
+			"name": "soldier4_east_fighting_json"
+		},
+		{
+			"url": "art/sprites/soldiers/soldier4_east_fighting.png",
+			"type": "image",
+			"name": "soldier4_east_fighting_png"
+		},
+		{
+			"url": "art/sprites/soldiers/soldier4_dying.json",
+			"type": "json",
+			"name": "soldier4_dying_json"
+		},
+		{
+			"url": "art/sprites/soldiers/soldier4_dying.png",
+			"type": "image",
+			"name": "soldier4_dying_png"
+		},
+		{
+			"url": "art/sprites/soldiers/soldier4_guarding.json",
+			"type": "json",
+			"name": "soldier4_guarding_json"
+		},
+		{
+			"url": "art/sprites/soldiers/soldier4_guarding.png",
+			"type": "image",
+			"name": "soldier4_guarding_png"
+		},
+		{
+			"url": "art/sprites/soldiers/soldier4_east_moving.json",
+			"type": "json",
+			"name": "soldier4_east_moving_json"
+		},
+		{
+			"url": "art/sprites/soldiers/soldier4_east_moving.png",
+			"type": "image",
+			"name": "soldier4_east_moving_png"
+		},
+		{
+			"url": "art/sprites/battles/battle12.jpg",
+			"type": "image",
+			"name": "battle122_jpg"
+		},
+		{
+			"url": "art/sprites/bullets/magic1_building.json",
+			"type": "json",
+			"name": "magic1_building_json"
+		},
+		{
+			"url": "art/sprites/bullets/magic1_building.png",
+			"type": "image",
+			"name": "magic1_building_png"
+		},
+		{
+			"url": "art/sprites/bullets/magic2_building.json",
+			"type": "json",
+			"name": "magic2_building_json"
+		},
+		{
+			"url": "art/sprites/bullets/magic2_building.png",
+			"type": "image",
+			"name": "magic2_building_png"
+		},
+		{
+			"url": "art/sprites/bullets/magic3_building.json",
+			"type": "json",
+			"name": "magic3_building_json"
+		},
+		{
+			"url": "art/sprites/bullets/magic3_building.png",
+			"type": "image",
+			"name": "magic3_building_png"
+		},
+		{
+			"url": "art/sprites/bullets/magic4_building.json",
+			"type": "json",
+			"name": "magic4_building_json"
+		},
+		{
+			"url": "art/sprites/bullets/magic4_building.png",
+			"type": "image",
+			"name": "magic4_building_png"
+		},
+		{
+			"url": "art/sprites/soldiers/ghost_east_fighting.json",
+			"type": "json",
+			"name": "ghost_east_fighting_json"
+		},
+		{
+			"url": "art/sprites/soldiers/ghost_east_fighting.png",
+			"type": "image",
+			"name": "ghost_east_fighting_png"
+		},
+		{
+			"url": "art/sprites/soldiers/ghost_east_moving.json",
+			"type": "json",
+			"name": "ghost_east_moving_json"
+		},
+		{
+			"url": "art/sprites/soldiers/ghost_east_moving.png",
+			"type": "image",
+			"name": "ghost_east_moving_png"
+		},
+		{
+			"url": "art/sprites/soldiers/ghost_building.json",
+			"type": "json",
+			"name": "ghost_building_json"
+		},
+		{
+			"url": "art/sprites/soldiers/ghost_building.png",
+			"type": "image",
+			"name": "ghost_building_png"
+		},
+		{
+			"url": "art/sprites/soldiers/ghost_dying.json",
+			"type": "json",
+			"name": "ghost_dying_json"
+		},
+		{
+			"url": "art/sprites/soldiers/ghost_dying.png",
+			"type": "image",
+			"name": "ghost_dying_png"
+		},
+		{
+			"url": "art/sprites/soldiers/ghost_guarding.json",
+			"type": "json",
+			"name": "ghost_guarding_json"
+		},
+		{
+			"url": "art/sprites/soldiers/ghost_guarding.png",
+			"type": "image",
+			"name": "ghost_guarding_png"
+		},
+		{
+			"url": "art/sprites/soldiers/blackImpermanence_building.json",
+			"type": "json",
+			"name": "blackImpermanence_building_json"
+		},
+		{
+			"url": "art/sprites/soldiers/blackImpermanence_building.png",
+			"type": "image",
+			"name": "blackImpermanence_building_png"
+		},
+		{
+			"url": "art/sprites/soldiers/blackImpermanence_dying.json",
+			"type": "json",
+			"name": "blackImpermanence_dying_json"
+		},
+		{
+			"url": "art/sprites/soldiers/blackImpermanence_dying.png",
+			"type": "image",
+			"name": "blackImpermanence_dying_png"
+		},
+		{
+			"url": "art/sprites/soldiers/blackImpermanence_guarding.json",
+			"type": "json",
+			"name": "blackImpermanence_guarding_json"
+		},
+		{
+			"url": "art/sprites/soldiers/blackImpermanence_guarding.png",
+			"type": "image",
+			"name": "blackImpermanence_guarding_png"
+		},
+		{
+			"url": "art/sprites/soldiers/blackImpermanence_east_moving.json",
+			"type": "json",
+			"name": "blackImpermanence_east_moving_json"
+		},
+		{
+			"url": "art/sprites/soldiers/blackImpermanence_east_moving.png",
+			"type": "image",
+			"name": "blackImpermanence_east_moving_png"
+		},
+		{
+			"url": "art/sprites/soldiers/blackImpermanence_east_fighting.json",
+			"type": "json",
+			"name": "blackImpermanence_east_fighting_json"
+		},
+		{
+			"url": "art/sprites/soldiers/blackImpermanence_east_fighting.png",
+			"type": "image",
+			"name": "blackImpermanence_east_fighting_png"
+		},
+		{
+			"url": "art/sprites/soldiers/whiteImpermanence_building.json",
+			"type": "json",
+			"name": "whiteImpermanence_building_json"
+		},
+		{
+			"url": "art/sprites/soldiers/whiteImpermanence_building.png",
+			"type": "image",
+			"name": "whiteImpermanence_building_png"
+		},
+		{
+			"url": "art/sprites/soldiers/whiteImpermanence_dying.json",
+			"type": "json",
+			"name": "whiteImpermanence_dying_json"
+		},
+		{
+			"url": "art/sprites/soldiers/whiteImpermanence_dying.png",
+			"type": "image",
+			"name": "whiteImpermanence_dying_png"
+		},
+		{
+			"url": "art/sprites/soldiers/whiteImpermanence_guarding.json",
+			"type": "json",
+			"name": "whiteImpermanence_guarding_json"
+		},
+		{
+			"url": "art/sprites/soldiers/whiteImpermanence_guarding.png",
+			"type": "image",
+			"name": "whiteImpermanence_guarding_png"
+		},
+		{
+			"url": "art/sprites/soldiers/whiteImpermanence_east_moving.json",
+			"type": "json",
+			"name": "whiteImpermanence_east_moving_json"
+		},
+		{
+			"url": "art/sprites/soldiers/whiteImpermanence_east_moving.png",
+			"type": "image",
+			"name": "whiteImpermanence_east_moving_png"
+		},
+		{
+			"url": "art/sprites/bullets/arrow4.png",
+			"type": "image",
+			"name": "arrow4_png"
+		},
+		{
+			"url": "art/sprites/bullets/arrow5.png",
+			"type": "image",
+			"name": "arrow5_png"
+		},
+		{
+			"url": "art/sprites/bullets/arrow1.png",
+			"type": "image",
+			"name": "arrow1_png"
+		},
+		{
+			"url": "art/sprites/enemies/enemy8_dying.json",
+			"type": "json",
+			"name": "enemy8_dying_json"
+		},
+		{
+			"url": "art/sprites/enemies/enemy8_dying.png",
+			"type": "image",
+			"name": "enemy8_dying_png"
+		},
+		{
+			"url": "art/sprites/enemies/enemy8_east_fighting.json",
+			"type": "json",
+			"name": "enemy8_east_fighting_json"
+		},
+		{
+			"url": "art/sprites/enemies/enemy8_east_fighting.png",
+			"type": "image",
+			"name": "enemy8_east_fighting_png"
+		},
+		{
+			"url": "art/sprites/enemies/enemy8_east_guarding.json",
+			"type": "json",
+			"name": "enemy8_east_guarding_json"
+		},
+		{
+			"url": "art/sprites/enemies/enemy8_east_guarding.png",
+			"type": "image",
+			"name": "enemy8_east_guarding_png"
+		},
+		{
+			"url": "art/sprites/enemies/enemy8_east_moving.json",
+			"type": "json",
+			"name": "enemy8_east_moving_json"
+		},
+		{
+			"url": "art/sprites/enemies/enemy8_east_moving.png",
+			"type": "image",
+			"name": "enemy8_east_moving_png"
+		},
+		{
+			"url": "art/sprites/enemies/enemy8_north_moving.json",
+			"type": "json",
+			"name": "enemy8_north_moving_json"
+		},
+		{
+			"url": "art/sprites/enemies/enemy8_north_moving.png",
+			"type": "image",
+			"name": "enemy8_north_moving_png"
+		},
+		{
+			"url": "art/sprites/enemies/enemy4_dying.json",
+			"type": "json",
+			"name": "enemy4_dying_json"
+		},
+		{
+			"url": "art/sprites/enemies/enemy4_dying.png",
+			"type": "image",
+			"name": "enemy4_dying_png"
+		},
+		{
+			"url": "art/sprites/enemies/enemy4_east_fighting.json",
+			"type": "json",
+			"name": "enemy4_east_fighting_json"
+		},
+		{
+			"url": "art/sprites/enemies/enemy4_east_fighting.png",
+			"type": "image",
+			"name": "enemy4_east_fighting_png"
+		},
+		{
+			"url": "art/sprites/enemies/enemy4_east_moving.json",
+			"type": "json",
+			"name": "enemy4_east_moving_json"
+		},
+		{
+			"url": "art/sprites/enemies/enemy4_east_moving.png",
+			"type": "image",
+			"name": "enemy4_east_moving_png"
+		},
+		{
+			"url": "art/sprites/enemies/enemy4_north_moving.json",
+			"type": "json",
+			"name": "enemy4_north_moving_json"
+		},
+		{
+			"url": "art/sprites/enemies/enemy4_north_moving.png",
+			"type": "image",
+			"name": "enemy4_north_moving_png"
+		},
+		{
+			"url": "art/sprites/enemies/enemy4_south_moving.json",
+			"type": "json",
+			"name": "enemy4_south_moving_json"
+		},
+		{
+			"url": "art/sprites/enemies/enemy4_south_moving.png",
+			"type": "image",
+			"name": "enemy4_south_moving_png"
+		},
+		{
+			"url": "art/sprites/enemies/enemy14_dying.json",
+			"type": "json",
+			"name": "enemy14_dying_json"
+		},
+		{
+			"url": "art/sprites/enemies/enemy14_dying.png",
+			"type": "image",
+			"name": "enemy14_dying_png"
+		},
+		{
+			"url": "art/sprites/enemies/enemy14_east_fighting.json",
+			"type": "json",
+			"name": "enemy14_east_fighting_json"
+		},
+		{
+			"url": "art/sprites/enemies/enemy14_east_fighting.png",
+			"type": "image",
+			"name": "enemy14_east_fighting_png"
+		},
+		{
+			"url": "art/sprites/enemies/enemy14_east_moving.json",
+			"type": "json",
+			"name": "enemy14_east_moving_json"
+		},
+		{
+			"url": "art/sprites/enemies/enemy14_east_moving.png",
+			"type": "image",
+			"name": "enemy14_east_moving_png"
+		},
+		{
+			"url": "art/sprites/enemies/enemy14_north_moving.json",
+			"type": "json",
+			"name": "enemy14_north_moving_json"
+		},
+		{
+			"url": "art/sprites/enemies/enemy14_north_moving.png",
+			"type": "image",
+			"name": "enemy14_north_moving_png"
+		},
+		{
+			"url": "art/sprites/enemies/enemy14_south_moving.json",
+			"type": "json",
+			"name": "enemy14_south_moving_json"
+		},
+		{
+			"url": "art/sprites/enemies/enemy14_south_moving.png",
+			"type": "image",
+			"name": "enemy14_south_moving_png"
+		},
+		{
+			"url": "art/sprites/enemies/enemy1_east_fighting.json",
+			"type": "json",
+			"name": "enemy1_east_fighting_json"
+		},
+		{
+			"url": "art/sprites/enemies/enemy1_east_fighting.png",
+			"type": "image",
+			"name": "enemy1_east_fighting_png"
+		},
+		{
+			"url": "art/sprites/enemies/enemy1_dying.json",
+			"type": "json",
+			"name": "enemy1_dying_json"
+		},
+		{
+			"url": "art/sprites/enemies/enemy1_dying.png",
+			"type": "image",
+			"name": "enemy1_dying_png"
+		},
+		{
+			"url": "art/sprites/enemies/enemy1_east_moving.json",
+			"type": "json",
+			"name": "enemy1_east_moving_json"
+		},
+		{
+			"url": "art/sprites/enemies/enemy1_east_moving.png",
+			"type": "image",
+			"name": "enemy1_east_moving_png"
+		},
+		{
+			"url": "art/sprites/enemies/enemy1_north_moving.json",
+			"type": "json",
+			"name": "enemy1_north_moving_json"
+		},
+		{
+			"url": "art/sprites/enemies/enemy1_north_moving.png",
+			"type": "image",
+			"name": "enemy1_north_moving_png"
+		},
+		{
+			"url": "art/sprites/enemies/enemy1_south_moving.json",
+			"type": "json",
+			"name": "enemy1_south_moving_json"
+		},
+		{
+			"url": "art/sprites/enemies/enemy1_south_moving.png",
+			"type": "image",
+			"name": "enemy1_south_moving_png"
+		},
+		{
+			"url": "art/sprites/towers/magictower4_fighting.json",
+			"type": "json",
+			"name": "magictower4_fighting_json"
+		},
+		{
+			"url": "art/sprites/towers/magictower4_fighting.png",
+			"type": "image",
+			"name": "magictower4_fighting_png"
+		},
+		{
+			"url": "art/sprites/towers/magictower4_guarding.json",
+			"type": "json",
+			"name": "magictower4_guarding_json"
+		},
+		{
+			"url": "art/sprites/towers/magictower4_guarding.png",
+			"type": "image",
+			"name": "magictower4_guarding_png"
+		},
+		{
+			"url": "art/home/towerselect_1.png",
+			"type": "image",
+			"name": "towerselect_1_png"
+		},
+		{
+			"url": "art/home/towerselect_0.png",
+			"type": "image",
+			"name": "towerselect_0_png"
+		},
+		{
+			"url": "art/sprites/bullets/blackwater_fighting.json",
+			"type": "json",
+			"name": "blackwater_fighting_json"
+		},
+		{
+			"url": "art/sprites/bullets/blackwater_fighting.png",
+			"type": "image",
+			"name": "blackwater_fighting_png"
+		},
+		{
+			"url": "art/sprites/enemies/burn.png",
+			"type": "image",
+			"name": "burn_png"
+		},
+		{
+			"url": "art/sprites/enemies/frozen.png",
+			"type": "image",
+			"name": "frozen_png"
+		},
+		{
+			"url": "art/sprites/bullets/bomb123_building.json",
+			"type": "json",
+			"name": "bomb123_building_json"
+		},
+		{
+			"url": "art/sprites/bullets/bomb123_building.png",
+			"type": "image",
+			"name": "bomb123_building_png"
+		},
+		{
+			"url": "art/sprites/bullets/bomb123_fighting.json",
+			"type": "json",
+			"name": "bomb123_fighting_json"
+		},
+		{
+			"url": "art/sprites/bullets/bomb123_fighting.png",
+			"type": "image",
+			"name": "bomb123_fighting_png"
+		},
+		{
+			"url": "art/sprites/bullets/bomb4_building.json",
+			"type": "json",
+			"name": "bomb4_building_json"
+		},
+		{
+			"url": "art/sprites/bullets/bomb4_building.png",
+			"type": "image",
+			"name": "bomb4_building_png"
+		},
+		{
+			"url": "art/sprites/bullets/bomb4_south_moving.json",
+			"type": "json",
+			"name": "bomb4_south_moving_json"
+		},
+		{
+			"url": "art/sprites/bullets/bomb4_south_moving.png",
+			"type": "image",
+			"name": "bomb4_south_moving_png"
+		},
+		{
+			"url": "art/sprites/bullets/bomb4_east_moving.json",
+			"type": "json",
+			"name": "bomb4_east_moving_json"
+		},
+		{
+			"url": "art/sprites/bullets/bomb4_east_moving.png",
+			"type": "image",
+			"name": "bomb4_east_moving_png"
+		},
+		{
+			"url": "art/sprites/bullets/bomb4_east_fighting.json",
+			"type": "json",
+			"name": "bomb4_east_fighting_json"
+		},
+		{
+			"url": "art/sprites/bullets/bomb4_east_fighting.png",
+			"type": "image",
+			"name": "bomb4_east_fighting_png"
+		},
+		{
+			"url": "art/sprites/bullets/scorchedearth_fighting.json",
+			"type": "json",
+			"name": "scorchedearth_fighting_json"
+		},
+		{
+			"url": "art/sprites/bullets/scorchedearth_fighting.png",
+			"type": "image",
+			"name": "scorchedearth_fighting_png"
+		},
+		{
+			"url": "art/sprites/bullets/scorchedearthbomblet_fighting.json",
+			"type": "json",
+			"name": "scorchedearthbomblet_fighting_json"
+		},
+		{
+			"url": "art/sprites/bullets/scorchedearthbomblet_fighting.png",
+			"type": "image",
+			"name": "scorchedearthbomblet_fighting_png"
+		},
+		{
+			"url": "art/sprites/bullets/spike_fighting.json",
+			"type": "json",
+			"name": "spike_fighting_json"
+		},
+		{
+			"url": "art/sprites/bullets/spike_fighting.png",
+			"type": "image",
+			"name": "spike_fighting_png"
+		},
+		{
+			"url": "art/sprites/bullets/arrow6.png",
+			"type": "image",
+			"name": "arrow6_png"
+		},
+		{
+			"url": "art/sprites/towers/critical.json",
+			"type": "json",
+			"name": "critical_json"
+		},
+		{
+			"url": "art/sprites/towers/critical.png",
+			"type": "image",
+			"name": "critical_png"
+		},
+		{
+			"url": "art/sprites/bullets/weakcurse_dying.json",
+			"type": "json",
+			"name": "weakcurse_dying_json"
+		},
+		{
+			"url": "art/sprites/bullets/weakcurse_dying.png",
+			"type": "image",
+			"name": "weakcurse_dying_png"
+		},
+		{
+			"url": "art/sprites/bullets/miscastcurse_dying.json",
+			"type": "json",
+			"name": "miscastcurse_dying_json"
+		},
+		{
+			"url": "art/sprites/bullets/miscastcurse_dying.png",
+			"type": "image",
+			"name": "miscastcurse_dying_png"
+		},
+		{
+			"url": "art/sprites/battles/battle5.jpg",
+			"type": "image",
+			"name": "battle5_jpg"
+		},
+		{
+			"url": "art/sprites/bases/base5.png",
+			"type": "image",
+			"name": "base5_png"
+		},
+		{
+			"url": "art/sprites/effects/frog_east_moving.json",
+			"type": "json",
+			"name": "frog_east_moving_json"
+		},
+		{
+			"url": "art/sprites/effects/frog_east_moving.png",
+			"type": "image",
+			"name": "frog_east_moving_png"
+		},
+		{
+			"url": "art/sprites/effects/lawn_guarding.png",
+			"type": "image",
+			"name": "lawn_guarding_png"
+		},
+		{
+			"url": "art/sprites/effects/lawn_dying.json",
+			"type": "json",
+			"name": "lawn_dying_json"
+		},
+		{
+			"url": "art/sprites/effects/lawn_dying.png",
+			"type": "image",
+			"name": "lawn_dying_png"
+		},
+		{
+			"url": "art/sprites/effects/boat_east_moving.json",
+			"type": "json",
+			"name": "boat_east_moving_json"
+		},
+		{
+			"url": "art/sprites/effects/boat_east_moving.png",
+			"type": "image",
+			"name": "boat_east_moving_png"
+		},
+		{
+			"url": "art/home/magictower4_skill1.png",
+			"type": "image",
+			"name": "magictower4_skill1_png"
+		},
+		{
+			"url": "art/home/magictower4_skill2.png",
+			"type": "image",
+			"name": "magictower4_skill2_png"
+		},
+		{
+			"url": "art/home/arrowtower4_skill1.png",
+			"type": "image",
+			"name": "arrowtower4_skill1_png"
+		},
+		{
+			"url": "art/home/arrowtower4_skill2.png",
+			"type": "image",
+			"name": "arrowtower4_skill2_png"
+		},
+		{
+			"url": "art/home/arrowtower5_skill1.png",
+			"type": "image",
+			"name": "arrowtower5_skill1_png"
+		},
+		{
+			"url": "art/home/arrowtower5_skill2.png",
+			"type": "image",
+			"name": "arrowtower5_skill2_png"
+		},
+		{
+			"url": "art/home/bombtower4_skill1.png",
+			"type": "image",
+			"name": "bombtower4_skill1_png"
+		},
+		{
+			"url": "art/home/bombtower4_skill2.png",
+			"type": "image",
+			"name": "bombtower4_skill2_png"
+		},
+		{
+			"url": "art/home/soldiertower4_skill1.png",
+			"type": "image",
+			"name": "soldiertower4_skill1_png"
+		},
+		{
+			"url": "art/home/soldiertower4_skill2.png",
+			"type": "image",
+			"name": "soldiertower4_skill2_png"
+		},
+		{
+			"url": "art/home/soldiertower4_skill3.png",
+			"type": "image",
+			"name": "soldiertower4_skill3_png"
+		},
+		{
+			"name": "battle3_jpg",
+			"type": "image",
+			"url": "art/sprites/battles/battle3.jpg"
+		},
+		{
+			"name": "battle4_jpg",
+			"type": "image",
+			"url": "art/sprites/battles/battle4.jpg"
+		},
+		{
+			"name": "base3_png",
+			"type": "image",
+			"url": "art/sprites/bases/base3.png"
+		},
+		{
+			"name": "base4_png",
+			"type": "image",
+			"url": "art/sprites/bases/base4.png"
+		}
+	]
+}

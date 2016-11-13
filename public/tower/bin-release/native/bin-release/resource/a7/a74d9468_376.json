@@ -1,0 +1,1 @@
+{"mc":{"bombsoldier1_east_fighting":{"frameRate":3,"events":[],"frames":[{"duration":1,"y":-22,"res":"newAnimation_0","x":-12},{"duration":1,"y":-22,"res":"newAnimation_1","x":-12}],"labels":[{"end":2,"name":"newAnimation","frame":1}]}},"file":"bombsoldier1_east_fighting.png","res":{"newAnimation_0":{"x":1,"y":1,"w":31,"h":38},"newAnimation_1":{"x":34,"y":1,"w":23,"h":37}}}

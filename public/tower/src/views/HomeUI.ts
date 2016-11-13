@@ -72,17 +72,19 @@ class HomeUI extends AbstractUI{
             self.grpMap.addChild(self._battleItems[0]);
             
             if (results.length > 0) {
-                let maxStage:number = Math.min(self._battles.length, results[0].stage);
+                var maxStage = Math.min(self._battles.length, results[0].stage);
+            } else {
+                var maxStage = Math.min(self._battles.length, 1);
+            }
                 
-                for (let i = 1; i < self._battles.length; i++) {
-                    self.grpMap.addChild(self._battleItems[i]);
-                    
-                    if (i < maxStage) {
-                        self._battleItems[i].unlock();
-                        self._drawPathQuckly(i + 1, 0);
-                    } else {
-                        self._drawPathQuckly(i + 1, 0xA9A9A9);
-                    }
+            for (let i = 1; i < self._battles.length; i++) {
+                self.grpMap.addChild(self._battleItems[i]);
+                
+                if (i < maxStage) {
+                    self._battleItems[i].unlock();
+                    self._drawPathQuckly(i + 1, 0);
+                } else {
+                    self._drawPathQuckly(i + 1, 0xA9A9A9);
                 }
             }
         });
